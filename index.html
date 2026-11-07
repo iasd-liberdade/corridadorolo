@@ -279,6 +279,13 @@ input[type=file]{width:100%;color:var(--muted);font-size:15px}
 .tabs button[aria-selected="true"]{background:#fff;color:var(--deep);border-color:#fff}
 .estudo{white-space:pre-wrap;line-height:1.6;font-size:17px}
 .estudo p{margin:0 0 14px}
+.paginas{display:grid;gap:12px;margin:0 0 16px}
+.paginas img{display:block;width:100%;height:auto;border-radius:10px;background:#fff;box-shadow:0 6px 20px rgba(20,18,60,.3);cursor:zoom-in}
+.paginas .vazio{margin:0}
+.lb{position:fixed;inset:0;z-index:80;background:#111;overflow:auto;-webkit-overflow-scrolling:touch}
+.lb img{display:block;width:auto;max-width:none;min-width:100%;margin:0 auto}
+.lb .fechar{position:fixed;top:14px;right:14px;z-index:81;background:rgba(255,255,255,.9);color:#222;width:44px;height:44px;font-size:22px}
+.lb .zoom{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:81;background:rgba(255,255,255,.9);color:#222;border:0;border-radius:999px;padding:10px 18px;font-weight:800}
 .resumo{border-left:4px solid var(--accent);padding:10px 14px;background:rgba(255,255,255,.08);border-radius:0 12px 12px 0;margin:0 0 16px;font-weight:600}
 .prog{height:10px;border-radius:999px;background:rgba(255,255,255,.18);overflow:hidden;margin:10px 0}
 .prog i{display:block;height:100%;background:var(--ok);width:0;transition:width .3s}
@@ -723,8 +730,21 @@ function dbFirebase(){
     async todosResultados(){ return lista(col("resultados")); },
     async salvarResultado(r){ await col("resultados").doc(r.uid+"_"+r.licaoId+"_"+r.data).set(r); },
     async getConfig(){ const d = await col("config").doc("geral").get(); return d.exists ? d.data() : {}; },
-    async salvarConfig(c){ await col("config").doc("geral").set(c, {merge:true}); }
+    async salvarConfig(c){ await col("config").doc("geral").set(c, {merge:true}); },
+    // Páginas do PDF como imagem (uma por documento, campo "chave" = licaoId|dia)
+    async salvarPagina(p){ await col("paginas").doc(p.id).set(p); },
+    async listarPaginas(licaoId, dia){ return (await lista(col("paginas").where("chave","==",licaoId+"|"+dia))).sort((a,b)=>a.seq-b.seq); },
+    async excluirPaginas(licaoId){ const s = await col("paginas").where("licaoId","==",licaoId).get(); for(const d of s.docs) await d.ref.delete(); }
   };
+}
+/* IndexedDB (modo demonstração) para as páginas do PDF, que não cabem no localStorage */
+function idbTx(modo, fn){
+  return new Promise((res, rej)=>{
+    const r = indexedDB.open(KEY + ":idb", 1);
+    r.onupgradeneeded = ()=> r.result.createObjectStore("paginas", { keyPath:"id" });
+    r.onerror = ()=> rej(r.error);
+    r.onsuccess = ()=>{ const db = r.result, tx = db.transaction("paginas", modo), req = fn(tx.objectStore("paginas")); tx.oncomplete = ()=>{ db.close(); res(req && req.result); }; tx.onerror = ()=> rej(tx.error); };
+  });
 }
 
 function dbLocal(){
@@ -772,7 +792,10 @@ function dbLocal(){
     async todosResultados(){ const d = ler(); return Object.values(d.resultados); },
     async salvarResultado(r){ const d = ler(); d.resultados[r.uid+"_"+r.licaoId+"_"+r.data] = r; gravar(d); },
     async getConfig(){ return ler().config || {}; },
-    async salvarConfig(c){ const d = ler(); d.config = Object.assign(d.config||{}, c); gravar(d); }
+    async salvarConfig(c){ const d = ler(); d.config = Object.assign(d.config||{}, c); gravar(d); },
+    async salvarPagina(p){ await idbTx("readwrite", st => st.put(p)); },
+    async listarPaginas(licaoId, dia){ const todas = await idbTx("readonly", st => st.getAll()); return (todas||[]).filter(p=>p.chave===licaoId+"|"+dia).sort((a,b)=>a.seq-b.seq); },
+    async excluirPaginas(licaoId){ const todas = await idbTx("readonly", st => st.getAll()); for(const p of (todas||[]).filter(p=>p.licaoId===licaoId)) await idbTx("readwrite", st => st.delete(p.id)); }
   };
 }
 const DB = FB_OK ? dbFirebase() : dbLocal();
@@ -1310,10 +1333,11 @@ function telaEstudar(){
   if(estudoDia < 0){ const kHoje = L.dias.findIndex(d=>d.data===hoje()); estudoDia = kHoje >= 0 ? kHoje : 0; }
   const d = L.dias[estudoDia] || L.dias[0];
   const texto = (L.textos && L.textos[estudoDia]) || "", resumo = (L.resumos && L.resumos[estudoDia]) || "";
-  let corpo = "";
+  let corpo = `<div class="paginas" id="pgs"><p class="vazio">Carregando páginas…</p></div>`;
   if(resumo) corpo += `<div class="resumo">${esc(resumo)}</div>`;
-  if(texto) corpo += `<div class="estudo">${texto.split(/\n{2,}/).map(p=>`<p>${esc(p.trim().replace(/\n(?![•\-–\d(])/g, " "))}</p>`).join("")}</div>`;
-  if(!texto && !resumo) corpo += `<p class="vazio">O texto desta lição não foi importado. Leia o dia <b>${esc(d.nome)}</b> na sua lição impressa ou no app e depois faça o quiz.</p>`;
+  const htmlTexto = texto ? `<div class="estudo">${texto.split(/\n{2,}/).map(p=>`<p>${esc(p.trim().replace(/\n(?![•\-–\d(])/g, " "))}</p>`).join("")}</div>` : "";
+  corpo += `<div id="txtDia">${htmlTexto}</div>`;
+  if(!texto && !resumo) corpo += `<p class="vazio" id="semTexto">O texto desta lição não foi importado. Leia o dia <b>${esc(d.nome)}</b> na sua lição impressa ou no app e depois faça o quiz.</p>`;
   const s = status(L, d);
   app.innerHTML = `<div class="estudo-area"><section class="panel"><h2 class="h2">Estudar</h2>${seletorLicao("estSel", L)}
     <div class="tabs" role="tablist">${L.dias.map((x,k)=>`<button role="tab" aria-selected="${k===estudoDia}" data-k="${k}">${x.curto} ${dataCurta(x.data)}${resDe(L,x)?" ✓":""}</button>`).join("")}</div>
@@ -1323,9 +1347,37 @@ function telaEstudar(){
     <div class="btn-row uma">${(s==="hoje"||s==="atrasado") && d.perguntas.length ? `<button class="btn btn-main" id="estJogar">Fazer o quiz de ${esc(d.nome)}</button>` : s==="feito" ? `<button class="btn btn-ghost" id="estVer">Ver meu resultado</button>` : ""}</div>
   </section></div>`;
   $("estSel").onchange = ()=>{ estudoLicao = LICOES[+$("estSel").value]; estudoDia = -1; telaEstudar(); };
+  mostrarPaginas(L, estudoDia, htmlTexto);
   app.querySelectorAll("[data-k]").forEach(b=> b.onclick = ()=>{ estudoDia = +b.dataset.k; telaEstudar(); });
   const j = $("estJogar"); if(j) j.onclick = ()=>{ LICAO = L; tabAtual = "quiz"; atualizarCasca(); iniciar(estudoDia); };
   const v = $("estVer"); if(v) v.onclick = ()=>{ LICAO = L; tabAtual = "quiz"; atualizarCasca(); telaResultado(estudoDia); };
+}
+
+const PAG_CACHE = {};
+async function mostrarPaginas(L, k, htmlTexto){
+  const el = $("pgs"); if(!el) return;
+  const chave = L.id + "|" + k;
+  try{
+    if(!PAG_CACHE[chave]) PAG_CACHE[chave] = await DB.listarPaginas(L.id, k);
+  }catch(e){ PAG_CACHE[chave] = []; }
+  const pags = PAG_CACHE[chave];
+  if(!$("pgs") || $("pgs") !== el) return;   // mudou de tela enquanto carregava
+  if(!pags.length){ el.remove(); return; }
+  el.innerHTML = pags.map((p,i)=>`<img src="${p.img}" alt="Página ${i+1} de ${esc(L.dias[k].nome)}" loading="${i?"lazy":"eager"}" data-i="${i}">`).join("");
+  const st = $("semTexto"); if(st) st.remove();
+  const tx = $("txtDia"); if(tx && htmlTexto) tx.innerHTML = `<details style="margin-top:4px"><summary class="muted" style="cursor:pointer;font-weight:700">Ver o texto (para copiar)</summary>${htmlTexto}</details>`;
+  el.querySelectorAll("img").forEach(img => img.onclick = ()=> abrirPagina(pags, +img.dataset.i));
+}
+function abrirPagina(pags, i){
+  const lb = document.createElement("div"); lb.className = "lb"; let zoom = 1;
+  lb.innerHTML = `<button class="fechar" type="button" aria-label="Fechar">✕</button><button class="zoom" type="button">Ampliar</button><img src="${pags[i].img}" alt="Página ${i+1}" style="width:100%">`;
+  document.body.appendChild(lb); document.body.style.overflow = "hidden";
+  const fechar = ()=>{ lb.remove(); document.body.style.overflow = ""; document.removeEventListener("keydown", k_); };
+  const k_ = e => { if(e.key === "Escape") fechar(); };
+  document.addEventListener("keydown", k_);
+  lb.querySelector(".fechar").onclick = fechar;
+  const img = lb.querySelector("img"), zb = lb.querySelector(".zoom");
+  zb.onclick = ()=>{ zoom = zoom === 1 ? 2 : 1; img.style.width = (zoom*100) + "%"; zb.textContent = zoom === 1 ? "Ampliar" : "Reduzir"; };
 }
 
 /* ============================================================
@@ -1666,9 +1718,11 @@ function carregarPdfJs(){
   if(window.pdfjsLib) return Promise.resolve();
   return new Promise((res, rej)=>{ const s = document.createElement("script"); s.src = PDFJS_URL; s.onload = ()=>{ pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJS_WORKER; res(); }; s.onerror = ()=> rej(new Error("Não deu para carregar o leitor de PDF (sem internet?).")); document.head.appendChild(s); });
 }
+let PDF_ATUAL = null, PDF_PAGINAS = [];
 async function lerPdf(file, log){
   await carregarPdfJs();
   const pdf = await pdfjsLib.getDocument({ data: await file.arrayBuffer() }).promise;
+  PDF_ATUAL = pdf; PDF_PAGINAS = [];
   let texto = "";
   for(let p = 1; p <= pdf.numPages; p++){
     const pg = await pdf.getPage(p), tc = await pg.getTextContent();
@@ -1680,10 +1734,32 @@ async function lerPdf(file, log){
       ultY = y;
     });
     pagina += linha;
+    PDF_PAGINAS.push({ num: p, texto: pagina });
     texto += pagina + "\n\n";
     if(log && p % 10 === 0) log(`Lendo página ${p} de ${pdf.numPages}…`);
   }
   return texto.replace(/-\n(?=[a-záéíóúâêôãõç])/g, "").replace(/[ \t]+\n/g, "\n").replace(/\n{3,}/g, "\n\n");
+}
+/* Diz a que lição e dia cada página do PDF pertence: capa ("LEIA O TEXTO BÍBLICO" + "Lição N") = sábado; "com TEXTO" = domingo … "com SENSO" = sexta; páginas sem marca continuam o dia anterior */
+function classificarPaginas(paginas){
+  const marcaDia = { TEXTO:1, PREENDA:2, ENTE:3, PARE:4, PARTILHE:5, SENSO:6 };
+  let n = 0, dia = -1; const out = [];
+  paginas.forEach(pg => {
+    const t = pg.texto, compacto = t.replace(/\s+/g, "");
+    const mLic = /Li[çc][ãa]o\s*(\d{1,2})\b/i.exec(t);
+    if(/LEIAOTEXTOB[ÍI]BLICO|TEXTO-CHAVE/i.test(compacto) && mLic){ n = +mLic[1]; dia = 0; }
+    else { const mm = /(?:^|\n)[ \t]*(?:com[ \t]?(TEXTO|PREENDA|ENTE|PARE|PARTILHE|SENSO)|(TEXTO|PREENDA|ENTE|PARE|PARTILHE|SENSO)\2?[ \t]?com\b)/.exec(t); if(mm && n){ dia = marcaDia[mm[1] || mm[2]]; } }
+    if(n && dia >= 0) out.push({ num: pg.num, n, dia });
+  });
+  return out;
+}
+async function renderizarPagina(pdf, num, largura){
+  const pg = await pdf.getPage(num), vp0 = pg.getViewport({ scale:1 }), vp = pg.getViewport({ scale: largura / vp0.width });
+  const c = document.createElement("canvas"); c.width = Math.round(vp.width); c.height = Math.round(vp.height);
+  await pg.render({ canvasContext: c.getContext("2d"), viewport: vp }).promise;
+  let q = 0.74, data = c.toDataURL("image/jpeg", q);
+  while(data.length > 900000 && q > 0.3){ q -= 0.12; data = c.toDataURL("image/jpeg", q); }
+  return data;
 }
 function dividirLicoes(texto, qtd){
   const re = /(?:^|\n)[ \t]*Li[çc][ãa]o[ \t]+(\d{1,2})\b/gi;
@@ -1790,13 +1866,14 @@ function normalizarPerguntas(dias){
 function admLicao(){
   const tri = lsGet(KEY+":tri", ""), ini = lsGet(KEY+":ini", "");
   $("admC").innerHTML = `<section class="panel"><h3 class="h3">Cadastrar lição (importar PDF)</h3>
-    <p class="muted small">Envie o PDF do trimestre. O site lê o texto, separa as lições (pelos títulos "Lição 1", "Lição 2"…) e os dias (Sábado a Sexta) e cria cada lição como <b>rascunho</b>, com o texto na aba Estudar. As perguntas entram depois, em <b>Cadastrar perguntas</b>, pela planilha.</p>
+    <p class="muted small">Envie o PDF do trimestre. O site separa as lições e os dias, guarda as páginas como imagem (a aba Estudar fica igual ao PDF) e o texto. As perguntas entram depois, em <b>Cadastrar perguntas</b>, pela planilha.</p>
     <div class="field"><label for="iPdf">Arquivo PDF da lição</label><input type="file" id="iPdf" accept="application/pdf,.pdf"></div>
     <div class="grid2">
       <div class="field"><label for="iTri">Trimestre (código)</label><input type="text" id="iTri" placeholder="ex.: 2027-t1" value="${esc(tri)}"></div>
       <div class="field"><label for="iIni">Sábado da Lição 1</label><input type="date" id="iIni" value="${esc(ini)}"></div>
       <div class="field"><label for="iLic">Quantidade de lições</label><input type="number" id="iLic" min="1" max="14" value="13"></div>
     </div>
+    <div class="linha-sw"><div class="txt"><strong>Guardar as páginas como imagem</strong><span>A aba Estudar mostra cada página igual ao PDF (tirinha, diagramação). Demora alguns minutos e usa mais espaço no banco</span></div><button class="switch" role="switch" aria-checked="true" id="iImg"></button></div>
     <div class="linha-sw"><div class="txt"><strong>Publicar ao importar</strong><span>Ligado: o texto já aparece em Estudar. Enquanto a planilha de perguntas não for importada, valem as perguntas que já vêm no site (se houver para esse trimestre)</span></div><button class="switch" role="switch" aria-checked="true" id="iPub"></button></div>
     <div class="linha-sw"><div class="txt"><strong>Substituir lições já cadastradas</strong><span>Desligado: pula as lições desse trimestre que já existem</span></div><button class="switch" role="switch" aria-checked="false" id="iSubst"></button></div>
     <p class="erro" id="iErro"></p>
@@ -1805,7 +1882,7 @@ function admLicao(){
   </section>`;
   $("admC").querySelectorAll(".switch").forEach(sw=> sw.onclick = ()=> sw.setAttribute("aria-checked", String(sw.getAttribute("aria-checked")!=="true")));
   $("iGo").onclick = async ()=>{
-    const file = $("iPdf").files[0], tri = $("iTri").value.trim().toLowerCase(), ini = $("iIni").value, nLic = Math.max(1, +$("iLic").value||13), subst = $("iSubst").getAttribute("aria-checked")==="true", pub = $("iPub").getAttribute("aria-checked")==="true", er = $("iErro");
+    const file = $("iPdf").files[0], tri = $("iTri").value.trim().toLowerCase(), ini = $("iIni").value, nLic = Math.max(1, +$("iLic").value||13), subst = $("iSubst").getAttribute("aria-checked")==="true", pub = $("iPub").getAttribute("aria-checked")==="true", imgs = $("iImg").getAttribute("aria-checked")==="true", er = $("iErro");
     if(!file){ er.textContent = "Escolha o arquivo PDF."; return; }
     if(!/^\d{4}-t[1-4]$/.test(tri)){ er.textContent = "Trimestre no formato ano-tN, ex.: 2027-t1."; return; }
     if(!ini){ er.textContent = "Informe a data do sábado em que começa a Lição 1."; return; }
@@ -1840,6 +1917,27 @@ function admLicao(){
         if(pub) doc.status = "publicada";
         await DB.salvarLicao(id, doc); ok++;
         log(`Lição ${pt.n} "${doc.titulo}": texto salvo (${textos.filter(Boolean).length} dias encontrados).`);
+      }
+      if(imgs && PDF_ATUAL){
+        const classes = classificarPaginas(PDF_PAGINAS);
+        const salvas = new Set(partes.filter(pt => !(existentes[tri + "-l" + pt.n] && !subst)).map(pt => pt.n));
+        const fila = classes.filter(c => salvas.has(c.n));
+        log(`Gerando imagens de ${fila.length} página(s)…`);
+        const porLicao = {}; fila.forEach(c => (porLicao[c.n] = porLicao[c.n] || []).push(c));
+        let feitas = 0;
+        for(const n of Object.keys(porLicao).map(Number).sort((a,b)=>a-b)){
+          const id = tri + "-l" + n; await DB.excluirPaginas(id);
+          const seqPorDia = {};
+          for(const c of porLicao[n]){
+            const seq = (seqPorDia[c.dia] = (seqPorDia[c.dia] || 0) + 1);
+            if(seq > 4) continue;
+            const img = await renderizarPagina(PDF_ATUAL, c.num, 1100);
+            await DB.salvarPagina({ id: id + "_" + c.dia + "_" + seq, licaoId: id, chave: id + "|" + c.dia, dia: c.dia, seq, pagina: c.num, img });
+            feitas++; bar.style.width = Math.round(100*feitas/fila.length) + "%";
+          }
+          log(`Lição ${n}: ${porLicao[n].length} página(s) salva(s) como imagem.`);
+        }
+        Object.keys(PAG_CACHE).forEach(k => delete PAG_CACHE[k]);
       }
       bar.style.width = "100%";
       log(`✅ Pronto: ${ok} lição(ões) salva(s)${pulou ? `, ${pulou} mantida(s)` : ""}${pub ? " e publicada(s): o texto já aparece em Estudar." : " como rascunho: para aparecerem em Estudar e no Quiz, publique em \"Cadastrar perguntas\"."} Agora importe as perguntas pela planilha em "Cadastrar perguntas".`);
