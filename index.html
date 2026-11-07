@@ -686,6 +686,9 @@ function dbFirebase(){
   const auth = firebase.auth(), fs = firebase.firestore();
   const col = n => fs.collection(n);
   const lista = async q => (await q.get()).docs.map(d=>Object.assign({id:d.id}, d.data()));
+  // O Firestore não aceita array dentro de array: "dias" (7 listas de perguntas) vira um mapa {"0":[...], ..., "6":[...]} ao salvar
+  const paraFs = doc => { const o = Object.assign({}, doc); if(Array.isArray(o.dias)){ const m = {}; o.dias.forEach((qs,k)=> m[String(k)] = qs || []); o.dias = m; } return o; };
+  const deFs = doc => { if(doc && doc.dias && !Array.isArray(doc.dias)){ const m = doc.dias; doc.dias = Array.from({length:7}, (_,k)=> Array.isArray(m[String(k)]) ? m[String(k)] : []); } return doc; };
   return {
     modo:"firebase",
     onAuth(cb){ auth.onAuthStateChanged(u => cb(u ? {uid:u.uid, email:u.email} : null)); },
@@ -712,8 +715,8 @@ function dbFirebase(){
     async salvarUsuario(uid, dados){ await col("usuarios").doc(uid).set(dados, {merge:true}); },
     async listarUsuarios(){ return lista(col("usuarios")); },
     async excluirUsuario(uid){ await col("usuarios").doc(uid).delete(); },
-    async listarLicoes(){ return lista(col("licoes")); },
-    async salvarLicao(id, dados){ await col("licoes").doc(id).set(dados); },
+    async listarLicoes(){ return (await lista(col("licoes"))).map(deFs); },
+    async salvarLicao(id, dados){ await col("licoes").doc(id).set(paraFs(dados)); },
     async excluirLicao(id){ await col("licoes").doc(id).delete(); },
     async meusResultados(uid){ return lista(col("resultados").where("uid","==",uid)); },
     async resultadosLicao(licaoId){ return lista(col("resultados").where("licaoId","==",licaoId)); },
