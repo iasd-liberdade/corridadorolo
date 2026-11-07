@@ -390,16 +390,16 @@ ol.passos li{margin-bottom:8px}
    DEMONSTRAÇÃO (tudo salvo só neste navegador) para você testar.
    ============================================================ */
 const FIREBASE_CONFIG = {
-  apiKey: "AIzaSyD_Tl2GyJ6nKm7YIu2PdiiQLataYH3TYTc",
-  authDomain: "quiz-licao.firebaseapp.com",
-  projectId: "quiz-licao",
-  storageBucket: "quiz-licao.firebasestorage.app",
-  messagingSenderId: "1081309629405",
-  appId: "1:1081309629405:web:224b859cb78d3b8b5c4434"
+  apiKey: "COLE_AQUI_SUA_API_KEY",
+  authDomain: "SEU-PROJETO.firebaseapp.com",
+  projectId: "SEU-PROJETO",
+  storageBucket: "SEU-PROJETO.appspot.com",
+  messagingSenderId: "000000000000",
+  appId: "1:000000000000:web:0000000000000000"
 };
 /* E-mails que viram admin automaticamente ao criar a conta
    (coloque os mesmos e-mails no arquivo firestore.rules). */
-const ADMINS_INICIAIS = ["brenno.liberty@gmail.com"];
+const ADMINS_INICIAIS = ["brenno.ferreira@grupoamperelinsa.com"];
 const TRIMESTRE_BASE = "2026-t4";   // trimestre das lições que já vêm neste arquivo
 </script>
 <script>
@@ -1852,7 +1852,8 @@ async function importarPlanilha(file, tri, ini, substituir, log){
     doc.temas = temas;
     if(info.titulo) doc.titulo = info.titulo; if(info.datas) doc.datas = info.datas;
     const dias = normalizarPerguntas(antiga ? antiga.dias : []);
-    doc.dias = dias.map((qs, k)=> (substituir || !qs.length) ? porLicao[n][k].slice(0, 10) : qs.concat(porLicao[n][k]).slice(0, 10));
+    const limitar = qs => qs.filter(q=>!q.reflexao).slice(0, 10).concat(qs.filter(q=>q.reflexao).slice(0, 1));
+    doc.dias = dias.map((qs, k)=> limitar((substituir || !qs.length) ? porLicao[n][k] : qs.concat(porLicao[n][k])));
     if(!Array.isArray(doc.qtd) || doc.qtd.length !== 7) doc.qtd = [5,5,5,5,5,5,5];
     doc.qtd = doc.qtd.map((v,k)=> Math.max(1, Math.min(+v||5, Math.max(1, doc.dias[k].filter(q=>!q.reflexao).length))));
     doc.atualizadoEm = Date.now();
