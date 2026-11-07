@@ -390,18 +390,17 @@ ol.passos li{margin-bottom:8px}
    DEMONSTRAÇÃO (tudo salvo só neste navegador) para você testar.
    ============================================================ */
 const FIREBASE_CONFIG = {
-  apiKey: "COLE_AQUI_SUA_API_KEY",
-  authDomain: "SEU-PROJETO.firebaseapp.com",
-  projectId: "SEU-PROJETO",
-  storageBucket: "SEU-PROJETO.appspot.com",
-  messagingSenderId: "000000000000",
-  appId: "1:000000000000:web:0000000000000000"
+  apiKey: "AIzaSyD_Tl2GyJ6nKm7YIu2PdiiQLataYH3TYTc",
+  authDomain: "quiz-licao.firebaseapp.com",
+  projectId: "quiz-licao",
+  storageBucket: "quiz-licao.firebasestorage.app",
+  messagingSenderId: "1081309629405",
+  appId: "1:1081309629405:web:224b859cb78d3b8b5c4434"
 };
 /* E-mails que viram admin automaticamente ao criar a conta
    (coloque os mesmos e-mails no arquivo firestore.rules). */
-const ADMINS_INICIAIS = ["brenno.ferreira@grupoamperelinsa.com"];
+const ADMINS_INICIAIS = ["brenno.liberty@gmail.com"];
 const TRIMESTRE_BASE = "2026-t4";   // trimestre das lições que já vêm neste arquivo
-const MODELO_IA_PADRAO = "claude-sonnet-4-5";
 </script>
 <script>
 /* ---------- Bonecos dos profetas (compartilhado) ---------- */
@@ -600,6 +599,15 @@ function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g, ch => ({"&":"&a
 function fmt(n){ return Number(n||0).toLocaleString("pt-BR"); }
 function dataCurta(iso){ const [y,m,d]=iso.split("-"); return d+"/"+m; }
 function sortear(lista){ return lista[Math.floor(Math.random()*lista.length)]; }
+function semente(str){ let h = 2166136261; for(let i=0;i<str.length;i++){ h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); } return ()=>{ h += 0x6D2B79F5; let t = Math.imul(h ^ (h >>> 15), 1 | h); t ^= t + Math.imul(t ^ (t >>> 7), 61 | t); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+function embaralhar(arr, rnd){ const a = arr.slice(); for(let i=a.length-1;i>0;i--){ const j = Math.floor(rnd()*(i+1)); [a[i],a[j]] = [a[j],a[i]]; } return a; }
+/* Perguntas que o jogador vê num dia: sorteia "qtd" objetivas (sempre as mesmas para a mesma pessoa no mesmo dia) + a reflexão no fim */
+function perguntasDoDia(L, k){
+  const d = L.dias[k], todas = d.perguntas, n = L.qtd && L.qtd[k];
+  if(!n || n >= todas.filter(q=>!q.reflexao).length) return todas;
+  const obj = todas.filter(q=>!q.reflexao), ref = todas.filter(q=>q.reflexao);
+  return embaralhar(obj, semente((usuario ? usuario.uid : "") + "|" + L.id + "|" + d.data)).slice(0, n).concat(ref.slice(0,1));
+}
 function $(id){ return document.getElementById(id); }
 let tt;
 function aviso(t){ const el=$("toast"); el.textContent=t; el.classList.add("show"); clearTimeout(tt); tt=setTimeout(()=>el.classList.remove("show"),2400); }
@@ -790,7 +798,7 @@ function montarLicao(L){
     titulo: L.titulo || ("Lição " + n), numero: "Lição " + n, datas: L.datas || "",
     subtitulo: "Lição " + n + (L.datas ? ", de " + L.datas : ""),
     recap: "Recapitulação no sábado, " + dataLonga(somarDias(L.inicio, 7)),
-    inicio: L.inicio, textos: L.textos || [], resumos: L.resumos || [], origem: L.origem || "banco",
+    inicio: L.inicio, textos: L.textos || [], resumos: L.resumos || [], origem: L.origem || "banco", qtd: Array.isArray(L.qtd) ? L.qtd : null,
     dias: diasQ.map((qs, k) => ({ data: somarDias(L.inicio, k), nome: NOMES_DIAS[k], curto: CURTOS[k], tema: temas[k],
       perguntas: qs.map(q => (q.img && L.origem==="arquivo" && TIRINHAS[String(n)]) ? Object.assign({}, q, { img: TIRINHAS[String(n)] }) : Object.assign({}, q, {img:undefined})) }))
   };
@@ -1138,7 +1146,8 @@ function iniciar(i){
   if(!dia.perguntas.length){ aviso("Este dia ainda não tem perguntas."); return; }
   if(resDe(LICAO, dia)){ telaResultado(i); return; }
   const prazo = dia.data >= hoje();
-  jogo = { i, dia, L: LICAO, q:0, pts:0, acertos:0, total: dia.perguntas.filter(p=>!p.reflexao).length, prazo };
+  const diaJogo = Object.assign({}, dia, { perguntas: perguntasDoDia(LICAO, i) });
+  jogo = { i, dia: diaJogo, L: LICAO, q:0, pts:0, acertos:0, total: diaJogo.perguntas.filter(p=>!p.reflexao).length, prazo };
   contagem(dia, telaPergunta);
 }
 function telaPergunta(){
@@ -1572,14 +1581,14 @@ function telaFoto(i, src){
    ADMIN
    ============================================================ */
 let admTab = "usuarios";
-const ADM_TABS = [["usuarios","👥 Usuários"],["aprovar","✅ Aprovar usuário"],["cadastrar","➕ Cadastrar usuário"],["licao","📥 Cadastrar lição"],["validar","🔍 Validar perguntas"],["icone","🖼️ Ícone do site"]];
+const ADM_TABS = [["usuarios","👥 Usuários"],["aprovar","✅ Aprovar usuário"],["cadastrar","➕ Cadastrar usuário"],["licao","📥 Cadastrar lição"],["perguntas","📝 Cadastrar perguntas"],["icone","🖼️ Ícone do site"]];
 function telaAdmin(){
   if(!ehAdmin()){ nav("quiz"); return; }
   app.innerHTML = `<div class="admin-area"><h2 class="h2">Admin</h2>
     <div class="tabs" role="tablist">${ADM_TABS.map(([k,t])=>`<button role="tab" aria-selected="${admTab===k}" data-t="${k}">${t}</button>`).join("")}</div>
     <div id="admC"></div></div>`;
   app.querySelectorAll("[data-t]").forEach(b=> b.onclick = ()=>{ admTab = b.dataset.t; telaAdmin(); });
-  ({usuarios:admUsuarios, aprovar:admAprovar, cadastrar:admCadastrar, licao:admLicao, validar:admValidar, icone:admIcone}[admTab])();
+  ({usuarios:admUsuarios, aprovar:admAprovar, cadastrar:admCadastrar, licao:admLicao, perguntas:admPerguntas, icone:admIcone}[admTab])();
 }
 function linhaUsuario(u, pendente){
   const eu = u.id === usuario.uid;
@@ -1706,27 +1715,6 @@ function dividirDias(texto){
   } else textos[0] = texto.trim();
   return textos;
 }
-function promptIA(n, qtd, reflexao){
-  return `Você cria quizzes para a Lição da Escola Sabatina Jovem (Igreja Adventista). A seguir vai o texto de UMA lição semanal (Lição ${n}), dividida em 7 dias: Sábado (introdução), Domingo, Segunda, Terça, Quarta, Quinta e Sexta (conclusão/hipertexto).
-Tarefa: para CADA um dos 7 dias, crie exatamente ${qtd} perguntas objetivas de múltipla escolha baseadas SOMENTE no conteúdo daquele dia${reflexao ? ", e depois 1 pergunta de reflexão pessoal (sem resposta certa)" : ""}.
-Responda SOMENTE com um JSON válido (sem texto antes ou depois, sem crases), neste formato:
-{"n":${n},"titulo":"título da lição","datas":"ex.: 26 de setembro a 2 de outubro","temas":["tema do sábado","tema de domingo","tema de segunda","tema de terça","tema de quarta","tema de quinta","tema de sexta"],"resumos":["resumo do dia em 2 ou 3 frases",... 7 itens],"dias":[[{"p":"pergunta","o":["opção A","opção B","opção C","opção D"],"c":1,"ref":"referência bíblica ou 'Lição de domingo'","texto":"trecho curto (até 200 caracteres) do texto que comprova a resposta"}${reflexao ? ',{"p":"pergunta de reflexão","o":["opção pessoal 1","opção pessoal 2","opção pessoal 3","opção pessoal 4"],"reflexao":true}' : ""}], ... 7 arrays, um por dia]}
-Regras: "c" é o índice (0 a 3) da opção correta; varie a posição da resposta certa; opções curtas e do mesmo tamanho; só uma correta; distratores plausíveis; perguntas claras, em português do Brasil, com linguagem jovem; inclua perguntas sobre os textos bíblicos citados; não invente informações que não estejam no texto; se "datas" não aparecer no texto, deixe "".`;
-}
-function extrairJSON(s){
-  s = String(s).trim().replace(/^```(?:json)?/i, "").replace(/```$/, "");
-  const a = s.indexOf("{"), b = s.lastIndexOf("}");
-  if(a < 0 || b < 0) throw new Error("A IA não devolveu JSON.");
-  return JSON.parse(s.slice(a, b+1));
-}
-async function chamarClaude(chave, modelo, prompt, texto){
-  const r = await fetch("https://api.anthropic.com/v1/messages", { method:"POST",
-    headers:{ "content-type":"application/json", "x-api-key":chave, "anthropic-version":"2023-06-01", "anthropic-dangerous-direct-browser-access":"true" },
-    body: JSON.stringify({ model: modelo, max_tokens: 8000, messages:[{ role:"user", content: prompt + "\n\n<licao>\n" + texto + "\n</licao>" }] }) });
-  if(!r.ok){ let t = ""; try{ t = (await r.json()).error.message; }catch(e){} throw new Error("API " + r.status + (t ? ": " + t : "")); }
-  const j = await r.json();
-  return (j.content||[]).map(c=>c.text||"").join("");
-}
 function normalizarPerguntas(dias){
   return Array.from({length:7}, (_,k)=> ((dias && dias[k]) || []).map(q=>{
     const o = Array.isArray(q.o) ? q.o.slice(0,4).map(x=>String(x)) : [];
@@ -1737,106 +1725,191 @@ function normalizarPerguntas(dias){
   }));
 }
 function admLicao(){
-  const ck = lsGet(KEY+":iaChave",""), modelo = lsGet(KEY+":iaModelo", MODELO_IA_PADRAO);
   const tri = lsGet(KEY+":tri", ""), ini = lsGet(KEY+":ini", "");
   $("admC").innerHTML = `<section class="panel"><h3 class="h3">Cadastrar lição (importar PDF)</h3>
-    <p class="muted small">Envie o PDF do trimestre (13 lições). O site lê o texto, separa as lições e os dias, e a IA cria as perguntas. Depois revise tudo em <b>Validar perguntas</b> antes de publicar.</p>
+    <p class="muted small">Envie o PDF do trimestre. O site lê o texto, separa as lições (pelos títulos "Lição 1", "Lição 2"…) e os dias (Sábado a Sexta) e cria cada lição como <b>rascunho</b>, com o texto na aba Estudar. As perguntas entram depois, em <b>Cadastrar perguntas</b>, pela planilha.</p>
     <div class="field"><label for="iPdf">Arquivo PDF da lição</label><input type="file" id="iPdf" accept="application/pdf,.pdf"></div>
     <div class="grid2">
       <div class="field"><label for="iTri">Trimestre (código)</label><input type="text" id="iTri" placeholder="ex.: 2027-t1" value="${esc(tri)}"></div>
       <div class="field"><label for="iIni">Sábado da Lição 1</label><input type="date" id="iIni" value="${esc(ini)}"></div>
-      <div class="field"><label for="iQtd">Perguntas por dia</label><input type="number" id="iQtd" min="1" max="10" value="5"></div>
       <div class="field"><label for="iLic">Quantidade de lições</label><input type="number" id="iLic" min="1" max="14" value="13"></div>
     </div>
-    <div class="linha-sw"><div class="txt"><strong>Incluir pergunta de reflexão</strong><span>Uma pergunta pessoal no fim de cada dia (vale ${REFLEXAO} pontos)</span></div><button class="switch" role="switch" aria-checked="true" id="iRef"></button></div>
-    <div class="linha-sw"><div class="txt"><strong>Gerar perguntas com IA</strong><span>Desligado: importa só o texto para a aba Estudar e você escreve as perguntas</span></div><button class="switch" role="switch" aria-checked="${ck?"true":"false"}" id="iUsarIA"></button></div>
-    <div id="iCampos" ${ck?"":"hidden"}>
-      <div class="field" style="margin-top:12px"><label for="iChave">Chave de API da Anthropic (fica salva só neste aparelho)</label><input type="password" id="iChave" placeholder="sk-ant-…" value="${esc(ck)}" autocomplete="off"></div>
-      <div class="field"><label for="iModelo">Modelo</label><input type="text" id="iModelo" value="${esc(modelo)}"></div>
-    </div>
+    <div class="linha-sw"><div class="txt"><strong>Substituir lições já cadastradas</strong><span>Desligado: pula as lições desse trimestre que já existem</span></div><button class="switch" role="switch" aria-checked="false" id="iSubst"></button></div>
     <p class="erro" id="iErro"></p>
     <div class="btn-row uma"><button class="btn btn-main" id="iGo">Importar lições</button></div>
     <div id="iProg" hidden><div class="prog"><i id="iBar"></i></div><div class="log" id="iLog"></div></div>
   </section>`;
-  $("iRef").onclick = ()=> $("iRef").setAttribute("aria-checked", String($("iRef").getAttribute("aria-checked")!=="true"));
-  $("iUsarIA").onclick = ()=>{ const v = $("iUsarIA").getAttribute("aria-checked")!=="true"; $("iUsarIA").setAttribute("aria-checked", String(v)); $("iCampos").hidden = !v; };
+  $("iSubst").onclick = ()=> $("iSubst").setAttribute("aria-checked", String($("iSubst").getAttribute("aria-checked")!=="true"));
   $("iGo").onclick = async ()=>{
-    const file = $("iPdf").files[0], tri = $("iTri").value.trim().toLowerCase(), ini = $("iIni").value, qtd = Math.max(1, +$("iQtd").value||5), nLic = Math.max(1, +$("iLic").value||13);
-    const usarIA = $("iUsarIA").getAttribute("aria-checked")==="true", reflexao = $("iRef").getAttribute("aria-checked")==="true";
-    const chave = $("iChave").value.trim(), modelo = $("iModelo").value.trim() || MODELO_IA_PADRAO, er = $("iErro");
+    const file = $("iPdf").files[0], tri = $("iTri").value.trim().toLowerCase(), ini = $("iIni").value, nLic = Math.max(1, +$("iLic").value||13), subst = $("iSubst").getAttribute("aria-checked")==="true", er = $("iErro");
     if(!file){ er.textContent = "Escolha o arquivo PDF."; return; }
     if(!/^\d{4}-t[1-4]$/.test(tri)){ er.textContent = "Trimestre no formato ano-tN, ex.: 2027-t1."; return; }
     if(!ini){ er.textContent = "Informe a data do sábado em que começa a Lição 1."; return; }
     if(new Date(ini+"T12:00:00").getDay() !== 6 && !(await confirmar("Data", "Essa data não é um sábado. Continuar mesmo assim?", "Continuar", "btn-main"))) return;
-    if(usarIA && !chave){ er.textContent = "Cole a chave de API ou desligue a geração com IA."; return; }
-    er.textContent = ""; lsSet(KEY+":tri", tri); lsSet(KEY+":ini", ini); lsSet(KEY+":iaChave", chave); lsSet(KEY+":iaModelo", modelo);
+    er.textContent = ""; lsSet(KEY+":tri", tri); lsSet(KEY+":ini", ini);
     const btn = $("iGo"); ocupado(btn, true); $("iProg").hidden = false;
     const logEl = $("iLog"), bar = $("iBar");
     const log = t => { logEl.textContent += t + "\n"; logEl.scrollTop = logEl.scrollHeight; };
-    const prog = f => bar.style.width = Math.round(f*100) + "%";
-    let ok = 0, falhas = 0;
+    let ok = 0, pulou = 0;
     try{
       log("Lendo o PDF…");
       const texto = await lerPdf(file, log);
       log(`Texto extraído: ${fmt(texto.length)} caracteres.`);
       const partes = dividirLicoes(texto, nLic);
-      if(partes.heuristica) log("⚠️ Não encontrei os títulos \"Lição 1\", \"Lição 2\"…; dividi o texto em partes iguais. Confira em Validar perguntas.");
+      if(partes.heuristica) log("⚠️ Não encontrei os títulos \"Lição 1\", \"Lição 2\"…; dividi o texto em partes iguais. Confira em Cadastrar perguntas.");
       else log(`Encontrei ${partes.length} lição(ões): ${partes.map(p=>"L"+p.n).join(", ")}.`);
       if(partes.length < nLic) log(`⚠️ Esperava ${nLic} lições. As que faltam não serão criadas.`);
+      const existentes = {}; (await DB.listarLicoes()).forEach(l => existentes[l.id] = l);
       for(let k=0;k<partes.length;k++){
-        const pt = partes[k]; prog(k/partes.length);
+        const pt = partes[k]; bar.style.width = Math.round(100*k/partes.length) + "%";
         const inicio = somarDias(ini, 7*(pt.n-1)), id = tri + "-l" + pt.n;
         const textos = dividirDias(pt.texto);
-        let doc = { id, trimestre:tri, n:pt.n, inicio, titulo:"Lição " + pt.n, datas:"", temas:NOMES_DIAS.slice(), resumos:[], dias:[[],[],[],[],[],[],[]], textos, status:"rascunho", criadoEm:Date.now(), origem:"pdf" };
-        if(usarIA){
-          log(`Lição ${pt.n}: gerando perguntas com a IA…`);
-          try{
-            const bruto = await chamarClaude(chave, modelo, promptIA(pt.n, qtd, reflexao), pt.texto.slice(0, 120000));
-            const j = extrairJSON(bruto);
-            doc.titulo = String(j.titulo || doc.titulo).trim(); doc.datas = String(j.datas||"").trim();
-            if(Array.isArray(j.temas) && j.temas.length===7) doc.temas = j.temas.map(String);
-            if(Array.isArray(j.resumos)) doc.resumos = Array.from({length:7},(_,i)=> String(j.resumos[i]||""));
-            doc.dias = normalizarPerguntas(j.dias);
-            const total = doc.dias.reduce((s,d)=>s+d.length,0);
-            log(`Lição ${pt.n} "${doc.titulo}": ${total} perguntas geradas.`);
-          }catch(e){ falhas++; log(`❌ Lição ${pt.n}: ${e.message}. Salva sem perguntas; você pode escrever em Validar perguntas.`); }
-        } else {
-          const t1 = pt.texto.split("\n").map(s=>s.trim()).filter(s=>s.length>3 && !/^li[çc][ãa]o\s+\d/i.test(s))[0];
-          if(t1 && t1.length < 60) doc.titulo = t1;
-        }
+        const t1 = pt.texto.split("\n").map(s=>s.trim()).filter(s=>s.length>3 && !/^li[çc][ãa]o\s+\d/i.test(s))[0];
+        if(existentes[id] && !subst){ pulou++; log(`Lição ${pt.n}: já existe, mantida (ligue "Substituir" para sobrescrever o texto).`); continue; }
+        const antiga = existentes[id] || {};
+        const doc = Object.assign({ id, trimestre:tri, n:pt.n, inicio, titulo:(t1 && t1.length < 60) ? t1 : "Lição " + pt.n, datas:"", temas:NOMES_DIAS.slice(), resumos:[], dias:[[],[],[],[],[],[],[]], qtd:[5,5,5,5,5,5,5], status:"rascunho", criadoEm:Date.now(), origem:"pdf" }, antiga, { textos, atualizadoEm:Date.now() });
         await DB.salvarLicao(id, doc); ok++;
+        log(`Lição ${pt.n} "${doc.titulo}": texto salvo (${textos.filter(Boolean).length} dias encontrados).`);
       }
-      prog(1);
-      log(`✅ Pronto: ${ok} lição(ões) salva(s) como rascunho${falhas ? `, ${falhas} sem perguntas` : ""}. Vá em "Validar perguntas" para revisar e publicar.`);
-      LICOES_DB = await DB.listarLicoes();
+      bar.style.width = "100%";
+      log(`✅ Pronto: ${ok} lição(ões) salva(s)${pulou ? `, ${pulou} mantida(s)` : ""}. Agora importe as perguntas em "Cadastrar perguntas".`);
+      await recarregarLicoes();
       aviso("Importação concluída");
     }catch(e){ log("❌ " + (e.message || e)); er.textContent = e.message || String(e); }
     ocupado(btn, false);
   };
 }
 
+/* ---------- Planilha de perguntas (modelo e importação) ---------- */
+const XLSX_URL = "https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js";
+function carregarXlsx(){
+  if(window.XLSX) return Promise.resolve();
+  return new Promise((res, rej)=>{ const s = document.createElement("script"); s.src = XLSX_URL; s.onload = res; s.onerror = ()=> rej(new Error("Não deu para carregar o leitor de planilhas (sem internet?).")); document.head.appendChild(s); });
+}
+const CAB_PERG = ["Lição","Dia","Tipo","Pergunta","Opção A","Opção B","Opção C","Opção D","Correta","Referência","Trecho que comprova"];
+const CAB_LIC = ["Lição","Título","Datas","Tema Sábado","Tema Domingo","Tema Segunda","Tema Terça","Tema Quarta","Tema Quinta","Tema Sexta"];
+async function baixarModelo(){
+  await carregarXlsx();
+  const wb = XLSX.utils.book_new();
+  const instr = [["MODELO DE PERGUNTAS — Quiz da Lição"],[""],
+    ["Aba \"Perguntas\": uma linha por pergunta. Até 10 perguntas por dia. Colunas:"],
+    ["Lição","número da lição (1 a 13)"],["Dia","Sábado, Domingo, Segunda, Terça, Quarta, Quinta ou Sexta"],["Tipo","Objetiva (tem resposta certa) ou Reflexão (qualquer resposta vale ponto; deixe Correta em branco)"],
+    ["Pergunta","o enunciado"],["Opção A a D","as alternativas (mínimo 2)"],["Correta","A, B, C ou D"],["Referência","texto bíblico ou \"Lição de domingo\" (aparece para o jogador)"],["Trecho que comprova","frase curta da lição que confirma a resposta (opcional)"],
+    [""],["Aba \"Lições\": uma linha por lição, com título, datas e o tema de cada dia (opcional, mas recomendado)."],
+    [""],["Depois de preencher, vá em Admin › Cadastrar perguntas › Importar planilha."],["As linhas de exemplo podem ser apagadas."]];
+  const wsI = XLSX.utils.aoa_to_sheet(instr); wsI["!cols"] = [{wch:22},{wch:90}];
+  const lics = [CAB_LIC].concat(LICOES_DADOS.map(L => [L.n, L.titulo, L.datas].concat(L.temas)));
+  const wsL = XLSX.utils.aoa_to_sheet(lics); wsL["!cols"] = [{wch:7},{wch:30},{wch:30}].concat(Array(7).fill({wch:30}));
+  const perg = [CAB_PERG];
+  const L1 = LICOES_DADOS[0];
+  L1.dias.forEach((qs, k)=> qs.forEach(q => perg.push([L1.n, NOMES_DIAS[k], q.reflexao ? "Reflexão" : "Objetiva", q.p, q.o[0]||"", q.o[1]||"", q.o[2]||"", q.o[3]||"", q.reflexao ? "" : LETRAS[q.c], q.ref||"", q.texto||""])));
+  const wsP = XLSX.utils.aoa_to_sheet(perg); wsP["!cols"] = [{wch:7},{wch:10},{wch:10},{wch:60},{wch:28},{wch:28},{wch:28},{wch:28},{wch:8},{wch:26},{wch:60}];
+  XLSX.utils.book_append_sheet(wb, wsI, "Instruções");
+  XLSX.utils.book_append_sheet(wb, wsP, "Perguntas");
+  XLSX.utils.book_append_sheet(wb, wsL, "Lições");
+  XLSX.writeFile(wb, "modelo-perguntas-quiz-licao.xlsx");
+}
+function chave(s){ return String(s||"").normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase().replace(/[^a-z0-9]/g,""); }
+function lerLinhas(ws){
+  const rows = XLSX.utils.sheet_to_json(ws, { header:1, defval:"", raw:false });
+  if(!rows.length) return [];
+  const cab = rows[0].map(chave);
+  return rows.slice(1).filter(r => r.some(v => String(v).trim())).map(r => { const o = {}; cab.forEach((c,i)=> o[c] = String(r[i] == null ? "" : r[i]).trim()); return o; });
+}
+async function importarPlanilha(file, tri, ini, substituir, log){
+  await carregarXlsx();
+  const wb = XLSX.read(await file.arrayBuffer(), { type:"array" });
+  const nome = n => wb.SheetNames.find(s => chave(s) === chave(n));
+  const wsP = wb.Sheets[nome("Perguntas") || wb.SheetNames[0]], wsL = nome("Lições") ? wb.Sheets[nome("Lições")] : null;
+  const linhas = lerLinhas(wsP);
+  const porLicao = {}; let ign = 0;
+  const ordem = ["sab","dom","seg","ter","qua","qui","sex"];
+  linhas.forEach((r, i)=>{
+    const n = parseInt(r.licao, 10), k = ordem.indexOf(chave(r.dia).slice(0,3));
+    const p = r.pergunta;
+    if(!n || k < 0 || !p){ ign++; if(ign <= 5) log(`Linha ${i+2} ignorada (lição, dia ou pergunta em branco).`); return; }
+    const refl = /^ref/i.test(chave(r.tipo));
+    const o = [r.opcaoa, r.opcaob, r.opcaoc, r.opcaod].map(x=>String(x||"").trim());
+    const q = { p, o: o.filter(Boolean).concat(["","","",""]).slice(0,4), ref: r.referencia || "" };
+    if(refl) q.reflexao = true;
+    else {
+      const letra = String(r.correta||"").trim().toUpperCase().charAt(0), c = letra ? "ABCD".indexOf(letra) : -1;
+      if(c < 0 || !o[c]){ ign++; log(`Linha ${i+2} ignorada: coluna "Correta" precisa ser A, B, C ou D e apontar para uma opção preenchida.`); return; }
+      q.c = c; if(r.trechoquecomprova) q.texto = r.trechoquecomprova.slice(0,400);
+    }
+    if(o.filter(Boolean).length < 2){ ign++; log(`Linha ${i+2} ignorada: precisa de pelo menos 2 opções.`); return; }
+    (porLicao[n] = porLicao[n] || [[],[],[],[],[],[],[]])[k].push(q);
+  });
+  const infoLic = {};
+  if(wsL) lerLinhas(wsL).forEach(r => { const n = parseInt(r.licao, 10); if(n) infoLic[n] = r; });
+  const existentes = {}; (await DB.listarLicoes()).forEach(l => existentes[l.id] = l);
+  const ns = Object.keys(porLicao).map(Number).sort((a,b)=>a-b);
+  let salvas = 0;
+  for(const n of ns){
+    const id = tri + "-l" + n, antiga = existentes[id], info = infoLic[n] || {};
+    const temas = NOMES_DIAS.map((d,k)=> info["tema" + chave(d)] || (antiga && antiga.temas && antiga.temas[k]) || d);
+    const doc = Object.assign({ id, trimestre:tri, n, inicio: somarDias(ini, 7*(n-1)), titulo:"Lição " + n, datas:"", resumos:[], textos:[], qtd:[5,5,5,5,5,5,5], status:"rascunho", criadoEm:Date.now(), origem:"planilha" }, antiga || {});
+    doc.temas = temas;
+    if(info.titulo) doc.titulo = info.titulo; if(info.datas) doc.datas = info.datas;
+    const dias = normalizarPerguntas(antiga ? antiga.dias : []);
+    doc.dias = dias.map((qs, k)=> (substituir || !qs.length) ? porLicao[n][k].slice(0, 10) : qs.concat(porLicao[n][k]).slice(0, 10));
+    if(!Array.isArray(doc.qtd) || doc.qtd.length !== 7) doc.qtd = [5,5,5,5,5,5,5];
+    doc.qtd = doc.qtd.map((v,k)=> Math.max(1, Math.min(+v||5, Math.max(1, doc.dias[k].filter(q=>!q.reflexao).length))));
+    doc.atualizadoEm = Date.now();
+    await DB.salvarLicao(id, doc); salvas++;
+    const tot = doc.dias.reduce((s,d)=>s+d.length,0);
+    log(`Lição ${n} "${doc.titulo}": ${tot} perguntas${antiga ? (substituir ? " (substituídas)" : " (acrescentadas)") : " (lição criada como rascunho)"}.`);
+  }
+  if(ign > 5) log(`… ${ign} linha(s) ignorada(s) no total.`);
+  return salvas;
+}
+
 /* ---------- Validar perguntas: editor ---------- */
-let valId = null, valDia = 0;
-async function admValidar(){
+let valId = null, valDia = 0, logPlanilha = "";
+async function admPerguntas(){
   const c = $("admC"); c.innerHTML = `<section class="panel"><p class="vazio">Carregando…</p></section>`;
   try{ LICOES_DB = await DB.listarLicoes(); }catch(e){ c.innerHTML = `<section class="panel"><p class="erro">${esc(erroMsg(e))}</p></section>`; return; }
   const lics = LICOES_DB.slice().sort((a,b)=> String(a.trimestre).localeCompare(String(b.trimestre)) || (a.n-b.n));
   if(!valId || !lics.find(l=>l.id===valId)){
-    c.innerHTML = `<section class="panel"><h3 class="h3">Lições cadastradas</h3>
-      ${lics.length ? `<ul class="lista">${lics.map(l=>{ const t = (l.dias||[]).reduce((s,d)=>s+(d?d.length:0),0); return `<li><div class="pos">${l.n}</div><div class="info"><strong>${esc(l.titulo)}</strong><span>${esc(l.trimestre)} · começa ${dataCurta(l.inicio)} · ${t} perguntas</span><span>${l.status==="publicada"?'<span class="badge ok">publicada</span>':'<span class="badge warn">rascunho</span>'}</span></div><button class="btn btn-ghost btn-sm" data-abrir="${esc(l.id)}">Revisar</button></li>`; }).join("")}</ul>` : `<p class="vazio">Nenhuma lição importada ainda. Use "Cadastrar lição".</p>`}
+    const triPad = lsGet(KEY+":tri", TRIMESTRE_BASE), iniPad = lsGet(KEY+":ini", "") || (triPad === TRIMESTRE_BASE ? LICOES_DADOS[0].inicio : "");
+    c.innerHTML = `<section class="panel"><h3 class="h3">Planilha de perguntas</h3>
+      <p class="muted small">Baixe o modelo, preencha até <b>10 perguntas por dia</b> (aba "Perguntas") e importe aqui. Depois escolha, em cada lição, quantas perguntas aparecem para o jogador e publique.</p>
+      <div class="btn-row uma"><button class="btn btn-ghost" id="pModelo">⬇️ Baixar modelo de planilha (.xlsx)</button></div>
+      <div class="grid2" style="margin-top:14px"><div class="field"><label for="pTri">Trimestre (código)</label><input type="text" id="pTri" placeholder="ex.: 2026-t4" value="${esc(triPad)}"></div><div class="field"><label for="pIni">Sábado da Lição 1</label><input type="date" id="pIni" value="${esc(iniPad)}"></div></div>
+      <div class="field"><label for="pArq">Planilha preenchida (.xlsx)</label><input type="file" id="pArq" accept=".xlsx,.xls,.csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"></div>
+      <div class="linha-sw"><div class="txt"><strong>Substituir perguntas existentes</strong><span>Desligado: acrescenta às que a lição já tem</span></div><button class="switch" role="switch" aria-checked="true" id="pSubst"></button></div>
+      <p class="erro" id="pErro"></p>
+      <div class="btn-row uma"><button class="btn btn-main" id="pGo">Importar planilha</button></div>
+      <div id="pProg" ${logPlanilha ? "" : "hidden"}><div class="log" id="pLog">${esc(logPlanilha)}</div></div>
+    </section>
+    <section class="panel"><h3 class="h3">Lições cadastradas</h3>
+      ${lics.length ? `<ul class="lista">${lics.map(l=>{ const t = (l.dias||[]).reduce((s,d)=>s+(d?d.length:0),0); return `<li><div class="pos">${l.n}</div><div class="info"><strong>${esc(l.titulo)}</strong><span>${esc(l.trimestre)} · começa ${dataCurta(l.inicio)} · ${t} perguntas</span><span>${l.status==="publicada"?'<span class="badge ok">publicada</span>':'<span class="badge warn">rascunho</span>'}</span></div><button class="btn btn-ghost btn-sm" data-abrir="${esc(l.id)}">Revisar</button></li>`; }).join("")}</ul>` : `<p class="vazio">Nenhuma lição cadastrada ainda. Importe uma planilha acima ou o PDF em "Cadastrar lição".</p>`}
       <p class="note">As ${LICOES_DADOS.length} lições do trimestre ${TRIMESTRE_BASE} já vêm dentro do arquivo e não precisam ser cadastradas.</p>
       <div class="btn-row"><button class="btn btn-ghost" id="vNova">Criar lição em branco</button></div></section>`;
-    c.querySelectorAll("[data-abrir]").forEach(b=> b.onclick = ()=>{ valId = b.dataset.abrir; valDia = 0; admValidar(); });
+    c.querySelectorAll("[data-abrir]").forEach(b=> b.onclick = ()=>{ valId = b.dataset.abrir; valDia = 0; admPerguntas(); });
+    $("pModelo").onclick = async ()=>{ ocupado($("pModelo"), true); try{ await baixarModelo(); }catch(e){ aviso(e.message || String(e)); } ocupado($("pModelo"), false); };
+    $("pSubst").onclick = ()=> $("pSubst").setAttribute("aria-checked", String($("pSubst").getAttribute("aria-checked")!=="true"));
+    $("pGo").onclick = async ()=>{
+      const file = $("pArq").files[0], tri = $("pTri").value.trim().toLowerCase(), ini = $("pIni").value, er = $("pErro");
+      if(!file){ er.textContent = "Escolha a planilha preenchida."; return; }
+      if(!/^\d{4}-t[1-4]$/.test(tri)){ er.textContent = "Trimestre no formato ano-tN, ex.: 2026-t4."; return; }
+      if(!ini){ er.textContent = "Informe o sábado em que começa a Lição 1 (usado para criar lições novas)."; return; }
+      er.textContent = ""; lsSet(KEY+":tri", tri); lsSet(KEY+":ini", ini);
+      ocupado($("pGo"), true); $("pProg").hidden = false; const logEl = $("pLog"); logEl.textContent = ""; logPlanilha = "";
+      const log = t => { logPlanilha += t + "\n"; logEl.textContent = logPlanilha; logEl.scrollTop = logEl.scrollHeight; };
+      try{ const n = await importarPlanilha(file, tri, ini, $("pSubst").getAttribute("aria-checked")==="true", log); log(`✅ ${n} lição(ões) atualizada(s). Abra cada uma abaixo para conferir, ajustar a quantidade por dia e publicar.`); aviso("Planilha importada"); await recarregarLicoes(); setTimeout(admPerguntas, 1500); }
+      catch(e){ log("❌ " + (e.message || e)); er.textContent = e.message || String(e); ocupado($("pGo"), false); }
+    };
     $("vNova").onclick = ()=> modal("Nova lição em branco", `<div class="grid2"><div class="field"><label>Trimestre</label><input type="text" id="bTri" placeholder="2027-t1" value="${esc(lsGet(KEY+":tri",""))}"></div><div class="field"><label>Número</label><input type="number" id="bN" min="1" max="14" value="1"></div></div><div class="field"><label>Sábado em que começa</label><input type="date" id="bIni"></div><p class="erro" id="bErro"></p><div class="btn-row"><button class="btn btn-main" id="bOk">Criar</button></div>`, (m, fechar)=>{
       m.querySelector("#bOk").onclick = async ()=>{ const tri = m.querySelector("#bTri").value.trim().toLowerCase(), n = +m.querySelector("#bN").value, ini = m.querySelector("#bIni").value;
         if(!/^\d{4}-t[1-4]$/.test(tri) || !n || !ini){ m.querySelector("#bErro").textContent = "Preencha tudo (trimestre no formato 2027-t1)."; return; }
         const id = tri + "-l" + n;
-        try{ await DB.salvarLicao(id, { id, trimestre:tri, n, inicio:ini, titulo:"Lição " + n, datas:"", temas:NOMES_DIAS.slice(), resumos:[], dias:[[],[],[],[],[],[],[]], textos:[], status:"rascunho", criadoEm:Date.now(), origem:"manual" }); fechar(); valId = id; valDia = 0; admValidar(); }catch(e){ m.querySelector("#bErro").textContent = erroMsg(e); } };
+        try{ await DB.salvarLicao(id, { id, trimestre:tri, n, inicio:ini, titulo:"Lição " + n, datas:"", temas:NOMES_DIAS.slice(), resumos:[], dias:[[],[],[],[],[],[],[]], textos:[], qtd:[5,5,5,5,5,5,5], status:"rascunho", criadoEm:Date.now(), origem:"manual" }); fechar(); valId = id; valDia = 0; admPerguntas(); }catch(e){ m.querySelector("#bErro").textContent = erroMsg(e); } };
     });
     return;
   }
   const L = JSON.parse(JSON.stringify(lics.find(l=>l.id===valId)));
-  L.dias = normalizarPerguntas(L.dias); L.temas = (L.temas && L.temas.length===7) ? L.temas : NOMES_DIAS.slice(); L.resumos = L.resumos || []; L.textos = L.textos || [];
+  L.dias = normalizarPerguntas(L.dias); L.temas = (L.temas && L.temas.length===7) ? L.temas : NOMES_DIAS.slice(); L.resumos = L.resumos || []; L.textos = L.textos || []; L.qtd = (Array.isArray(L.qtd) && L.qtd.length===7) ? L.qtd.map(v=>+v||5) : [5,5,5,5,5,5,5];
   const render = ()=>{
     const qs = L.dias[valDia];
     c.innerHTML = `<section class="panel">
@@ -1848,6 +1921,7 @@ async function admValidar(){
       <div class="field"><label for="vResumo">Resumo do dia (aparece em Estudar)</label><textarea id="vResumo">${esc(L.resumos[valDia]||"")}</textarea></div>
       <details style="margin-bottom:14px"><summary class="muted" style="cursor:pointer;font-weight:700">Texto do dia (${fmt((L.textos[valDia]||"").length)} caracteres)</summary><textarea id="vTexto" style="min-height:160px;margin-top:8px">${esc(L.textos[valDia]||"")}</textarea></details>
       <h3 class="h3">Perguntas de ${NOMES_DIAS[valDia]}</h3>
+      <div class="linha-sw" style="border-top:0;padding-top:0"><div class="txt"><strong>Perguntas que aparecem para o jogador</strong><span>${qs.filter(q=>!q.reflexao).length} objetiva(s) cadastrada(s)${qs.some(q=>q.reflexao) ? " + reflexão (sempre no fim)" : ""}. Cada pessoa recebe um sorteio diferente.</span></div><input type="number" id="vQtd" min="1" max="10" value="${L.qtd[valDia]}" style="width:84px;text-align:center;padding:10px"></div>
       <div id="vQs">${qs.map((q,i)=>cardPergunta(q,i)).join("")}</div>
       ${qs.length ? "" : `<p class="vazio">Nenhuma pergunta neste dia.</p>`}
       <div class="inline"><button class="btn btn-ghost btn-sm" id="vAddQ">+ Pergunta objetiva</button><button class="btn btn-ghost btn-sm" id="vAddR">+ Reflexão</button></div>
@@ -1857,7 +1931,7 @@ async function admValidar(){
         <button class="btn ${L.status==="publicada"?"btn-warn":"btn-ok"}" id="vPub">${L.status==="publicada"?"Despublicar (voltar a rascunho)":"Publicar para todos"}</button>
         <button class="btn btn-danger" id="vExcluir">Excluir lição</button>
       </div></section>`;
-    $("vVoltar").onclick = ()=>{ coletar(); valId = null; admValidar(); };
+    $("vVoltar").onclick = ()=>{ coletar(); valId = null; admPerguntas(); };
     c.querySelectorAll("[data-d]").forEach(b=> b.onclick = ()=>{ coletar(); valDia = +b.dataset.d; render(); });
     c.querySelectorAll("[data-rm]").forEach(b=> b.onclick = ()=>{ coletar(); L.dias[valDia].splice(+b.dataset.rm, 1); render(); });
     c.querySelectorAll("[data-up]").forEach(b=> b.onclick = ()=>{ coletar(); const i = +b.dataset.up; if(i>0){ const a = L.dias[valDia]; [a[i-1],a[i]] = [a[i],a[i-1]]; } render(); });
@@ -1865,12 +1939,13 @@ async function admValidar(){
     $("vAddR").onclick = ()=>{ coletar(); L.dias[valDia].push({p:"", o:["","","",""], ref:"", reflexao:true}); render(); };
     $("vSalvar").onclick = ()=> salvar(false);
     $("vPub").onclick = ()=> salvar(true);
-    $("vExcluir").onclick = async ()=>{ if(await confirmar("Excluir lição", `Excluir "${L.titulo}" (${L.id})? Os resultados dos jogadores nessa lição continuam salvos.`, "Excluir")){ try{ await DB.excluirLicao(L.id); aviso("Lição excluída"); valId = null; await recarregarLicoes(); admValidar(); }catch(e){ $("vErro").textContent = erroMsg(e); } } };
+    $("vExcluir").onclick = async ()=>{ if(await confirmar("Excluir lição", `Excluir "${L.titulo}" (${L.id})? Os resultados dos jogadores nessa lição continuam salvos.`, "Excluir")){ try{ await DB.excluirLicao(L.id); aviso("Lição excluída"); valId = null; await recarregarLicoes(); admPerguntas(); }catch(e){ $("vErro").textContent = erroMsg(e); } } };
   };
   const coletar = ()=>{
     if(!$("vTitulo")) return;
     L.titulo = $("vTitulo").value.trim() || L.titulo; L.datas = $("vDatas").value.trim(); L.inicio = $("vIni").value || L.inicio;
     L.temas[valDia] = $("vTema").value.trim() || NOMES_DIAS[valDia]; L.resumos[valDia] = $("vResumo").value.trim(); L.textos[valDia] = $("vTexto").value;
+    L.qtd[valDia] = Math.max(1, Math.min(10, +$("vQtd").value || 5));
     L.dias[valDia] = Array.from(c.querySelectorAll(".qcard")).map(card=>{
       const refl = card.dataset.r === "1";
       const q = { p: card.querySelector(".qp").value.trim(), o: Array.from(card.querySelectorAll(".qo")).map(x=>x.value.trim()), ref: card.querySelector(".qref").value.trim() };
