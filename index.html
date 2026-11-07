@@ -803,13 +803,18 @@ function montarLicao(L){
     recap: "Recapitulação no sábado, " + dataLonga(somarDias(L.inicio, 7)),
     inicio: L.inicio, textos: L.textos || [], resumos: L.resumos || [], origem: L.origem || "banco", qtd: Array.isArray(L.qtd) ? L.qtd : null,
     dias: diasQ.map((qs, k) => ({ data: somarDias(L.inicio, k), nome: NOMES_DIAS[k], curto: CURTOS[k], tema: temas[k],
-      perguntas: qs.map(q => (q.img && L.origem==="arquivo" && TIRINHAS[String(n)]) ? Object.assign({}, q, { img: TIRINHAS[String(n)] }) : Object.assign({}, q, {img:undefined})) }))
+      perguntas: qs.map(q => (q.img && L.trimestre===TRIMESTRE_BASE && TIRINHAS[String(n)]) ? Object.assign({}, q, { img: TIRINHAS[String(n)] }) : Object.assign({}, q, {img:undefined})) }))
   };
 }
 function montarLicoes(){
-  const base = LICOES_DADOS.map(L => montarLicao(Object.assign({}, L, { trimestre:TRIMESTRE_BASE, origem:"arquivo" })));
-  const mapa = {}; base.forEach(l => mapa[l.id] = l);
-  LICOES_DB.filter(l => l.status === "publicada" && l.inicio).forEach(l => { const m = montarLicao(l); mapa[m.id] = m; });
+  const baseRaw = {}; LICOES_DADOS.forEach(L => { const r = Object.assign({}, L, { trimestre:TRIMESTRE_BASE, origem:"arquivo", id: TRIMESTRE_BASE + "-l" + L.n }); baseRaw[r.id] = r; });
+  const mapa = {}; Object.values(baseRaw).forEach(r => mapa[r.id] = montarLicao(r));
+  LICOES_DB.filter(l => l.status === "publicada" && l.inicio).forEach(l => {
+    const b = baseRaw[l.id];
+    // Lição do banco com o mesmo id da que vem no arquivo: o banco manda, mas dias sem perguntas no banco usam as perguntas do arquivo
+    const r = b ? Object.assign({}, b, l, { dias: Array.from({length:7}, (_,k)=> ((l.dias||[])[k] && l.dias[k].length) ? l.dias[k] : (b.dias[k] || [])), origem:"mesclada" }) : l;
+    const m = montarLicao(r); mapa[m.id] = m;
+  });
   LICOES = Object.values(mapa).sort((a,b)=> a.inicio < b.inicio ? -1 : a.inicio > b.inicio ? 1 : 0);
 }
 function indiceLicaoAtual(){
@@ -1307,7 +1312,7 @@ function telaEstudar(){
   const texto = (L.textos && L.textos[estudoDia]) || "", resumo = (L.resumos && L.resumos[estudoDia]) || "";
   let corpo = "";
   if(resumo) corpo += `<div class="resumo">${esc(resumo)}</div>`;
-  if(texto) corpo += `<div class="estudo">${texto.split(/\n{2,}/).map(p=>`<p>${esc(p.trim())}</p>`).join("")}</div>`;
+  if(texto) corpo += `<div class="estudo">${texto.split(/\n{2,}/).map(p=>`<p>${esc(p.trim().replace(/\n(?![•\-–\d(])/g, " "))}</p>`).join("")}</div>`;
   if(!texto && !resumo) corpo += `<p class="vazio">O texto desta lição não foi importado. Leia o dia <b>${esc(d.nome)}</b> na sua lição impressa ou no app e depois faça o quiz.</p>`;
   const s = status(L, d);
   app.innerHTML = `<div class="estudo-area"><section class="panel"><h2 class="h2">Estudar</h2>${seletorLicao("estSel", L)}
@@ -1693,7 +1698,14 @@ function dividirLicoes(texto, qtd){
   const marcas = []; let esperado = 1, ultimo = -1;
   for(let j = comeco; j < todas.length; j++){
     m = todas[j]; const n = m.n;
-    if(n === esperado && (esperado === 1 || m.index - ultimo > 2500)){ marcas.push({n, i:m.index}); ultimo = m.index; esperado++; if(esperado > qtd) break; }
+    if(n === esperado && (esperado === 1 || m.index - ultimo > 2500)){
+      // A capa da lição costuma vir ANTES do rótulo "Lição N" (na ordem em que o PDF guarda o texto): recua até o começo da capa
+      let i = m.index;
+      const janela = texto.slice(Math.max(0, i - 1500), i);
+      const cap = janela.search(/A partir da tirinha|TEXTO-CHAVE|LEIA O TEXTO B/);
+      if(cap >= 0) i = Math.max(0, i - 1500) + cap;
+      marcas.push({n, i}); ultimo = m.index; esperado++; if(esperado > qtd) break;
+    }
   }
   const partes = [];
   if(marcas.length >= 2){
@@ -1705,18 +1717,66 @@ function dividirLicoes(texto, qtd){
   }
   return partes;
 }
-const DIAS_RE = /(?:^|\n)[ \t]*(S[áa]bado|Domingo|Segunda(?:-feira)?|Ter[çc]a(?:-feira)?|Quarta(?:-feira)?|Quinta(?:-feira)?|Sexta(?:-feira)?)\b[^\n]{0,60}\n/gi;
+const MESES_RE = /janeiro|fevereiro|mar[çc]o|abril|maio|junho|julho|agosto|setembro|outubro|novembro|dezembro/i;
+const JUNK_LINHA = [/^\d{1,3}$/, /^com[ \t]?(TEXTO|PREENDA|ENTE|PARE|PARTILHE|SENSO)/, /^(TEXTO|PREENDA|ENTE|PARE|PARTILHE|SENSO)\1?[ \t]?com$/, /^7DX88/, /^Acesse:?$/, /^Acesse$/, /^tamb[ée]m$/, /^Cr[ée]ditos:/, /^[A-Za-z]$/, /^([A-Za-z])\1$/, /^_{3,}$/, /^\s*$/, /^TEXTO-CHAVE$/, /^A partir da tirinha/, /^suas primeiras impress/, /^PESQUISE$/, /^em coment[áa]rios$/, /^b[íi]blicos, livros$/, /^denominacionais$/, /^e de Ellen G\. White$/, /^sobre temas$/, /^contidos nes/, /^textos?: /, /^MKT CPB/, /^Entenda$/, /^>$/, /^como$/, /^funciona$/, /^E-commerce$/, /^Call Center$/, /^CPB\.COM\.BR$/, /^0800/, /^CPB Livraria$/, /^Baixe o$/, /^Aplicativo$/, /^IMP$/, /^SPERANÇA$/, /^!$/];
+const JUNK_BLOCO = [[/^Bora de epis[óo]dio/, /desta semana!/], [/^TESTEMUNHE!/, /saiba como!/], [/^FECHE SUA SEMANA/, /o que foi estudado/], [/^Aten[çc][ãa]o, PG!/, /assista!/], [/^Escaneie o QR/, /assista!|desta semana!/], [/^novidade$/, /comtextobiblico/], [/^\(1\) \(2\)$/, /^\(1\) \(2\)$/]];
+function colapsarEspacado(l){
+  const t = l.trim().split(/ +/); if(t.length < 6 || t.filter(x=>x.length===1).length / t.length < 0.6) return l;
+  return l.replace(/(\S) (?=\S)/g, "$1").replace(/,(\S)/g, ", $1").replace(/(\d)(?=[A-Za-zÀ-ú])/g, "$1 ").replace(/([A-Za-zÀ-ú])(?=\d)/g, "$1 ").replace(/(\d) de(?=[a-zç])/g, "$1 de ").replace(/(\d) a (?=\d)/g, "$1 a ").replace(/-feira/i, "-feira");
+}
+function limparTexto(txt){
+  const linhas = txt.split("\n").map(l => colapsarEspacado(l.replace(/\s+$/, "")));
+  const out = []; let pulando = null, puladas = 0;
+  for(const l of linhas){
+    const t = l.trim();
+    if(pulando){ puladas++; if(pulando.test(t) || puladas > 10) pulando = null; continue; }
+    const bloco = JUNK_BLOCO.find(([ini]) => ini.test(t)); if(bloco){ pulando = bloco[1]; puladas = 0; if(bloco[1].test(t)) pulando = null; continue; }
+    if(t && JUNK_LINHA.some(r => r.test(t))) continue;
+    out.push(t);
+  }
+  return out.join("\n").replace(/\n{3,}/g, "\n\n").trim();
+}
+function analisarCapa(capa){
+  const linhas = limparTexto(capa).split("\n").map(l=>l.trim()).filter(Boolean).filter(l => !/^Li[çc][ãa]o\s+\d/i.test(l) && !/^LEIA O TEXTO/i.test(l));
+  const ehData = l => /^\d{1,2}\s+(a|de)\b/i.test(l) || /^a\s+\d/i.test(l) || (MESES_RE.test(l) && l.length < 40);
+  const datas = linhas.filter(ehData).join(" ").replace(/\s+/g, " ").trim();
+  const titulo = linhas.filter(l => !ehData(l) && l.length <= 40 && !/\//.test(l)).slice(0, 4).join(" ").replace(/\s+/g, " ").trim();
+  return { titulo, datas };
+}
+/* Divide o texto de uma lição nos 7 dias. Usa os marcadores de página ("com TEXTO" = domingo … "com SENSO" = sexta) e, como reserva, os títulos com o nome do dia. */
+const DIAS_RE = (()=>{
+  const esp = w => w.split("").map(ch => ch==="a" ? "[aá]" : ch==="c" ? "[cç]" : ch).join("[ \\t]?");
+  return new RegExp("(?:^|\\n)[ \\t]*(" + ["sabado","domingo","segunda","terca","quarta","quinta","sexta"].map(esp).join("|") + ")(?:[ \\t]?-[ \\t]?f[ \\t]?e[ \\t]?i[ \\t]?r[ \\t]?a)?[ \\t]*,?[ \\t]*[0-9]{1,2}[^\\n]{0,40}\\n", "gi");
+})();
+const MARCA_RE = /(?:^|\n)[ \t]*(?:com[ \t]?(TEXTO|PREENDA|ENTE|PARE|PARTILHE|SENSO)|(TEXTO|PREENDA|ENTE|PARE|PARTILHE|SENSO)\2?[ \t]?com\b)/g;
 function dividirDias(texto){
-  const ordem = ["sab","dom","seg","ter","qua","qui","sex"];
-  const key = s => s.normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase().slice(0,3);
-  const marcas = []; let m, esperado = 0;
-  while((m = DIAS_RE.exec(texto))){ const k = ordem.indexOf(key(m[1])); if(k === esperado){ marcas.push({k, i:m.index}); esperado++; if(esperado > 6) break; } }
+  const ordem = ["sab","dom","seg","ter","qua","qui","sex"], marcaDia = { TEXTO:1, PREENDA:2, ENTE:3, PARE:4, PARTILHE:5, SENSO:6 };
+  const key = s => s.replace(/[ \t]/g,"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().slice(0,3);
+  const primeira = {}; let m;
+  MARCA_RE.lastIndex = 0;
+  while((m = MARCA_RE.exec(texto))){ const k = marcaDia[m[1] || m[2]]; if(k && primeira[k] === undefined) primeira[k] = m.index; }
+  let marcas = Object.keys(primeira).map(k => ({ k:+k, i:primeira[k] })).sort((a,b)=>a.i-b.i);
+  if(marcas.length < 3){
+    marcas = []; let ultimoK = -1; DIAS_RE.lastIndex = 0;
+    while((m = DIAS_RE.exec(texto))){ const k = ordem.indexOf(key(m[1])); if(k > ultimoK){ marcas.push({k, i:m.index}); ultimoK = k; if(k >= 6) break; } }
+  }
+  // mantém só marcas em ordem crescente de dia
+  marcas = marcas.filter((mk, j) => j === 0 || mk.k > marcas[j-1].k);
   const textos = ["","","","","","",""];
-  if(marcas.length >= 4){
-    textos[0] = texto.slice(0, marcas[0].i).trim();
-    marcas.forEach((mk, j)=>{ textos[mk.k] = texto.slice(mk.i, j+1 < marcas.length ? marcas[j+1].i : undefined).trim(); });
-  } else textos[0] = texto.trim();
-  return textos;
+  if(marcas.length >= 3){
+    textos[0] = texto.slice(0, marcas[0].i);
+    marcas.forEach((mk, j)=>{ textos[mk.k] = texto.slice(mk.i, j+1 < marcas.length ? marcas[j+1].i : undefined); });
+  } else textos[0] = texto;
+  // limpeza e cabeçalho (nome do dia + título da seção) no topo
+  return textos.map((t, k)=>{
+    let limpo = limparTexto(t);
+    if(k > 0){
+      const ls = limpo.split("\n"); const hi = ls.findIndex(l => DIAS_RE.test(l + "\n") || new RegExp("^" + ["s[áa]bado","domingo","segunda","ter[çc]a","quarta","quinta","sexta"][k] + "\\b", "i").test(l));
+      DIAS_RE.lastIndex = 0;
+      if(hi > 0){ const cab = [ls[hi]]; let j = hi + 1; while(j < ls.length && !ls[j].trim()) j++; if(j < ls.length && ls[j] === ls[j].toUpperCase() && ls[j].length < 70){ cab.push(ls[j]); ls.splice(j, 1); } ls.splice(hi, 1); limpo = cab.join("\n") + "\n\n" + ls.join("\n").trim(); }
+    }
+    return limpo.replace(/\n{3,}/g, "\n\n").trim();
+  });
 }
 function normalizarPerguntas(dias){
   return Array.from({length:7}, (_,k)=> ((dias && dias[k]) || []).map(q=>{
@@ -1737,14 +1797,15 @@ function admLicao(){
       <div class="field"><label for="iIni">Sábado da Lição 1</label><input type="date" id="iIni" value="${esc(ini)}"></div>
       <div class="field"><label for="iLic">Quantidade de lições</label><input type="number" id="iLic" min="1" max="14" value="13"></div>
     </div>
+    <div class="linha-sw"><div class="txt"><strong>Publicar ao importar</strong><span>Ligado: o texto já aparece em Estudar. Enquanto a planilha de perguntas não for importada, valem as perguntas que já vêm no site (se houver para esse trimestre)</span></div><button class="switch" role="switch" aria-checked="true" id="iPub"></button></div>
     <div class="linha-sw"><div class="txt"><strong>Substituir lições já cadastradas</strong><span>Desligado: pula as lições desse trimestre que já existem</span></div><button class="switch" role="switch" aria-checked="false" id="iSubst"></button></div>
     <p class="erro" id="iErro"></p>
     <div class="btn-row uma"><button class="btn btn-main" id="iGo">Importar lições</button></div>
     <div id="iProg" hidden><div class="prog"><i id="iBar"></i></div><div class="log" id="iLog"></div></div>
   </section>`;
-  $("iSubst").onclick = ()=> $("iSubst").setAttribute("aria-checked", String($("iSubst").getAttribute("aria-checked")!=="true"));
+  $("admC").querySelectorAll(".switch").forEach(sw=> sw.onclick = ()=> sw.setAttribute("aria-checked", String(sw.getAttribute("aria-checked")!=="true")));
   $("iGo").onclick = async ()=>{
-    const file = $("iPdf").files[0], tri = $("iTri").value.trim().toLowerCase(), ini = $("iIni").value, nLic = Math.max(1, +$("iLic").value||13), subst = $("iSubst").getAttribute("aria-checked")==="true", er = $("iErro");
+    const file = $("iPdf").files[0], tri = $("iTri").value.trim().toLowerCase(), ini = $("iIni").value, nLic = Math.max(1, +$("iLic").value||13), subst = $("iSubst").getAttribute("aria-checked")==="true", pub = $("iPub").getAttribute("aria-checked")==="true", er = $("iErro");
     if(!file){ er.textContent = "Escolha o arquivo PDF."; return; }
     if(!/^\d{4}-t[1-4]$/.test(tri)){ er.textContent = "Trimestre no formato ano-tN, ex.: 2027-t1."; return; }
     if(!ini){ er.textContent = "Informe a data do sábado em que começa a Lição 1."; return; }
@@ -1767,15 +1828,21 @@ function admLicao(){
         const pt = partes[k]; bar.style.width = Math.round(100*k/partes.length) + "%";
         const inicio = somarDias(ini, 7*(pt.n-1)), id = tri + "-l" + pt.n;
         const textos = dividirDias(pt.texto);
-        const t1 = pt.texto.split("\n").map(s=>s.trim()).filter(s=>s.length>3 && !/^li[çc][ãa]o\s+\d/i.test(s))[0];
         if(existentes[id] && !subst){ pulou++; log(`Lição ${pt.n}: já existe, mantida (ligue "Substituir" para sobrescrever o texto).`); continue; }
         const antiga = existentes[id] || {};
-        const doc = Object.assign({ id, trimestre:tri, n:pt.n, inicio, titulo:(t1 && t1.length < 60) ? t1 : "Lição " + pt.n, datas:"", temas:NOMES_DIAS.slice(), resumos:[], dias:[[],[],[],[],[],[],[]], qtd:[5,5,5,5,5,5,5], status:"rascunho", criadoEm:Date.now(), origem:"pdf" }, antiga, { textos, atualizadoEm:Date.now() });
+        const base = (tri === TRIMESTRE_BASE) ? LICOES_DADOS.find(L => L.n === pt.n) : null;
+        const capa = analisarCapa(textos[0] || "");
+        const info = base ? { titulo: base.titulo, datas: base.datas, temas: base.temas.slice() } : { titulo: capa.titulo || "Lição " + pt.n, datas: capa.datas || "", temas: NOMES_DIAS.slice() };
+        const doc = Object.assign({ id, trimestre:tri, n:pt.n, inicio, resumos:[], dias:[[],[],[],[],[],[],[]], qtd:[5,5,5,5,5,5,5], status:"rascunho", criadoEm:Date.now(), origem:"pdf" }, info, antiga, { textos, atualizadoEm:Date.now() });
+        if(!antiga.titulo || /^Li[çc][ãa]o \d+$/.test(antiga.titulo)) doc.titulo = info.titulo;
+        if(!antiga.datas) doc.datas = info.datas;
+        if(base && (!antiga.temas || antiga.temas.every((t,k)=> t === NOMES_DIAS[k]))) doc.temas = info.temas;
+        if(pub) doc.status = "publicada";
         await DB.salvarLicao(id, doc); ok++;
         log(`Lição ${pt.n} "${doc.titulo}": texto salvo (${textos.filter(Boolean).length} dias encontrados).`);
       }
       bar.style.width = "100%";
-      log(`✅ Pronto: ${ok} lição(ões) salva(s)${pulou ? `, ${pulou} mantida(s)` : ""}. Agora importe as perguntas em "Cadastrar perguntas".`);
+      log(`✅ Pronto: ${ok} lição(ões) salva(s)${pulou ? `, ${pulou} mantida(s)` : ""}${pub ? " e publicada(s): o texto já aparece em Estudar." : " como rascunho: para aparecerem em Estudar e no Quiz, publique em \"Cadastrar perguntas\"."} Agora importe as perguntas pela planilha em "Cadastrar perguntas".`);
       await recarregarLicoes();
       aviso("Importação concluída");
     }catch(e){ log("❌ " + (e.message || e)); er.textContent = e.message || String(e); }
