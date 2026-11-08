@@ -409,7 +409,7 @@ ol.passos li{margin-bottom:8px}
 <nav class="bottomnav" id="nav" hidden aria-label="Menu principal">
   <button type="button" data-tab="estudar"><span class="ic">📖</span>Estudar</button>
   <button type="button" data-tab="quiz"><span class="ic">🎯</span>Quiz</button>
-  <button type="button" data-tab="ranking"><span class="ic">🏆</span>Ranking</button>
+  <button type="button" data-tab="ranking"><span class="ic">🏆</span>Corrida</button>
   <button type="button" data-tab="conta"><span class="ic">👤</span>Minha conta</button>
   <button type="button" data-tab="admin" class="admin" id="navAdmin" hidden><span class="ic">🛠️</span>Admin</button>
 </nav>
@@ -1475,22 +1475,34 @@ function corridaCfg(){
   const pista = lics.filter(l => l.n >= inicio);
   return { tri, lics, pista, inicio, meta: +c.meta || Math.max(1, pista.length * 7 * 2), premio: c.premio || "um prêmio especial para a classe", atual };
 }
+let corridaModo = "licao", corridaLicao = null, corridaDados = null;
 async function telaRanking(){
   const cfg = corridaCfg();
+  if(!corridaLicao || !cfg.lics.find(l=>l.id===corridaLicao)) corridaLicao = cfg.atual ? cfg.atual.id : (cfg.lics[0] && cfg.lics[0].id);
+  const porLicao = corridaModo === "licao", licSel = cfg.lics.find(l=>l.id===corridaLicao) || cfg.atual;
   app.innerHTML = `<div class="result-area">
-    <header class="hero" style="padding-bottom:14px"><div class="tag"><span class="box">Corrida da classe</span><span class="date">${cfg.pista.length ? `Lições ${cfg.pista[0].n} a ${cfg.pista[cfg.pista.length-1].n}` : esc(cfg.tri)}</span></div>
+    <header class="hero" style="padding-bottom:14px"><div class="tag"><span class="box">Corrida da classe</span><span class="date">${porLicao && licSel ? `Lição ${licSel.n}` : (cfg.pista.length ? `Lições ${cfg.pista[0].n} a ${cfg.pista[cfg.pista.length-1].n}` : esc(cfg.tri))}</span></div>
       <h1 class="rolo-h">Corrida do<span class="hl">Rolo</span></h1>
       <p>Cada dia de estudo no prazo é um passo no rolo. Feito com atraso, vale meio passo. Ninguém volta para trás.</p></header>
+    <section class="panel" style="padding:12px 14px">
+      <div class="tabs" role="tablist" style="margin-bottom:${porLicao?"10px":"0"}"><button role="tab" aria-selected="${porLicao}" data-m="licao">Por lição (dias)</button><button role="tab" aria-selected="${!porLicao}" data-m="tri">Trimestre (lições)</button></div>
+      ${porLicao ? `<div class="field" style="margin:0"><select id="crLic" aria-label="Lição">${cfg.lics.map(l=>`<option value="${l.id}" ${l.id===corridaLicao?"selected":""}>${esc(l.numero)}: ${esc(l.titulo)}${l===cfg.atual?" (esta semana)":""}</option>`).join("")}</select></div>` : ""}
+    </section>
     <div id="rkCorpo"><section class="panel"><p class="vazio">Carregando a pista…</p></section></div></div>`;
+  app.querySelectorAll("[data-m]").forEach(b=> b.onclick = ()=>{ corridaModo = b.dataset.m; telaRanking(); });
+  const sel = $("crLic"); if(sel) sel.onchange = ()=>{ corridaLicao = sel.value; telaRanking(); };
   try{
-    const [res, usuarios] = await Promise.all([DB.todosResultados(), DB.listarUsuarios()]);
+    if(!corridaDados || Date.now() - corridaDados.em > 60000){ const [res, usuarios] = await Promise.all([DB.todosResultados(), DB.listarUsuarios()]); corridaDados = { res, usuarios, em: Date.now() }; }
     if(!$("rkCorpo")) return;
-    renderCorrida(cfg, res, usuarios);
+    renderCorrida(cfg, corridaDados.res, corridaDados.usuarios, porLicao ? licSel : null);
   }catch(e){ const el = $("rkCorpo"); if(el) el.innerHTML = `<section class="panel"><p class="erro">${esc(erroMsg(e))}</p></section>`; }
 }
-function renderCorrida(cfg, res, usuarios){
+function renderCorrida(cfg, res, usuarios, licSel){
   const uMap = {}; usuarios.forEach(u=> uMap[u.id] = u);
-  const idsPista = new Set(cfg.pista.map(l=>l.id)), TOTAL = Math.max(1, cfg.pista.length * 7);
+  // Por lição: cada coluna é um dia (7). Trimestre: cada coluna é uma lição/semana.
+  const idsPista = new Set(licSel ? [licSel.id] : cfg.pista.map(l=>l.id));
+  const colunas = licSel ? licSel.dias.map(d=> ({ rotulo: d.curto, titulo: d.nome + " " + dataCurta(d.data) })) : cfg.pista.map(l=> ({ rotulo: "L" + l.n, titulo: l.titulo }));
+  const TOTAL = Math.max(1, colunas.length * (licSel ? 1 : 7));
   const jov = {};
   res.filter(r => idsPista.has(r.licaoId)).forEach(r=>{
     const u = uMap[r.uid]; if(u && !u.aprovado && !u.admin) return;
@@ -1499,22 +1511,31 @@ function renderCorrida(cfg, res, usuarios){
   });
   const ids = Object.keys(jov).sort((a,b)=> jov[b].passos - jov[a].passos || jov[b].pts - jov[a].pts || jov[a].nome.localeCompare(jov[b].nome,"pt-BR"));
   const fmt1 = n => (Math.round(n*10)/10).toLocaleString("pt-BR");
-  const tot = ids.reduce((s,id)=> s + jov[id].passos, 0), meta = Math.max(1, cfg.meta), pct = Math.min(100, tot/meta*100);
-  let h = `<section class="panel"><div class="inline" style="justify-content:space-between"><h2 class="h3" style="font-size:32px">Meta da classe</h2>${ehAdmin() ? `<button class="btn btn-ghost btn-sm" id="rkCfg">⚙️ Configurar</button>` : ""}</div>
+  const tot = ids.reduce((s,id)=> s + jov[id].passos, 0);
+  let h = "";
+  if(!licSel){
+    const meta = Math.max(1, cfg.meta), pct = Math.min(100, tot/meta*100);
+    h += `<section class="panel"><div class="inline" style="justify-content:space-between"><h2 class="h3" style="font-size:32px">Meta da classe</h2>${ehAdmin() ? `<button class="btn btn-ghost btn-sm" id="rkCfg">⚙️ Configurar</button>` : ""}</div>
     <div class="meta-num">${fmt1(tot)} <small>de ${fmt1(meta)} passos</small></div>
     <div class="barra" role="progressbar" aria-valuemin="0" aria-valuemax="${meta}" aria-valuenow="${tot}"><i style="width:${pct}%"></i></div>
     <p class="muted" style="margin:0">${tot >= meta ? "Meta alcançada! A classe ganhou " + esc(cfg.premio) + "." : "Faltam " + fmt1(meta - tot) + " passos para a classe ganhar " + esc(cfg.premio) + "."}</p></section>`;
+  } else {
+    const feitos = ids.length ? ids.reduce((s,id)=> s + jov[id].regs.length, 0) : 0;
+    h += `<section class="panel"><h2 class="h3" style="font-size:32px">${esc(licSel.numero)}: ${esc(licSel.titulo)}</h2>
+    <div class="meta-num">${fmt1(tot)} <small>${tot===1?"passo":"passos"} da classe</small></div>
+    <p class="muted" style="margin:0">${ids.length} ${ids.length===1?"jovem":"jovens"} na pista · ${feitos} ${feitos===1?"dia feito":"dias feitos"} · cada coluna é um dia da semana (Sáb a Sex).</p></section>`;
+  }
   h += `<section class="panel"><h2 class="h3" style="font-size:32px">A pista</h2>`;
-  if(!ids.length) h += `<p class="vazio">A corrida começa quando chegarem os primeiros resultados do quiz.</p>`;
+  if(!ids.length) h += `<p class="vazio">${licSel ? "Ninguém fez o quiz desta lição ainda." : "A corrida começa quando chegarem os primeiros resultados do quiz."}</p>`;
   else {
-    h += `<div class="escala" style="grid-template-columns:repeat(${cfg.pista.length},1fr)">${cfg.pista.map(l=>`<span title="${esc(l.titulo)}">L${l.n}</span>`).join("")}</div><ol class="lanes">`;
+    h += `<div class="escala" style="grid-template-columns:repeat(${colunas.length},1fr)">${colunas.map(c=>`<span title="${esc(c.titulo)}">${esc(c.rotulo)}</span>`).join("")}</div><ol class="lanes">`;
     ids.forEach((id,k)=>{ const j = jov[id];
       h += `<li class="lane ${id===usuario.uid?"eu":""}"><div class="lane-top"><strong>${k<3 && j.passos>0 ? `<span class="pos">${k+1}º</span>` : ""}${esc(j.emoji)} ${esc(j.nome)}${id===usuario.uid?" (você)":""}</strong><span>${fmt1(j.passos)} ${j.passos===1?"passo":"passos"} · ${fmt(j.pts)} pts</span></div>
-        <div class="track" style="--seg:${cfg.pista.length}"><span class="flag" aria-hidden="true">🏁</span><div class="runner" style="--p:${Math.min(1, j.passos/TOTAL)}">${avatarSVG(j.profeta || PROFETAS[0].id, j.nome)}</div></div></li>`; });
+        <div class="track" style="--seg:${colunas.length}"><span class="flag" aria-hidden="true">🏁</span><div class="runner" style="--p:${Math.min(1, j.passos/TOTAL)}">${avatarSVG(j.profeta || PROFETAS[0].id, j.nome)}</div></div></li>`; });
     h += `</ol>`;
   }
   h += `</section>`;
-  const lic = cfg.atual;
+  const lic = licSel || cfg.atual;
   if(ids.length && lic){
     const daSemana = ids.map(id => ({ id, regs: jov[id].regs.filter(r=>r.licaoId===lic.id) }));
     const completos = daSemana.filter(x => x.regs.filter(r=>r.noPrazo).length >= 7);
