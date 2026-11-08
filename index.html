@@ -184,11 +184,13 @@ body.sem-menu{padding-bottom:0}
 .topbar .brand{font-family:"Bebas Neue","Arial Narrow",sans-serif;font-size:24px;letter-spacing:1px;line-height:1}
 .topbar .brand small{display:block;font-family:"Barlow",sans-serif;font-size:11px;letter-spacing:.5px;color:var(--muted);text-transform:uppercase;font-weight:700}
 .chip{display:inline-flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--panel-line);border-radius:999px;padding:6px 12px 6px 8px;font-weight:700;font-size:14px;color:#fff;max-width:55vw}
-.chip .em{font-size:20px;line-height:1}
+.chip .em{font-size:20px;line-height:1;display:flex}
+.chip .em .avatar{width:22px;height:28px}
 .chip span.n{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .bottomnav{position:fixed;left:0;right:0;bottom:0;z-index:30;display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:2px;padding:6px 8px calc(8px + env(safe-area-inset-bottom,0px));background:rgba(20,18,60,.55);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid var(--panel-line)}
 .bottomnav button{background:transparent;border:0;border-radius:12px;color:var(--soft);display:grid;justify-items:center;gap:2px;padding:6px 2px;font-size:11px;font-weight:700;letter-spacing:.2px}
-.bottomnav button .ic{font-size:22px;line-height:1}
+.bottomnav button .ic{font-size:22px;line-height:1;display:flex;align-items:center;justify-content:center;height:24px}
+.bottomnav button .ic .avatar{width:20px;height:26px;margin-top:-2px}
 .bottomnav button[aria-current="page"]{color:#fff;background:rgba(255,255,255,.14)}
 .bottomnav button.admin .ic{filter:drop-shadow(0 0 6px rgba(242,190,46,.7))}
 .h2{font-size:38px;margin:4px 0 14px}
@@ -246,7 +248,8 @@ input[type=file]{width:100%;color:var(--muted);font-size:15px}
 .lista{list-style:none;margin:0;padding:0}
 .lista li{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid var(--panel-line)}
 .lista li:first-child{border-top:0;padding-top:4px}
-.lista .em{font-size:28px;line-height:1;width:40px;text-align:center;flex:none}
+.lista .em{font-size:28px;line-height:1;width:40px;text-align:center;flex:none;display:flex;justify-content:center}
+.lista .em .avatar{width:36px;height:46px}
 .lista .info{flex:1;min-width:0}
 .lista .info strong{display:block;font-size:16px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .lista .info span{display:block;color:var(--muted);font-size:13px;line-height:1.35}
@@ -365,7 +368,8 @@ ol.passos li{margin-bottom:8px}
   .bottomnav{position:fixed;top:0;bottom:auto;left:50%;right:auto;transform:translateX(-50%);height:62px;background:transparent;border:0;padding:0;display:flex;gap:4px;align-items:center;backdrop-filter:none;-webkit-backdrop-filter:none}
   .bottomnav button{display:flex;flex-direction:row;align-items:center;gap:8px;padding:9px 16px;font-size:15px;border-radius:999px;color:var(--muted);white-space:nowrap}
   .bottomnav button:hover{background:rgba(255,255,255,.1);color:#fff}
-  .bottomnav button .ic{font-size:18px}
+  .bottomnav button .ic{font-size:18px;height:20px}
+  .bottomnav button .ic .avatar{width:18px;height:23px}
   .wrap{max-width:1040px;padding:28px 28px 60px}
   body.sem-menu .wrap{max-width:560px;padding-top:40px}
   .home{display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:start}
@@ -403,13 +407,13 @@ ol.passos li{margin-bottom:8px}
 <body class="sem-menu">
 <header class="topbar" id="topbar" hidden>
   <div class="brand">Quiz da Lição<small>Corrida do Rolo</small></div>
-  <button class="chip" id="chipConta" type="button"><span class="em" id="chipEm">🙂</span><span class="n" id="chipNome"></span></button>
+  <button class="chip" id="chipConta" type="button"><span class="em" id="chipEm"></span><span class="n" id="chipNome"></span></button>
 </header>
 <div class="wrap" id="app" aria-live="polite"></div>
 <nav class="bottomnav" id="nav" hidden aria-label="Menu principal">
   <button type="button" data-tab="estudar"><span class="ic">📖</span>Estudar</button>
   <button type="button" data-tab="quiz"><span class="ic">🎯</span>Quiz</button>
-  <button type="button" data-tab="ranking"><span class="ic">🏆</span>Corrida</button>
+  <button type="button" data-tab="ranking"><span class="ic" id="navProfeta">🏆</span>Corrida</button>
   <button type="button" data-tab="conta"><span class="ic">👤</span>Minha conta</button>
   <button type="button" data-tab="admin" class="admin" id="navAdmin" hidden><span class="ic">🛠️</span>Admin</button>
 </nav>
@@ -988,7 +992,7 @@ function atualizarCasca(){
   const logado = !!(usuario && perfil && (perfil.aprovado || perfil.admin));
   $("topbar").hidden = !logado; $("nav").hidden = !logado;
   document.body.classList.toggle("sem-menu", !logado);
-  if(logado){ $("chipEm").textContent = perfil.emoji || "🙂"; $("chipNome").textContent = perfil.nome || ""; $("navAdmin").hidden = !ehAdmin(); }
+  if(logado){ $("chipEm").innerHTML = perfil.profeta ? avatarSVG(perfil.profeta) : ""; $("chipNome").textContent = perfil.nome || ""; $("navAdmin").hidden = !ehAdmin(); $("navProfeta").innerHTML = perfil.profeta ? avatarSVG(perfil.profeta) : "🏆"; }
   document.querySelectorAll("#nav button").forEach(b => { if(b.dataset.tab === tabAtual) b.setAttribute("aria-current","page"); else b.removeAttribute("aria-current"); });
 }
 function nav(tab){
@@ -1259,7 +1263,7 @@ function limparProgresso(L, data){
   DB.excluirProgresso(usuario.uid + "_" + L.id + "_" + data).catch(()=>{});
 }
 async function finalizarQuiz(){
-  const r = { uid: usuario.uid, nome: perfil.nome, emoji: perfil.emoji || "🙂", licaoId: jogo.L.id, trimestre: jogo.L.trimestre, data: jogo.dia.data,
+  const r = { uid: usuario.uid, nome: perfil.nome, profeta: perfil.profeta || "", licaoId: jogo.L.id, trimestre: jogo.L.trimestre, data: jogo.dia.data,
     pts: jogo.pts, acertos: jogo.acertos, total: jogo.total, noPrazo: jogo.prazo, quando: Date.now() };
   try{ await DB.salvarResultado(r); }catch(e){ aviso("Não deu para salvar no servidor: " + erroMsg(e)); }
   RES[r.licaoId + "|" + r.data] = r;
@@ -1390,13 +1394,13 @@ function telaResultado(i, novo){
   }
 }
 function msgDia(dia, r){
-  return "📖 Quiz da " + LICAO.numero + ": " + dia.nome + "\n" + "👤 " + (perfil.emoji||"") + " " + quem() + "\n" + "🎭 Profeta: " + nomeProfeta() + "\n" +
+  return "📖 Quiz da " + LICAO.numero + ": " + dia.nome + "\n" + "👤 " + quem() + "\n" + "🎭 Profeta: " + nomeProfeta() + "\n" +
     "✅ " + r.acertos + " de " + r.total + " certas" + (r.noPrazo ? "" : " (com atraso)") + "\n" + "⭐ " + fmt(r.pts) + " pontos\n" +
     "📅 Lição: " + fmt(totalSemana()) + " pontos, " + noPrazo() + " de " + LICAO.dias.length + " dias no prazo";
 }
 function msgSemana(){
   const linhas = LICAO.dias.map(d=>{ const r = resDe(LICAO, d); return (r ? (r.noPrazo ? "✅ " : "🟡 ") : "⬜ ") + d.nome + (r ? ": " + fmt(r.pts) : ""); });
-  return "🏁 Resumo da semana: " + LICAO.subtitulo + "\n" + "👤 " + (perfil.emoji||"") + " " + quem() + "\n" + "🎭 Profeta: " + nomeProfeta() + "\n\n" + linhas.join("\n") + "\n\n" +
+  return "🏁 Resumo da semana: " + LICAO.subtitulo + "\n" + "👤 " + quem() + "\n" + "🎭 Profeta: " + nomeProfeta() + "\n\n" + linhas.join("\n") + "\n\n" +
     "⭐ Total: " + fmt(totalSemana()) + " pontos\n" + "📅 " + noPrazo() + " de " + LICAO.dias.length + " dias no prazo";
 }
 async function copiar(txt){
@@ -1506,7 +1510,7 @@ function renderCorrida(cfg, res, usuarios, licSel){
   const jov = {};
   res.filter(r => idsPista.has(r.licaoId)).forEach(r=>{
     const u = uMap[r.uid]; if(u && !u.aprovado && !u.admin) return;
-    const j = jov[r.uid] || (jov[r.uid] = { uid:r.uid, nome:(u&&u.nome)||r.nome||"?", emoji:(u&&u.emoji)||r.emoji||"🙂", profeta:(u&&u.profeta)||"", passos:0, pts:0, regs:[] });
+    const j = jov[r.uid] || (jov[r.uid] = { uid:r.uid, nome:(u&&u.nome)||r.nome||"?", profeta:(u&&u.profeta)||r.profeta||"", passos:0, pts:0, regs:[] });
     j.passos += r.noPrazo ? 1 : .5; j.pts += r.pts||0; j.regs.push(r);
   });
   const ids = Object.keys(jov).sort((a,b)=> jov[b].passos - jov[a].passos || jov[b].pts - jov[a].pts || jov[a].nome.localeCompare(jov[b].nome,"pt-BR"));
@@ -1530,7 +1534,7 @@ function renderCorrida(cfg, res, usuarios, licSel){
   else {
     h += `<div class="escala" style="grid-template-columns:repeat(${colunas.length},1fr)">${colunas.map(c=>`<span title="${esc(c.titulo)}">${esc(c.rotulo)}</span>`).join("")}</div><ol class="lanes">`;
     ids.forEach((id,k)=>{ const j = jov[id];
-      h += `<li class="lane ${id===usuario.uid?"eu":""}"><div class="lane-top"><strong>${k<3 && j.passos>0 ? `<span class="pos">${k+1}º</span>` : ""}${esc(j.emoji)} ${esc(j.nome)}${id===usuario.uid?" (você)":""}</strong><span>${fmt1(j.passos)} ${j.passos===1?"passo":"passos"} · ${fmt(j.pts)} pts</span></div>
+      h += `<li class="lane ${id===usuario.uid?"eu":""}"><div class="lane-top"><strong>${k<3 && j.passos>0 ? `<span class="pos">${k+1}º</span>` : ""}${esc(j.nome)}${id===usuario.uid?" (você)":""}</strong><span>${fmt1(j.passos)} ${j.passos===1?"passo":"passos"} · ${fmt(j.pts)} pts</span></div>
         <div class="track" style="--seg:${colunas.length}"><span class="flag" aria-hidden="true">🏁</span><div class="runner" style="--p:${Math.min(1, j.passos/TOTAL)}">${avatarSVG(j.profeta || PROFETAS[0].id, j.nome)}</div></div></li>`; });
     h += `</ol>`;
   }
@@ -1573,13 +1577,12 @@ function modalCorrida(cfg){
 function telaConta(){
   const p = acharProfeta(perfil.profeta);
   app.innerHTML = `<div class="result-area"><section class="panel">
-    <div class="hello2">${avatarSVG(perfil.profeta)}<div class="hello-txt"><div class="hello-top"><h2><span style="font-family:system-ui">${esc(perfil.emoji||"🙂")}</span> ${esc(perfil.nome)}</h2></div><p class="muted small" style="margin:4px 0 0">${esc(perfil.email||"")}${p ? " · Profeta: " + esc(p.nome) : ""}${ehAdmin() ? ' · <span class="badge adm">admin</span>' : ""}</p></div></div>
+    <div class="hello2">${avatarSVG(perfil.profeta)}<div class="hello-txt"><div class="hello-top"><h2>${esc(perfil.nome)}</h2></div><p class="muted small" style="margin:4px 0 0">${esc(perfil.email||"")}${p ? " · Profeta: " + esc(p.nome) : ""}${ehAdmin() ? ' · <span class="badge adm">admin</span>' : ""}</p></div></div>
     <div class="menu-conta">
       <button id="mNome"><span class="ic">✏️</span>Alterar nome<span class="seta">›</span></button>
       <button id="mSenha"><span class="ic">🔑</span>Alterar senha<span class="seta">›</span></button>
-      <button id="mEmoji"><span class="ic">😀</span>Alterar emoji<span class="seta">›</span></button>
       <button id="mTema"><span class="ic">🌗</span>Alterar tema<span class="seta">›</span></button>
-      <button id="mProfeta"><span class="ic">🎭</span>Trocar profeta<span class="seta">›</span></button>
+      <button id="mProfeta"><span class="ic">🎭</span>Alterar profeta<span class="seta">›</span></button>
       <button id="mSair"><span class="ic">🚪</span>Sair da conta<span class="seta">›</span></button>
     </div></section></div>`;
   $("mNome").onclick = ()=> modal("Alterar nome", `<div class="field"><label for="nNome">Novo nome</label><input type="text" id="nNome" maxlength="30" value="${esc(perfil.nome)}"></div><p class="erro" id="nErro"></p><div class="btn-row"><button class="btn btn-main" id="nOk">Salvar</button></div>`, (m, fechar)=>{
@@ -1589,9 +1592,6 @@ function telaConta(){
     m.querySelector("#sOk").onclick = async ()=>{ const a = m.querySelector("#sAtual").value, n1 = m.querySelector("#sNova").value, n2 = m.querySelector("#sNova2").value, er = m.querySelector("#sErro");
       if(!a || !n1){ er.textContent = "Preencha os campos."; return; } if(n1 !== n2){ er.textContent = "As senhas novas não são iguais."; return; }
       ocupado(m.querySelector("#sOk"), true); try{ await DB.alterarSenha(a, n1); fechar(); aviso("Senha alterada"); }catch(e){ er.textContent = erroMsg(e); ocupado(m.querySelector("#sOk"), false); } };
-  });
-  $("mEmoji").onclick = ()=> modal("Alterar emoji", `<p class="muted small">Ele aparece ao lado do seu nome no ranking.</p><div class="emojis">${EMOJIS.map(e=>`<button type="button" data-e="${e}" aria-pressed="${e===perfil.emoji}">${e}</button>`).join("")}</div>`, (m, fechar)=>{
-    m.querySelectorAll("[data-e]").forEach(b=> b.onclick = async ()=>{ try{ await DB.salvarUsuario(usuario.uid, {emoji:b.dataset.e}); perfil.emoji = b.dataset.e; fechar(); atualizarCasca(); telaConta(); aviso("Emoji alterado"); }catch(e){ aviso(erroMsg(e)); } });
   });
   $("mTema").onclick = ()=> modal("Alterar tema", `<div class="opcoes">${[["auto","🌗","Automático (segue o celular)"],["claro","☀️","Claro"],["escuro","🌙","Escuro"]].map(([v,ic,t])=>`<button type="button" data-t="${v}" aria-pressed="${(perfil.tema||"auto")===v}"><span style="font-size:22px">${ic}</span>${t}</button>`).join("")}</div>`, (m, fechar)=>{
     m.querySelectorAll("[data-t]").forEach(b=> b.onclick = async ()=>{ aplicarTema(b.dataset.t); perfil.tema = b.dataset.t; m.querySelectorAll("[data-t]").forEach(x=> x.setAttribute("aria-pressed", String(x===b))); try{ await DB.salvarUsuario(usuario.uid, {tema:b.dataset.t}); }catch(e){} setTimeout(fechar, 250); });
@@ -1754,7 +1754,7 @@ function desenhar(x, foto, i, espelhar){
   x.font = "700 42px " + BR; x.fillStyle = "#fff";
   x.fillText(dia.nome, W/2, 1254);
   x.font = "italic 600 36px " + BR; x.fillStyle = "rgba(255,255,255,.88)";
-  x.fillText((perfil.emoji||"") + " " + quem(), W/2, 1306);
+  x.fillText(quem(), W/2, 1306);
 
   x.restore();
 }
@@ -1810,7 +1810,7 @@ function telaAdmin(){
 }
 function linhaUsuario(u, pendente){
   const eu = u.id === usuario.uid;
-  return `<li data-u="${esc(u.id)}"><div class="em">${esc(u.emoji||"🙂")}</div><div class="info"><strong>${esc(u.nome||"(sem nome)")}${eu?" (você)":""}</strong><span>${esc(u.email||"")}</span><span>${u.admin?'<span class="badge adm">admin</span>':""}${u.aprovado?'<span class="badge ok">aprovado</span>':'<span class="badge warn">pendente</span>'}${u.liberarAnterior?'<span class="badge">semanas anteriores</span>':""}</span></div>
+  return `<li data-u="${esc(u.id)}"><div class="em">${u.profeta ? avatarSVG(u.profeta) : "🙂"}</div><div class="info"><strong>${esc(u.nome||"(sem nome)")}${eu?" (você)":""}</strong><span>${esc(u.email||"")}</span><span>${u.admin?'<span class="badge adm">admin</span>':""}${u.aprovado?'<span class="badge ok">aprovado</span>':'<span class="badge warn">pendente</span>'}${u.liberarAnterior?'<span class="badge">semanas anteriores</span>':""}</span></div>
     ${pendente ? `<button class="btn btn-ok btn-sm" data-aprovar="${esc(u.id)}">Aprovar</button>` : `<button class="btn btn-ghost btn-sm" data-editar="${esc(u.id)}">⋯</button>`}</li>`;
 }
 async function admUsuarios(){
