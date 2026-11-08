@@ -188,7 +188,7 @@ body.sem-menu{padding-bottom:0}
 .chip .em .avatar{width:22px;height:28px}
 .chip span.n{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .bottomnav{position:fixed;left:0;right:0;bottom:0;z-index:30;display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:2px;padding:6px 8px calc(8px + env(safe-area-inset-bottom,0px));background:rgba(20,18,60,.55);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid var(--panel-line)}
-.bottomnav button{background:transparent;border:0;border-radius:12px;color:var(--soft);display:grid;justify-items:center;gap:2px;padding:6px 2px;font-size:11px;font-weight:700;letter-spacing:.2px}
+.bottomnav button{background:transparent;border:0;border-radius:12px;color:var(--soft);display:grid;justify-items:center;gap:2px;padding:6px 0;font-size:10.5px;font-weight:700;letter-spacing:0;white-space:nowrap;min-width:0}
 .bottomnav button .ic{font-size:22px;line-height:1;display:flex;align-items:center;justify-content:center;height:24px}
 .bottomnav button .ic .avatar{width:20px;height:26px;margin-top:-2px}
 .bottomnav button[aria-current="page"]{color:#fff;background:rgba(255,255,255,.14)}
@@ -282,6 +282,42 @@ input[type=file]{width:100%;color:var(--muted);font-size:15px}
 .tabs button[aria-selected="true"]{background:#fff;color:var(--deep);border-color:#fff}
 .estudo{white-space:pre-wrap;line-height:1.6;font-size:17px}
 .estudo p{margin:0 0 14px}
+/* Tela inicial */
+.inicio-hero{display:grid;grid-template-columns:72px 1fr;gap:14px;align-items:center}
+.inicio-hero .avatar{width:72px;height:92px}
+.inicio-hero h2{font-size:34px;line-height:1}
+.inicio-hero .saud{color:var(--muted);font-weight:700;font-size:14px;letter-spacing:.5px;text-transform:uppercase}
+.hoje-lbl{display:inline-block;font-family:"Bebas Neue","Arial Narrow",sans-serif;font-size:18px;letter-spacing:1px;color:var(--accent);margin-bottom:4px}
+.hoje h2{font-size:36px;margin-bottom:6px}
+.hoje .status{display:flex;align-items:center;gap:8px;font-weight:700;margin:0 0 12px}
+.hoje .status .pill{background:rgba(255,255,255,.16);border-radius:999px;padding:3px 10px;font-size:13px}
+.hoje .status .pill.ok{background:var(--d);color:#fff}
+.hoje .status .pill.late{background:var(--warn);color:#2A2000}
+.contagem{color:var(--muted);font-size:14px;margin:10px 0 0;font-weight:600}
+.dots7{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin:12px 0 8px}
+.dots7 div{text-align:center}
+.dots7 .d{width:100%;aspect-ratio:1;max-width:44px;margin:0 auto 4px;border-radius:50%;display:grid;place-items:center;font-family:"Bebas Neue","Arial Narrow",sans-serif;font-size:16px;background:rgba(255,255,255,.12);color:var(--soft);border:2px solid transparent}
+.dots7 .d.ok{background:var(--d);color:#fff}
+.dots7 .d.late{background:var(--warn);color:#2A2000}
+.dots7 .d.hoje{border-color:#fff;color:#fff}
+.dots7 small{display:block;font-size:10px;color:var(--soft);font-weight:700}
+.streak{display:flex;align-items:center;gap:10px;background:rgba(0,0,0,.14);border-radius:var(--radius);padding:10px 14px;margin-top:10px}
+.streak b{font-family:"Bebas Neue","Arial Narrow",sans-serif;font-weight:400;font-size:34px;line-height:1}
+.streak span{color:var(--muted);font-size:14px;font-weight:600}
+.posicao{display:flex;align-items:baseline;gap:8px;margin-bottom:8px}
+.posicao b{font-family:"Bebas Neue","Arial Narrow",sans-serif;font-weight:400;font-size:52px;line-height:1;color:var(--accent)}
+.posicao span{color:var(--muted);font-weight:600}
+.badges{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.badge-card{background:rgba(255,255,255,.1);border:1px solid var(--panel-line);border-radius:var(--radius);padding:10px 6px;text-align:center}
+.badge-card .ic{font-size:30px;line-height:1.2}
+.badge-card b{display:block;font-size:12px;line-height:1.2;margin-top:4px}
+.badge-card span{display:block;font-size:10px;color:var(--soft);line-height:1.2;margin-top:2px}
+.badge-card.off{opacity:.45;filter:grayscale(1)}
+.badge-card.on{background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.5);box-shadow:0 0 18px rgba(143,230,255,.25)}
+.atalhos{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.atalhos button{background:var(--panel);border:1px solid var(--panel-line);border-radius:var(--radius);padding:14px 10px;color:#fff;font-weight:800;font-size:15px;display:grid;justify-items:center;gap:4px}
+.atalhos button .ic{font-size:26px}
+@media (min-width:900px){ .inicio-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start} .inicio-grid .panel{margin:0} .badges{grid-template-columns:repeat(6,1fr)} }
 /* Abas dos dias (Estudar): sempre numa linha só */
 .tabs.dias{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;overflow:visible}
 .tabs.dias button{padding:6px 0;font-size:12px;line-height:1.15;white-space:normal;display:grid;justify-items:center;gap:1px;border-radius:12px}
@@ -411,6 +447,7 @@ ol.passos li{margin-bottom:8px}
 </header>
 <div class="wrap" id="app" aria-live="polite"></div>
 <nav class="bottomnav" id="nav" hidden aria-label="Menu principal">
+  <button type="button" data-tab="inicio"><span class="ic">🏠</span>Início</button>
   <button type="button" data-tab="estudar"><span class="ic">📖</span>Estudar</button>
   <button type="button" data-tab="quiz"><span class="ic">🎯</span>Quiz</button>
   <button type="button" data-tab="ranking"><span class="ic" id="navProfeta">🏆</span>Corrida</button>
@@ -854,7 +891,7 @@ let LICOES_DB = [];        // documentos de lições vindos do banco (todas, inc
 let RES = {};              // meus resultados: chave licaoId|data -> {pts, acertos, total, noPrazo}
 let PROG = {};             // quizzes em andamento: chave licaoId|data -> progresso salvo
 let LICAO = null;          // lição selecionada na tela do quiz
-let jogo = null, timer = null, tabAtual = "quiz";
+let jogo = null, timer = null, tabAtual = "inicio";
 const ehAdmin = ()=> !!(perfil && perfil.admin);
 const podeAnterior = ()=> !!(CONFIG.liberarAnterior || (perfil && perfil.liberarAnterior) || ehAdmin());
 
@@ -998,7 +1035,7 @@ function atualizarCasca(){
 function nav(tab){
   pararTimer(); if(typeof pararCamera === "function") pararCamera();
   tabAtual = tab; atualizarCasca(); window.scrollTo(0,0);
-  ({ estudar: telaEstudar, quiz: telaQuiz, ranking: telaRanking, conta: telaConta, admin: telaAdmin }[tab] || telaQuiz)();
+  ({ inicio: telaInicio, estudar: telaEstudar, quiz: telaQuiz, ranking: telaRanking, conta: telaConta, admin: telaAdmin }[tab] || telaInicio)();
 }
 document.querySelectorAll("#nav button").forEach(b => b.onclick = ()=> nav(b.dataset.tab));
 $("chipConta").onclick = ()=> nav("conta");
@@ -1031,7 +1068,7 @@ DB.onAuth(async u => {
     aplicarTema(perfil.tema || "auto");
     await carregarTudo();
     if(!perfil.profeta){ atualizarCasca(); telaProfeta(); return; }
-    nav("quiz");
+    nav("inicio");
   }catch(e){ console.error(e); app.innerHTML = `<section class="panel"><h2 class="h2">Ops</h2><p>${esc(erroMsg(e))}</p><div class="btn-row"><button class="btn btn-main" onclick="location.reload()">Tentar de novo</button><button class="btn btn-ghost" onclick="DB.sair()">Sair</button></div></section>`; }
 });
 
@@ -1105,8 +1142,97 @@ function telaProfeta(){
   const vb = $("pVoltar"); if(vb) vb.onclick = ()=> nav("conta");
   $("pOk").onclick = async ()=>{
     if(!escolhido){ aviso("Escolha seu profeta"); return; }
-    perfil.profeta = escolhido; await DB.salvarUsuario(usuario.uid, {profeta: escolhido}); nav(tinha ? "conta" : "quiz");
+    perfil.profeta = escolhido; await DB.salvarUsuario(usuario.uid, {profeta: escolhido}); nav(tinha ? "conta" : "inicio");
   };
+}
+
+/* ============================================================
+   TELA: INÍCIO
+   ============================================================ */
+let inicioTimer = null;
+function saudacao(){ const h = new Date().getHours(); return h < 5 ? "Boa madrugada" : h < 12 ? "Bom dia" : h < 18 ? "Boa tarde" : "Boa noite"; }
+function todosDias(){ const out = []; LICOES.forEach(L => L.dias.forEach(d => out.push({ L, d }))); return out.sort((a,b)=> a.d.data < b.d.data ? -1 : 1); }
+function sequencia(){
+  // dias consecutivos (no calendário) feitos no prazo, contando para trás a partir de hoje ou de ontem
+  const feitos = {}; todosDias().forEach(({L,d}) => { const r = resDe(L,d); if(r) feitos[d.data] = r; });
+  let dia = hoje(); if(!feitos[dia]) dia = somarDias(dia, -1);
+  let n = 0; while(feitos[dia] && feitos[dia].noPrazo){ n++; dia = somarDias(dia, -1); }
+  return n;
+}
+function conquistas(){
+  const rs = Object.values(RES), st = sequencia();
+  const semanaCompleta = LICOES.some(L => L.dias.every(d => resDe(L,d) && resDe(L,d).noPrazo));
+  return [
+    { ic:"👣", t:"Primeiro passo", d:"Fez o primeiro quiz", on: rs.length > 0 },
+    { ic:"🎯", t:"Gabaritou", d:"Acertou todas num dia", on: rs.some(r => r.total > 0 && r.acertos === r.total) },
+    { ic:"⚡", t:"Relâmpago", d:"4.500+ pontos num dia", on: rs.some(r => r.pts >= 4500) },
+    { ic:"🔥", t:"Em chamas", d:"5 dias seguidos no prazo", on: st >= 5 },
+    { ic:"📅", t:"Semana completa", d:"7 de 7 no prazo", on: semanaCompleta },
+    { ic:"🌅", t:"Madrugador", d:"Quiz antes das 8h", on: rs.some(r => r.quando && new Date(r.quando).getHours() < 8) },
+    { ic:"🏁", t:"Maratonista", d:"21 dias de estudo", on: rs.length >= 21 },
+    { ic:"🕊️", t:"Fiel na reta", d:"3 semanas completas", on: LICOES.filter(L => L.dias.every(d => resDe(L,d) && resDe(L,d).noPrazo)).length >= 3 },
+    { ic:"📖", t:"Rolo inteiro", d:"Todos os dias do trimestre", on: LICOES.length > 0 && LICOES.every(L => L.dias.every(d => resDe(L,d))) }
+  ];
+}
+function telaInicio(){
+  clearInterval(inicioTimer);
+  const h = hoje(), L = LICOES[indiceLicaoAtual()], hojeIdx = L ? L.dias.findIndex(d => d.data === h) : -1, dHoje = hojeIdx >= 0 ? L.dias[hojeIdx] : null;
+  const fala = falaDoDia();
+  let html = `<div class="inicio-grid"><div>`;
+  html += `<section class="panel"><div class="inicio-hero">${avatarSVG(perfil.profeta)}<div><div class="saud">${saudacao()}</div><h2>${esc(perfil.nome)}!</h2>${fala ? `<div class="balao mini"><p>${esc(fala)}</p></div>` : ""}</div></div></section>`;
+  // HOJE
+  html += `<section class="panel hoje">`;
+  if(dHoje){
+    const r = resDe(L, dHoje), prog = PROG[L.id + "|" + dHoje.data];
+    html += `<span class="hoje-lbl">Hoje · ${esc(dHoje.nome)}, ${esc(dataLonga(dHoje.data))}</span><h2>${esc(dHoje.tema)}</h2><p class="muted small" style="margin:0 0 10px">${esc(L.numero)}: ${esc(L.titulo)}</p>`;
+    if(r) html += `<p class="status"><span class="pill ok">✓ Quiz de hoje feito</span><span>${fmt(r.pts)} pontos · ${r.acertos} de ${r.total} certas</span></p><div class="btn-row"><button class="btn btn-ghost" id="inVer">Ver resultado</button><button class="btn btn-ghost" id="inEstudar">Reler a lição</button></div>`;
+    else if(prog) html += `<p class="status"><span class="pill late">Em andamento</span><span>pergunta ${Math.min(prog.q+1, prog.n)} de ${prog.n}</span></p><div class="btn-row"><button class="btn btn-main" id="inJogar">Continuar o quiz</button><button class="btn btn-ghost" id="inEstudar">Estudar</button></div>`;
+    else if(!dHoje.perguntas.length) html += `<p class="status"><span class="pill">Sem quiz hoje</span></p><div class="btn-row uma"><button class="btn btn-main" id="inEstudar">Estudar a lição de hoje</button></div>`;
+    else html += `<p class="status"><span class="pill">Quiz de hoje ainda não feito</span></p><div class="btn-row"><button class="btn btn-main" id="inEstudar">1. Estudar</button><button class="btn btn-ghost" id="inJogar">2. Fazer o quiz</button></div><p class="contagem" id="inContagem"></p>`;
+  } else if(L && licaoFutura(L)) html += `<span class="hoje-lbl">Próxima lição</span><h2>${esc(L.titulo)}</h2><p class="muted" style="margin:0">Começa no sábado, ${esc(dataLonga(L.dias[0].data))}. Enquanto isso, dá para reler as lições anteriores em Estudar.</p>`;
+  else html += `<span class="hoje-lbl">Fim do trimestre</span><h2>Parabéns por chegar até aqui!</h2><p class="muted" style="margin:0">Confira sua corrida e aguarde a próxima lição.</p>`;
+  html += `</section>`;
+  // SEMANA
+  if(L){
+    const dots = L.dias.map(d => { const r = resDe(L,d); const cls = r ? (r.noPrazo ? "ok" : "late") : ""; return `<div><div class="d ${cls} ${d.data===h?"hoje":""}">${r ? "✓" : d.curto.slice(0,1)}</div><small>${d.curto}</small></div>`; }).join("");
+    const st = sequencia();
+    html += `<section class="panel"><span class="hoje-lbl">Sua semana</span><h2 class="h3" style="margin:0">${esc(L.numero)}: ${esc(L.titulo)}</h2><div class="dots7">${dots}</div>
+      <p class="muted small" style="margin:0">${noPrazo(L)} de 7 dias no prazo · ${fmt(totalSemana(L))} pontos na lição</p>
+      <div class="streak"><span style="font-size:28px">${st >= 5 ? "🔥" : st > 0 ? "✨" : "💤"}</span><div><b>${st} ${st===1?"dia":"dias"}</b><br><span>${st > 0 ? "seguidos no prazo. Não deixe a chama apagar!" : "de sequência. Faça o quiz de hoje para começar!"}</span></div></div></section>`;
+  }
+  html += `</div><div>`;
+  // CORRIDA (posição na lição atual)
+  html += `<section class="panel" id="inCorrida"><span class="hoje-lbl">Corrida do Rolo</span><p class="vazio" style="padding:6px 0">Calculando sua posição…</p></section>`;
+  // CONQUISTAS
+  const cq = conquistas(), ganhas = cq.filter(c=>c.on).length;
+  html += `<section class="panel"><span class="hoje-lbl">Conquistas · ${ganhas} de ${cq.length}</span><div class="badges">${cq.map(c=>`<div class="badge-card ${c.on?"on":"off"}" title="${esc(c.d)}"><div class="ic">${c.ic}</div><b>${esc(c.t)}</b><span>${esc(c.d)}</span></div>`).join("")}</div></section>`;
+  html += `<div class="atalhos"><button data-go="estudar"><span class="ic">📖</span>Estudar</button><button data-go="quiz"><span class="ic">🎯</span>Quiz da semana</button><button data-go="ranking"><span class="ic">🏁</span>Corrida</button><button data-go="conta"><span class="ic">👤</span>Minha conta</button></div>`;
+  html += `</div></div>`;
+  app.innerHTML = html;
+  app.querySelectorAll("[data-go]").forEach(b => b.onclick = ()=> nav(b.dataset.go));
+  const est = $("inEstudar"); if(est) est.onclick = ()=>{ estudoLicao = L; estudoDia = hojeIdx >= 0 ? hojeIdx : -1; nav("estudar"); };
+  const jog = $("inJogar"); if(jog) jog.onclick = ()=>{ LICAO = L; tabAtual = "quiz"; atualizarCasca(); iniciar(hojeIdx); };
+  const ver = $("inVer"); if(ver) ver.onclick = ()=>{ LICAO = L; tabAtual = "quiz"; atualizarCasca(); telaResultado(hojeIdx); };
+  const ct = $("inContagem");
+  if(ct){ const tick = ()=>{ const el = $("inContagem"); if(!el){ clearInterval(inicioTimer); return; } const fim = new Date(); fim.setHours(24,0,0,0); const ms = fim - Date.now(), hh = Math.floor(ms/36e5), mm = Math.floor((ms%36e5)/6e4); el.textContent = `⏳ Faltam ${hh}h${String(mm).padStart(2,"0")} para o dia fechar. Depois disso o quiz vale metade.`; }; tick(); inicioTimer = setInterval(tick, 30000); }
+  if(L) posicaoCorrida(L);
+}
+async function posicaoCorrida(L){
+  const el = $("inCorrida"); if(!el) return;
+  try{
+    const res = await DB.resultadosLicao(L.id);
+    if(!$("inCorrida")) return;
+    const passos = {}; res.forEach(r => { passos[r.uid] = (passos[r.uid]||0) + (r.noPrazo ? 1 : .5); });
+    const ordem = Object.keys(passos).sort((a,b)=> passos[b]-passos[a]);
+    const meus = passos[usuario.uid] || 0, pos = meus ? ordem.indexOf(usuario.uid) + 1 : 0, lider = ordem[0] ? passos[ordem[0]] : 0;
+    const fmt1 = n => (Math.round(n*10)/10).toLocaleString("pt-BR");
+    el.innerHTML = `<span class="hoje-lbl">Corrida do Rolo · ${esc(L.numero)}</span>
+      <div class="posicao">${pos ? `<b>${pos}º</b><span>de ${ordem.length} na pista · ${fmt1(meus)} ${meus===1?"passo":"passos"}</span>` : `<b>—</b><span>${ordem.length ? ordem.length + " já estão correndo. Entre na pista!" : "A pista está vazia. Seja o primeiro!"}</span>`}</div>
+      <div class="track" style="--seg:7"><span class="flag" aria-hidden="true">🏁</span><div class="runner" style="--p:${Math.min(1, meus/7)}">${avatarSVG(perfil.profeta)}</div></div>
+      <p class="muted small" style="margin:10px 0 0">${pos === 1 && meus ? "Você está na frente! Mantenha o ritmo." : lider > meus ? `O líder tem ${fmt1(lider)} ${lider===1?"passo":"passos"}. Cada dia no prazo é um passo.` : "Cada dia no prazo é um passo. Com atraso, meio passo."}</p>
+      <div class="btn-row uma" style="margin-top:12px"><button class="btn btn-ghost" id="inRolo">Ver a corrida completa</button></div>`;
+    $("inRolo").onclick = ()=> nav("ranking");
+  }catch(e){ el.innerHTML = `<span class="hoje-lbl">Corrida do Rolo</span><p class="muted small" style="margin:0">${esc(erroMsg(e))}</p>`; }
 }
 
 /* ============================================================
