@@ -279,6 +279,38 @@ input[type=file]{width:100%;color:var(--muted);font-size:15px}
 .tabs button[aria-selected="true"]{background:#fff;color:var(--deep);border-color:#fff}
 .estudo{white-space:pre-wrap;line-height:1.6;font-size:17px}
 .estudo p{margin:0 0 14px}
+/* Abas dos dias (Estudar): sempre numa linha só */
+.tabs.dias{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;overflow:visible}
+.tabs.dias button{padding:6px 0;font-size:12px;line-height:1.15;white-space:normal;display:grid;justify-items:center;gap:1px;border-radius:12px}
+.tabs.dias button small{font-size:10px;font-weight:600;opacity:.85}
+/* Corrida do Rolo (Ranking) */
+.rolo-h{font-size:clamp(48px,13.5vw,84px);text-transform:uppercase;line-height:.86;margin:0 0 6px}
+.rolo-h .hl{display:block;color:var(--accent)}
+.meta-num{font-family:"Bebas Neue","Arial Narrow",sans-serif;font-size:56px;line-height:1}
+.meta-num small{font-size:28px;color:var(--muted)}
+.barra{height:16px;border-radius:99px;background:rgba(0,0,0,.18);overflow:hidden;margin:10px 0 8px}
+.barra i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--ok));border-radius:99px;transition:width .8s}
+.escala{display:grid;margin:0 0 6px 0;font-family:"Bebas Neue","Arial Narrow",sans-serif;font-size:15px;letter-spacing:.5px;color:var(--soft)}
+.escala span{border-left:1px solid var(--panel-line);padding-left:4px;white-space:nowrap;overflow:hidden}
+.lanes{list-style:none;margin:0;padding:0}
+.lane{padding:10px 0 12px;border-top:1px solid var(--panel-line)}
+.lane:first-child{border-top:0}
+.lane.eu{background:rgba(255,255,255,.07);border-radius:12px;padding-left:8px;padding-right:8px}
+.lane-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:6px}
+.lane-top strong{font-size:16px}
+.lane-top strong .pos{font-family:"Bebas Neue","Arial Narrow",sans-serif;font-size:20px;color:var(--accent);margin-right:6px;font-weight:400;width:auto;height:auto;display:inline;background:none}
+.lane-top span{color:var(--muted);font-size:14px;font-weight:600;white-space:nowrap}
+.track{position:relative;height:52px;border-radius:12px;background:rgba(0,0,0,.14);background-image:repeating-linear-gradient(90deg,transparent 0,transparent calc(100%/var(--seg) - 1px),rgba(255,255,255,.22) calc(100%/var(--seg) - 1px),rgba(255,255,255,.22) calc(100%/var(--seg)))}
+.runner{position:absolute;top:-6px;width:44px;height:56px;left:calc((100% - 44px) * var(--p));transition:left .8s cubic-bezier(.2,.8,.2,1)}
+.runner .avatar{width:44px;height:56px}
+.flag{position:absolute;right:6px;top:50%;transform:translateY(-50%);font-size:18px;opacity:.8}
+.dest{display:grid;gap:12px}
+.dest h3{font-size:24px;color:var(--accent);margin-bottom:6px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips .chip{padding:4px 12px 4px 4px;max-width:none}
+.chips .chip .avatar{width:26px;height:34px}
+.rodape{color:var(--soft);font-size:14px;text-align:center;margin-top:18px}
+@media (prefers-reduced-motion:reduce){.runner,.barra i{transition:none}}
 .paginas{display:grid;gap:12px;margin:0 0 16px}
 .paginas img{display:block;width:100%;height:auto;border-radius:10px;background:#fff;box-shadow:0 6px 20px rgba(20,18,60,.3);cursor:zoom-in}
 .paginas .vazio{margin:0}
@@ -1390,7 +1422,7 @@ function telaEstudar(){
   if(!texto && !resumo) corpo += `<p class="vazio" id="semTexto">O texto desta lição não foi importado. Leia o dia <b>${esc(d.nome)}</b> na sua lição impressa ou no app e depois faça o quiz.</p>`;
   const s = status(L, d);
   app.innerHTML = `<div class="estudo-area"><section class="panel"><h2 class="h2">Estudar</h2>${seletorLicao("estSel", L)}
-    <div class="tabs" role="tablist">${L.dias.map((x,k)=>`<button role="tab" aria-selected="${k===estudoDia}" data-k="${k}">${x.curto} ${dataCurta(x.data)}${resDe(L,x)?" ✓":""}</button>`).join("")}</div>
+    <div class="tabs dias" role="tablist">${L.dias.map((x,k)=>`<button role="tab" aria-selected="${k===estudoDia}" data-k="${k}"><span>${x.curto}${resDe(L,x)?" ✓":""}</span><small>${dataCurta(x.data)}</small></button>`).join("")}</div>
     <p class="muted small" style="margin:0 0 4px">${esc(d.nome)}, ${esc(dataLonga(d.data))}</p>
     <h3 class="h3" style="font-size:30px">${esc(d.tema)}</h3>
     ${corpo}
@@ -1433,30 +1465,85 @@ function abrirPagina(pags, i){
 /* ============================================================
    TELA: RANKING
    ============================================================ */
-let rankModo = null;
-async function telaRanking(){
-  if(!rankModo) rankModo = LICAO ? LICAO.id : "tri";
+/* Corrida do Rolo: cada dia feito no prazo = 1 passo; com atraso = meio passo. Config em CONFIG.corrida {meta, premio, inicio}. */
+function corridaCfg(){
+  const c = CONFIG.corrida || {};
   const tri = (LICAO && LICAO.trimestre) || TRIMESTRE_BASE;
-  const opcoes = LICOES.map(l=>`<option value="${l.id}" ${rankModo===l.id?"selected":""}>${esc(l.numero)}: ${esc(l.titulo)}</option>`).join("") + (ehAdmin() ? `<option value="tri" ${rankModo==="tri"?"selected":""}>Trimestre inteiro (${esc(tri)})</option>` : "");
-  app.innerHTML = `<div class="result-area"><section class="panel"><h2 class="h2">Ranking</h2>
-    <div class="field"><label for="rkSel">Mostrar</label><select id="rkSel">${opcoes}</select></div>
-    <div id="rkLista"><p class="vazio">Carregando…</p></div></section></div>`;
-  $("rkSel").onchange = ()=>{ rankModo = $("rkSel").value; telaRanking(); };
+  const lics = LICOES.filter(l=>l.trimestre===tri);
+  const atual = lics.find(l => l.id === (LICOES[indiceLicaoAtual()]||{}).id) || lics[0];
+  const inicio = +c.inicio || (atual ? atual.n : (lics[0] ? lics[0].n : 1));
+  const pista = lics.filter(l => l.n >= inicio);
+  return { tri, lics, pista, inicio, meta: +c.meta || Math.max(1, pista.length * 7 * 2), premio: c.premio || "um prêmio especial para a classe", atual };
+}
+async function telaRanking(){
+  const cfg = corridaCfg();
+  app.innerHTML = `<div class="result-area">
+    <header class="hero" style="padding-bottom:14px"><div class="tag"><span class="box">Corrida da classe</span><span class="date">${cfg.pista.length ? `Lições ${cfg.pista[0].n} a ${cfg.pista[cfg.pista.length-1].n}` : esc(cfg.tri)}</span></div>
+      <h1 class="rolo-h">Corrida do<span class="hl">Rolo</span></h1>
+      <p>Cada dia de estudo no prazo é um passo no rolo. Feito com atraso, vale meio passo. Ninguém volta para trás.</p></header>
+    <div id="rkCorpo"><section class="panel"><p class="vazio">Carregando a pista…</p></section></div></div>`;
   try{
-    const [res, usuarios] = await Promise.all([rankModo === "tri" ? DB.todosResultados() : DB.resultadosLicao(rankModo), DB.listarUsuarios()]);
-    const idsTri = new Set(LICOES.filter(l=>l.trimestre===tri).map(l=>l.id));
-    const uMap = {}; usuarios.forEach(u=> uMap[u.id] = u);
-    const agg = {};
-    res.filter(r => rankModo !== "tri" || idsTri.has(r.licaoId)).forEach(r=>{
-      const u = uMap[r.uid]; if(u && !u.aprovado && !u.admin) return;
-      const a = agg[r.uid] || (agg[r.uid] = { uid:r.uid, nome:(u&&u.nome)||r.nome||"?", emoji:(u&&u.emoji)||r.emoji||"🙂", pts:0, dias:0, prazo:0 });
-      a.pts += r.pts||0; a.dias++; if(r.noPrazo) a.prazo++;
-    });
-    const lista = Object.values(agg).sort((a,b)=> b.pts - a.pts || b.prazo - a.prazo || a.nome.localeCompare(b.nome,"pt-BR"));
-    const el = $("rkLista"); if(!el) return;
-    if(!lista.length){ el.innerHTML = `<p class="vazio">Ninguém pontuou ainda. Seja o primeiro!</p>`; return; }
-    el.innerHTML = `<ul class="lista">` + lista.map((a,i)=>`<li class="${a.uid===usuario.uid?"eu":""}"><div class="pos p${i+1}">${i<3 ? ["🥇","🥈","🥉"][i] : i+1}</div><div class="em">${esc(a.emoji)}</div><div class="info"><strong>${esc(a.nome)}${a.uid===usuario.uid?" (você)":""}</strong><span>${a.dias} ${a.dias===1?"dia":"dias"} · ${a.prazo} no prazo</span></div><div class="pts">${fmt(a.pts)}</div></li>`).join("") + `</ul>`;
-  }catch(e){ const el = $("rkLista"); if(el) el.innerHTML = `<p class="erro">${esc(erroMsg(e))}</p>`; }
+    const [res, usuarios] = await Promise.all([DB.todosResultados(), DB.listarUsuarios()]);
+    if(!$("rkCorpo")) return;
+    renderCorrida(cfg, res, usuarios);
+  }catch(e){ const el = $("rkCorpo"); if(el) el.innerHTML = `<section class="panel"><p class="erro">${esc(erroMsg(e))}</p></section>`; }
+}
+function renderCorrida(cfg, res, usuarios){
+  const uMap = {}; usuarios.forEach(u=> uMap[u.id] = u);
+  const idsPista = new Set(cfg.pista.map(l=>l.id)), TOTAL = Math.max(1, cfg.pista.length * 7);
+  const jov = {};
+  res.filter(r => idsPista.has(r.licaoId)).forEach(r=>{
+    const u = uMap[r.uid]; if(u && !u.aprovado && !u.admin) return;
+    const j = jov[r.uid] || (jov[r.uid] = { uid:r.uid, nome:(u&&u.nome)||r.nome||"?", emoji:(u&&u.emoji)||r.emoji||"🙂", profeta:(u&&u.profeta)||"", passos:0, pts:0, regs:[] });
+    j.passos += r.noPrazo ? 1 : .5; j.pts += r.pts||0; j.regs.push(r);
+  });
+  const ids = Object.keys(jov).sort((a,b)=> jov[b].passos - jov[a].passos || jov[b].pts - jov[a].pts || jov[a].nome.localeCompare(jov[b].nome,"pt-BR"));
+  const fmt1 = n => (Math.round(n*10)/10).toLocaleString("pt-BR");
+  const tot = ids.reduce((s,id)=> s + jov[id].passos, 0), meta = Math.max(1, cfg.meta), pct = Math.min(100, tot/meta*100);
+  let h = `<section class="panel"><div class="inline" style="justify-content:space-between"><h2 class="h3" style="font-size:32px">Meta da classe</h2>${ehAdmin() ? `<button class="btn btn-ghost btn-sm" id="rkCfg">⚙️ Configurar</button>` : ""}</div>
+    <div class="meta-num">${fmt1(tot)} <small>de ${fmt1(meta)} passos</small></div>
+    <div class="barra" role="progressbar" aria-valuemin="0" aria-valuemax="${meta}" aria-valuenow="${tot}"><i style="width:${pct}%"></i></div>
+    <p class="muted" style="margin:0">${tot >= meta ? "Meta alcançada! A classe ganhou " + esc(cfg.premio) + "." : "Faltam " + fmt1(meta - tot) + " passos para a classe ganhar " + esc(cfg.premio) + "."}</p></section>`;
+  h += `<section class="panel"><h2 class="h3" style="font-size:32px">A pista</h2>`;
+  if(!ids.length) h += `<p class="vazio">A corrida começa quando chegarem os primeiros resultados do quiz.</p>`;
+  else {
+    h += `<div class="escala" style="grid-template-columns:repeat(${cfg.pista.length},1fr)">${cfg.pista.map(l=>`<span title="${esc(l.titulo)}">L${l.n}</span>`).join("")}</div><ol class="lanes">`;
+    ids.forEach((id,k)=>{ const j = jov[id];
+      h += `<li class="lane ${id===usuario.uid?"eu":""}"><div class="lane-top"><strong>${k<3 && j.passos>0 ? `<span class="pos">${k+1}º</span>` : ""}${esc(j.emoji)} ${esc(j.nome)}${id===usuario.uid?" (você)":""}</strong><span>${fmt1(j.passos)} ${j.passos===1?"passo":"passos"} · ${fmt(j.pts)} pts</span></div>
+        <div class="track" style="--seg:${cfg.pista.length}"><span class="flag" aria-hidden="true">🏁</span><div class="runner" style="--p:${Math.min(1, j.passos/TOTAL)}">${avatarSVG(j.profeta || PROFETAS[0].id, j.nome)}</div></div></li>`; });
+    h += `</ol>`;
+  }
+  h += `</section>`;
+  const lic = cfg.atual;
+  if(ids.length && lic){
+    const daSemana = ids.map(id => ({ id, regs: jov[id].regs.filter(r=>r.licaoId===lic.id) }));
+    const completos = daSemana.filter(x => x.regs.filter(r=>r.noPrazo).length >= 7);
+    const emDia = daSemana.filter(x => x.regs.length && x.regs.every(r=>r.noPrazo));
+    const topPts = daSemana.map(x=>({ id:x.id, p:x.regs.reduce((s,r)=>s+(r.pts||0),0) })).filter(x=>x.p>0).sort((a,b)=>b.p-a.p)[0];
+    const chip = id => `<span class="chip">${avatarSVG(jov[id].profeta || PROFETAS[0].id)}${esc(jov[id].nome)}</span>`;
+    h += `<section class="panel"><h2 class="h3" style="font-size:32px">Destaques da lição ${lic.n}</h2><div class="dest">
+      <div><h3>Semana completa, 7 de 7</h3>${completos.length ? `<div class="chips">${completos.map(x=>chip(x.id)).join("")}</div>` : `<p class="muted" style="margin:0">Ainda ninguém. Quem vai ser o primeiro?</p>`}</div>
+      <div><h3>Tudo no prazo até agora</h3>${emDia.length ? `<div class="chips">${emDia.map(x=>chip(x.id)).join("")}</div>` : `<p class="muted" style="margin:0">Ninguém por enquanto.</p>`}</div>
+      ${topPts ? `<div><h3>Mais pontos no quiz</h3><div class="chips">${chip(topPts.id)}</div></div>` : ""}
+    </div></section>`;
+  }
+  h += `<p class="rodape">Atualizado em ${new Date().toLocaleDateString("pt-BR")} às ${new Date().toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"})}</p>`;
+  $("rkCorpo").innerHTML = h;
+  requestAnimationFrame(()=> $("rkCorpo") && $("rkCorpo").querySelectorAll(".runner").forEach(r => r.style.left = ""));
+  const cb = $("rkCfg"); if(cb) cb.onclick = ()=> modalCorrida(cfg);
+}
+function modalCorrida(cfg){
+  modal("Configurar a corrida", `<div class="field"><label for="crMeta">Meta da classe (passos)</label><input type="number" id="crMeta" min="1" value="${cfg.meta}"></div>
+    <div class="field"><label for="crPremio">Prêmio</label><input type="text" id="crPremio" maxlength="80" value="${esc(cfg.premio)}"></div>
+    <div class="field"><label for="crIni">A pista começa na lição</label><select id="crIni">${cfg.lics.map(l=>`<option value="${l.n}" ${l.n===cfg.inicio?"selected":""}>Lição ${l.n}: ${esc(l.titulo)}</option>`).join("")}</select></div>
+    <p class="note">Um passo = um dia feito no prazo; meio passo = com atraso. Com ${cfg.pista.length} lições na pista, cada pessoa pode dar até ${cfg.pista.length*7} passos.</p>
+    <p class="erro" id="crErro"></p><div class="btn-row uma"><button class="btn btn-main" id="crOk">Salvar</button></div>`, (m, fechar)=>{
+    m.querySelector("#crOk").onclick = async ()=>{
+      const c = { meta: Math.max(1, +m.querySelector("#crMeta").value||1), premio: m.querySelector("#crPremio").value.trim() || "um prêmio especial para a classe", inicio: +m.querySelector("#crIni").value };
+      ocupado(m.querySelector("#crOk"), true);
+      try{ await DB.salvarConfig({ corrida: c }); CONFIG.corrida = c; fechar(); aviso("Corrida configurada"); telaRanking(); }catch(e){ m.querySelector("#crErro").textContent = erroMsg(e); ocupado(m.querySelector("#crOk"), false); }
+    };
+  });
 }
 
 /* ============================================================
@@ -1848,7 +1935,7 @@ const JUNK_LINHA = [/^\d{1,3}$/, /^com[ \t]?(TEXTO|PREENDA|ENTE|PARE|PARTILHE|SE
 const JUNK_BLOCO = [[/^Bora de epis[óo]dio/, /desta semana!/], [/^TESTEMUNHE!/, /saiba como!/], [/^FECHE SUA SEMANA/, /o que foi estudado/], [/^Aten[çc][ãa]o, PG!/, /assista!/], [/^Escaneie o QR/, /assista!|desta semana!/], [/^novidade$/, /comtextobiblico/], [/^\(1\) \(2\)$/, /^\(1\) \(2\)$/]];
 function colapsarEspacado(l){
   const t = l.trim().split(/ +/); if(t.length < 6 || t.filter(x=>x.length===1).length / t.length < 0.6) return l;
-  return l.replace(/(\S) (?=\S)/g, "$1").replace(/,(\S)/g, ", $1").replace(/(\d)(?=[A-Za-zÀ-ú])/g, "$1 ").replace(/([A-Za-zÀ-ú])(?=\d)/g, "$1 ").replace(/(\d) de(?=[a-zç])/g, "$1 de ").replace(/(\d) a (?=\d)/g, "$1 a ").replace(/-feira/i, "-feira");
+  return l.replace(/(\S) (?=\S)/g, "$1").replace(/,(\S)/g, ", $1").replace(/(\d[ºª]?)(?=[A-Za-zÀ-ú])/g, "$1 ").replace(/([A-Za-zÀ-ú])(?=\d)/g, "$1 ").replace(/(\d) de(?=[a-zç])/g, "$1 de ").replace(/(\d) a (?=\d)/g, "$1 a ").replace(/-feira/i, "-feira");
 }
 function limparTexto(txt){
   const linhas = txt.split("\n").map(l => colapsarEspacado(l.replace(/\s+$/, "")));
