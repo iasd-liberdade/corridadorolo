@@ -731,6 +731,10 @@ function dbFirebase(){
     async salvarResultado(r){ await col("resultados").doc(r.uid+"_"+r.licaoId+"_"+r.data).set(r); },
     async getConfig(){ const d = await col("config").doc("geral").get(); return d.exists ? d.data() : {}; },
     async salvarConfig(c){ await col("config").doc("geral").set(c, {merge:true}); },
+    // Progresso de um quiz em andamento (uma resposta de cada vez)
+    async listarProgresso(uid){ return lista(col("progresso").where("uid","==",uid)); },
+    async salvarProgresso(p){ await col("progresso").doc(p.id).set(p); },
+    async excluirProgresso(id){ await col("progresso").doc(id).delete(); },
     // Páginas do PDF como imagem (uma por documento, campo "chave" = licaoId|dia)
     async salvarPagina(p){ await col("paginas").doc(p.id).set(p); },
     async listarPaginas(licaoId, dia){ return (await lista(col("paginas").where("chave","==",licaoId+"|"+dia))).sort((a,b)=>a.seq-b.seq); },
@@ -793,6 +797,9 @@ function dbLocal(){
     async salvarResultado(r){ const d = ler(); d.resultados[r.uid+"_"+r.licaoId+"_"+r.data] = r; gravar(d); },
     async getConfig(){ return ler().config || {}; },
     async salvarConfig(c){ const d = ler(); d.config = Object.assign(d.config||{}, c); gravar(d); },
+    async listarProgresso(uid){ const d = ler(); return Object.values(d.progresso||{}).filter(p=>p.uid===uid); },
+    async salvarProgresso(p){ const d = ler(); d.progresso = d.progresso || {}; d.progresso[p.id] = p; gravar(d); },
+    async excluirProgresso(id){ const d = ler(); if(d.progresso) delete d.progresso[id]; gravar(d); },
     async salvarPagina(p){ await idbTx("readwrite", st => st.put(p)); },
     async listarPaginas(licaoId, dia){ const todas = await idbTx("readonly", st => st.getAll()); return (todas||[]).filter(p=>p.chave===licaoId+"|"+dia).sort((a,b)=>a.seq-b.seq); },
     async excluirPaginas(licaoId){ const todas = await idbTx("readonly", st => st.getAll()); for(const p of (todas||[]).filter(p=>p.licaoId===licaoId)) await idbTx("readwrite", st => st.delete(p.id)); }
@@ -809,6 +816,7 @@ let CONFIG = {};           // config/geral
 let LICOES = [];           // lições montadas (base + Firestore publicadas)
 let LICOES_DB = [];        // documentos de lições vindos do banco (todas, inclusive rascunhos)
 let RES = {};              // meus resultados: chave licaoId|data -> {pts, acertos, total, noPrazo}
+let PROG = {};             // quizzes em andamento: chave licaoId|data -> progresso salvo
 let LICAO = null;          // lição selecionada na tela do quiz
 let jogo = null, timer = null, tabAtual = "quiz";
 const ehAdmin = ()=> !!(perfil && perfil.admin);
@@ -963,10 +971,13 @@ $("chipConta").onclick = ()=> nav("conta");
    INÍCIO / AUTENTICAÇÃO
    ============================================================ */
 async function carregarTudo(){
-  const [cfg, lics, meus] = await Promise.all([DB.getConfig(), DB.listarLicoes(), DB.meusResultados(usuario.uid)]);
+  const [cfg, lics, meus, prog] = await Promise.all([DB.getConfig(), DB.listarLicoes(), DB.meusResultados(usuario.uid), DB.listarProgresso(usuario.uid).catch(()=>[])]);
   CONFIG = cfg || {}; LICOES_DB = lics || [];
   aplicarIcone(CONFIG.icone || "");
   RES = {}; (meus||[]).forEach(r => RES[r.licaoId + "|" + r.data] = r);
+  PROG = {}; (prog||[]).forEach(p => PROG[p.licaoId + "|" + p.data] = p);
+  // cópia local (caso o servidor esteja fora do ar no meio de um quiz)
+  const localProg = lsGet(KEY + ":prog:" + usuario.uid, {}); Object.keys(localProg).forEach(k => { if(!PROG[k] || (localProg[k].q || 0) > (PROG[k].q || 0)) PROG[k] = localProg[k]; });
   montarLicoes();
   LICAO = LICOES[indiceLicaoAtual()];
 }
@@ -1101,7 +1112,9 @@ function telaQuiz(){
   LICAO.dias.forEach((d,i)=>{
     const s = status(LICAO, d);
     let btn = "";
+    const prog = PROG[LICAO.id + "|" + d.data];
     if(s==="feito") btn = `<button class="act see" data-ver="${i}">Ver</button>`;
+    else if(prog && (s==="hoje" || s==="atrasado")) btn = `<button class="act play" data-jogar="${i}">Continuar</button>`;
     else if(s==="bloqueado") btn = `<span class="act lock">Abre ${dataCurta(d.data)}</span>`;
     else if(s==="travado") btn = `<button class="act lock" data-travado="${i}" style="cursor:pointer">🔒</button>`;
     else if(s==="atrasado") btn = `<button class="act late" data-jogar="${i}">Jogar</button>`;
@@ -1109,6 +1122,7 @@ function telaQuiz(){
     let sub = esc(d.tema);
     if(s==="feito"){ const r = resDe(LICAO, d); sub = `${fmt(r.pts)} pontos, ${r.acertos} de ${r.total} certas`; }
     if(s==="atrasado") sub = "Atrasado: vale metade dos pontos";
+    if(prog && s!=="feito" && s!=="bloqueado" && s!=="travado") sub = `Em andamento: pergunta ${Math.min(prog.q+1, prog.n)} de ${prog.n} · ${fmt(prog.pts)} pontos`;
     if(!d.perguntas.length && s!=="feito") { sub = "Sem perguntas cadastradas"; btn = `<span class="act lock">—</span>`; }
     h += `<li class="day ${s}"><div class="dot">${s==="feito"?"✓":d.curto}</div>
       <div class="info"><strong>${esc(d.nome)}</strong><span>${sub}</span></div>${btn}</li>`;
@@ -1176,10 +1190,50 @@ function iniciar(i){
   const dia = LICAO.dias[i];
   if(!dia.perguntas.length){ aviso("Este dia ainda não tem perguntas."); return; }
   if(resDe(LICAO, dia)){ telaResultado(i); return; }
-  const prazo = dia.data >= hoje();
   const diaJogo = Object.assign({}, dia, { perguntas: perguntasDoDia(LICAO, i) });
-  jogo = { i, dia: diaJogo, L: LICAO, q:0, pts:0, acertos:0, total: diaJogo.perguntas.filter(p=>!p.reflexao).length, prazo };
+  const total = diaJogo.perguntas.filter(p=>!p.reflexao).length;
+  const salvo = PROG[LICAO.id + "|" + dia.data];
+  if(salvo && salvo.q > 0 || (salvo && salvo.mostrada)){
+    // Retoma de onde parou
+    jogo = { i, dia: diaJogo, L: LICAO, q: Math.min(salvo.q || 0, diaJogo.perguntas.length), pts: salvo.pts || 0, acertos: salvo.acertos || 0, total, prazo: !!salvo.prazo, mostrada: salvo.mostrada || null };
+    retomar();
+    return;
+  }
+  const prazo = dia.data >= hoje();
+  jogo = { i, dia: diaJogo, L: LICAO, q:0, pts:0, acertos:0, total, prazo, mostrada:null };
   contagem(dia, telaPergunta);
+}
+/* Continua um quiz salvo. Se a pessoa saiu no meio de uma pergunta e já passou o tempo dela, a pergunta conta como "tempo esgotado". */
+function retomar(){
+  while(jogo.q < jogo.dia.perguntas.length){
+    const p = jogo.dia.perguntas[jogo.q], m = jogo.mostrada;
+    if(m && m.q === jogo.q && !p.reflexao && (Date.now() - m.em) > TEMPO * 1000){ jogo.q++; jogo.mostrada = null; continue; }   // tempo esgotado: 0 pontos
+    break;
+  }
+  if(jogo.q >= jogo.dia.perguntas.length){ salvarProgresso(); finalizarQuiz(); return; }
+  aviso("Continuando de onde você parou");
+  telaPergunta();
+}
+function salvarProgresso(){
+  const id = usuario.uid + "_" + jogo.L.id + "_" + jogo.dia.data;
+  const p = { id, uid: usuario.uid, licaoId: jogo.L.id, data: jogo.dia.data, q: jogo.q, n: jogo.dia.perguntas.length, pts: jogo.pts, acertos: jogo.acertos, total: jogo.total, prazo: jogo.prazo, mostrada: jogo.mostrada || null, quando: Date.now() };
+  PROG[jogo.L.id + "|" + jogo.dia.data] = p;
+  const lp = lsGet(KEY + ":prog:" + usuario.uid, {}); lp[jogo.L.id + "|" + jogo.dia.data] = p; lsSet(KEY + ":prog:" + usuario.uid, lp);
+  DB.salvarProgresso(p).catch(()=>{});
+}
+function limparProgresso(L, data){
+  const chave = L.id + "|" + data; delete PROG[chave];
+  const lp = lsGet(KEY + ":prog:" + usuario.uid, {}); delete lp[chave]; lsSet(KEY + ":prog:" + usuario.uid, lp);
+  DB.excluirProgresso(usuario.uid + "_" + L.id + "_" + data).catch(()=>{});
+}
+async function finalizarQuiz(){
+  const r = { uid: usuario.uid, nome: perfil.nome, emoji: perfil.emoji || "🙂", licaoId: jogo.L.id, trimestre: jogo.L.trimestre, data: jogo.dia.data,
+    pts: jogo.pts, acertos: jogo.acertos, total: jogo.total, noPrazo: jogo.prazo, quando: Date.now() };
+  try{ await DB.salvarResultado(r); }catch(e){ aviso("Não deu para salvar no servidor: " + erroMsg(e)); }
+  RES[r.licaoId + "|" + r.data] = r;
+  limparProgresso(jogo.L, jogo.dia.data);
+  LICAO = jogo.L;
+  telaResultado(jogo.i, true);
 }
 function telaPergunta(){
   const p = jogo.dia.perguntas[jogo.q];
@@ -1201,11 +1255,13 @@ function telaPergunta(){
   app.innerHTML = h;
   window.scrollTo(0,0);
   app.querySelectorAll(".tile").forEach(t=> t.onclick = ()=> responder(+t.dataset.k));
-  if(!p.reflexao) iniciarTimer();
+  if(!(jogo.mostrada && jogo.mostrada.q === jogo.q)) jogo.mostrada = { q: jogo.q, em: Date.now() };
+  salvarProgresso();
+  if(!p.reflexao) iniciarTimer(Math.max(0, (Date.now() - jogo.mostrada.em) / 1000));
 }
-function iniciarTimer(){
+function iniciarTimer(jaPassou){
   pararTimer();
-  const ini = performance.now();
+  const ini = performance.now() - (jaPassou || 0) * 1000;
   const bar = $("bar"), num = $("num"), ring = $("ring");
   const C = 169.65;
   jogo.inicio = ini;
@@ -1249,6 +1305,7 @@ function responder(k){
   }
   jogo.pts += ganho;
   const ultima = jogo.q === jogo.dia.perguntas.length - 1;
+  jogo.q++; jogo.mostrada = null; salvarProgresso(); jogo.q--;   // já fica salvo como respondida, mesmo que a pessoa saia antes de clicar em "Próxima"
   let prova = "";
   if(p.texto) prova += `<blockquote class="verso"><p><em>“${esc(p.texto)}”</em></p><cite>${esc(p.ref||"")}</cite></blockquote>`;
   if(p.img) prova += `<figure class="tira"><div class="rolagem"><img src="${p.img}" alt="Tirinha da ${esc(jogo.L.numero)}"></div><figcaption>${esc(p.ref||"")}. Arraste para o lado para ver a tirinha toda.</figcaption></figure>`;
@@ -1258,15 +1315,8 @@ function responder(k){
   prox.focus({preventScroll:true});
   prox.scrollIntoView({block:"nearest", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth"});
   prox.onclick = async ()=>{
-    if(ultima){
-      ocupado(prox, true);
-      const r = { uid: usuario.uid, nome: perfil.nome, emoji: perfil.emoji || "🙂", licaoId: jogo.L.id, trimestre: jogo.L.trimestre, data: jogo.dia.data,
-        pts: jogo.pts, acertos: jogo.acertos, total: jogo.total, noPrazo: jogo.prazo, quando: Date.now() };
-      try{ await DB.salvarResultado(r); }catch(e){ aviso("Não deu para salvar no servidor: " + erroMsg(e)); }
-      RES[r.licaoId + "|" + r.data] = r;
-      LICAO = jogo.L;
-      telaResultado(jogo.i, true);
-    } else { jogo.q++; telaPergunta(); }
+    if(ultima){ ocupado(prox, true); jogo.q++; await finalizarQuiz(); }
+    else { jogo.q++; telaPergunta(); }
   };
 }
 
