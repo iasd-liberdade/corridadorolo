@@ -286,6 +286,43 @@ input[type=file]{width:100%;color:var(--muted);font-size:15px}
 .fala{grid-template-columns:36px 1fr;gap:12px}
 .fala > .avatar,.fala-boneco .avatar{width:36px;height:46px;display:block}
 .fala-boneco{width:36px}
+/* Admin: resultados */
+.ar-stats{grid-template-columns:repeat(2,1fr)}
+@media (min-width:900px){ .ar-stats{grid-template-columns:repeat(3,1fr)} }
+.ar-dest{display:grid;gap:10px;margin-bottom:14px}
+@media (min-width:600px){ .ar-dest{grid-template-columns:1fr 1fr} }
+.ar-dest-card{border-radius:var(--radius);padding:12px 14px;background:rgba(255,255,255,.1);border:1px solid var(--panel-line)}
+.ar-dest-card span{display:block;font-size:12px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--muted)}
+.ar-dest-card b{display:block;font-family:"Bebas Neue","Arial Narrow",sans-serif;font-weight:400;font-size:26px;letter-spacing:.5px;line-height:1.05;margin-top:4px}
+.ar-dest-card em{display:block;font-style:normal;font-size:13px;color:var(--soft);margin-top:4px}
+.ar-dest-card.ok{border-color:rgba(95,224,176,.6);background:rgba(95,224,176,.14)}
+.ar-dest-card.bad{border-color:rgba(255,120,120,.55);background:rgba(255,120,120,.12)}
+.ar-linhas{display:grid;gap:10px}
+.ar-linha{display:grid;grid-template-columns:1fr 56px;gap:4px 10px;align-items:center}
+.ar-linha .ar-rot{grid-column:1/3}
+.ar-rot b{display:block;font-size:15px}
+.ar-rot span{display:block;font-size:12px;color:var(--muted)}
+.ar-bar{height:12px;border-radius:99px;background:rgba(0,0,0,.2);overflow:hidden}
+.ar-bar i{display:block;height:100%;border-radius:99px;background:var(--accent);transition:width .6s}
+.ar-bar i.ok{background:var(--ok)}.ar-bar i.meio{background:var(--accent)}.ar-bar i.bad{background:var(--a)}
+.ar-pct{font-family:"Bebas Neue","Arial Narrow",sans-serif;font-size:22px;text-align:right}
+.ar-pergs{display:grid;gap:10px}
+.ar-perg,.ar-refl{background:rgba(0,0,0,.12);border-radius:var(--radius);padding:12px 14px}
+.ar-refl+.ar-refl{margin-top:10px}
+.ar-perg-top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:4px}
+.ar-perg-top b{font-family:"Bebas Neue","Arial Narrow",sans-serif;font-weight:400;font-size:22px;letter-spacing:.5px;flex:none}
+.ar-perg-top b.bad{color:#FF9B9B}.ar-perg-top b.ok{color:var(--ok)}
+.ar-onde{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--accent)}
+.ar-q{margin:4px 0 8px;font-weight:700;font-size:15px;line-height:1.35}
+.ar-opt{margin-top:10px;padding:10px;border-radius:12px;background:rgba(255,255,255,.06);border:1px solid transparent}
+.ar-opt.top{border-color:rgba(95,224,176,.6);background:rgba(95,224,176,.12)}
+.ar-opt-h{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.ar-opt-h .letter{flex:none;width:26px;height:26px;border-radius:8px;display:grid;place-items:center;background:rgba(255,255,255,.18);font-weight:800;font-size:13px}
+.ar-opt-h .ar-opt-t{flex:1;font-size:14px;line-height:1.3}
+.ar-opt-h b{flex:none;font-size:14px}
+.ar-quem{margin-top:8px}
+.ar-quem .chip{font-size:12px;padding:3px 10px 3px 3px}
+.ar-quem .chip .avatar{width:22px;height:28px}
 /* Tela inicial */
 .inicio-hero{display:grid;grid-template-columns:72px 1fr;gap:14px;align-items:center}
 .inicio-hero .avatar{width:72px;height:92px}
@@ -327,7 +364,7 @@ input[type=file]{width:100%;color:var(--muted);font-size:15px}
 .inicio-grid .panel{margin:0}
 .inicio-hero>div{min-width:0}
 #rkCorpo{margin-top:14px}
-@media (min-width:900px){ .inicio-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start} .inicio-grid>div{gap:18px} .inicio-grid>div+div{margin-top:0} #rkCorpo{margin-top:16px} .badges{grid-template-columns:repeat(6,1fr)} }
+@media (min-width:900px){ .inicio-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start} .inicio-grid>div{gap:18px} .inicio-grid>div+div{margin-top:0} #rkCorpo{margin-top:16px} .badges{grid-template-columns:repeat(5,1fr)} }
 /* Abas dos dias (Estudar): sempre numa linha só */
 .tabs.dias{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;overflow:visible}
 .tabs.dias button{padding:6px 0;font-size:12px;line-height:1.15;white-space:normal;display:grid;justify-items:center;gap:1px;border-radius:12px}
@@ -684,7 +721,11 @@ const app = document.getElementById("app");
 
 function somarDias(iso, k){ const [y,m,d] = iso.split("-").map(Number); return new Date(Date.UTC(y, m-1, d+k)).toISOString().slice(0,10); }
 function dataLonga(iso){ const [y,m,d] = iso.split("-").map(Number); return (d===1 ? "1º" : d) + " de " + MESES[m-1]; }
-function hoje(){ const d=new Date(); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
+/* O "dia" da lição vai das 19h00 da véspera até as 18h59 da data. Às 19h começa o dia seguinte. */
+const VIRADA_H = 19;
+function dataISO(d){ return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
+function hoje(){ const d = new Date(); d.setHours(d.getHours() + (24 - VIRADA_H)); return dataISO(d); }
+function proximaVirada(){ const f = new Date(); if(f.getHours() >= VIRADA_H) f.setDate(f.getDate() + 1); f.setHours(VIRADA_H, 0, 0, 0); return f; }
 function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch])); }
 function fmt(n){ return Number(n||0).toLocaleString("pt-BR"); }
 function dataCurta(iso){ const [y,m,d]=iso.split("-"); return d+"/"+m; }
@@ -1171,6 +1212,7 @@ function sequencia(){
   let n = 0; while(feitos[dia] && feitos[dia].noPrazo){ n++; dia = somarDias(dia, -1); }
   return n;
 }
+function minutoDoDia(ts){ if(!ts) return -1; const d = new Date(ts); return d.getHours()*60 + d.getMinutes(); }
 function conquistas(){
   const rs = Object.values(RES), st = sequencia();
   const semanaCompleta = LICOES.some(L => L.dias.every(d => resDe(L,d) && resDe(L,d).noPrazo));
@@ -1180,7 +1222,8 @@ function conquistas(){
     { ic:"⚡", t:"Relâmpago", d:"4.500+ pontos num dia", on: rs.some(r => r.pts >= 4500) },
     { ic:"🔥", t:"Em chamas", d:"5 dias seguidos no prazo", on: st >= 5 },
     { ic:"📅", t:"Semana completa", d:"7 de 7 no prazo", on: semanaCompleta },
-    { ic:"🌅", t:"Madrugador", d:"Quiz antes das 8h", on: rs.some(r => r.quando && new Date(r.quando).getHours() < 8) },
+    { ic:"🌅", t:"Madrugador", d:"Quiz entre 00h01 e 07h00", on: rs.some(r => minutoDoDia(r.quando) >= 1 && minutoDoDia(r.quando) <= 7*60) },
+    { ic:"🕖", t:"Primeiro o Reino", d:"Quiz entre 19h e 20h", on: rs.some(r => minutoDoDia(r.quando) >= VIRADA_H*60 && minutoDoDia(r.quando) <= (VIRADA_H+1)*60) },
     { ic:"🏁", t:"Maratonista", d:"21 dias de estudo", on: rs.length >= 21 },
     { ic:"🕊️", t:"Fiel na reta", d:"3 semanas completas", on: LICOES.filter(L => L.dias.every(d => resDe(L,d) && resDe(L,d).noPrazo)).length >= 3 },
     { ic:"📖", t:"Rolo inteiro", d:"Todos os dias do trimestre", on: LICOES.length > 0 && LICOES.every(L => L.dias.every(d => resDe(L,d))) }
@@ -1226,7 +1269,7 @@ function telaInicio(){
   const jog = $("inJogar"); if(jog) jog.onclick = ()=>{ LICAO = L; tabAtual = "quiz"; atualizarCasca(); iniciar(hojeIdx); };
   const ver = $("inVer"); if(ver) ver.onclick = ()=>{ LICAO = L; tabAtual = "quiz"; atualizarCasca(); telaResultado(hojeIdx); };
   const ct = $("inContagem");
-  if(ct){ const tick = ()=>{ const el = $("inContagem"); if(!el){ clearInterval(inicioTimer); return; } const fim = new Date(); fim.setHours(24,0,0,0); const ms = fim - Date.now(), hh = Math.floor(ms/36e5), mm = Math.floor((ms%36e5)/6e4); el.textContent = `⏳ Faltam ${hh}h${String(mm).padStart(2,"0")} para o dia fechar. Depois disso o quiz vale metade.`; }; tick(); inicioTimer = setInterval(tick, 30000); }
+  if(ct){ const tick = ()=>{ const el = $("inContagem"); if(!el){ clearInterval(inicioTimer); return; } const ms = proximaVirada() - Date.now(), hh = Math.floor(ms/36e5), mm = Math.floor((ms%36e5)/6e4); el.textContent = `⏳ Faltam ${hh}h${String(mm).padStart(2,"0")} para o dia fechar (às ${VIRADA_H}h). Depois disso o quiz vale metade.`; }; tick(); inicioTimer = setInterval(tick, 30000); }
   if(L) posicaoCorrida(L);
 }
 async function posicaoCorrida(L){
@@ -1371,19 +1414,19 @@ function iniciar(i){
   const salvo = PROG[LICAO.id + "|" + dia.data];
   if(salvo && salvo.q > 0 || (salvo && salvo.mostrada)){
     // Retoma de onde parou
-    jogo = { i, dia: diaJogo, L: LICAO, q: Math.min(salvo.q || 0, diaJogo.perguntas.length), pts: salvo.pts || 0, acertos: salvo.acertos || 0, total, prazo: !!salvo.prazo, mostrada: salvo.mostrada || null };
+    jogo = { i, dia: diaJogo, L: LICAO, q: Math.min(salvo.q || 0, diaJogo.perguntas.length), pts: salvo.pts || 0, acertos: salvo.acertos || 0, total, prazo: !!salvo.prazo, mostrada: salvo.mostrada || null, resp: Array.isArray(salvo.resp) ? salvo.resp : [] };
     retomar();
     return;
   }
   const prazo = dia.data >= hoje();
-  jogo = { i, dia: diaJogo, L: LICAO, q:0, pts:0, acertos:0, total, prazo, mostrada:null };
+  jogo = { i, dia: diaJogo, L: LICAO, q:0, pts:0, acertos:0, total, prazo, mostrada:null, resp: [] };
   contagem(dia, telaPergunta);
 }
 /* Continua um quiz salvo. Se a pessoa saiu no meio de uma pergunta e já passou o tempo dela, a pergunta conta como "tempo esgotado". */
 function retomar(){
   while(jogo.q < jogo.dia.perguntas.length){
     const p = jogo.dia.perguntas[jogo.q], m = jogo.mostrada;
-    if(m && m.q === jogo.q && !p.reflexao && (Date.now() - m.em) > TEMPO * 1000){ jogo.q++; jogo.mostrada = null; continue; }   // tempo esgotado: 0 pontos
+    if(m && m.q === jogo.q && !p.reflexao && (Date.now() - m.em) > TEMPO * 1000){ registrarResposta(p, -1); jogo.q++; jogo.mostrada = null; continue; }   // tempo esgotado: 0 pontos
     break;
   }
   if(jogo.q >= jogo.dia.perguntas.length){ salvarProgresso(); finalizarQuiz(); return; }
@@ -1392,7 +1435,7 @@ function retomar(){
 }
 function salvarProgresso(){
   const id = usuario.uid + "_" + jogo.L.id + "_" + jogo.dia.data;
-  const p = { id, uid: usuario.uid, licaoId: jogo.L.id, data: jogo.dia.data, q: jogo.q, n: jogo.dia.perguntas.length, pts: jogo.pts, acertos: jogo.acertos, total: jogo.total, prazo: jogo.prazo, mostrada: jogo.mostrada || null, quando: Date.now() };
+  const p = { id, uid: usuario.uid, licaoId: jogo.L.id, data: jogo.dia.data, q: jogo.q, n: jogo.dia.perguntas.length, pts: jogo.pts, acertos: jogo.acertos, total: jogo.total, prazo: jogo.prazo, mostrada: jogo.mostrada || null, resp: jogo.resp || [], quando: Date.now() };
   PROG[jogo.L.id + "|" + jogo.dia.data] = p;
   const lp = lsGet(KEY + ":prog:" + usuario.uid, {}); lp[jogo.L.id + "|" + jogo.dia.data] = p; lsSet(KEY + ":prog:" + usuario.uid, lp);
   DB.salvarProgresso(p).catch(()=>{});
@@ -1404,7 +1447,7 @@ function limparProgresso(L, data){
 }
 async function finalizarQuiz(){
   const r = { uid: usuario.uid, nome: perfil.nome, profeta: perfil.profeta || "", licaoId: jogo.L.id, trimestre: jogo.L.trimestre, data: jogo.dia.data,
-    pts: jogo.pts, acertos: jogo.acertos, total: jogo.total, noPrazo: jogo.prazo, quando: Date.now() };
+    pts: jogo.pts, acertos: jogo.acertos, total: jogo.total, noPrazo: jogo.prazo, resp: jogo.resp || [], quando: Date.now() };
   try{ await DB.salvarResultado(r); }catch(e){ aviso("Não deu para salvar no servidor: " + erroMsg(e)); }
   RES[r.licaoId + "|" + r.data] = r;
   limparProgresso(jogo.L, jogo.dia.data);
@@ -1454,6 +1497,12 @@ function iniciarTimer(jaPassou){
 }
 function pararTimer(){ if(timer){ cancelAnimationFrame(timer); timer = null; } }
 
+/* Guarda o que foi respondido em cada pergunta (para o acompanhamento do admin). k = -1: tempo esgotado. */
+function registrarResposta(p, k){
+  if(!jogo.resp) jogo.resp = [];
+  if(jogo.resp.some(r => r.q === jogo.q)) return;
+  jogo.resp.push({ q: jogo.q, p: p.p, k, c: p.reflexao ? -1 : p.c, r: !!p.reflexao, ok: p.reflexao ? true : k === p.c, o: k >= 0 && p.o[k] != null ? String(p.o[k]) : "" });
+}
 function responder(k){
   const tiles = $("tiles");
   if(!tiles || tiles.classList.contains("done")) return;
@@ -1480,6 +1529,7 @@ function responder(k){
     });
   }
   jogo.pts += ganho;
+  registrarResposta(p, k);
   const ultima = jogo.q === jogo.dia.perguntas.length - 1;
   jogo.q++; jogo.mostrada = null; salvarProgresso(); jogo.q--;   // já fica salvo como respondida, mesmo que a pessoa saia antes de clicar em "Próxima"
   let prova = "";
@@ -1966,14 +2016,14 @@ function telaFoto(i, src){
    ADMIN
    ============================================================ */
 let admTab = "usuarios";
-const ADM_TABS = [["usuarios","👥 Usuários"],["aprovar","✅ Aprovar usuário"],["cadastrar","➕ Cadastrar usuário"],["licao","📥 Cadastrar lição"],["perguntas","📝 Cadastrar perguntas"],["icone","🖼️ Ícone do site"]];
+const ADM_TABS = [["resultados","📊 Resultados"],["usuarios","👥 Usuários"],["aprovar","✅ Aprovar usuário"],["cadastrar","➕ Cadastrar usuário"],["licao","📥 Cadastrar lição"],["perguntas","📝 Cadastrar perguntas"],["icone","🖼️ Ícone do site"]];
 function telaAdmin(){
   if(!ehAdmin()){ nav("quiz"); return; }
   app.innerHTML = `<div class="admin-area"><h2 class="h2">Admin</h2>
     <div class="tabs" role="tablist">${ADM_TABS.map(([k,t])=>`<button role="tab" aria-selected="${admTab===k}" data-t="${k}">${t}</button>`).join("")}</div>
     <div id="admC"></div></div>`;
   app.querySelectorAll("[data-t]").forEach(b=> b.onclick = ()=>{ admTab = b.dataset.t; telaAdmin(); });
-  ({usuarios:admUsuarios, aprovar:admAprovar, cadastrar:admCadastrar, licao:admLicao, perguntas:admPerguntas, icone:admIcone}[admTab])();
+  ({resultados:admResultados, usuarios:admUsuarios, aprovar:admAprovar, cadastrar:admCadastrar, licao:admLicao, perguntas:admPerguntas, icone:admIcone}[admTab])();
 }
 function linhaUsuario(u, pendente){
   const eu = u.id === usuario.uid;
@@ -2514,6 +2564,135 @@ function admIcone(){
     if(!(await confirmar("Ícone padrão", "Remover o ícone personalizado e voltar ao padrão?", "Remover", "btn-warn"))) return;
     try{ await DB.salvarConfig({icone:""}); CONFIG.icone = ""; aplicarIcone(""); aviso("Ícone padrão restaurado"); admIcone(); }catch(e){ $("icErro").textContent = erroMsg(e); }
   };
+}
+
+
+/* ============================================================
+   ADMIN: RESULTADOS (acompanhamento do quiz)
+   ============================================================ */
+let admResLic = "", admResDia = -1;
+async function admResultados(){
+  const c = $("admC");
+  c.innerHTML = `<section class="panel"><p class="vazio">Carregando resultados…</p></section>`;
+  let res, usuarios;
+  try{ [res, usuarios] = await Promise.all([DB.todosResultados(), DB.listarUsuarios()]); }
+  catch(e){ c.innerHTML = `<section class="panel"><p class="erro">${esc(erroMsg(e))}</p></section>`; return; }
+  const uMap = {}; usuarios.forEach(u => uMap[u.id] = u);
+  res = res.filter(r => { const u = uMap[r.uid]; return !u || u.aprovado || u.admin; });
+  const lics = LICOES.filter(L => !licaoFutura(L));
+  if(admResLic !== "*" && (!admResLic || !LICOES.some(L => L.id === admResLic))){ const at = LICOES[indiceLicaoAtual()]; admResLic = at ? at.id : (lics[0] ? lics[0].id : ""); }
+  const todas = admResLic === "*";
+  const L = todas ? null : LICOES.find(x => x.id === admResLic);
+  const rs = res.filter(r => todas ? LICOES.some(x => x.id === r.licaoId) : r.licaoId === admResLic);
+  const pct = (a,b) => b ? Math.round(100*a/b) : 0;
+  const nome = r => (uMap[r.uid] && uMap[r.uid].nome) || r.nome || "?";
+  const avatar = r => avatarSVG((uMap[r.uid] && uMap[r.uid].profeta) || r.profeta || PROFETAS[0].id);
+  const diaDe = r => { const l = LICOES.find(x => x.id === r.licaoId); return l ? l.dias.find(d => d.data === r.data) : null; };
+  const rotuloDia = r => { const d = diaDe(r); const l = LICOES.find(x => x.id === r.licaoId); return (todas && l ? l.numero + " · " : "") + (d ? d.nome : r.data); };
+
+  let h = `<section class="panel" style="padding:12px 14px">
+    <div class="field" style="margin:0"><label for="arLic">Lição</label><select id="arLic">
+      ${LICOES.map(l => `<option value="${esc(l.id)}" ${l.id===admResLic?"selected":""}>${esc(l.numero)}: ${esc(l.titulo)}${l===LICOES[indiceLicaoAtual()]?" (esta semana)":""}</option>`).join("")}
+      <option value="*" ${todas?"selected":""}>Trimestre inteiro (todas as lições)</option></select></div></section>`;
+
+  if(!rs.length){
+    h += `<section class="panel"><p class="vazio">Ninguém fez quiz ${todas ? "neste trimestre" : "desta lição"} ainda.</p></section>`;
+    c.innerHTML = h; $("arLic").onchange = e => { admResLic = e.target.value; admResultados(); }; return;
+  }
+
+  // ---- Resumo
+  const pessoas = new Set(rs.map(r => r.uid)).size;
+  const somaAc = rs.reduce((a,r) => a + (r.acertos||0), 0), somaTot = rs.reduce((a,r) => a + (r.total||0), 0);
+  const noPrazoN = rs.filter(r => r.noPrazo).length;
+  const mediaPts = Math.round(rs.reduce((a,r) => a + (r.pts||0), 0) / rs.length);
+  const gabaritos = rs.filter(r => r.total > 0 && r.acertos === r.total).length;
+  const semDetalhe = rs.filter(r => !Array.isArray(r.resp) || !r.resp.length).length;
+  h += `<section class="panel"><h3 class="h3">Visão geral${L ? " · " + esc(L.numero) : " · Trimestre"}</h3>
+    <div class="stats ar-stats">
+      <div class="stat"><b>${pessoas}</b><span>${pessoas===1?"jovem fez quiz":"jovens fizeram quiz"}</span></div>
+      <div class="stat"><b>${rs.length}</b><span>${rs.length===1?"quiz feito":"quizzes feitos"}</span></div>
+      <div class="stat"><b>${pct(somaAc, somaTot)}%</b><span>de acerto geral (${somaAc} de ${somaTot})</span></div>
+      <div class="stat"><b>${pct(noPrazoN, rs.length)}%</b><span>feitos no prazo</span></div>
+      <div class="stat"><b>${fmt(mediaPts)}</b><span>pontos por quiz (média)</span></div>
+      <div class="stat"><b>${gabaritos}</b><span>${gabaritos===1?"gabarito":"gabaritos"} (todas certas)</span></div>
+    </div>
+    ${semDetalhe ? `<p class="note">${semDetalhe} ${semDetalhe===1?"quiz foi feito":"quizzes foram feitos"} antes desta versão e ${semDetalhe===1?"não tem":"não têm"} o detalhe por pergunta. As análises abaixo usam só os quizzes com detalhe.</p>` : ""}
+  </section>`;
+
+  // ---- Assertividade por dia (ou por lição no trimestre)
+  const grupos = {};
+  rs.forEach(r => {
+    const d = diaDe(r), l = LICOES.find(x => x.id === r.licaoId);
+    const chave = todas ? r.licaoId : r.data;
+    const g = grupos[chave] || (grupos[chave] = { chave, rotulo: todas ? (l ? l.numero + ": " + l.titulo : r.licaoId) : (d ? d.nome + " · " + dataCurta(d.data) : r.data), ordem: todas ? (l ? LICOES.indexOf(l) : 99) : r.data, n:0, ac:0, tot:0, pts:0, prazo:0, gab:0 });
+    g.n++; g.ac += r.acertos||0; g.tot += r.total||0; g.pts += r.pts||0; if(r.noPrazo) g.prazo++; if(r.total>0 && r.acertos===r.total) g.gab++;
+  });
+  const gl = Object.values(grupos).sort((a,b) => a.ordem < b.ordem ? -1 : 1);
+  const comTot = gl.filter(g => g.tot > 0);
+  const melhor = comTot.slice().sort((a,b) => pct(b.ac,b.tot) - pct(a.ac,a.tot) || b.n - a.n)[0];
+  const pior = comTot.length > 1 ? comTot.slice().sort((a,b) => pct(a.ac,a.tot) - pct(b.ac,b.tot) || b.n - a.n)[0] : null;
+  h += `<section class="panel"><h3 class="h3">Assertividade por ${todas ? "lição" : "dia"}</h3>
+    ${melhor ? `<div class="ar-dest"><div class="ar-dest-card ok"><span>Maior assertividade</span><b>${esc(melhor.rotulo)}</b><em>${pct(melhor.ac,melhor.tot)}% de acerto · ${melhor.n} ${melhor.n===1?"quiz":"quizzes"}</em></div>
+    ${pior && pior !== melhor ? `<div class="ar-dest-card bad"><span>Menor assertividade</span><b>${esc(pior.rotulo)}</b><em>${pct(pior.ac,pior.tot)}% de acerto · ${pior.n} ${pior.n===1?"quiz":"quizzes"}</em></div>` : ""}</div>` : ""}
+    <div class="ar-linhas">${gl.map(g => { const p = pct(g.ac,g.tot); return `<div class="ar-linha"><div class="ar-rot"><b>${esc(g.rotulo)}</b><span>${g.n} ${g.n===1?"quiz":"quizzes"} · ${g.prazo} no prazo · ${fmt(Math.round(g.pts/g.n))} pts em média${g.gab?` · ${g.gab} gabarito${g.gab>1?"s":""}`:""}</span></div><div class="ar-bar"><i style="width:${p}%" class="${p>=80?"ok":p>=60?"meio":"bad"}"></i></div><div class="ar-pct">${g.tot ? p + "%" : "—"}</div></div>`; }).join("")}</div>
+  </section>`;
+
+  // ---- Por pergunta (só quizzes com detalhe)
+  const det = rs.filter(r => Array.isArray(r.resp) && r.resp.length);
+  const perg = {};
+  det.forEach(r => r.resp.forEach(a => {
+    if(a.r) return;
+    const chave = r.licaoId + "|" + r.data + "|" + a.p;
+    const q = perg[chave] || (perg[chave] = { chave, p: a.p, onde: rotuloDia(r), n:0, err:0, tempo:0, escolhas:{}, certa: a.c, licaoId: r.licaoId, data: r.data });
+    q.n++; if(!a.ok) q.err++; if(a.k === -1) q.tempo++;
+    if(a.k >= 0){ const e = q.escolhas[a.k] || (q.escolhas[a.k] = { n:0, o: a.o }); e.n++; if(!e.o && a.o) e.o = a.o; }
+  }));
+  const pl = Object.values(perg);
+  const opcaoTxt = (q, k) => { const l = LICOES.find(x => x.id === q.licaoId), d = l && l.dias.find(x => x.data === q.data), orig = d && d.perguntas.find(x => x.p === q.p); return (q.escolhas[k] && q.escolhas[k].o) || (orig && orig.o[k]) || ("Opção " + LETRAS[k]); };
+  const maisErradas = pl.filter(q => q.err > 0).sort((a,b) => pct(b.err,b.n) - pct(a.err,a.n) || b.err - a.err).slice(0, 10);
+  const maisCertas = pl.filter(q => q.n >= 2).sort((a,b) => pct(b.n-b.err,b.n) - pct(a.n-a.err,a.n) || b.n - a.n).slice(0, 5);
+  const cardPerg = (q, modo) => {
+    const p = modo === "err" ? pct(q.err,q.n) : pct(q.n-q.err,q.n);
+    const erradas = Object.keys(q.escolhas).filter(k => +k !== q.certa).sort((a,b) => q.escolhas[b].n - q.escolhas[a].n);
+    const topErr = erradas[0];
+    return `<div class="ar-perg"><div class="ar-perg-top"><span class="ar-onde">${esc(q.onde)}</span><b class="${modo==="err"?"bad":"ok"}">${p}% ${modo==="err"?"erraram":"acertaram"}</b></div>
+      <p class="ar-q">${esc(q.p)}</p>
+      <div class="ar-bar"><i style="width:${p}%" class="${modo==="err"?"bad":"ok"}"></i></div>
+      <p class="muted small" style="margin:6px 0 0">${q.n} ${q.n===1?"resposta":"respostas"} · ${q.n-q.err} certa${q.n-q.err!==1?"s":""} · ${q.err} errada${q.err!==1?"s":""}${q.tempo?` (${q.tempo} por tempo esgotado)`:""}<br>Certa: <b>${LETRAS[q.certa]}</b> ${esc(opcaoTxt(q, q.certa))}${topErr != null ? `<br>Erro mais comum: <b>${LETRAS[+topErr]}</b> ${esc(opcaoTxt(q, +topErr))} (${q.escolhas[topErr].n}×)` : ""}</p></div>`;
+  };
+  h += `<section class="panel"><h3 class="h3">Perguntas mais erradas</h3>
+    ${maisErradas.length ? `<p class="muted small" style="margin:0 0 10px">As que mais confundiram a turma. Vale retomar na classe.</p><div class="ar-pergs">${maisErradas.map(q => cardPerg(q,"err")).join("")}</div>` : `<p class="vazio">${det.length ? "Ninguém errou nenhuma pergunta até agora." : "Ainda não há quizzes com detalhe por pergunta."}</p>`}
+  </section>`;
+  if(maisCertas.length) h += `<section class="panel"><h3 class="h3">Perguntas mais acertadas</h3><div class="ar-pergs">${maisCertas.map(q => cardPerg(q,"ok")).join("")}</div></section>`;
+
+  // ---- Reflexão (a última pergunta, sem resposta errada)
+  const refl = {};
+  det.forEach(r => r.resp.forEach(a => {
+    if(!a.r) return;
+    const chave = r.licaoId + "|" + r.data + "|" + a.p;
+    const q = refl[chave] || (refl[chave] = { chave, p: a.p, onde: rotuloDia(r), ordem: r.data, n:0, escolhas:{}, licaoId: r.licaoId, data: r.data });
+    q.n++; if(a.k >= 0){ const e = q.escolhas[a.k] || (q.escolhas[a.k] = { n:0, o: a.o, quem: [] }); e.n++; if(!e.o && a.o) e.o = a.o; e.quem.push(r); }
+  }));
+  const rl = Object.values(refl).sort((a,b) => a.ordem < b.ordem ? -1 : 1);
+  h += `<section class="panel"><h3 class="h3">Reflexão: o que a turma escolheu</h3>
+    <p class="muted small" style="margin:0 0 12px">A última pergunta de cada dia não tem resposta errada. Veja a opção mais escolhida e quem escolheu cada uma, para levar o debate para a classe.</p>
+    ${rl.length ? rl.map(q => {
+      const ks = Object.keys(q.escolhas).map(Number).sort((a,b) => q.escolhas[b].n - q.escolhas[a].n || a - b);
+      const top = ks[0], empate = ks.filter(k => q.escolhas[k].n === q.escolhas[top].n);
+      return `<div class="ar-refl"><span class="ar-onde">${esc(q.onde)}</span><p class="ar-q">${esc(q.p)}</p>
+        ${ks.map(k => { const e = q.escolhas[k], p = pct(e.n, q.n); return `<div class="ar-opt ${empate.includes(k)?"top":""}"><div class="ar-opt-h"><span class="letter">${LETRAS[k]}</span><span class="ar-opt-t">${esc(e.o || opcaoTxt(q,k))}</span><b>${e.n} (${p}%)</b></div><div class="ar-bar"><i style="width:${p}%" class="${k===top?"ok":"meio"}"></i></div><div class="chips ar-quem">${e.quem.map(r => `<span class="chip">${avatar(r)}${esc(nome(r))}</span>`).join("")}</div></div>`; }).join("")}
+        ${top == null ? "" : empate.length > 1 ? `<p class="note" style="margin-top:8px">Empate entre ${empate.map(k => "<b>" + LETRAS[k] + "</b>").join(", ")} (${q.escolhas[top].n} ${q.escolhas[top].n===1?"escolha":"escolhas"} cada). Bom gancho para o debate.</p>` : `<p class="note" style="margin-top:8px">Mais escolhida: <b>${LETRAS[top]}</b> — ${esc(q.escolhas[top].o || opcaoTxt(q,top))} (${q.escolhas[top].n} de ${q.n}).</p>`}</div>`;
+    }).join("") : `<p class="vazio">Ainda não há respostas de reflexão registradas.</p>`}
+  </section>`;
+
+  // ---- Por jovem
+  const porU = {};
+  rs.forEach(r => { const u = porU[r.uid] || (porU[r.uid] = { r, n:0, ac:0, tot:0, pts:0, prazo:0 }); u.n++; u.ac += r.acertos||0; u.tot += r.total||0; u.pts += r.pts||0; if(r.noPrazo) u.prazo++; });
+  const ul = Object.values(porU).sort((a,b) => b.pts - a.pts || pct(b.ac,b.tot) - pct(a.ac,a.tot));
+  h += `<section class="panel"><h3 class="h3">Por jovem</h3><ul class="lista">${ul.map((u,i) => `<li><div class="em">${avatar(u.r)}</div><div class="info"><strong>${i+1}º ${esc(nome(u.r))}</strong><span>${u.n} ${u.n===1?"quiz":"quizzes"} · ${u.prazo} no prazo · ${pct(u.ac,u.tot)}% de acerto (${u.ac} de ${u.tot})</span></div><div class="pts">${fmt(u.pts)}</div></li>`).join("")}</ul></section>`;
+
+  c.innerHTML = h;
+  $("arLic").onchange = e => { admResLic = e.target.value; admResultados(); };
 }
 
 </script>
