@@ -321,7 +321,13 @@ input[type=file]{width:100%;color:var(--muted);font-size:15px}
 .atalhos{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .atalhos button{background:var(--panel);border:1px solid var(--panel-line);border-radius:var(--radius);padding:14px 10px;color:#fff;font-weight:800;font-size:15px;display:grid;justify-items:center;gap:4px}
 .atalhos button .ic{font-size:26px}
-@media (min-width:900px){ .inicio-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start} .inicio-grid .panel{margin:0} .badges{grid-template-columns:repeat(6,1fr)} }
+/* Espaço entre os cartões da tela inicial (celular e desktop) */
+.inicio-grid>div{display:grid;gap:14px}
+.inicio-grid>div+div{margin-top:14px}
+.inicio-grid .panel{margin:0}
+.inicio-hero>div{min-width:0}
+#rkCorpo{margin-top:14px}
+@media (min-width:900px){ .inicio-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start} .inicio-grid>div{gap:18px} .inicio-grid>div+div{margin-top:0} #rkCorpo{margin-top:16px} .badges{grid-template-columns:repeat(6,1fr)} }
 /* Abas dos dias (Estudar): sempre numa linha só */
 .tabs.dias{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;overflow:visible}
 .tabs.dias button{padding:6px 0;font-size:12px;line-height:1.15;white-space:normal;display:grid;justify-items:center;gap:1px;border-radius:12px}
@@ -1228,8 +1234,10 @@ async function posicaoCorrida(L){
   try{
     const res = await DB.resultadosLicao(L.id);
     if(!$("inCorrida")) return;
-    const passos = {}; res.forEach(r => { passos[r.uid] = (passos[r.uid]||0) + (r.noPrazo ? 1 : .5); });
-    const ordem = Object.keys(passos).sort((a,b)=> passos[b]-passos[a]);
+    // Mesma ordem da pista (Corrida): passos, depois pontos, depois nome.
+    const passos = {}, pts = {}, nomes = {};
+    res.forEach(r => { passos[r.uid] = (passos[r.uid]||0) + (r.noPrazo ? 1 : .5); pts[r.uid] = (pts[r.uid]||0) + (r.pts||0); nomes[r.uid] = r.nome || (r.uid===usuario.uid ? (perfil.nome||"") : ""); });
+    const ordem = Object.keys(passos).sort((a,b)=> passos[b]-passos[a] || pts[b]-pts[a] || (nomes[a]||"").localeCompare(nomes[b]||"","pt-BR"));
     const meus = passos[usuario.uid] || 0, pos = meus ? ordem.indexOf(usuario.uid) + 1 : 0, lider = ordem[0] ? passos[ordem[0]] : 0;
     const fmt1 = n => (Math.round(n*10)/10).toLocaleString("pt-BR");
     el.innerHTML = `<span class="hoje-lbl">Corrida do Rolo · ${esc(L.numero)}</span>
