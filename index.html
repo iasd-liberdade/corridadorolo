@@ -335,6 +335,7 @@ input[type=file]{width:100%;color:var(--muted);font-size:15px}
 .cq-modal h3{font-size:34px;margin:8px 0 2px}
 .cq-modal p{margin:0 0 6px;font-weight:600}
 .cq-modal .btn-row{margin-top:14px}
+.field .hint{display:block;font-size:12px;color:var(--muted);margin-top:4px}
 /* Tela inicial */
 .inicio-hero{display:grid;grid-template-columns:72px 1fr;gap:14px;align-items:center}
 .inicio-hero .avatar{width:72px;height:92px}
@@ -1680,7 +1681,15 @@ function abrirPagina(pags, i){
 /* ============================================================
    TELA: RANKING
    ============================================================ */
-/* Corrida do Rolo: cada dia feito no prazo = 1 passo; com atraso = meio passo. Config em CONFIG.corrida {meta, premio, inicio}. */
+/* Corrida do Rolo: cada dia feito no prazo = 1 passo; com atraso = meio passo.
+   Config em CONFIG.corrida {metaPct, pessoas, premio, inicio}. A meta é um percentual do total possível:
+   total possível = lições na pista × 7 dias × jovens da classe; meta em passos = total × metaPct% (arredondado para baixo). */
+function metaCorrida(cfg, usuarios, naPista){
+  const aprovados = usuarios ? usuarios.filter(u => u.aprovado || u.admin).length : 0;
+  const pessoas = cfg.pessoas || aprovados || naPista || 1;
+  const possivel = cfg.pista.length * 7 * pessoas;
+  return { pessoas, automatico: !cfg.pessoas, possivel, passos: Math.max(1, Math.floor(possivel * cfg.metaPct / 100)) };
+}
 function corridaCfg(){
   const c = CONFIG.corrida || {};
   const tri = (LICAO && LICAO.trimestre) || TRIMESTRE_BASE;
@@ -1688,7 +1697,8 @@ function corridaCfg(){
   const atual = lics.find(l => l.id === (LICOES[indiceLicaoAtual()]||{}).id) || lics[0];
   const inicio = +c.inicio || (atual ? atual.n : (lics[0] ? lics[0].n : 1));
   const pista = lics.filter(l => l.n >= inicio);
-  return { tri, lics, pista, inicio, meta: +c.meta || Math.max(1, pista.length * 7 * 2), premio: c.premio || "um prêmio especial para a classe", atual };
+  const metaPct = Math.min(100, Math.max(1, +c.metaPct || 90));
+  return { tri, lics, pista, inicio, metaPct, pessoas: Math.max(0, Math.floor(+c.pessoas || 0)), premio: c.premio || "um prêmio especial para a classe", atual };
 }
 let corridaModo = "licao", corridaLicao = null, corridaDados = null;
 async function telaRanking(){
@@ -1729,11 +1739,12 @@ function renderCorrida(cfg, res, usuarios, licSel){
   const tot = ids.reduce((s,id)=> s + jov[id].passos, 0);
   let h = "";
   if(!licSel){
-    const meta = Math.max(1, cfg.meta), pct = Math.min(100, tot/meta*100);
+    const M = metaCorrida(cfg, usuarios, ids.length), meta = M.passos, pct = Math.min(100, tot/meta*100), feitoPct = Math.min(100, Math.round(tot / M.possivel * 100));
     h += `<section class="panel"><div class="inline" style="justify-content:space-between"><h2 class="h3" style="font-size:32px">Meta da classe</h2>${ehAdmin() ? `<button class="btn btn-ghost btn-sm" id="rkCfg">⚙️ Configurar</button>` : ""}</div>
-    <div class="meta-num">${fmt1(tot)} <small>de ${fmt1(meta)} passos</small></div>
+    <div class="meta-num">${fmt1(tot)} <small>de ${fmt(meta)} passos</small></div>
     <div class="barra" role="progressbar" aria-valuemin="0" aria-valuemax="${meta}" aria-valuenow="${tot}"><i style="width:${pct}%"></i></div>
-    <p class="muted" style="margin:0">${tot >= meta ? "Meta alcançada! A classe ganhou " + esc(cfg.premio) + "." : "Faltam " + fmt1(meta - tot) + " passos para a classe ganhar " + esc(cfg.premio) + "."}</p></section>`;
+    <p class="muted" style="margin:0">${tot >= meta ? "Meta alcançada! A classe ganhou " + esc(cfg.premio) + "." : "Faltam " + fmt1(meta - tot) + " passos para a classe ganhar " + esc(cfg.premio) + "."}</p>
+    <p class="muted small" style="margin:8px 0 0">Meta de ${cfg.metaPct}% dos ${fmt(M.possivel)} passos possíveis (${M.pessoas} ${M.pessoas===1?"jovem":"jovens"} × ${cfg.pista.length} ${cfg.pista.length===1?"lição":"lições"} × 7 dias). A classe já fez ${feitoPct}% do possível.</p></section>`;
   } else {
     const feitos = ids.length ? ids.reduce((s,id)=> s + jov[id].regs.length, 0) : 0;
     h += `<section class="panel"><h2 class="h3" style="font-size:32px">${esc(licSel.numero)}: ${esc(licSel.titulo)}</h2>
@@ -1766,16 +1777,27 @@ function renderCorrida(cfg, res, usuarios, licSel){
   h += `<p class="rodape">Atualizado em ${new Date().toLocaleDateString("pt-BR")} às ${new Date().toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"})}</p>`;
   $("rkCorpo").innerHTML = h;
   requestAnimationFrame(()=> $("rkCorpo") && $("rkCorpo").querySelectorAll(".runner").forEach(r => r.style.left = ""));
-  const cb = $("rkCfg"); if(cb) cb.onclick = ()=> modalCorrida(cfg);
+  const cb = $("rkCfg"); if(cb) cb.onclick = ()=> modalCorrida(cfg, usuarios, ids.length);
 }
-function modalCorrida(cfg){
-  modal("Configurar a corrida", `<div class="field"><label for="crMeta">Meta da classe (passos)</label><input type="number" id="crMeta" min="1" value="${cfg.meta}"></div>
+function modalCorrida(cfg, usuarios, naPista){
+  const aprovados = (usuarios || []).filter(u => u.aprovado || u.admin).length;
+  modal("Configurar a corrida", `<div class="field"><label for="crMeta">Meta da classe (% do total possível)</label><input type="number" id="crMeta" min="1" max="100" step="1" value="${cfg.metaPct}"></div>
+    <div class="field"><label for="crPes">Jovens na classe</label><input type="number" id="crPes" min="0" step="1" placeholder="Automático: ${aprovados} ${aprovados===1?"aprovado":"aprovados"}" value="${cfg.pessoas || ""}"><span class="hint">Deixe em branco para usar a quantidade de usuários aprovados.</span></div>
     <div class="field"><label for="crPremio">Prêmio</label><input type="text" id="crPremio" maxlength="80" value="${esc(cfg.premio)}"></div>
     <div class="field"><label for="crIni">A pista começa na lição</label><select id="crIni">${cfg.lics.map(l=>`<option value="${l.n}" ${l.n===cfg.inicio?"selected":""}>Lição ${l.n}: ${esc(l.titulo)}</option>`).join("")}</select></div>
-    <p class="note">Um passo = um dia feito no prazo; meio passo = com atraso. Com ${cfg.pista.length} lições na pista, cada pessoa pode dar até ${cfg.pista.length*7} passos.</p>
+    <p class="note" id="crCalc"></p>
+    <p class="note">Um passo = um dia feito no prazo; meio passo = com atraso.</p>
     <p class="erro" id="crErro"></p><div class="btn-row uma"><button class="btn btn-main" id="crOk">Salvar</button></div>`, (m, fechar)=>{
+    const calc = ()=>{
+      const pctV = Math.min(100, Math.max(1, +m.querySelector("#crMeta").value || 90));
+      const pes = Math.max(0, Math.floor(+m.querySelector("#crPes").value || 0)) || aprovados || naPista || 1;
+      const ini = +m.querySelector("#crIni").value, nLic = cfg.lics.filter(l => l.n >= ini).length;
+      const possivel = nLic * 7 * pes, meta = Math.max(1, Math.floor(possivel * pctV / 100));
+      m.querySelector("#crCalc").innerHTML = `Total possível: ${nLic} ${nLic===1?"lição":"lições"} × 7 dias × ${pes} ${pes===1?"jovem":"jovens"} = <b>${fmt(possivel)} passos</b>.<br>Meta de ${pctV}% = <b>${fmt(meta)} passos</b>.`;
+    };
+    ["#crMeta","#crPes","#crIni"].forEach(sel => m.querySelector(sel).addEventListener("input", calc)); calc();
     m.querySelector("#crOk").onclick = async ()=>{
-      const c = { meta: Math.max(1, +m.querySelector("#crMeta").value||1), premio: m.querySelector("#crPremio").value.trim() || "um prêmio especial para a classe", inicio: +m.querySelector("#crIni").value };
+      const c = { metaPct: Math.min(100, Math.max(1, Math.round(+m.querySelector("#crMeta").value || 90))), pessoas: Math.max(0, Math.floor(+m.querySelector("#crPes").value || 0)), premio: m.querySelector("#crPremio").value.trim() || "um prêmio especial para a classe", inicio: +m.querySelector("#crIni").value };
       ocupado(m.querySelector("#crOk"), true);
       try{ await DB.salvarConfig({ corrida: c }); CONFIG.corrida = c; fechar(); aviso("Corrida configurada"); telaRanking(); }catch(e){ m.querySelector("#crErro").textContent = erroMsg(e); ocupado(m.querySelector("#crOk"), false); }
     };
