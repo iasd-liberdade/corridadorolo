@@ -323,6 +323,18 @@ input[type=file]{width:100%;color:var(--muted);font-size:15px}
 .ar-quem{margin-top:8px}
 .ar-quem .chip{font-size:12px;padding:3px 10px 3px 3px}
 .ar-quem .chip .avatar{width:22px;height:28px}
+/* Conquistas: cabeçalho com botão, cartões clicáveis e modal */
+.cq-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px}
+.cq-head .hoje-lbl{margin-bottom:0}
+.cq-head .btn-sm{min-height:34px;padding:5px 12px;font-size:13px}
+.badge-card{font:inherit;color:inherit;cursor:pointer;width:100%}
+.badge-card:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.cq-modal{text-align:center;padding:4px 0}
+.cq-modal .ic{font-size:84px;line-height:1.1;filter:drop-shadow(0 6px 18px rgba(143,230,255,.45))}
+.cq-modal.off .ic{opacity:.5;filter:grayscale(1)}
+.cq-modal h3{font-size:34px;margin:8px 0 2px}
+.cq-modal p{margin:0 0 6px;font-weight:600}
+.cq-modal .btn-row{margin-top:14px}
 /* Tela inicial */
 .inicio-hero{display:grid;grid-template-columns:72px 1fr;gap:14px;align-items:center}
 .inicio-hero .avatar{width:72px;height:92px}
@@ -364,7 +376,7 @@ input[type=file]{width:100%;color:var(--muted);font-size:15px}
 .inicio-grid .panel{margin:0}
 .inicio-hero>div{min-width:0}
 #rkCorpo{margin-top:14px}
-@media (min-width:900px){ .inicio-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start} .inicio-grid>div{gap:18px} .inicio-grid>div+div{margin-top:0} #rkCorpo{margin-top:16px} .badges{grid-template-columns:repeat(5,1fr)} }
+@media (min-width:900px){ .inicio-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start} .inicio-grid>div{gap:18px} .inicio-grid>div+div{margin-top:0} #rkCorpo{margin-top:16px} .badges{grid-template-columns:repeat(6,1fr)} }
 /* Abas dos dias (Estudar): sempre numa linha só */
 .tabs.dias{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;overflow:visible}
 .tabs.dias button{padding:6px 0;font-size:12px;line-height:1.15;white-space:normal;display:grid;justify-items:center;gap:1px;border-radius:12px}
@@ -721,11 +733,10 @@ const app = document.getElementById("app");
 
 function somarDias(iso, k){ const [y,m,d] = iso.split("-").map(Number); return new Date(Date.UTC(y, m-1, d+k)).toISOString().slice(0,10); }
 function dataLonga(iso){ const [y,m,d] = iso.split("-").map(Number); return (d===1 ? "1º" : d) + " de " + MESES[m-1]; }
-/* O "dia" da lição vai das 19h00 da véspera até as 18h59 da data. Às 19h começa o dia seguinte. */
-const VIRADA_H = 19;
+/* O "dia" da lição vai das 00h00 às 23h59 da data (vira à meia-noite). */
 function dataISO(d){ return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
-function hoje(){ const d = new Date(); d.setHours(d.getHours() + (24 - VIRADA_H)); return dataISO(d); }
-function proximaVirada(){ const f = new Date(); if(f.getHours() >= VIRADA_H) f.setDate(f.getDate() + 1); f.setHours(VIRADA_H, 0, 0, 0); return f; }
+function hoje(){ return dataISO(new Date()); }
+function proximaVirada(){ const f = new Date(); f.setHours(24, 0, 0, 0); return f; }
 function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch])); }
 function fmt(n){ return Number(n||0).toLocaleString("pt-BR"); }
 function dataCurta(iso){ const [y,m,d]=iso.split("-"); return d+"/"+m; }
@@ -1220,14 +1231,25 @@ function conquistas(){
     { ic:"👣", t:"Primeiro passo", d:"Fez o primeiro quiz", on: rs.length > 0 },
     { ic:"🎯", t:"Gabaritou", d:"Acertou todas num dia", on: rs.some(r => r.total > 0 && r.acertos === r.total) },
     { ic:"⚡", t:"Relâmpago", d:"4.500+ pontos num dia", on: rs.some(r => r.pts >= 4500) },
+    { ic:"🏹", t:"Mira certeira", d:"5 dias com todas certas", on: rs.filter(r => r.total > 0 && r.acertos === r.total).length >= 5 },
     { ic:"🔥", t:"Em chamas", d:"5 dias seguidos no prazo", on: st >= 5 },
     { ic:"📅", t:"Semana completa", d:"7 de 7 no prazo", on: semanaCompleta },
-    { ic:"🌅", t:"Madrugador", d:"Quiz entre 00h01 e 07h00", on: rs.some(r => minutoDoDia(r.quando) >= 1 && minutoDoDia(r.quando) <= 7*60) },
-    { ic:"🕖", t:"Primeiro o Reino", d:"Quiz entre 19h e 20h", on: rs.some(r => minutoDoDia(r.quando) >= VIRADA_H*60 && minutoDoDia(r.quando) <= (VIRADA_H+1)*60) },
+    { ic:"🌙", t:"Madrugador", d:"Quiz entre 00h e 06h", on: rs.some(r => minutoDoDia(r.quando) >= 0 && minutoDoDia(r.quando) < 6*60) },
+    { ic:"🌅", t:"Primeiro o Reino", d:"Quiz entre 06h e 08h", on: rs.some(r => minutoDoDia(r.quando) >= 6*60 && minutoDoDia(r.quando) <= 8*60) },
     { ic:"🏁", t:"Maratonista", d:"21 dias de estudo", on: rs.length >= 21 },
     { ic:"🕊️", t:"Fiel na reta", d:"3 semanas completas", on: LICOES.filter(L => L.dias.every(d => resDe(L,d) && resDe(L,d).noPrazo)).length >= 3 },
+    { ic:"💎", t:"Tesouro", d:"20.000 pontos no trimestre", on: totalTrimestre() >= 20000 },
     { ic:"📖", t:"Rolo inteiro", d:"Todos os dias do trimestre", on: LICOES.length > 0 && LICOES.every(L => L.dias.every(d => resDe(L,d))) }
   ];
+}
+function modalConquista(k){
+  const cq = conquistas(), c = cq[k]; if(!c) return;
+  const ganhas = cq.filter(x=>x.on).length;
+  modal(c.on ? "Conquista desbloqueada" : "Conquista bloqueada", `<div class="cq-modal ${c.on?"on":"off"}"><div class="ic">${c.ic}</div><h3>${esc(c.t)}</h3><p>${esc(c.d)}</p>
+    ${c.on ? `<p class="muted small">Mande no grupo e inspire a turma.</p><div class="btn-row"><button class="btn btn-wa" id="cqUma">Compartilhar esta conquista</button>${ganhas > 1 ? `<button class="btn btn-ghost" id="cqTodas">Compartilhar todas (${ganhas} de ${cq.length})</button>` : ""}</div>` : `<p class="muted small">Você ainda não ganhou esta conquista. Continue estudando e fazendo o quiz todo dia!</p>`}</div>`, (m)=>{
+    const u = m.querySelector("#cqUma"); if(u) u.onclick = ()=> compartilharConquista(c, u);
+    const t = m.querySelector("#cqTodas"); if(t) t.onclick = ()=> compartilharConquistas(t);
+  });
 }
 function telaInicio(){
   clearInterval(inicioTimer);
@@ -1260,16 +1282,18 @@ function telaInicio(){
   html += `<section class="panel" id="inCorrida"><span class="hoje-lbl">Corrida do Rolo</span><p class="vazio" style="padding:6px 0">Calculando sua posição…</p></section>`;
   // CONQUISTAS
   const cq = conquistas(), ganhas = cq.filter(c=>c.on).length;
-  html += `<section class="panel"><span class="hoje-lbl">Conquistas · ${ganhas} de ${cq.length}</span><div class="badges">${cq.map(c=>`<div class="badge-card ${c.on?"on":"off"}" title="${esc(c.d)}"><div class="ic">${c.ic}</div><b>${esc(c.t)}</b><span>${esc(c.d)}</span></div>`).join("")}</div></section>`;
+  html += `<section class="panel"><div class="cq-head"><span class="hoje-lbl">Conquistas · ${ganhas} de ${cq.length}</span><button class="btn btn-ghost btn-sm" id="cqShare" ${ganhas?"":"disabled"} title="${ganhas?"Compartilhar suas conquistas":"Ganhe a primeira conquista para compartilhar"}">Compartilhar</button></div><div class="badges">${cq.map((c,k)=>`<button type="button" class="badge-card ${c.on?"on":"off"}" data-cq="${k}" title="${esc(c.d)}"><div class="ic">${c.ic}</div><b>${esc(c.t)}</b><span>${esc(c.d)}</span></button>`).join("")}</div></section>`;
   html += `<div class="atalhos"><button data-go="estudar"><span class="ic">📖</span>Estudar</button><button data-go="quiz"><span class="ic">🎯</span>Quiz da semana</button><button data-go="ranking"><span class="ic">🏁</span>Corrida</button><button data-go="conta"><span class="ic">👤</span>Minha conta</button></div>`;
   html += `</div></div>`;
   app.innerHTML = html;
   app.querySelectorAll("[data-go]").forEach(b => b.onclick = ()=> nav(b.dataset.go));
+  const cqS = $("cqShare"); if(cqS) cqS.onclick = ()=> compartilharConquistas(cqS);
+  app.querySelectorAll("[data-cq]").forEach(b => b.onclick = ()=> modalConquista(+b.dataset.cq));
   const est = $("inEstudar"); if(est) est.onclick = ()=>{ estudoLicao = L; estudoDia = hojeIdx >= 0 ? hojeIdx : -1; nav("estudar"); };
   const jog = $("inJogar"); if(jog) jog.onclick = ()=>{ LICAO = L; tabAtual = "quiz"; atualizarCasca(); iniciar(hojeIdx); };
   const ver = $("inVer"); if(ver) ver.onclick = ()=>{ LICAO = L; tabAtual = "quiz"; atualizarCasca(); telaResultado(hojeIdx); };
   const ct = $("inContagem");
-  if(ct){ const tick = ()=>{ const el = $("inContagem"); if(!el){ clearInterval(inicioTimer); return; } const ms = proximaVirada() - Date.now(), hh = Math.floor(ms/36e5), mm = Math.floor((ms%36e5)/6e4); el.textContent = `⏳ Faltam ${hh}h${String(mm).padStart(2,"0")} para o dia fechar (às ${VIRADA_H}h). Depois disso o quiz vale metade.`; }; tick(); inicioTimer = setInterval(tick, 30000); }
+  if(ct){ const tick = ()=>{ const el = $("inContagem"); if(!el){ clearInterval(inicioTimer); return; } const ms = proximaVirada() - Date.now(), hh = Math.floor(ms/36e5), mm = Math.floor((ms%36e5)/6e4); el.textContent = `⏳ Faltam ${hh}h${String(mm).padStart(2,"0")} para o dia fechar (à meia-noite). Depois disso o quiz vale metade.`; }; tick(); inicioTimer = setInterval(tick, 30000); }
   if(L) posicaoCorrida(L);
 }
 async function posicaoCorrida(L){
@@ -2011,6 +2035,122 @@ function telaFoto(i, src){
     catch(e){ aviso("Toque e segure na imagem para salvar."); }
   };
 }
+
+
+/* ============================================================
+   CARTÕES DE CONQUISTAS (compartilhar só a imagem)
+   ============================================================ */
+const EMOJI = '"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji","Android Emoji",sans-serif';
+function fundoCartao(x, W, H){
+  const g = x.createLinearGradient(0, 0, W*0.45, H);
+  g.addColorStop(0, "#524F9C"); g.addColorStop(.55, "#6889AE"); g.addColorStop(1, "#83C6BD");
+  x.fillStyle = g; x.fillRect(0, 0, W, H);
+  x.save(); x.translate(790, 20); x.scale(1.7, 1.7);
+  x.strokeStyle = "rgba(255,255,255,.45)"; x.lineWidth = 1.4; x.lineCap = "round"; x.lineJoin = "round";
+  ["M152 6 C120 18 84 50 64 100 C56 120 52 140 50 160","M152 6 C146 40 126 78 98 102 C86 112 72 118 58 122","M152 6 C124 28 104 56 86 90","M118 34 C112 40 106 48 100 56 M132 52 C122 60 112 70 104 78","M50 160 C46 176 38 188 26 194 C14 200 8 192 16 186 C34 174 66 190 96 184 C118 180 136 196 150 214"]
+    .forEach(d=> x.stroke(new Path2D(d)));
+  x.restore();
+}
+function etiqueta(x, texto, extra){
+  const BB = FONTES;
+  x.fillStyle = "#fff"; x.strokeStyle = "#fff"; x.lineWidth = 4; x.textBaseline = "alphabetic"; x.textAlign = "left";
+  x.font = "48px " + BB;
+  const tw = x.measureText(texto).width;
+  x.strokeRect(72, 64, tw + 40, 64);
+  x.fillText(texto, 92, 114);
+  if(extra){ x.fillStyle = "rgba(255,255,255,.85)"; x.fillText(extra, 72 + tw + 64, 114); }
+}
+function quebrar(x, texto, max){
+  const out = []; let linha = "";
+  texto.split(" ").forEach(w => { const t = linha ? linha + " " + w : w; if(x.measureText(t).width > max && linha){ out.push(linha); linha = w; } else linha = t; });
+  if(linha) out.push(linha); return out;
+}
+/* Todas as conquistas: grade 4×3, as ganhas acesas e as outras apagadas */
+function desenharConquistas(x, lista){
+  const W = 1080, H = 1350, BB = FONTES, BR = '"Barlow",system-ui,sans-serif';
+  const ganhas = lista.filter(c=>c.on).length;
+  x.save(); x.clearRect(0, 0, W, H); fundoCartao(x, W, H);
+  etiqueta(x, "CONQUISTAS", ganhas + " DE " + lista.length);
+  x.fillStyle = "#fff"; x.font = "110px " + BB; x.textAlign = "left";
+  x.fillText("MINHAS", 72, 250);
+  x.fillStyle = "#8FE6FF"; x.fillText("CONQUISTAS", 72 + x.measureText("MINHAS ").width, 250);
+  // Grade
+  const cols = 4, rows = 3, GX = 72, GY = 300, GW = W - 144, gap = 18, cw = (GW - gap*(cols-1))/cols, ch = 250;
+  lista.forEach((c, k) => {
+    const cx = GX + (k % cols) * (cw + gap), cy = GY + Math.floor(k / cols) * (ch + gap);
+    x.save();
+    if(c.on){ x.shadowColor = "rgba(143,230,255,.45)"; x.shadowBlur = 24; x.fillStyle = "rgba(255,255,255,.22)"; } else x.fillStyle = "rgba(0,0,0,.16)";
+    rr(x, cx, cy, cw, ch, 26); x.fill();
+    x.shadowColor = "transparent";
+    x.strokeStyle = c.on ? "rgba(255,255,255,.75)" : "rgba(255,255,255,.14)"; x.lineWidth = 3; rr(x, cx, cy, cw, ch, 26); x.stroke();
+    if(!c.on) x.globalAlpha = .45;
+    x.textAlign = "center"; x.textBaseline = "alphabetic";
+    x.font = "88px " + EMOJI; x.fillStyle = "#fff"; x.fillText(c.ic, cx + cw/2, cy + 118);
+    x.font = "800 24px " + BR; x.fillStyle = "#fff";
+    const ls = quebrar(x, c.t, cw - 24);
+    ls.forEach((l, i) => x.fillText(l, cx + cw/2, cy + 168 + i*28));
+    x.font = "600 18px " + BR; x.fillStyle = "rgba(255,255,255,.8)";
+    quebrar(x, c.d, cw - 24).slice(0, 2).forEach((l, i) => x.fillText(l, cx + cw/2, cy + 168 + ls.length*28 + i*22));
+    if(!c.on){ x.globalAlpha = 1; x.font = "28px " + EMOJI; x.fillStyle = "rgba(255,255,255,.7)"; x.fillText("🔒", cx + cw - 30, cy + 40); }
+    x.restore();
+  });
+  // Rodapé: profeta + nome
+  const fy = GY + rows*ch + (rows-1)*gap + 30;
+  if(PROFETA_IMG){ const ih = 150, iw = ih * 24/31; x.drawImage(PROFETA_IMG, 72, fy, iw, ih); }
+  x.textAlign = "left"; x.textBaseline = "alphabetic";
+  x.font = "700 44px " + BR; x.fillStyle = "#fff"; x.fillText(quem(), 210, fy + 64);
+  x.font = "italic 600 32px " + BR; x.fillStyle = "rgba(255,255,255,.88)";
+  x.fillText(ganhas === lista.length ? "Todas as conquistas do trimestre!" : ganhas + (ganhas===1 ? " conquista" : " conquistas") + " · " + (nomeProfeta() ? "correndo com " + nomeProfeta() : "Quiz da Lição"), 210, fy + 112);
+  x.textAlign = "right"; x.font = "36px " + BB; x.fillStyle = "rgba(255,255,255,.85)"; x.fillText("#EUESTUDOMINHALIÇÃO", W - 72, fy + 172);
+  x.restore();
+}
+/* Uma conquista só, em destaque */
+function desenharConquista(x, c){
+  const W = 1080, H = 1350, BB = FONTES, BR = '"Barlow",system-ui,sans-serif';
+  x.save(); x.clearRect(0, 0, W, H); fundoCartao(x, W, H);
+  etiqueta(x, "CONQUISTA", "DESBLOQUEADA");
+  // Medalhão
+  const cx = W/2, cy = 560;
+  x.save(); x.shadowColor = "rgba(143,230,255,.55)"; x.shadowBlur = 60;
+  x.fillStyle = "rgba(255,255,255,.18)"; x.beginPath(); x.arc(cx, cy, 300, 0, Math.PI*2); x.fill();
+  x.shadowColor = "transparent";
+  x.fillStyle = "rgba(255,255,255,.22)"; x.beginPath(); x.arc(cx, cy, 250, 0, Math.PI*2); x.fill();
+  x.strokeStyle = "rgba(255,255,255,.85)"; x.lineWidth = 6; x.beginPath(); x.arc(cx, cy, 250, 0, Math.PI*2); x.stroke();
+  // Raios
+  x.strokeStyle = "rgba(255,255,255,.35)"; x.lineWidth = 4;
+  for(let i=0;i<16;i++){ const a = i*Math.PI/8; x.beginPath(); x.moveTo(cx + Math.cos(a)*320, cy + Math.sin(a)*320); x.lineTo(cx + Math.cos(a)*(i%2?360:400), cy + Math.sin(a)*(i%2?360:400)); x.stroke(); }
+  x.restore();
+  x.textAlign = "center"; x.textBaseline = "alphabetic";
+  x.font = "260px " + EMOJI; x.fillStyle = "#fff"; x.fillText(c.ic, cx, cy + 95);
+  // Nome e descrição
+  x.font = "120px " + BB; x.fillStyle = "#fff";
+  let tam = 120; while(x.measureText(c.t.toUpperCase()).width > W - 144 && tam > 60){ tam -= 4; x.font = tam + "px " + BB; }
+  x.fillText(c.t.toUpperCase(), cx, 980);
+  x.font = "600 40px " + BR; x.fillStyle = "#8FE6FF"; x.fillText(c.d, cx, 1040);
+  // Rodapé
+  const fy = 1120;
+  if(PROFETA_IMG){ const ih = 150, iw = ih * 24/31; x.drawImage(PROFETA_IMG, 72, fy, iw, ih); }
+  x.textAlign = "left";
+  x.font = "700 44px " + BR; x.fillStyle = "#fff"; x.fillText(quem(), 210, fy + 64);
+  x.font = "italic 600 32px " + BR; x.fillStyle = "rgba(255,255,255,.88)"; x.fillText(nomeProfeta() ? "correndo com " + nomeProfeta() : "Quiz da Lição", 210, fy + 112);
+  x.textAlign = "right"; x.font = "36px " + BB; x.fillStyle = "rgba(255,255,255,.85)"; x.fillText("#EUESTUDOMINHALIÇÃO", W - 72, fy + 172);
+  x.restore();
+}
+function slug(t){ return t.normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,""); }
+async function gerarCartao(desenho, nome, btn){
+  if(btn) ocupado(btn, true);
+  try{
+    await carregarFontes(); await carregarProfetaImg();
+    try{ await document.fonts.load('88px ' + EMOJI); }catch(e){}
+    const c = document.createElement("canvas"); c.width = 1080; c.height = 1350;
+    desenho(c.getContext("2d"));
+    const blob = await new Promise(r => c.toBlob(r, "image/jpeg", .92));
+    await compartilharImagem(blob, nome);
+  }catch(e){ aviso("Não deu para montar a imagem: " + erroMsg(e)); }
+  finally{ if(btn) ocupado(btn, false); }
+}
+function compartilharConquistas(btn){ const lista = conquistas(); return gerarCartao(x => desenharConquistas(x, lista), "conquistas-" + slug(quem() || "quiz") + ".jpg", btn); }
+function compartilharConquista(c, btn){ return gerarCartao(x => desenharConquista(x, c), "conquista-" + slug(c.t) + ".jpg", btn); }
 
 /* ============================================================
    ADMIN
