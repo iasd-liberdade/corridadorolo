@@ -336,6 +336,25 @@ input[type=file]{width:100%;color:var(--muted);font-size:15px}
 .cq-modal p{margin:0 0 6px;font-weight:600}
 .cq-modal .btn-row{margin-top:14px}
 .field .hint{display:block;font-size:12px;color:var(--muted);margin-top:4px}
+/* Festa de conquista nova */
+.confete{position:fixed;inset:0;width:100vw;height:100vh;z-index:70;pointer-events:none}
+.cq-festa{text-align:center}
+.cq-festa-sub{margin:0 0 10px;color:var(--soft);font-weight:700}
+.cq-festa-lista{display:grid;gap:10px;text-align:left}
+.cq-festa-item{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.45);border-radius:var(--radius);padding:10px 12px;box-shadow:0 0 18px rgba(143,230,255,.25);animation:cqpop .5s cubic-bezier(.2,1.3,.4,1) both}
+.cq-festa-item:nth-child(2){animation-delay:.12s}.cq-festa-item:nth-child(3){animation-delay:.24s}.cq-festa-item:nth-child(n+4){animation-delay:.36s}
+.cq-festa-item .ic{font-size:44px;line-height:1;flex:none;filter:drop-shadow(0 4px 12px rgba(143,230,255,.45))}
+.cq-festa-item .tx{flex:1;min-width:0}
+.cq-festa-item .tx b{display:block;font-family:"Bebas Neue","Arial Narrow",sans-serif;font-weight:400;font-size:26px;letter-spacing:.5px;line-height:1.05}
+.cq-festa-item .tx span{display:block;font-size:13px;color:var(--soft)}
+.cq-festa-item .btn-sm{flex:none;min-height:34px;padding:5px 12px;font-size:13px}
+.cq-festa-lista.uma .cq-festa-item{flex-direction:column;text-align:center;padding:18px 14px}
+.cq-festa-lista.uma .ic{font-size:96px}
+.cq-festa-lista.uma .tx b{font-size:40px}
+.cq-festa-lista.uma .tx span{font-size:15px}
+.cq-festa .btn-row{margin-top:14px}
+@keyframes cqpop{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.cq-festa-item{animation:none}}
 /* Tela inicial */
 .inicio-hero{display:grid;grid-template-columns:72px 1fr;gap:14px;align-items:center}
 .inicio-hero .avatar{width:72px;height:92px}
@@ -1132,6 +1151,7 @@ DB.onAuth(async u => {
     if(!perfil.aprovado && !perfil.admin){ atualizarCasca(); telaPendente(); return; }
     aplicarTema(perfil.tema || "auto");
     await carregarTudo();
+    if(typeof iniciarConquistasVistas === "function") iniciarConquistasVistas();
     if(!perfil.profeta){ atualizarCasca(); telaProfeta(); return; }
     nav("inicio");
   }catch(e){ console.error(e); app.innerHTML = `<section class="panel"><h2 class="h2">Ops</h2><p>${esc(erroMsg(e))}</p><div class="btn-row"><button class="btn btn-main" onclick="location.reload()">Tentar de novo</button><button class="btn btn-ghost" onclick="DB.sair()">Sair</button></div></section>`; }
@@ -1229,19 +1249,89 @@ function conquistas(){
   const rs = Object.values(RES), st = sequencia();
   const semanaCompleta = LICOES.some(L => L.dias.every(d => resDe(L,d) && resDe(L,d).noPrazo));
   return [
-    { ic:"👣", t:"Primeiro passo", d:"Fez o primeiro quiz", on: rs.length > 0 },
-    { ic:"🎯", t:"Gabaritou", d:"Acertou todas num dia", on: rs.some(r => r.total > 0 && r.acertos === r.total) },
-    { ic:"⚡", t:"Relâmpago", d:"4.500+ pontos num dia", on: rs.some(r => r.pts >= 4500) },
-    { ic:"🏹", t:"Mira certeira", d:"5 dias com todas certas", on: rs.filter(r => r.total > 0 && r.acertos === r.total).length >= 5 },
-    { ic:"🔥", t:"Em chamas", d:"5 dias seguidos no prazo", on: st >= 5 },
-    { ic:"📅", t:"Semana completa", d:"7 de 7 no prazo", on: semanaCompleta },
-    { ic:"🌙", t:"Madrugador", d:"Quiz entre 00h e 06h", on: rs.some(r => minutoDoDia(r.quando) >= 0 && minutoDoDia(r.quando) < 6*60) },
-    { ic:"🌅", t:"Primeiro o Reino", d:"Quiz entre 06h e 08h", on: rs.some(r => minutoDoDia(r.quando) >= 6*60 && minutoDoDia(r.quando) <= 8*60) },
-    { ic:"🏁", t:"Maratonista", d:"21 dias de estudo", on: rs.length >= 21 },
-    { ic:"🕊️", t:"Fiel na reta", d:"3 semanas completas", on: LICOES.filter(L => L.dias.every(d => resDe(L,d) && resDe(L,d).noPrazo)).length >= 3 },
-    { ic:"💎", t:"Tesouro", d:"20.000 pontos no trimestre", on: totalTrimestre() >= 20000 },
-    { ic:"📖", t:"Rolo inteiro", d:"Todos os dias do trimestre", on: LICOES.length > 0 && LICOES.every(L => L.dias.every(d => resDe(L,d))) }
+    { ic:"👣", id:"passo", t:"Primeiro passo", d:"Fez o primeiro quiz", on: rs.length > 0 },
+    { ic:"🎯", id:"gabarito", t:"Gabaritou", d:"Acertou todas num dia", on: rs.some(r => r.total > 0 && r.acertos === r.total) },
+    { ic:"⚡", id:"relampago", t:"Relâmpago", d:"4.500+ pontos num dia", on: rs.some(r => r.pts >= 4500) },
+    { ic:"🏹", id:"mira", t:"Mira certeira", d:"5 dias com todas certas", on: rs.filter(r => r.total > 0 && r.acertos === r.total).length >= 5 },
+    { ic:"🔥", id:"chamas", t:"Em chamas", d:"5 dias seguidos no prazo", on: st >= 5 },
+    { ic:"📅", id:"semana", t:"Semana completa", d:"7 de 7 no prazo", on: semanaCompleta },
+    { ic:"🌙", id:"madrugador", t:"Madrugador", d:"Quiz entre 00h e 06h", on: rs.some(r => minutoDoDia(r.quando) >= 0 && minutoDoDia(r.quando) < 6*60) },
+    { ic:"🌅", id:"reino", t:"Primeiro o Reino", d:"Quiz entre 06h e 08h", on: rs.some(r => minutoDoDia(r.quando) >= 6*60 && minutoDoDia(r.quando) <= 8*60) },
+    { ic:"🏁", id:"maratonista", t:"Maratonista", d:"21 dias de estudo", on: rs.length >= 21 },
+    { ic:"🕊️", id:"fiel", t:"Fiel na reta", d:"3 semanas completas", on: LICOES.filter(L => L.dias.every(d => resDe(L,d) && resDe(L,d).noPrazo)).length >= 3 },
+    { ic:"💎", id:"tesouro", t:"Tesouro", d:"20.000 pontos no trimestre", on: totalTrimestre() >= 20000 },
+    { ic:"📖", id:"rolo", t:"Rolo inteiro", d:"Todos os dias do trimestre", on: LICOES.length > 0 && LICOES.every(L => L.dias.every(d => resDe(L,d))) }
   ];
+}
+/* ---------- Conquistas novas: aparecem uma única vez, com confetes ---------- */
+function cqVistas(){
+  const loc = lsGet(KEY + ":cq:" + usuario.uid, null), srv = perfil && Array.isArray(perfil.cqVistas) ? perfil.cqVistas : null;
+  if(!loc && !srv) return null;
+  return Array.from(new Set([].concat(loc || [], srv || [])));
+}
+function salvarCqVistas(ids){
+  perfil.cqVistas = ids; lsSet(KEY + ":cq:" + usuario.uid, ids);
+  DB.salvarUsuario(usuario.uid, { cqVistas: ids }).catch(()=>{});
+}
+/* Na entrada do app: quem ainda não tem registro começa com as conquistas que já possui marcadas como vistas (sem festa retroativa). */
+function iniciarConquistasVistas(){ if(cqVistas() === null) salvarCqVistas(conquistas().filter(c => c.on).map(c => c.id)); }
+function conferirConquistasNovas(){
+  if(!usuario || !perfil || tabAtual !== "inicio" || document.querySelector(".modal-bg")) return;
+  const vistas = cqVistas() || [];
+  const novas = conquistas().filter(c => c.on && !vistas.includes(c.id));
+  if(!novas.length) return;
+  salvarCqVistas(vistas.concat(novas.map(c => c.id)));   // marca antes de mostrar: aparece só uma vez
+  celebrarConquistas(novas);
+}
+function celebrarConquistas(novas){
+  const uma = novas.length === 1;
+  const pararConfete = confetes();
+  modal(uma ? "Nova conquista!" : novas.length + " novas conquistas!", `<div class="cq-festa">
+      <p class="cq-festa-sub">${uma ? "Você desbloqueou" : "Você desbloqueou de uma vez"}</p>
+      <div class="cq-festa-lista ${uma ? "uma" : ""}">${novas.map((c,k) => `<div class="cq-festa-item"><div class="ic">${c.ic}</div><div class="tx"><b>${esc(c.t)}</b><span>${esc(c.d)}</span></div>${uma ? "" : `<button class="btn btn-ghost btn-sm" data-cqn="${k}">Compartilhar</button>`}</div>`).join("")}</div>
+      <div class="btn-row">${uma ? `<button class="btn btn-wa" id="cqnUma">Compartilhar esta conquista</button>` : ""}<button class="btn ${uma ? "btn-ghost" : "btn-wa"}" id="cqnTodas">Compartilhar todas as minhas conquistas</button><button class="btn btn-ghost" id="cqnOk">Continuar</button></div>
+    </div>`, (m, fechar)=>{
+    const u = m.querySelector("#cqnUma"); if(u) u.onclick = ()=> compartilharConquista(novas[0], u);
+    m.querySelectorAll("[data-cqn]").forEach(b => b.onclick = ()=> compartilharConquista(novas[+b.dataset.cqn], b));
+    m.querySelector("#cqnTodas").onclick = e => compartilharConquistas(e.currentTarget);
+    m.querySelector("#cqnOk").onclick = fechar;
+  }, pararConfete);
+}
+/* Confetes caindo por cima de tudo (some sozinho; respeita "reduzir movimento"). Retorna uma função para parar. */
+function confetes(){
+  if(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) return ()=>{};
+  const cv = document.createElement("canvas"); cv.className = "confete"; cv.setAttribute("aria-hidden", "true");
+  document.body.appendChild(cv);
+  const x = cv.getContext("2d"), dpr = Math.min(2, window.devicePixelRatio || 1);
+  let W = 0, H = 0;
+  const medir = ()=>{ W = window.innerWidth; H = window.innerHeight; cv.width = W * dpr; cv.height = H * dpr; x.setTransform(dpr, 0, 0, dpr, 0, 0); };
+  medir(); window.addEventListener("resize", medir);
+  const CORES = ["#8FE6FF","#5FE0B0","#F2BE2E","#E8505D","#B48CF0","#FFFFFF","#F08A4B"];
+  const N = Math.min(180, Math.round(W / 5) + 60), DUR = 6500, ini = performance.now();
+  const ps = Array.from({length: N}, (_, i) => ({
+    x: Math.random() * W, y: -20 - Math.random() * H * .6, w: 6 + Math.random() * 7, h: 9 + Math.random() * 9,
+    vy: 3 + Math.random() * 4, vx: -1 + Math.random() * 2, rot: Math.random() * Math.PI * 2, vr: -.15 + Math.random() * .3,
+    bal: Math.random() * Math.PI * 2, cor: CORES[i % CORES.length], redondo: i % 6 === 0 }));
+  let raf = 0, parado = false;
+  const parar = ()=>{ if(parado) return; parado = true; cancelAnimationFrame(raf); window.removeEventListener("resize", medir); cv.remove(); };
+  const quadro = t => {
+    if(parado) return;
+    const passou = t - ini, fim = passou > DUR;
+    x.clearRect(0, 0, W, H);
+    let vivos = 0;
+    ps.forEach(p => {
+      p.bal += .05; p.x += p.vx + Math.sin(p.bal) * 1.2; p.y += p.vy; p.rot += p.vr;
+      if(p.y > H + 20){ if(fim) return; p.y = -20; p.x = Math.random() * W; }
+      vivos++;
+      x.save(); x.translate(p.x, p.y); x.rotate(p.rot); x.globalAlpha = fim ? Math.max(0, 1 - (passou - DUR) / 1500) : 1; x.fillStyle = p.cor;
+      if(p.redondo){ x.beginPath(); x.arc(0, 0, p.w / 2, 0, Math.PI * 2); x.fill(); } else x.fillRect(-p.w / 2, -p.h / 2 * Math.abs(Math.cos(p.bal)), p.w, p.h * Math.abs(Math.cos(p.bal)) + 1);
+      x.restore();
+    });
+    if(!vivos || passou > DUR + 1500){ parar(); return; }
+    raf = requestAnimationFrame(quadro);
+  };
+  raf = requestAnimationFrame(quadro);
+  return parar;
 }
 function modalConquista(k){
   const cq = conquistas(), c = cq[k]; if(!c) return;
@@ -1289,6 +1379,7 @@ function telaInicio(){
   app.innerHTML = html;
   app.querySelectorAll("[data-go]").forEach(b => b.onclick = ()=> nav(b.dataset.go));
   const cqS = $("cqShare"); if(cqS) cqS.onclick = ()=> compartilharConquistas(cqS);
+  setTimeout(conferirConquistasNovas, 350);
   app.querySelectorAll("[data-cq]").forEach(b => b.onclick = ()=> modalConquista(+b.dataset.cq));
   const est = $("inEstudar"); if(est) est.onclick = ()=>{ estudoLicao = L; estudoDia = hojeIdx >= 0 ? hojeIdx : -1; nav("estudar"); };
   const jog = $("inJogar"); if(jog) jog.onclick = ()=>{ LICAO = L; tabAtual = "quiz"; atualizarCasca(); iniciar(hojeIdx); };
