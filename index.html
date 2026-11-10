@@ -355,6 +355,45 @@ input[type=file]{width:100%;color:var(--muted);font-size:15px}
 .cq-festa .btn-row{margin-top:14px}
 @keyframes cqpop{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){.cq-festa-item{animation:none}}
+/* Salas */
+.nav-n{position:absolute;top:-4px;right:-12px;min-width:16px;height:16px;padding:0 4px;border-radius:99px;background:var(--a);color:#fff;font:800 10px/16px "Barlow",sans-serif;text-align:center}
+.nav-n.fixo{position:static;display:inline-block;margin-left:4px;vertical-align:middle}
+.bottomnav button .ic{position:relative}
+@media (max-width:899px){ .bottomnav.n7 button{font-size:9.5px;letter-spacing:-.2px} }
+@media (max-width:380px){ .bottomnav.n7 button{font-size:8.6px} .bottomnav.n7{padding-left:4px;padding-right:4px;gap:0} }
+.salas-grid{display:grid;gap:14px;margin-top:14px}
+@media (min-width:900px){ .salas-grid{grid-template-columns:1fr 1fr} .btn-row.sala-botoes{grid-template-columns:repeat(3,1fr)} }
+.sala{background:var(--panel);border:1px solid var(--panel-line);border-radius:var(--radius-lg);padding:16px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.sala.ativa{border-color:rgba(143,230,255,.75);box-shadow:0 0 0 1px rgba(143,230,255,.35),0 0 22px rgba(143,230,255,.18)}
+.sala-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.sala-nome{min-width:0}
+.sala-nome h3{font-size:30px;line-height:1;margin:0 0 6px;overflow-wrap:anywhere}
+.sala-cod{flex:none;text-align:right}
+.sala-cod span{display:block;font-size:10px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--muted)}
+.sala-cod b{font-family:"Bebas Neue","Arial Narrow",sans-serif;font-weight:400;font-size:24px;letter-spacing:2px}
+.sala-info{margin:8px 0 0}
+.sala-pend{margin:10px 0 0;padding:8px 10px;border-radius:12px;background:rgba(242,190,46,.18);border:1px solid rgba(242,190,46,.5);font-size:14px}
+.sala-acoes{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.badge.sala-ativa{background:var(--accent);color:#14123C}
+.sala-sel{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:end;margin-bottom:10px}
+.sala-sel .btn-sm{min-height:52px}
+.convite{text-align:center;background:rgba(0,0,0,.16);border-radius:var(--radius);padding:14px}
+.convite span{display:block;font-size:12px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--muted)}
+.convite b{font-family:"Bebas Neue","Arial Narrow",sans-serif;font-weight:400;font-size:56px;letter-spacing:8px;line-height:1.1}
+.sala-achada{text-align:center}
+.sala-achada h3{font-size:36px;margin:0 0 6px;overflow-wrap:anywhere}
+.sala-achada p{margin:8px 0 0}
+.gs-membros{max-height:260px;overflow:auto}
+.check{display:flex;align-items:center;gap:10px;font-weight:700;cursor:pointer}
+.check input{width:22px;height:22px;flex:none;accent-color:var(--ok)}
+@media (min-width:900px) and (max-width:1320px){ #nav.bottomnav button{padding:9px 11px;font-size:14px;gap:6px} }
+/* Telas de notebook mais estreitas: menu encostado na marca e chip só com o profeta, para caber tudo */
+@media (min-width:900px) and (max-width:1180px){
+  #nav.bottomnav{left:158px;transform:none;gap:2px}
+  #nav.bottomnav button{padding:8px 8px;font-size:13px;gap:5px}
+  .topbar .chip span.n{display:none}
+  .topbar .chip{padding:6px 8px}
+}
 /* Tela inicial */
 .inicio-hero{display:grid;grid-template-columns:72px 1fr;gap:14px;align-items:center}
 .inicio-hero .avatar{width:72px;height:92px}
@@ -530,6 +569,7 @@ ol.passos li{margin-bottom:8px}
   <button type="button" data-tab="estudar"><span class="ic">📖</span>Estudar</button>
   <button type="button" data-tab="quiz"><span class="ic">🎯</span>Quiz</button>
   <button type="button" data-tab="ranking"><span class="ic" id="navProfeta">🏆</span>Corrida</button>
+  <button type="button" data-tab="salas"><span class="ic">👥<b class="nav-n" id="navSalasN" hidden></b></span>Salas</button>
   <button type="button" data-tab="conta"><span class="ic">👤</span>Minha conta</button>
   <button type="button" data-tab="admin" class="admin" id="navAdmin" hidden><span class="ic">🛠️</span>Admin</button>
 </nav>
@@ -859,7 +899,8 @@ function dbFirebase(){
     async login(email, senha){ await auth.signInWithEmailAndPassword(email, senha); },
     async criarConta(nome, email, senha){
       const cred = await auth.createUserWithEmailAndPassword(email, senha);
-      await col("usuarios").doc(cred.user.uid).set(novoPerfil(nome, email));
+      let auto = false; try{ const c = await col("config").doc("geral").get(); auto = !!(c.exists && c.data().aprovacaoAuto); }catch(e){}
+      await col("usuarios").doc(cred.user.uid).set(novoPerfil(nome, email, auto ? {aprovado:true} : {}));
     },
     async sair(){ await auth.signOut(); },
     async alterarSenha(atual, nova){
@@ -888,6 +929,18 @@ function dbFirebase(){
     async salvarResultado(r){ await col("resultados").doc(r.uid+"_"+r.licaoId+"_"+r.data).set(r); },
     async getConfig(){ const d = await col("config").doc("geral").get(); return d.exists ? d.data() : {}; },
     async salvarConfig(c){ await col("config").doc("geral").set(c, {merge:true}); },
+    // Salas (turmas) e seus membros. Membro: id = salaId_uid, status "ativo" | "pendente"
+    async getSala(id){ const d = await col("salas").doc(id).get(); return d.exists ? Object.assign({id:d.id}, d.data()) : null; },
+    async listarSalas(){ return lista(col("salas")); },
+    async salasPublicas(){ return lista(col("salas").where("publica","==",true)); },
+    async salasDoDono(uid){ return lista(col("salas").where("dono","==",uid)); },
+    async salaPorCodigo(codigo){ const r = await lista(col("salas").where("codigo","==",codigo).limit(1)); return r[0] || null; },
+    async salvarSala(id, dados){ await col("salas").doc(id).set(dados, {merge:true}); },
+    async excluirSala(id){ const s = await col("membros").where("salaId","==",id).get(); for(const d of s.docs) await d.ref.delete(); await col("salas").doc(id).delete(); },
+    async membrosDoUsuario(uid){ return lista(col("membros").where("uid","==",uid)); },
+    async membrosDaSala(salaId){ return lista(col("membros").where("salaId","==",salaId)); },
+    async salvarMembro(m){ await col("membros").doc(m.salaId + "_" + m.uid).set(m, {merge:true}); },
+    async excluirMembro(salaId, uid){ await col("membros").doc(salaId + "_" + uid).delete(); },
     // Progresso de um quiz em andamento (uma resposta de cada vez)
     async listarProgresso(uid){ return lista(col("progresso").where("uid","==",uid)); },
     async salvarProgresso(p){ await col("progresso").doc(p.id).set(p); },
@@ -930,7 +983,7 @@ function dbLocal(){
       if(d.usuarios[uid]) throw err("auth/email-already-in-use");
       if(String(senha).length < 6) throw err("auth/weak-password");
       const primeiro = Object.keys(d.usuarios).length === 0;
-      d.usuarios[uid] = novoPerfil(nome, email, primeiro ? {admin:true, aprovado:true} : {});
+      d.usuarios[uid] = novoPerfil(nome, email, primeiro ? {admin:true, aprovado:true} : ((d.config||{}).aprovacaoAuto ? {aprovado:true} : {}));
       d.senhas[uid] = senha; d.sessao = uid; gravar(d); avisar();
     },
     async sair(){ const d = ler(); d.sessao = ""; gravar(d); avisar(); },
@@ -954,6 +1007,17 @@ function dbLocal(){
     async salvarResultado(r){ const d = ler(); d.resultados[r.uid+"_"+r.licaoId+"_"+r.data] = r; gravar(d); },
     async getConfig(){ return ler().config || {}; },
     async salvarConfig(c){ const d = ler(); d.config = Object.assign(d.config||{}, c); gravar(d); },
+    async getSala(id){ const d = ler(); return (d.salas||{})[id] ? Object.assign({id}, d.salas[id]) : null; },
+    async listarSalas(){ const d = ler(); return Object.keys(d.salas||{}).map(k=>Object.assign({id:k}, d.salas[k])); },
+    async salasPublicas(){ return (await this.listarSalas()).filter(x=>x.publica === true); },
+    async salasDoDono(uid){ return (await this.listarSalas()).filter(x=>x.dono === uid); },
+    async salaPorCodigo(codigo){ return (await this.listarSalas()).find(x=>x.codigo === codigo) || null; },
+    async salvarSala(id, dados){ const d = ler(); d.salas = d.salas || {}; d.salas[id] = Object.assign(d.salas[id]||{}, dados); gravar(d); },
+    async excluirSala(id){ const d = ler(); if(d.salas) delete d.salas[id]; Object.keys(d.membros||{}).forEach(k=>{ if(d.membros[k].salaId === id) delete d.membros[k]; }); gravar(d); },
+    async membrosDoUsuario(uid){ const d = ler(); return Object.keys(d.membros||{}).map(k=>Object.assign({id:k}, d.membros[k])).filter(m=>m.uid===uid); },
+    async membrosDaSala(salaId){ const d = ler(); return Object.keys(d.membros||{}).map(k=>Object.assign({id:k}, d.membros[k])).filter(m=>m.salaId===salaId); },
+    async salvarMembro(m){ const d = ler(); d.membros = d.membros || {}; const k = m.salaId + "_" + m.uid; d.membros[k] = Object.assign(d.membros[k]||{}, m); gravar(d); },
+    async excluirMembro(salaId, uid){ const d = ler(); if(d.membros) delete d.membros[salaId + "_" + uid]; gravar(d); },
     async listarProgresso(uid){ const d = ler(); return Object.values(d.progresso||{}).filter(p=>p.uid===uid); },
     async salvarProgresso(p){ const d = ler(); d.progresso = d.progresso || {}; d.progresso[p.id] = p; gravar(d); },
     async excluirProgresso(id){ const d = ler(); if(d.progresso) delete d.progresso[id]; gravar(d); },
@@ -976,6 +1040,8 @@ let RES = {};              // meus resultados: chave licaoId|data -> {pts, acert
 let PROG = {};             // quizzes em andamento: chave licaoId|data -> progresso salvo
 let LICAO = null;          // lição selecionada na tela do quiz
 let jogo = null, timer = null, tabAtual = "inicio";
+// Salas (turmas): SALAS = salas em que participo; SALA = sala ativa (usada na Corrida e no Início)
+let SALAS = [], SALAS_PEDIDOS = [], SALA = null, SALAS_PENDENTES = 0, SALAS_ERRO = "", membrosCache = {};
 const ehAdmin = ()=> !!(perfil && perfil.admin);
 const podeAnterior = ()=> !!(CONFIG.liberarAnterior || (perfil && perfil.liberarAnterior) || ehAdmin());
 
@@ -1113,13 +1179,13 @@ function atualizarCasca(){
   const logado = !!(usuario && perfil && (perfil.aprovado || perfil.admin));
   $("topbar").hidden = !logado; $("nav").hidden = !logado;
   document.body.classList.toggle("sem-menu", !logado);
-  if(logado){ $("chipEm").innerHTML = perfil.profeta ? avatarSVG(perfil.profeta) : ""; $("chipNome").textContent = perfil.nome || ""; $("navAdmin").hidden = !ehAdmin(); $("navProfeta").innerHTML = perfil.profeta ? avatarSVG(perfil.profeta) : "🏆"; }
+  if(logado){ $("chipEm").innerHTML = perfil.profeta ? avatarSVG(perfil.profeta) : ""; $("chipNome").textContent = perfil.nome || ""; $("navAdmin").hidden = !ehAdmin(); $("navProfeta").innerHTML = perfil.profeta ? avatarSVG(perfil.profeta) : "🏆"; const np = $("navSalasN"); if(np){ const n = typeof SALAS_PENDENTES === "number" ? SALAS_PENDENTES : 0; np.hidden = !n; np.textContent = n > 9 ? "9+" : String(n); } $("nav").classList.toggle("n7", ehAdmin()); }
   document.querySelectorAll("#nav button").forEach(b => { if(b.dataset.tab === tabAtual) b.setAttribute("aria-current","page"); else b.removeAttribute("aria-current"); });
 }
 function nav(tab){
   pararTimer(); if(typeof pararCamera === "function") pararCamera();
   tabAtual = tab; atualizarCasca(); window.scrollTo(0,0);
-  ({ inicio: telaInicio, estudar: telaEstudar, quiz: telaQuiz, ranking: telaRanking, conta: telaConta, admin: telaAdmin }[tab] || telaInicio)();
+  ({ inicio: telaInicio, estudar: telaEstudar, quiz: telaQuiz, ranking: telaRanking, salas: telaSalas, conta: telaConta, admin: telaAdmin }[tab] || telaInicio)();
 }
 document.querySelectorAll("#nav button").forEach(b => b.onclick = ()=> nav(b.dataset.tab));
 $("chipConta").onclick = ()=> nav("conta");
@@ -1144,16 +1210,18 @@ DB.onAuth(async u => {
   try{
     if(!u){ perfil = null; atualizarCasca(); telaLogin(); return; }
     perfil = await DB.getUsuario(u.uid);
-    if(!perfil){ perfil = novoPerfil(u.email.split("@")[0], u.email); await DB.salvarUsuario(u.uid, perfil); }
+    if(!perfil){ let auto = false; try{ auto = !!((await DB.getConfig()) || {}).aprovacaoAuto; }catch(e){} perfil = novoPerfil(u.email.split("@")[0], u.email, auto ? {aprovado:true} : {}); await DB.salvarUsuario(u.uid, perfil); }
     if(ADMINS_INICIAIS.map(e=>e.toLowerCase()).includes(String(u.email).toLowerCase()) && !(perfil.admin && perfil.aprovado)){
       perfil.admin = true; perfil.aprovado = true; await DB.salvarUsuario(u.uid, {admin:true, aprovado:true});
     }
     if(!perfil.aprovado && !perfil.admin){ atualizarCasca(); telaPendente(); return; }
     aplicarTema(perfil.tema || "auto");
     await carregarTudo();
+    await carregarSalas();
     if(typeof iniciarConquistasVistas === "function") iniciarConquistasVistas();
     if(!perfil.profeta){ atualizarCasca(); telaProfeta(); return; }
     nav("inicio");
+    conferirConvite();
   }catch(e){ console.error(e); app.innerHTML = `<section class="panel"><h2 class="h2">Ops</h2><p>${esc(erroMsg(e))}</p><div class="btn-row"><button class="btn btn-main" onclick="location.reload()">Tentar de novo</button><button class="btn btn-ghost" onclick="DB.sair()">Sair</button></div></section>`; }
 });
 
@@ -1374,7 +1442,7 @@ function telaInicio(){
   // CONQUISTAS
   const cq = conquistas(), ganhas = cq.filter(c=>c.on).length;
   html += `<section class="panel"><div class="cq-head"><span class="hoje-lbl">Conquistas · ${ganhas} de ${cq.length}</span><button class="btn btn-ghost btn-sm" id="cqShare" ${ganhas?"":"disabled"} title="${ganhas?"Compartilhar suas conquistas":"Ganhe a primeira conquista para compartilhar"}">Compartilhar</button></div><div class="badges">${cq.map((c,k)=>`<button type="button" class="badge-card ${c.on?"on":"off"}" data-cq="${k}" title="${esc(c.d)}"><div class="ic">${c.ic}</div><b>${esc(c.t)}</b><span>${esc(c.d)}</span></button>`).join("")}</div></section>`;
-  html += `<div class="atalhos"><button data-go="estudar"><span class="ic">📖</span>Estudar</button><button data-go="quiz"><span class="ic">🎯</span>Quiz da semana</button><button data-go="ranking"><span class="ic">🏁</span>Corrida</button><button data-go="conta"><span class="ic">👤</span>Minha conta</button></div>`;
+  html += `<div class="atalhos"><button data-go="estudar"><span class="ic">📖</span>Estudar</button><button data-go="quiz"><span class="ic">🎯</span>Quiz da semana</button><button data-go="ranking"><span class="ic">🏁</span>Corrida</button><button data-go="salas"><span class="ic">👥</span>Salas</button></div>`;
   html += `</div></div>`;
   app.innerHTML = html;
   app.querySelectorAll("[data-go]").forEach(b => b.onclick = ()=> nav(b.dataset.go));
@@ -1391,7 +1459,10 @@ function telaInicio(){
 async function posicaoCorrida(L){
   const el = $("inCorrida"); if(!el) return;
   try{
-    const res = await DB.resultadosLicao(L.id);
+    const sala = salaAtual();
+    let res = await DB.resultadosLicao(L.id);
+    const membros = await membrosAtivos(sala).catch(()=>null);
+    if(membros) res = res.filter(r => membros.has(r.uid));
     if(!$("inCorrida")) return;
     // Mesma ordem da pista (Corrida): passos, depois pontos, depois nome.
     const passos = {}, pts = {}, nomes = {};
@@ -1399,12 +1470,13 @@ async function posicaoCorrida(L){
     const ordem = Object.keys(passos).sort((a,b)=> passos[b]-passos[a] || pts[b]-pts[a] || (nomes[a]||"").localeCompare(nomes[b]||"","pt-BR"));
     const meus = passos[usuario.uid] || 0, pos = meus ? ordem.indexOf(usuario.uid) + 1 : 0, lider = ordem[0] ? passos[ordem[0]] : 0;
     const fmt1 = n => (Math.round(n*10)/10).toLocaleString("pt-BR");
-    el.innerHTML = `<span class="hoje-lbl">Corrida do Rolo · ${esc(L.numero)}</span>
+    el.innerHTML = `<div class="cq-head"><span class="hoje-lbl">Corrida do Rolo · ${esc(L.numero)}</span><button class="btn btn-ghost btn-sm" id="inSala" title="Trocar de sala">${esc(sala.nome)}</button></div>
       <div class="posicao">${pos ? `<b>${pos}º</b><span>de ${ordem.length} na pista · ${fmt1(meus)} ${meus===1?"passo":"passos"}</span>` : `<b>—</b><span>${ordem.length ? ordem.length + " já estão correndo. Entre na pista!" : "A pista está vazia. Seja o primeiro!"}</span>`}</div>
       <div class="track" style="--seg:7"><span class="flag" aria-hidden="true">🏁</span><div class="runner" style="--p:${Math.min(1, meus/7)}">${avatarSVG(perfil.profeta)}</div></div>
       <p class="muted small" style="margin:10px 0 0">${pos === 1 && meus ? "Você está na frente! Mantenha o ritmo." : lider > meus ? `O líder tem ${fmt1(lider)} ${lider===1?"passo":"passos"}. Cada dia no prazo é um passo.` : "Cada dia no prazo é um passo. Com atraso, meio passo."}</p>
       <div class="btn-row uma" style="margin-top:12px"><button class="btn btn-ghost" id="inRolo">Ver a corrida completa</button></div>`;
     $("inRolo").onclick = ()=> nav("ranking");
+    $("inSala").onclick = ()=> nav("salas");
   }catch(e){ el.innerHTML = `<span class="hoje-lbl">Corrida do Rolo</span><p class="muted small" style="margin:0">${esc(erroMsg(e))}</p>`; }
 }
 
@@ -1775,14 +1847,15 @@ function abrirPagina(pags, i){
 /* Corrida do Rolo: cada dia feito no prazo = 1 passo; com atraso = meio passo.
    Config em CONFIG.corrida {metaPct, pessoas, premio, inicio}. A meta é um percentual do total possível:
    total possível = lições na pista × 7 dias × jovens da classe; meta em passos = total × metaPct% (arredondado para baixo). */
-function metaCorrida(cfg, usuarios, naPista){
-  const aprovados = usuarios ? usuarios.filter(u => u.aprovado || u.admin).length : 0;
+function metaCorrida(cfg, usuarios, naPista, membros){
+  const aprovados = membros ? membros.size : (usuarios ? usuarios.filter(u => u.aprovado || u.admin).length : 0);
   const pessoas = cfg.pessoas || aprovados || naPista || 1;
   const possivel = cfg.pista.length * 7 * pessoas;
   return { pessoas, automatico: !cfg.pessoas, possivel, passos: Math.max(1, Math.floor(possivel * cfg.metaPct / 100)) };
 }
 function corridaCfg(){
-  const c = CONFIG.corrida || {};
+  const sala = salaAtual();
+  const c = (sala.global ? CONFIG.corrida : sala.corrida) || {};
   const tri = (LICAO && LICAO.trimestre) || TRIMESTRE_BASE;
   const lics = LICOES.filter(l=>l.trimestre===tri);
   const atual = lics.find(l => l.id === (LICOES[indiceLicaoAtual()]||{}).id) || lics[0];
@@ -1793,28 +1866,35 @@ function corridaCfg(){
 }
 let corridaModo = "licao", corridaLicao = null, corridaDados = null;
 async function telaRanking(){
+  const sala = salaAtual();
   const cfg = corridaCfg();
   if(!corridaLicao || !cfg.lics.find(l=>l.id===corridaLicao)) corridaLicao = cfg.atual ? cfg.atual.id : (cfg.lics[0] && cfg.lics[0].id);
   const porLicao = corridaModo === "licao", licSel = cfg.lics.find(l=>l.id===corridaLicao) || cfg.atual;
   app.innerHTML = `<div class="result-area">
-    <header class="hero" style="padding-bottom:14px"><div class="tag"><span class="box">Corrida da classe</span><span class="date">${porLicao && licSel ? `Lição ${licSel.n}` : (cfg.pista.length ? `Lições ${cfg.pista[0].n} a ${cfg.pista[cfg.pista.length-1].n}` : esc(cfg.tri))}</span></div>
+    <header class="hero" style="padding-bottom:14px"><div class="tag"><span class="box">${esc(sala.nome)}</span><span class="date">${porLicao && licSel ? `Lição ${licSel.n}` : (cfg.pista.length ? `Lições ${cfg.pista[0].n} a ${cfg.pista[cfg.pista.length-1].n}` : esc(cfg.tri))}</span></div>
       <h1 class="rolo-h">Corrida do<span class="hl">Rolo</span></h1>
       <p>Cada dia de estudo no prazo é um passo no rolo. Feito com atraso, vale meio passo. Ninguém volta para trás.</p></header>
     <section class="panel" style="padding:12px 14px">
+      <div class="sala-sel"><div class="field" style="margin:0"><label for="crSala">Sala</label><select id="crSala">${SALAS.map(x=>`<option value="${esc(x.id)}" ${x.id===sala.id?"selected":""}>${esc(x.nome)}${x.global?" (global)":""}</option>`).join("")}</select></div><button class="btn btn-ghost btn-sm" id="crSalas">Salas</button></div>
       <div class="tabs" role="tablist" style="margin-bottom:${porLicao?"10px":"0"}"><button role="tab" aria-selected="${porLicao}" data-m="licao">Por lição (dias)</button><button role="tab" aria-selected="${!porLicao}" data-m="tri">Trimestre (lições)</button></div>
       ${porLicao ? `<div class="field" style="margin:0"><select id="crLic" aria-label="Lição">${cfg.lics.map(l=>`<option value="${l.id}" ${l.id===corridaLicao?"selected":""}>${esc(l.numero)}: ${esc(l.titulo)}${l===cfg.atual?" (esta semana)":""}</option>`).join("")}</select></div>` : ""}
     </section>
     <div id="rkCorpo"><section class="panel"><p class="vazio">Carregando a pista…</p></section></div></div>`;
   app.querySelectorAll("[data-m]").forEach(b=> b.onclick = ()=>{ corridaModo = b.dataset.m; telaRanking(); });
   const sel = $("crLic"); if(sel) sel.onchange = ()=>{ corridaLicao = sel.value; telaRanking(); };
+  $("crSala").onchange = e => { definirSala(e.target.value); telaRanking(); };
+  $("crSalas").onclick = ()=> nav("salas");
   try{
     if(!corridaDados || Date.now() - corridaDados.em > 60000){ const [res, usuarios] = await Promise.all([DB.todosResultados(), DB.listarUsuarios()]); corridaDados = { res, usuarios, em: Date.now() }; }
-    if(!$("rkCorpo")) return;
-    renderCorrida(cfg, corridaDados.res, corridaDados.usuarios, porLicao ? licSel : null);
+    const membros = await membrosAtivos(sala);
+    if(!$("rkCorpo") || salaAtual().id !== sala.id) return;
+    renderCorrida(cfg, corridaDados.res, corridaDados.usuarios, porLicao ? licSel : null, membros);
   }catch(e){ const el = $("rkCorpo"); if(el) el.innerHTML = `<section class="panel"><p class="erro">${esc(erroMsg(e))}</p></section>`; }
 }
-function renderCorrida(cfg, res, usuarios, licSel){
+function renderCorrida(cfg, res, usuarios, licSel, membros){
+  const sala = salaAtual(), podeCfg = ehAdmin() || ehDonoSala(sala);
   const uMap = {}; usuarios.forEach(u=> uMap[u.id] = u);
+  if(membros) res = res.filter(r => membros.has(r.uid));
   // Por lição: cada coluna é um dia (7). Trimestre: cada coluna é uma lição/semana.
   const idsPista = new Set(licSel ? [licSel.id] : cfg.pista.map(l=>l.id));
   const colunas = licSel ? licSel.dias.map(d=> ({ rotulo: d.curto, titulo: d.nome + " " + dataCurta(d.data) })) : cfg.pista.map(l=> ({ rotulo: "L" + l.n, titulo: l.titulo }));
@@ -1830,20 +1910,20 @@ function renderCorrida(cfg, res, usuarios, licSel){
   const tot = ids.reduce((s,id)=> s + jov[id].passos, 0);
   let h = "";
   if(!licSel){
-    const M = metaCorrida(cfg, usuarios, ids.length), meta = M.passos, pct = Math.min(100, tot/meta*100), feitoPct = Math.min(100, Math.round(tot / M.possivel * 100));
-    h += `<section class="panel"><div class="inline" style="justify-content:space-between"><h2 class="h3" style="font-size:32px">Meta da classe</h2>${ehAdmin() ? `<button class="btn btn-ghost btn-sm" id="rkCfg">⚙️ Configurar</button>` : ""}</div>
+    const M = metaCorrida(cfg, usuarios, ids.length, membros), meta = M.passos, pct = Math.min(100, tot/meta*100), feitoPct = Math.min(100, Math.round(tot / M.possivel * 100));
+    h += `<section class="panel"><div class="inline" style="justify-content:space-between"><h2 class="h3" style="font-size:32px">Meta da sala</h2>${podeCfg ? `<button class="btn btn-ghost btn-sm" id="rkCfg">⚙️ Configurar</button>` : ""}</div>
     <div class="meta-num">${fmt1(tot)} <small>de ${fmt(meta)} passos</small></div>
     <div class="barra" role="progressbar" aria-valuemin="0" aria-valuemax="${meta}" aria-valuenow="${tot}"><i style="width:${pct}%"></i></div>
-    <p class="muted" style="margin:0">${tot >= meta ? "Meta alcançada! A classe ganhou " + esc(cfg.premio) + "." : "Faltam " + fmt1(meta - tot) + " passos para a classe ganhar " + esc(cfg.premio) + "."}</p>
-    <p class="muted small" style="margin:8px 0 0">Meta de ${cfg.metaPct}% dos ${fmt(M.possivel)} passos possíveis (${M.pessoas} ${M.pessoas===1?"jovem":"jovens"} × ${cfg.pista.length} ${cfg.pista.length===1?"lição":"lições"} × 7 dias). A classe já fez ${feitoPct}% do possível.</p></section>`;
+    <p class="muted" style="margin:0">${tot >= meta ? "Meta alcançada! A sala ganhou " + esc(cfg.premio) + "." : "Faltam " + fmt1(meta - tot) + " passos para a sala ganhar " + esc(cfg.premio) + "."}</p>
+    <p class="muted small" style="margin:8px 0 0">Meta de ${cfg.metaPct}% dos ${fmt(M.possivel)} passos possíveis (${M.pessoas} ${M.pessoas===1?"jovem":"jovens"} × ${cfg.pista.length} ${cfg.pista.length===1?"lição":"lições"} × 7 dias). A sala já fez ${feitoPct}% do possível.</p></section>`;
   } else {
     const feitos = ids.length ? ids.reduce((s,id)=> s + jov[id].regs.length, 0) : 0;
     h += `<section class="panel"><h2 class="h3" style="font-size:32px">${esc(licSel.numero)}: ${esc(licSel.titulo)}</h2>
-    <div class="meta-num">${fmt1(tot)} <small>${tot===1?"passo":"passos"} da classe</small></div>
+    <div class="meta-num">${fmt1(tot)} <small>${tot===1?"passo":"passos"} da sala</small></div>
     <p class="muted" style="margin:0">${ids.length} ${ids.length===1?"jovem":"jovens"} na pista · ${feitos} ${feitos===1?"dia feito":"dias feitos"} · cada coluna é um dia da semana (Sáb a Sex).</p></section>`;
   }
   h += `<section class="panel"><h2 class="h3" style="font-size:32px">A pista</h2>`;
-  if(!ids.length) h += `<p class="vazio">${licSel ? "Ninguém fez o quiz desta lição ainda." : "A corrida começa quando chegarem os primeiros resultados do quiz."}</p>`;
+  if(!ids.length) h += `<p class="vazio">${licSel ? "Ninguém fez o quiz desta lição ainda." : "A corrida desta sala começa quando chegarem os primeiros resultados do quiz."}</p>`;
   else {
     h += `<div class="escala" style="grid-template-columns:repeat(${colunas.length},1fr)">${colunas.map(c=>`<span title="${esc(c.titulo)}">${esc(c.rotulo)}</span>`).join("")}</div><ol class="lanes">`;
     ids.forEach((id,k)=>{ const j = jov[id];
@@ -1868,12 +1948,13 @@ function renderCorrida(cfg, res, usuarios, licSel){
   h += `<p class="rodape">Atualizado em ${new Date().toLocaleDateString("pt-BR")} às ${new Date().toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"})}</p>`;
   $("rkCorpo").innerHTML = h;
   requestAnimationFrame(()=> $("rkCorpo") && $("rkCorpo").querySelectorAll(".runner").forEach(r => r.style.left = ""));
-  const cb = $("rkCfg"); if(cb) cb.onclick = ()=> modalCorrida(cfg, usuarios, ids.length);
+  const cb = $("rkCfg"); if(cb) cb.onclick = ()=> modalCorrida(cfg, usuarios, ids.length, membros);
 }
-function modalCorrida(cfg, usuarios, naPista){
-  const aprovados = (usuarios || []).filter(u => u.aprovado || u.admin).length;
-  modal("Configurar a corrida", `<div class="field"><label for="crMeta">Meta da classe (% do total possível)</label><input type="number" id="crMeta" min="1" max="100" step="1" value="${cfg.metaPct}"></div>
-    <div class="field"><label for="crPes">Jovens na classe</label><input type="number" id="crPes" min="0" step="1" placeholder="Automático: ${aprovados} ${aprovados===1?"aprovado":"aprovados"}" value="${cfg.pessoas || ""}"><span class="hint">Deixe em branco para usar a quantidade de usuários aprovados.</span></div>
+function modalCorrida(cfg, usuarios, naPista, membros){
+  const sala = salaAtual();
+  const aprovados = membros ? membros.size : (usuarios || []).filter(u => u.aprovado || u.admin).length;
+  modal("Configurar a corrida", `<div class="field"><label for="crMeta">Meta da sala ${esc(sala.nome)} (% do total possível)</label><input type="number" id="crMeta" min="1" max="100" step="1" value="${cfg.metaPct}"></div>
+    <div class="field"><label for="crPes">Jovens na sala</label><input type="number" id="crPes" min="0" step="1" placeholder="Automático: ${aprovados} ${membros ? (aprovados===1?"membro":"membros") : (aprovados===1?"aprovado":"aprovados")}" value="${cfg.pessoas || ""}"><span class="hint">Deixe em branco para usar a quantidade de ${membros ? "membros da sala" : "usuários aprovados"}.</span></div>
     <div class="field"><label for="crPremio">Prêmio</label><input type="text" id="crPremio" maxlength="80" value="${esc(cfg.premio)}"></div>
     <div class="field"><label for="crIni">A pista começa na lição</label><select id="crIni">${cfg.lics.map(l=>`<option value="${l.n}" ${l.n===cfg.inicio?"selected":""}>Lição ${l.n}: ${esc(l.titulo)}</option>`).join("")}</select></div>
     <p class="note" id="crCalc"></p>
@@ -1890,7 +1971,7 @@ function modalCorrida(cfg, usuarios, naPista){
     m.querySelector("#crOk").onclick = async ()=>{
       const c = { metaPct: Math.min(100, Math.max(1, Math.round(+m.querySelector("#crMeta").value || 90))), pessoas: Math.max(0, Math.floor(+m.querySelector("#crPes").value || 0)), premio: m.querySelector("#crPremio").value.trim() || "um prêmio especial para a classe", inicio: +m.querySelector("#crIni").value };
       ocupado(m.querySelector("#crOk"), true);
-      try{ await DB.salvarConfig({ corrida: c }); CONFIG.corrida = c; fechar(); aviso("Corrida configurada"); telaRanking(); }catch(e){ m.querySelector("#crErro").textContent = erroMsg(e); ocupado(m.querySelector("#crOk"), false); }
+      try{ if(sala.global){ await DB.salvarConfig({ corrida: c }); CONFIG.corrida = c; } else { await DB.salvarSala(sala.id, { corrida: c }); sala.corrida = c; } fechar(); aviso("Corrida configurada"); telaRanking(); }catch(e){ m.querySelector("#crErro").textContent = erroMsg(e); ocupado(m.querySelector("#crOk"), false); }
     };
   });
 }
@@ -2269,14 +2350,14 @@ function compartilharConquista(c, btn){ return gerarCartao(x => desenharConquist
    ADMIN
    ============================================================ */
 let admTab = "usuarios";
-const ADM_TABS = [["resultados","📊 Resultados"],["usuarios","👥 Usuários"],["aprovar","✅ Aprovar usuário"],["cadastrar","➕ Cadastrar usuário"],["licao","📥 Cadastrar lição"],["perguntas","📝 Cadastrar perguntas"],["icone","🖼️ Ícone do site"]];
+const ADM_TABS = [["resultados","📊 Resultados"],["salas","🏫 Salas"],["usuarios","👥 Usuários"],["aprovar","✅ Aprovar usuário"],["cadastrar","➕ Cadastrar usuário"],["licao","📥 Cadastrar lição"],["perguntas","📝 Cadastrar perguntas"],["icone","🖼️ Ícone do site"]];
 function telaAdmin(){
   if(!ehAdmin()){ nav("quiz"); return; }
   app.innerHTML = `<div class="admin-area"><h2 class="h2">Admin</h2>
     <div class="tabs" role="tablist">${ADM_TABS.map(([k,t])=>`<button role="tab" aria-selected="${admTab===k}" data-t="${k}">${t}</button>`).join("")}</div>
     <div id="admC"></div></div>`;
   app.querySelectorAll("[data-t]").forEach(b=> b.onclick = ()=>{ admTab = b.dataset.t; telaAdmin(); });
-  ({resultados:admResultados, usuarios:admUsuarios, aprovar:admAprovar, cadastrar:admCadastrar, licao:admLicao, perguntas:admPerguntas, icone:admIcone}[admTab])();
+  ({resultados:admResultados, salas:admSalas, usuarios:admUsuarios, aprovar:admAprovar, cadastrar:admCadastrar, licao:admLicao, perguntas:admPerguntas, icone:admIcone}[admTab])();
 }
 function linhaUsuario(u, pendente){
   const eu = u.id === usuario.uid;
@@ -2311,14 +2392,19 @@ function modalUsuario(u, depois){
   (m, fechar)=>{
     m.querySelectorAll(".switch").forEach(sw=> sw.onclick = async ()=>{ const campo = sw.dataset.c, v = sw.getAttribute("aria-checked") !== "true"; sw.setAttribute("aria-checked", String(v)); try{ await DB.salvarUsuario(u.id, {[campo]:v}); u[campo] = v; aviso("Salvo"); }catch(e){ sw.setAttribute("aria-checked", String(!v)); m.querySelector("#uErro").textContent = erroMsg(e); } });
     m.querySelector("#uNomeOk").onclick = async ()=>{ const v = m.querySelector("#uNome").value.trim(); if(!v) return; try{ await DB.salvarUsuario(u.id, {nome:v}); u.nome = v; aviso("Nome salvo"); }catch(e){ m.querySelector("#uErro").textContent = erroMsg(e); } };
-    const ex = m.querySelector("#uExcluir"); if(ex) ex.onclick = async ()=>{ if(await confirmar("Excluir usuário", `Excluir ${u.nome}? Isso não pode ser desfeito.`, "Excluir")){ try{ await DB.excluirUsuario(u.id); fechar(); aviso("Usuário excluído"); }catch(e){ m.querySelector("#uErro").textContent = erroMsg(e); } } };
+    const ex = m.querySelector("#uExcluir"); if(ex) ex.onclick = async ()=>{ if(await confirmar("Excluir usuário", `Excluir ${u.nome}? Isso não pode ser desfeito.`, "Excluir")){ try{ try{ for(const mm of await DB.membrosDoUsuario(u.id)) await DB.excluirMembro(mm.salaId, u.id); }catch(e2){} await DB.excluirUsuario(u.id); fechar(); aviso("Usuário excluído"); }catch(e){ m.querySelector("#uErro").textContent = erroMsg(e); } } };
   }, depois);
 }
 async function admAprovar(){
   const c = $("admC"); c.innerHTML = `<section class="panel"><p class="vazio">Carregando…</p></section>`;
   try{
     const pend = (await DB.listarUsuarios()).filter(u=>!u.aprovado && !u.admin).sort((a,b)=> (a.criadoEm||0)-(b.criadoEm||0));
-    c.innerHTML = `<section class="panel"><h3 class="h3">Aguardando aprovação</h3>${pend.length ? `<ul class="lista">${pend.map(u=>linhaUsuario(u,true)).join("")}</ul>` : `<p class="vazio">Nenhum usuário pendente. 🎉</p>`}</section>`;
+    c.innerHTML = `<section class="panel"><h3 class="h3">Aguardando aprovação</h3>${pend.length ? `<ul class="lista">${pend.map(u=>linhaUsuario(u,true)).join("")}</ul>${pend.length > 1 ? `<div class="btn-row uma" style="margin-top:10px"><button class="btn btn-ok" id="apTodos">Aprovar todos (${pend.length})</button></div>` : ""}` : `<p class="vazio">Nenhum usuário pendente. 🎉</p>`}</section>
+      <section class="panel"><h3 class="h3">Novas contas</h3>
+        <label class="check"><input type="checkbox" id="apAuto" ${CONFIG.aprovacaoAuto ? "checked" : ""}><span>Aprovar novas contas automaticamente</span></label>
+        <p class="note">Ligado: quem criar a conta já entra direto no jogo e na sala global 7world, sem esperar aprovação (bom quando há jovens de outras igrejas). Desligado: cada conta nova espera você aprovar aqui.</p></section>`;
+    const auto = $("apAuto"); if(auto) auto.onchange = async ()=>{ const v = auto.checked; try{ await DB.salvarConfig({aprovacaoAuto: v}); CONFIG.aprovacaoAuto = v; aviso(v ? "Novas contas serão aprovadas automaticamente" : "Novas contas voltam a esperar aprovação"); }catch(e){ auto.checked = !v; aviso(erroMsg(e)); } };
+    const todos = $("apTodos"); if(todos) todos.onclick = async ()=>{ if(!(await confirmar("Aprovar todos", "Aprovar as " + pend.length + " contas que estão aguardando?", "Aprovar todos", "btn-ok"))) return; ocupado(todos, true); try{ for(const u of pend) await DB.salvarUsuario(u.id, {aprovado:true}); aviso("Usuários aprovados"); admAprovar(); }catch(e){ aviso(erroMsg(e)); admAprovar(); } };
     c.querySelectorAll("[data-aprovar]").forEach(b=> b.onclick = async ()=>{ ocupado(b, true); try{ await DB.salvarUsuario(b.dataset.aprovar, {aprovado:true}); aviso("Usuário aprovado"); admAprovar(); }catch(e){ aviso(erroMsg(e)); ocupado(b,false); } });
   }catch(e){ c.innerHTML = `<section class="panel"><p class="erro">${esc(erroMsg(e))}</p></section>`; }
 }
@@ -2823,15 +2909,24 @@ function admIcone(){
 /* ============================================================
    ADMIN: RESULTADOS (acompanhamento do quiz)
    ============================================================ */
-let admResLic = "", admResDia = -1;
-async function admResultados(){
-  const c = $("admC");
+let admResLic = "", admResDia = -1, admResSala = "*";
+function admResultados(){ return painelResultados($("admC"), { admin:true }); }
+/* opt.admin: mostra o filtro de sala (todas as salas). opt.salaFixa: mostra só os resultados dos membros daquela sala (para o dono da sala). */
+async function painelResultados(c, opt){
+  opt = opt || {};
+  const deNovo = ()=> painelResultados(c, opt);
+  if(!c) return;
   c.innerHTML = `<section class="panel"><p class="vazio">Carregando resultados…</p></section>`;
-  let res, usuarios;
-  try{ [res, usuarios] = await Promise.all([DB.todosResultados(), DB.listarUsuarios()]); }
+  let res, usuarios, salasTodas = [], membrosSala = null, salaSel = opt.salaFixa || null;
+  try{
+    [res, usuarios] = await Promise.all([DB.todosResultados(), DB.listarUsuarios()]);
+    if(opt.admin){ salasTodas = (await DB.listarSalas().catch(()=>[])).filter(x => x.id !== SALA_GLOBAL_ID).sort((a,b)=> String(a.nome).localeCompare(String(b.nome),"pt-BR")); if(admResSala !== "*") salaSel = salasTodas.find(x => x.id === admResSala) || null; if(!salaSel) admResSala = "*"; }
+    if(salaSel && !salaSel.global) membrosSala = new Set((await DB.membrosDaSala(salaSel.id)).filter(m => m.status === "ativo").map(m => m.uid));
+  }
   catch(e){ c.innerHTML = `<section class="panel"><p class="erro">${esc(erroMsg(e))}</p></section>`; return; }
+  if(!c.isConnected) return;
   const uMap = {}; usuarios.forEach(u => uMap[u.id] = u);
-  res = res.filter(r => { const u = uMap[r.uid]; return !u || u.aprovado || u.admin; });
+  res = res.filter(r => { const u = uMap[r.uid]; return (!u || u.aprovado || u.admin) && (!membrosSala || membrosSala.has(r.uid)); });
   const lics = LICOES.filter(L => !licaoFutura(L));
   if(admResLic !== "*" && (!admResLic || !LICOES.some(L => L.id === admResLic))){ const at = LICOES[indiceLicaoAtual()]; admResLic = at ? at.id : (lics[0] ? lics[0].id : ""); }
   const todas = admResLic === "*";
@@ -2844,13 +2939,14 @@ async function admResultados(){
   const rotuloDia = r => { const d = diaDe(r); const l = LICOES.find(x => x.id === r.licaoId); return (todas && l ? l.numero + " · " : "") + (d ? d.nome : r.data); };
 
   let h = `<section class="panel" style="padding:12px 14px">
+    ${opt.admin ? `<div class="field" style="margin:0 0 10px"><label for="arSala">Sala</label><select id="arSala"><option value="*" ${admResSala==="*"?"selected":""}>Todas as salas (7world)</option>${salasTodas.map(x => `<option value="${esc(x.id)}" ${x.id===admResSala?"selected":""}>${esc(x.nome)}</option>`).join("")}</select></div>` : ""}
     <div class="field" style="margin:0"><label for="arLic">Lição</label><select id="arLic">
       ${LICOES.map(l => `<option value="${esc(l.id)}" ${l.id===admResLic?"selected":""}>${esc(l.numero)}: ${esc(l.titulo)}${l===LICOES[indiceLicaoAtual()]?" (esta semana)":""}</option>`).join("")}
       <option value="*" ${todas?"selected":""}>Trimestre inteiro (todas as lições)</option></select></div></section>`;
 
   if(!rs.length){
-    h += `<section class="panel"><p class="vazio">Ninguém fez quiz ${todas ? "neste trimestre" : "desta lição"} ainda.</p></section>`;
-    c.innerHTML = h; $("arLic").onchange = e => { admResLic = e.target.value; admResultados(); }; return;
+    h += `<section class="panel"><p class="vazio">Ninguém ${salaSel ? "da sala " + esc(salaSel.nome) + " " : ""}fez quiz ${todas ? "neste trimestre" : "desta lição"} ainda.</p></section>`;
+    c.innerHTML = h; ligarFiltros(); return;
   }
 
   // ---- Resumo
@@ -2860,7 +2956,7 @@ async function admResultados(){
   const mediaPts = Math.round(rs.reduce((a,r) => a + (r.pts||0), 0) / rs.length);
   const gabaritos = rs.filter(r => r.total > 0 && r.acertos === r.total).length;
   const semDetalhe = rs.filter(r => !Array.isArray(r.resp) || !r.resp.length).length;
-  h += `<section class="panel"><h3 class="h3">Visão geral${L ? " · " + esc(L.numero) : " · Trimestre"}</h3>
+  h += `<section class="panel"><h3 class="h3">Visão geral${L ? " · " + esc(L.numero) : " · Trimestre"}${salaSel ? " · " + esc(salaSel.nome) : ""}</h3>
     <div class="stats ar-stats">
       <div class="stat"><b>${pessoas}</b><span>${pessoas===1?"jovem fez quiz":"jovens fizeram quiz"}</span></div>
       <div class="stat"><b>${rs.length}</b><span>${rs.length===1?"quiz feito":"quizzes feitos"}</span></div>
@@ -2945,7 +3041,381 @@ async function admResultados(){
   h += `<section class="panel"><h3 class="h3">Por jovem</h3><ul class="lista">${ul.map((u,i) => `<li><div class="em">${avatar(u.r)}</div><div class="info"><strong>${i+1}º ${esc(nome(u.r))}</strong><span>${u.n} ${u.n===1?"quiz":"quizzes"} · ${u.prazo} no prazo · ${pct(u.ac,u.tot)}% de acerto (${u.ac} de ${u.tot})</span></div><div class="pts">${fmt(u.pts)}</div></li>`).join("")}</ul></section>`;
 
   c.innerHTML = h;
-  $("arLic").onchange = e => { admResLic = e.target.value; admResultados(); };
+  ligarFiltros();
+  function ligarFiltros(){
+    const l = c.querySelector("#arLic"); if(l) l.onchange = e => { admResLic = e.target.value; deNovo(); };
+    const sl = c.querySelector("#arSala"); if(sl) sl.onchange = e => { admResSala = e.target.value; deNovo(); };
+  }
+}
+
+/* ============================================================
+   SALAS (turmas)
+   - Sala global "7world": todo mundo entra automaticamente e não dá para sair.
+   - Cada pessoa cria até 3 salas e participa de até 5 (fora a global). Admin não tem limite.
+   - Sala pública: entra na hora. Sala privada: o dono aprova a solicitação.
+   - Entrada por código, por link de convite (?sala=CODIGO) ou pela lista de salas públicas.
+   Coleções: salas/{id} e membros/{salaId_uid} (status "ativo" | "pendente").
+   ============================================================ */
+const SALA_GLOBAL_ID = "7world";
+const SALA_GLOBAL = { id: SALA_GLOBAL_ID, nome: "7world", codigo: "7WORLD", publica: true, global: true, dono: "", descricao: "Sala global: todo mundo que joga está aqui." };
+const MAX_SALAS_CRIADAS = 3, MAX_SALAS_PARTICIPA = 5;
+
+/* Convite por link: guarda o código e limpa a URL (sobrevive ao login/cadastro) */
+(function(){
+  try{
+    const q = new URLSearchParams(location.search), c = q.get("sala");
+    if(c){ lsSet(KEY + ":convite", normalizarCodigo(c)); q.delete("sala"); const resto = q.toString(); history.replaceState(null, "", location.pathname + (resto ? "?" + resto : "") + location.hash); }
+  }catch(e){}
+})();
+function normalizarCodigo(c){ return String(c || "").toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 12); }
+function salaAtual(){ return SALA || SALA_GLOBAL; }
+function novoMembro(salaId, status, papel){ return { salaId, uid: usuario.uid, nome: perfil.nome || "", profeta: perfil.profeta || "", status, papel: papel || "membro", quando: Date.now() }; }
+function ehDonoSala(s){ return !!(s && !s.global && usuario && s.dono === usuario.uid); }
+function podeGerenciarSala(s){ return !!s && (ehAdmin() || ehDonoSala(s)); }
+function minhasParticipacoes(){ return SALAS.filter(x => !x.global).length + SALAS_PEDIDOS.length; }
+function badgesSala(s){
+  return (s.global ? '<span class="badge adm">Global</span>' : s.publica ? '<span class="badge ok">Pública</span>' : '<span class="badge warn">Privada</span>')
+    + (ehDonoSala(s) ? '<span class="badge">Você criou</span>' : "");
+}
+
+async function carregarSalas(){
+  SALAS_ERRO = ""; SALAS_PENDENTES = 0;
+  const eu = usuario.uid;
+  try{
+    const mems = await DB.membrosDoUsuario(eu);
+    // Sala global: o admin cria o documento na primeira vez; todo mundo entra sozinho
+    let global = null; try{ global = await DB.getSala(SALA_GLOBAL_ID); }catch(e){}
+    if(!global && ehAdmin()){
+      const doc = { nome: SALA_GLOBAL.nome, codigo: SALA_GLOBAL.codigo, publica: true, global: true, dono: eu, donoNome: perfil.nome || "", descricao: SALA_GLOBAL.descricao, criadaEm: Date.now() };
+      try{ await DB.salvarSala(SALA_GLOBAL_ID, doc); global = Object.assign({ id: SALA_GLOBAL_ID }, doc); }catch(e){}
+    }
+    if(!mems.some(m => m.salaId === SALA_GLOBAL_ID)){ const m = novoMembro(SALA_GLOBAL_ID, "ativo", "membro"); await DB.salvarMembro(m); mems.push(m); }
+    const salaG = Object.assign({}, SALA_GLOBAL, global || {}, { id: SALA_GLOBAL_ID, global: true, publica: true, meu: mems.find(m => m.salaId === SALA_GLOBAL_ID) });
+    const outras = mems.filter(m => m.salaId !== SALA_GLOBAL_ID);
+    const docs = await Promise.all(outras.map(m => DB.getSala(m.salaId).catch(() => undefined)));
+    const ativas = [], pedidos = [];
+    outras.forEach((m, i) => {
+      const s = docs[i];
+      if(s === null){ DB.excluirMembro(m.salaId, eu).catch(()=>{}); return; }   // a sala foi excluída
+      if(!s) return;                                                             // falha de leitura: ignora por enquanto
+      s.meu = m; (m.status === "ativo" ? ativas : pedidos).push(s);
+    });
+    ativas.sort((a,b) => String(a.nome).localeCompare(String(b.nome), "pt-BR"));
+    SALAS = [salaG].concat(ativas); SALAS_PEDIDOS = pedidos;
+    // Mantém meu nome/profeta atualizados nas salas
+    mems.forEach(m => { if(m.nome !== (perfil.nome || "") || m.profeta !== (perfil.profeta || "")) DB.salvarMembro({ salaId: m.salaId, uid: eu, nome: perfil.nome || "", profeta: perfil.profeta || "" }).catch(()=>{}); });
+    // Solicitações esperando a minha aprovação (salas privadas que eu criei)
+    const minhas = SALAS.filter(x => ehDonoSala(x) && !x.publica);
+    const listas = await Promise.all(minhas.map(x => DB.membrosDaSala(x.id).catch(() => [])));
+    minhas.forEach((x, i) => { x.pendentes = listas[i].filter(m => m.status === "pendente").length; SALAS_PENDENTES += x.pendentes; });
+  }catch(e){
+    console.warn("salas", e); SALAS_ERRO = erroMsg(e);
+    if(!SALAS.length) SALAS = [Object.assign({}, SALA_GLOBAL, { meu: null })];
+  }
+  const pref = lsGet(KEY + ":sala:" + eu, SALA_GLOBAL_ID);
+  SALA = SALAS.find(x => x.id === pref) || SALAS[0];
+  membrosCache = {};
+  atualizarCasca();
+}
+function definirSala(id){
+  const s = SALAS.find(x => x.id === id); if(!s) return;
+  SALA = s; lsSet(KEY + ":sala:" + usuario.uid, id);
+}
+/* UIDs dos membros ativos de uma sala (null = sala global, vale todo mundo). Guarda por 60 s. */
+async function membrosAtivos(s){
+  s = s || salaAtual();
+  if(!s || s.global) return null;
+  const c = membrosCache[s.id];
+  if(c && Date.now() - c.em < 60000) return c.set;
+  const lista = (await DB.membrosDaSala(s.id)).filter(m => m.status === "ativo");
+  const set = new Set(lista.map(m => m.uid));
+  membrosCache[s.id] = { set, lista, em: Date.now() };
+  return set;
+}
+async function novoCodigoSala(){
+  const A = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  for(let t = 0; t < 8; t++){
+    let c = ""; for(let i = 0; i < 6; i++) c += A[Math.floor(Math.random() * A.length)];
+    if(c !== SALA_GLOBAL.codigo && !(await DB.salaPorCodigo(c))) return c;
+  }
+  throw new Error("Não deu para gerar o código da sala. Tente de novo.");
+}
+function linkSala(s){ return location.origin + location.pathname + "?sala=" + encodeURIComponent(s.codigo); }
+async function copiarTexto(t, msg){
+  try{ await navigator.clipboard.writeText(t); aviso(msg || "Copiado"); }
+  catch(e){
+    const ta = document.createElement("textarea"); ta.value = t; ta.style.position = "fixed"; ta.style.opacity = "0"; document.body.appendChild(ta); ta.select();
+    try{ document.execCommand("copy"); aviso(msg || "Copiado"); }catch(e2){ aviso("Não deu para copiar. Copie manualmente."); }
+    ta.remove();
+  }
+}
+
+/* ============================================================
+   TELA: SALAS
+   ============================================================ */
+async function telaSalas(recarregar){
+  if(recarregar !== false){
+    app.innerHTML = `<div class="result-area"><section class="panel"><p class="vazio">Carregando suas salas…</p></section></div>`;
+    await carregarSalas();
+    if(tabAtual !== "salas") return;
+  }
+  const eu = usuario.uid, ativa = salaAtual(), part = minhasParticipacoes(), criadas = SALAS.filter(x => ehDonoSala(x)).length;
+  const cartao = s => {
+    const ehAtiva = s.id === ativa.id;
+    return `<article class="sala ${ehAtiva ? "ativa" : ""}" data-sala="${esc(s.id)}">
+      <div class="sala-top"><div class="sala-nome"><h3>${esc(s.nome)}</h3><div>${badgesSala(s)}${ehAtiva ? '<span class="badge sala-ativa">Sala ativa</span>' : ""}</div></div>
+        <div class="sala-cod"><span>Código</span><b>${esc(s.codigo || "")}</b></div></div>
+      <p class="muted small sala-info">${s.descricao ? esc(s.descricao) + "<br>" : ""}<span data-conta="${esc(s.id)}">${s.global ? "Todos os jogadores" : "Contando membros…"}</span>${!s.global && s.donoNome ? " · criada por " + esc(ehDonoSala(s) ? "você" : s.donoNome) : ""}</p>
+      ${s.pendentes ? `<p class="sala-pend"><b>${s.pendentes}</b> ${s.pendentes === 1 ? "pessoa pediu" : "pessoas pediram"} para entrar. Toque em Gerenciar para aprovar.</p>` : ""}
+      <div class="sala-acoes">
+        <button class="btn ${ehAtiva ? "btn-main" : "btn-ghost"} btn-sm" data-ver="${esc(s.id)}">${ehAtiva ? "Ver a corrida" : "Usar esta sala"}</button>
+        <button class="btn btn-ghost btn-sm" data-convidar="${esc(s.id)}">Convidar</button>
+        ${podeGerenciarSala(s) ? `<button class="btn btn-ghost btn-sm" data-gerenciar="${esc(s.id)}">Gerenciar${s.pendentes ? ` <span class="nav-n fixo">${s.pendentes}</span>` : ""}</button>` : ""}
+        ${!s.global && !ehDonoSala(s) ? `<button class="btn btn-ghost btn-sm" data-sair="${esc(s.id)}">Sair</button>` : ""}
+      </div></article>`;
+  };
+  app.innerHTML = `<div class="result-area">
+    <header class="hero" style="padding-bottom:14px"><div class="tag"><span class="box">Salas</span><span class="date">${ehAdmin() ? "sem limite (admin)" : `${part} de ${MAX_SALAS_PARTICIPA} · criadas ${criadas} de ${MAX_SALAS_CRIADAS}`}</span></div>
+      <h1 class="rolo-h">Minhas<span class="hl">Salas</span></h1>
+      <p>Cada sala tem a sua própria corrida. Crie uma para a sua classe, convide a turma pelo código ou pelo link, e corram juntos. A sala ativa é a que aparece na Corrida e no Início.</p></header>
+    ${SALAS_ERRO ? `<section class="panel"><p class="erro" style="margin:0">Não deu para carregar as salas agora (${esc(SALAS_ERRO)}). Por enquanto você continua na sala global.</p></section>` : ""}
+    <div class="btn-row sala-botoes"><button class="btn btn-main" id="slCriar">Criar sala</button><button class="btn btn-ghost" id="slCodigo">Entrar com código</button><button class="btn btn-ghost" id="slPublicas">Procurar salas públicas</button></div>
+    <div class="salas-grid">${SALAS.map(cartao).join("")}</div>
+    ${SALAS_PEDIDOS.length ? `<section class="panel"><h3 class="h3">Aguardando aprovação</h3><ul class="lista">${SALAS_PEDIDOS.map(s => `<li><div class="info"><strong>${esc(s.nome)}</strong><span>Sala privada${s.donoNome ? " de " + esc(s.donoNome) : ""}. O dono precisa aprovar a sua entrada.</span></div><button class="btn btn-ghost btn-sm" data-cancelar="${esc(s.id)}">Cancelar</button></li>`).join("")}</ul></section>` : ""}
+  </div>`;
+  const achar = id => SALAS.find(x => x.id === id) || SALAS_PEDIDOS.find(x => x.id === id);
+  $("slCriar").onclick = modalCriarSala;
+  $("slCodigo").onclick = () => modalEntrarCodigo("");
+  $("slPublicas").onclick = modalSalasPublicas;
+  app.querySelectorAll("[data-ver]").forEach(b => b.onclick = () => { definirSala(b.dataset.ver); nav("ranking"); });
+  app.querySelectorAll("[data-convidar]").forEach(b => b.onclick = () => convidarSala(achar(b.dataset.convidar)));
+  app.querySelectorAll("[data-gerenciar]").forEach(b => b.onclick = () => modalGerenciarSala(achar(b.dataset.gerenciar)));
+  app.querySelectorAll("[data-sair]").forEach(b => b.onclick = () => sairDaSala(achar(b.dataset.sair)));
+  app.querySelectorAll("[data-cancelar]").forEach(b => b.onclick = async () => { ocupado(b, true); try{ await DB.excluirMembro(b.dataset.cancelar, eu); aviso("Solicitação cancelada"); }catch(e){ aviso(erroMsg(e)); } telaSalas(); });
+  // Quantidade de membros (carrega depois, sem travar a tela)
+  SALAS.filter(x => !x.global).forEach(async s => {
+    try{ const set = await membrosAtivos(s); const el = app.querySelector(`[data-conta="${CSS.escape(s.id)}"]`); if(el) el.textContent = set.size + (set.size === 1 ? " membro" : " membros"); }
+    catch(e){ const el = app.querySelector(`[data-conta="${CSS.escape(s.id)}"]`); if(el) el.textContent = ""; }
+  });
+}
+
+/* ---------- Criar ---------- */
+async function modalCriarSala(){
+  if(!ehAdmin()){
+    let criadas = SALAS.filter(x => ehDonoSala(x)).length;
+    try{ criadas = Math.max(criadas, (await DB.salasDoDono(usuario.uid)).filter(x => x.id !== SALA_GLOBAL_ID).length); }catch(e){}
+    if(criadas >= MAX_SALAS_CRIADAS){ modal("Limite de salas", `<p>Você já criou ${MAX_SALAS_CRIADAS} salas, que é o máximo por pessoa. Para criar outra, exclua uma das suas salas em <b>Gerenciar</b>.</p>`); return; }
+    if(minhasParticipacoes() >= MAX_SALAS_PARTICIPA){ modal("Limite de salas", `<p>Você já participa de ${MAX_SALAS_PARTICIPA} salas (fora a global), que é o máximo. Saia de uma sala para poder criar outra.</p>`); return; }
+  }
+  let publica = true;
+  modal("Criar sala", `<div class="field"><label for="csNome">Nome da sala</label><input type="text" id="csNome" maxlength="30" placeholder="Ex.: Jovens IASD Liberdade"></div>
+    <div class="field"><label for="csDesc">Descrição (opcional)</label><input type="text" id="csDesc" maxlength="80" placeholder="Ex.: Classe dos jovens, sábado de manhã"></div>
+    <div class="field"><label>Quem pode entrar</label>
+      <div class="tabs" role="tablist" style="margin:0"><button type="button" role="tab" aria-selected="true" data-tipo="1">Pública</button><button type="button" role="tab" aria-selected="false" data-tipo="0">Privada</button></div>
+      <span class="hint" id="csDica"></span></div>
+    <p class="erro" id="csErro"></p><div class="btn-row uma"><button class="btn btn-main" id="csOk">Criar sala</button></div>`, (m, fechar) => {
+    const dica = () => m.querySelector("#csDica").textContent = publica ? "Pública: aparece na lista de salas e qualquer pessoa entra na hora, pelo código, link ou lista." : "Privada: não aparece na lista. Quem tiver o código ou o link pede para entrar e você aprova.";
+    m.querySelectorAll("[data-tipo]").forEach(b => b.onclick = () => { publica = b.dataset.tipo === "1"; m.querySelectorAll("[data-tipo]").forEach(x => x.setAttribute("aria-selected", String(x === b))); dica(); });
+    dica();
+    m.querySelector("#csOk").onclick = async () => {
+      const nome = m.querySelector("#csNome").value.trim().replace(/\s+/g, " "), desc = m.querySelector("#csDesc").value.trim(), erro = m.querySelector("#csErro");
+      if(nome.length < 3){ erro.textContent = "Dê um nome com pelo menos 3 letras."; return; }
+      if(nome.toLowerCase() === SALA_GLOBAL.nome.toLowerCase()){ erro.textContent = "Esse nome é da sala global. Escolha outro."; return; }
+      const b = m.querySelector("#csOk"); ocupado(b, true); erro.textContent = "";
+      try{
+        const codigo = await novoCodigoSala();
+        const id = "s" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+        await DB.salvarSala(id, { nome, descricao: desc, codigo, publica, global: false, dono: usuario.uid, donoNome: perfil.nome || "", criadaEm: Date.now() });
+        await DB.salvarMembro(novoMembro(id, "ativo", "dono"));
+        fechar(); await carregarSalas(); definirSala(id); aviso("Sala criada!");
+        if(tabAtual === "admin") telaAdmin(); else { tabAtual = "salas"; atualizarCasca(); await telaSalas(false); }
+        const s = SALAS.find(x => x.id === id); if(s) convidarSala(s, true);
+      }catch(e){ erro.textContent = erroMsg(e); ocupado(b, false); }
+    };
+  });
+}
+
+/* ---------- Convidar ---------- */
+function convidarSala(s, nova){
+  if(!s) return;
+  const link = linkSala(s);
+  const texto = `Entre na sala "${s.nome}" no Quiz da Lição e venha correr com a gente!\nCódigo da sala: ${s.codigo}`;
+  modal(nova ? "Sala criada! Convide a turma" : "Convidar para " + s.nome, `<div class="convite"><span>Código da sala</span><b>${esc(s.codigo)}</b></div>
+    <p class="muted small center" style="margin:8px 0 12px">${s.global ? "Esta é a sala global: quem cria a conta já entra nela." : s.publica ? "Sala pública: quem abrir o link ou digitar o código entra na hora." : "Sala privada: quem abrir o link ou digitar o código pede para entrar, e você aprova em Gerenciar."}</p>
+    <div class="field"><label for="cvLink">Link de convite</label><input type="text" id="cvLink" readonly value="${esc(link)}"></div>
+    <div class="btn-row">${navigator.share ? `<button class="btn btn-wa" id="cvShare">Enviar convite</button>` : ""}<button class="btn ${navigator.share ? "btn-ghost" : "btn-main"}" id="cvCopiar">Copiar link</button><button class="btn btn-ghost" id="cvCodigo">Copiar código</button></div>`, (m) => {
+    const sh = m.querySelector("#cvShare"); if(sh) sh.onclick = async () => { try{ await navigator.share({ title: "Quiz da Lição · " + s.nome, text: texto, url: link }); }catch(e){ if(!e || e.name !== "AbortError") copiarTexto(texto + "\n" + link, "Convite copiado"); } };
+    m.querySelector("#cvCopiar").onclick = () => copiarTexto(texto + "\n" + link, "Convite copiado");
+    m.querySelector("#cvCodigo").onclick = () => copiarTexto(s.codigo, "Código copiado");
+    m.querySelector("#cvLink").onfocus = e => e.target.select();
+  });
+}
+
+/* ---------- Entrar ---------- */
+function modalEntrarCodigo(pre){
+  modal("Entrar com código", `<div class="field"><label for="ecCod">Código da sala</label><input type="text" id="ecCod" maxlength="12" autocapitalize="characters" autocomplete="off" spellcheck="false" placeholder="Ex.: K7M2QX" value="${esc(pre || "")}" style="text-transform:uppercase;letter-spacing:3px;font-weight:800;text-align:center;font-size:22px"></div>
+    <p class="note">Peça o código para quem criou a sala. Ele tem 6 letras e números.</p>
+    <p class="erro" id="ecErro"></p><div class="btn-row uma"><button class="btn btn-main" id="ecOk">Procurar sala</button></div>`, (m, fechar) => {
+    const ir = async () => {
+      const cod = normalizarCodigo(m.querySelector("#ecCod").value), erro = m.querySelector("#ecErro"), b = m.querySelector("#ecOk");
+      if(cod.length < 4){ erro.textContent = "Digite o código da sala."; return; }
+      ocupado(b, true); erro.textContent = "";
+      try{
+        const s = cod === SALA_GLOBAL.codigo ? SALAS[0] : await DB.salaPorCodigo(cod);
+        if(!s){ erro.textContent = "Não achei nenhuma sala com esse código. Confira e tente de novo."; ocupado(b, false); return; }
+        fechar(); confirmarEntrada(s);
+      }catch(e){ erro.textContent = erroMsg(e); ocupado(b, false); }
+    };
+    m.querySelector("#ecOk").onclick = ir;
+    m.querySelector("#ecCod").addEventListener("keydown", e => { if(e.key === "Enter") ir(); });
+  });
+}
+/* Mostra a sala encontrada e pede a confirmação antes de entrar */
+function confirmarEntrada(s){
+  const ja = SALAS.find(x => x.id === s.id), pedido = SALAS_PEDIDOS.find(x => x.id === s.id);
+  if(ja){ definirSala(s.id); aviso(`Você já está na sala ${s.nome}`); if(tabAtual === "salas") telaSalas(false); return; }
+  if(pedido){ aviso("Você já pediu para entrar nesta sala. Aguarde a aprovação."); return; }
+  modal("Entrar na sala", `<div class="sala-achada"><h3>${esc(s.nome)}</h3><div>${badgesSala(s)}</div>${s.descricao ? `<p>${esc(s.descricao)}</p>` : ""}<p class="muted small">${s.donoNome ? "Criada por " + esc(s.donoNome) + ". " : ""}${s.publica ? "Sala pública: você entra na hora." : "Sala privada: o dono precisa aprovar a sua entrada."}</p></div>
+    <p class="erro" id="ceErro"></p><div class="btn-row"><button class="btn btn-main" id="ceOk">${s.publica ? "Entrar na sala" : "Pedir para entrar"}</button><button class="btn btn-ghost" id="ceNao">Agora não</button></div>`, (m, fechar) => {
+    m.querySelector("#ceNao").onclick = fechar;
+    m.querySelector("#ceOk").onclick = async () => {
+      const b = m.querySelector("#ceOk"); ocupado(b, true);
+      try{ await entrarNaSala(s); fechar(); }catch(e){ m.querySelector("#ceErro").textContent = erroMsg(e); ocupado(b, false); }
+    };
+  });
+}
+async function entrarNaSala(s){
+  if(!ehAdmin() && minhasParticipacoes() >= MAX_SALAS_PARTICIPA) throw new Error(`Você já participa de ${MAX_SALAS_PARTICIPA} salas (fora a global), que é o máximo. Saia de uma para entrar em outra.`);
+  const direto = s.publica || ehAdmin() || s.dono === usuario.uid;
+  await DB.salvarMembro(novoMembro(s.id, direto ? "ativo" : "pendente", s.dono === usuario.uid ? "dono" : "membro"));
+  await carregarSalas();
+  if(direto){ definirSala(s.id); aviso(`Você entrou na sala ${s.nome}!`); }
+  else aviso("Pedido enviado! Você entra assim que o dono da sala aprovar.");
+  if(tabAtual === "salas") telaSalas(false); else if(tabAtual === "ranking" || tabAtual === "inicio") nav(tabAtual);
+}
+async function sairDaSala(s){
+  if(!s || s.global) return;
+  if(!(await confirmar("Sair da sala", `Sair da sala "${s.nome}"? Seus pontos continuam guardados; você só deixa de aparecer na corrida dela.`, "Sair da sala", "btn-warn"))) return;
+  try{ await DB.excluirMembro(s.id, usuario.uid); aviso("Você saiu da sala"); }catch(e){ aviso(erroMsg(e)); }
+  telaSalas();
+}
+async function modalSalasPublicas(){
+  modal("Salas públicas", `<div class="field"><input type="search" id="spBusca" placeholder="Buscar pelo nome da sala" aria-label="Buscar sala"></div><div id="spLista"><p class="vazio">Carregando…</p></div>`, async (m, fechar) => {
+    let salas = [];
+    try{ salas = (await DB.salasPublicas()).filter(s => s.id !== SALA_GLOBAL_ID && !SALAS.some(x => x.id === s.id)).sort((a,b) => String(a.nome).localeCompare(String(b.nome), "pt-BR")); }
+    catch(e){ m.querySelector("#spLista").innerHTML = `<p class="erro">${esc(erroMsg(e))}</p>`; return; }
+    const norm = t => String(t).normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+    const render = () => {
+      const q = norm(m.querySelector("#spBusca").value.trim());
+      const lista = salas.filter(s => !q || norm(s.nome).includes(q) || norm(s.descricao || "").includes(q)).slice(0, 50);
+      m.querySelector("#spLista").innerHTML = lista.length ? `<ul class="lista">${lista.map(s => `<li><div class="info"><strong>${esc(s.nome)}</strong><span>${s.descricao ? esc(s.descricao) + " · " : ""}${s.donoNome ? "criada por " + esc(s.donoNome) : ""}</span></div><button class="btn btn-main btn-sm" data-entrar="${esc(s.id)}">Entrar</button></li>`).join("")}</ul>`
+        : `<p class="vazio">${salas.length ? "Nenhuma sala com esse nome." : "Ainda não há outras salas públicas. Que tal criar a primeira?"}</p>`;
+      m.querySelectorAll("[data-entrar]").forEach(b => b.onclick = () => { const s = salas.find(x => x.id === b.dataset.entrar); fechar(); confirmarEntrada(s); });
+    };
+    m.querySelector("#spBusca").addEventListener("input", render); render();
+  });
+}
+/* Depois do login: se a pessoa chegou por um link de convite, oferece a entrada */
+async function conferirConvite(){
+  const cod = normalizarCodigo(lsGet(KEY + ":convite", ""));
+  if(!cod) return;
+  try{ localStorage.removeItem(KEY + ":convite"); }catch(e){}
+  if(cod === SALA_GLOBAL.codigo) return;
+  try{
+    const s = await DB.salaPorCodigo(cod);
+    if(!s){ aviso("O convite que você abriu não vale mais (sala não encontrada)."); return; }
+    confirmarEntrada(s);
+  }catch(e){ console.warn("convite", e); }
+}
+
+/* ---------- Gerenciar (dono da sala ou admin) ---------- */
+function modalGerenciarSala(s){
+  if(!s || !podeGerenciarSala(s)) return;
+  let mudou = false;
+  modal("Gerenciar " + s.nome, `<div id="gsC"><p class="vazio">Carregando…</p></div>`, (m, fechar) => {
+    const c = m.querySelector("#gsC");
+    const render = async () => {
+      let membros = [];
+      try{ membros = await DB.membrosDaSala(s.id); }catch(e){ c.innerHTML = `<p class="erro">${esc(erroMsg(e))}</p>`; return; }
+      delete membrosCache[s.id];
+      const pend = membros.filter(x => x.status === "pendente").sort((a,b) => (a.quando||0) - (b.quando||0));
+      const ativos = membros.filter(x => x.status === "ativo").sort((a,b) => String(a.nome).localeCompare(String(b.nome), "pt-BR"));
+      const linha = (x, tipo) => `<li><div class="em">${avatarSVG(x.profeta || PROFETAS[0].id)}</div><div class="info"><strong>${esc(x.nome || "(sem nome)")}${x.uid === usuario.uid ? " (você)" : ""}</strong><span>${x.uid === s.dono ? "Criou a sala" : tipo === "p" ? "Pediu para entrar" : "Membro"}</span></div>
+        ${tipo === "p" ? `<button class="btn btn-ok btn-sm" data-aprovar="${esc(x.uid)}">Aprovar</button><button class="btn btn-ghost btn-sm" data-recusar="${esc(x.uid)}">Recusar</button>` : (!s.global && x.uid !== s.dono ? `<button class="btn btn-ghost btn-sm" data-remover="${esc(x.uid)}">Remover</button>` : "")}</li>`;
+      c.innerHTML = `
+        ${pend.length ? `<h3 class="h3">Pedidos de entrada (${pend.length})</h3><ul class="lista">${pend.map(x => linha(x, "p")).join("")}</ul>${pend.length > 1 ? `<div class="btn-row uma" style="margin-bottom:14px"><button class="btn btn-ok btn-sm" id="gsTodos" style="width:100%">Aprovar todos</button></div>` : `<div style="height:10px"></div>`}` : (!s.global && !s.publica ? `<p class="note" style="margin:0 0 12px">Nenhum pedido de entrada no momento.</p>` : "")}
+        ${s.global ? `<p class="muted small" style="margin-top:0">Sala global: todo mundo entra automaticamente ao criar a conta. Ela não pode ser renomeada, fechada nem excluída.</p>` : `
+        <div class="field"><label for="gsNome">Nome</label><input type="text" id="gsNome" maxlength="30" value="${esc(s.nome)}"></div>
+        <div class="field"><label for="gsDesc">Descrição</label><input type="text" id="gsDesc" maxlength="80" value="${esc(s.descricao || "")}"></div>
+        <div class="field"><label>Quem pode entrar</label><div class="tabs" role="tablist" style="margin:0"><button type="button" role="tab" aria-selected="${!!s.publica}" data-tipo="1">Pública</button><button type="button" role="tab" aria-selected="${!s.publica}" data-tipo="0">Privada</button></div>
+          <span class="hint">${s.publica ? "Qualquer pessoa entra na hora." : "Você aprova cada pedido de entrada."}</span></div>
+        <p class="erro" id="gsErro"></p>
+        <div class="btn-row"><button class="btn btn-main" id="gsSalvar">Salvar</button><button class="btn btn-ghost" id="gsConvidar">Convidar (código ${esc(s.codigo)})</button></div>`}
+        <h3 class="h3" style="margin-top:16px">Membros (${ativos.length})</h3>
+        ${ativos.length ? `<ul class="lista gs-membros">${ativos.map(x => linha(x, "a")).join("")}</ul>` : `<p class="vazio">Ninguém na sala ainda.</p>`}
+        <div class="btn-row" style="margin-top:14px"><button class="btn btn-ghost" id="gsRes">Ver resultados da sala</button>${s.global ? "" : `<button class="btn btn-danger" id="gsExcluir">Excluir sala</button>`}</div>`;
+      let publica = !!s.publica;
+      c.querySelectorAll("[data-tipo]").forEach(b => b.onclick = () => { publica = b.dataset.tipo === "1"; c.querySelectorAll("[data-tipo]").forEach(x => x.setAttribute("aria-selected", String(x === b))); });
+      const sv = c.querySelector("#gsSalvar");
+      if(sv) sv.onclick = async () => {
+        const nome = c.querySelector("#gsNome").value.trim().replace(/\s+/g, " "), desc = c.querySelector("#gsDesc").value.trim();
+        if(nome.length < 3){ c.querySelector("#gsErro").textContent = "Dê um nome com pelo menos 3 letras."; return; }
+        ocupado(sv, true);
+        try{
+          await DB.salvarSala(s.id, { nome, descricao: desc, publica });
+          // Ao abrir a sala, quem estava esperando entra
+          if(publica && !s.publica) for(const x of pend) await DB.salvarMembro({ salaId: s.id, uid: x.uid, status: "ativo" });
+          Object.assign(s, { nome, descricao: desc, publica }); mudou = true; aviso("Sala atualizada"); render();
+        }catch(e){ c.querySelector("#gsErro").textContent = erroMsg(e); ocupado(sv, false); }
+      };
+      const cv = c.querySelector("#gsConvidar"); if(cv) cv.onclick = () => { fechar(); convidarSala(s); };
+      const acao = (sel, fn, msg) => c.querySelectorAll(sel).forEach(b => b.onclick = async () => { ocupado(b, true); try{ await fn(b); mudou = true; if(msg) aviso(msg); }catch(e){ aviso(erroMsg(e)); } render(); });
+      acao("[data-aprovar]", b => DB.salvarMembro({ salaId: s.id, uid: b.dataset.aprovar, status: "ativo" }), "Entrada aprovada");
+      acao("[data-recusar]", b => DB.excluirMembro(s.id, b.dataset.recusar), "Pedido recusado");
+      c.querySelectorAll("[data-remover]").forEach(b => b.onclick = async () => {
+        const x = ativos.find(y => y.uid === b.dataset.remover);
+        if(!(await confirmar("Remover da sala", `Remover ${x ? x.nome : "esta pessoa"} da sala "${s.nome}"?`, "Remover", "btn-warn"))) return;
+        try{ await DB.excluirMembro(s.id, b.dataset.remover); mudou = true; aviso("Removido da sala"); }catch(e){ aviso(erroMsg(e)); } render();
+      });
+      const td = c.querySelector("#gsTodos"); if(td) td.onclick = async () => { ocupado(td, true); try{ for(const x of pend) await DB.salvarMembro({ salaId: s.id, uid: x.uid, status: "ativo" }); mudou = true; aviso("Todos aprovados"); }catch(e){ aviso(erroMsg(e)); } render(); };
+      c.querySelector("#gsRes").onclick = () => { mudou = false; fechar(); telaResultadosSala(s); };
+      const ex = c.querySelector("#gsExcluir"); if(ex) ex.onclick = async () => {
+        if(!(await confirmar("Excluir sala", `Excluir a sala "${s.nome}" para todos os ${ativos.length} membros? Os pontos de cada um continuam guardados, mas a sala e a corrida dela deixam de existir. Não dá para desfazer.`, "Excluir sala", "btn-danger"))) return;
+        try{ await DB.excluirSala(s.id); mudou = true; aviso("Sala excluída"); fechar(); }catch(e){ aviso(erroMsg(e)); }
+      };
+    };
+    render();
+  }, () => { if(!mudou) return; if(tabAtual === "admin") telaAdmin(); else if(tabAtual === "salas") telaSalas(); else carregarSalas(); });
+}
+
+/* ---------- Resultados da sala (para quem criou a sala) ---------- */
+function telaResultadosSala(s){
+  const volta = tabAtual === "admin" ? "admin" : "salas";
+  app.innerHTML = `<div class="admin-area"><div class="inline" style="justify-content:space-between;margin-bottom:12px"><h2 class="h2" style="margin:0">Resultados · ${esc(s.nome)}</h2><button class="btn btn-ghost btn-sm" id="rsVoltar">Voltar</button></div><div id="rsC"></div></div>`;
+  window.scrollTo(0, 0);
+  $("rsVoltar").onclick = () => nav(volta);
+  painelResultados($("rsC"), { salaFixa: s });
+}
+
+/* ============================================================
+   ADMIN: SALAS (todas as salas do jogo)
+   ============================================================ */
+async function admSalas(){
+  const c = $("admC"); c.innerHTML = `<section class="panel"><p class="vazio">Carregando salas…</p></section>`;
+  try{
+    const [salas, usuarios] = await Promise.all([DB.listarSalas(), DB.listarUsuarios()]);
+    const uMap = {}; usuarios.forEach(u => uMap[u.id] = u);
+    const lista = salas.map(s => s.id === SALA_GLOBAL_ID ? Object.assign({}, SALA_GLOBAL, s, { global: true, publica: true }) : s)
+      .sort((a,b) => (b.global ? 1 : 0) - (a.global ? 1 : 0) || String(a.nome).localeCompare(String(b.nome), "pt-BR"));
+    const contagens = await Promise.all(lista.map(s => s.global ? Promise.resolve(null) : DB.membrosDaSala(s.id).catch(() => [])));
+    if(!$("admC")) return;
+    c.innerHTML = `<section class="panel"><div class="inline" style="justify-content:space-between"><h3 class="h3" style="margin:0">Todas as salas (${lista.length})</h3><button class="btn btn-main btn-sm" id="asCriar">Criar sala</button></div>
+      <p class="muted small">Como admin, você cria quantas salas quiser e pode gerenciar qualquer sala. Cada pessoa cria até ${MAX_SALAS_CRIADAS} e participa de até ${MAX_SALAS_PARTICIPA} (fora a global).</p>
+      ${lista.length ? `<ul class="lista">${lista.map((s, i) => { const ms = contagens[i]; const at = ms ? ms.filter(x => x.status === "ativo").length : usuarios.filter(u => u.aprovado || u.admin).length; const pe = ms ? ms.filter(x => x.status === "pendente").length : 0;
+        return `<li><div class="info"><strong>${esc(s.nome)}</strong><span>${badgesSala(s)} código ${esc(s.codigo || "")} · ${at} ${at === 1 ? "membro" : "membros"}${pe ? ` · <b>${pe} pedido${pe > 1 ? "s" : ""}</b>` : ""}${s.global ? "" : " · criada por " + esc((uMap[s.dono] && uMap[s.dono].nome) || s.donoNome || "?")}</span></div><button class="btn btn-ghost btn-sm" data-gs="${esc(s.id)}">Gerenciar</button></li>`; }).join("")}</ul>` : `<p class="vazio">Nenhuma sala ainda.</p>`}</section>`;
+    $("asCriar").onclick = modalCriarSala;
+    c.querySelectorAll("[data-gs]").forEach(b => b.onclick = () => modalGerenciarSala(lista.find(x => x.id === b.dataset.gs)));
+  }catch(e){ c.innerHTML = `<section class="panel"><p class="erro">${esc(erroMsg(e))}</p></section>`; }
 }
 
 </script>
