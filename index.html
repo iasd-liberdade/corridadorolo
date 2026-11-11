@@ -489,25 +489,6 @@ input[type=file]{width:100%;color:var(--muted);font-size:15px}
 .dz-barras i.tarde{background:rgba(255,255,255,.4)}
 .dz-barras small{font-size:10px;color:var(--muted);font-weight:700}
 @media (min-width:900px){ .dz-stats{grid-template-columns:repeat(4,1fr)} }
-/* Equipes */
-.equipes{display:grid;gap:12px;margin-top:14px}
-@media (min-width:900px){ .equipes{grid-template-columns:1fr 1fr} }
-.equipe{background:var(--panel);border:1px solid var(--panel-line);border-left:6px solid var(--cor,#8FE6FF);border-radius:var(--radius-lg);padding:14px 16px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
-.equipe.minha{box-shadow:0 0 0 1px rgba(143,230,255,.5),0 0 20px rgba(143,230,255,.16)}
-.eq-top{display:flex;align-items:center;gap:12px}
-.eq-pos{flex:none;font-family:"Bebas Neue","Arial Narrow",sans-serif;font-size:30px;color:var(--accent);line-height:1}
-.eq-nome{flex:1;min-width:0}
-.eq-nome h3{font-size:26px;line-height:1;margin:0;overflow-wrap:anywhere}
-.eq-nome span{display:block;font-size:12.5px;color:var(--muted);margin-top:3px}
-.eq-media{flex:none;text-align:right}
-.eq-media b{display:block;font-family:"Bebas Neue","Arial Narrow",sans-serif;font-weight:400;font-size:34px;line-height:1}
-.eq-media span{font-size:11px;color:var(--muted);font-weight:700}
-.eq-membros{margin-top:10px}
-.eq-membros .chip{font-size:12.5px}
-.eq-membros .chip em{font-style:normal;font-weight:800;color:var(--accent);margin-left:2px}
-.cores{display:flex;gap:10px;flex-wrap:wrap}
-.cor{width:40px;height:40px;border-radius:50%;border:3px solid transparent}
-.cor[aria-pressed="true"]{border-color:#fff;box-shadow:0 0 0 3px rgba(255,255,255,.3)}
 /* Mural */
 .mural{display:grid;gap:12px;margin-top:14px}
 @media (min-width:900px){ .mural{grid-template-columns:1fr 1fr;align-items:start} }
@@ -758,7 +739,7 @@ ol.passos li{margin-bottom:8px}
   .result-area.duas .lado{position:sticky;top:84px}
   .result-area.duas .principal{min-width:0;margin-top:0}
   .result-area.duas #rkCorpo,.result-area.duas #muCorpo{margin-top:0}
-  .result-area.duas .salas-grid,.result-area.duas .mural,.result-area.duas .equipes{margin-top:0}
+  .result-area.duas .salas-grid,.result-area.duas .mural{margin-top:0}
   .so-largo{display:grid}.so-estreito{display:none}
   .home{grid-template-columns:minmax(340px,440px) minmax(0,1fr)}
   .menu-conta{grid-template-columns:1fr 1fr}
@@ -766,7 +747,7 @@ ol.passos li{margin-bottom:8px}
 @media (min-width:1400px){
   .inicio-grid{column-count:3}
   .wrap{max-width:1440px}
-  .result-area.duas .salas-grid,.result-area.duas .mural,.result-area.duas .equipes{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .result-area.duas .salas-grid,.result-area.duas .mural{grid-template-columns:repeat(3,minmax(0,1fr))}
   .result-area.duas{grid-template-columns:minmax(320px,400px) minmax(0,1fr)}
 }
 @media (min-width:1700px){ .wrap{max-width:1640px} }
@@ -1269,17 +1250,11 @@ function dbFirebase(){
     async salasDoDono(uid){ return lista(col("salas").where("dono","==",uid)); },
     async salaPorCodigo(codigo){ const r = await lista(col("salas").where("codigo","==",codigo).limit(1)); return r[0] || null; },
     async salvarSala(id, dados){ await col("salas").doc(id).set(dados, {merge:true}); },
-    async excluirSala(id){ const e = await col("equipes").where("salaId","==",id).get(); for(const d of e.docs) await d.ref.delete(); const s = await col("membros").where("salaId","==",id).get(); for(const d of s.docs) await d.ref.delete(); await col("salas").doc(id).delete(); },
+    async excluirSala(id){ const s = await col("membros").where("salaId","==",id).get(); for(const d of s.docs) await d.ref.delete(); await col("salas").doc(id).delete(); },
     async membrosDoUsuario(uid){ return lista(col("membros").where("uid","==",uid)); },
     async membrosDaSala(salaId){ return lista(col("membros").where("salaId","==",salaId)); },
     async salvarMembro(m){ await col("membros").doc(m.salaId + "_" + m.uid).set(m, {merge:true}); },
     async excluirMembro(salaId, uid){ await col("membros").doc(salaId + "_" + uid).delete(); },
-    // Equipes de uma sala: {salaId, nome, cor, criadaPor, membros:[uid], pessoas:{uid:{nome,profeta}}}
-    async equipesDaSala(salaId){ return lista(col("equipes").where("salaId","==",salaId)); },
-    async salvarEquipe(id, dados){ await col("equipes").doc(id).set(dados, {merge:true}); },
-    async entrarEquipe(id, uid, info){ const FV = firebase.firestore.FieldValue; await col("equipes").doc(id).update({ membros: FV.arrayUnion(uid), ["pessoas." + uid]: info }); },
-    async sairEquipe(id, uid){ const FV = firebase.firestore.FieldValue; await col("equipes").doc(id).update({ membros: FV.arrayRemove(uid), ["pessoas." + uid]: FV.delete() }); },
-    async excluirEquipe(id){ await col("equipes").doc(id).delete(); },
     // Mural da sala: posts por mês (campo salaMes = salaId|AAAA-MM); reações = listas de uids
     async muralDaSala(salaId, meses){ const out = []; for(const m of meses) out.push(...await lista(col("mural").where("salaMes","==",salaId + "|" + m))); return out; },
     async salvarPost(id, dados){ await col("mural").doc(id).set(dados, {merge:true}); },
@@ -1359,16 +1334,11 @@ function dbLocal(){
     async salasDoDono(uid){ return (await this.listarSalas()).filter(x=>x.dono === uid); },
     async salaPorCodigo(codigo){ return (await this.listarSalas()).find(x=>x.codigo === codigo) || null; },
     async salvarSala(id, dados){ const d = ler(); d.salas = d.salas || {}; d.salas[id] = Object.assign(d.salas[id]||{}, dados); gravar(d); },
-    async excluirSala(id){ const d = ler(); if(d.salas) delete d.salas[id]; Object.keys(d.membros||{}).forEach(k=>{ if(d.membros[k].salaId === id) delete d.membros[k]; }); Object.keys(d.equipes||{}).forEach(k=>{ if(d.equipes[k].salaId === id) delete d.equipes[k]; }); gravar(d); },
+    async excluirSala(id){ const d = ler(); if(d.salas) delete d.salas[id]; Object.keys(d.membros||{}).forEach(k=>{ if(d.membros[k].salaId === id) delete d.membros[k]; }); gravar(d); },
     async membrosDoUsuario(uid){ const d = ler(); return Object.keys(d.membros||{}).map(k=>Object.assign({id:k}, d.membros[k])).filter(m=>m.uid===uid); },
     async membrosDaSala(salaId){ const d = ler(); return Object.keys(d.membros||{}).map(k=>Object.assign({id:k}, d.membros[k])).filter(m=>m.salaId===salaId); },
     async salvarMembro(m){ const d = ler(); d.membros = d.membros || {}; const k = m.salaId + "_" + m.uid; d.membros[k] = Object.assign(d.membros[k]||{}, m); gravar(d); },
     async excluirMembro(salaId, uid){ const d = ler(); if(d.membros) delete d.membros[salaId + "_" + uid]; gravar(d); },
-    async equipesDaSala(salaId){ const d = ler(); return Object.keys(d.equipes||{}).map(k=>Object.assign({id:k}, d.equipes[k])).filter(e=>e.salaId===salaId); },
-    async salvarEquipe(id, dados){ const d = ler(); d.equipes = d.equipes || {}; d.equipes[id] = Object.assign(d.equipes[id]||{}, dados); gravar(d); },
-    async entrarEquipe(id, uid, info){ const d = ler(), e = (d.equipes||{})[id]; if(!e) throw err("not-found","Equipe não encontrada."); e.membros = Array.from(new Set((e.membros||[]).concat(uid))); e.pessoas = Object.assign(e.pessoas||{}, {[uid]: info}); gravar(d); },
-    async sairEquipe(id, uid){ const d = ler(), e = (d.equipes||{})[id]; if(!e) return; e.membros = (e.membros||[]).filter(x=>x!==uid); if(e.pessoas) delete e.pessoas[uid]; gravar(d); },
-    async excluirEquipe(id){ const d = ler(); if(d.equipes) delete d.equipes[id]; gravar(d); },
     async muralDaSala(salaId, meses){ const d = ler(), set = new Set(meses.map(m => salaId + "|" + m)); return Object.keys(d.mural||{}).map(k=>Object.assign({id:k}, d.mural[k])).filter(p=>set.has(p.salaMes)); },
     async salvarPost(id, dados){ const d = ler(); d.mural = d.mural || {}; d.mural[id] = Object.assign(d.mural[id]||{}, dados); gravar(d); },
     async reagirPost(id, tipo, uid, ligar){ const d = ler(), p = (d.mural||{})[id]; if(!p) throw err("not-found","Publicação não encontrada."); p.reacoes = p.reacoes || {}; const l = new Set(p.reacoes[tipo] || []); if(ligar) l.add(uid); else l.delete(uid); p.reacoes[tipo] = [...l]; gravar(d); },
@@ -2315,30 +2285,27 @@ function corridaCfg(res, membros){
   const pista = lics.filter(l => l.n >= inicio);
   return { tri, lics, pista, inicio, atual };
 }
-let corridaModo = "licao", corridaLicao = null, equipeEscopo = "";
+let corridaModo = "licao", corridaLicao = null;
 async function telaRanking(){
   const sala = salaAtual();
   const cfg = corridaCfg();
   if(!corridaLicao || !cfg.lics.find(l=>l.id===corridaLicao)) corridaLicao = cfg.atual ? cfg.atual.id : (cfg.lics[0] && cfg.lics[0].id);
-  const porLicao = corridaModo === "licao", porEquipe = corridaModo === "equipes", licSel = cfg.lics.find(l=>l.id===corridaLicao) || cfg.atual;
-  if(equipeEscopo !== "*" && !cfg.lics.find(l=>l.id===equipeEscopo)) equipeEscopo = cfg.atual ? cfg.atual.id : "*";
+  if(corridaModo !== "licao" && corridaModo !== "tri") corridaModo = "licao";
+  const porLicao = corridaModo === "licao", licSel = cfg.lics.find(l=>l.id===corridaLicao) || cfg.atual;
   app.innerHTML = `<div class="result-area duas"><div class="lado">
-    <header class="hero" style="padding-bottom:14px"><div class="tag"><span class="box">${esc(sala.nome)}</span><span class="date" id="crPeriodo">${porEquipe ? "Equipes" : porLicao && licSel ? `Lição ${licSel.n}` : (cfg.pista.length ? `Lições ${cfg.pista[0].n} a ${cfg.pista[cfg.pista.length-1].n}` : esc(cfg.tri))}</span></div>
+    <header class="hero" style="padding-bottom:14px"><div class="tag"><span class="box">${esc(sala.nome)}</span><span class="date" id="crPeriodo">${porLicao && licSel ? `Lição ${licSel.n}` : (cfg.pista.length ? `Lições ${cfg.pista[0].n} a ${cfg.pista[cfg.pista.length-1].n}` : esc(cfg.tri))}</span></div>
       <h1 class="rolo-h">Corrida do<span class="hl">Rolo</span></h1>
       <p>Cada dia de estudo no prazo é um passo no rolo. Feito com atraso, vale meio passo. Ninguém volta para trás.</p></header>
     <section class="panel" style="padding:12px 14px">
       <div class="sala-sel"><div class="field" style="margin:0"><label for="crSala">Sala</label><select id="crSala">${SALAS.map(x=>`<option value="${esc(x.id)}" ${x.id===sala.id?"selected":""}>${esc(x.nome)}${x.global?" (global)":""}</option>`).join("")}</select></div><button class="btn btn-ghost btn-sm" id="crSalas">Salas</button></div>
-      <div class="tabs" role="tablist" style="margin-bottom:${porLicao||porEquipe?"10px":"0"}"><button role="tab" aria-selected="${porLicao}" data-m="licao">Por lição</button><button role="tab" aria-selected="${corridaModo==="tri"}" data-m="tri">Trimestre</button><button role="tab" aria-selected="${porEquipe}" data-m="equipes">Equipes</button></div>
+      <div class="tabs" role="tablist" style="margin-bottom:${porLicao?"10px":"0"}"><button role="tab" aria-selected="${porLicao}" data-m="licao">Por lição</button><button role="tab" aria-selected="${corridaModo==="tri"}" data-m="tri">Trimestre</button></div>
       ${porLicao ? `<div class="field" style="margin:0"><select id="crLic" aria-label="Lição">${cfg.lics.map(l=>`<option value="${l.id}" ${l.id===corridaLicao?"selected":""}>${esc(l.numero)}: ${esc(l.titulo)}${l===cfg.atual?" (esta semana)":""}</option>`).join("")}</select></div>` : ""}
-      ${porEquipe ? `<div class="field" style="margin:0"><select id="eqEscopo" aria-label="Período">${cfg.lics.map(l=>`<option value="${l.id}" ${l.id===equipeEscopo?"selected":""}>${esc(l.numero)}: ${esc(l.titulo)}${l===cfg.atual?" (esta semana)":""}</option>`).join("")}<option value="*" ${equipeEscopo==="*"?"selected":""}>Trimestre inteiro</option></select></div>` : ""}
     </section></div>
     <div class="principal" id="rkCorpo"><section class="panel"><p class="vazio">Carregando a pista…</p></section></div></div>`;
   app.querySelectorAll("[data-m]").forEach(b=> b.onclick = ()=>{ corridaModo = b.dataset.m; telaRanking(); });
   const sel = $("crLic"); if(sel) sel.onchange = ()=>{ corridaLicao = sel.value; telaRanking(); };
   $("crSala").onchange = e => { definirSala(e.target.value); telaRanking(); };
   $("crSalas").onclick = ()=> nav("salas");
-  const eqs = $("eqEscopo"); if(eqs) eqs.onchange = ()=>{ equipeEscopo = eqs.value; telaRanking(); };
-  if(porEquipe){ await telaEquipes(sala, cfg); return; }
   try{
     // Só os resultados desta sala: da lição escolhida ou do trimestre
     const membros = await membrosAtivos(sala);
@@ -3738,7 +3705,7 @@ async function telaSalas(recarregar){
   app.innerHTML = `<div class="result-area duas"><div class="lado">
     <header class="hero" style="padding-bottom:14px"><div class="tag"><span class="box">Salas</span><span class="date">${ehMaster() ? "sem limite (master)" : `${part} de ${MAX_SALAS_PARTICIPA} · criadas ${criadas} de ${MAX_SALAS_CRIADAS}`}</span></div>
       <h1 class="rolo-h">Minhas<span class="hl">Salas</span></h1>
-      <p>Cada sala tem a sua corrida, equipes e mural. A sala ativa é a que aparece na Corrida e no Início.</p></header>
+      <p>Cada sala tem a sua corrida e o seu mural. A sala ativa é a que aparece na Corrida e no Início.</p></header>
     ${SALAS_ERRO ? `<section class="panel"><p class="erro" style="margin:0">Não deu para carregar as salas agora (${esc(SALAS_ERRO)}). Por enquanto você continua na sala global.</p></section>` : ""}
     <div class="sala-barra"><button class="btn btn-main" id="slCriar">+ Criar sala</button><button class="btn btn-ghost" id="slCodigo">Entrar com código</button><button class="btn btn-ghost" id="slPublicas">Salas públicas</button></div></div>
     <div class="principal"><div class="salas-grid">${SALAS.map(cartao).join("")}</div>
@@ -4025,7 +3992,8 @@ async function admSalas(){
 
 /* ============================================================
    MISSÕES, NÍVEIS, AJUDAS, PROFETAS DESBLOQUEÁVEIS, SONS
-   - 45 missões numeradas, cumpridas em ordem. A cada 5 missões, um nível.
+   - 45 missões numeradas, cumpridas em ordem, uma casa por vez: cada missão começa a contar do zero
+     quando vira a missão atual. A cada 5 missões, um nível.
    - Algumas missões dão ajudas para usar no quiz; alguns níveis liberam profetas novos.
    - O progresso (perfil.missoes) nunca volta para trás.
    ============================================================ */
@@ -4074,7 +4042,7 @@ function avatarSVG(id, rotulo, nivel){
 let _nvMemo = { k: "", v: 0 };
 function meuNivel(){
   if(!perfil) return 0;
-  const k = Object.keys(RES).length + "|" + (perfil.missoes || 0) + "|" + SALAS.length + "|" + (perfil.muralPosts || 0) + "|" + (perfil.temEquipe ? 1 : 0);
+  const k = Object.keys(RES).length + "|" + (perfil.missoes || 0) + "|" + perfil.missaoIni + "|" + SALAS.length + "|" + (perfil.muralPosts || 0) + "|" + (perfil.missoesRegra || 0);
   if(_nvMemo.k !== k) _nvMemo = { k, v: nivelAtual() };
   return _nvMemo.v;
 }
@@ -4095,7 +4063,6 @@ function estatisticas(){
     semanas: LICOES.filter(L => L.dias.every(d => resDe(L, d) && resDe(L, d).noPrazo)).length,
     licoes: LICOES.filter(L => L.dias.some(d => resDe(L, d))).length,
     salas: Math.max(SALAS.filter(x => !x.global).length, perfil && perfil.entrouSala ? 1 : 0),
-    equipe: perfil && perfil.temEquipe ? 1 : 0,
     mural: (perfil && perfil.muralPosts) || 0
   };
 }
@@ -4108,74 +4075,145 @@ const AJUDAS = {
   chance: { nome: "Segunda chance",  ic: "🔁", d: "Errou? Troca a pergunta por outra e você tenta de novo." }
 };
 const _ms = (t, d, chave, alvo, premio) => ({ t, d, meta: [chave, alvo], premio: premio || null });
+/* Cada missão começa a contar do zero quando vira a missão atual, e cada quiz conta para uma missão só.
+   Por isso o jogador anda uma casa por vez: nenhuma missão se cumpre sozinha por causa do que foi feito antes. */
 const MISSOES = [
   /* Nível 1 */
-  _ms("Primeiro passo", "Faça o seu primeiro quiz.", "quizzes", 1),
-  _ms("Aquecendo", "Faça 3 quizzes.", "quizzes", 3),
-  _ms("Mira afiada", "Acerte 10 perguntas no total.", "acertos", 10, { tipo: "meio", q: 1 }),
-  _ms("Dois em dois", "Faça o quiz no prazo 2 dias seguidos.", "melhorSeq", 2),
-  _ms("Minha turma", "Entre em uma sala além da 7world, ou crie a sua.", "salas", 1, { tipo: "chance", q: 1 }),
+  _ms("Primeiro passo", "Faça um quiz.", "quizzes", 1),
+  _ms("Aquecendo", "Faça mais um quiz.", "quizzes", 1),
+  _ms("Mira afiada", "Acerte 4 perguntas.", "acertos", 4, { tipo: "meio", q: 1 }),
+  _ms("Dois em dois", "Faça o quiz no prazo 2 dias seguidos.", "seq", 2),
+  _ms("Minha turma", "Faça um quiz participando de uma sala além da 7world. Entre em uma ou crie a sua.", "quizSala", 1, { tipo: "chance", q: 1 }),
   /* Nível 2 */
-  _ms("Dez mil", "Some 10.000 pontos.", "pontos", 10000),
+  _ms("Sete mil", "Some 7.000 pontos.", "pontos", 7000),
   _ms("Testemunho", "Publique algo no mural da sua sala.", "mural", 1),
-  _ms("Trio", "Faça o quiz no prazo 3 dias seguidos.", "melhorSeq", 3, { tipo: "dobro", q: 1 }),
-  _ms("Gabarito", "Acerte todas as perguntas de um quiz.", "gabaritos", 1),
-  _ms("Uma semana de jogo", "Faça 7 quizzes.", "quizzes", 7, { tipo: "profeta", id: "enoque" }),
+  _ms("Gabarito", "Acerte todas as perguntas de um quiz.", "gabaritos", 1, { tipo: "dobro", q: 1 }),
+  _ms("Trio", "Faça o quiz no prazo 3 dias seguidos.", "seq", 3),
+  _ms("Ligeiro", "Faça 3.500 pontos ou mais em um quiz.", "quizPts", 3500, { tipo: "profeta", id: "enoque" }),
   /* Nível 3 */
-  _ms("Ligeiro", "Faça 3.500 pontos ou mais em um quiz.", "maxPts", 3500),
-  _ms("Jogo em equipe", "Entre em uma equipe da sua sala.", "equipe", 1),
-  _ms("Quarenta certas", "Acerte 40 perguntas no total.", "acertos", 40, { tipo: "meio", q: 2 }),
-  _ms("Pontual", "Faça 10 quizzes no prazo.", "prazo", 10),
-  _ms("Cinco seguidos", "Faça o quiz no prazo 5 dias seguidos.", "melhorSeq", 5, { tipo: "chance", q: 2 }),
+  _ms("Em dia", "Faça um quiz no prazo.", "prazo", 1),
+  _ms("Oito certas", "Acerte 8 perguntas.", "acertos", 8),
+  _ms("Pontual", "Faça 2 quizzes no prazo.", "prazo", 2, { tipo: "meio", q: 2 }),
+  _ms("Veloz", "Faça 4.000 pontos ou mais em um quiz.", "quizPts", 4000),
+  _ms("Dobradinha", "Faça 2 quizzes.", "quizzes", 2, { tipo: "chance", q: 2 }),
   /* Nível 4 */
-  _ms("Trinta mil", "Some 30.000 pontos.", "pontos", 30000),
-  _ms("Três gabaritos", "Gabarite 3 quizzes.", "gabaritos", 3),
-  _ms("Quinze quizzes", "Faça 15 quizzes.", "quizzes", 15, { tipo: "dobro", q: 2 }),
-  _ms("Veloz", "Faça 4.000 pontos ou mais em um quiz.", "maxPts", 4000),
-  _ms("Semana completa", "Faça os 7 dias de uma lição no prazo.", "semanas", 1, { tipo: "profeta", id: "noe" }),
+  _ms("Oito mil", "Some 8.000 pontos.", "pontos", 8000),
+  _ms("Outro gabarito", "Acerte todas as perguntas de mais um quiz.", "gabaritos", 1),
+  _ms("Três de novo", "Faça o quiz no prazo 3 dias seguidos.", "seq", 3, { tipo: "dobro", q: 2 }),
+  _ms("Cinco certas", "Acerte 5 perguntas.", "acertos", 5),
+  _ms("Semana completa", "Feche uma lição com os 7 dias feitos no prazo.", "semanas", 1, { tipo: "profeta", id: "noe" }),
   /* Nível 5 */
-  _ms("Oitenta certas", "Acerte 80 perguntas no total.", "acertos", 80),
-  _ms("Vinte no prazo", "Faça 20 quizzes no prazo.", "prazo", 20),
-  _ms("Sete seguidos", "Faça o quiz no prazo 7 dias seguidos.", "melhorSeq", 7, { tipo: "meio", q: 2 }),
-  _ms("Sessenta mil", "Some 60.000 pontos.", "pontos", 60000),
-  _ms("Cinco gabaritos", "Gabarite 5 quizzes.", "gabaritos", 5, { tipo: "chance", q: 2 }),
+  _ms("Mais dois", "Faça 2 quizzes.", "quizzes", 2),
+  _ms("Mais oito mil", "Some 8.000 pontos.", "pontos", 8000),
+  _ms("Gabarito outra vez", "Acerte todas as perguntas de um quiz.", "gabaritos", 1, { tipo: "meio", q: 2 }),
+  _ms("Relâmpago", "Faça 4.500 pontos ou mais em um quiz.", "quizPts", 4500),
+  _ms("Sempre em dia", "Faça 2 quizzes no prazo.", "prazo", 2, { tipo: "chance", q: 2 }),
   /* Nível 6 */
-  _ms("Quatro semanas", "Faça 28 quizzes.", "quizzes", 28),
-  _ms("Explorador", "Jogue em 4 lições diferentes.", "licoes", 4),
-  _ms("Relâmpago", "Faça 4.500 pontos ou mais em um quiz.", "maxPts", 4500, { tipo: "dobro", q: 2 }),
-  _ms("Cento e trinta certas", "Acerte 130 perguntas no total.", "acertos", 130),
-  _ms("Duas semanas completas", "Complete 2 lições com os 7 dias no prazo.", "semanas", 2, { tipo: "profeta", id: "abraao" }),
+  _ms("Dez certas", "Acerte 10 perguntas.", "acertos", 10),
+  _ms("Quatro seguidos", "Faça o quiz no prazo 4 dias seguidos.", "seq", 4),
+  _ms("Dois gabaritos", "Gabarite 2 quizzes.", "gabaritos", 2, { tipo: "dobro", q: 2 }),
+  _ms("Nove mil", "Some 9.000 pontos.", "pontos", 9000),
+  _ms("Dois no prazo", "Faça 2 quizzes no prazo.", "prazo", 2, { tipo: "profeta", id: "abraao" }),
   /* Nível 7 */
-  _ms("Trinta e cinco no prazo", "Faça 35 quizzes no prazo.", "prazo", 35),
-  _ms("Cem mil", "Some 100.000 pontos.", "pontos", 100000),
-  _ms("Dez seguidos", "Faça o quiz no prazo 10 dias seguidos.", "melhorSeq", 10, { tipo: "meio", q: 3 }),
-  _ms("Oito gabaritos", "Gabarite 8 quizzes.", "gabaritos", 8),
-  _ms("Quarenta e cinco quizzes", "Faça 45 quizzes.", "quizzes", 45, { tipo: "chance", q: 3 }),
+  _ms("Raio", "Faça 4.200 pontos ou mais em um quiz.", "quizPts", 4200),
+  _ms("Doze certas", "Acerte 12 perguntas.", "acertos", 12),
+  _ms("Gabarito em dobro", "Gabarite 2 quizzes.", "gabaritos", 2, { tipo: "meio", q: 3 }),
+  _ms("Doze mil", "Some 12.000 pontos.", "pontos", 12000),
+  _ms("Passo firme", "Faça 2 quizzes.", "quizzes", 2, { tipo: "chance", q: 3 }),
   /* Nível 8 */
-  _ms("Duzentas certas", "Acerte 200 perguntas no total.", "acertos", 200),
-  _ms("Três semanas completas", "Complete 3 lições com os 7 dias no prazo.", "semanas", 3),
-  _ms("Catorze seguidos", "Faça o quiz no prazo 14 dias seguidos.", "melhorSeq", 14, { tipo: "dobro", q: 3 }),
-  _ms("Cento e cinquenta mil", "Some 150.000 pontos.", "pontos", 150000),
-  _ms("Sessenta quizzes", "Faça 60 quizzes.", "quizzes", 60, { tipo: "profeta", id: "zacarias" }),
-  /* Nível 9: a reta final, para chegar ao nível 10 e liberar o profeta mais raro */
-  _ms("Trezentas certas", "Acerte 300 perguntas no total.", "acertos", 300),
-  _ms("Doze gabaritos", "Gabarite 12 quizzes.", "gabaritos", 12, { tipo: "chance", q: 3 }),
-  _ms("Vinte e um seguidos", "Faça o quiz no prazo 21 dias seguidos.", "melhorSeq", 21),
-  _ms("Duzentos e cinquenta mil", "Some 250.000 pontos.", "pontos", 250000, { tipo: "dobro", q: 3 }),
-  _ms("Fiel até o fim", "Complete 6 lições com os 7 dias no prazo.", "semanas", 6, { tipo: "profeta", id: "messias" })
+  _ms("Cinco seguidos", "Faça o quiz no prazo 5 dias seguidos.", "seq", 5),
+  _ms("Mais dez certas", "Acerte 10 perguntas.", "acertos", 10),
+  _ms("Dupla de gabaritos", "Gabarite 2 quizzes.", "gabaritos", 2, { tipo: "dobro", q: 3 }),
+  _ms("Doze mil de novo", "Some 12.000 pontos.", "pontos", 12000),
+  _ms("Firme no prazo", "Faça 2 quizzes no prazo.", "prazo", 2, { tipo: "profeta", id: "zacarias" }),
+  /* Nível 9: a reta final, para chegar ao nível 10 e liberar o personagem mais raro */
+  _ms("Quinze certas", "Acerte 15 perguntas.", "acertos", 15),
+  _ms("Três gabaritos", "Gabarite 3 quizzes.", "gabaritos", 3, { tipo: "chance", q: 3 }),
+  _ms("Sete seguidos", "Faça o quiz no prazo 7 dias seguidos.", "seq", 7),
+  _ms("Vinte mil", "Some 20.000 pontos.", "pontos", 20000, { tipo: "dobro", q: 3 }),
+  _ms("Fiel até o fim", "Feche uma lição com os 7 dias feitos no prazo.", "semanas", 1, { tipo: "profeta", id: "messias" })
 ];
 MISSOES.forEach((m, i) => { m.n = i + 1; });
 
-function missoesFeitas(st){
-  let n = Math.min(MISSOES.length, (perfil && perfil.missoes) || 0);
-  st = st || estatisticas();
-  while(n < MISSOES.length && (st[MISSOES[n].meta[0]] || 0) >= MISSOES[n].meta[1]) n++;
+/* Regra antiga (metas somadas desde o primeiro quiz). Só serve para, uma única vez, manter o que cada jogador já tinha
+   conquistado antes da mudança: ninguém perde missão, nível, ajuda ou personagem. */
+const METAS_ANTIGAS = [["quizzes",1],["quizzes",3],["acertos",10],["melhorSeq",2],["salas",1],["pontos",10000],["mural",1],["melhorSeq",3],["gabaritos",1],["quizzes",7],
+  ["maxPts",3500],["quizzes",1],["acertos",40],["prazo",10],["melhorSeq",5],["pontos",30000],["gabaritos",3],["quizzes",15],["maxPts",4000],["semanas",1],
+  ["acertos",80],["prazo",20],["melhorSeq",7],["pontos",60000],["gabaritos",5],["quizzes",28],["licoes",4],["maxPts",4500],["acertos",130],["semanas",2],
+  ["prazo",35],["pontos",100000],["melhorSeq",10],["gabaritos",8],["quizzes",45],["acertos",200],["semanas",3],["melhorSeq",14],["pontos",150000],["quizzes",60],
+  ["acertos",300],["gabaritos",12],["melhorSeq",21],["pontos",250000],["semanas",6]];
+function contagemAntiga(){
+  const st = estatisticas(); let n = Math.min(METAS_ANTIGAS.length, (perfil && perfil.missoes) || 0);
+  while(n < METAS_ANTIGAS.length && (st[METAS_ANTIGAS[n][0]] || 0) >= METAS_ANTIGAS[n][1]) n++;
   return n;
 }
+const precisaMigrarMissoes = () => !!perfil && perfil.missoesRegra !== 2 && (perfil.missoes || 0) > 0;
+
+/* Quantas lições estão fechadas (7 dias no prazo) numa lista de resultados */
+function licoesFechadas(lista){
+  const ok = new Set(lista.filter(r => r.noPrazo).map(r => r.licaoId + "|" + r.data));
+  return LICOES.filter(L => L.dias.length && L.dias.every(d => ok.has(L.id + "|" + d.data))).length;
+}
+/* Quanto da missão já foi feito, olhando só os quizzes feitos desde que ela começou (rs, em ordem) */
+function medirMissao(m, rs, todosAte, fechadasAntes){
+  const k = m.meta[0], soma = f => rs.reduce((a, r) => a + (f(r) || 0), 0);
+  if(k === "quizzes") return rs.length;
+  if(k === "prazo") return rs.filter(r => r.noPrazo).length;
+  if(k === "acertos") return soma(r => r.acertos);
+  if(k === "pontos") return soma(r => r.pts);
+  if(k === "gabaritos") return rs.filter(r => r.total > 0 && r.acertos === r.total).length;
+  if(k === "quizPts") return rs.reduce((a, r) => Math.max(a, r.pts || 0), 0);
+  if(k === "licoes") return new Set(rs.map(r => r.licaoId)).size;
+  if(k === "quizSala") return SALAS.some(x => !x.global) ? rs.length : 0;
+  if(k === "semanas") return Math.max(0, licoesFechadas(todosAte) - fechadasAntes);
+  if(k === "seq"){
+    const dias = [...new Set(rs.filter(r => r.noPrazo).map(r => r.data))].sort();
+    let melhor = 0, corrente = 0, ant = null;
+    dias.forEach(d => { corrente = (ant && somarDias(ant, 1) === d) ? corrente + 1 : 1; if(corrente > melhor) melhor = corrente; ant = d; });
+    return melhor;
+  }
+  return 0;
+}
+/* Situação das missões: quantas estão cumpridas, quando a missão atual começou e quanto dela já foi feito.
+   Parte do que está guardado no perfil (missoes, missaoIni, missaoMural) e segue pelos quizzes feitos depois, um por um. */
+let _msMemo = { k: "", v: null };
+function estadoMissoes(){
+  if(!perfil) return { n: 0, ini: -1, mural: 0, prog: 0 };
+  if(precisaMigrarMissoes()) return { n: contagemAntiga(), ini: Date.now(), mural: perfil.muralPosts || 0, prog: 0, migrar: true };
+  const chave = [Object.keys(RES).length, perfil.missoes || 0, perfil.missaoIni, perfil.missaoMural || 0, perfil.muralPosts || 0, perfil.muralQuando || 0, SALAS.filter(x => !x.global).length, LICOES.length].join("|");
+  if(_msMemo.k === chave) return _msMemo.v;
+  const todos = Object.values(RES).slice().sort((a, b) => (a.quando || 0) - (b.quando || 0) || String(a.data).localeCompare(String(b.data)));
+  let n = Math.min(MISSOES.length, perfil.missoes || 0), ini = perfil.missaoIni != null ? perfil.missaoIni : -1, mural = perfil.missaoMural || 0, prog = 0;
+  let i0 = todos.findIndex(r => (r.quando || 0) > ini); if(i0 < 0) i0 = todos.length;
+  while(n < MISSOES.length){
+    const m = MISSOES[n], alvo = m.meta[1];
+    if(m.meta[0] === "mural"){
+      prog = Math.max(0, (perfil.muralPosts || 0) - mural);
+      if(prog < alvo) break;
+      ini = Math.max(ini, perfil.muralQuando || 0); mural = perfil.muralPosts || 0; n++; prog = 0;
+      while(i0 < todos.length && (todos[i0].quando || 0) <= ini) i0++;
+      continue;
+    }
+    const antes = m.meta[0] === "semanas" ? licoesFechadas(todos.slice(0, i0)) : 0;
+    let j = i0, feito = false; prog = medirMissao(m, [], todos.slice(0, i0), antes);
+    for(; j < todos.length; j++){
+      prog = medirMissao(m, todos.slice(i0, j + 1), todos.slice(0, j + 1), antes);
+      if(prog >= alvo){ feito = true; break; }
+    }
+    if(!feito) break;
+    ini = todos[j].quando || 0; i0 = j + 1; n++; prog = 0;       // a próxima missão começa depois deste quiz
+  }
+  _msMemo = { k: chave, v: { n, ini, mural, prog } };
+  return _msMemo.v;
+}
+function missoesFeitas(){ return estadoMissoes().n; }
 function nivelDe(feitas){ return feitas >= 1 ? 1 + Math.floor(feitas / 5) : 0; }
 function nivelAtual(){ return nivelDe(missoesFeitas()); }
 function nomeNivel(n){ return NIVEIS[Math.min(n, NIVEIS.length - 1)]; }
-function progressoMissao(m, st){ st = st || estatisticas(); const v = Math.min(st[m.meta[0]] || 0, m.meta[1]); return { v, alvo: m.meta[1], pct: Math.round(100 * v / m.meta[1]) }; }
+function progressoMissao(m){
+  const e = estadoMissoes(), alvo = m.meta[1], v = m.n <= e.n ? alvo : (m.n === e.n + 1 ? Math.min(e.prog, alvo) : 0);
+  return { v, alvo, pct: Math.round(100 * v / alvo) };
+}
 function textoPremio(p){
   if(!p) return "";
   if(p.tipo === "profeta"){ const pr = acharProfeta(p.id); return "Novo personagem: " + (pr ? pr.nome : ""); }
@@ -4238,9 +4276,14 @@ function definirSom(chave, ligado){ SOM[chave] = !!ligado; lsSet(KEY + (chave ==
 /* ---------- Missões novas: comemora uma vez e guarda o progresso ---------- */
 function conferirMissoesNovas(){
   if(!usuario || !perfil || tabAtual !== "inicio" || document.querySelector(".modal-bg")) return;
-  const antes = Math.min(MISSOES.length, perfil.missoes || 0), agora = missoesFeitas();
+  const est = estadoMissoes();
+  if(est.migrar && !SALAS.length) return;                            // espera as salas carregarem para contar certo o que o jogador já tinha
+  const antes = Math.min(MISSOES.length, perfil.missoes || 0), agora = est.n;
+  if(agora <= antes && !est.migrar) return;
+  /* guarda o novo ponto de partida: quantas missões estão cumpridas e a partir de quando a próxima começa a contar */
+  const novo = { missoes: Math.max(agora, antes), missaoIni: est.ini, missaoMural: est.mural, missoesRegra: 2 };
+  Object.assign(perfil, novo); DB.salvarUsuario(usuario.uid, novo).catch(()=>{});
   if(agora <= antes) return;
-  perfil.missoes = agora; DB.salvarUsuario(usuario.uid, { missoes: agora }).catch(()=>{});
   const novas = MISSOES.slice(antes, agora), nvAntes = nivelDe(antes), nvAgora = nivelDe(agora), subiu = nvAgora > nvAntes;
   const premios = novas.filter(m => m.premio), profetas = premios.filter(m => m.premio.tipo === "profeta").map(m => acharProfeta(m.premio.id)).filter(Boolean);
   const parar = typeof confetes === "function" ? confetes() : ()=>{};
@@ -4275,7 +4318,8 @@ function telaMissoes(vindoDe){
       <div class="ms-resumo-tx">
         ${prox ? `<span class="hoje-lbl">Próxima: missão ${prox.n}</span><h3>${esc(prox.t)}</h3><p>${esc(prox.d)}</p>
           <div class="barra-ms"><i style="width:${progressoMissao(prox, st).pct}%"></i></div>
-          <p class="muted small" style="margin:4px 0 0">${fmt(progressoMissao(prox, st).v)} de ${fmt(prox.meta[1])}${prox.premio ? " · Prêmio: " + esc(textoPremio(prox.premio)) : ""}${nv ? ` · faltam ${faltam} para o nível ${nv + 1}` : ""}</p>`
+          <p class="muted small" style="margin:4px 0 0">${fmt(progressoMissao(prox, st).v)} de ${fmt(prox.meta[1])}${prox.premio ? " · Prêmio: " + esc(textoPremio(prox.premio)) : ""}${nv ? ` · faltam ${faltam} para o nível ${nv + 1}` : ""}</p>
+          <p class="muted small" style="margin:6px 0 0">Cada missão começa a contar do zero quando vira a sua missão atual. Uma casa por vez!</p>`
         : `<h3>Trilha completa!</h3><p>Você cumpriu todas as ${MISSOES.length} missões. Que caminhada!</p>`}
       </div>
     </section>
@@ -4433,7 +4477,7 @@ function mostrarTutorial(aoFim){
     { arte: `<div class="tu-arte"><div class="tu-relogio">⏳</div><div class="tu-pilulas"><span class="pill ok">No prazo: 1 passo</span><span class="pill late">Atrasado: meio passo</span></div></div>`,
       t: "Fique de olho no prazo", d: "O quiz de cada dia vale até a meia-noite. Feito depois, vale metade dos pontos e meio passo. Cada resposta fica salva: se precisar sair, você continua de onde parou." },
     { arte: `<div class="tu-arte"><div class="tu-sala">${["daniel","miria","elias","debora"].map(p => avatarSVG(p)).join("")}</div><div class="convite" style="padding:8px 14px"><span>Código da sala</span><b style="font-size:34px;letter-spacing:5px">K7M2QX</b></div></div>`,
-      t: "Corra com a sua turma", d: "Todo mundo começa na sala 7world. Em Salas, entre na sala da sua classe com o código ou crie a sua. Cada sala tem a própria corrida, equipes e mural." }
+      t: "Corra com a sua turma", d: "Todo mundo começa na sala 7world. Em Salas, entre na sala da sua classe com o código ou crie a sua. Cada sala tem a própria corrida e mural." }
   ];
   let k = 0;
   const el = document.createElement("div"); el.className = "tutorial"; el.setAttribute("role", "dialog"); el.setAttribute("aria-modal", "true"); el.setAttribute("aria-label", "Como funciona");
@@ -4523,106 +4567,6 @@ async function modalRetrospectiva(){
 }
 
 /* ============================================================
-   EQUIPES (dentro de cada sala)
-   Ranking pela média de pontos por jovem: total de pontos da equipe ÷ número de membros.
-   Coleção equipes/{id}: {salaId, nome, cor, criadaPor, membros:[uid], pessoas:{uid:{nome,profeta}}}
-   ============================================================ */
-const CORES_EQUIPE = ["#E8505D", "#F2BE2E", "#2BA486", "#1C9FD0", "#B48CF0", "#F08A4B"];
-let equipesCache = {};
-async function equipesDaSala(s, forcar){
-  const c = equipesCache[s.id];
-  if(!forcar && c && Date.now() - c.em < 60000) return c.lista;
-  const lista = await DB.equipesDaSala(s.id);
-  equipesCache[s.id] = { lista, em: Date.now() };
-  return lista;
-}
-function podeGerenciarEquipe(e, s){ return ehMaster() || ehDonoSala(s) || ehAdminSala(s) || e.criadaPor === usuario.uid; }
-
-async function telaEquipes(sala, cfg){
-  const corpo = $("rkCorpo"); if(!corpo) return;
-  try{
-    const escopo = equipeEscopo === "*" ? { trimestre: cfg.tri } : { licaoId: equipeEscopo };
-    const [membros, res, equipes] = await Promise.all([membrosAtivos(sala), resultadosDaSala(sala, escopo), equipesDaSala(sala)]);
-    if(!$("rkCorpo") || salaAtual().id !== sala.id || corridaModo !== "equipes") return;
-    const pessoas = pessoasDaSala(sala, res), eu = usuario.uid;
-    const porUid = {}; res.forEach(r => { if(membros && !membros.has(r.uid)) return; const p = porUid[r.uid] || (porUid[r.uid] = { pts: 0, n: 0 }); p.pts += r.pts || 0; p.n++; });
-    const linhas = equipes.map(e => {
-      const ms = (e.membros || []).filter(u => !membros || membros.has(u));
-      const total = ms.reduce((a, u) => a + (porUid[u] ? porUid[u].pts : 0), 0), quizzes = ms.reduce((a, u) => a + (porUid[u] ? porUid[u].n : 0), 0);
-      return { e, ms, total, quizzes, media: ms.length ? Math.round(total / ms.length) : 0 };
-    }).sort((a, b) => b.media - a.media || b.total - a.total || String(a.e.nome).localeCompare(String(b.e.nome), "pt-BR"));
-    const minha = linhas.find(x => x.ms.includes(eu));
-    const nomeDe = (e, u) => (u === eu ? perfil.nome : (pessoas[u] && pessoas[u].nome) || (e.pessoas && e.pessoas[u] && e.pessoas[u].nome) || "?");
-    const profDe = (e, u) => (u === eu ? perfil.profeta : (pessoas[u] && pessoas[u].profeta) || (e.pessoas && e.pessoas[u] && e.pessoas[u].profeta) || PROFETA_PADRAO);
-    const nivDe = (e, u) => (u === eu ? meuNivel() : Math.max((pessoas[u] && pessoas[u].nivel) || 0, (e.pessoas && e.pessoas[u] && e.pessoas[u].nivel) || 0));
-    const emEquipe = new Set(linhas.flatMap(x => x.ms));
-    const semEquipe = membros ? [...membros].filter(u => !emEquipe.has(u)).length : null;
-    let h = `<section class="panel"><div class="cq-head"><h2 class="h3" style="font-size:30px;margin:0">Ranking das equipes</h2><button class="btn btn-main btn-sm" id="eqCriar">Criar equipe</button></div>
-      <p class="muted small" style="margin:6px 0 0">Vale a média: pontos da equipe divididos pelo número de jovens. Assim equipe pequena e grande competem de igual para igual, e cada quiz feito ajuda.</p></section>`;
-    if(!linhas.length) h += `<section class="panel"><p class="vazio">Esta sala ainda não tem equipes. Crie a primeira e chame a turma!</p></section>`;
-    else h += `<div class="equipes">${linhas.map((x, k) => {
-        const e = x.e, souDela = x.ms.includes(eu), mostra = x.ms.slice(0, 8);
-        return `<article class="equipe ${souDela ? "minha" : ""}" style="--cor:${esc(e.cor || CORES_EQUIPE[0])}">
-          <div class="eq-top"><div class="eq-pos">${k + 1}º</div><div class="eq-nome"><h3>${esc(e.nome)}</h3><span>${x.ms.length} ${x.ms.length === 1 ? "jovem" : "jovens"} · ${fmt(x.total)} pts no total · ${x.quizzes} ${x.quizzes === 1 ? "quiz" : "quizzes"}</span></div>
-            <div class="eq-media"><b>${fmt(x.media)}</b><span>média por jovem</span></div></div>
-          ${x.ms.length ? `<div class="chips eq-membros">${mostra.map(u => `<span class="chip">${avatarSVG(profDe(e, u), null, nivDe(e, u))}${esc(nomeDe(e, u))}${porUid[u] ? `<em>${fmt(porUid[u].pts)}</em>` : ""}</span>`).join("")}${x.ms.length > mostra.length ? `<span class="chip">+${x.ms.length - mostra.length}</span>` : ""}</div>` : `<p class="muted small" style="margin:8px 0 0">Equipe sem ninguém ainda.</p>`}
-          <div class="sala-acoes">${souDela ? `<button class="btn btn-ghost btn-sm" data-eqsair="${esc(e.id)}">Sair da equipe</button>` : `<button class="btn ${minha ? "btn-ghost" : "btn-main"} btn-sm" data-eqentrar="${esc(e.id)}">${minha ? "Trocar para esta" : "Entrar"}</button>`}${podeGerenciarEquipe(e, sala) ? `<button class="btn btn-ghost btn-sm" data-eqger="${esc(e.id)}">Gerenciar</button>` : ""}</div>
-        </article>`; }).join("")}</div>`;
-    if(semEquipe) h += `<p class="rodape">${semEquipe} ${semEquipe === 1 ? "jovem da sala ainda está" : "jovens da sala ainda estão"} sem equipe${minha ? "" : ". Entre em uma para os seus pontos contarem!"}</p>`;
-    corpo.innerHTML = h;
-    const achar = id => equipes.find(x => x.id === id);
-    $("eqCriar").onclick = () => modalCriarEquipe(sala, equipes);
-    corpo.querySelectorAll("[data-eqentrar]").forEach(b => b.onclick = async () => { ocupado(b, true); try{ await entrarNaEquipe(sala, achar(b.dataset.eqentrar), equipes); }catch(e){ aviso(erroMsg(e)); } telaRanking(); });
-    corpo.querySelectorAll("[data-eqsair]").forEach(b => b.onclick = async () => { ocupado(b, true); try{ await DB.sairEquipe(b.dataset.eqsair, eu); delete equipesCache[sala.id]; aviso("Você saiu da equipe"); }catch(e){ aviso(erroMsg(e)); } telaRanking(); });
-    corpo.querySelectorAll("[data-eqger]").forEach(b => b.onclick = () => modalGerenciarEquipe(sala, achar(b.dataset.eqger), nomeDe, profDe));
-  }catch(e){ corpo.innerHTML = `<section class="panel"><p class="erro">${esc(erroMsg(e))}</p></section>`; }
-}
-/* Entra na equipe, saindo de qualquer outra da mesma sala (uma equipe por sala) */
-async function entrarNaEquipe(sala, e, equipes){
-  if(!e) return;
-  const eu = usuario.uid;
-  for(const o of equipes) if(o.id !== e.id && (o.membros || []).includes(eu)) await DB.sairEquipe(o.id, eu);
-  await DB.entrarEquipe(e.id, eu, { nome: perfil.nome || "", profeta: perfil.profeta || "", nivel: meuNivel() });
-  delete equipesCache[sala.id];
-  if(!perfil.temEquipe){ perfil.temEquipe = true; DB.salvarUsuario(eu, { temEquipe: true }).catch(()=>{}); }
-  tocar("ajuda"); aviso(`Você entrou na equipe ${e.nome}!`);
-}
-function modalCriarEquipe(sala, equipes){
-  let cor = CORES_EQUIPE[equipes.length % CORES_EQUIPE.length];
-  modal("Criar equipe", `<p class="muted small" style="margin-top:0">A equipe fica dentro da sala <b>${esc(sala.nome)}</b>. Você entra nela ao criar, e cada pessoa pode estar em uma equipe por sala.</p>
-    <div class="field"><label for="eqNome">Nome da equipe</label><input type="text" id="eqNome" maxlength="24" placeholder="Ex.: Filhos do Trovão"></div>
-    <div class="field"><label>Cor</label><div class="cores">${CORES_EQUIPE.map(c => `<button type="button" class="cor" data-cor="${c}" style="background:${c}" aria-label="Cor ${c}" aria-pressed="${c === cor}"></button>`).join("")}</div></div>
-    <p class="erro" id="eqErro"></p><div class="btn-row uma"><button class="btn btn-main" id="eqOk">Criar equipe</button></div>`, (m, fechar) => {
-    m.querySelectorAll("[data-cor]").forEach(b => b.onclick = () => { cor = b.dataset.cor; m.querySelectorAll("[data-cor]").forEach(x => x.setAttribute("aria-pressed", String(x === b))); });
-    m.querySelector("#eqOk").onclick = async () => {
-      const nome = m.querySelector("#eqNome").value.trim().replace(/\s+/g, " "), erro = m.querySelector("#eqErro"), b = m.querySelector("#eqOk");
-      if(nome.length < 2){ erro.textContent = "Dê um nome para a equipe."; return; }
-      if(equipes.some(x => String(x.nome).toLowerCase() === nome.toLowerCase())){ erro.textContent = "Já existe uma equipe com esse nome nesta sala."; return; }
-      ocupado(b, true);
-      try{
-        const id = "e" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
-        await DB.salvarEquipe(id, { salaId: sala.id, nome, cor, criadaPor: usuario.uid, criadaPorNome: perfil.nome || "", criadaEm: Date.now(), membros: [], pessoas: {} });
-        await entrarNaEquipe(sala, { id, nome }, equipes);
-        fechar(); telaRanking();
-      }catch(e){ erro.textContent = erroMsg(e); ocupado(b, false); }
-    };
-  });
-}
-function modalGerenciarEquipe(sala, e, nomeDe, profDe){
-  if(!e) return;
-  let mudou = false;
-  modal("Gerenciar equipe", `<div class="field"><label for="geNome">Nome</label><input type="text" id="geNome" maxlength="24" value="${esc(e.nome)}"></div>
-    <div class="btn-row uma"><button class="btn btn-main" id="geSalvar">Salvar nome</button></div>
-    <h3 class="h3" style="margin-top:16px">Membros (${(e.membros || []).length})</h3>
-    ${(e.membros || []).length ? `<ul class="lista gs-membros">${e.membros.map(u => `<li><div class="em">${avatarSVG(profDe(e, u))}</div><div class="info"><strong>${esc(nomeDe(e, u))}</strong></div><button class="btn btn-ghost btn-sm" data-tirar="${esc(u)}">Tirar</button></li>`).join("")}</ul>` : `<p class="vazio">Ninguém na equipe.</p>`}
-    <p class="erro" id="geErro"></p><div class="btn-row uma" style="margin-top:12px"><button class="btn btn-danger" id="geExcluir">Excluir equipe</button></div>`, (m, fechar) => {
-    m.querySelector("#geSalvar").onclick = async () => { const nome = m.querySelector("#geNome").value.trim().replace(/\s+/g, " "); if(nome.length < 2){ m.querySelector("#geErro").textContent = "Dê um nome para a equipe."; return; } try{ await DB.salvarEquipe(e.id, { nome }); mudou = true; aviso("Equipe atualizada"); fechar(); }catch(er){ m.querySelector("#geErro").textContent = erroMsg(er); } };
-    m.querySelectorAll("[data-tirar]").forEach(b => b.onclick = async () => { ocupado(b, true); try{ await DB.sairEquipe(e.id, b.dataset.tirar); e.membros = e.membros.filter(u => u !== b.dataset.tirar); mudou = true; b.closest("li").remove(); }catch(er){ aviso(erroMsg(er)); } });
-    m.querySelector("#geExcluir").onclick = async () => { if(!(await confirmar("Excluir equipe", `Excluir a equipe "${e.nome}"? Os pontos de cada jovem continuam guardados.`, "Excluir equipe", "btn-danger"))) return; try{ await DB.excluirEquipe(e.id); mudou = true; aviso("Equipe excluída"); fechar(); }catch(er){ aviso(erroMsg(er)); } };
-  }, () => { if(mudou){ delete equipesCache[sala.id]; if(tabAtual === "ranking") telaRanking(); } });
-}
-
-/* ============================================================
    MURAL (por sala)
    Publicações prontas (resultado, conquista, missão, nível, sequência, retrospectiva), sem texto livre.
    Reações: amém, parabéns, coração. Coleção mural/{id}, campo salaMes = salaId|AAAA-MM.
@@ -4643,7 +4587,7 @@ async function publicarNoMural(post, btn){
   try{
     await DB.salvarPost(id, { salaId: sala.id, salaMes: sala.id + "|" + mesDe(agora), uid: usuario.uid, nome: perfil.nome || "", profeta: perfil.profeta || "", nivel: meuNivel(), tipo: post.tipo, ref: String(post.ref), ic: post.ic || "✨", titulo: post.titulo, texto: post.texto || "", quando: agora });
     const meus = lsGet(KEY + ":mural:" + usuario.uid, []);
-    if(!meus.includes(id)){ meus.push(id); lsSet(KEY + ":mural:" + usuario.uid, meus.slice(-200)); perfil.muralPosts = (perfil.muralPosts || 0) + 1; DB.salvarUsuario(usuario.uid, { muralPosts: perfil.muralPosts }).catch(()=>{}); }
+    if(!meus.includes(id)){ meus.push(id); lsSet(KEY + ":mural:" + usuario.uid, meus.slice(-200)); perfil.muralPosts = (perfil.muralPosts || 0) + 1; perfil.muralQuando = agora; DB.salvarUsuario(usuario.uid, { muralPosts: perfil.muralPosts, muralQuando: agora }).catch(()=>{}); }
     tocar("ajuda"); aviso(`Publicado no mural da sala ${sala.nome}`);
     if(btn){ ocupado(btn, false); btn.textContent = "Publicado ✓"; btn.disabled = true; }
     return true;
