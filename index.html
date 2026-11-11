@@ -441,29 +441,54 @@ input[type=file]{width:100%;color:var(--muted);font-size:15px}
 .prof.bloq .avatar{filter:grayscale(1) brightness(.75)}
 .prof em{font-style:normal;font-size:10.5px;font-weight:800;color:var(--warn)}
 /* Trilha */
-.trilha-wrap{padding:8px 0;overflow:hidden}
-.trilha{position:relative;margin:0 auto}
-.trilha-svg{position:absolute;left:0;top:0}
-.trilha-svg path{fill:none;stroke-linecap:round;stroke-linejoin:round}
-.tr-fundo{stroke:rgba(255,255,255,.22);stroke-width:14;stroke-dasharray:2 22}
-.tr-feito{stroke:var(--accent);stroke-width:8}
-.tr-no{position:absolute;transform:translate(-50%,-50%);width:54px;height:54px;border-radius:50%;border:3px solid rgba(255,255,255,.35);background:#3F3D83;color:rgba(255,255,255,.6);font-family:"Bebas Neue","Arial Narrow",sans-serif;font-size:24px;display:grid;place-items:center;z-index:1}
-.tr-no.feita{background:var(--accent);border-color:#fff;color:#14123C}
-.tr-no.atual{background:#fff;border-color:var(--warn);color:var(--deep);box-shadow:0 0 0 6px rgba(242,190,46,.3);animation:trpulsa 1.6s ease-in-out infinite}
-.tr-no.portal{width:68px;height:68px;font-size:30px;border-radius:20px}
-.tr-no.portal.feita{background:linear-gradient(160deg,#FFE9A6,#F2BE2E);color:#3A2A00}
-.tr-premio{position:absolute;right:-8px;top:-8px;width:26px;height:26px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:14px;box-shadow:0 2px 6px rgba(0,0,0,.3)}
-.tr-nivel{position:absolute;transform:translateY(-50%);font-family:"Bebas Neue","Arial Narrow",sans-serif;font-size:20px;letter-spacing:.5px;line-height:1;color:var(--muted);white-space:nowrap}
-.tr-nivel small{display:block;font:700 11px "Barlow",sans-serif;letter-spacing:0}
-.tr-nivel.on{color:var(--warn)}
-.tr-nivel.dir{right:6px;text-align:right}.tr-nivel.esq{left:6px}
-.tr-largada{position:absolute;transform:translate(-50%,-50%);padding:5px 12px;border-radius:99px;background:rgba(255,255,255,.2);font-weight:800;font-size:12px;letter-spacing:.5px;text-transform:uppercase}
-.tr-profeta{position:absolute;transform:translate(-50%,-112%);z-index:3;pointer-events:none;filter:drop-shadow(0 6px 6px rgba(0,0,0,.35))}
-.tr-profeta .avatar{width:44px;height:57px;display:block}
+/* ---------- Trilha: mapa da jornada bíblica ---------- */
+.trilha-wrap{padding:0;overflow:hidden;border:0;box-shadow:0 10px 30px rgba(10,9,40,.35)}
+.trilha{position:relative;margin:0 auto;font-family:"Barlow",sans-serif}
+.trilha-svg{position:absolute;left:0;top:0;display:block}
+.tr-brilho{animation:trbrilha 2.6s ease-in-out infinite}
+@keyframes trbrilha{0%,100%{opacity:1}50%{opacity:.25}}
+.ms-etapa{display:block;font-weight:800;font-size:13px;color:#FFE27A;margin-bottom:4px}
+.ms-etapa small{font-weight:600;color:var(--muted);font-size:11.5px}
+/* casas do caminho: botões com cara de jogo (relevo embaixo) */
+.tr-no{position:absolute;transform:translate(-50%,-50%);width:54px;height:54px;border-radius:50%;border:0;padding:0;display:grid;place-items:center;z-index:2;cursor:pointer;
+  font-family:"Bebas Neue","Arial Narrow",sans-serif;font-size:25px;line-height:1;
+  background:radial-gradient(circle at 34% 28%,#F1EEF7,#BDB6D1 58%,#948CB0);color:#5A5374;
+  box-shadow:0 5px 0 #6B6487,0 10px 14px rgba(20,16,50,.35),inset 0 2px 0 rgba(255,255,255,.75)}
+.tr-no .nn{position:relative;display:grid;place-items:center;width:100%;height:100%}
+.tr-no:hover{filter:brightness(1.07)}
+.tr-no:focus-visible{outline:3px solid #fff;outline-offset:4px}
+.tr-no.feita{background:radial-gradient(circle at 34% 28%,#FFF6C8,#FFD34D 55%,#E59A16);color:#6B4300;box-shadow:0 5px 0 #B06E0C,0 10px 14px rgba(60,30,0,.35),inset 0 2px 0 rgba(255,255,255,.85)}
+.tr-no.atual{width:66px;height:66px;font-size:32px;background:radial-gradient(circle at 34% 28%,#FFFFFF,#C8F5FF 55%,#55CDEA);color:#123A63;animation:trpulsa 1.6s ease-in-out infinite}
+.tr-no.portal{border-radius:15px;width:58px;height:58px;transform:translate(-50%,-50%) rotate(45deg)}
+.tr-no.portal .nn{transform:rotate(-45deg)}
+.tr-no.portal.atual{width:66px;height:66px}
+.tr-no.portal.fechada{background:radial-gradient(circle at 34% 28%,#F3E9FF,#C3B0E6 58%,#9479C9);color:#4B347A;box-shadow:0 5px 0 #67509A,0 10px 14px rgba(20,16,50,.35),inset 0 2px 0 rgba(255,255,255,.75)}
+.tr-no.portal.feita{background:radial-gradient(circle at 34% 28%,#FFF6C8,#FFCB2E 50%,#E08A0E)}
+.tr-premio{position:absolute;right:-12px;top:-12px;width:27px;height:27px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:14px;line-height:1;box-shadow:0 2px 0 rgba(0,0,0,.18),0 3px 8px rgba(0,0,0,.3);font-family:system-ui,sans-serif}
+.tr-premio.pers{width:38px;height:38px;right:-18px;top:-20px;background:radial-gradient(circle at 35% 30%,#FFF6C8,#F2BE2E);border:2px solid #fff;overflow:hidden;align-items:end}
+.tr-premio.pers .avatar{width:30px;height:39px;margin-bottom:-6px}
+.tr-ok{position:absolute;left:-9px;bottom:-9px;width:21px;height:21px;border-radius:50%;background:#2BA486;color:#fff;font:900 12px/21px system-ui,sans-serif;text-align:center;box-shadow:0 2px 0 #1B6E59;border:2px solid #fff}
+/* placas das etapas (pergaminho) */
+.tr-zona{position:absolute;transform:translate(-50%,-50%);z-index:1;text-align:center;padding:6px 12px 7px;border-radius:10px;
+  background:linear-gradient(#FFF6DC,#F1DCA6);color:#5A3A1A;border:2px solid #C9A060;box-shadow:0 4px 0 rgba(110,72,30,.45),0 10px 18px rgba(0,0,0,.22)}
+.tr-zona::before,.tr-zona::after{content:"";position:absolute;top:5px;bottom:5px;width:11px;border-radius:6px;background:linear-gradient(90deg,#B98D4F,#F1DCA6 60%,#C9A060);border:1.5px solid #A97E42}
+.tr-zona::before{left:-9px}.tr-zona::after{right:-9px}
+.tr-zona small{display:block;white-space:nowrap;font-size:10.5px;font-weight:800;letter-spacing:.3px;color:#8A6436;line-height:1.2}
+.tr-zona b{display:block;font-family:"Bebas Neue","Arial Narrow",sans-serif;font-weight:400;font-size:21px;letter-spacing:.6px;line-height:1.02;margin-top:1px}
+.tr-zona em{display:block;font-style:italic;font-size:10.5px;color:#8A6436;line-height:1.2}
+.tr-zona.atual{box-shadow:0 4px 0 rgba(110,72,30,.45),0 0 0 4px rgba(255,226,122,.55),0 10px 22px rgba(0,0,0,.25)}
+.tr-zona.bloq{filter:saturate(.55) brightness(.92)}
+.tr-zona.final{padding:8px 18px 9px;white-space:nowrap}
+.tr-zona.final b{font-size:28px;color:#8A5A0E}
+/* placa da largada (madeira) */
+.tr-largada{position:absolute;transform:translate(-50%,-50%);z-index:1}
+.tr-largada span{display:block;padding:5px 14px 4px;border-radius:6px;background:linear-gradient(#B98250,#8A5A2B);color:#FFF4DA;border:2px solid #5E3B1C;font-family:"Bebas Neue","Arial Narrow",sans-serif;font-size:20px;letter-spacing:1px;box-shadow:0 3px 0 #5E3B1C,0 8px 14px rgba(0,0,0,.25)}
+.tr-profeta{position:absolute;transform:translate(-50%,calc(-100% - 20px));z-index:3;pointer-events:none;filter:drop-shadow(0 6px 6px rgba(0,0,0,.35))}
+.tr-profeta .avatar{width:46px;height:60px;display:block}
 .tr-profeta.andando .avatar{animation:trpasso .42s ease-in-out infinite}
-@keyframes trpulsa{0%,100%{box-shadow:0 0 0 4px rgba(242,190,46,.35)}50%{box-shadow:0 0 0 10px rgba(242,190,46,.12)}}
+@keyframes trpulsa{0%,100%{box-shadow:0 6px 0 #2A8DB0,0 0 0 5px rgba(255,255,255,.6),0 12px 20px rgba(0,0,0,.35)}50%{box-shadow:0 6px 0 #2A8DB0,0 0 0 13px rgba(255,255,255,.12),0 12px 20px rgba(0,0,0,.35)}}
 @keyframes trpasso{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-7px) rotate(4deg)}}
-@media (prefers-reduced-motion:reduce){.tr-no.atual,.tr-profeta.andando .avatar{animation:none}}
+@media (prefers-reduced-motion:reduce){.tr-no.atual,.tr-profeta.andando .avatar,.tr-brilho{animation:none}.tr-no.atual{box-shadow:0 6px 0 #2A8DB0,0 0 0 6px rgba(255,255,255,.55),0 12px 20px rgba(0,0,0,.35)}}
 /* Ajudas no quiz */
 .ajudas-bar{display:flex;flex-wrap:wrap;gap:8px;margin:-6px 0 8px}
 .ajuda-btn{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.14);border:2px solid var(--panel-line);border-radius:999px;padding:6px 8px 6px 10px;font-size:14px;font-weight:800;color:#fff}
@@ -4305,58 +4330,7 @@ function conferirMissoesNovas(){
 /* ============================================================
    TELA: MISSÕES (trilha)
    ============================================================ */
-function posTrilha(i, larg){ const amp = Math.min(110, larg * 0.29); return { x: larg / 2 + Math.sin(i * 0.95) * amp, y: 70 + i * 96 }; }   // i = 0 é a largada
-function telaMissoes(vindoDe){
-  tabAtual = "missoes"; atualizarCasca(); pararTimer(); if(typeof pararCamera === "function") pararCamera();
-  const st = estatisticas(), feitas = missoesFeitas(st), nv = nivelDe(feitas), prox = MISSOES[feitas] || null;
-  const noNivel = feitas % 5, faltam = prox ? 5 - noNivel : 0;
-  app.innerHTML = `<div class="result-area duas"><div class="lado">
-    <header class="hero" style="padding-bottom:10px"><div class="tag"><span class="box">Missões</span><span class="date">${feitas} de ${MISSOES.length} cumpridas</span></div>
-      <h1 class="rolo-h">Trilha das<span class="hl">Missões</span></h1></header>
-    <section class="panel ms-resumo">
-      <div class="nivel-selo peq"><span>Nível</span><b>${nv}</b><em>${esc(nomeNivel(nv))}</em></div>
-      <div class="ms-resumo-tx">
-        ${prox ? `<span class="hoje-lbl">Próxima: missão ${prox.n}</span><h3>${esc(prox.t)}</h3><p>${esc(prox.d)}</p>
-          <div class="barra-ms"><i style="width:${progressoMissao(prox, st).pct}%"></i></div>
-          <p class="muted small" style="margin:4px 0 0">${fmt(progressoMissao(prox, st).v)} de ${fmt(prox.meta[1])}${prox.premio ? " · Prêmio: " + esc(textoPremio(prox.premio)) : ""}${nv ? ` · faltam ${faltam} para o nível ${nv + 1}` : ""}</p>
-          <p class="muted small" style="margin:6px 0 0">Cada missão começa a contar do zero quando vira a sua missão atual. Uma casa por vez!</p>`
-        : `<h3>Trilha completa!</h3><p>Você cumpriu todas as ${MISSOES.length} missões. Que caminhada!</p>`}
-      </div>
-    </section>
-    <section class="panel"><span class="hoje-lbl">Suas ajudas</span>${chipsAjudas()}<p class="muted small" style="margin:8px 0 0">As ajudas são ganhas nas missões e aparecem durante o quiz.</p></section></div>
-    <div class="principal"><section class="panel trilha-wrap"><div class="trilha" id="trilha"></div></section></div>
-  </div>`;
-  const el = $("trilha"), larg = Math.min(el.clientWidth || 340, 560), N = MISSOES.length;
-  const alt = posTrilha(N, larg).y + 70;
-  el.style.height = alt + "px";
-  const pts = Array.from({ length: N + 1 }, (_, i) => posTrilha(i, larg));
-  const caminho = (a, b) => { let d = `M${pts[a].x.toFixed(1)} ${pts[a].y}`; for(let i = a + 1; i <= b; i++){ const p0 = pts[i-1], p1 = pts[i], my = (p0.y + p1.y) / 2; d += ` C${p0.x.toFixed(1)} ${my}, ${p1.x.toFixed(1)} ${my}, ${p1.x.toFixed(1)} ${p1.y}`; } return d; };
-  let h = `<svg class="trilha-svg" width="${larg}" height="${alt}" viewBox="0 0 ${larg} ${alt}" aria-hidden="true">
-      <path d="${caminho(0, N)}" class="tr-fundo"/>${feitas ? `<path d="${caminho(0, feitas)}" class="tr-feito"/>` : ""}</svg>
-    <div class="tr-largada" style="left:${pts[0].x}px;top:${pts[0].y}px">Largada</div>`;
-  MISSOES.forEach((m, i) => {
-    const p = pts[i + 1], feita = i < feitas, atual = i === feitas, portal = m.n % 5 === 0;
-    h += `<button type="button" class="tr-no ${feita ? "feita" : atual ? "atual" : "fechada"} ${portal ? "portal" : ""}" style="left:${p.x}px;top:${p.y}px" data-ms="${i}" aria-label="Missão ${m.n}: ${esc(m.t)}${feita ? " (cumprida)" : ""}">${m.n}${m.premio ? `<span class="tr-premio">${m.premio.tipo === "profeta" ? "👤" : AJUDAS[m.premio.tipo].ic}</span>` : ""}</button>`;
-    if(portal) h += `<div class="tr-nivel ${feita ? "on" : ""} ${p.x > larg / 2 ? "esq" : "dir"}" style="top:${p.y}px">Nível ${m.n / 5 + 1}<small>${esc(nomeNivel(m.n / 5 + 1))}</small></div>`;
-    else if(m.n === 1) h += `<div class="tr-nivel ${feita ? "on" : ""} ${p.x > larg / 2 ? "esq" : "dir"}" style="top:${p.y}px">Nível 1<small>${esc(nomeNivel(1))}</small></div>`;
-  });
-  h += `<div class="tr-profeta" id="trProfeta">${meuAvatar()}</div>`;
-  el.innerHTML = h;
-  el.style.width = larg + "px";
-  // O profeta caminha da posição anterior até a missão atual
-  const boneco = $("trProfeta"), ir = k => { boneco.style.left = pts[k].x + "px"; boneco.style.top = pts[k].y + "px"; };
-  const de = Math.max(0, Math.min(feitas, vindoDe == null ? feitas : vindoDe));
-  boneco.style.transition = "none"; ir(de);
-  const rolar = k => { const y = el.getBoundingClientRect().top + window.scrollY + pts[k].y - window.innerHeight / 2; window.scrollTo({ top: Math.max(0, y), behavior: "auto" }); };
-  rolar(de);
-  if(de < feitas){
-    let k = de; const lento = matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const passo = () => { if(!$("trProfeta")) return; k++; boneco.style.transition = lento ? "none" : "left .42s ease, top .42s ease"; boneco.classList.add("andando"); ir(k); tocar("toque"); rolar(k);
-      if(k < feitas) setTimeout(passo, lento ? 60 : 460); else setTimeout(() => { boneco.classList.remove("andando"); tocar("missao"); }, 460); };
-    setTimeout(passo, 500);
-  }
-  el.querySelectorAll("[data-ms]").forEach(b => b.onclick = () => modalMissao(+b.dataset.ms));
-}
+/* A tela da trilha (mapa da jornada bíblica) fica em parte7b_trilha.js */
 function modalMissao(i){
   const m = MISSOES[i]; if(!m) return;
   const st = estatisticas(), feitas = missoesFeitas(st), feita = i < feitas, atual = i === feitas, pg = progressoMissao(m, st);
@@ -4564,6 +4538,280 @@ async function modalRetrospectiva(){
     m.querySelector("#reShare").onclick = async e => { const b = e.currentTarget; ocupado(b, true); try{ await compartilharImagem(blob, "retrospectiva-" + slug(quem() || "trimestre") + ".jpg"); }catch(er){ aviso("Não deu para compartilhar."); } ocupado(b, false); };
     m.querySelector("#reMural").onclick = e => publicarNoMural({ tipo: "retro", ref: d.tri, ic: "📜", titulo: `Retrospectiva: ${d.dias} dias estudados e ${fmt(d.pontos)} pontos`, texto: `${nomeTrimestre(d.tri)} · melhor sequência de ${d.seq} ${d.seq === 1 ? "dia" : "dias"} · ${d.acerto}% de acerto` }, e.currentTarget);
   });
+}
+
+/* ============================================================
+   TRILHA DAS MISSÕES: JORNADA BÍBLICA
+   Mapa de jogo de baixo para cima, do Jardim do Éden até a Nova Jerusalém.
+   Cada nível é uma etapa da história bíblica, com paisagem própria.
+   Tudo é desenhado em SVG aqui mesmo (sem imagens externas).
+   ============================================================ */
+const ZONAS = [
+  { nome: "Jardim do Éden", ref: "Gênesis 2", c: ["#9BDB7A", "#5FB865"], tufo: "#3E9B4F",
+    fundo: [["colinas", .82, "#7CCB6B", 22], ["rio", .52, "#5EC8E8"], ["colinas", .2, "#4FA55A", 16]],
+    decos: [["arvoreVida", .8, 1], ["macieira", .34, 1], ["arvore", .62, .9], ["flores", .16, 1], ["arbusto", .46, 1], ["ovelha", .93, 1]],
+    extra: ["arvore", "arbusto", "flores", "macieira", "flores"] },
+  { nome: "Tendas de Abraão", ref: "Gênesis 12", c: ["#F7E1A6", "#EBC67E"], tufo: "#C49A55",
+    fundo: [["colinas", .78, "#E9C98A", 26], ["colinas", .3, "#DDB46C", 20]],
+    decos: [["tenda", .3, 1], ["palmeira", .58, 1], ["ovelha", .16, 1], ["tenda", .82, .9], ["ovelha", .44, .9], ["palmeira", .95, .8]],
+    extra: ["palmeira", "ovelha", "tenda", "rocha"] },
+  { nome: "Egito", ref: "Êxodo 1", c: ["#F5CB80", "#E4A957"], tufo: "#B98236",
+    fundo: [["rio", .5, "#4FB7C8"], ["colinas", .85, "#EDBB6A", 18]],
+    decos: [["piramide", .78, 1.2], ["piramide", .26, .85], ["sol", .97, 1], ["palmeira", .62, .9], ["juncos", .44, 1], ["juncos", .57, .9]],
+    extra: ["piramide", "palmeira", "juncos", "rocha"] },
+  { nome: "Mar Vermelho", ref: "Êxodo 14", c: ["#2A86C0", "#4AB4DE"], tufo: null,
+    fundo: [["ondas", "#DDF4FF"]],
+    decos: [["paredeAgua", .22, 1, "e"], ["paredeAgua", .25, 1, "d"], ["paredeAgua", .6, 1.05, "d"], ["paredeAgua", .64, 1, "e"], ["peixe", .42, 1], ["peixe", .85, 1.1], ["paredeAgua", .92, .9]],
+    extra: ["peixe", "paredeAgua", "peixe"] },
+  { nome: "Monte Sinai", ref: "Êxodo 19", c: ["#C9A587", "#A88468"], tufo: "#7E604C",
+    fundo: [["colinas", .9, "#B8957A", 30], ["colinas", .4, "#9C7A61", 18]],
+    decos: [["sinai", .8, 1], ["montanha", .36, .85], ["sarca", .18, 1], ["tabuas", .55, 1], ["rocha", .66, 1]],
+    extra: ["rocha", "montanha", "rocha"] },
+  { nome: "Muralhas de Jericó", ref: "Josué 6", c: ["#EDCB91", "#D9AC6A"], tufo: "#B48447",
+    fundo: [["colinas", .8, "#E2BC7E", 22], ["colinas", .25, "#CFA160", 16]],
+    decos: [["muralha", .72, 1.1], ["arca", .42, 1], ["palmeira", .2, 1], ["palmeira", .9, .9], ["trombeta", .58, 1]],
+    extra: ["palmeira", "rocha", "arbusto"] },
+  { nome: "Belém", ref: "Lucas 2", c: ["#26245E", "#4A3E8E"], tufo: null,
+    fundo: [["estrelas"], ["colinas", .3, "#3A3277", 26], ["colinas", .1, "#433987", 18]],
+    decos: [["estrelaBelem", .86, 1], ["casas", .66, 1], ["estabulo", .32, 1], ["ovelha", .48, 1], ["ovelha", .14, .9]],
+    extra: ["casas", "ovelha", "oliveira"] },
+  { nome: "Mar da Galileia", ref: "Mateus 4", c: ["#62CAD3", "#3AA1B8"], tufo: null,
+    fundo: [["ondas", "#E8FBFF"]],
+    decos: [["barco", .72, 1.1], ["barco", .3, .9], ["peixe", .5, 1], ["peixe", .88, 1], ["peixe", .14, .9]],
+    extra: ["peixe", "barco"] },
+  { nome: "Jerusalém", ref: "Lucas 24", c: ["#F2E0BC", "#DEC092"], tufo: "#B79A6A",
+    fundo: [["colinas", .86, "#E8D2A8", 20], ["colinas", .35, "#D3B484", 18]],
+    decos: [["templo", .78, 1.05], ["calvario", .5, 1], ["tumulo", .18, 1], ["oliveira", .63, 1], ["oliveira", .95, .85]],
+    extra: ["oliveira", "rocha", "oliveira"] }
+];
+const ZONA_FINAL = { nome: "Nova Jerusalém", ref: "Apocalipse 21", c: ["#FFF9E6", "#FFE29A"] };
+function zonaDoNivel(n){ return ZONAS[Math.max(0, Math.min(ZONAS.length - 1, n - 1))]; }
+
+/* ---------- Desenhos (coordenadas locais: chão em y=0, para cima é negativo) ---------- */
+const _somb = w => `<ellipse cx="0" cy="0" rx="${w}" ry="${(w * .24).toFixed(1)}" fill="rgba(30,20,10,.18)"/>`;
+const _flor = (dx, c) => `<path d="M${dx} 0 V-11" stroke="#3E8E3E" stroke-width="2"/><circle cx="${dx - 3}" cy="-13" r="2.6" fill="${c}"/><circle cx="${dx + 3}" cy="-13" r="2.6" fill="${c}"/><circle cx="${dx}" cy="-16" r="2.6" fill="${c}"/><circle cx="${dx}" cy="-10" r="2.6" fill="${c}"/><circle cx="${dx}" cy="-13" r="1.8" fill="#FFE27A"/>`;
+const _casa = (dx, w, h) => `<rect x="${dx - w / 2}" y="${-h}" width="${w}" height="${h}" fill="#E6DFEF"/><rect x="${dx + w / 6}" y="${-h}" width="${w / 3}" height="${h}" fill="#C9C0D8"/><rect x="${dx - w / 2 - 1.5}" y="${-h - 3}" width="${w + 3}" height="4" fill="#B9AECB"/><path d="M${dx - 4} 0 V-8 a4 4 0 0 1 8 0 V0Z" fill="#5A3E2B"/><rect x="${dx - w / 2 + 4}" y="${-h + 6}" width="5" height="5" rx="1" fill="#FFD54A"/><circle cx="${dx - w / 2 + 6.5}" cy="${-h + 8.5}" r="7" fill="#FFD54A" opacity=".18"/>`;
+const _arvoreBase = `<rect x="-4" y="-26" width="8" height="26" rx="3" fill="#7A4E2C"/><circle cx="0" cy="-44" r="21" fill="#3A954C"/><circle cx="-14" cy="-34" r="14" fill="#47AA59"/><circle cx="14" cy="-34" r="14" fill="#2F8040"/><circle cx="-7" cy="-51" r="9" fill="#6CCB78"/>`;
+const _montanha = (c1, c2) => `<polygon points="-72,0 -28,-64 -14,-54 6,-88 72,0" fill="${c1}"/><polygon points="6,-88 72,0 18,0 0,-46" fill="${c2}"/><polygon points="6,-88 -5,-73 1,-69 6,-75 12,-67 17,-73" fill="#F7F2EA"/><polygon points="-28,-64 -35,-54 -30,-52 -26,-57 -21,-52 -17,-57" fill="#F7F2EA"/>`;
+const DECO = {
+  arvore:     { w: 28, h: 66, d: () => _somb(22) + _arvoreBase },
+  macieira:   { w: 28, h: 66, d: () => _somb(22) + _arvoreBase + [[-11, -38], [9, -49], [13, -31], [-1, -30], [-4, -57]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="3.2" fill="#E8505D"/><circle cx="${x - 1}" cy="${y - 1}" r="1" fill="#FFB3BA"/>`).join("") },
+  arvoreVida: { w: 46, h: 104, d: () => _somb(34) + `<circle cx="0" cy="-62" r="50" fill="#FFF2A8" opacity=".3"/><path d="M-8 0 C-6 -16 -4 -30 -4 -44 H4 C4 -30 6 -16 8 0Z" fill="#8A5A2B"/><path d="M-8 0 C-14 -2 -18 0 -20 2 M8 0 C14 -2 18 0 20 2" stroke="#8A5A2B" stroke-width="4" stroke-linecap="round"/><circle cx="0" cy="-68" r="30" fill="#2F8F48"/><circle cx="-24" cy="-54" r="20" fill="#3FA357"/><circle cx="24" cy="-54" r="20" fill="#2A7E40"/><circle cx="-12" cy="-84" r="16" fill="#5CC56E"/><circle cx="14" cy="-82" r="14" fill="#47B05D"/>` + [[-18, -60], [-4, -76], [12, -64], [22, -50], [-26, -46], [4, -54], [16, -84], [-12, -90]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="3.6" fill="#FFD54A" stroke="#E0A419" stroke-width="1"/>`).join("") },
+  palmeira:   { w: 40, h: 86, d: () => _somb(20) + `<path d="M0 0 C2 -18 0 -34 6 -52" stroke="#8A5A2B" stroke-width="7" fill="none" stroke-linecap="round"/><path d="M-2 -10 h6 M-1 -22 h6 M1 -34 h6 M3 -44 h6" stroke="#6B4420" stroke-width="1.6"/>` +
+      [["M6 -52 C-6 -62 -22 -58 -30 -46 C-18 -52 -6 -52 6 -52Z", "#2E9D58"], ["M6 -52 C18 -64 34 -60 40 -46 C28 -52 16 -52 6 -52Z", "#2E9D58"], ["M6 -52 C0 -70 10 -80 22 -82 C14 -72 10 -62 6 -52Z", "#3CB96A"], ["M6 -52 C-4 -60 -16 -74 -12 -84 C-6 -72 0 -62 6 -52Z", "#3CB96A"], ["M6 -52 C14 -56 26 -50 30 -36 C20 -44 12 -48 6 -52Z", "#248A4B"], ["M6 -52 C-2 -54 -16 -46 -18 -32 C-10 -42 -2 -48 6 -52Z", "#248A4B"]].map(([p, c]) => `<path d="${p}" fill="${c}"/>`).join("") + `<circle cx="3" cy="-50" r="3" fill="#6B4420"/><circle cx="9" cy="-49" r="3" fill="#6B4420"/>` },
+  arbusto:    { w: 19, h: 25, d: () => _somb(17) + `<circle cx="-8" cy="-8" r="9" fill="#3E9B4F"/><circle cx="7" cy="-9" r="10" fill="#2F8040"/><circle cx="-1" cy="-15" r="9" fill="#52B663"/><circle cx="-4" cy="-18" r="3" fill="#7BD887"/>` },
+  flores:     { w: 15, h: 20, d: () => _flor(-9, "#F48FB1") + _flor(0, "#FFFFFF") + _flor(9, "#B48CF0") },
+  tenda:      { w: 33, h: 47, d: () => _somb(32) + `<polygon points="-32,0 0,-38 32,0" fill="#F4ECDA"/><polygon points="0,-38 -20,0 -11,0" fill="#C9473B"/><polygon points="0,-38 11,0 20,0" fill="#C9473B"/><polygon points="0,-38 32,0 0,0" fill="rgba(60,30,10,.13)"/><polygon points="-8,0 0,-17 8,0" fill="#5A3A22"/><path d="M0 -38 V-46" stroke="#7A4E2C" stroke-width="2.4"/><polygon points="0,-46 10,-43.5 0,-41" fill="#F2BE2E"/>` },
+  ovelha:     { w: 18, h: 24, vira: true, d: () => _somb(13) + `<path d="M-6 0 V-7 M5 0 V-7" stroke="#3A2A2A" stroke-width="2.6" stroke-linecap="round"/><circle cx="-7" cy="-12" r="6" fill="#FFFFFF"/><circle cx="0" cy="-15" r="7" fill="#FFFFFF"/><circle cx="7" cy="-12" r="6" fill="#FFFFFF"/><circle cx="0" cy="-10" r="6.5" fill="#F1ECE4"/><ellipse cx="12" cy="-15" rx="4.2" ry="5" fill="#3A2A2A"/><ellipse cx="9.5" cy="-18.5" rx="2.4" ry="1.4" fill="#3A2A2A"/><circle cx="13.2" cy="-16" r=".9" fill="#fff"/>` },
+  piramide:   { w: 46, h: 58, d: () => _somb(46) + `<polygon points="-46,0 0,-58 46,0" fill="#EFC678"/><polygon points="0,-58 46,0 0,0" fill="#C99448"/><path d="M-34.9 -14 H0 M-23.8 -28 H0 M-12.7 -42 H0" stroke="#D8AA5E" stroke-width="1.6"/><path d="M0 -14 H34.9 M0 -28 H23.8 M0 -42 H12.7" stroke="#AE7B36" stroke-width="1.6"/><polygon points="0,-58 -5,-52 5,-52" fill="#FFE9A6"/>` },
+  sol:        { w: 40, h: 80, d: () => `<g transform="translate(0 -40)"><circle r="40" fill="#FFE27A" opacity=".25"/>${Array.from({ length: 12 }, (_, k) => `<path d="M0 -27 V-35" transform="rotate(${k * 30})" stroke="#FFD54A" stroke-width="4" stroke-linecap="round"/>`).join("")}<circle r="20" fill="#FFC93C"/><circle r="14" fill="#FFE27A"/></g>` },
+  juncos:     { w: 14, h: 30, d: () => [-8, -3, 2, 7].map(dx => `<path d="M${dx} 0 Q${dx - 1} -14 ${dx + (dx > 0 ? 3 : -3)} -26" stroke="#3E8E3E" stroke-width="2" fill="none"/><ellipse cx="${dx + (dx > 0 ? 3 : -3)}" cy="-27" rx="4.5" ry="3" fill="#8DBF4A"/>`).join("") },
+  peixe:      { w: 18, h: 16, vira: true, d: () => `<ellipse cx="0" cy="-7" rx="10" ry="5.5" fill="#F08A4B"/><polygon points="8,-7 17,-13 17,-1" fill="#F08A4B"/><circle cx="-5" cy="-8" r="1.3" fill="#1A1030"/><path d="M-1 -11 q3 4 0 8" stroke="rgba(255,255,255,.55)" stroke-width="1.2" fill="none"/><circle cx="-14" cy="-12" r="1.6" fill="none" stroke="#fff" stroke-width=".8" opacity=".7"/><circle cx="-18" cy="-16" r="1.1" fill="none" stroke="#fff" stroke-width=".8" opacity=".6"/>` },
+  paredeAgua: { w: 40, h: 86, vira: true, lado: true, d: () => `<path d="M-34 0 C-38 -38 -20 -78 14 -82 C34 -84 44 -66 34 -54 C26 -46 14 -52 18 -62 C-2 -56 -10 -30 -6 0 Z" fill="#1E6AA2"/><path d="M-26 -8 C-28 -40 -14 -66 8 -72" stroke="#5AB8E6" stroke-width="5" fill="none" stroke-linecap="round" opacity=".75"/><path d="M14 -82 C34 -84 44 -66 34 -54 C26 -46 14 -52 18 -62" fill="none" stroke="#E6F7FF" stroke-width="4" stroke-linecap="round"/><circle cx="40" cy="-74" r="2.2" fill="#E6F7FF"/><circle cx="44" cy="-62" r="1.6" fill="#E6F7FF"/><circle cx="26" cy="-88" r="1.8" fill="#E6F7FF"/><path d="M-36 0 q4 -3 8 0 t8 0 t8 0 t8 0" stroke="#E6F7FF" stroke-width="2.2" fill="none" opacity=".8"/>` },
+  montanha:   { w: 72, h: 90, d: () => _montanha("#A0806A", "#7F604E") },
+  sinai:      { w: 74, h: 128, d: () => `<circle cx="6" cy="-96" r="40" fill="#FFE9A6" opacity=".22"/>` + _montanha("#8F6E5A", "#6E5244") + `<g transform="translate(6 -96)"><g fill="#8C8FA8"><ellipse cx="0" cy="0" rx="30" ry="11"/><circle cx="-12" cy="-6" r="12"/><circle cx="6" cy="-11" r="14"/><circle cx="20" cy="-4" r="10"/></g><polygon points="2,6 -6,22 0,22 -4,36 10,16 3,16 8,6" fill="#FFD54A"/></g>` },
+  nuvem:      { w: 28, h: 34, d: () => `<g fill="#FFFFFF" opacity=".95"><ellipse cx="0" cy="-10" rx="26" ry="10"/><circle cx="-10" cy="-16" r="11"/><circle cx="6" cy="-20" r="13"/><circle cx="18" cy="-13" r="9"/></g>` },
+  tabuas:     { w: 22, h: 34, d: () => _somb(22) + `<path d="M-19 0 V-24 a9 9 0 0 1 18 0 V0Z" fill="#E1DBCF" stroke="#8E877A" stroke-width="1.5"/><path d="M1 0 V-24 a9 9 0 0 1 18 0 V0Z" fill="#D2CBBE" stroke="#8E877A" stroke-width="1.5"/><path d="M-15 -22 H-5 M-15 -17 H-5 M-15 -12 H-5 M-15 -7 H-5 M5 -22 H15 M5 -17 H15 M5 -12 H15 M5 -7 H15" stroke="#8E877A" stroke-width="1.3"/>` },
+  sarca:      { w: 22, h: 44, d: () => `<circle cx="0" cy="-18" r="24" fill="#FFB347" opacity=".25"/>` + _somb(17) + `<circle cx="-8" cy="-8" r="9" fill="#6E7F3A"/><circle cx="7" cy="-9" r="10" fill="#586A2C"/><circle cx="-1" cy="-15" r="9" fill="#7E9145"/><path d="M-8 -12 C-14 -24 -4 -28 -4 -38 C4 -30 12 -26 6 -12Z" fill="#F08A4B"/><path d="M-4 -14 C-6 -22 -1 -26 -1 -31 C4 -25 6 -21 3 -14Z" fill="#FFD54A"/><path d="M6 -10 C6 -18 12 -20 12 -26 C16 -20 18 -16 14 -10Z" fill="#F06A3B"/><path d="M-12 -9 C-14 -15 -10 -18 -11 -22 C-7 -18 -5 -14 -7 -9Z" fill="#F06A3B"/>` },
+  rocha:      { w: 20, h: 20, vira: true, d: () => `<path d="M-18 0 C-20 -10 -12 -18 -2 -18 C8 -20 18 -12 18 0Z" fill="#A79A8E"/><path d="M4 -18 C12 -16 18 -10 18 0 H6 C8 -8 6 -14 4 -18Z" fill="#8A7D72"/><path d="M-12 -10 q4 -4 8 -3" stroke="#C4B9AE" stroke-width="2" fill="none" stroke-linecap="round"/>` },
+  muralha:    { w: 64, h: 58, d: () => _somb(64) + `<rect x="-50" y="-30" width="100" height="30" fill="#D9AC6A"/>${[-34, -22, -10, 2, 14, 26].map(x => `<rect x="${x}" y="-35" width="7" height="6" fill="#D9AC6A"/>`).join("")}<rect x="-62" y="-50" width="26" height="50" fill="#CF9F5C"/><rect x="36" y="-50" width="26" height="50" fill="#BE8E4D"/>${[-62, -53, -44, 36, 45, 54].map(x => `<rect x="${x}" y="-56" width="8" height="7" fill="${x > 0 ? "#BE8E4D" : "#CF9F5C"}"/>`).join("")}<path d="M-50 -20 H50 M-50 -10 H50 M-62 -38 H-36 M36 -38 H62 M-62 -24 H-36 M36 -24 H62 M-30 -30 V-20 M-6 -30 V-20 M18 -30 V-20 M-18 -20 V-10 M6 -20 V-10 M30 -20 V-10" stroke="rgba(110,65,20,.35)" stroke-width="1.3"/><path d="M-10 0 V-14 a10 10 0 0 1 20 0 V0Z" fill="#5A3A22"/><rect x="-53" y="-44" width="6" height="8" rx="3" fill="#5A3A22"/><rect x="45" y="-44" width="6" height="8" rx="3" fill="#5A3A22"/><path d="M22 -30 l-4 8 l5 5 l-4 8 l4 9" stroke="#6B4420" stroke-width="1.8" fill="none"/><rect x="58" y="-6" width="9" height="6" fill="#CF9F5C" transform="rotate(14 62 -3)"/><rect x="66" y="-5" width="7" height="5" fill="#BE8E4D" transform="rotate(-10 70 -2)"/>` },
+  arca:       { w: 40, h: 44, d: () => _somb(36) + `<path d="M-40 -10 H40" stroke="#8A5A2B" stroke-width="4" stroke-linecap="round"/><rect x="-24" y="-28" width="48" height="24" rx="2" fill="#F2BE2E" stroke="#B5800F" stroke-width="2"/><rect x="-20" y="-24" width="40" height="16" fill="none" stroke="#FFE27A" stroke-width="1.6"/><rect x="-26" y="-32" width="52" height="5" rx="1.5" fill="#FFD54A" stroke="#B5800F" stroke-width="1.5"/><path d="M-20 -32 C-22 -40 -14 -46 -4 -44 C-10 -40 -12 -36 -8 -32Z" fill="#FFE27A" stroke="#B5800F" stroke-width="1.4"/><path d="M20 -32 C22 -40 14 -46 4 -44 C10 -40 12 -36 8 -32Z" fill="#FFE27A" stroke="#B5800F" stroke-width="1.4"/><path d="M-22 -4 V0 M22 -4 V0" stroke="#B5800F" stroke-width="3"/><circle cx="0" cy="-24" r="20" fill="#FFF3B0" opacity=".18"/>` },
+  trombeta:   { w: 22, h: 30, vira: true, d: () => `<path d="M-18 -6 C-6 -4 4 -10 10 -20 C11 -24 16 -27 20 -24 C22 -22 21 -18 19 -16 C12 -4 0 2 -18 0Z" fill="#F2DCA8" stroke="#8A6436" stroke-width="1.6"/><path d="M-12 -5 v5 M-6 -6 v6 M0 -8 v7 M5 -11 v7 M9 -15 v7" stroke="#C9A060" stroke-width="1.4"/><ellipse cx="17.5" cy="-21" rx="3" ry="4.5" transform="rotate(40 17.5 -21)" fill="#5A3A22"/><path d="M-18 -6 v6" stroke="#5A3A22" stroke-width="3" stroke-linecap="round"/><path d="M22 -22 q4 -4 2 -9 M26 -16 q6 -3 6 -9" stroke="#FFFFFF" stroke-width="2" fill="none" stroke-linecap="round" opacity=".8"/>` },
+  casas:      { w: 44, h: 38, d: () => _casa(-20, 24, 24) + _casa(5, 30, 33) + _casa(29, 22, 20) },
+  estrelaBelem:{ w: 36, h: 96, d: () => `<g transform="translate(0 -56)"><circle r="38" fill="#FFF6C8" opacity=".16"/><circle r="22" fill="#FFF6C8" opacity=".28"/><polygon points="-3,8 0,58 3,8" fill="#FFF3B0" opacity=".38"/><path d="M0 -28 L5 -5 L28 0 L5 5 L0 28 L-5 5 L-28 0 L-5 -5Z" fill="#FFF3B0"/><path d="M0 -14 L3 -3 L14 0 L3 3 L0 14 L-3 3 L-14 0 L-3 -3Z" fill="#FFFFFF" transform="rotate(45)"/></g>` },
+  estabulo:   { w: 34, h: 52, d: () => _somb(32) + `<rect x="-26" y="-30" width="52" height="30" fill="#5E3B22"/><rect x="-26" y="-30" width="5" height="30" fill="#8A5A2B"/><rect x="21" y="-30" width="5" height="30" fill="#8A5A2B"/><polygon points="-33,-28 0,-50 33,-28" fill="#8A5A2B"/><polygon points="-33,-28 0,-50 0,-45 -27,-28" fill="#A0703C"/><circle cx="0" cy="-12" r="14" fill="#FFE9A0" opacity=".45"/><path d="M-12 0 L-8 -11 H8 L12 0Z" fill="#C99A4E"/><path d="M-8 -11 q3 -4 6 0 q3 -4 6 0 q3 -3 4 0" stroke="#F2D07A" stroke-width="2" fill="none"/>` },
+  barco:      { w: 36, h: 56, vira: true, d: () => `<path d="M-30 -8 H30 L20 4 H-20 Z" fill="#8A5A2B"/><path d="M-28 -5 H28" stroke="#C9934E" stroke-width="2.5"/><path d="M-2 -8 V-52" stroke="#5A3A22" stroke-width="2.6"/><polygon points="1,-50 1,-12 26,-14" fill="#FBF7EC"/><polygon points="-4,-46 -4,-14 -22,-16" fill="#EFE8D8"/><path d="M-34 9 q4 -3 8 0 t8 0 M12 10 q4 -3 8 0 t8 0" stroke="rgba(255,255,255,.65)" stroke-width="2" fill="none"/>` },
+  templo:     { w: 50, h: 76, d: () => _somb(48) + `<rect x="-48" y="-6" width="96" height="6" fill="#CDB892"/><rect x="-42" y="-11" width="84" height="5" fill="#D9C6A0"/><rect x="-36" y="-50" width="72" height="39" fill="#F3E8D0"/><rect x="12" y="-50" width="24" height="39" fill="#DCCBA8"/>${[-26, -14, 14, 26].map(x => `<rect x="${x - 1.5}" y="-46" width="3" height="34" fill="#D2BE96"/>`).join("")}<rect x="-8" y="-36" width="16" height="25" fill="#F2BE2E"/><rect x="-5.5" y="-33" width="11" height="22" fill="#7A5230"/><rect x="-40" y="-56" width="80" height="6" fill="#F2BE2E"/><rect x="-22" y="-71" width="44" height="15" fill="#F3E8D0"/><rect x="-24" y="-73" width="48" height="3" fill="#F2BE2E"/><path d="M-12 -79 l2 4 4 2 -4 2 -2 4 -2 -4 -4 -2 4 -2z" fill="#FFFFFF" opacity=".9"/>` },
+  oliveira:   { w: 26, h: 48, d: () => _somb(20) + `<path d="M-3 0 C-6 -10 2 -16 -2 -26 M3 0 C6 -10 0 -18 4 -26" stroke="#6B5038" stroke-width="5" fill="none" stroke-linecap="round"/><ellipse cx="0" cy="-34" rx="21" ry="12" fill="#8DA66B"/><ellipse cx="-12" cy="-27" rx="12" ry="9" fill="#9DB57A"/><ellipse cx="12" cy="-28" rx="12" ry="9" fill="#7C955C"/><ellipse cx="-4" cy="-41" rx="10" ry="7" fill="#B3C78F"/><circle cx="-8" cy="-30" r="1.6" fill="#4D5E2C"/><circle cx="7" cy="-36" r="1.6" fill="#4D5E2C"/><circle cx="12" cy="-26" r="1.6" fill="#4D5E2C"/>` },
+  calvario:   { w: 50, h: 86, d: () => `<circle cx="0" cy="-58" r="30" fill="#FFE9A6" opacity=".32"/><path d="M-50 0 C-36 -26 -14 -34 0 -34 C14 -34 36 -26 50 0Z" fill="#9C8466"/><path d="M0 -34 C14 -34 36 -26 50 0 H16 C18 -14 12 -26 0 -34Z" fill="#87704F"/><rect x="-2.5" y="-82" width="5" height="50" fill="#4A3426"/><rect x="-12" y="-71" width="24" height="4.5" fill="#4A3426"/><rect x="-27" y="-58" width="4" height="34" fill="#4A3426"/><rect x="-33" y="-52" width="16" height="3.6" fill="#4A3426"/><rect x="23" y="-58" width="4" height="34" fill="#4A3426"/><rect x="17" y="-52" width="16" height="3.6" fill="#4A3426"/>` },
+  tumulo:     { w: 56, h: 48, d: () => _somb(44) + `<path d="M-34 0 C-36 -26 -18 -44 4 -44 C24 -44 36 -26 34 0Z" fill="#A39C97"/><path d="M10 -43 C26 -40 36 -24 34 0 H14 C20 -16 18 -32 10 -43Z" fill="#8C8580"/><path d="M-14 0 V-14 a10 11 0 0 1 20 0 V0Z" fill="#2E2626"/><circle cx="-4" cy="-8" r="16" fill="#FFE9A6" opacity=".35"/><circle cx="-4" cy="-8" r="8" fill="#FFF6C8" opacity=".7"/><circle cx="44" cy="-12" r="12" fill="#BDB6B0" stroke="#8C8580" stroke-width="2"/><path d="M38 -16 q4 -4 9 -3" stroke="#D8D2CC" stroke-width="2" fill="none" stroke-linecap="round"/>` }
+};
+
+/* gerador de números pseudo-aleatórios com semente (o mapa sai sempre igual) */
+function _sorteio(semente){ let s = semente >>> 0; return () => { s = (s + 0x6D2B79F5) | 0; let t = Math.imul(s ^ (s >>> 15), 1 | s); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+
+/* ---------- Geometria do mapa ---------- */
+function geometriaTrilha(W){
+  const N = MISSOES.length, gap = W < 600 ? 96 : 104, topo = 340;
+  const amp = Math.min(W * .27, 170), cx = W / 2;
+  const yN = i => topo + (N - i) * gap;
+  const xN = i => cx + Math.sin(i * .9 + .5) * amp;
+  const pts = Array.from({ length: N + 1 }, (_, i) => ({ x: xN(i), y: yN(i) }));
+  const alt = yN(0) + 96;
+  const portao = { x: cx, y: 238 };
+  const fim = Math.ceil(N / 5);                     // número de etapas com missões (9)
+  const borda = k => k === 0 ? alt : (k >= fim ? yN(N) - gap * .62 : (yN(5 * k) + yN(5 * k + 1)) / 2);
+  /* x do caminho numa altura qualquer (o caminho entre duas casas é uma curva em S) */
+  const xEm = y => {
+    if(y <= yN(N)){ const t = Math.max(0, Math.min(1, (yN(N) - y) / (yN(N) - portao.y))); return xN(N) + (portao.x - xN(N)) * (3 * t * t - 2 * t * t * t); }
+    const f = Math.max(0, Math.min(N, N - (y - topo) / gap)), i0 = Math.min(N - 1, Math.floor(f)), t = f - i0;
+    return xN(i0) + (xN(i0 + 1) - xN(i0)) * (3 * t * t - 2 * t * t * t);
+  };
+  return { N, gap, topo, amp, cx, W, alt, pts, portao, borda, xEm, fim };
+}
+
+/* ---------- Monta o SVG do mapa e as posições das placas ---------- */
+function desenharMapa(G, feitas){
+  const { W, alt, pts, portao, borda, xEm, N, fim } = G;
+  const sc = Math.max(.82, Math.min(1.25, W / 420));
+  const rnd = _sorteio(7 + Math.round(W));
+  const ocupado = [];
+  const livre = (x0, y0, x1, y1) => ocupado.every(r => x1 < r[0] || x0 > r[2] || y1 < r[1] || y0 > r[3]);
+  const folga = 46;
+  /* área livre dos dois lados do caminho entre as alturas y0 e y1 */
+  const regioes = (y0, y1) => { let mn = Infinity, mx = -Infinity; for(let k = 0; k <= 8; k++){ const x = xEm(y0 + (y1 - y0) * k / 8); mn = Math.min(mn, x); mx = Math.max(mx, x); } return { e: [6, mn - folga], d: [mx + folga, W - 6] }; };
+  let defs = "", camadas = { fundo: "", miudos: "", decos: "", topo: "" };
+  const placas = [];
+
+  /* faixas das etapas */
+  ZONAS.forEach((z, k) => {
+    const y0 = borda(k + 1), y1 = borda(k);
+    defs += `<linearGradient id="trz${k}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${z.c[0]}"/><stop offset="1" stop-color="${z.c[1]}"/></linearGradient>`;
+    camadas.fundo += `<rect x="0" y="${y0.toFixed(1)}" width="${W}" height="${(y1 - y0 + 1).toFixed(1)}" fill="url(#trz${k})"/>`;
+  });
+  defs += `<linearGradient id="trfim" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${ZONA_FINAL.c[0]}"/><stop offset="1" stop-color="${ZONA_FINAL.c[1]}"/></linearGradient>`;
+  camadas.fundo += `<rect x="0" y="0" width="${W}" height="${(borda(fim) + 1).toFixed(1)}" fill="url(#trfim)"/>`;
+  /* borda ondulada entre uma etapa e a de cima, como uma colina */
+  const onda = (y, amp, cor, fase, ate) => { let d = `M-10 ${y}`; for(let x = -10; x <= W + 10; x += 16) d += ` L${x} ${(y - amp * (.5 + .5 * Math.sin(x / W * Math.PI * 3 + fase))).toFixed(1)}`; return `<path d="${d} L${W + 10} ${ate} L-10 ${ate}Z" fill="${cor}"/>`; };
+  for(let k = 1; k <= fim; k++){ const z = ZONAS[k - 1], y = borda(k); camadas.fundo += onda(y + 2, 22, z.c[0], k * 1.7, y + 4); }
+
+  /* fundo de cada etapa: colinas, rios, ondas, estrelas, tufos */
+  ZONAS.forEach((z, k) => {
+    const y0 = borda(k + 1), y1 = borda(k), H = y1 - y0;
+    (z.fundo || []).forEach(f => {
+      if(f[0] === "colinas"){ const y = y1 - H * f[1]; camadas.fundo += onda(y, f[3], f[2], k * 2.3 + f[1] * 5, Math.min(y1, y + 70)).replace("<path", `<path opacity=".55"`); }
+      else if(f[0] === "rio"){
+        const y = y1 - H * f[1]; let d = ""; for(let x = -10; x <= W + 10; x += 14) d += (d ? " L" : "M") + x + " " + (y + Math.sin(x / W * Math.PI * 2.4 + k) * 16).toFixed(1);
+        camadas.fundo += `<path d="${d}" stroke="${tom(f[2], -.25)}" stroke-width="30" fill="none" opacity=".35"/><path d="${d}" stroke="${f[2]}" stroke-width="24" fill="none"/><path d="${d}" stroke="#FFFFFF" stroke-width="3" fill="none" stroke-dasharray="10 18" opacity=".55"/>`;
+      }
+      else if(f[0] === "ondas"){ const n = Math.round(W * H / 5200); for(let i = 0; i < n; i++){ const x = rnd() * W, y = y0 + 10 + rnd() * (H - 20), s = .7 + rnd() * .6; camadas.miudos += `<path d="M${x.toFixed(0)} ${y.toFixed(0)} q${3.5 * s} ${-4 * s} ${7 * s} 0 t${7 * s} 0" stroke="${f[1]}" stroke-width="2.2" fill="none" stroke-linecap="round" opacity="${(.35 + rnd() * .35).toFixed(2)}"/>`; } }
+      else if(f[0] === "estrelas"){ const n = Math.round(W * H / 3000); for(let i = 0; i < n; i++){ const x = rnd() * W, y = y0 + 6 + rnd() * (H - 12), r = .8 + rnd() * 1.6; camadas.miudos += rnd() < .15 ? `<path d="M${x.toFixed(0)} ${(y - 4).toFixed(0)} l1.2 2.8 2.8 1.2 -2.8 1.2 -1.2 2.8 -1.2 -2.8 -2.8 -1.2 2.8 -1.2z" fill="#FFF6C8" class="tr-brilho" style="animation-delay:-${(rnd() * 3).toFixed(1)}s"/>` : `<circle cx="${x.toFixed(0)}" cy="${y.toFixed(0)}" r="${r.toFixed(1)}" fill="#FFFFFF" opacity="${(.4 + rnd() * .5).toFixed(2)}"/>`; } }
+    });
+    if(z.tufo){ const n = Math.round(W * H / 4200); for(let i = 0; i < n; i++){ const x = rnd() * W, y = y0 + 8 + rnd() * (H - 12); camadas.miudos += rnd() < .7 ? `<path d="M${x.toFixed(0)} ${y.toFixed(0)} l-3 -6 M${x.toFixed(0)} ${y.toFixed(0)} l0 -8 M${x.toFixed(0)} ${y.toFixed(0)} l3 -6" stroke="${z.tufo}" stroke-width="1.6" stroke-linecap="round" opacity=".6"/>` : `<ellipse cx="${x.toFixed(0)}" cy="${y.toFixed(0)}" rx="${(2 + rnd() * 2).toFixed(1)}" ry="1.6" fill="${z.tufo}" opacity=".45"/>`; } }
+  });
+
+  ocupado.push([pts[0].x - 60, pts[0].y - 26, pts[0].x + 60, pts[0].y + 26]);   // placa da largada
+  /* placas com o nome de cada etapa (na beira do caminho, do lado com espaço) */
+  const zAtual = Math.min(fim, Math.floor(feitas / 5) + 1);
+  ZONAS.forEach((z, k) => {
+    const y1 = borda(k), y0 = borda(k + 1), sub = `🔒 Nível ${k + 1} · ${nomeNivel(k + 1)}`, largP = Math.min(196, Math.max(124, z.nome.length * 9 + 36, sub.length * 6.1 + 34)), altP = 60;
+    for(let y = y1 - G.gap * .85; y > y1 - (y1 - y0) * .7; y -= 8){
+      const r = regioes(y - altP / 2, y + altP / 2), we = r.e[1] - r.e[0], wd = r.d[1] - r.d[0];
+      const lado = we >= wd ? "e" : "d", R = r[lado], w = Math.max(we, wd);
+      if(w < largP + 4) continue;
+      const x = (R[0] + R[1]) / 2;
+      if(!livre(x - largP / 2, y - altP / 2, x + largP / 2, y + altP / 2)) continue;
+      ocupado.push([x - largP / 2 - 6, y - altP / 2 - 6, x + largP / 2 + 6, y + altP / 2 + 6]);
+      placas.push({ k, x, y, w: largP, estado: k + 1 < zAtual ? "feita" : k + 1 === zAtual ? "atual" : "bloq" });
+      break;
+    }
+  });
+
+  /* enfeites de cada etapa; depois, se sobrar espaço (telas largas), mais alguns */
+  const por = (tipo, y, tam, ladoPedido, xLivre) => {
+    const D = DECO[tipo]; if(!D) return false;
+    for(const enc of [1, .85, .72]){
+      const s = tam * sc * enc, hw = D.w * s, h = D.h * s, r = regioes(y - h, y + 4);
+      const lados = ladoPedido ? [ladoPedido] : ((r.e[1] - r.e[0]) >= (r.d[1] - r.d[0]) ? ["e", "d"] : ["d", "e"]);
+      for(const l of lados){
+        const R = r[l]; if(R[1] - R[0] < hw * 2) continue;
+        const x = xLivre != null ? Math.max(R[0] + hw, Math.min(R[1] - hw, R[0] + hw + xLivre * (R[1] - R[0] - 2 * hw))) : (R[0] + R[1]) / 2;
+        if(!livre(x - hw, y - h, x + hw, y + 2)) continue;
+        ocupado.push([x - hw - 4, y - h - 4, x + hw + 4, y + 4]);
+        const vira = D.vira && (D.lado ? l === "d" : rnd() < .5);
+        camadas.decos += `<g transform="translate(${x.toFixed(1)} ${y.toFixed(1)}) scale(${(vira ? -s : s).toFixed(3)} ${s.toFixed(3)})">${D.d()}</g>`;
+        return true;
+      }
+    }
+    return false;
+  };
+  ZONAS.forEach((z, k) => { const y0 = borda(k + 1), y1 = borda(k), H = y1 - y0; z.decos.forEach(([t, f, tam, l]) => por(t, y1 - H * f, tam, l)); });
+  ZONAS.forEach((z, k) => {
+    const y0 = borda(k + 1), y1 = borda(k);
+    for(let y = y1 - 30; y > y0 + 40; y -= 64) for(const l of ["e", "d"]) if(rnd() < .8) por(z.extra[Math.floor(rnd() * z.extra.length)], y - rnd() * 20, .62 + rnd() * .35, l, rnd());
+  });
+
+  /* o caminho de terra: tudo; por cima, em dourado, o trecho já percorrido */
+  const caminho = (a, b, comPortao) => { let d = `M${pts[a].x.toFixed(1)} ${pts[a].y}`; for(let i = a + 1; i <= b; i++){ const p0 = pts[i - 1], p1 = pts[i], my = (p0.y + p1.y) / 2; d += ` C${p0.x.toFixed(1)} ${my}, ${p1.x.toFixed(1)} ${my}, ${p1.x.toFixed(1)} ${p1.y}`; } if(comPortao){ const p0 = pts[b], my = (p0.y + portao.y) / 2; d += ` C${p0.x.toFixed(1)} ${my}, ${portao.x} ${my}, ${portao.x} ${portao.y}`; } return d; };
+  const tudo = caminho(0, N, true);
+  let estrada = `<path d="${tudo}" stroke="rgba(50,30,10,.22)" stroke-width="36" transform="translate(0 4)"/><path d="${tudo}" stroke="#B68650" stroke-width="31"/><path d="${tudo}" stroke="#EDD4A0" stroke-width="24"/><path d="${tudo}" stroke="#F8E7C0" stroke-width="9" opacity=".7"/><path d="${tudo}" stroke="#C9A06A" stroke-width="4" stroke-dasharray=".1 15" opacity=".8"/>`;
+  if(feitas > 0){ const feito = caminho(0, Math.min(N, feitas), feitas >= N); estrada += `<path d="${feito}" stroke="#FFE27A" stroke-width="20" opacity=".45"/><path d="${feito}" stroke="#FFC22E" stroke-width="10"/><path d="${feito}" stroke="#FFF1B0" stroke-width="3" stroke-dasharray="1 13" opacity=".9"/>`; }
+
+  /* o destino: a Nova Jerusalém no alto */
+  const gx = portao.x, gy = portao.y, cheg = feitas >= N;
+  let fimSvg = `<g opacity="${cheg ? 1 : .92}">`;
+  for(let k = 0; k < 18; k++){ const a0 = (k / 18) * Math.PI * 2, a1 = a0 + Math.PI / 30; fimSvg += `<polygon points="${gx},${gy - 70} ${(gx + Math.cos(a0) * 900).toFixed(0)},${(gy - 70 + Math.sin(a0) * 900).toFixed(0)} ${(gx + Math.cos(a1) * 900).toFixed(0)},${(gy - 70 + Math.sin(a1) * 900).toFixed(0)}" fill="#FFFFFF" opacity=".22"/>`; }
+  fimSvg += `<circle cx="${gx}" cy="${gy - 70}" r="120" fill="#FFFFFF" opacity=".35"/>`;
+  const muro = Math.min(W - 20, 420), mx0 = gx - muro / 2;
+  defs += `<linearGradient id="trouro" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE68A"/><stop offset="1" stop-color="#E7B33A"/></linearGradient><radialGradient id="trperola" cx=".5" cy=".55" r=".6"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".7" stop-color="#FFF6DA"/><stop offset="1" stop-color="#F4E2B0"/></radialGradient>`;
+  fimSvg += `<rect x="${mx0}" y="${gy - 64}" width="${muro}" height="64" fill="url(#trouro)" stroke="#C98A12" stroke-width="2"/>`;
+  const joias = ["#5BC0EB", "#9B5DE5", "#2BA486", "#E8505D", "#F08A4B", "#1C9FD0", "#B48CF0", "#3FBF7F", "#FFD54A", "#F48FB1", "#5B4FC9", "#83C6BD"];
+  for(let i = 0; i < 12; i++){ const x = mx0 + 14 + i * (muro - 28) / 11; if(Math.abs(x - gx) < 48) continue; fimSvg += `<rect x="${(x - 5).toFixed(1)}" y="${gy - 44}" width="10" height="10" rx="2" transform="rotate(45 ${x.toFixed(1)} ${gy - 39})" fill="${joias[i]}" stroke="#FFFFFF" stroke-width="1.2"/>`; }
+  for(let x = mx0; x < mx0 + muro - 4; x += 16) fimSvg += `<rect x="${x + 2}" y="${gy - 72}" width="10" height="9" fill="url(#trouro)" stroke="#C98A12" stroke-width="1.4"/>`;
+  [[gx - 70, 1], [gx + 46, -1]].forEach(([tx]) => { fimSvg += `<rect x="${tx}" y="${gy - 104}" width="24" height="104" fill="url(#trouro)" stroke="#C98A12" stroke-width="2"/><rect x="${tx - 3}" y="${gy - 112}" width="30" height="9" fill="#FFE68A" stroke="#C98A12" stroke-width="1.6"/><circle cx="${tx + 12}" cy="${gy - 80}" r="5" fill="#5BC0EB" stroke="#FFFFFF" stroke-width="1.5"/>`; });
+  fimSvg += `<path d="M${gx - 40} ${gy} V${gy - 64} a40 40 0 0 1 80 0 V${gy}Z" fill="#E7B33A" stroke="#C98A12" stroke-width="2.5"/><path d="M${gx - 30} ${gy} V${gy - 60} a30 30 0 0 1 60 0 V${gy}Z" fill="url(#trperola)"/>`;
+  fimSvg += `<circle cx="${gx}" cy="${gy - 98}" r="9" fill="#FFFFFF" stroke="#E7B33A" stroke-width="3"/><circle cx="${gx - 3}" cy="${gy - 101}" r="2.5" fill="#FFFFFF" opacity=".9"/>`;
+  const nuv = (x, y, s) => `<g transform="translate(${x.toFixed(0)} ${y.toFixed(0)}) scale(${s})">${DECO.nuvem.d()}</g>`;
+  fimSvg += nuv(mx0 + 10, gy + 14, 1.6) + nuv(mx0 + muro - 20, gy + 12, 1.5) + nuv(gx - 120, gy - 120, 1.1) + nuv(gx + 130, gy - 140, 1) + nuv(30, gy + 70, 1.3) + nuv(W - 30, gy + 60, 1.2);
+  fimSvg += `</g>`;
+
+  const svg = `<svg class="trilha-svg" width="${W}" height="${alt}" viewBox="0 0 ${W} ${alt}" aria-hidden="true"><defs>${defs}</defs>${camadas.fundo}${camadas.miudos}${camadas.decos}<g fill="none" stroke-linecap="round" stroke-linejoin="round">${estrada}</g>${fimSvg}</svg>`;
+  return { svg, placas, zAtual };
+}
+
+/* ---------- A tela ---------- */
+function telaMissoes(vindoDe){
+  tabAtual = "missoes"; atualizarCasca(); pararTimer(); if(typeof pararCamera === "function") pararCamera();
+  const feitas = missoesFeitas(), nv = nivelDe(feitas), prox = MISSOES[feitas] || null;
+  const noNivel = feitas % 5, faltam = prox ? 5 - noNivel : 0, zona = feitas >= MISSOES.length ? ZONA_FINAL : zonaDoNivel(Math.floor(feitas / 5) + 1);
+  const pg = prox ? progressoMissao(prox) : null;
+  app.innerHTML = `<div class="result-area duas"><div class="lado">
+    <header class="hero" style="padding-bottom:10px"><div class="tag"><span class="box">Missões</span><span class="date">${feitas} de ${MISSOES.length} cumpridas</span></div>
+      <h1 class="rolo-h">Jornada<span class="hl">Bíblica</span></h1></header>
+    <section class="panel ms-resumo">
+      <div class="nivel-selo peq"><span>Nível</span><b>${nv}</b><em>${esc(nomeNivel(nv))}</em></div>
+      <div class="ms-resumo-tx">
+        <span class="ms-etapa">📍 ${esc(zona.nome)} <small>${esc(zona.ref)}</small></span>
+        ${prox ? `<span class="hoje-lbl">Próxima: missão ${prox.n}</span><h3>${esc(prox.t)}</h3><p>${esc(prox.d)}</p>
+          <div class="barra-ms"><i style="width:${pg.pct}%"></i></div>
+          <p class="muted small" style="margin:4px 0 0">${fmt(pg.v)} de ${fmt(prox.meta[1])}${prox.premio ? " · Prêmio: " + esc(textoPremio(prox.premio)) : ""}${nv ? ` · faltam ${faltam} para o nível ${nv + 1}` : ""}</p>
+          <p class="muted small" style="margin:6px 0 0">Cada missão começa a contar do zero quando vira a sua missão atual. Uma casa por vez!</p>`
+        : `<h3>Jornada completa!</h3><p>Você chegou à Nova Jerusalém: todas as ${MISSOES.length} missões cumpridas. Que caminhada!</p>`}
+      </div>
+    </section>
+    <section class="panel"><span class="hoje-lbl">Suas ajudas</span>${chipsAjudas()}<p class="muted small" style="margin:8px 0 0">As ajudas são ganhas nas missões e aparecem durante o quiz.</p></section></div>
+    <div class="principal"><section class="panel trilha-wrap"><div class="trilha" id="trilha"></div></section></div>
+  </div>`;
+  const el = $("trilha"), W = Math.max(300, Math.round(el.clientWidth || 340)), G = geometriaTrilha(W), { pts, N, portao } = G;
+  const mapa = desenharMapa(G, feitas);
+  el.style.height = G.alt + "px";
+  let h = mapa.svg;
+  h += `<div class="tr-largada" style="left:${pts[0].x}px;top:${pts[0].y}px"><span>Largada</span></div>`;
+  mapa.placas.forEach(p => { const z = ZONAS[p.k], n = p.k + 1;
+    h += `<div class="tr-zona ${p.estado}" style="left:${p.x.toFixed(1)}px;top:${p.y.toFixed(1)}px;width:${p.w}px"><small>${p.estado === "bloq" ? "🔒 " : p.estado === "feita" ? "✓ " : ""}Nível ${n} · ${esc(nomeNivel(n))}</small><b>${esc(z.nome)}</b><em>${esc(z.ref)}</em></div>`; });
+  h += `<div class="tr-zona final ${feitas >= N ? "atual" : "bloq"}" style="left:${portao.x}px;top:62px"><small>${feitas >= N ? "✓ " : "🔒 "}Nível 10 · ${esc(nomeNivel(10))}</small><b>${esc(ZONA_FINAL.nome)}</b><em>${esc(ZONA_FINAL.ref)}</em></div>`;
+  MISSOES.forEach((m, i) => {
+    const p = pts[i + 1], feita = i < feitas, atual = i === feitas, portal = m.n % 5 === 0;
+    const pr = m.premio ? (m.premio.tipo === "profeta" ? `<span class="tr-premio pers" title="${esc(textoPremio(m.premio))}">${avatarSVG(m.premio.id)}</span>` : `<span class="tr-premio" title="${esc(textoPremio(m.premio))}">${AJUDAS[m.premio.tipo].ic}</span>`) : "";
+    h += `<button type="button" class="tr-no ${feita ? "feita" : atual ? "atual" : "fechada"} ${portal ? "portal" : ""}" style="left:${p.x.toFixed(1)}px;top:${p.y}px" data-ms="${i}" aria-label="Missão ${m.n}: ${esc(m.t)}${feita ? " (cumprida)" : atual ? " (missão atual)" : ""}"><span class="nn">${m.n}${pr}${feita ? `<span class="tr-ok" aria-hidden="true">✓</span>` : ""}</span></button>`;
+  });
+  h += `<div class="tr-profeta" id="trProfeta">${meuAvatar()}</div>`;
+  el.innerHTML = h;
+  el.style.width = W + "px";
+  /* o personagem caminha da posição anterior até a missão atual */
+  const boneco = $("trProfeta"), posDe = k => k > N ? { x: portao.x, y: portao.y } : pts[k], ir = k => { const p = posDe(k); boneco.style.left = p.x + "px"; boneco.style.top = p.y + "px"; };
+  const alvo = feitas >= N ? N + 1 : feitas;            // jornada completa: o personagem entra no portão
+  const de = Math.max(0, Math.min(alvo, vindoDe == null ? alvo : vindoDe));
+  boneco.style.transition = "none"; ir(de);
+  const rolar = k => { const y = el.getBoundingClientRect().top + window.scrollY + posDe(k).y - window.innerHeight * .55; window.scrollTo({ top: Math.max(0, y), behavior: "auto" }); };
+  rolar(de);
+  if(de < alvo){
+    let k = de; const lento = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const passo = () => { if(!$("trProfeta")) return; k++; boneco.style.transition = lento ? "none" : "left .42s ease, top .42s ease"; boneco.classList.add("andando"); ir(k); tocar("toque"); rolar(k);
+      if(k < alvo) setTimeout(passo, lento ? 60 : 460); else setTimeout(() => { boneco.classList.remove("andando"); tocar("missao"); }, 460); };
+    setTimeout(passo, 500);
+  }
+  el.querySelectorAll("[data-ms]").forEach(b => b.onclick = () => modalMissao(+b.dataset.ms));
 }
 
 /* ============================================================
