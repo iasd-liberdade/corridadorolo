@@ -792,6 +792,12 @@ ol.passos li{margin-bottom:8px}
 .prof.bloq .avatar.lendario{filter:grayscale(1) brightness(.75)}
 @media (min-width:900px){ .profetas{grid-template-columns:repeat(auto-fill,minmax(88px,1fr))} .profetas .prof{font-size:13px} .profetas .prof .avatar{width:62px;height:80px} }
 .avatar image{image-rendering:auto}
+/* piscada dos personagens (como nos modelos): a imagem de olhos fechados aparece por um instante */
+.avatar .av-olho{animation:avolho 4.6s steps(1,end) infinite;animation-delay:var(--d,0s)}
+.avatar .av-pisca{opacity:0;animation:avfecha 4.6s steps(1,end) infinite;animation-delay:var(--d,0s)}
+@keyframes avolho{0%{opacity:1}95%{opacity:0}98%{opacity:1}}
+@keyframes avfecha{0%{opacity:0}95%{opacity:1}98%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.avatar .av-olho,.avatar .av-pisca{animation:none}}
 
 /* ---------- Admin: menu de seções + conteúdo em grade, usando a largura toda ---------- */
 .admin-area{display:grid;gap:14px;min-width:0}
@@ -2605,7 +2611,7 @@ function carregarProfetaImg(){
   /* Monta o personagem num canvas (480×620): enfeites de fundo, o boneco em pixel art e o selo do nível */
   return new Promise(res => {
     const p = acharProfeta(perfil.profeta) || acharProfeta(PROFETA_PADRAO), sp = spriteHD(p), nv = meuNivel();
-    const fundo = avatarSVG(p.id, null, 0).replace(/<image [^>]*\/>/, "").replace('<svg ', '<svg xmlns="http://www.w3.org/2000/svg" ').replace(/class="avatar[^"]*"/, 'width="480" height="620"');
+    const fundo = avatarSVG(p.id, null, 0).replace(/<image [^>]*\/>/g, "").replace('<svg ', '<svg xmlns="http://www.w3.org/2000/svg" ').replace(/class="avatar[^"]*"/, 'width="480" height="620"');
     const carregar = src => new Promise(r => { const i = new Image(); i.onload = () => r(i); i.onerror = () => r(null); i.src = src; });
     Promise.all([carregar("data:image/svg+xml;charset=utf-8," + encodeURIComponent(fundo)), carregar(sp.url)]).then(([enfeite, boneco]) => {
       const cv = document.createElement("canvas"); cv.width = 480; cv.height = 620;
@@ -4037,7 +4043,7 @@ PROFETAS.push(
   { id:"noe",      nome:"Noé",      bg:"#1C9FD0", pele:"#B5774C", cabelo:"#A8A8A8", barba:"longa", veste:"#8A6A3E", cob:{t:"capuz",c:"#2E2B6E"}, emb:"arca", nivel:5, fala:"Construí a arca do jeito que Deus mandou, mesmo sem ver uma nuvem no céu.", ref:"Gênesis 6:22" },
   { id:"abraao",   nome:"Abraão",   bg:"#2E2B6E", pele:"#C68A5E", cabelo:"#C9C9C9", barba:"longa", veste:"#B5462F", cob:{t:"faixa",c:"#F2BE2E"}, emb:"estrelas", nivel:7, fala:"Deus me mostrou as estrelas e prometeu uma família que ninguém consegue contar.", ref:"Gênesis 15:5" },
   { id:"zacarias", nome:"Zacarias", bg:"#F08A4B", pele:"#9C6440", cabelo:"#2B1B12", barba:"curta", veste:"#5B4FC9", cob:{t:"faixa",c:"#8FE6FF"}, emb:"candelabro", nivel:9, fala:"Ouvi de Deus: não por força nem por violência, mas pelo meu Espírito.", ref:"Zacarias 4:6" },
-  { id:"messias",  nome:"Messias",  bg:"#FFE27A", pele:"#B5774C", cabelo:"#4A2E1B", barba:"curta", longo:true, veste:"#FBF8F0", cob:null, emb:"coroa", nivel:10, lendario:true, manto:"#B5261E", fala:"Eu sou o caminho, a verdade e a vida.", ref:"João 14:6" }
+  { id:"messias",  nome:"Messias",  bg:"#F2BE2E", pele:"#B5774C", cabelo:"#4A2E1A", barba:"curta", longo:true, veste:"#F4F1EA", cob:null, emb:"pao", nivel:10, lendario:true, fala:"Eu sou o caminho, a verdade e a vida.", ref:"João 14:6" }
 );
 /* Ordem da lista: primeiro os profetas comuns (alfabética), depois os raros, do mais fácil ao mais raro (Messias por último). */
 PROFETAS.sort((a,b)=> ((a.nivel || 0) - (b.nivel || 0)) || a.nome.localeCompare(b.nome, "pt-BR"));
@@ -4058,11 +4064,12 @@ function avatarSVG(id, rotulo, nivel){
   const mais = (cx, cy, t) => `<rect x="${cx - .5}" y="${cy - t}" width="1" height="${2 * t}"/><rect x="${cx - t}" y="${cy - .5}" width="${2 * t}" height="1"/>`;
   const aura = lend ? `<g class="av-aura" shape-rendering="geometricPrecision"><ellipse cx="10" cy="14.5" rx="11.6" ry="15.2" fill="#FFE27A" opacity=".2"/><ellipse cx="10" cy="8.5" rx="8.4" ry="8.4" fill="#FFF3B8" opacity=".34"/></g>` : "";
   const brilho = raro ? `<g class="av-raro" fill="${lend ? "#FFF3B8" : "#FFE27A"}">${mais(.6, 4, 1.5)}${mais(21.2, 2.6, 1.5)}${mais(.2, 17.5, 1)}${mais(21.6, 9.5, 1)}${lend ? mais(10, -.2, 1) + mais(-.2, 11, 1) + mais(21.4, 23, 1) + mais(1.2, 24.5, 1) : ""}</g>` : "";
-  /* o boneco é uma imagem em pixel art (52×60 nos comuns, 92×100 nos raros), encaixada no mesmo espaço de antes */
-  const sp = spriteHD(p), larg = 30 * sp.W / sp.H;
-  const boneco = `<image href="${sp.url}" x="${(11 - larg / 2).toFixed(2)}" y="0" width="${larg.toFixed(2)}" height="30" preserveAspectRatio="none"/>`;
+  /* o boneco vem dos modelos em pixel art (52×60 nos comuns, 92×100 nos raros), encaixado no mesmo espaço de antes; a segunda imagem é a piscada */
+  const sp = spriteHD(p), larg = (30 * sp.W / sp.H).toFixed(2), x0 = (11 - 15 * sp.W / sp.H).toFixed(2);
+  const atraso = (p.id.split("").reduce((t, ch) => t + ch.charCodeAt(0), 0) % 37) / 10;
+  const boneco = `<ellipse cx="11" cy="28.2" rx="6.75" ry="1.05" fill="rgba(20,18,60,.32)" shape-rendering="geometricPrecision"/><image class="av-olho" href="${sp.url}" x="${x0}" y="0" width="${larg}" height="30" preserveAspectRatio="none"/><image class="av-pisca" href="${sp.fechado}" x="${x0}" y="0" width="${larg}" height="30" preserveAspectRatio="none"/>`;
   const selo = nv > 0 ? `<g class="av-nivel" shape-rendering="geometricPrecision"><circle cx="19.3" cy="26" r="3.7" fill="#F2BE2E" stroke="#3A2A00" stroke-width=".7"/><text x="19.3" y="27.8" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="5.2" fill="#3A2A00">${nv}</text></g>` : "";
-  return `<svg viewBox="-1 -1 24 31" class="avatar${raro ? " raro" : ""}${lend ? " lendario" : ""}" role="img" aria-label="${lbl}${nv > 0 ? ", nível " + nv : ""}${lend ? ", personagem lendário" : raro ? ", personagem raro" : ""}" style="overflow:visible">${aura}${brilho}${boneco}${selo}</svg>`;
+  return `<svg viewBox="-1 -1 24 31" class="avatar${raro ? " raro" : ""}${lend ? " lendario" : ""}" role="img" aria-label="${lbl}${nv > 0 ? ", nível " + nv : ""}${lend ? ", personagem lendário" : raro ? ", personagem raro" : ""}" style="overflow:visible;--d:-${atraso}s">${aura}${brilho}${boneco}${selo}</svg>`;
 }
 let _nvMemo = { k: "", v: 0 };
 function meuNivel(){
@@ -4703,237 +4710,377 @@ function modalCompartilharMural(){
 }
 
 /* ============================================================
-   BONECOS COM MAIS PIXELS
-   - Personagens comuns: grade de 52×60 pixels. Raros: grade de 92×100.
-   - O "projeto" do boneco é um só, em unidades de 52×60. Nos raros cada traço
-     ganha mais pixels e entram detalhes extras (dobras, mechas, barrado dourado,
-     brilho nos olhos).
-   - O resultado vira uma imagem PNG (guardada em memória por personagem), para a
-     página não carregar milhares de quadradinhos por boneco.
+   BONECOS: MODELOS EM PIXEL ART
+   Motor de desenho dos arquivos de modelo "profetas-resolucoes" e "profetas-hd".
+   - Personagens comuns: modelo de 52×60 pixels.
+   - Personagens raros: modelo de 92×100 pixels.
+   O motor fica isolado dentro de uma função para não misturar nomes com o resto do jogo.
    ============================================================ */
-const _hdCache = {};
-const _tomMemo = {};
-function tomM(cor, f){ const k = cor + "|" + f; return _tomMemo[k] || (_tomMemo[k] = tom(cor, f)); }
-
-/* Dobra a resolução de um desenho pequeno arredondando as quinas (algoritmo Scale2x) */
-function dobrarPixels(m){
-  const h = m.length, w = m[0].length, o = [];
-  const g = (y, x) => (y < 0 || y >= h || x < 0 || x >= w) ? null : m[y][x];
-  for(let y = 0; y < h; y++){
-    const l1 = [], l2 = [];
-    for(let x = 0; x < w; x++){
-      const P = g(y, x), A = g(y - 1, x), B = g(y, x + 1), C = g(y, x - 1), D = g(y + 1, x);
-      l1.push(C === A && C !== D && A !== B ? A : P, A === B && A !== C && B !== D ? B : P);
-      l2.push(D === C && D !== B && C !== A ? C : P, B === D && B !== A && D !== C ? D : P);
-    }
-    o.push(l1, l2);
-  }
+const gerarSpriteModelo = (() => {
+const MANTOS = { jesus:"#B8323F", moises:"#E8D9B5", elias:"#4A3A2E", eliseu:"#8A6A3E", isaias:"#E8505D", ezequiel:"#F2E6C8", daniel:"#F2BE2E", nata:"#5B4FC9", habacuque:"#2E2B6E", miqueias:"#1C9FD0", jonas:"#2E2B6E" };
+const CINTOS = { joao:"#5A3A22", moises:"#F2BE2E", ellen:"#2E2B6E", jose:"#8A5A2B" };
+const FEMININAS = new Set(["miria","debora","hulda","ana","isabel","ellen","filha","maria"]);
+const ICONES = {
+  tabuas:{o:[19,21],p:{l:"#F0E6CC",s:"#D8CBA8",d:"#A8987A",k:"#7E705A"},m:[
+    ".ls...ls.","lssd.lssd","skkd.skkd","sssd.sssd","skkd.skkd","sssd.sssd","skkd.skkd","dddd.dddd"]},
+  tamborim:{o:[20,21],p:{o:"#A0723C",O:"#6E4A24",y:"#F4DFB0",Y:"#D9BA80",g:"#F2BE2E",r:"#E8505D"},m:[
+    "..gooog..",".oyyyyyo.","oyyyyyyYo","gyyyyyYYg","oyyyyYYYo","oyyyYYYYo",".oYYYYYo.","..gOOOg.r",".......rr"]},
+  palmeira:{o:[18,21],p:{g:"#2BA486",G:"#1E7A63",l:"#7FE0B8",b:"#8A5A2B",B:"#5E3D1D"},m:[
+    ".gg...ll.","glgg.lgg.","..ggggg..",".gGGbGGg.","gG..b..Gg","....bB...","....bB...","....bB...","...bbBB.."]},
+  chifre:{o:[19,21],p:{y:"#F4DCA6",Y:"#C9A060",b:"#A0723C",w:"#FFE58A"},m:[
+    ".......yy","......yyY",".....yyY.","....yyY..","...yyyY..","..yyyYY..","bbbbYY...","bbbbb....",".w......."]},
+  chama:{o:[18,22],p:{r:"#E8505D",o:"#F08A4B",y:"#F2BE2E",w:"#FFF3B0"},m:[
+    "...o....","..oo..o.","..ooo.oo",".ooyooo.","oooyyoor","ooyywyor","roywwyor",".ryyyyr.","..rrrr.."]},
+  jarro:{o:[20,21],p:{b:"#C9773F",B:"#94502A",l:"#E8A06A",y:"#F2BE2E"},m:[
+    "..byyb..","..bbbB..",".lbbbbB.","lbbbbbBB","lbyyyyBB","lbbbbbBB",".lbbbBB.","..BBBB.."]},
+  livro:{o:[20,21],p:{c:"#5B4FC9",C:"#3D3399",p:"#F4F1EA",P:"#B9B3D9",g:"#F2BE2E"},m:[
+    "cccccccC","cppppppC","cpPPPppC","cppppppC","cpPPPPpC","cppppppC","cpggpppC","ccccccCC"]},
+  brasa:{o:[18,21],p:{m:"#B5BAC6",M:"#6E7486",r:"#E8505D",o:"#F08A4B",y:"#F2BE2E"},m:[
+    "m........",".m.......","..m......","...mM....","....mM...",".....Mro.","....royyo","....oyyro",".....rrr."]},
+  rolo:{o:[20,21],p:{w:"#8A5A2B",p:"#F4E8CC",P:"#D4BF92",k:"#8A7550"},m:[
+    "ww.....ww","wppppppPw","wpkkkkpPw","wppppppPw","wpkkkppPw","wppppppPw","wpkkkkpPw","ww.....ww"]},
+  roda:{o:[19,21],p:{P:"#F2BE2E",p:"#FFE58A",w:"#FFFFFF"},m:[
+    "..PPPPP..",".Pp.p.pP.","Pp..p..pP","P.p.p.p.P","PpppwpppP","P.p.p.p.P","Pp..p..pP",".Pp.p.pP.","..PPPPP.."]},
+  leao:{o:[19,21],p:{m:"#C9773F",M:"#94502A",f:"#F2BE2E",F:"#D99A2B",k:"#22183A",n:"#8A3A3A"},m:[
+    ".mmmmmmm.","mmfffffmM","mfkfffkfM","mffffffFM","mfffnffFM","mMffkffMM",".mMfffMM.","..MMMMM.."]},
+  peixe:{o:[21,20],p:{b:"#1C9FD0",B:"#137AA8",l:"#8FE6FF",w:"#FFFFFF",k:"#22183A"},m:[
+    "...bbbb...b",".bbbbbbb.bb","bwkbbbbbbbb","bbbblllbBbb",".bbbbbbb.bb","...BBBB...b"]},
+  onda:{o:[19,22],p:{b:"#1C9FD0",B:"#137AA8",l:"#8FE6FF",w:"#FFFFFF"},m:[
+    "...b....","..bb....",".blbb...",".lbbbb..","bwlbbbB.","blbbbbB.","bbbbbBB.",".bbbBB..","..BBB..."]},
+  ovelha:{o:[20,21],p:{w:"#FFFFFF",W:"#D9D4E8",k:"#4A3A4A",K:"#22183A"},m:[
+    ".wwwww....","wwwwwwwkk.","wwwwwWkKkk","wwwwwWWkk.",".wwwWWW...","..k...k...","..k...k..."]},
+  cajado:{o:[12,23],p:{b:"#8A5A2B",B:"#5E3D1D",l:"#C08A50"},m:[
+    ".lbb.","l..bB","b..bB","...bB","...bB","...bB","...bB","...bB","...bB","...bB","...bB","...bB","...bB","...bB","...bB","...bB","...bB","...bB","...bB","...BB"]},
+  gafanhoto:{o:[20,20],p:{g:"#7FC94A",G:"#4E9A2E",k:"#22183A",y:"#C9E68A"},m:[
+    ".......k..","......k...","...gggGk..","..ggkgggg.",".ygggggGG.","gyyg.g..g.","g...g...g."]},
+  torre:{o:[18,22],p:{l:"#F0E6CC",s:"#D8CBA8",S:"#A8987A",d:"#2E2B6E"},m:[
+    "l.s.s.S","lsssssS","lssssSS","lsddsSS","lsddsSS","lssssSS","lsssssS","lssddsS","lssddsS","SSSSSSS"]},
+  estrela:{o:[18,21],p:{y:"#F2BE2E",w:"#FFF3B0",o:"#F08A4B"},m:[
+    "....w....","...yyy...","...ywy...","yyyywyyyy",".yywwwyy.","..yyyyy..","..yyoyy..",".yyo.oyy.",".yo...oy."]},
+  lamparina:{o:[21,20],p:{c:"#C9773F",C:"#94502A",l:"#E8A06A",f:"#F2BE2E",r:"#F08A4B",w:"#FFF3B0"},m:[
+    ".w........","fwf.......","rfr.......",".r..lcc...",".cccccccc.","cclcccCCcc",".ccCCCCCC.","..CCCCC..."]},
+  coracao:{o:[20,21],p:{r:"#E8505D",R:"#B8323F",w:"#FFC9CE"},m:[
+    ".rr...rr.","rwrr.rrrR","rwrrrrrRR","rrrrrrrRR",".rrrrrRR.","..rrrRR..","...rRR...","....R...."]},
+  pena:{o:[17,21],p:{w:"#F4F1EA",W:"#C9C2E0",b:"#5B4FC9",g:"#E8C07A"},m:[
+    "........w","......wwW",".....wwW.","....wwWW.","...wwWW..","..wwWW...","..wWW....",".gW......",".g.......","b........"]},
+  trigo:{o:[17,21],p:{y:"#F2D07A",Y:"#C9A050",b:"#A0723C",g:"#8FB84A"},m:[
+    ".y..y..y.","yYy.y.yYy","yYyyYyyYy",".yYyYyYy.","..yYyYy..","...yYy...","..bbbbb..","...gYg...","..gY.Yg..",".gY...Yg."]},
+  manjedoura:{o:[21,20],p:{w:"#8A5A2B",W:"#5E3D1D",h:"#F2D07A",H:"#C9A050",b:"#FFFFFF",s:"#D9A47A"},m:[
+    "...bbs....","..hbbbhh..",".hhhHhhHh.","wwwwwwwwww",".wWWWWWWw.",".w......w.","w........w"]},
+  pao:{o:[21,20],p:{l:"#F8DCA8",p:"#E8B070",P:"#B87A3E",k:"#C98A4E"},m:[
+    "...lllll...","..lplplppP.",".lpkplkpkPP","lppkppkpPPP","lpppppppPPP",".PPPPPPPPP."]},
+  pomba:{o:[20,20],p:{w:"#FFFFFF",W:"#C9D6EE",k:"#22183A",o:"#F08A4B",g:"#2BA486"},m:[
+    "...ww.....","..wwww....","okwwwW..ww",".wwwwwWwww","..wwwwwWW.","...WWWW...","....gg....","...g......"]}
+};
+function _rgb(h){ const n=parseInt(h.slice(1),16); return [n>>16,(n>>8)&255,n&255]; }
+function mistura(a,b,t){ const A=_rgb(a),B=_rgb(b); return "#"+A.map((v,i)=>Math.round(v+(B[i]-v)*t).toString(16).padStart(2,"0")).join(""); }
+/* rampa com sombra puxada para o roxo e luz puxada para o quente, como em pixel art moderna */
+function rampa(c){ return { b:c, s:mistura(c,"#3B2766",.30), d:mistura(c,"#24163F",.52), l:mistura(c,"#FFF4D6",.30) }; }
+const _bb=(f,b)=>{ f.bb=b; return f; };
+const F = {
+  E:(cx,cy,rx,ry)=>_bb((x,y)=>((x-cx)/rx)**2+((y-cy)/ry)**2<=1,[cx-rx,cy-ry,cx+rx,cy+ry]),
+  R:(x0,y0,x1,y1)=>_bb((x,y)=>x>=x0&&x<=x1&&y>=y0&&y<=y1,[x0,y0,x1,y1]),
+  P:(pts)=>_bb((x,y)=>{ let d=false; for(let i=0,j=pts.length-1;i<pts.length;j=i++){ const [xi,yi]=pts[i],[xj,yj]=pts[j]; if(((yi>y)!==(yj>y)) && x<(xj-xi)*(y-yi)/(yj-yi)+xi) d=!d; } return d; },
+     [Math.min(...pts.map(q=>q[0])),Math.min(...pts.map(q=>q[1])),Math.max(...pts.map(q=>q[0])),Math.max(...pts.map(q=>q[1]))]),
+  RR:(x0,y0,x1,y1,rt,rb)=>_bb((x,y)=>{ if(x<x0||x>x1||y<y0||y>y1) return false;
+    const c=(cx,cy,r)=>(x-cx)**2+(y-cy)**2<=r*r;
+    if(y<y0+rt){ if(x<x0+rt) return c(x0+rt,y0+rt,rt); if(x>x1-rt) return c(x1-rt,y0+rt,rt); }
+    if(y>y1-rb){ if(x<x0+rb) return c(x0+rb,y1-rb,rb); if(x>x1-rb) return c(x1-rb,y1-rb,rb); }
+    return true; },[x0,y0,x1,y1]),
+  U:(...f)=>_bb((x,y)=>f.some(g=>g(x,y)), f.every(g=>g.bb) ? [Math.min(...f.map(g=>g.bb[0])),Math.min(...f.map(g=>g.bb[1])),Math.max(...f.map(g=>g.bb[2])),Math.max(...f.map(g=>g.bb[3]))] : null),
+  I:(...f)=>{ const bs=f.filter(g=>g.bb).map(g=>g.bb); return _bb((x,y)=>f.every(g=>g(x,y)), bs.length ? [Math.max(...bs.map(b=>b[0])),Math.max(...bs.map(b=>b[1])),Math.min(...bs.map(b=>b[2])),Math.min(...bs.map(b=>b[3]))] : null); },
+  N:f=>_bb((x,y)=>!f(x,y),null),
+  M:f=>_bb((x,y)=>f(32-x,y), f.bb ? [32-f.bb[2],f.bb[1],32-f.bb[0],f.bb[3]] : null)   // espelho horizontal
+};
+function scale2x(m){
+  const h=m.length,w=m[0].length,o=[];
+  const at=(r,c)=> (r<0||r>=h||c<0||c>=w) ? "." : m[r][c];
+  for(let r=0;r<h;r++){ let a="",b="";
+    for(let c=0;c<w;c++){ const P=at(r,c),A=at(r-1,c),B=at(r,c+1),C=at(r,c-1),D=at(r+1,c);
+      a += (C===A&&C!==D&&A!==B)?A:P; a += (A===B&&A!==C&&B!==D)?B:P;
+      b += (D===C&&D!==B&&C!==A)?C:P; b += (B===D&&B!==A&&D!==C)?D:P; }
+    o.push(a,b); }
   return o;
 }
+function gerarSprite(p, W, H){
+  const s=Math.min(W/32,H/40), ox=(W-32*s)/2, oy=H-40*s;
+  const tier = s<1.15?0:(s<1.4?1:(s<1.7?2:(s<3?3:4)));
+  const ot = tier===4 ? Math.max(1,Math.round(s/3.2)) : 1;
+  const G=Array.from({length:H},()=>Array(W).fill(null)), T=Array.from({length:H},()=>Array(W).fill(null));
+  const X=u=>Math.round(u*s+ox), Y=u=>Math.round(u*s+oy);
+  const put=(r,c,col,tag)=>{ if(col&&r>=0&&r<H&&c>=0&&c<W){ G[r][c]=col; if(tag) T[r][c]=tag; } };
+  const camada=(f,cor,tag,sh,alvo)=>{
+    const o=sh||{}, dx=o.dx??1.5, dy=o.dy??0.8, hx=o.hx??0.9, hy=o.hy??0.9, A=alvo||G;
+    const b=f.bb, pa=b?Math.max(0,Math.floor(b[0]*s+ox)-1):0, pb=b?Math.min(W-1,Math.ceil(b[2]*s+ox)+1):W-1, ra=b?Math.max(0,Math.floor(b[1]*s+oy)-1):0, rb=b?Math.min(H-1,Math.ceil(b[3]*s+oy)+1):H-1;
+    for(let py=ra;py<=rb;py++) for(let px=pa;px<=pb;px++){
+      if(o.soTag && T[py][px]!==o.soTag) continue;
+      const x=(px+.5-ox)/s, y=(py+.5-oy)/s;
+      if(!f(x,y)) continue;
+      const R = typeof cor==="function" ? cor(y) : cor;
+      let col;
+      if(typeof R==="string") col=R;
+      else if(o.plano) col=R.b;
+      else if(!f(x+dx,y+dy)) col = (tier>0 && !f(x+dx*.3,y+dy*.3)) ? R.d : R.s;
+      else if(!o.semLuz && !f(x-hx,y-hy)) col=R.l;
+      else col=R.b;
+      A[py][px]=col; if(!alvo && !o.soTag) T[py][px]=tag;
+    }
+  };
+  const fem=FEMININAS.has(p.id), cob=p.cob?p.cob.t:null, C=p.cob&&p.cob.c?rampa(p.cob.c):null;
+  const cabelo=p.cabelo?rampa(p.cabelo):null;
+  const pele={ b:p.pele, s:mistura(p.pele,"#7A3E4A",.28), d:mistura(p.pele,"#4A2236",.48), l:mistura(p.pele,"#FFE9D0",.3) };
+  const listras=p.listras?p.listras.map(rampa):null;
+  const V=y=> listras ? listras[Math.max(0,Math.floor((y-20)/2))%listras.length] : rampa(p.veste);
+  const manto=MANTOS[p.id]?rampa(MANTOS[p.id]):null;
+  const cinto=rampa(CINTOS[p.id] || (C ? p.cob.c : mistura(p.veste,"#2A1A30",.45)));
+  const longo = p.longo || (cabelo && !cob && fem);
+  const {E,R:Rt,P,RR,U,I,N}=F;
 
-/* Objetos redesenhados à mão em 12×12 (os demais são ampliados a partir do desenho 6×6) */
-const ICONES_HD = {
-  roda:{p:{p:"#5B4FC9",l:"#9A90EE",y:"#F2BE2E"},m:["....pppp....","..pppppppp..",".ppp.ll.ppp.",".pp..ll..pp.","pp.l.ll.l.pp","pplllyylllpp","pplllyylllpp","pp.l.ll.l.pp",".pp..ll..pp.",".ppp.ll.ppp.","..pppppppp..","....pppp...."]},
-  livro:{p:{b:"#5B4FC9",w:"#F4F1EA",l:"#B9B3D9"},m:["............","............",".bbbb..bbbb.","bwwwwbbwwwwb","bwllwbbwllwb","bwwwwbbwwwwb","bwllwbbwllwb","bwwwwbbwwwwb","bwllwbbwllwb","bwwwwbbwwwwb","bbbbbbbbbbbb",".....bb....."]},
-  tamborim:{p:{o:"#A0723C",y:"#EFD19A",s:"#E3E3E3",d:"#D9B878"},m:["....ossso...","..oooooooo..",".ooyyyyyyoo.",".oyyyyyyyyo.","ooyyyyyyydoo","syyyyyyyydds","syyyyyyyydds","ooyyyyyyddoo",".oyyyyydddo.",".ooyddddoo..","..oooooooo..","....ossso..."]},
-  arca:{p:{b:"#8A5A2B",d:"#6B4420",y:"#E8C07A",r:"#B5462F",w:"#5A3A22"},m:["............","....rrrr....","...rrrrrr...","...yyyyyy...","...ywyywy...","...yyyyyy...","bbbbbbbbbbbb","bddbbddbbddb",".bbbbbbbbbb.",".bbddbbddbb.","..bbbbbbbb..","............"]},
-  manjedoura:{p:{y:"#E8C07A",b:"#8A5A2B",d:"#6B4420"},m:["............","....yy.y....","..yyyyyyyy..",".yyyyyyyyyy.","bbbbbbbbbbbb","bddddddddddb",".bbbbbbbbbb.","..bb....bb..","..bbb..bbb..","...bbbbbb...","..bbb..bbb..",".bb......bb."]},
-  trigo:{p:{y:"#E8C07A",b:"#A0723C",d:"#C99A4E"},m:["..y..y..y...",".yy.yyy.yy..",".ydyydyydy..","..yyyyyyy...","..ydyydyy...","...yyyyy....","...bbbbb....","...bbbbb....","...yyyyy....","..yyydyyy...",".yyy.y.yyy..",".y...y...y.."]},
-  gafanhoto:{p:{g:"#2BA486",k:"#1E6E57",w:"#FFFFFF"},m:["............",".........k..","........k...","..k....k....","...k.gggg...","..ggggggwg..",".ggggggggg..","gggggggggg..","k.k..k..k...","k..k..k..k..","............","............"]}
-};
+  /* trás */
+  if(cob==="veu"||cob==="capuz"){ const fim=cob==="veu"?31:25; camada(RR(5.8,8,26.2,fim,3,2),{b:C.d,s:mistura(C.d,"#1A1030",.3),d:mistura(C.d,"#1A1030",.5),l:C.s},"tras"); }
+  if(longo) camada(RR(6,8,26,27.5,4,2.5),{b:cabelo.s,s:cabelo.d,d:mistura(cabelo.d,"#1A1030",.35),l:cabelo.b},"tras");
+  /* pernas */
+  camada(Rt(11,34.5,15,36),pele,"pele",{plano:1}); camada(Rt(17,34.5,21,36),{b:pele.s},"pele",{plano:1});
+  camada(RR(10,35.6,15.2,37,.8,.8),"#6B4A33","sand"); camada(RR(16.8,35.6,22,37,.8,.8),"#4E3424","sand");
+  /* túnica */
+  const tunica=P([[11.2,20],[20.8,20],[22.2,21.2],[22.2,28],[24.4,35],[7.6,35],[9.8,28],[9.8,21.2]]);
+  camada(tunica,V,"veste",{dx:2,dy:.6});
+  camada(I(tunica,Rt(0,33.7,40,35)),y=>({b:V(y).d,s:mistura(V(y).d,"#1A1030",.3),d:mistura(V(y).d,"#1A1030",.5),l:V(y).s}),"barra",{dx:2,dy:0,hx:.9,hy:0});
+  /* braços */
+  const bracoE=P([[7.8,21],[11,21],[11,29.2],[6.8,29.2],[7,26]]);
+  camada(bracoE,V,"veste",{dx:1.2,dy:.5});
+  camada(I(bracoE,Rt(0,28.2,40,29.2)),y=>({b:V(y).s,s:V(y).d,d:V(y).d,l:V(y).b}),"punho",{dy:0,dx:1.2});
+  camada(E(9,30.1,1.4,1.1),pele,"pele",{dx:.8,dy:.6});
+  const bracoD=P([[21,21],[24,21.5],[25,27.2],[21,27.2]]);
+  camada(bracoD,y=>({b:V(y).s,s:V(y).d,d:mistura(V(y).d,"#1A1030",.35),l:V(y).b}),"veste",{dx:1.2,dy:.5});
+  /* manto */
+  if(manto){
+    const m=P([[8,20.4],[13.6,19.8],[23.2,30],[23.2,32.4],[19.6,32.4],[7.6,23.4]]);
+    camada(m,manto,"manto",{dx:1.2,dy:1.2,hx:.8,hy:-.8});
+  }
+  if(!manto || p.id==="moises"){
+    camada(I(tunica,Rt(9,26.6,23,28.1)),cinto,"cinto",{dx:2,dy:0,hx:.8,hy:0});
+    camada(P([[12.6,27.4],[14.2,27.4],[14.6,31],[13.4,30.4],[12.4,31.2]]),cinto,"cinto",{dx:.8,dy:.6});
+  }
+  if(p.gola) camada(P([[11.8,19.8],[20.2,19.8],[19.6,22.4],[16,21.2],[12.4,22.4]]),{b:"#FFFFFF",s:"#D9D4EA",d:"#B9B3D9",l:"#FFFFFF"},"gola",{dx:1,dy:.6});
+  /* pescoço e cabeça */
+  camada(Rt(14,18,18,21),{b:pele.s},"pele",{plano:1});
+  const cabeca=RR(8,7,24,20.2,4.2,5.8);
+  camada(cabeca,pele,"rosto",{dx:2.2,dy:.9,hx:1.2,hy:1.2});
+  camada(E(7.7,14.2,1.3,1.6),pele,"pele",{dx:.6,dy:.6}); camada(E(24.3,14.2,1.3,1.6),{b:pele.s,s:pele.d,d:pele.d,l:pele.s},"pele",{dx:.6,dy:.6});
+  /* cabelo / cobertura */
+  const tampa=I(E(16,10.4,9.4,7.6),Rt(0,0,40,10.8));
+  if(cob==="veu"||cob==="capuz"){
+    const fimLado=cob==="veu"?24:22;
+    const vf=U(I(E(16,10.6,10.6,8.2),Rt(0,0,40,10.8)),RR(5.6,9,9.2,fimLado,0,1.6),RR(22.8,9,26.4,fimLado,0,1.6));
+    camada(vf,C,"cob",{dx:1.8,dy:.8});
+    camada(I(U(Rt(8.4,9.6,9.4,fimLado),Rt(22.6,9.6,23.6,fimLado),Rt(8.4,9.6,23.6,10.6)),vf),{b:C.d},"cob",{plano:1});
+    if(cabelo){ const fr=P([[9.2,10.2],[22.8,10.2],[22.8,12],[20,11.2],[17,12],[16,10.9],[15,12],[12,11.2],[9.2,12.2]]); camada(fr,cabelo,"cabelo",{dx:1.4,dy:.4,semLuz:1}); }
+    // brilho no véu
+    camada(I(vf,E(12,5.4,3.2,1.2)),{b:C.l},"cob",{plano:1});
+  } else if(cabelo){
+    const fimLado = longo?23:((p.curto||!fem)?14:17);
+    let forma=U(tampa,RR(6.8,9,9.4,fimLado,0,1.2),RR(22.6,9,25.2,fimLado,0,1.2));
+    if(p.rebelde){ forma=U(forma,I(E(16,10,11,9),Rt(0,0,40,11)),P([[6.4,6],[8.4,3],[10,4.2],[12.4,0.8],[14.6,3.2],[16.6,0.2],[18.6,3.2],[21,0.8],[22.6,4.2],[24.4,3],[25.8,6]]),RR(5,9,8.6,19,0,2),RR(23.4,9,27,19,0,2)); }
+    const franja=P([[8,10],[24,10],[24,12.4],[22.6,11.2],[21.2,12.4],[19.6,11],[18,12.2],[16.6,10.8],[15.2,11.8],[13.6,10.8],[12,12.2],[10.4,11.2],[9.2,12.6],[8,11.8]]);
+    forma=U(forma, p.cob&&p.cob.t==="coque" ? I(franja,Rt(0,0,40,11)) : franja);
+    if(cob==="coque") forma=U(forma,E(16,2.6,2.9,2.4));
+    camada(forma,cabelo,"cabelo",{dx:1.8,dy:.7,hx:.9,hy:.9});
+    camada(I(forma,U(E(12.2,5.2,3.4,1.1),E(10,6.8,1.1,.7))),{b:cabelo.l},"cabelo",{plano:1});
+    if(cob==="coque"){ camada(Rt(15.6,6.5,16.4,10.5),{b:cabelo.d},"cabelo",{plano:1}); camada(Rt(14,4.6,18,5.4),{b:cabelo.d},"cabelo",{plano:1}); }
+    // mechas escuras
+    camada(I(forma,U(Rt(13.6,4,14.2,8.4),Rt(18.2,4.4,18.8,8.8))),{b:cabelo.s},"cabelo",{plano:1});
+  } else {
+    camada(tampa,pele,"rosto",{dx:2.2,dy:.9,hx:1.2,hy:1.2});
+    camada(E(12.4,5.4,1.8,1.1),{b:pele.l},"rosto",{plano:1});
+    const lado=rampa("#5A4636");
+    camada(U(RR(6.8,10,9.2,16,0,1),RR(22.8,10,25.2,16,0,1)),lado,"cabelo",{dx:1,dy:.6});
+  }
+  if(cob==="faixa"){ camada(I(Rt(6.6,7.4,25.4,8.9),E(16,10.4,9.8,8)),C,"cob",{dx:2,dy:0,hy:0}); camada(P([[24.4,8],[26.2,8.4],[27.2,12],[26,12.4],[25.4,10],[24.6,9.6]]),C,"cob",{dx:.8,dy:.6}); }
+
+  /* barba */
+  if(p.barba){
+    const bc=p.cabelo?rampa(p.cabelo):rampa("#5A3A22");
+    const lados=U(Rt(7.8,13.6,10,18),Rt(22,13.6,24.2,18));
+    const queixo = p.barba==="longa"
+      ? P([[7.8,16.6],[24.2,16.6],[23.6,20],[19.6,24.4],[16,27],[12.4,24.4],[8.4,20]])
+      : P([[7.8,16.6],[24.2,16.6],[23.4,19],[20.4,20.8],[11.6,20.8],[8.6,19]]);
+    camada(U(lados,queixo),bc,"barba",{dx:1.6,dy:.8});
+    camada(E(16,16.5,3.4,.95),bc,"barba",{dx:1,dy:.4,semLuz:1});
+    if(p.barba==="longa"&&tier>0) camada(I(queixo,U(Rt(13.4,19,13.9,24),Rt(17.6,20,18.1,25),Rt(15.6,21,16.1,26))),{b:bc.l},"barba",{plano:1});
+  }
+
+  /* ---- detalhes em pixel ---- */
+  if(tier<4){
+  // dobras e bordado da barra
+  for(let py=Y(29);py<Y(33.6);py++) [X(13.2),X(18.8)].forEach(px=>{ if(T[py]&&T[py][px]==="veste" && (py%2===0||tier===0)) G[py][px]=V((py-oy)/s).s; });
+  if(tier>0){ const pyb=Y(34.1); for(let px=0;px<W;px++) if(T[pyb]&&T[pyb][px]==="barra" && px%3===0) G[pyb][px]=mistura(V(34).l,"#F2BE2E",.5); }
+  if(!listras && !p.gola){ for(let px=X(13);px<X(19);px++) if(T[Y(20.6)]&&T[Y(20.6)][px]==="veste") G[Y(20.6)][px]=V(21).l; const yv=Y(21.6), pv=(r,c)=>{ if(T[r]&&T[r][c]==='veste') G[r][c]=V(22).s; }; pv(yv,X(16)-1); pv(yv,X(16)); if(tier>0){ pv(yv+1,X(16)-1); pv(yv+1,X(16)); } }
+  if(p.gola){ put(Y(21.3),X(16)-1,"#F2BE2E"); put(Y(21.3),X(16),"#C9952B"); }
+
+  } else {
+    [13.2,18.8].forEach(x=> camada(I(tunica,Rt(x-.18,29,x+.18,33.4)),y=>V(y).s,"",{plano:1,soTag:"veste"}));
+    for(let x=8.6;x<24;x+=1.1) camada(E(x,34.25,.2,.2),mistura(V(34).l,"#F2BE2E",.5),"",{soTag:"barra"});
+    if(!listras && !p.gola){ camada(I(E(16,20.4,3,.75),Rt(0,20.3,40,21)),V(21).l,"",{soTag:"veste"}); camada(P([[15.4,20.9],[16.6,20.9],[16,22.4]]),V(22).s,"",{soTag:"veste"}); }
+    if(p.gola) camada(E(16,21.2,.45,.4),"#F2BE2E","",{});
+  }
+  // emblema (escala com Scale2x + amostragem)
+  const ic=ICONES[p.emb];
+  if(ic){
+    let base = ic.m; for(let k=0; tier>0 && k<Math.min(3,Math.ceil(Math.log2(s))); k++) base = scale2x(base);
+    const h=Math.round(ic.m.length*s), w=Math.round(ic.m[0].length*s);
+    const r0=Y(ic.o[0]), c0=X(ic.o[1]), mask=new Set();
+    for(let i=0;i<h;i++) for(let j=0;j<w;j++){ const ch=base[Math.min(base.length-1,Math.floor((i+.5)/h*base.length))][Math.min(base[0].length-1,Math.floor((j+.5)/w*base[0].length))]; if(ch!=="."&&ic.p[ch]){ put(r0+i,c0+j,ic.p[ch],"emb"); mask.add((r0+i)*W+c0+j); } }
+    const le=mistura(Object.values(ic.p)[0],"#1A1030",.75);
+    let frente=new Set(mask);
+    for(let pass=0;pass<ot;pass++){ const nova=new Set();
+      frente.forEach(k=>{ const r=Math.floor(k/W),c=k%W; [[1,0],[-1,0],[0,1],[0,-1]].forEach(([a,b])=>{ const rr=r+a,cc=c+b; if(rr<0||rr>=H||cc<0||cc>=W) return; const kk=rr*W+cc; if(!mask.has(kk)&&G[rr][cc]&&G[rr][cc]!==le){ G[rr][cc]=le; nova.add(kk); } }); });
+      frente=nova; }
+  }
+  // mão direita
+  if(tier<4){
+  for(let py=Y(25.9);py<Y(28);py++) for(let px=X(21.9);px<X(25);px++) G[py][px] = py===Y(28)-1 ? pele.s : (px===X(21.9)&&py===Y(25.9) ? pele.l : pele.b);
+  if(tier>0) put(Y(26.9),X(25)-1,pele.s);
+  } else {
+    camada(RR(21.7,25.7,25.2,28.2,1,1),pele,"pele",{dx:.9,dy:.7,hx:.5,hy:.5});
+    camada(U(Rt(22.6,26.5,24.9,26.68),Rt(22.6,27.25,24.9,27.43)),pele.s,"",{});
+  }
+
+  // rosto
+  if(tier===4){
+    const bl=mistura(p.pele,"#FF7A8A",.42), bl2=mistura(p.pele,"#FF7A8A",.22);
+    const ambos=(f,cor,sh)=>{ camada(f,cor,"",sh||{plano:1}); camada(F.M(f),cor,"",sh||{plano:1}); };
+    if(!p.barba){ ambos(E(10.1,16.2,1.25,.55),bl2); ambos(E(10.1,16.15,.8,.34),bl); }
+    camada(E(16.25,15.5,.42,.28),pele.s,"",{plano:1}); camada(E(16.45,15.62,.2,.14),pele.d,"",{plano:1});
+    const brow = cabelo ? cabelo.d : pele.d, grossa=p.barba||!fem, g=grossa?.22:0;
+    if(!(cob==="veu"&&!cabelo)) ambos(P([[10.1,11.75+g],[11.5,11.2],[13.2,11.45],[13.2,11.85+g],[11.5,11.62+g],[10.1,12.2+g]]),brow);
+    camada(P([[14.5,16.85],[15.2,17.15],[16,17.28],[16.8,17.15],[17.5,16.85],[17.55,17.18],[16.8,17.58],[16,17.74],[15.2,17.58],[14.45,17.18]]),"#7A2E3A","",{plano:1});
+    camada(I(E(16,17.62,.62,.26),Rt(0,17.5,40,18)),"#B8475A","",{plano:1});
+  } else {
+  const cx=X(16), dark="#7A2E3A", lip="#B8475A";
+  var EYE;
+  if(tier<3) EYE=[["LL","wI","ID"],["LLL","wII","IiD","DDD"],["LLLL","LwII","IwiD","IiiD",".DD."]][tier];
+  else {
+    const w=Math.round(2.6*s), h=Math.round(3.1*s); EYE=[];
+    for(let i=0;i<h;i++){ let row="";
+      for(let j=0;j<w;j++){
+        let ch="I";
+        if(i===0) ch="L";
+        else if(i===1 && (j===0||j===w-1)) ch="L";
+        else if(i===h-1) ch=(j===0||j===w-1)?".":"I";
+        else if(i>=h-2) ch=(j===0||j===w-1)?"D":"i";
+        if(i>=Math.floor(h*.32) && i<h-2 && j>=Math.floor(w/2)-1 && j<=Math.floor(w/2)) ch="D";
+        if(i>=1 && i<=2 && j>=1 && j<=2) ch="w";
+        if(i===h-3 && j===w-2) ch="w";
+        row+=ch; }
+      EYE.push(row); }
+  }
+  var ew=EYE[0].length, ey=Y(13)-(tier===3?Math.round(.3*s):0);
+  var xL=Math.round(cx-3*s)-ew, xR=Math.round(cx+3*s);
+  const brow = cabelo ? cabelo.d : pele.d;
+  if(!(cob==="veu"&&!cabelo)){
+    if(tier<3){ const by=ey-2; for(let k=-1;k<ew;k++){ put(by,xL+k,brow); put(by,xR+ew-1-k,brow); } if(tier===2){ put(by+1,xL-1,brow); put(by+1,xR+ew,brow); } }
+    else { const grossa=p.barba||!fem, by=ey-Math.round(1.2*s)-(grossa?1:0); for(let k=-1;k<=ew;k++){ const yy = by + (k<=0?1:0); put(yy,xL+k,brow); put(yy,xR+ew-1-k,brow); if(grossa && k>0 && k<ew){ put(yy+1,xL+k,brow); put(yy+1,xR+ew-1-k,brow); } } }
+  }
+  if(tier<3){
+    if(!p.barba){ const bl=mistura(p.pele,"#FF7A8A",.42), bw=Math.round(2*s), byy=Y(16); for(let k=0;k<bw;k++){ put(byy,Math.round(cx-5*s)-bw+k,bl); put(byy,Math.round(cx+5*s)+k,bl); } if(tier===2){ const bl2=mistura(p.pele,"#FF7A8A",.25); put(byy+1,Math.round(cx-5*s)-bw+1,bl2); put(byy+1,Math.round(cx+5*s)+1,bl2); } }
+  } else {
+  if(!p.barba){ const bl=mistura(p.pele,"#FF7A8A",.42), bl2=mistura(p.pele,"#FF7A8A",.22), bw=Math.round(2*s), byy=Y(16), rows=tier===3?Math.max(2,Math.round(s*.9)):(tier===2?2:1);
+    for(let r=0;r<rows;r++) for(let k=0;k<bw;k++){ const edge=(r===rows-1||k===0||k===bw-1)&&rows>1; const col = edge ? bl2 : bl; put(byy+r,Math.round(cx-5*s)-bw+k,col); put(byy+r,Math.round(cx+5*s)+k,col); } }
+  }
+  if(tier<3){ put(Y(15.2),cx,pele.s); if(tier===2) put(Y(15.2)+1,cx,pele.d); }
+  else { const ny=Y(15); put(ny,cx,pele.s); put(ny+1,cx,pele.s); put(ny+1,cx-1,pele.d); }
+  const my=Y(17.1);
+  if(tier===3){
+    const mw=2*Math.round(s), x0=cx-mw/2;
+    put(my-1,x0-1,dark); put(my-1,x0+mw,dark);
+    for(let k=0;k<mw;k++) put(my,x0+k,dark);
+    for(let k=1;k<mw-1;k++) put(my+1,x0+k, k===1||k===mw-2 ? dark : lip);
+    if(s>=2.2) for(let k=2;k<mw-2;k++) put(my+2,x0+k,dark);
+  }
+  else if(tier===2){ put(my,cx-2,dark); put(my,cx-1,dark); put(my,cx,dark); put(my,cx+1,dark); put(my+1,cx-1,lip); put(my+1,cx,lip); }
+  else if(tier===1){ put(my,cx-1,dark); put(my,cx,dark); put(my+1,cx-1,lip); put(my+1,cx,lip); }
+  else { put(my,cx-1,dark); put(my,cx,lip); }
+  }
+
+  /* contorno colorido */
+  for(let pass=0;pass<ot;pass++){
+  const borda=[];
+  for(let r=0;r<H;r++) for(let c=0;c<W;c++){ if(G[r][c]) continue;
+    const v=[[r+1,c],[r,c-1],[r,c+1],[r-1,c]].find(([a,b])=>a>=0&&a<H&&b>=0&&b<W&&G[a][b]);
+    if(v) borda.push([r,c, pass===0 ? mistura(G[v[0]][v[1]],"#1A1030",.72) : G[v[0]][v[1]]]); }
+  borda.forEach(([r,c,col])=>G[r][c]=col);
+  }
+
+  /* olhos (camadas para piscar) */
+  const O=Array.from({length:H},()=>Array(W).fill(null)), Fc=Array.from({length:H},()=>Array(W).fill(null));
+  const iris=p.id==="ellen"?"#3E5C8A":"#3A2416", cores={L:"#22183A",w:"#FFFFFF",I:iris,i:(tier<3 ? mistura(iris,"#FFFFFF",.35) : mistura(iris,"#D9954E",.55)),D:"#1E1410"};
+  if(tier===4){
+    const pin=(f,cor,alvo)=>{ camada(f,cor,"",{plano:1},alvo); camada(F.M(f),cor,"",{plano:1},alvo); };
+    pin(RR(10.4,12.75,13,15.75,1,1.2),cores.I,O);
+    pin(I(RR(10.4,12.75,13,15.75,1,1.2),E(11.7,15.5,1.1,.55)),cores.i,O);
+    pin(E(11.85,14.35,.55,.85),cores.D,O);
+    pin(RR(10.2,12.45,13.2,12.95,.25,.25),cores.L,O);
+    pin(U(Rt(10.2,12.7,10.55,14.2),Rt(12.85,12.7,13.2,14.2)),cores.L,O);
+    pin(E(11.15,13.55,.48,.48),cores.w,O); pin(E(12.45,15.05,.22,.22),cores.w,O);
+    if(fem){ pin(P([[10.4,12.5],[9.3,12.0],[9.55,12.9],[10.4,13.3]]),cores.L,O); pin(P([[10.4,13.4],[9.6,13.6],[10.4,13.9]]),cores.L,O); }
+    pin(P([[10.2,14.05],[11.7,14.55],[13.2,14.05],[13.2,14.45],[11.7,14.95],[10.2,14.45]]),cores.L,Fc);
+    if(fem) pin(P([[10.4,14.2],[9.5,14.6],[10.4,14.6]]),cores.L,Fc);
+  } else
+  [[xL,true],[xR,false]].forEach(([x0,esq])=>{
+    EYE.forEach((row,ri)=>{ for(let ci=0;ci<ew;ci++){ const ch=row[ci]; if(ch!==".") O[ey+ri][x0+ci]=cores[ch]; } });
+    const xo = esq ? x0-1 : x0+ew, xo2 = esq ? x0-2 : x0+ew+1;
+    if(fem){ O[ey][xo]=cores.L; if(tier>=2) O[ey-1][xo2]=cores.L; if(tier===3){ O[ey+1][xo]=cores.L; O[ey-1][xo]=cores.L; if(s>=2.2) O[ey-2][xo2+(esq?-1:1)]=cores.L; } }
+    else if(tier===3) O[ey][xo]=cores.L;
+    const yc=ey+Math.floor(EYE.length/2);
+    for(let ci=0;ci<ew;ci++) Fc[yc][x0+ci]=cores.L; Fc[yc][xo]=cores.L;
+    if(tier>0) Fc[yc-1][esq?x0+ew-1:x0]=cores.L;
+    if(tier===3){ Fc[yc-1][esq?x0+ew-2:x0+1]=cores.L; if(fem) Fc[yc+1][xo]=cores.L; }
+  });
+  return {G,O,F:Fc};
+}
+/* ---- acréscimos para o jogo: personagens raros que não estavam nos modelos ---- */
+Object.assign(ICONES, {
+  nuvem:{o:[20,21],p:{w:"#FFFFFF",W:"#C9D6EE",s:"#E6EEFA"},m:[
+    "...www...",".wwwwww..","wwwwwwwws","wwwwwwwsW","swwwwssWW",".sWWWWWW."]},
+  arca:{o:[19,21],p:{b:"#A0723C",B:"#6E4A24",y:"#E8C07A",k:"#5A3A22",r:"#B5462F",R:"#8E3222"},m:[
+    "...rrrr...","..rRRRRr..","..yyyyyy..","..ykyyky..","bbbbbbbbbb","bBbbBbbBbB",".bBBBBBBB.","..BBBBBB.."]},
+  estrelas:{o:[18,21],p:{y:"#F2BE2E",w:"#FFF3B0",o:"#F08A4B"},m:[
+    "..w......",".wyw...y.","..w...yyy",".......y.","....w....","...yyy...","..yywyy..","...yoy.w.","....y...."]},
+  candelabro:{o:[18,21],p:{y:"#F2BE2E",Y:"#C9952B",r:"#F08A4B",w:"#FFF3B0"},m:[
+    "r.r.r.r.r","w.w.w.w.w","y.y.y.y.y","y.y.y.y.y","y.yyyyy.y","yy..y..yy",".yyyyyyy.","....y....","...yYy...","..yYYYy.."]}
+});
+Object.assign(MANTOS, { messias: MANTOS.jesus, abraao:"#E8D9B5", zacarias:"#F2E6C8" });
+Object.assign(CINTOS, { enoque:"#F2BE2E" });
+
+return gerarSprite;
+})();
+
+/* ---------- Do modelo para o jogo: cada personagem vira duas imagens PNG (olhos abertos e piscando) ---------- */
+const _hdCache = {};
+const SPRITE_VERSAO = "m1";            // mude quando o desenho dos personagens mudar, para descartar as imagens guardadas no aparelho
 function spriteHD(p){
   if(_hdCache[p.id]) return _hdCache[p.id];
-  const raro = !!p.nivel, W = raro ? 92 : 52, H = raro ? 100 : 60;
-  const s = H / 60, ox = (W / s - 52) / 2;          // s: pixels por unidade do projeto; ox: folga lateral dos raros
-  const G = new Array(W * H).fill(null), Z = new Uint8Array(W * H);
-  let z = 1;                                        // peça que está sendo pintada (1 fundo, 2 corpo, 3 braços, 4 cabeça, 5 objeto)
-  const cx = 21.5;
-
-  /* pinta os pixels cujo centro (em unidades do projeto) satisfaz f */
-  const pinta = (x0, y0, x1, y1, f, cor) => {
-    const i0 = Math.max(0, Math.floor((x0 + ox) * s)), i1 = Math.min(W - 1, Math.ceil((x1 + ox) * s));
-    const j0 = Math.max(0, Math.floor(y0 * s)), j1 = Math.min(H - 1, Math.ceil(y1 * s));
-    for(let j = j0; j <= j1; j++) for(let i = i0; i <= i1; i++){
-      const x = (i + .5) / s - ox, y = (j + .5) / s;
-      if(!f(x, y)) continue;
-      const c = typeof cor === "function" ? cor(x, y) : cor;
-      if(c){ G[j * W + i] = c; Z[j * W + i] = z; }
+  const raro = !!p.nivel, W = raro ? 92 : 52, H = raro ? 100 : 60, k = raro ? 3 : 4;   // k: ampliação inteira, para o desenho continuar nítido em qualquer tamanho
+  const chave = KEY + ":boneco:" + SPRITE_VERSAO + ":" + p.id;
+  try{ const g = JSON.parse(localStorage.getItem(chave) || "null"); if(g && g.u && g.f) return (_hdCache[p.id] = { url: g.u, fechado: g.f, W, H }); }catch(e){}
+  const { G, O, F } = gerarSpriteModelo(p, W, H);
+  const pq = document.createElement("canvas"); pq.width = W; pq.height = H;
+  const xp = pq.getContext("2d"), cv = document.createElement("canvas"); cv.width = W * k; cv.height = H * k;
+  const x = cv.getContext("2d"); x.imageSmoothingEnabled = false;
+  const png = olhos => {
+    const im = xp.createImageData(W, H), d = im.data;
+    for(let r = 0; r < H; r++) for(let c = 0; c < W; c++){
+      const cor = olhos[r][c] || G[r][c]; if(!cor) continue;
+      const n = parseInt(cor.slice(1), 16), i = (r * W + c) * 4; d[i] = n >> 16; d[i + 1] = (n >> 8) & 255; d[i + 2] = n & 255; d[i + 3] = 255;
     }
+    xp.putImageData(im, 0, 0);
+    x.clearRect(0, 0, cv.width, cv.height); x.drawImage(pq, 0, 0, cv.width, cv.height);
+    return cv.toDataURL("image/png");
   };
-  /* altera só pixels já pintados (sombras, brilhos, dobras), sem mudar a peça */
-  const sobre = (x0, y0, x1, y1, f, fn, soZ) => {
-    const i0 = Math.max(0, Math.floor((x0 + ox) * s)), i1 = Math.min(W - 1, Math.ceil((x1 + ox) * s));
-    const j0 = Math.max(0, Math.floor(y0 * s)), j1 = Math.min(H - 1, Math.ceil(y1 * s));
-    for(let j = j0; j <= j1; j++) for(let i = i0; i <= i1; i++){
-      const k = j * W + i; if(!G[k] || (soZ && Z[k] !== soZ)) continue;
-      const x = (i + .5) / s - ox, y = (j + .5) / s;
-      if(f(x, y)) G[k] = fn(G[k], x, y);
-    }
-  };
-  const elipse = (ex, ey, rx, ry, cor, n) => pinta(ex - rx, ey - ry, ex + rx, ey + ry, (x, y) => Math.pow(Math.abs((x - ex) / rx), n || 2) + Math.pow(Math.abs((y - ey) / ry), n || 2) <= 1, cor);
-  const ret = (x0, y0, x1, y1, cor) => pinta(x0, y0, x1, y1, (x, y) => x >= x0 && x < x1 && y >= y0 && y < y1, cor);
-
-  const pele = p.pele, peleE = tomM(pele, -.15), peleC = tomM(pele, .3);
-  const veste = p.veste, vesteE = tomM(veste, -.22), vesteC = tomM(veste, .2);
-  const cab = p.cabelo, cabE = cab ? tomM(cab, -.25) : null, cabC = cab ? tomM(cab, .25) : null;
-  const cob = p.cob ? p.cob.t : null, cc = p.cob && p.cob.c, ccE = cc ? tomM(cc, -.22) : null, ccC = cc ? tomM(cc, .22) : null;
-  const OURO = "#F2BE2E", OUROE = "#C98A12";
-  const cabeca = (x, y, d) => Math.pow(Math.abs((x - cx) / (13.6 + (d || 0))), 2.6) + Math.pow(Math.abs((y - 17.6) / (12.3 + (d || 0))), 2.6) <= 1;
-  const dente = x => Math.abs((((x - cx) / 2.75) % 2 + 2) % 2 - 1);     // onda em "dente" para franjas (0 a 1)
-  const cabeloSolto = p.longo || (cab && !cob && !p.barba && p.id !== "daniel" && p.id !== "joel" && !p.curto);
-
-  /* ---------- 1. o que fica atrás: véu, capuz, cabelo comprido ---------- */
-  z = 1;
-  if(cob === "veu" || cob === "capuz"){
-    const fim = cob === "veu" ? 46.5 : 37;
-    pinta(4, 2, 39, fim + 1, (x, y) => cabeca(x, y, 2.3) || (y >= 17 && y <= fim && Math.abs(x - cx) <= 15.9 - Math.max(0, y - (fim - 2.6)) * .9),
-      (x, y) => y > 30 ? ccE : (x - cx > 11 ? ccE : cc));
-  }
-  if(cabeloSolto) pinta(5, 6, 38, 42, (x, y) => y <= 41.5 && (y > 17.6 ? Math.abs(x - cx) <= 15.1 - Math.max(0, y - 29) * .17 - Math.max(0, y - 39.2) * 1.2 : cabeca(x, y, 1.5)), (x, y) => y > 33.5 ? cabE : (x - cx > 11.5 ? cabE : cab));
-  if(p.rebelde) pinta(3, 10, 40, 35, (x, y) => y >= 11 && y <= 34 && Math.abs(x - cx) > 12 && Math.abs(x - cx) <= 15 + 1.3 * Math.sin(y * 1.25), (x, y) => x > cx ? cabE : cab);
-  if(cob === "coque"){ elipse(cx, 5.2, 6.3, 3.9, cab); elipse(cx - 2.2, 3.9, 2.4, 1, cabC); }
-
-  /* ---------- 2. pernas, pés e corpo ---------- */
-  z = 2;
-  ret(cx - 5.7, 50, cx - 1.5, 56.2, pele); ret(cx + 1.5, 50, cx + 5.7, 56.2, peleE);
-  pinta(12, 55, 31, 59, (x, y) => y >= 55.4 && y < 58.4 && x >= cx - 7.6 + (y < 56.3 ? 1 : 0) && x < cx - .8, "#6B4A33");
-  pinta(12, 55, 31, 59, (x, y) => y >= 55.4 && y < 58.4 && x >= cx + .8 && x < cx + 7.6 - (y < 56.3 ? 1 : 0), "#5A3A22");
-  if(raro){ ret(cx - 6.4, 56.4, cx - 1.2, 57, "#8A6A4E"); ret(cx + 1.2, 56.4, cx + 6.4, 57, "#77563C"); }
-
-  const hw = y => 9.5 + (y - 29) * .2;                                   // meia largura da veste em cada altura
-  const noCorpo = (x, y) => y >= 29 && y <= 51.7 && Math.abs(x - cx) <= hw(y) - Math.max(0, y - 50.5) * 1.3;
-  const listra = y => p.listras[Math.floor((y - 29) / 4.6) % p.listras.length];
-  pinta(5, 28, 38, 53, noCorpo, (x, y) => {
-    const d = x - cx, sombra = d > hw(y) * .4, luz = d < -hw(y) + 2.4;
-    if(p.listras){ const b = listra(y); return sombra ? tomM(b, -.22) : (luz ? tomM(b, .12) : b); }
-    if(y >= 38.2 && y < 40.9) return sombra ? tomM(vesteC, -.15) : vesteC;                 // cinto
-    if(y >= 49.3) return raro ? (sombra ? OUROE : OURO) : (sombra ? tomM(veste, -.34) : vesteE);   // barrado
-    return sombra ? vesteE : (luz ? tomM(veste, .1) : veste);
-  });
-  if(raro && !p.listras){                                                // dobras do tecido (só nos raros)
-    sobre(5, 41, 38, 49.2, (x, y) => y > 41.6 && y < 49.2 && (Math.abs(x - (cx - 5.2 - (y - 41) * .12)) < .42 || Math.abs(x - (cx + 2.6 + (y - 41) * .08)) < .42), c => tomM(c, -.14), 2);
-    sobre(5, 30, 38, 38, (x, y) => y > 31.5 && y < 37.6 && Math.abs(x - (cx - 3.4)) < .4, c => tomM(c, -.1), 2);
-  }
-  if(p.gola){
-    pinta(10, 28, 33, 36, (x, y) => noCorpo(x, y) && ((y < 31.6 && Math.abs(x - cx) <= 6.6) || (y >= 31.6 && y < 34.2 && Math.abs(x - cx) <= 4.8 && Math.abs(x - cx) > 1.9 - (34.2 - y) * .25)), "#FFFFFF");
-  }
-  if(p.manto){                                                           // manto atravessado no peito
-    const eixo = y => cx - 7.4 + (y - 29) * .93, mE = tomM(p.manto, -.24), mC = tomM(p.manto, .16);
-    pinta(5, 28, 38, 53, (x, y) => noCorpo(x, y) && Math.abs(x - eixo(y)) < 2.9, (x, y) => { const d = x - eixo(y); return d > 1.5 ? mE : (d < -1.9 ? mC : p.manto); });
-  }
-
-  /* ---------- 3. braços e mãos ---------- */
-  z = 3;
-  const braco = (lado, cor, corMao) => {
-    const eixo = y => cx + lado * (11.7 + (y - 30) * .07);
-    pinta(3, 29, 40, 46, (x, y) => y >= 30.1 + Math.abs(x - eixo(y)) * .35 && y <= 44.4 && Math.abs(x - eixo(y)) <= 2.35, (x, y) => {
-      const b = typeof cor === "function" ? cor(y) : cor;
-      if(raro && y >= 42.6) return lado > 0 ? OUROE : OURO;                // punho dourado nos raros
-      return b; });
-    elipse(eixo(45.8), 45.9, 2.4, 2.3, corMao);
-  };
-  braco(-1, p.listras ? y => listra(y) : veste, pele);
-  braco(1, p.listras ? y => tomM(listra(y), -.22) : vesteE, peleE);
-
-  /* ---------- 4. cabeça, cabelo, rosto e barba ---------- */
-  z = 4;
-  pinta(6, 4, 37, 31, (x, y) => cabeca(x, y), (x, y) => (x - cx > 9.7 && y > 12.5) ? peleE : pele);
-  if(cob === "veu" || cob === "capuz"){
-    pinta(4, 2, 39, 30, (x, y) => cabeca(x, y, 1.7) && y < 28.6 && (y < 11.4 || Math.abs(x - cx) > 12.1),
-      (x, y) => x - cx > 9.8 ? ccE : (y > 5.2 && y < 6.9 && x - cx > -9.5 && x - cx < -2 ? ccC : cc));
-    if(cab) pinta(8, 11, 35, 17, (x, y) => cabeca(x, y) && Math.abs(x - cx) <= 12.1 && y >= 11.4 && y < 13.5 + 2.1 * dente(x), (x, y) => x - cx > 9.8 ? cabE : cab);
-  } else if(cab){
-    const linha = x => { const d = Math.abs(x - cx); return cob === "coque" ? 10.4 + d * .45 : (d > 10.7 ? 22.6 : 12.5 + 2.3 * dente(x)); };
-    pinta(5, 2, 38, 24, (x, y) => cabeca(x, y, 1.25) && y < linha(x), (x, y) => (x - cx > 10.4 && y > 9) ? cabE : cab);
-    pinta(8, 5, 22, 11, (x, y) => cabeca(x, y, .2) && y < linha(x) - 1 && ((y >= 6.5 && y < 8.1 && x - cx > -8.6 && x - cx < -2.4) || (y >= 8.1 && y < 9.5 && x - cx > -9.8 && x - cx < -7.4)), cabC);
-    if(cob === "coque") ret(cx - .55, 4.6, cx + .55, 10.3, cabE);
-    if(p.rebelde) [-9, -3.4, 2.2, 7.8].forEach(k => pinta(8, 0, 36, 7, (x, y) => y >= 1.2 && y < 6.4 && Math.abs(x - (cx + k + .8)) <= (y - 1.2) * .5, cab));
-    if(raro) sobre(8, 5, 36, 13, (x, y) => y > 6 && y < 11.5 && Math.abs(((x - cx + 40) % 4.4) - 2.2) < .32 && x - cx > -1, c => c === cab ? tomM(cab, -.1) : c, 4);
-  } else {
-    pinta(6, 13, 37, 24, (x, y) => cabeca(x, y, .8) && Math.abs(x - cx) > 11.7 && y > 14.6 && y < 23, (x, y) => x > cx ? "#5A3A22" : "#6B4A33");
-    elipse(cx - 5, 8.7, 3.3, 1.35, peleC);
-  }
-  if(cob === "faixa"){
-    pinta(5, 9, 38, 13, (x, y) => cabeca(x, y, 1.35) && y >= 9.6 && y < 12.5, (x, y) => x - cx > 9.8 ? ccE : (y < 10.3 ? ccC : cc));
-    ret(cx + 13.7, 11.4, cx + 16, 14.6, cc); ret(cx + 14.5, 14.6, cx + 16.6, 17.6, ccE);
-  }
-  /* olhos */
-  [-1, 1].forEach(l => {
-    const ex = cx + l * 6.5, ey = 20.7;
-    elipse(ex, ey, 2.3, 3.1, "#2A1A10", 2.3);
-    pinta(ex - 2, ey, ex + 2, ey + 3, (x, y) => y > ey + .5 && Math.pow((x - ex) / 1.55, 2) + Math.pow((y - ey) / 2.35, 2) <= 1, "#553622");
-    elipse(ex - .8, ey - 1.35, 1.05, 1.15, "#FFFFFF");
-    if(raro){ elipse(ex + .95, ey + 1.5, .5, .5, "#D8C6B4"); pinta(ex - 3, 15, ex + 3, 18, (x, y) => Math.abs(x - ex) <= 2.7 && y >= 16.1 + Math.pow((x - ex) / 2.7, 2) * .7 && y < 16.8 + Math.pow((x - ex) / 2.7, 2) * .7, tomM(pele, -.42)); }
-  });
-  if(raro) elipse(cx + .4, 24.1, .85, .55, peleE);
-  if(!p.barba){
-    pinta(8, 23, 35, 27, (x, y) => cabeca(x, y, -.6) && Math.pow((Math.abs(x - cx) - 10.1) / 2.3, 2) + Math.pow((y - 25.2) / 1.35, 2) <= 1, "#F2A7A7");
-    pinta(cx - 3, 26, cx + 3, 29, (x, y) => y >= 26.3 && Math.pow((x - cx) / 2.7, 2) + Math.pow((y - 26.3) / 1.95, 2) <= 1, (x, y) => y < 27.2 ? "#8A3A3A" : "#C0565B");
-  } else {
-    const bc = cab || "#5A3A22", bcE = tomM(bc, -.2), fim = p.barba === "longa" ? 41.4 : 33.4, larg = p.barba === "longa" ? 8.8 : 9.8;
-    pinta(6, 21, 37, fim + 1, (x, y) => {
-      const d = Math.abs(x - cx); if(y < 21.6 || y > fim) return false;
-      if(cabeca(x, y, .7) && (y >= 26.4 || d >= 10 || (y >= 24.2 && d <= 5.3))) return true;
-      return y >= 27 && d <= larg * Math.sqrt(Math.max(0, 1 - Math.pow((y - 27) / (fim - 27), 2)));
-    }, (x, y) => (x - cx > 8.6 || y > 35.6) ? bcE : bc);
-    ret(cx - 2.4, 26.4, cx + 2.4, 28.2, "#8A3A3A");
-    if(raro){
-      ret(cx - 1.4, 27.5, cx + 1.4, 28.2, "#B5565B");
-      sobre(8, 28.4, 35, fim, (x, y) => y > 28.6 && Math.abs(((x - cx + 40) % 3.6) - 1.8) < .3, c => (c === bc || c === bcE) ? tomM(c, -.12) : c, 4);
-    }
-  }
-
-  /* ---------- 5. objeto na mão ---------- */
-  z = 5;
-  const ic = ICONES[p.emb];
-  if(ic){
-    const hd = ICONES_HD[p.emb], base = hd || ic;
-    let m = base.m.map(l => [...l].map(ch => ch === "." ? null : (base.p[ch] || null)));
-    if(!hd) m = dobrarPixels(m);
-    if(raro) m = dobrarPixels(m);
-    const px0 = Math.round((cx + 13.2 + ox) * s), py0 = Math.round(32 * s) - (raro ? 2 : 0);
-    m.forEach((l, j) => l.forEach((c, i) => { const X = px0 + i, Y = py0 + j; if(c && X < W && Y < H){ G[Y * W + X] = c; Z[Y * W + X] = z; } }));
-    if(raro){                                                            // luz e sombra no objeto dos raros
-      for(let j = 0; j < m.length; j++) for(let i = 0; i < m[0].length; i++){
-        const c = m[j][i]; if(!c) continue; const X = px0 + i, Y = py0 + j; if(X >= W || Y >= H) continue;
-        const acima = j > 0 ? m[j - 1][i] : null, esq = i > 0 ? m[j][i - 1] : null, abaixo = j < m.length - 1 ? m[j + 1][i] : null, dir = i < m[0].length - 1 ? m[j][i + 1] : null;
-        if(!acima || !esq) G[Y * W + X] = tomM(c, .18); else if(!abaixo || !dir) G[Y * W + X] = tomM(c, -.2);
-      }
-    }
-  }
-
-  /* ---------- sombra de contato entre as peças e contorno ---------- */
-  const marca = [];
-  for(let j = 0; j < H; j++) for(let i = 0; i < W; i++){
-    const k = j * W + i, a = Z[k]; if(!a) continue;
-    if((i + 1 < W && Z[k + 1] > a) || (i > 0 && Z[k - 1] > a) || (j + 1 < H && Z[k + W] > a) || (j > 0 && Z[k - W] > a)) marca.push(k);
-  }
-  marca.forEach(k => { G[k] = tomM(G[k], -.4); });
-  const OUT = "#22183A";
-  for(let t = 0; t < (raro ? 2 : 1); t++){
-    const borda = [];
-    for(let j = 0; j < H; j++) for(let i = 0; i < W; i++){
-      const k = j * W + i; if(G[k]) continue;
-      if((i + 1 < W && G[k + 1]) || (i > 0 && G[k - 1]) || (j + 1 < H && G[k + W]) || (j > 0 && G[k - W])) borda.push(k);
-    }
-    borda.forEach(k => { G[k] = OUT; });
-  }
-
-  /* ---------- vira imagem ---------- */
-  const k = raro ? 3 : 4, cv = document.createElement("canvas"); cv.width = W * k; cv.height = H * k;
-  const x2 = cv.getContext("2d");
-  x2.fillStyle = "rgba(20,18,60,.28)";                                   // sombra no chão
-  for(let j = 0; j < H; j++) for(let i = 0; i < W; i++){ const x = (i + .5) / s - ox, y = (j + .5) / s; if(Math.pow((x - (cx + .6)) / 14.5, 2) + Math.pow((y - 58.1) / 1.75, 2) <= 1) x2.fillRect(i * k, j * k, k, k); }
-  for(let j = 0; j < H; j++){
-    let i = 0;
-    while(i < W){
-      const c = G[j * W + i]; if(!c){ i++; continue; }
-      let e = i; while(e + 1 < W && G[j * W + e + 1] === c) e++;
-      x2.fillStyle = c; x2.fillRect(i * k, j * k, (e - i + 1) * k, k);
-      i = e + 1;
-    }
-  }
-  return (_hdCache[p.id] = { url: cv.toDataURL("image/png"), W, H });
+  const sp = { url: png(O), fechado: png(F), W, H };
+  try{ localStorage.setItem(chave, JSON.stringify({ u: sp.url, f: sp.fechado })); }catch(e){}   // aparelho sem espaço: só não guarda
+  return (_hdCache[p.id] = sp);
 }
 
 </script>
