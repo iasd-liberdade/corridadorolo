@@ -1278,6 +1278,53 @@ input[type=text],input[type=email],input[type=password],input[type=number],input
 @keyframes avsobe{0%,30%,100%{transform:none}8%{transform:translateY(-3.4px)}14%{transform:translateY(-2.6px)}20%{transform:translateY(-3.4px)}}
 @keyframes avbrilha{0%,24%,100%{transform:scale(1)}6%{transform:scale(1.4)}12%{transform:scale(1.05)}18%{transform:scale(1.32)}}
 @media (prefers-reduced-motion:reduce){.avatar .av-corpo,.avatar .av-emb{animation:none}}
+/* janela da missão: cartão de jogo (paisagem da etapa, moeda da casa, progresso, recompensa) */
+.modal.mj-janela{padding-top:12px}
+.mj{text-align:center}
+.mj-cena{position:relative;height:124px;margin:0 -4px 44px;border-radius:18px;box-shadow:inset 0 0 0 2px rgba(255,255,255,.35),0 8px 20px rgba(10,9,40,.3)}
+.mj-cena-svg{position:absolute;inset:0;width:100%;height:100%;border-radius:18px;display:block}
+.mj-zona{position:absolute;left:10px;top:9px;background:rgba(20,18,60,.62);color:#fff;border-radius:99px;padding:3px 10px;font:800 11px/1.3 "Barlow",sans-serif;letter-spacing:.3px}
+.mj-raios{position:absolute;left:50%;bottom:-44px;width:200px;height:200px;margin-left:-100px;border-radius:50%;background:repeating-conic-gradient(rgba(255,255,255,.34) 0 12deg,transparent 12deg 30deg);-webkit-mask:radial-gradient(closest-side,#000 30%,transparent 100%);mask:radial-gradient(closest-side,#000 30%,transparent 100%);animation:mjgira 14s linear infinite}
+.mj.fechada .mj-raios{display:none}
+.mj-moeda{position:absolute;left:50%;bottom:-38px;width:88px;height:88px;margin-left:-44px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 32% 26%,#FFF3B8,#F2BE2E 58%,#C98A12);color:#3A2A00;box-shadow:0 6px 0 #9A6A0C,0 12px 22px rgba(10,9,40,.4),inset 0 0 0 5px rgba(255,255,255,.5);animation:cqpop .45s cubic-bezier(.2,1.5,.4,1) both}
+.mj-moeda b{font-family:"Bebas Neue","Arial Narrow",sans-serif;font-weight:400;font-size:46px;line-height:1;letter-spacing:.5px}
+.mj-moeda i{position:absolute;right:-6px;bottom:-4px;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:15px;font-weight:900;background:var(--d);color:#fff;box-shadow:0 0 0 3px rgba(255,255,255,.85)}
+.mj.atual .mj-moeda{background:radial-gradient(circle at 32% 26%,#FFFFFF,#C8F5FF 55%,#55CDEA);color:#123A63;box-shadow:0 6px 0 #2A8DB0,0 0 0 6px rgba(255,255,255,.45),0 12px 22px rgba(10,9,40,.4);animation:cqpop .45s cubic-bezier(.2,1.5,.4,1) both,mjpulsa 1.8s ease-in-out .5s infinite}
+.mj.fechada .mj-moeda{background:radial-gradient(circle at 32% 26%,#F2EEF8,#B9B2D6 60%,#8E86B4);color:#3A3460;box-shadow:0 6px 0 #6A6392,0 12px 22px rgba(10,9,40,.4),inset 0 0 0 5px rgba(255,255,255,.4)}
+.mj.fechada .mj-moeda i{background:#4A4480;font-size:13px}
+.mj-selo{display:inline-block;font:800 10.5px/1.2 "Barlow",sans-serif;letter-spacing:1px;text-transform:uppercase;padding:4px 11px;border-radius:99px;background:rgba(255,255,255,.16);color:#fff}
+.mj.feita .mj-selo{background:var(--d)}
+.mj.atual .mj-selo{background:var(--accent);color:#14123C}
+.mj h3{font:800 23px/1.15 "Barlow",sans-serif;letter-spacing:0;text-transform:none;margin:8px 0 3px}
+.mj-desc{margin:0;font-size:14.5px;color:var(--muted);font-weight:600}
+.mj-barra{position:relative;height:24px;margin:12px 0 0;border-radius:99px;background:rgba(0,0,0,.28);box-shadow:inset 0 2px 4px rgba(0,0,0,.3),0 0 0 2px rgba(255,255,255,.14);overflow:hidden}
+.mj-barra i{display:block;height:100%;border-radius:99px;background:repeating-linear-gradient(-45deg,rgba(255,255,255,.22) 0 8px,transparent 8px 16px),linear-gradient(90deg,var(--accent),var(--ok));transition:width .6s}
+.mj-barra span{position:absolute;inset:0;display:grid;place-items:center;font:800 12.5px "Barlow",sans-serif;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.55)}
+.mj-nota{margin:7px 0 0;font-size:12.5px;color:var(--soft);font-weight:600}
+.mj-rot{display:flex;align-items:center;gap:10px;margin:16px 0 8px;font:800 11.5px/1.2 "Barlow",sans-serif;letter-spacing:.9px;text-transform:uppercase;color:#FFE27A}
+.mj-rot::before,.mj-rot::after{content:"";flex:1;height:1px;background:rgba(255,226,122,.4)}
+.mj-premios{display:grid;gap:8px;text-align:left}
+.mj-premio{position:relative;display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:16px;background:linear-gradient(180deg,rgba(242,190,46,.26),rgba(242,190,46,.1));border:1.5px solid rgba(242,190,46,.6);overflow:hidden}
+.mj-premio::after{content:"";position:absolute;top:0;bottom:0;left:-60%;width:40%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.3),transparent);animation:mjbrilho 3.2s ease-in-out infinite}
+.mj-premio.passo{background:rgba(255,255,255,.08);border-color:var(--panel-line)}
+.mj-premio.passo::after{display:none}
+.mj-ficha{position:relative;flex:none;width:58px;height:58px;border-radius:18px;display:grid;place-items:center;background:radial-gradient(circle at 30% 25%,#FFFFFF,#DDF4FF 60%,#9ED8F0);box-shadow:0 4px 0 #5FA8C9,0 8px 14px rgba(10,9,40,.3)}
+.mj-ficha span{font-size:30px;line-height:1}
+.mj-ficha b{position:absolute;right:-7px;bottom:-7px;min-width:26px;height:26px;padding:0 6px;border-radius:99px;display:grid;place-items:center;background:var(--a);color:#fff;font:800 13px "Barlow",sans-serif;box-shadow:0 0 0 2.5px #fff}
+.mj-premio.passo .mj-ficha{background:rgba(255,255,255,.16);box-shadow:none}
+.mj-palco{position:relative;flex:none;width:84px;height:104px;border-radius:18px;display:grid;place-items:end center;background:radial-gradient(circle at 50% 38%,rgba(255,243,184,.75),rgba(242,190,46,.2) 62%,transparent 78%)}
+.mj-palco .avatar{width:68px;height:88px;margin-bottom:4px}
+.mj-premio .hm-nivel{width:58px;height:58px}
+.mj-ptx{flex:1;min-width:0}
+.mj-ptx small{display:block;font:800 10.5px/1.2 "Barlow",sans-serif;letter-spacing:.8px;text-transform:uppercase;color:#FFE27A}
+.mj-premio.passo .mj-ptx small{color:var(--soft)}
+.mj-ptx strong{display:block;font:800 17px/1.2 "Barlow",sans-serif;margin-top:2px}
+.mj-ptx span{display:block;font-size:12.5px;line-height:1.35;color:var(--muted);margin-top:2px}
+.mj-premio.pers .mj-ptx span{font-style:italic}
+@keyframes mjgira{to{transform:rotate(360deg)}}
+@keyframes mjpulsa{0%,100%{box-shadow:0 6px 0 #2A8DB0,0 0 0 6px rgba(255,255,255,.45),0 12px 22px rgba(10,9,40,.4)}50%{box-shadow:0 6px 0 #2A8DB0,0 0 0 14px rgba(255,255,255,.1),0 12px 22px rgba(10,9,40,.4)}}
+@keyframes mjbrilho{0%,55%{left:-60%}100%{left:130%}}
+@media (prefers-reduced-motion:reduce){.mj-raios,.mj-moeda,.mj.atual .mj-moeda,.mj-premio::after{animation:none}}
 /* login */
 .logo-login{padding:18px 0 6px}
 .logo-login p{font-size:14px;margin-top:10px}
@@ -4848,17 +4895,50 @@ function conferirMissoesNovas(){
    TELA: MISSÕES (trilha)
    ============================================================ */
 /* A tela da trilha (mapa da jornada bíblica) fica em parte7b_trilha.js */
+/* Janela de uma missão: um cartão de jogo, com a paisagem da etapa do mapa, a moeda da casa, o progresso e a recompensa
+   (o ícone da ajuda, o personagem raro que ela libera, o nível novo) */
 function modalMissao(i){
   const m = MISSOES[i]; if(!m) return;
   const st = estatisticas(), feitas = missoesFeitas(st), feita = i < feitas, atual = i === feitas, pg = progressoMissao(m, st);
+  const estado = feita ? "feita" : atual ? "atual" : "fechada";
+  const nvDaCasa = Math.floor((m.n - 1) / 5) + 1, z = zonaDoNivel(nvDaCasa), sobeNivel = m.n % 5 === 0, nvNovo = m.n / 5 + 1;
+  /* paisagem: o céu e o chão da etapa, com dois enfeites dela (os mesmos desenhos do mapa) */
+  const tipos = (z.decos || []).map(d => d[0]).filter((t, k, a) => DECO[t] && a.indexOf(t) === k), enfeite = (t, x, alt) => { const D = DECO[t]; if(!D) return ""; const e = Math.min(alt / D.h, 62 / D.w); return `<g transform="translate(${x} 104) scale(${e.toFixed(3)})">${D.d()}</g>`; };
+  const cena = `<svg class="mj-cena-svg" viewBox="0 0 340 112" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><defs><linearGradient id="mjceu${i}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${z.c[0]}"/><stop offset="1" stop-color="${z.c[1]}"/></linearGradient></defs>
+      <rect width="340" height="112" fill="url(#mjceu${i})"/><path d="M-10 112 V92 Q80 74 170 90 T350 86 V112Z" fill="rgba(0,0,0,.12)"/>${enfeite(tipos[0], 52, 78)}${enfeite(tipos[1] || tipos[0], 290, 66)}</svg>`;
+  /* recompensas da casa */
+  let premios = "";
+  if(m.premio && m.premio.tipo === "profeta"){
+    const p = acharProfeta(m.premio.id);
+    if(p) premios += `<div class="mj-premio pers"><div class="mj-palco">${avatarSVG(p.id)}</div><div class="mj-ptx"><small>${p.lendario ? "Personagem lendário" : "Personagem raro"}${feita ? " · liberado" : ""}</small><strong>${esc(p.nome)}</strong><span>“${esc(p.fala)}”</span></div></div>`;
+  } else if(m.premio){
+    const a = AJUDAS[m.premio.tipo];
+    premios += `<div class="mj-premio ajuda"><div class="mj-ficha"><span aria-hidden="true">${a.ic}</span><b>×${m.premio.q}</b></div><div class="mj-ptx"><small>Ajuda para o quiz${feita ? " · recebida" : ""}</small><strong>${m.premio.q}× ${esc(a.nome)}</strong><span>${esc(a.d)}</span></div></div>`;
+  }
+  if(sobeNivel){
+    const zn = nvNovo > ZONAS.length ? ZONA_FINAL : zonaDoNivel(nvNovo);
+    premios += `<div class="mj-premio nivel"><div class="hm-nivel"><b>${nvNovo}</b><small>nível</small></div><div class="mj-ptx"><small>${feita ? "Nível alcançado" : "Sobe de nível"}</small><strong>Nível ${nvNovo} · ${esc(nomeNivel(nvNovo))}</strong><span>Nova etapa do mapa: ${esc(zn.nome)}</span></div></div>`;
+  }
+  const semPremio = !premios;
+  if(semPremio){ const falta = 5 - (m.n % 5);
+    premios = `<div class="mj-premio passo"><div class="mj-ficha"><span aria-hidden="true">👣</span></div><div class="mj-ptx"><small>Sem prêmio nesta casa</small><strong>Um passo na jornada</strong><span>${feita ? "Casa concluída: você seguiu em frente." : (falta === 1 ? "Depois dela falta 1 casa" : "Depois dela faltam " + falta + " casas") + " para o nível " + (nvDaCasa + 1) + "."}</span></div></div>`; }
+  /* botão: na missão atual leva direto para onde ela se cumpre */
+  const destino = m.meta[0] === "mural" ? ["Abrir o mural", () => telaMural()] : m.meta[0] === "quizSala" ? ["Ver as salas", () => nav("salas")] : ["Ir para o quiz", () => nav("quiz")];
   tocar("toque");
-  modal(`Missão ${m.n}`, `<div class="cq-modal ${feita ? "on" : "off"}">
-      <div class="ms-num grande ${feita ? "feita" : ""}">${m.n}</div><h3>${esc(m.t)}</h3><p>${esc(m.d)}</p>
-      <div class="barra-ms" style="margin:10px 0 4px"><i style="width:${feita ? 100 : pg.pct}%"></i></div>
-      <p class="muted small">${feita ? "Missão cumprida!" : fmt(pg.v) + " de " + fmt(pg.alvo) + (atual ? "" : " · libera depois da missão " + (feitas + 1))}</p>
-      ${m.premio ? `<p class="ms-premio"><b>Prêmio:</b> ${esc(textoPremio(m.premio))}${m.premio.tipo !== "profeta" ? `<br><span class="muted small">${esc(AJUDAS[m.premio.tipo].d)}</span>` : ""}</p>` : ""}
-      ${m.n % 5 === 0 ? `<p class="ms-premio"><b>Nível ${m.n / 5 + 1}: ${esc(nomeNivel(m.n / 5 + 1))}</b></p>` : ""}
-    </div>`);
+  modal(`Missão ${m.n}`, `<div class="mj ${estado}">
+      <div class="mj-cena">${cena}<span class="mj-zona">📍 ${esc(z.nome)}</span><div class="mj-raios" aria-hidden="true"></div>
+        <div class="mj-moeda"><b>${m.n}</b>${feita ? `<i aria-hidden="true">✓</i>` : atual ? "" : `<i aria-hidden="true">🔒</i>`}</div></div>
+      <span class="mj-selo">${feita ? "Missão cumprida" : atual ? "Missão atual" : "Bloqueada"}</span>
+      <h3>${esc(m.t)}</h3><p class="mj-desc">${esc(m.d)}</p>
+      <div class="mj-barra" role="img" aria-label="${feita ? "Completa" : fmt(pg.v) + " de " + fmt(pg.alvo)}"><i style="width:${feita ? 100 : pg.pct}%"></i><span>${feita ? "Completa!" : fmt(pg.v) + " / " + fmt(pg.alvo)}</span></div>
+      ${estado === "fechada" ? `<p class="mj-nota">Libera depois da missão ${feitas + 1}.</p>` : ""}
+      <div class="mj-rot"><span>${semPremio ? "Nesta casa" : feita ? "Recompensa recebida" : "Recompensa"}</span></div>
+      <div class="mj-premios">${premios}</div>
+      <div class="btn-row uma"><button type="button" class="btn ${atual ? "btn-main" : "btn-ghost"}" id="mjIr">${atual ? destino[0] : "Voltar para a trilha"}</button></div>
+    </div>`, (el, fechar) => {
+      el.classList.add("mj-janela");
+      el.querySelector("#mjIr").onclick = () => { fechar(); if(atual) destino[1](); };
+    });
 }
 /* Cartão das missões no Início */
 function cartaoMissoesInicio(){
