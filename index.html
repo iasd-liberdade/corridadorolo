@@ -1265,6 +1265,19 @@ input[type=text],input[type=email],input[type=password],input[type=number],input
 .menu-conta button .nt-n{margin-left:auto}
 .menu-conta button .nt-n + .seta{margin-left:8px}
 @media (prefers-reduced-motion:reduce){.sino,.post.foco{animation:none}}
+/* trilha das missões: ocupa a tela toda (sem a margem do painel; no celular, de ponta a ponta) */
+.panel.trilha-wrap{padding:0}
+@media (max-width:899px){ .panel.trilha-wrap{margin-left:-18px;margin-right:-18px;border-radius:0} }
+/* personagens raros: a cada 5 segundos um pulinho e um gesto com o objeto que seguram */
+.avatar .av-corpo{animation:avpulo 5s ease-in-out infinite;animation-delay:var(--d,0s)}
+.avatar .av-emb{animation:avacena 5s ease-in-out infinite;animation-delay:var(--d,0s)}
+.avatar .av-emb.av-g-sobe{animation-name:avsobe}
+.avatar .av-emb.av-g-brilha{animation-name:avbrilha}
+@keyframes avpulo{0%,22%,100%{transform:translateY(0)}5%{transform:translateY(-1.1px)}10%{transform:translateY(0)}15%{transform:translateY(-.7px)}}
+@keyframes avacena{0%,24%,100%{transform:none}4%{transform:translateY(-1.2px) rotate(-18deg)}8%{transform:translateY(-1.2px) rotate(16deg)}12%{transform:translateY(-1.2px) rotate(-16deg)}16%{transform:translateY(-1.2px) rotate(14deg)}20%{transform:translateY(-.6px) rotate(-6deg)}}
+@keyframes avsobe{0%,30%,100%{transform:none}8%{transform:translateY(-3.4px)}14%{transform:translateY(-2.6px)}20%{transform:translateY(-3.4px)}}
+@keyframes avbrilha{0%,24%,100%{transform:scale(1)}6%{transform:scale(1.4)}12%{transform:scale(1.05)}18%{transform:scale(1.32)}}
+@media (prefers-reduced-motion:reduce){.avatar .av-corpo,.avatar .av-emb{animation:none}}
 /* login */
 .logo-login{padding:18px 0 6px}
 .logo-login p{font-size:14px;margin-top:10px}
@@ -4440,10 +4453,15 @@ Object.assign(ICONES, {
   arca:{p:{b:"#8A5A2B",y:"#E8C07A"},m:["..yy..",".yyyy.","..bb..","bbbbbb","bbbbbb",".bbbb."]},
   estrelas:{p:{y:"#F2BE2E"},m:["y...y.","......","..y...",".yyy..","..y...","y....y"]},
   candelabro:{p:{y:"#F2BE2E",r:"#F08A4B"},m:["r.r.r.","y.y.y.","y.y.y.",".yyy..","..y...",".yyy.."]},
-  coroa:{p:{y:"#F2BE2E",o:"#C98A12",r:"#E0483C",w:"#FFF3B8"},m:["......","y.yy.y","yyyyyy","ywrrwy","oyyyyo","......"]}
+  coroa:{p:{y:"#F2BE2E",o:"#C98A12",r:"#E0483C",w:"#FFF3B8"},m:["......","y.yy.y","yyyyyy","ywrrwy","oyyyyo","......"]},
+  flor:{p:{p:"#F48FB1",y:"#F2BE2E",g:"#3E9B4F"},m:[".p.p..","pyyyp.",".p.p..","..g...",".gg...","..g..."]},
+  tenda:{p:{w:"#F4ECDA",r:"#C9473B",b:"#5A3A22"},m:["..r...","..ww..",".wwww.",".wbbw.","wwbbww","......"]}
 });
 PROFETAS.push(
   { id:"enoque",   nome:"Enoque",   bg:"#8FE6FF", pele:"#C68A5E", cabelo:"#ECE7DC", barba:"longa", veste:"#F4F1EA", cob:null, emb:"nuvem", nivel:3, fala:"Andei com Deus dia após dia, e Ele me levou para morar com Ele.", ref:"Gênesis 5:24" },
+  { id:"eva",      nome:"Eva",      bg:"#7CCB6B", pele:"#C68A5E", cabelo:"#5A3A1E", barba:null, veste:"#4FA55A", cob:null, longo:true, emb:"flor", nivel:4, fala:"Deus me criou no jardim e, mesmo depois do meu erro, prometeu um Salvador.", ref:"Gênesis 3:15" },
+  { id:"ester",    nome:"Ester",    bg:"#B48CF0", pele:"#C68A5E", cabelo:"#2B1B12", barba:null, veste:"#6A3FB5", cob:{t:"faixa",c:"#F2BE2E"}, longo:true, emb:"coroa", nivel:6, fala:"Fui falar com o rei para salvar o meu povo, mesmo arriscando a vida.", ref:"Ester 4:14-16" },
+  { id:"sara",     nome:"Sara",     bg:"#2E2B6E", pele:"#D9A47A", cabelo:"#C9C9C9", barba:null, veste:"#B5462F", cob:{t:"veu",c:"#F4ECDA"}, emb:"tenda", nivel:8, fala:"Deus me deu motivo de riso: tive um filho na velhice, como Ele prometeu.", ref:"Gênesis 21:1-7" },
   { id:"noe",      nome:"Noé",      bg:"#1C9FD0", pele:"#B5774C", cabelo:"#A8A8A8", barba:"longa", veste:"#8A6A3E", cob:{t:"capuz",c:"#2E2B6E"}, emb:"arca", nivel:5, fala:"Construí a arca do jeito que Deus mandou, mesmo sem ver uma nuvem no céu.", ref:"Gênesis 6:22" },
   { id:"abraao",   nome:"Abraão",   bg:"#2E2B6E", pele:"#C68A5E", cabelo:"#C9C9C9", barba:"longa", veste:"#B5462F", cob:{t:"faixa",c:"#F2BE2E"}, emb:"estrelas", nivel:7, fala:"Deus me mostrou as estrelas e prometeu uma família que ninguém consegue contar.", ref:"Gênesis 15:5" },
   { id:"zacarias", nome:"Zacarias", bg:"#F08A4B", pele:"#9C6440", cabelo:"#2B1B12", barba:"curta", veste:"#5B4FC9", cob:{t:"faixa",c:"#8FE6FF"}, emb:"candelabro", nivel:9, fala:"Ouvi de Deus: não por força nem por violência, mas pelo meu Espírito.", ref:"Zacarias 4:6" },
@@ -4453,6 +4471,9 @@ PROFETAS.push(
 PROFETAS.sort((a,b)=> ((a.nivel || 0) - (b.nivel || 0)) || a.nome.localeCompare(b.nome, "pt-BR"));
 const PROFETA_PADRAO = PROFETAS.find(p => !p.nivel).id;   // boneco usado quando a pessoa ainda não escolheu (nunca um profeta raro)
 Object.assign(FALAS, {
+  eva:["Deus me criou no jardim e vinha conversar com a gente. Ele quer conversar com você hoje.", "Aprendi do jeito difícil: confie na palavra de Deus, não na voz que a contradiz.", "Mesmo depois do meu erro, Deus prometeu um Salvador. Ele não desiste de ninguém.", "No Éden tudo era perfeito, e vai ser de novo. Vale a pena esperar pela nova Terra!", "Deus fez roupas para nos cobrir. Ele cuida até de quem errou.", "A promessa do Salvador passou de geração em geração até chegar a você. Leia sobre ela hoje!"],
+  ester:["Quem sabe se não foi para um momento como este que você está onde está?", "Antes de falar com o rei, jejuei e pedi que orassem comigo. Comece o dia orando.", "Tive medo, mas fui mesmo assim. Coragem é confiar em Deus com medo e tudo.", "Deus cuidou do meu povo mesmo quando ninguém via a mão dEle. Ele cuida de você.", "Mordecai me lembrou de quem eu era. Ouça quem aponta você para Deus.", "De órfã a rainha: Deus tem planos que a gente nem imagina."],
+  sara:["Esperei muitos anos pela promessa. Deus não se atrasa: Ele cumpre na hora certa.", "Ri quando ouvi que teria um filho na velhice. Existe alguma coisa difícil demais para Deus?", "Saí da minha terra com Abraão sem saber o destino. Deus sabia o caminho.", "Deus mudou o meu nome e a minha história. Ele pode mudar a sua também.", "Isaque quer dizer riso. Deus transformou a minha espera em alegria.", "Recebi força pela fé, porque confiei que Deus é fiel ao que promete."],
   enoque:["Eu andava com Deus todos os dias. Caminhe com Ele hoje também!", "Um passo por dia: foi assim que a minha caminhada com Deus ficou longa.", "Anunciei que o Senhor vem com milhares de anjos. Ele vem mesmo!", "Andar com Deus é conversar com Ele no caminho. Já conversou hoje?", "Deus gosta de companhia. Separe um tempo só para vocês dois."],
   noe:["Obedeci mesmo quando ninguém entendia. Vale a pena confiar em Deus!", "Levei anos construindo a arca. Coisa grande se faz um dia de cada vez.", "Deus fechou a porta da arca e cuidou de nós. Ele cuida de você.", "Depois da chuva, Deus colocou o arco-íris no céu. A promessa dEle não falha.", "Preguei enquanto construía. Seu estudo de hoje também é um testemunho."],
   abraao:["Saí sem saber para onde ia, só porque Deus chamou. Confie no caminho!", "Olhei para as estrelas e cri na promessa. Deus cumpre o que diz.", "Fui chamado amigo de Deus. Ele quer ser seu amigo também.", "Montei altares por onde passei. Reserve hoje o seu momento com Deus.", "No monte, aprendi: o Senhor proverá. Ele provê para você também."],
@@ -4460,6 +4481,8 @@ Object.assign(FALAS, {
   zacarias:["Deus disse: voltem para mim, e eu voltarei para vocês. Hoje é um bom dia!", "Não por força nem por violência, mas pelo Espírito de Deus. Peça ajuda a Ele!", "Não despreze os pequenos começos. Seu estudo de hoje conta!", "Anunciei um Rei humilde, montado num jumentinho. Era Jesus!", "Deus me deu visões de esperança para animar o povo. Anime alguém hoje."]
 });
 
+/* Gesto de cada personagem raro com o objeto que segura: a nuvem, o pão e a coroa sobem; as estrelas e o candelabro brilham; os outros acenam */
+const GESTOS = { nuvem: "sobe", pao: "sobe", coroa: "sobe", estrelas: "brilha", candelabro: "brilha", arca: "acena", flor: "acena", tenda: "acena" };
 /* ---------- Boneco: selo do nível perto do pé e brilho dourado nos profetas conquistados ---------- */
 function avatarSVG(id, rotulo, nivel){
   const p = acharProfeta(id) || acharProfeta(PROFETA_PADRAO);
@@ -4471,7 +4494,13 @@ function avatarSVG(id, rotulo, nivel){
   /* o boneco vem dos modelos em pixel art (52×60 nos comuns, 92×100 nos raros), encaixado no mesmo espaço de antes; a segunda imagem é a piscada */
   const sp = spriteHD(p), larg = (30 * sp.W / sp.H).toFixed(2), x0 = (11 - 15 * sp.W / sp.H).toFixed(2);
   const atraso = (p.id.split("").reduce((t, ch) => t + ch.charCodeAt(0), 0) % 37) / 10;
-  const boneco = `<ellipse cx="11" cy="28.2" rx="6.75" ry="1.05" fill="rgba(20,18,60,.32)" shape-rendering="geometricPrecision"/><image class="av-olho" href="${sp.url}" x="${x0}" y="0" width="${larg}" height="30" preserveAspectRatio="none"/><image class="av-pisca" href="${sp.fechado}" x="${x0}" y="0" width="${larg}" height="30" preserveAspectRatio="none"/>`;
+  const img = (cls, href, extra) => `<image class="${cls}" href="${href}" x="${x0}" y="0" width="${larg}" height="30" preserveAspectRatio="none"${extra || ""}/>`;
+  /* raros: a cada 5 segundos o personagem dá um pulinho e faz um gesto com o objeto que segura (cada objeto tem o seu) */
+  const gesto = sp.emb ? (GESTOS[p.emb] || "acena") : "";
+  const ox = sp.emb ? (+x0 + sp.ex * larg).toFixed(2) : 0, oy = sp.emb ? ((gesto === "brilha" ? sp.ey : sp.eb) * 30).toFixed(2) : 0;
+  const boneco = `<ellipse cx="11" cy="28.2" rx="6.75" ry="1.05" fill="rgba(20,18,60,.32)" shape-rendering="geometricPrecision"/>` + (sp.emb
+    ? `<g class="av-corpo">${img("av-olho", sp.base)}${img("av-pisca", sp.baseFechado)}${img("av-emb av-g-" + gesto, sp.emb, ` style="transform-origin:${ox}px ${oy}px"`)}</g>`
+    : img("av-olho", sp.url) + img("av-pisca", sp.fechado));
   const selo = nv > 0 ? `<g class="av-nivel" shape-rendering="geometricPrecision"><circle cx="19.3" cy="26" r="3.7" fill="#F2BE2E" stroke="#3A2A00" stroke-width=".7"/><text x="19.3" y="27.8" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="5.2" fill="#3A2A00">${nv}</text></g>` : "";
   return `<svg viewBox="-1 -1 24 31" class="avatar${raro ? " raro" : ""}${lend ? " lendario" : ""}" role="img" aria-label="${lbl}${nv > 0 ? ", nível " + nv : ""}${lend ? ", personagem lendário" : raro ? ", personagem raro" : ""}" style="overflow:visible;--d:-${atraso}s">${aura}${brilho}${boneco}${selo}</svg>`;
 }
@@ -4530,8 +4559,8 @@ const MISSOES = [
   _ms("Em dia", "Faça um quiz no prazo.", "prazo", 1),
   _ms("Oito certas", "Acerte 8 perguntas.", "acertos", 8),
   _ms("Pontual", "Faça 2 quizzes no prazo.", "prazo", 2, { tipo: "meio", q: 2 }),
-  _ms("Veloz", "Faça 4.000 pontos ou mais em um quiz.", "quizPts", 4000),
-  _ms("Dobradinha", "Faça 2 quizzes.", "quizzes", 2, { tipo: "chance", q: 2 }),
+  _ms("Veloz", "Faça 4.000 pontos ou mais em um quiz.", "quizPts", 4000, { tipo: "chance", q: 2 }),
+  _ms("Dobradinha", "Faça 2 quizzes.", "quizzes", 2, { tipo: "profeta", id: "eva" }),
   /* Nível 4 */
   _ms("Oito mil", "Some 8.000 pontos.", "pontos", 8000),
   _ms("Outro gabarito", "Acerte todas as perguntas de mais um quiz.", "gabaritos", 1),
@@ -4542,8 +4571,8 @@ const MISSOES = [
   _ms("Mais dois", "Faça 2 quizzes.", "quizzes", 2),
   _ms("Mais oito mil", "Some 8.000 pontos.", "pontos", 8000),
   _ms("Gabarito outra vez", "Acerte todas as perguntas de um quiz.", "gabaritos", 1, { tipo: "meio", q: 2 }),
-  _ms("Relâmpago", "Faça 4.500 pontos ou mais em um quiz.", "quizPts", 4500),
-  _ms("Sempre em dia", "Faça 2 quizzes no prazo.", "prazo", 2, { tipo: "chance", q: 2 }),
+  _ms("Relâmpago", "Faça 4.500 pontos ou mais em um quiz.", "quizPts", 4500, { tipo: "chance", q: 2 }),
+  _ms("Sempre em dia", "Faça 2 quizzes no prazo.", "prazo", 2, { tipo: "profeta", id: "ester" }),
   /* Nível 6 */
   _ms("Dez certas", "Acerte 10 perguntas.", "acertos", 10),
   _ms("Quatro seguidos", "Faça o quiz no prazo 4 dias seguidos.", "seq", 4),
@@ -4554,8 +4583,8 @@ const MISSOES = [
   _ms("Raio", "Faça 4.200 pontos ou mais em um quiz.", "quizPts", 4200),
   _ms("Doze certas", "Acerte 12 perguntas.", "acertos", 12),
   _ms("Gabarito em dobro", "Gabarite 2 quizzes.", "gabaritos", 2, { tipo: "meio", q: 3 }),
-  _ms("Doze mil", "Some 12.000 pontos.", "pontos", 12000),
-  _ms("Passo firme", "Faça 2 quizzes.", "quizzes", 2, { tipo: "chance", q: 3 }),
+  _ms("Doze mil", "Some 12.000 pontos.", "pontos", 12000, { tipo: "chance", q: 3 }),
+  _ms("Passo firme", "Faça 2 quizzes.", "quizzes", 2, { tipo: "profeta", id: "sara" }),
   /* Nível 8 */
   _ms("Cinco seguidos", "Faça o quiz no prazo 5 dias seguidos.", "seq", 5),
   _ms("Mais dez certas", "Acerte 10 perguntas.", "acertos", 10),
@@ -5837,26 +5866,37 @@ Object.assign(ICONES, {
 });
 Object.assign(MANTOS, { messias: MANTOS.jesus, abraao:"#E8D9B5", zacarias:"#F2E6C8" });
 Object.assign(CINTOS, { enoque:"#F2BE2E" });
+/* as três raras: Eva (nível 4), Ester (nível 6) e Sara (nível 8) */
+Object.assign(ICONES, {
+  flor:{"o": [18, 21], "p": {"p": "#F48FB1", "P": "#E0608A", "y": "#F2BE2E", "g": "#3E9B4F"}, "m": ["..pp.pp..", ".pPPpPPp.", ".pPyyyPp.", "..pyyyp..", ".pPyyyPp.", ".pPPpPPp.", "..pp.pp..", "....g....", "...gg...."]},
+  coroa:{"o": [18, 21], "p": {"y": "#F2BE2E", "Y": "#C98A12", "r": "#E0483C", "w": "#FFF3B0"}, "m": ["y...y...y", "yw.yyy.wy", "yyyyyyyyy", "yryywyyry", "yyyyyyyyy", "YYYYYYYYY"]},
+  tenda:{"o": [18, 21], "p": {"w": "#F4ECDA", "s": "#D8CBA8", "r": "#C9473B", "b": "#5A3A22", "y": "#F2BE2E"}, "m": ["....y....", "....r....", "...wrw...", "..wwrww..", ".wwsrsww.", "wwssbssww", "wssbbbssw"]}
+});
+["eva","ester","sara"].forEach(id => FEMININAS.add(id));
+Object.assign(CINTOS, { ester:"#F2BE2E", eva:"#8A5A2B" });
+Object.assign(MANTOS, { ester:"#F2BE2E", sara:"#F4ECDA" });
 
 return gerarSprite;
 })();
 
 /* ---------- Do modelo para o jogo: cada personagem vira duas imagens PNG (olhos abertos e piscando) ---------- */
 const _hdCache = {};
-const SPRITE_VERSAO = "m1";            // mude quando o desenho dos personagens mudar, para descartar as imagens guardadas no aparelho
+const SPRITE_VERSAO = "m2";            // mude quando o desenho dos personagens mudar, para descartar as imagens guardadas no aparelho
+/* desenhos da versão anterior guardados no aparelho: saem, para não ocupar espaço à toa */
+try{ for(let i = localStorage.length - 1; i >= 0; i--){ const k = localStorage.key(i); if(k && k.indexOf(KEY + ":boneco:") === 0 && k.indexOf(KEY + ":boneco:" + SPRITE_VERSAO + ":") !== 0) localStorage.removeItem(k); } }catch(e){}
 function spriteHD(p){
   if(_hdCache[p.id]) return _hdCache[p.id];
   const raro = !!p.nivel, W = raro ? 92 : 52, H = raro ? 100 : 60, k = raro ? 3 : 4;   // k: ampliação inteira, para o desenho continuar nítido em qualquer tamanho
   const chave = KEY + ":boneco:" + SPRITE_VERSAO + ":" + p.id;
-  try{ const g = JSON.parse(localStorage.getItem(chave) || "null"); if(g && g.u && g.f) return (_hdCache[p.id] = { url: g.u, fechado: g.f, W, H }); }catch(e){}
+  try{ const g = JSON.parse(localStorage.getItem(chave) || "null"); if(g && g.u && g.f) return (_hdCache[p.id] = Object.assign({ url: g.u, fechado: g.f, W, H }, g.e ? { base: g.b, baseFechado: g.bf, emb: g.e, ex: g.ex, ey: g.ey, eb: g.eb } : {})); }catch(e){}
   const { G, O, F } = gerarSpriteModelo(p, W, H);
   const pq = document.createElement("canvas"); pq.width = W; pq.height = H;
   const xp = pq.getContext("2d"), cv = document.createElement("canvas"); cv.width = W * k; cv.height = H * k;
   const x = cv.getContext("2d"); x.imageSmoothingEnabled = false;
-  const png = olhos => {
-    const im = xp.createImageData(W, H), d = im.data;
+  const png = (olhos, corpo) => {
+    const im = xp.createImageData(W, H), d = im.data, grade = corpo || G;
     for(let r = 0; r < H; r++) for(let c = 0; c < W; c++){
-      const cor = olhos[r][c] || G[r][c]; if(!cor) continue;
+      const cor = (olhos && olhos[r][c]) || grade[r][c]; if(!cor) continue;
       const n = parseInt(cor.slice(1), 16), i = (r * W + c) * 4; d[i] = n >> 16; d[i + 1] = (n >> 8) & 255; d[i + 2] = n & 255; d[i + 3] = 255;
     }
     xp.putImageData(im, 0, 0);
@@ -5864,7 +5904,17 @@ function spriteHD(p){
     return cv.toDataURL("image/png");
   };
   const sp = { url: png(O), fechado: png(F), W, H };
-  try{ localStorage.setItem(chave, JSON.stringify({ u: sp.url, f: sp.fechado })); }catch(e){}   // aparelho sem espaço: só não guarda
+  /* Personagens raros fazem um gesto com o objeto que seguram. Para o objeto poder se mexer sozinho, o boneco é desenhado também
+     sem ele, e o objeto vira uma imagem à parte (tudo o que muda entre o desenho com e sem o objeto). */
+  if(raro && p.emb){
+    try{
+      const sem = gerarSpriteModelo(Object.assign({}, p, { emb: null }), W, H);
+      const so = []; let c0 = W, c1 = -1, r0 = H, r1 = -1;
+      for(let r = 0; r < H; r++){ so.push([]); for(let c = 0; c < W; c++){ const d = G[r][c] !== sem.G[r][c] ? G[r][c] : null; so[r].push(d); if(d){ if(c < c0) c0 = c; if(c > c1) c1 = c; if(r < r0) r0 = r; if(r > r1) r1 = r; } } }
+      if(c1 >= 0){ Object.assign(sp, { base: png(sem.O, sem.G), baseFechado: png(sem.F, sem.G), emb: png(null, so), ex: (c0 + c1 + 1) / 2 / W, ey: (r0 + r1 + 1) / 2 / H, eb: (r1 + 1) / H }); }
+    }catch(e){}
+  }
+  try{ localStorage.setItem(chave, JSON.stringify(Object.assign({ u: sp.url, f: sp.fechado }, sp.emb ? { b: sp.base, bf: sp.baseFechado, e: sp.emb, ex: sp.ex, ey: sp.ey, eb: sp.eb } : {}))); }catch(e){}   // aparelho sem espaço: só não guarda
   return (_hdCache[p.id] = sp);
 }
 
