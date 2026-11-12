@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="versao" content="20261112.152457">
+<meta name="versao" content="20261112.193004">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Corrida do Rolo · Quiz da Lição</title>
 <meta name="theme-color" content="#524F9C">
@@ -387,12 +387,13 @@ input[type=file]{width:100%;color:var(--muted);font-size:15px}
 .gs-membros{max-height:260px;overflow:auto}
 .check{display:flex;align-items:center;gap:10px;font-weight:700;cursor:pointer}
 .check input{width:22px;height:22px;flex:none;accent-color:var(--ok)}
-@media (min-width:900px) and (max-width:1320px){ #nav.bottomnav button{padding:9px 11px;font-size:14px;gap:6px} }
-/* Telas de notebook mais estreitas: menu encostado na marca e chip só com o profeta, para caber tudo */
+/* Notebook (7 itens no menu): o menu começa logo depois da marca, com botões mais justos, para não passar por cima dela nem do nome */
+@media (min-width:900px) and (max-width:1365px){ #nav.bottomnav{left:298px;transform:none;gap:2px} #nav.bottomnav button{padding:9px 8px;font-size:13.5px;gap:5px} }
+/* Telas de notebook mais estreitas: marca só com o desenho, menu encostado nela e chip só com o profeta, para caber tudo */
 @media (min-width:900px) and (max-width:1180px){
-  #nav.bottomnav{left:246px;transform:none;gap:1px}
-  .topbar .brand small{display:none}
-  #nav.bottomnav button{padding:8px 7px;font-size:13px;gap:4px}
+  #nav.bottomnav{left:92px;gap:1px}
+  .topbar .brand-tx{display:none}
+  #nav.bottomnav button{padding:8px 9px;font-size:13.5px;gap:4px}
   .topbar .chip span.n{display:none}
   .topbar .chip{padding:6px 8px}
 }
@@ -1339,6 +1340,79 @@ input[type=text],input[type=email],input[type=password],input[type=number],input
 .nova-versao[hidden]{display:none}
 .nova-versao button{border:0;border-radius:99px;padding:7px 14px;background:var(--deep);color:#fff;font:800 13px "Barlow",sans-serif}
 body.sem-menu .nova-versao{bottom:calc(20px + env(safe-area-inset-bottom,0px))}
+/* listas de salas: marcar onde publicar e escolher de qual sala ver o mural */
+.sl-lista{display:grid;gap:8px}
+.sl-item{display:flex;align-items:center;gap:10px;width:100%;margin:0;text-align:left;background:var(--panel);border:1.5px solid var(--panel-line);border-radius:14px;padding:10px 12px;color:#fff;cursor:pointer}
+.sl-item input{flex:none;width:22px;height:22px;accent-color:var(--ok)}
+.sl-item:has(input:checked){border-color:var(--accent);background:rgba(143,230,255,.16)}
+.sl-ic{flex:none;font-size:18px;line-height:1}
+.sl-tx{flex:1;min-width:0}
+.sl-tx b{display:block;font:800 14.5px/1.25 "Barlow",sans-serif;color:#fff}
+.sl-tx small{display:block;font-size:12px;font-weight:600;color:var(--soft);margin-top:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sl-item .badge{flex:none;margin:0}
+.sl-item .seta{flex:none;color:var(--soft)}
+/* botão Voltar das telas de dentro */
+.pg-voltar{display:inline-flex;align-items:center;gap:6px;margin:0 0 10px;background:rgba(255,255,255,.12);border:1px solid var(--panel-line);border-radius:99px;padding:7px 14px 7px 11px;color:#fff;font:800 13px/1 "Barlow",sans-serif;cursor:pointer}
+.pg-voltar span{font-size:17px;line-height:.8;margin-top:-2px}
+.pg-voltar:hover{background:rgba(255,255,255,.2)}
+.admin-area > .pg-voltar{grid-column:1/-1;justify-self:start}
+/* Minha conta: entrada da área do administrador */
+.menu-conta button.adm{background:rgba(242,190,46,.16)}
+.menu-conta button.adm .ic{filter:drop-shadow(0 0 6px rgba(242,190,46,.7))}
+/* Estudar: estante de livros */
+.livros{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:14px}
+.livro{display:flex;flex-direction:column;gap:8px;margin:0;padding:10px;text-align:left;background:var(--panel);border:1.5px solid var(--panel-line);border-radius:16px;color:#fff;cursor:pointer}
+.livro:hover{border-color:var(--accent)}
+.livro.atual{border-color:var(--accent);background:rgba(143,230,255,.14)}
+.capa{position:relative;display:block;width:100%;aspect-ratio:3/4;border-radius:6px 12px 12px 6px;overflow:hidden;background:#2b2a63;box-shadow:0 8px 18px rgba(0,0,0,.35),inset 7px 0 0 rgba(0,0,0,.22)}
+.capa img{width:100%;height:100%;object-fit:cover;display:block}
+.capa.gerada{display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:14% 10% 12% 14%;text-align:center}
+.capa.gerada.t1{background:linear-gradient(160deg,#2f7a63,#1d4d55)}
+.capa.gerada.t2{background:linear-gradient(160deg,#b0692a,#6c3a2a)}
+.capa.gerada.t3{background:linear-gradient(160deg,#7a4a9c,#3f2f77)}
+.capa.gerada.t4{background:linear-gradient(160deg,#2f6fae,#2b2a73)}
+.capa.gerada .logo-ic{width:58%;height:auto}
+.capa.gerada b{display:block;font:800 15px/1.15 "Barlow",sans-serif;letter-spacing:.3px;color:#fff}
+.capa.gerada i{display:block;font:800 30px/1 "Barlow",sans-serif;font-style:normal;color:#fff}
+.capa.gerada small{display:block;font:700 10px/1.2 "Barlow",sans-serif;letter-spacing:1.4px;text-transform:uppercase;color:rgba(255,255,255,.8)}
+.livro-tx b{display:block;font:800 14.5px/1.2 "Barlow",sans-serif}
+.livro-tx small{display:block;margin-top:2px;font-size:12px;font-weight:600;color:var(--soft)}
+.livro-tx .badge{margin:6px 0 0}
+.livro-topo{display:flex;align-items:center;gap:12px}
+.livro-topo .capa{width:64px;flex:none;border-radius:4px 8px 8px 4px;box-shadow:0 5px 12px rgba(0,0,0,.3),inset 4px 0 0 rgba(0,0,0,.22)}
+.livro-topo .capa.gerada{padding:8px 4px 6px 7px}
+.livro-topo .capa.gerada b{font-size:7px}.livro-topo .capa.gerada i{font-size:13px}.livro-topo .capa.gerada small{display:none}
+.livro-topo .pg-cab{padding:0;min-width:0}
+.livros.um{grid-template-columns:1fr}
+.livros.um .livro{flex-direction:row;align-items:center;gap:14px}
+.livros.um .capa{width:128px;flex:none}
+.livros.um .livro-tx b{font-size:17px}
+.menu-conta .mc-2{display:block;min-width:0}
+.menu-conta .mc-2 small{display:block;font-size:11.5px;font-weight:600;color:var(--soft);margin-top:1px}
+/* Estudar: lista de lições do livro */
+.lic-lista{display:grid;gap:8px;margin-top:12px}
+.lic{display:flex;align-items:center;gap:11px;width:100%;margin:0;padding:10px 12px;text-align:left;background:var(--panel);border:1.5px solid var(--panel-line);border-radius:14px;color:#fff;cursor:pointer}
+.lic:hover{border-color:var(--accent)}
+.lic.atual{scroll-margin:84px 0 104px;border-color:var(--accent);background:rgba(143,230,255,.16);box-shadow:0 0 0 3px rgba(143,230,255,.14)}
+.lic-n{flex:none;width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:rgba(255,255,255,.16);font:800 16px/1 "Barlow",sans-serif}
+.lic.atual .lic-n{background:var(--accent);color:#1d1b54}
+.lic.cheia .lic-n{background:var(--ok);color:#0d3b2a}
+.lic-tx{flex:1;min-width:0}
+.lic-tx b{display:block;font:800 14.5px/1.25 "Barlow",sans-serif}
+.lic-tx small{display:block;margin-top:1px;font-size:12px;font-weight:600;color:var(--soft)}
+.lic-tx .badge{margin:0 0 3px}
+.lic-feito{flex:none;text-align:right}
+.lic-feito b{display:block;font:800 13px/1 "Barlow",sans-serif;white-space:nowrap}
+.lic-feito span{display:flex;gap:3px;justify-content:flex-end;margin-top:5px}
+.lic-feito span i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.22)}
+.lic-feito span i.on{background:var(--ok)}
+.lic .seta{flex:none;color:var(--soft)}
+/* Admin: capas dos livros */
+.adm-livro{display:grid;grid-template-columns:96px 1fr;gap:14px;align-items:start;padding:12px 0;border-top:1px solid var(--panel-line)}
+.adm-livro:first-of-type{border-top:0}
+.adm-livro .capa{width:96px}
+.adm-livro .capa.gerada{padding:12px 6px 10px 10px}
+.adm-livro .capa.gerada b{font-size:10px}.adm-livro .capa.gerada i{font-size:19px}.adm-livro .capa.gerada small{font-size:7px;letter-spacing:.6px}
 /* login */
 .logo-login{padding:18px 0 6px}
 .logo-login p{font-size:14px;margin-top:10px}
@@ -1361,14 +1435,14 @@ body.sem-menu .nova-versao{bottom:calc(20px + env(safe-area-inset-bottom,0px))}
   <button class="chip" id="chipConta" type="button"><span class="em" id="chipEm"></span><span class="n" id="chipNome"></span></button></div>
 </header>
 <div class="wrap" id="app" aria-live="polite"></div>
-<nav class="bottomnav" id="nav" hidden aria-label="Menu principal">
+<nav class="bottomnav n7" id="nav" hidden aria-label="Menu principal">
   <button type="button" data-tab="inicio"><span class="ic">🏠</span>Início</button>
+  <button type="button" data-tab="mural"><span class="ic">📌</span>Mural</button>
   <button type="button" data-tab="estudar"><span class="ic">📖</span>Estudar</button>
   <button type="button" data-tab="quiz"><span class="ic">🎯</span>Quiz</button>
   <button type="button" data-tab="ranking"><span class="ic">🏃‍♂️</span>Corrida</button>
   <button type="button" data-tab="missoes"><span class="ic">🗺️</span>Missões</button>
   <button type="button" data-tab="salas"><span class="ic">👥<b class="nav-n" id="navSalasN" hidden></b></span>Salas</button>
-  <button type="button" data-tab="admin" class="admin" id="navAdmin" hidden><span class="ic">🛠️</span>Admin</button>
 </nav>
 <div class="toast" id="toast" role="status"></div>
 <div class="nova-versao" id="novaVersao" role="status" hidden><span>Tem versão nova do jogo.</span><button type="button" id="nvBtn">Atualizar</button></div>
@@ -2016,7 +2090,7 @@ function atualizarCasca(){
   const logado = !!(usuario && perfil && (perfil.aprovado || perfil.admin || ehMaster()));
   $("topbar").hidden = !logado; $("nav").hidden = !logado;
   document.body.classList.toggle("sem-menu", !logado);
-  if(logado){ $("chipEm").innerHTML = perfil.profeta ? meuAvatar() : ""; $("chipNome").textContent = perfil.nome || ""; $("navAdmin").hidden = !(ehMaster() || souAdminDeSala()); $("nav").classList.toggle("n7", !$("navAdmin").hidden); $("chipConta").classList.toggle("atual", tabAtual === "conta"); const np = $("navSalasN"); if(np){ const n = typeof SALAS_PENDENTES === "number" ? SALAS_PENDENTES : 0; np.hidden = !n; np.textContent = n > 9 ? "9+" : String(n); } }
+  if(logado){ $("chipEm").innerHTML = perfil.profeta ? meuAvatar() : ""; $("chipNome").textContent = perfil.nome || ""; $("chipConta").classList.toggle("atual", tabAtual === "conta" || tabAtual === "admin"); const np = $("navSalasN"); if(np){ const n = typeof SALAS_PENDENTES === "number" ? SALAS_PENDENTES : 0; np.hidden = !n; np.textContent = n > 9 ? "9+" : String(n); } }
   if(typeof atualizarSino === "function") atualizarSino();
   document.querySelectorAll("#nav button").forEach(b => { if(b.dataset.tab === tabAtual) b.setAttribute("aria-current","page"); else b.removeAttribute("aria-current"); });
 }
@@ -2029,17 +2103,35 @@ function atualizarCasca(){
    ============================================================ */
 const VERSAO = (document.querySelector('meta[name="versao"]') || {}).content || "";
 let versaoNova = "", versaoEm = 0;
-async function versaoPublicada(){
-  const r = await fetch(location.pathname + "?nv=" + Date.now(), { cache: "no-store", headers: { Range: "bytes=0-1499" } });
+async function lerCarimbo(comRange){
+  const r = await fetch(location.pathname + "?nv=" + Date.now(), comRange ? { cache: "no-store", headers: { Range: "bytes=0-1499" } } : { cache: "no-store" });
   if(!r.ok) return "";
   let txt = "";
   if(r.body && r.body.getReader){
     const leitor = r.body.getReader(), dec = new TextDecoder();
     while(txt.length < 1500){ const { done, value } = await leitor.read(); if(done) break; txt += dec.decode(value, { stream: true }); }
-    try{ leitor.cancel(); }catch(e){}                       // servidor que ignora o pedido de "só o começo": para de baixar aqui
+    try{ leitor.cancel(); }catch(e){}                       // já leu o começo: para de baixar aqui
   } else txt = (await r.text()).slice(0, 1500);
   const m = txt.match(/<meta name="versao" content="([0-9.]+)"/);
   return m ? m[1] : "";
+}
+/* Pede só o começo do arquivo; se o navegador ou o servidor não aceitar o pedido parcial, tenta de novo do jeito comum (e para de baixar assim que lê o carimbo) */
+async function versaoPublicada(){
+  let v = ""; try{ v = await lerCarimbo(true); }catch(e){}
+  if(!v) v = await lerCarimbo(false);
+  return v;
+}
+/* Carimbo AAAAMMDD.HHMMSS (UTC) → data e hora daqui, para conferir em Minha conta qual versão está aberta */
+function versaoLegivel(v){
+  const m = /^(\d{4})(\d{2})(\d{2})\.(\d{2})(\d{2})/.exec(v || ""); if(!m) return v || "";
+  const d = new Date(Date.UTC(+m[1], +m[2] - 1, +m[3], +m[4], +m[5])), z = n => String(n).padStart(2, "0");
+  return `${z(d.getDate())}/${z(d.getMonth() + 1)}/${d.getFullYear()} ${z(d.getHours())}:${z(d.getMinutes())}`;
+}
+/* Minha conta → Atualizar o jogo: recarrega buscando o arquivo de novo no servidor, sem depender da conferência automática */
+function recarregarJogo(){
+  aviso("Atualizando o jogo…");
+  const u = new URL(location.href); u.searchParams.set("v", String(Date.now()));
+  setTimeout(() => location.replace(u.toString()), 400);
 }
 /* no meio de uma pergunta, da contagem ou da selfie: nem aviso aparece, para não atrapalhar; a atualização fica para a próxima troca de tela */
 function jogandoAgora(){ return !!document.getElementById("tiles") || !!document.querySelector(".cd-in") || !!document.getElementById("prev"); }
@@ -2084,9 +2176,9 @@ function nav(tab){
   tabAtual = tab; atualizarCasca(); window.scrollTo(0,0);
   if(typeof carregarNotificacoes === "function") carregarNotificacoes();        // confere reações novas (no máximo a cada 90 s)
   setTimeout(() => conferirVersao(false), 400);                                 // e se subiu versão nova do jogo (no máximo a cada 2 min)
-  ({ inicio: telaInicio, estudar: telaEstudar, quiz: telaQuiz, ranking: telaRanking, missoes: () => telaMissoes(), salas: telaSalas, conta: telaConta, admin: telaAdmin }[tab] || telaInicio)();
+  ({ inicio: telaInicio, estudar: telaEstudar, quiz: telaQuiz, ranking: telaRanking, missoes: () => telaMissoes(), salas: telaSalas, mural: telaMuralSalas, conta: telaConta, admin: telaAdmin }[tab] || telaInicio)();
 }
-document.querySelectorAll("#nav button").forEach(b => b.onclick = ()=> nav(b.dataset.tab));
+document.querySelectorAll("#nav button").forEach(b => b.onclick = ()=>{ if(b.dataset.tab === "estudar") estudoVista = "livros"; nav(b.dataset.tab); });   // Estudar pelo menu abre sempre na estante de livros
 $("chipConta").onclick = ()=> nav("conta");
 $("sino").onclick = ()=> modalNotificacoes();
 $("brandIc").innerHTML = logoIcone();
@@ -2375,17 +2467,14 @@ function telaInicio(){
   const cq = conquistas(), ganhas = cq.filter(c => c.on).length;
   html += `<section class="panel hm-card">${cab(`Conquistas <em>${ganhas}/${cq.length}</em>`, ganhas ? link("cqShare", "Compartilhar") : "")}
     <div class="hm-cq">${cq.map((c, k) => `<button type="button" class="${c.on ? "on" : "off"}" data-cq="${k}" title="${esc(c.t)}: ${esc(c.d)}"><span>${c.ic}</span><small>${esc(c.t)}</small></button>`).join("")}</div></section>`;
-  /* mural */
-  html += `<button type="button" class="panel hm-card hm-linha" id="atMural"><span class="hm-linha-ic">📌</span><span class="hm-linha-tx"><b>Mural da sala</b><small>Veja e celebre o que a turma conquistou</small></span><span class="hm-seta" aria-hidden="true">›</span></button>`;
   html += `</div></div>`;
   app.innerHTML = html;
   const cqS = $("cqShare"); if(cqS) cqS.onclick = ()=> compartilharConquistas(cqS);
   setTimeout(conferirNovidades, 350);
   const tr = $("inTrilha"); if(tr) tr.onclick = ()=> nav("missoes");
   const dz = $("dzMais"); if(dz) dz.onclick = modalDesempenho;
-  $("atMural").onclick = ()=> telaMural();
   app.querySelectorAll("[data-cq]").forEach(b => b.onclick = ()=> modalConquista(+b.dataset.cq));
-  const est = $("inEstudar"); if(est) est.onclick = ()=>{ estudoLicao = L; estudoDia = hojeIdx >= 0 ? hojeIdx : -1; nav("estudar"); };
+  const est = $("inEstudar"); if(est) est.onclick = ()=>{ estudoLicao = L; estudoDia = hojeIdx >= 0 ? hojeIdx : -1; estudoVista = "dias"; nav("estudar"); };
   const jog = $("inJogar"); if(jog) jog.onclick = ()=>{ LICAO = L; tabAtual = "quiz"; atualizarCasca(); iniciar(hojeIdx); };
   const ver = $("inVer"); if(ver) ver.onclick = ()=>{ LICAO = L; tabAtual = "quiz"; atualizarCasca(); telaResultado(hojeIdx); };
   const ct = $("inContagem");
@@ -2425,6 +2514,8 @@ async function posicaoCorrida(L){
 function cabPagina(rotulo, meta, titulo, sub){
   return `<header class="pg-cab"><div class="pg-rot"><span>${rotulo}</span>${meta ? `<em>${meta}</em>` : ""}</div><h1>${titulo}</h1>${sub ? `<p>${sub}</p>` : ""}</header>`;
 }
+/* Botão Voltar das telas de dentro (o destino aparece no rótulo) */
+function botaoVoltar(id, destino){ return `<button type="button" class="pg-voltar" id="${id}"><span aria-hidden="true">‹</span>${destino ? "Voltar para " + destino : "Voltar"}</button>`; }
 function heroLicao(L){ return cabPagina(esc(L.numero), esc(L.datas), esc(L.titulo), esc(L.recap) + "."); }
 function seletorLicao(id, atual){
   const iAtual = indiceLicaoAtual();
@@ -2509,7 +2600,7 @@ function modalBloqueio(){
     if(ehMaster()){
       h += `<h3 class="h3" style="margin-top:14px">Controle do admin</h3>
         <div class="linha-sw"><div class="txt"><strong>Liberar para todos</strong><span>Qualquer pessoa pode fazer lições de semanas anteriores</span></div><button class="switch" role="switch" aria-checked="${!!CONFIG.liberarAnterior}" id="swGeral"></button></div>
-        <p class="note">Para liberar só para algumas pessoas, use Admin › Usuários.</p>`;
+        <p class="note">Para liberar só para algumas pessoas, use Área do administrador › Usuários.</p>`;
     }
     c.innerHTML = h;
     const sw = c.querySelector("#swGeral");
@@ -2792,10 +2883,48 @@ async function copiar(txt){
 /* ============================================================
    TELA: ESTUDAR
    ============================================================ */
-let estudoLicao = null, estudoDia = -1;
+/* Estudar em 3 passos: estante de livros (um por trimestre) → lições do livro → dias da lição */
+let estudoLicao = null, estudoDia = -1, estudoVista = "livros", estudoTri = "";
+/* Livro = o trimestre. O título e a capa são cadastrados pelo master em Admin → Livros (config/geral, campo "livros") */
+function livroDe(tri){ const l = (CONFIG.livros || {})[tri] || {}; return { titulo: l.titulo || "", capa: l.capa || "" }; }
+function tituloLivro(tri){ const m = /^(\d{4})-t(\d)$/.exec(tri || ""); return livroDe(tri).titulo || (m ? `Lição do ${m[2]}º trimestre` : "Lição"); }
+function capaLivro(tri){
+  const l = livroDe(tri), m = /^(\d{4})-t(\d)$/.exec(tri || "");
+  if(l.capa) return `<span class="capa"><img src="${esc(l.capa)}" alt="Capa do livro ${esc(tituloLivro(tri))}"></span>`;
+  return `<span class="capa gerada t${m ? m[2] : 4}" aria-hidden="true">${logoIcone()}<span><small>Lição</small><b>${m ? m[2] + "º trimestre" : "Trimestre"}</b></span><i>${m ? m[1] : ""}</i></span>`;
+}
+function diasFeitos(L){ return L.dias.filter(d => resDe(L, d)).length; }
 function telaEstudar(){
+  if(estudoVista === "dias" && estudoLicao && LICOES.includes(estudoLicao)) return telaEstudarDias();
+  if(estudoVista === "licoes" && LICOES.some(l => l.trimestre === estudoTri)) return telaEstudarLicoes();
+  return telaEstudarLivros();
+}
+function telaEstudarLivros(){
+  estudoVista = "livros";
+  const tris = [...new Set(LICOES.map(l => l.trimestre))].sort().reverse(), atual = (LICOES[indiceLicaoAtual()] || {}).trimestre;
+  app.innerHTML = `<div class="estudo-area">${cabPagina("Estudar", tris.length === 1 ? "1 livro" : tris.length + " livros", "Qual livro você quer estudar?", "Toque na capa para ver as lições.")}
+    <section class="panel pg-card">${tris.length ? `<div class="livros ${tris.length === 1 ? "um" : ""}">${tris.map(t => { const ls = LICOES.filter(l => l.trimestre === t), feitos = ls.reduce((n, l) => n + diasFeitos(l), 0);
+      return `<button type="button" class="livro ${t === atual ? "atual" : ""}" data-tri="${esc(t)}">${capaLivro(t)}<span class="livro-tx"><b>${esc(tituloLivro(t))}</b><small>${esc(nomeTrimestre(t))}</small><small>${ls.length} ${ls.length === 1 ? "lição" : "lições"} · ${feitos} de ${ls.length * 7} dias feitos</small>${t === atual ? `<span class="badge sala-ativa">Trimestre atual</span>` : ""}</span></button>`; }).join("")}</div>`
+      : `<p class="vazio">Ainda não há lições publicadas.</p>`}</section></div>`;
+  app.querySelectorAll("[data-tri]").forEach(b => b.onclick = () => { estudoTri = b.dataset.tri; estudoVista = "licoes"; window.scrollTo(0, 0); telaEstudarLicoes(); });
+}
+function telaEstudarLicoes(){
+  const t = estudoTri, ls = LICOES.filter(l => l.trimestre === t), daSemana = LICOES[indiceLicaoAtual()];
+  if(!ls.length) return telaEstudarLivros();
+  estudoVista = "licoes";
+  app.innerHTML = `<div class="estudo-area">${botaoVoltar("elVoltar", "os livros")}
+    <div class="livro-topo">${capaLivro(t)}${cabPagina("Estudar", esc(nomeTrimestre(t)), esc(tituloLivro(t)), `${ls.length} ${ls.length === 1 ? "lição" : "lições"}. Toque numa lição para abrir os dias.`)}</div>
+    <div class="lic-lista">${ls.map(l => { const f = diasFeitos(l), at = l === daSemana;
+      return `<button type="button" class="lic ${at ? "atual" : ""} ${f === 7 ? "cheia" : ""}" data-l="${LICOES.indexOf(l)}" ${at ? 'aria-current="true"' : ""}><span class="lic-n">${l.n}</span>
+        <span class="lic-tx">${at ? `<span class="badge sala-ativa">Esta semana</span>` : ""}<b>${esc(l.titulo)}</b><small>${esc(l.datas || (dataCurta(l.dias[0].data) + " a " + dataCurta(l.dias[6].data)))}${licaoTravada(l) ? " · 🔒 quiz bloqueado" : licaoFutura(l) ? " · em breve" : ""}</small></span>
+        <span class="lic-feito" aria-label="${f} de 7 dias feitos"><b>${f} de 7 ${f === 1 ? "feito" : "feitos"}</b><span aria-hidden="true">${l.dias.map(d => `<i class="${resDe(l, d) ? "on" : ""}"></i>`).join("")}</span></span></button>`; }).join("")}</div></div>`;
+  $("elVoltar").onclick = () => { estudoVista = "livros"; window.scrollTo(0, 0); telaEstudarLivros(); };
+  app.querySelectorAll("[data-l]").forEach(b => b.onclick = () => { estudoLicao = LICOES[+b.dataset.l]; estudoDia = -1; estudoVista = "dias"; window.scrollTo(0, 0); telaEstudarDias(); });
+  const at = app.querySelector(".lic.atual"); if(at) setTimeout(() => { if(at.isConnected) at.scrollIntoView({ block: "nearest" }); }, 40);   // a lição desta semana já aparece na tela, sem esconder o cabeçalho à toa
+}
+function telaEstudarDias(){
   if(!estudoLicao) estudoLicao = LICAO || LICOES[indiceLicaoAtual()];
-  const L = estudoLicao;
+  const L = estudoLicao; estudoVista = "dias"; estudoTri = L.trimestre;
   if(estudoDia < 0){ const kHoje = L.dias.findIndex(d=>d.data===hoje()); estudoDia = kHoje >= 0 ? kHoje : 0; }
   const d = L.dias[estudoDia] || L.dias[0];
   const texto = (L.textos && L.textos[estudoDia]) || "", resumo = (L.resumos && L.resumos[estudoDia]) || "";
@@ -2805,16 +2934,16 @@ function telaEstudar(){
   corpo += `<div id="txtDia">${htmlTexto}</div>`;
   if(!texto && !resumo) corpo += `<p class="vazio" id="semTexto">O texto desta lição não foi importado. Leia o dia <b>${esc(d.nome)}</b> na sua lição impressa ou no app e depois faça o quiz.</p>`;
   const s = status(L, d);
-  app.innerHTML = `<div class="estudo-area">${cabPagina("Estudar", esc(L.numero), esc(L.titulo))}<section class="panel pg-card">${seletorLicao("estSel", L)}
+  app.innerHTML = `<div class="estudo-area">${botaoVoltar("edVoltar", "as lições")}${cabPagina(esc(L.numero), esc(L.datas), esc(L.titulo), `${diasFeitos(L)} de 7 dias feitos`)}<section class="panel pg-card">
     <div class="tabs dias" role="tablist">${L.dias.map((x,k)=>`<button role="tab" aria-selected="${k===estudoDia}" data-k="${k}"><span>${x.curto}${resDe(L,x)?" ✓":""}</span><small>${dataCurta(x.data)}</small></button>`).join("")}</div>
     <p class="pg-sobre">${esc(d.nome)}, ${esc(dataLonga(d.data))}</p>
     <h2 class="pg-tit">${esc(d.tema)}</h2>
     ${corpo}
     <div class="btn-row uma">${(s==="hoje"||s==="atrasado") && d.perguntas.length ? `<button class="btn btn-main" id="estJogar">Fazer o quiz de ${esc(d.nome)}</button>` : s==="feito" ? `<button class="btn btn-ghost" id="estVer">Ver meu resultado</button>` : ""}</div>
   </section></div>`;
-  $("estSel").onchange = ()=>{ estudoLicao = LICOES[+$("estSel").value]; estudoDia = -1; telaEstudar(); };
+  $("edVoltar").onclick = ()=>{ estudoVista = "licoes"; telaEstudarLicoes(); };
   mostrarPaginas(L, estudoDia, htmlTexto);
-  app.querySelectorAll("[data-k]").forEach(b=> b.onclick = ()=>{ estudoDia = +b.dataset.k; telaEstudar(); });
+  app.querySelectorAll("[data-k]").forEach(b=> b.onclick = ()=>{ estudoDia = +b.dataset.k; telaEstudarDias(); });
   const j = $("estJogar"); if(j) j.onclick = ()=>{ LICAO = L; tabAtual = "quiz"; atualizarCasca(); iniciar(estudoDia); };
   const v = $("estVer"); if(v) v.onclick = ()=>{ LICAO = L; tabAtual = "quiz"; atualizarCasca(); telaResultado(estudoDia); };
 }
@@ -2943,6 +3072,7 @@ function telaConta(){
   app.innerHTML = `<div class="result-area"><section class="panel">
     <div class="hm-ola ct-topo"><div class="hm-av">${meuAvatar()}</div><div class="hm-ola-tx"><h2>${esc(perfil.nome)}</h2><small>${esc(perfil.email||"")}</small><small>${p ? "Personagem: " + esc(p.nome) : ""}${ehMaster() ? ' <span class="badge adm">master</span>' : souAdminDeSala() ? ' <span class="badge">admin de sala</span>' : ""}</small></div></div>
     <div class="menu-conta">
+      ${ehMaster() || souAdminDeSala() ? `<button id="mAdmin" class="adm"><span class="ic">🛠️</span>Área do administrador${typeof admPend === "number" && admPend > 0 ? `<span class="nt-n">${admPend}</span>` : ""}<span class="seta">›</span></button>` : ""}
       <button id="mNome"><span class="ic">✏️</span>Alterar nome<span class="seta">›</span></button>
       <button id="mSenha"><span class="ic">🔑</span>Alterar senha<span class="seta">›</span></button>
       <button id="mTema"><span class="ic">🌗</span>Alterar tema<span class="seta">›</span></button>
@@ -2954,8 +3084,11 @@ function telaConta(){
       <button id="mDesempenho"><span class="ic">📈</span>Meu desempenho<span class="seta">›</span></button>
       <button id="mRetro"><span class="ic">📜</span>Retrospectiva do trimestre<span class="seta">›</span></button>
       <button id="mTutorial"><span class="ic">💡</span>Como funciona<span class="seta">›</span></button>
+      ${VERSAO ? `<button id="mVersao"><span class="ic">🔄</span><span class="mc-2">Atualizar o jogo<small>Versão em uso: ${esc(versaoLegivel(VERSAO))}</small></span><span class="seta">›</span></button>` : ""}
       <button id="mSair"><span class="ic">🚪</span>Sair da conta<span class="seta">›</span></button>
     </div></section></div>`;
+  const mAdm = $("mAdmin"); if(mAdm) mAdm.onclick = ()=> nav("admin");
+  const mVer = $("mVersao"); if(mVer) mVer.onclick = ()=> recarregarJogo();
   $("mNome").onclick = ()=> modal("Alterar nome", `<div class="field"><label for="nNome">Novo nome</label><input type="text" id="nNome" maxlength="30" value="${esc(perfil.nome)}"></div><p class="erro" id="nErro"></p><div class="btn-row"><button class="btn btn-main" id="nOk">Salvar</button></div>`, (m, fechar)=>{
     m.querySelector("#nOk").onclick = async ()=>{ const v = m.querySelector("#nNome").value.trim(); if(!v){ m.querySelector("#nErro").textContent="Digite um nome."; return; } ocupado(m.querySelector("#nOk"), true); try{ await DB.salvarUsuario(usuario.uid, {nome:v}); perfil.nome = v; fechar(); aviso("Nome alterado"); atualizarCasca(); telaConta(); }catch(e){ m.querySelector("#nErro").textContent = erroMsg(e); ocupado(m.querySelector("#nOk"), false); } };
   });
@@ -3377,7 +3510,7 @@ let admTab = "usuarios", admUFiltro = "todos";
 const ADM_TABS = [
   ["resultados", "📊", "Resultados", "Acompanhar"], ["salas", "🏫", "Salas", "Acompanhar"],
   ["usuarios", "👥", "Usuários", "Pessoas"], ["aprovar", "✅", "Aprovar", "Pessoas"], ["cadastrar", "➕", "Novo usuário", "Pessoas"],
-  ["licao", "📥", "Importar lição", "Conteúdo"], ["perguntas", "📝", "Perguntas", "Conteúdo"],
+  ["licao", "📥", "Importar lição", "Conteúdo"], ["perguntas", "📝", "Perguntas", "Conteúdo"], ["livros", "📚", "Livros (capas)", "Conteúdo"],
   ["icone", "🖼️", "Ícone do site", "Aparência"]];
 let admPend = null;                      // contas aguardando aprovação (preenchido quando a lista de usuários é carregada)
 function marcarPendentes(usuarios){
@@ -3402,17 +3535,18 @@ function telaAdmin(){
   const abas = master ? ADM_TABS : [["resultados", "📊", "Resultados", ""], ["salas", "🏫", "Minhas salas", ""]];
   if(!abas.some(([k]) => k === admTab)) admTab = abas[0][0];
   let grupo = "";
-  app.innerHTML = `<div class="admin-area">
+  app.innerHTML = `<div class="admin-area">${botaoVoltar("admVoltar", "Minha conta")}
     <aside class="adm-menu">
-      <h2 class="h2">Admin <span class="badge ${master ? "adm" : ""}">${master ? "master" : "sala"}</span></h2>
+      <h2 class="h2">Área do administrador <span class="badge ${master ? "adm" : ""}">${master ? "master" : "sala"}</span></h2>
       ${master ? "" : `<p class="muted small adm-sub">Você administra: <b>${SALAS.filter(ehAdminSala).map(x => esc(x.nome)).join(", ")}</b>.</p>`}
       <div class="adm-nav ${abas.length <= 2 ? "poucas" : ""}" role="tablist" aria-label="Seções do admin">${abas.map(([k, ic, t, g]) => {
         const cab = g && g !== grupo ? `<span class="adm-grp">${g}</span>` : ""; grupo = g || grupo;
         return `${cab}<button role="tab" aria-selected="${admTab === k}" data-t="${k}"><span class="ic" aria-hidden="true">${ic}</span><span class="tx">${t}</span>${k === "aprovar" && admPend ? `<span class="adm-n" aria-label="${admPend} aguardando">${admPend}</span>` : ""}</button>`; }).join("")}</div>
     </aside>
     <div id="admC" class="adm-c adm-${admTab}"></div></div>`;
+  $("admVoltar").onclick = ()=> nav("conta");
   app.querySelectorAll(".adm-nav [data-t]").forEach(b=> b.onclick = ()=>{ admTab = b.dataset.t; telaAdmin(); });
-  ({resultados:admResultados, salas:admSalas, usuarios:admUsuarios, aprovar:admAprovar, cadastrar:admCadastrar, licao:admLicao, perguntas:admPerguntas, icone:admIcone}[admTab])();
+  ({resultados:admResultados, salas:admSalas, usuarios:admUsuarios, aprovar:admAprovar, cadastrar:admCadastrar, licao:admLicao, perguntas:admPerguntas, livros:admLivros, icone:admIcone}[admTab])();
 }
 function linhaUsuario(u, pendente){
   const eu = u.id === usuario.uid;
@@ -3987,7 +4121,57 @@ async function recarregarLicoes(){
   const idAtual = LICAO && LICAO.id;
   montarLicoes();
   LICAO = LICOES.find(l=>l.id===idAtual) || LICOES[indiceLicaoAtual()];
-  estudoLicao = null;
+  estudoLicao = null; estudoVista = "livros";
+}
+
+/* ---------- Livros: título e capa de cada trimestre (aparecem em Estudar) ---------- */
+function redimensionarCapa(file){
+  return new Promise((res, rej)=>{
+    const url = URL.createObjectURL(file), img = new Image();
+    img.onload = ()=>{
+      const r = Math.min(1, 360 / img.naturalWidth, 520 / img.naturalHeight), w = Math.max(1, Math.round(img.naturalWidth * r)), h = Math.max(1, Math.round(img.naturalHeight * r));
+      const c = document.createElement("canvas"); c.width = w; c.height = h; const x = c.getContext("2d");
+      x.fillStyle = "#fff"; x.fillRect(0, 0, w, h); x.drawImage(img, 0, 0, w, h);
+      URL.revokeObjectURL(url); res(c.toDataURL("image/jpeg", .74));
+    };
+    img.onerror = ()=>{ URL.revokeObjectURL(url); rej(new Error("Não deu para abrir essa imagem. Use JPG ou PNG.")); };
+    img.src = url;
+  });
+}
+function admLivros(){
+  const tris = [...new Set(LICOES.map(l => l.trimestre).concat(LICOES_DB.map(l => l.trimestre || TRIMESTRE_BASE)))].sort().reverse();
+  const novas = {};                                              // capa escolhida e ainda não salva, por trimestre
+  $("admC").innerHTML = `<section class="panel larga"><h3 class="h3">Livros</h3>
+    <p class="muted small" style="margin-top:0">Cada trimestre é um livro na tela Estudar. Aqui você dá o nome do livro e envia a capa (foto ou imagem em pé, JPG ou PNG). Sem capa, o site mostra uma capa desenhada com o trimestre e o ano.</p>
+    ${tris.map(t => { const l = livroDe(t);
+      return `<div class="adm-livro" data-livro="${esc(t)}"><div data-prev>${capaLivro(t)}</div><div>
+        <p class="pg-sobre" style="margin:0 0 6px">${esc(nomeTrimestre(t))} · ${LICOES.filter(x => x.trimestre === t).length} lições publicadas</p>
+        <div class="field"><label for="lvT${esc(t)}">Nome do livro</label><input type="text" id="lvT${esc(t)}" data-titulo maxlength="60" placeholder="${esc(tituloLivro(t))}" value="${esc(l.titulo)}"></div>
+        <div class="field"><label for="lvA${esc(t)}">Capa</label><input type="file" id="lvA${esc(t)}" data-arq accept="image/png,image/jpeg,image/webp,.png,.jpg,.jpeg,.webp"></div>
+        <p class="erro" data-erro></p>
+        <div class="adm-acoes"><button class="btn btn-main btn-sm" data-salvar>Salvar</button><button class="btn btn-ghost btn-sm" data-sem ${l.capa ? "" : "disabled"}>Tirar a capa</button></div></div></div>`; }).join("") || `<p class="vazio">Nenhuma lição cadastrada ainda.</p>`}</section>`;
+  const gravar = async (t, dados) => {
+    const livros = Object.assign({}, CONFIG.livros || {}); livros[t] = Object.assign({}, livros[t] || {}, dados);
+    await DB.salvarConfig({ livros }); CONFIG.livros = livros;
+  };
+  $("admC").querySelectorAll("[data-livro]").forEach(box => {
+    const t = box.dataset.livro, erro = box.querySelector("[data-erro]");
+    box.querySelector("[data-arq]").onchange = async e => {
+      const f = e.target.files && e.target.files[0]; if(!f) return; erro.textContent = "";
+      try{ novas[t] = await redimensionarCapa(f); box.querySelector("[data-prev]").innerHTML = `<span class="capa"><img src="${novas[t]}" alt="Capa nova"></span>`; }
+      catch(err){ erro.textContent = err.message; delete novas[t]; }
+    };
+    box.querySelector("[data-salvar]").onclick = async e => {
+      const b = e.currentTarget, dados = { titulo: box.querySelector("[data-titulo]").value.trim().replace(/\s+/g, " ") };
+      if(novas[t]) dados.capa = novas[t];
+      ocupado(b, true); erro.textContent = "";
+      try{ await gravar(t, dados); aviso("Livro salvo"); admLivros(); }catch(err){ erro.textContent = erroMsg(err); ocupado(b, false); }
+    };
+    box.querySelector("[data-sem]").onclick = async () => {
+      if(!(await confirmar("Tirar a capa", "Tirar a capa deste livro e voltar à capa desenhada?", "Tirar", "btn-warn"))) return;
+      try{ await gravar(t, { capa: "" }); aviso("Capa removida"); admLivros(); }catch(err){ erro.textContent = erroMsg(err); }
+    };
+  });
 }
 
 /* ---------- Ícone do site ---------- */
@@ -5049,7 +5233,7 @@ function modalMissao(i){
   if(semPremio){ const falta = 5 - (m.n % 5);
     premios = `<div class="mj-premio passo"><div class="mj-ficha"><span aria-hidden="true">👣</span></div><div class="mj-ptx"><small>Sem prêmio nesta casa</small><strong>Um passo na jornada</strong><span>${feita ? "Casa concluída: você seguiu em frente." : (falta === 1 ? "Depois dela falta 1 casa" : "Depois dela faltam " + falta + " casas") + " para o nível " + (nvDaCasa + 1) + "."}</span></div></div>`; }
   /* botão: na missão atual leva direto para onde ela se cumpre */
-  const destino = m.meta[0] === "mural" ? ["Abrir o mural", () => telaMural()] : m.meta[0] === "quizSala" ? ["Ver as salas", () => nav("salas")] : ["Ir para o quiz", () => nav("quiz")];
+  const destino = m.meta[0] === "mural" ? ["Abrir o mural", () => nav("mural")] : m.meta[0] === "quizSala" ? ["Ver as salas", () => nav("salas")] : ["Ir para o quiz", () => nav("quiz")];
   tocar("toque");
   modal(`Missão ${m.n}`, `<div class="mj ${estado}">
       <div class="mj-cena">${cena}<span class="mj-zona">📍 ${esc(z.nome)}</span><div class="mj-raios" aria-hidden="true"></div>
@@ -5582,17 +5766,57 @@ function haQuanto(ts){
   const d = Math.round(s / 86400); return d === 1 ? "ontem" : "há " + d + " dias";
 }
 /* Publica na sala ativa. post = {tipo, ref, ic, titulo, texto}. Publicar de novo a mesma coisa só atualiza. */
+/* Descrição curta de uma sala, para as listas de escolha */
+function resumoDaSala(s){ return s.global ? "Sala global: todos os jogadores" : (s.descricao || (s.publica ? "Sala pública" : "Sala privada")); }
+/* Em quais salas publicar: quem está numa sala só publica direto nela; quem está em mais de uma marca as salas */
+function escolherSalasParaPublicar(){
+  if(SALAS.length <= 1) return Promise.resolve([salaAtual()]);
+  return new Promise(res => {
+    let feito = false; const atual = salaAtual().id;
+    modal("Publicar no mural", `<p class="muted small" style="margin-top:0">Você está em ${SALAS.length} salas. Marque em quais quer publicar:</p>
+      <div class="sl-lista">${SALAS.map(s => `<label class="sl-item"><input type="checkbox" value="${esc(s.id)}" ${s.id === atual ? "checked" : ""}><span class="sl-tx"><b>${esc(s.nome)}</b><small>${esc(resumoDaSala(s))}</small></span>${s.id === atual ? `<span class="badge sala-ativa">ativa</span>` : ""}</label>`).join("")}</div>
+      <p class="erro" id="slErro"></p>
+      <div class="btn-row"><button type="button" class="btn btn-main" id="slOk">Publicar</button><button type="button" class="btn btn-ghost" id="slTodas">Marcar todas</button></div>`, (m, fechar) => {
+        m.querySelector("#slTodas").onclick = () => { m.querySelectorAll(".sl-item input").forEach(c => { c.checked = true; }); m.querySelector("#slErro").textContent = ""; };
+        m.querySelector("#slOk").onclick = () => {
+          const ids = Array.from(m.querySelectorAll(".sl-item input:checked")).map(c => c.value);
+          if(!ids.length){ m.querySelector("#slErro").textContent = "Marque pelo menos uma sala."; return; }
+          feito = true; fechar(); res(SALAS.filter(x => ids.includes(x.id)));
+        };
+      }, () => { if(!feito) res(null); });
+  });
+}
 async function publicarNoMural(post, btn){
-  const sala = salaAtual(), agora = Date.now(), id = [sala.id, usuario.uid, post.tipo, post.ref].join("_").replace(/[^A-Za-z0-9_.-]/g, "-");
+  const salas = await escolherSalasParaPublicar();
+  if(!salas || !salas.length) return false;                       // fechou a janela sem escolher
+  const agora = Date.now(), ok = [], falhas = [];
   if(btn) ocupado(btn, true);
-  try{
-    await DB.salvarPost(id, { salaId: sala.id, salaMes: sala.id + "|" + mesDe(agora), uid: usuario.uid, nome: perfil.nome || "", profeta: perfil.profeta || "", nivel: meuNivel(), tipo: post.tipo, ref: String(post.ref), ic: post.ic || "✨", titulo: post.titulo, texto: post.texto || "", quando: agora });
-    const meus = lsGet(KEY + ":mural:" + usuario.uid, []);
-    if(!meus.includes(id)){ meus.push(id); lsSet(KEY + ":mural:" + usuario.uid, meus.slice(-200)); perfil.muralPosts = (perfil.muralPosts || 0) + 1; perfil.muralQuando = agora; DB.salvarUsuario(usuario.uid, { muralPosts: perfil.muralPosts, muralQuando: agora }).catch(()=>{}); }
-    tocar("ajuda"); aviso(`Publicado no mural da sala ${sala.nome}`);
-    if(btn){ ocupado(btn, false); btn.textContent = "Publicado ✓"; btn.disabled = true; }
-    return true;
-  }catch(e){ aviso("Não deu para publicar: " + erroMsg(e)); if(btn) ocupado(btn, false); return false; }
+  for(const sala of salas){
+    const id = [sala.id, usuario.uid, post.tipo, post.ref].join("_").replace(/[^A-Za-z0-9_.-]/g, "-");
+    try{
+      await DB.salvarPost(id, { salaId: sala.id, salaMes: sala.id + "|" + mesDe(agora), uid: usuario.uid, nome: perfil.nome || "", profeta: perfil.profeta || "", nivel: meuNivel(), tipo: post.tipo, ref: String(post.ref), ic: post.ic || "✨", titulo: post.titulo, texto: post.texto || "", quando: agora });
+      ok.push({ sala, id });
+    }catch(e){ falhas.push(sala.nome + ": " + erroMsg(e)); }
+  }
+  if(btn) ocupado(btn, false);
+  if(!ok.length){ aviso("Não deu para publicar: " + falhas[0]); return false; }
+  /* para as missões, publicar a mesma coisa em várias salas conta como uma publicação só */
+  const meus = lsGet(KEY + ":mural:" + usuario.uid, []), novos = ok.filter(x => !meus.includes(x.id));
+  if(novos.length){ novos.forEach(x => meus.push(x.id)); lsSet(KEY + ":mural:" + usuario.uid, meus.slice(-200)); perfil.muralPosts = (perfil.muralPosts || 0) + 1; perfil.muralQuando = agora; DB.salvarUsuario(usuario.uid, { muralPosts: perfil.muralPosts, muralQuando: agora }).catch(()=>{}); }
+  tocar("ajuda");
+  aviso(falhas.length ? `Publicado em ${ok.length} de ${salas.length} salas. Não deu em: ${falhas[0]}` : ok.length === 1 ? `Publicado no mural da sala ${ok[0].sala.nome}` : `Publicado no mural de ${ok.length} salas`);
+  if(btn){ btn.textContent = "Publicado ✓"; btn.disabled = true; }
+  return true;
+}
+/* Mural pelo menu: quem está em mais de uma sala escolhe de qual sala quer ver o mural */
+function telaMuralSalas(){
+  if(SALAS.length <= 1){ telaMural(); return; }
+  tabAtual = "mural"; atualizarCasca(); pararTimer();
+  const atual = salaAtual().id;
+  app.innerHTML = `<div class="result-area">${cabPagina("Mural", SALAS.length + " salas", "Mural de qual sala?", "Escolha a sala para ver o que a turma publicou.")}
+    <section class="panel pg-card"><div class="sl-lista">${SALAS.map(s => `<button type="button" class="sl-item" data-sala="${esc(s.id)}"><span class="sl-ic" aria-hidden="true">📌</span><span class="sl-tx"><b>${esc(s.nome)}</b><small>${esc(resumoDaSala(s))}</small></span>${s.id === atual ? `<span class="badge sala-ativa">ativa</span>` : ""}<span class="seta" aria-hidden="true">›</span></button>`).join("")}</div>
+    <p class="note" style="margin-bottom:0">A sala escolhida passa a ser a sua sala ativa (a que aparece na Corrida e no Início).</p></section></div>`;
+  app.querySelectorAll("[data-sala]").forEach(b => b.onclick = () => { definirSala(b.dataset.sala); telaMural(); });
 }
 function postDoResultado(L, dia, r){
   return { tipo: "quiz", ref: L.id + "_" + dia.data, ic: r.total && r.acertos === r.total ? "🎯" : "📖", titulo: `Fez ${fmt(r.pts)} pontos no quiz de ${dia.nome.toLowerCase()}`, texto: `${L.numero} · ${r.acertos} de ${r.total} certas${r.noPrazo ? " · no prazo" : ""}` };
@@ -5669,14 +5893,15 @@ function abrirPostNoMural(p){
 }
 
 async function telaMural(focoId){
-  tabAtual = "salas"; atualizarCasca(); pararTimer();
+  tabAtual = "mural"; atualizarCasca(); pararTimer();
   const sala = salaAtual(), eu = usuario.uid;
   app.innerHTML = `<div class="result-area duas"><div class="lado">
-    ${cabPagina(esc(sala.nome), "Mural", "Mural da sala", "Compartilhe conquistas e anime quem corre com você.")}
+    ${SALAS.length > 1 ? botaoVoltar("muVoltar", "a lista de salas") : ""}${cabPagina(esc(sala.nome), "Mural", "Mural da sala", "Compartilhe conquistas e anime quem corre com você.")}
     <section class="panel pg-card"><div class="sala-sel" style="margin:0"><div class="field" style="margin:0"><label for="muSala">Sala</label><select id="muSala">${SALAS.map(x => `<option value="${esc(x.id)}" ${x.id === sala.id ? "selected" : ""}>${esc(x.nome)}${x.global ? " (global)" : ""}</option>`).join("")}</select></div><button class="btn btn-main btn-sm" id="muNovo">Compartilhar</button></div></section></div>
     <div class="principal" id="muCorpo"><section class="panel"><p class="vazio">Carregando o mural…</p></section></div></div>`;
   $("muSala").onchange = e => { definirSala(e.target.value); telaMural(); };
   $("muNovo").onclick = modalCompartilharMural;
+  const muV = $("muVoltar"); if(muV) muV.onclick = telaMuralSalas;
   try{
     const agora = Date.now(), mesAnt = new Date(); mesAnt.setDate(1); mesAnt.setMonth(mesAnt.getMonth() - 1);
     const posts = (await DB.muralDaSala(sala.id, [mesDe(agora), mesDe(mesAnt.getTime())])).sort((a, b) => (b.quando || 0) - (a.quando || 0)).slice(0, 60);
@@ -5720,7 +5945,7 @@ function modalCompartilharMural(){
   const feitas = missoesFeitas(st), nv = nivelDe(feitas);
   if(nv) opcoes.push(["Meu nível", { tipo: "nivel", ref: "n" + nv, ic: "⭐", titulo: `Está no nível ${nv}: ${nomeNivel(nv)}`, texto: `${feitas} ${feitas === 1 ? "missão cumprida" : "missões cumpridas"}` }]);
   if(st.seq >= 2) opcoes.push(["Minha sequência", { tipo: "sequencia", ref: "s" + st.seq, ic: "🔥", titulo: `Está há ${st.seq} dias seguidos no prazo`, texto: st.seq >= st.melhorSeq ? "É o recorde pessoal!" : `Recorde pessoal: ${st.melhorSeq} dias` }]);
-  modal("Compartilhar no mural", opcoes.length ? `<p class="muted small" style="margin-top:0">Vai para o mural da sala <b>${esc(sala.nome)}</b>. Escolha o que quer mostrar:</p>
+  modal("Compartilhar no mural", opcoes.length ? `<p class="muted small" style="margin-top:0">${SALAS.length > 1 ? "Escolha o que quer mostrar. Depois você marca em quais salas publicar." : `Vai para o mural da sala <b>${esc(sala.nome)}</b>. Escolha o que quer mostrar:`}</p>
     <div class="mu-opcoes">${opcoes.map(([rot, p], k) => `<button type="button" class="mu-opcao" data-k="${k}"><span class="ic">${p.ic}</span><span><b>${esc(rot)}</b><small>${esc(p.titulo)}</small></span></button>`).join("")}</div>`
     : `<p>Você ainda não tem nada para compartilhar. Faça o quiz de hoje e volte aqui!</p>`, (m, fechar) => {
     m.querySelectorAll("[data-k]").forEach(b => b.onclick = async () => { b.disabled = true; if(await publicarNoMural(opcoes[+b.dataset.k][1])){ fechar(); telaMural(); } else b.disabled = false; });
