@@ -2,6 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
+<meta name="versao" content="20261112.152457">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Corrida do Rolo · Quiz da Lição</title>
 <meta name="theme-color" content="#524F9C">
@@ -1333,6 +1334,11 @@ input[type=text],input[type=email],input[type=password],input[type=number],input
 .pers-acoes .btn{width:100%;min-height:40px}
 .post-corpo .ic.pers{font-size:0}
 .post-corpo .ic.pers .avatar{width:40px;height:52px;display:block}
+/* aviso de versão nova (aparece só quando não dá para atualizar sozinho, por exemplo no meio de um quiz) */
+.nova-versao{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(92px + env(safe-area-inset-bottom,0px));z-index:45;display:flex;align-items:center;gap:10px;max-width:calc(100vw - 24px);padding:8px 8px 8px 14px;border-radius:99px;background:#fff;color:var(--deep);font:700 13.5px "Barlow",sans-serif;box-shadow:0 10px 30px rgba(10,9,40,.45);white-space:nowrap}
+.nova-versao[hidden]{display:none}
+.nova-versao button{border:0;border-radius:99px;padding:7px 14px;background:var(--deep);color:#fff;font:800 13px "Barlow",sans-serif}
+body.sem-menu .nova-versao{bottom:calc(20px + env(safe-area-inset-bottom,0px))}
 /* login */
 .logo-login{padding:18px 0 6px}
 .logo-login p{font-size:14px;margin-top:10px}
@@ -1365,6 +1371,7 @@ input[type=text],input[type=email],input[type=password],input[type=number],input
   <button type="button" data-tab="admin" class="admin" id="navAdmin" hidden><span class="ic">🛠️</span>Admin</button>
 </nav>
 <div class="toast" id="toast" role="status"></div>
+<div class="nova-versao" id="novaVersao" role="status" hidden><span>Tem versão nova do jogo.</span><button type="button" id="nvBtn">Atualizar</button></div>
 
 <script>
 /* ============================================================
@@ -2013,10 +2020,70 @@ function atualizarCasca(){
   if(typeof atualizarSino === "function") atualizarSino();
   document.querySelectorAll("#nav button").forEach(b => { if(b.dataset.tab === tabAtual) b.setAttribute("aria-current","page"); else b.removeAttribute("aria-current"); });
 }
+/* ============================================================
+   ATUALIZAÇÃO AUTOMÁTICA
+   Quem deixa o site aberto (ou instalado na tela do celular) continua com a versão antiga até recarregar.
+   Por isso o site confere, de tempos em tempos, o carimbo de versão do arquivo publicado (só os primeiros
+   bytes do index.html) e, se subiu versão mais nova, recarrega sozinho. Nunca no meio de um quiz, com uma
+   janela aberta, digitando ou no Admin: nesses casos aparece um aviso com o botão Atualizar.
+   ============================================================ */
+const VERSAO = (document.querySelector('meta[name="versao"]') || {}).content || "";
+let versaoNova = "", versaoEm = 0;
+async function versaoPublicada(){
+  const r = await fetch(location.pathname + "?nv=" + Date.now(), { cache: "no-store", headers: { Range: "bytes=0-1499" } });
+  if(!r.ok) return "";
+  let txt = "";
+  if(r.body && r.body.getReader){
+    const leitor = r.body.getReader(), dec = new TextDecoder();
+    while(txt.length < 1500){ const { done, value } = await leitor.read(); if(done) break; txt += dec.decode(value, { stream: true }); }
+    try{ leitor.cancel(); }catch(e){}                       // servidor que ignora o pedido de "só o começo": para de baixar aqui
+  } else txt = (await r.text()).slice(0, 1500);
+  const m = txt.match(/<meta name="versao" content="([0-9.]+)"/);
+  return m ? m[1] : "";
+}
+/* no meio de uma pergunta, da contagem ou da selfie: nem aviso aparece, para não atrapalhar; a atualização fica para a próxima troca de tela */
+function jogandoAgora(){ return !!document.getElementById("tiles") || !!document.querySelector(".cd-in") || !!document.getElementById("prev"); }
+function podeRecarregarAgora(){
+  const a = document.activeElement, digitando = !!a && /^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName);
+  const preenchido = Array.from(document.querySelectorAll("#app input[type=text],#app input[type=email],#app input[type=password],#app textarea")).some(i => i.value);
+  const ocupado = jogandoAgora() || !!document.querySelector(".modal-bg") || !!document.querySelector(".tutorial");
+  return !digitando && !preenchido && !ocupado && tabAtual !== "admin";
+}
+function aplicarVersaoNova(manual){
+  if(!versaoNova) return;
+  const chave = KEY + ":versao", t = lsGet(chave, null);
+  /* já tentou esta versão há pouco e o servidor ainda entregou a antiga: não fica recarregando em círculo, só deixa o aviso */
+  if(!manual && t && t.v === versaoNova && Date.now() - t.em < 15 * 60000){ $("novaVersao").hidden = false; return; }
+  lsSet(chave, { v: versaoNova, em: Date.now() });
+  aviso("Atualizando o jogo…");
+  const u = new URL(location.href); u.searchParams.set("v", versaoNova.replace(/\D/g, ""));      // endereço novo: o navegador busca o arquivo de novo em vez de usar o guardado
+  setTimeout(() => location.replace(u.toString()), 500);
+}
+async function conferirVersao(forcar){
+  if(!VERSAO || location.protocol === "file:") return;
+  if(forcar || Date.now() - versaoEm >= 120000){
+    versaoEm = Date.now();
+    try{ const v = await versaoPublicada(); if(v && v > VERSAO) versaoNova = v; }catch(e){}     // só para a frente: carimbo maior que o desta página
+  }
+  if(!versaoNova) return;
+  if(podeRecarregarAgora()) aplicarVersaoNova(false); else $("novaVersao").hidden = jogandoAgora();
+}
+$("nvBtn").onclick = () => aplicarVersaoNova(true);
+(() => {
+  /* acabou de atualizar: tira o "?v=" do endereço e avisa uma vez */
+  try{ const u = new URL(location.href); if(u.searchParams.has("v")){ u.searchParams.delete("v"); history.replaceState(null, "", u.toString()); } }catch(e){}
+  const t = lsGet(KEY + ":versao", null);
+  if(t && VERSAO && t.v === VERSAO){ try{ localStorage.removeItem(KEY + ":versao"); }catch(e){} setTimeout(() => aviso("Jogo atualizado!"), 1200); }
+  setTimeout(() => conferirVersao(true), 8000);
+  setInterval(() => { if(!document.hidden) conferirVersao(false); }, 5 * 60000);
+  document.addEventListener("visibilitychange", () => { if(!document.hidden) conferirVersao(false); });
+})();
+
 function nav(tab){
   pararTimer(); if(typeof pararCamera === "function") pararCamera(); if(typeof MUSICA !== "undefined") MUSICA.parar();
   tabAtual = tab; atualizarCasca(); window.scrollTo(0,0);
   if(typeof carregarNotificacoes === "function") carregarNotificacoes();        // confere reações novas (no máximo a cada 90 s)
+  setTimeout(() => conferirVersao(false), 400);                                 // e se subiu versão nova do jogo (no máximo a cada 2 min)
   ({ inicio: telaInicio, estudar: telaEstudar, quiz: telaQuiz, ranking: telaRanking, missoes: () => telaMissoes(), salas: telaSalas, conta: telaConta, admin: telaAdmin }[tab] || telaInicio)();
 }
 document.querySelectorAll("#nav button").forEach(b => b.onclick = ()=> nav(b.dataset.tab));
