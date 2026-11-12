@@ -1221,6 +1221,50 @@ input[type=text],input[type=email],input[type=password],input[type=number],input
 .soma{font:800 18px "Barlow",sans-serif}
 .meta-num{font:800 30px/1.1 "Barlow",sans-serif}
 .meta-num small{font-size:16px}
+/* missões: cabeçalho com o botão da música e o mapa com movimento leve (só o que está à vista se mexe) */
+.ms-topo{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.ms-topo .pg-cab{flex:1;min-width:0}
+.trilha-svg .tr-a{animation:var(--an) var(--du,5s) ease-in-out infinite;animation-play-state:paused;transform-origin:0 0}
+.trilha-svg .tr-a.on{animation-play-state:running}
+.tr-a-vento{--an:trvento;--du:4.6s}
+.tr-a-pasta{--an:trpasta;--du:6.5s}
+.tr-a-nada{--an:trnada;--du:5.2s}
+.tr-a-balanca{--an:trbalanca;--du:3.8s}
+.tr-a-nuvem{--an:trnuvem;--du:14s}
+.tr-a-luz{--an:trluz;--du:3.4s}
+.tr-a-chama{--an:trchama;--du:1.7s}
+.tr-a-agua{--an:tragua;--du:3.2s}
+.tr-a-ondas{--an:trondas;--du:5s}
+.tr-rio{animation:trflui 2.6s linear infinite}
+@keyframes trvento{0%,100%{transform:rotate(-1.6deg)}50%{transform:rotate(1.8deg)}}
+@keyframes trpasta{0%,100%{transform:translate(0,0)}25%{transform:translate(2.5px,0) rotate(-2deg)}50%{transform:translate(2.5px,-1.2px)}75%{transform:translate(0,0) rotate(2deg)}}
+@keyframes trnada{0%,100%{transform:translate(-5px,0)}50%{transform:translate(6px,-2px)}}
+@keyframes trbalanca{0%,100%{transform:rotate(-2.4deg)}50%{transform:rotate(2.4deg) translateY(-1.5px)}}
+@keyframes trnuvem{0%,100%{transform:translateX(-7px)}50%{transform:translateX(8px)}}
+@keyframes trluz{0%,100%{opacity:1}50%{opacity:.76}}
+@keyframes trchama{0%,100%{transform:scale(1,1)}50%{transform:scale(1.03,1.07)}}
+@keyframes tragua{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
+@keyframes trondas{0%,100%{transform:translateX(-4px)}50%{transform:translateX(4px)}}
+@keyframes trflui{to{stroke-dashoffset:-28}}
+@media (prefers-reduced-motion:reduce){.trilha-svg .tr-a,.tr-rio{animation:none}}
+/* notificações: o sino ao lado do personagem e a lista */
+.topbar .topo-dir{display:flex;align-items:center;gap:8px;min-width:0;flex:0 1 auto}
+.sino{position:relative;flex:none;width:40px;height:40px;border-radius:50%;border:1px solid var(--panel-line);background:var(--panel);color:#fff;font-size:18px;display:grid;place-items:center;padding:0;animation:sinotoca 1.2s ease-in-out 2}
+.sino b{position:absolute;top:-4px;right:-5px;min-width:19px;height:19px;padding:0 5px;border-radius:99px;background:var(--a);color:#fff;font:800 11px/19px "Barlow",sans-serif;text-align:center;box-shadow:0 0 0 2px rgba(20,18,60,.55)}
+@keyframes sinotoca{0%,100%{transform:rotate(0)}15%{transform:rotate(-14deg)}30%{transform:rotate(12deg)}45%{transform:rotate(-8deg)}60%{transform:rotate(5deg)}75%{transform:rotate(0)}}
+.nt-lista{display:grid;gap:8px}
+.nt-item{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:var(--panel);border:1.5px solid var(--panel-line);border-radius:14px;padding:10px 12px;color:#fff}
+.nt-item.nova{border-color:var(--accent);background:rgba(143,230,255,.16)}
+.nt-ic{flex:none;font-size:20px;line-height:1;letter-spacing:-3px;min-width:34px;text-align:center}
+.nt-tx{flex:1;min-width:0;font-size:13.5px;line-height:1.3}
+.nt-tx small{display:block;font-size:12px;color:var(--soft);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nt-n{flex:none;background:var(--a);color:#fff;border-radius:99px;padding:1px 8px;font:800 12px/18px "Barlow",sans-serif}
+.nt-item .seta{flex:none;color:var(--soft)}
+.post.foco{border-color:var(--accent);box-shadow:0 0 0 2px rgba(143,230,255,.55),0 0 26px rgba(143,230,255,.35);animation:postfoco 1.4s ease-in-out 2}
+@keyframes postfoco{0%,100%{box-shadow:0 0 0 2px rgba(143,230,255,.55),0 0 26px rgba(143,230,255,.35)}50%{box-shadow:0 0 0 6px rgba(143,230,255,.25),0 0 34px rgba(143,230,255,.5)}}
+.menu-conta button .nt-n{margin-left:auto}
+.menu-conta button .nt-n + .seta{margin-left:8px}
+@media (prefers-reduced-motion:reduce){.sino,.post.foco{animation:none}}
 /* login */
 .logo-login{padding:18px 0 6px}
 .logo-login p{font-size:14px;margin-top:10px}
@@ -1239,7 +1283,8 @@ input[type=text],input[type=email],input[type=password],input[type=number],input
 <body class="sem-menu">
 <header class="topbar" id="topbar" hidden>
   <div class="brand" id="brand"><span class="brand-ic" id="brandIc"></span><span class="brand-tx">Corrida do <b>Rolo</b><small>Quiz da Lição</small></span></div>
-  <button class="chip" id="chipConta" type="button"><span class="em" id="chipEm"></span><span class="n" id="chipNome"></span></button>
+  <div class="topo-dir"><button class="sino" id="sino" type="button" hidden aria-label="Notificações"><span aria-hidden="true">🔔</span><b id="sinoN">0</b></button>
+  <button class="chip" id="chipConta" type="button"><span class="em" id="chipEm"></span><span class="n" id="chipNome"></span></button></div>
 </header>
 <div class="wrap" id="app" aria-live="polite"></div>
 <nav class="bottomnav" id="nav" hidden aria-label="Menu principal">
@@ -1641,6 +1686,7 @@ function dbFirebase(){
     async excluirMembro(salaId, uid){ await col("membros").doc(salaId + "_" + uid).delete(); },
     // Mural da sala: posts por mês (campo salaMes = salaId|AAAA-MM); reações = listas de uids
     async muralDaSala(salaId, meses){ const out = []; for(const m of meses) out.push(...await lista(col("mural").where("salaMes","==",salaId + "|" + m))); return out; },
+    async meusPosts(uid){ return lista(col("mural").where("uid","==",uid)); },
     async salvarPost(id, dados){ await col("mural").doc(id).set(dados, {merge:true}); },
     async reagirPost(id, tipo, uid, ligar){ const FV = firebase.firestore.FieldValue; await col("mural").doc(id).update({ ["reacoes." + tipo]: ligar ? FV.arrayUnion(uid) : FV.arrayRemove(uid) }); },
     async excluirPost(id){ await col("mural").doc(id).delete(); },
@@ -1724,6 +1770,7 @@ function dbLocal(){
     async salvarMembro(m){ const d = ler(); d.membros = d.membros || {}; const k = m.salaId + "_" + m.uid; d.membros[k] = Object.assign(d.membros[k]||{}, m); gravar(d); },
     async excluirMembro(salaId, uid){ const d = ler(); if(d.membros) delete d.membros[salaId + "_" + uid]; gravar(d); },
     async muralDaSala(salaId, meses){ const d = ler(), set = new Set(meses.map(m => salaId + "|" + m)); return Object.keys(d.mural||{}).map(k=>Object.assign({id:k}, d.mural[k])).filter(p=>set.has(p.salaMes)); },
+    async meusPosts(uid){ const d = ler(); return Object.keys(d.mural||{}).map(k=>Object.assign({id:k}, d.mural[k])).filter(p=>p.uid===uid); },
     async salvarPost(id, dados){ const d = ler(); d.mural = d.mural || {}; d.mural[id] = Object.assign(d.mural[id]||{}, dados); gravar(d); },
     async reagirPost(id, tipo, uid, ligar){ const d = ler(), p = (d.mural||{})[id]; if(!p) throw err("not-found","Publicação não encontrada."); p.reacoes = p.reacoes || {}; const l = new Set(p.reacoes[tipo] || []); if(ligar) l.add(uid); else l.delete(uid); p.reacoes[tipo] = [...l]; gravar(d); },
     async excluirPost(id){ const d = ler(); if(d.mural) delete d.mural[id]; gravar(d); },
@@ -1895,15 +1942,18 @@ function atualizarCasca(){
   $("topbar").hidden = !logado; $("nav").hidden = !logado;
   document.body.classList.toggle("sem-menu", !logado);
   if(logado){ $("chipEm").innerHTML = perfil.profeta ? meuAvatar() : ""; $("chipNome").textContent = perfil.nome || ""; $("navAdmin").hidden = !(ehMaster() || souAdminDeSala()); $("nav").classList.toggle("n7", !$("navAdmin").hidden); $("chipConta").classList.toggle("atual", tabAtual === "conta"); const np = $("navSalasN"); if(np){ const n = typeof SALAS_PENDENTES === "number" ? SALAS_PENDENTES : 0; np.hidden = !n; np.textContent = n > 9 ? "9+" : String(n); } }
+  if(typeof atualizarSino === "function") atualizarSino();
   document.querySelectorAll("#nav button").forEach(b => { if(b.dataset.tab === tabAtual) b.setAttribute("aria-current","page"); else b.removeAttribute("aria-current"); });
 }
 function nav(tab){
   pararTimer(); if(typeof pararCamera === "function") pararCamera(); if(typeof MUSICA !== "undefined") MUSICA.parar();
   tabAtual = tab; atualizarCasca(); window.scrollTo(0,0);
+  if(typeof carregarNotificacoes === "function") carregarNotificacoes();        // confere reações novas (no máximo a cada 90 s)
   ({ inicio: telaInicio, estudar: telaEstudar, quiz: telaQuiz, ranking: telaRanking, missoes: () => telaMissoes(), salas: telaSalas, conta: telaConta, admin: telaAdmin }[tab] || telaInicio)();
 }
 document.querySelectorAll("#nav button").forEach(b => b.onclick = ()=> nav(b.dataset.tab));
 $("chipConta").onclick = ()=> nav("conta");
+$("sino").onclick = ()=> modalNotificacoes();
 $("brandIc").innerHTML = logoIcone();
 $("brand").onclick = ()=>{ if(usuario && perfil && (perfil.aprovado || perfil.admin) && perfil.profeta) nav("inicio"); };
 
@@ -1935,6 +1985,7 @@ DB.onAuth(async u => {
     aplicarTema(perfil.tema || "auto");
     await carregarTudo();
     await carregarSalas();
+    carregarNotificacoes(true);
     if(typeof iniciarConquistasVistas === "function") iniciarConquistasVistas();
     if(!perfil.profeta){ atualizarCasca(); telaProfeta(); return; }
     nav("inicio");
@@ -2399,8 +2450,8 @@ function telaPergunta(){
   app.innerHTML = h;
   window.scrollTo(0,0);
   app.querySelectorAll(".tile").forEach(t=> t.onclick = ()=> responder(+t.dataset.k));
-  $("qMus").onclick = ()=>{ const v = !SOM.mus; definirSom("mus", v); if(v) MUSICA.iniciar(); $("qMus").textContent = v ? "🎵" : "🔇"; $("qMus").setAttribute("aria-pressed", String(v)); };
-  MUSICA.iniciar();
+  $("qMus").onclick = ()=>{ const v = !SOM.mus; definirSom("mus", v); if(v) MUSICA.iniciar("quiz"); $("qMus").textContent = v ? "🎵" : "🔇"; $("qMus").setAttribute("aria-pressed", String(v)); };
+  MUSICA.iniciar("quiz");
   if(!p.reflexao) ligarAjudas(p);
   if(!(jogo.mostrada && jogo.mostrada.q === jogo.q)) jogo.mostrada = { q: jogo.q, em: Date.now() };
   salvarProgresso();
@@ -2751,8 +2802,9 @@ function telaConta(){
       <button id="mTema"><span class="ic">🌗</span>Alterar tema<span class="seta">›</span></button>
       <button id="mProfeta"><span class="ic">🎭</span>Alterar personagem<span class="seta">›</span></button>
       <button id="mSom" role="switch" aria-checked="${SOM.on}"><span class="ic">🔊</span>Sons do jogo<span class="switch" aria-hidden="true" aria-checked="${SOM.on}"></span></button>
-      <button id="mMus" role="switch" aria-checked="${SOM.mus}"><span class="ic">🎵</span>Música no quiz<span class="switch" aria-hidden="true" aria-checked="${SOM.mus}"></span></button>
+      <button id="mMus" role="switch" aria-checked="${SOM.mus}"><span class="ic">🎵</span>Música (quiz e missões)<span class="switch" aria-hidden="true" aria-checked="${SOM.mus}"></span></button>
       <button id="mVib" role="switch" aria-checked="${SOM.vib}"><span class="ic">📳</span>Vibração<span class="switch" aria-hidden="true" aria-checked="${SOM.vib}"></span></button>
+      <button id="mNotif"><span class="ic">🔔</span>Notificações${NOTIF.total > 0 ? `<span class="nt-n">${NOTIF.total}</span>` : ""}<span class="seta">›</span></button>
       <button id="mDesempenho"><span class="ic">📈</span>Meu desempenho<span class="seta">›</span></button>
       <button id="mRetro"><span class="ic">📜</span>Retrospectiva do trimestre<span class="seta">›</span></button>
       <button id="mTutorial"><span class="ic">💡</span>Como funciona<span class="seta">›</span></button>
@@ -2770,8 +2822,9 @@ function telaConta(){
     m.querySelectorAll("[data-t]").forEach(b=> b.onclick = async ()=>{ aplicarTema(b.dataset.t); perfil.tema = b.dataset.t; m.querySelectorAll("[data-t]").forEach(x=> x.setAttribute("aria-pressed", String(x===b))); try{ await DB.salvarUsuario(usuario.uid, {tema:b.dataset.t}); }catch(e){} setTimeout(fechar, 250); });
   });
   $("mProfeta").onclick = ()=> telaProfeta();
-  const alternar = (id, chave) => { const b = $(id); b.onclick = ()=>{ const v = !SOM[chave]; definirSom(chave, v); b.setAttribute("aria-checked", String(v)); b.querySelector(".switch").setAttribute("aria-checked", String(v)); aviso({ on: ["Sons ligados", "Sons desligados"], vib: ["Vibração ligada", "Vibração desligada"], mus: ["Música do quiz ligada", "Música do quiz desligada"] }[chave][v ? 0 : 1]); }; };
+  const alternar = (id, chave) => { const b = $(id); b.onclick = ()=>{ const v = !SOM[chave]; definirSom(chave, v); b.setAttribute("aria-checked", String(v)); b.querySelector(".switch").setAttribute("aria-checked", String(v)); aviso({ on: ["Sons ligados", "Sons desligados"], vib: ["Vibração ligada", "Vibração desligada"], mus: ["Música ligada", "Música desligada"] }[chave][v ? 0 : 1]); }; };
   alternar("mSom", "on"); alternar("mVib", "vib"); alternar("mMus", "mus");
+  $("mNotif").onclick = async ()=>{ await modalNotificacoes(); const n = $("mNotif") && $("mNotif").querySelector(".nt-n"); if(n) n.remove(); };
   $("mDesempenho").onclick = modalDesempenho;
   $("mRetro").onclick = modalRetrospectiva;
   $("mTutorial").onclick = ()=> mostrarTutorial();
@@ -4665,15 +4718,21 @@ function contextoAudio(){
   return _audio;
 }
 
-/* ---------- Música de fundo do quiz: gerada aqui mesmo (sem arquivo), baixinha e em loop ---------- */
+/* ---------- Música de fundo (quiz e trilha das missões): gerada aqui mesmo (sem arquivo), baixinha e em loop ---------- */
 const MUSICA = (() => {
-  const BPM = 104, PASSO = 60 / BPM / 2, VOL = 1;                       // colcheias
   const N = f => 440 * Math.pow(2, (f - 69) / 12);             // nota MIDI -> Hz
-  /* 4 compassos: Dó, Lá menor, Fá, Sol (alegre e leve). Cada acorde: baixo + notas do arpejo */
-  const ACORDES = [[48, [60, 64, 67, 72]], [45, [57, 60, 64, 69]], [41, [57, 60, 65, 69]], [43, [59, 62, 67, 71]]];
-  const ARPEJO = [0, 1, 2, 3, 2, 1, 2, 3];                      // ordem das notas em cada compasso (8 colcheias)
-  const MELODIA = [[76, 74, 72, 74], [72, 71, 69, 71], [69, 72, 74, 72], [71, 74, 79, 74]];   // 4 notas por compasso (semínimas)
-  let ctx = null, saida = null, relogio = null, prox = 0, passo = 0, volta = 0, tocando = false;
+  /* Cada tema: 4 compassos de 8 colcheias. Cada acorde: baixo + notas do arpejo. A melodia tem 4 notas por compasso. */
+  const TEMAS = {
+    /* quiz: alegre e com pulso (Dó, Lá menor, Fá, Sol) */
+    quiz: { bpm: 104, vol: 1, chimbal: true, arpejo: [0, 1, 2, 3, 2, 1, 2, 3], baixoEm: [0, 4], melodiaCada: 2,
+      acordes: [[48, [60, 64, 67, 72]], [45, [57, 60, 64, 69]], [41, [57, 60, 65, 69]], [43, [59, 62, 67, 71]]],
+      melodia: [[76, 74, 72, 74], [72, 71, 69, 71], [69, 72, 74, 72], [71, 74, 79, 74]] },
+    /* trilha: calma, de passeio pelo mapa (Fá, Dó, Ré menor, Si bemol), sem chimbal e com notas mais longas */
+    trilha: { bpm: 76, vol: .85, chimbal: false, arpejo: [0, 2, 1, 3, 2, 3, 1, 2], baixoEm: [0], melodiaCada: 1,
+      acordes: [[41, [60, 65, 69, 72]], [48, [60, 64, 67, 72]], [50, [62, 65, 69, 74]], [46, [58, 62, 65, 70]]],
+      melodia: [[77, 0, 72, 74], [76, 0, 72, 0], [74, 77, 0, 74], [70, 0, 74, 72]] }
+  };
+  let ctx = null, saida = null, relogio = null, prox = 0, passo = 0, volta = 0, tocando = false, tema = TEMAS.quiz, nomeTema = "quiz", PASSO = 0.3;
   function nota(freq, t, dur, vol, forma){
     const o = ctx.createOscillator(), g = ctx.createGain();
     o.type = forma || "sine"; o.frequency.value = freq;
@@ -4688,21 +4747,27 @@ const MUSICA = (() => {
     s.connect(f); f.connect(g); g.connect(saida); s.start(t);
   }
   function agendar(){
+    if(nomeTema === "trilha" && !document.getElementById("trilha")){ parar(); return; }      // a trilha saiu da tela por outro caminho
     while(prox < ctx.currentTime + 0.25){
-      const comp = Math.floor(passo / 8) % 4, k = passo % 8, [baixo, notas] = ACORDES[comp], t = prox;
-      if(k === 0 || k === 4) nota(N(baixo), t, PASSO * 3.6, 0.2, "triangle");
-      nota(N(notas[ARPEJO[k]]), t, PASSO * 1.6, 0.13, "sine");
-      if(k % 2 === 1) chimbal(t, 0.035);
-      if(volta % 2 === 1 && k % 2 === 0) nota(N(MELODIA[comp][k / 2]), t, PASSO * 1.9, 0.09, "triangle");   // a melodia entra a cada duas voltas
+      const comp = Math.floor(passo / 8) % 4, k = passo % 8, [baixo, notas] = tema.acordes[comp], t = prox;
+      if(tema.baixoEm.includes(k)) nota(N(baixo), t, PASSO * (tema.baixoEm.length > 1 ? 3.6 : 7), 0.2, "triangle");
+      nota(N(notas[tema.arpejo[k]]), t, PASSO * (tema.chimbal ? 1.6 : 2.6), tema.chimbal ? 0.13 : 0.1, "sine");
+      if(tema.chimbal && k % 2 === 1) chimbal(t, 0.035);
+      const m = tema.melodia[comp][k / 2];
+      if(k % 2 === 0 && m && volta % tema.melodiaCada === tema.melodiaCada - 1) nota(N(m), t, PASSO * (tema.chimbal ? 1.9 : 3.4), tema.chimbal ? 0.09 : 0.075, "triangle");   // no quiz a melodia entra a cada duas voltas
       prox += PASSO; passo++; if(passo % 32 === 0) volta++;
     }
   }
-  function iniciar(){
-    if(tocando || !SOM.mus || document.hidden) return;
+  function iniciar(qual){
+    qual = TEMAS[qual] ? qual : "quiz";
+    if(tocando && qual === nomeTema) return;
+    if(tocando) parar();
+    if(!SOM.mus || document.hidden) return;
     ctx = contextoAudio(); if(!ctx) return;
+    nomeTema = qual; tema = TEMAS[qual]; PASSO = 60 / tema.bpm / 2;
     saida = ctx.createGain(); const filtro = ctx.createBiquadFilter();
-    filtro.type = "lowpass"; filtro.frequency.value = 2600;
-    saida.gain.setValueAtTime(0.0001, ctx.currentTime); saida.gain.exponentialRampToValueAtTime(VOL, ctx.currentTime + 1.2);
+    filtro.type = "lowpass"; filtro.frequency.value = tema.chimbal ? 2600 : 1900;
+    saida.gain.setValueAtTime(0.0001, ctx.currentTime); saida.gain.exponentialRampToValueAtTime(tema.vol, ctx.currentTime + 1.2);
     saida.connect(filtro); filtro.connect(ctx.destination);
     prox = ctx.currentTime + 0.08; passo = 0; volta = 0; tocando = true;
     agendar(); relogio = setInterval(agendar, 60);
@@ -4711,12 +4776,14 @@ const MUSICA = (() => {
     if(!tocando) return;
     tocando = false; clearInterval(relogio); relogio = null;
     const s = saida; saida = null;
-    try{ s.gain.cancelScheduledValues(ctx.currentTime); s.gain.setValueAtTime(s.gain.value || VOL, ctx.currentTime); s.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.5); setTimeout(() => { try{ s.disconnect(); }catch(e){} }, 900); }catch(e){}
+    try{ s.gain.cancelScheduledValues(ctx.currentTime); s.gain.setValueAtTime(s.gain.value || tema.vol, ctx.currentTime); s.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.5); setTimeout(() => { try{ s.disconnect(); }catch(e){} }, 900); }catch(e){}
   }
   /* abafa a música um instante quando toca um efeito (acerto/erro), para o efeito aparecer */
-  function abafar(){ if(!tocando || !saida) return; const t = ctx.currentTime; try{ saida.gain.cancelScheduledValues(t); saida.gain.setValueAtTime(VOL * 0.4, t); saida.gain.linearRampToValueAtTime(VOL, t + 0.9); }catch(e){} }
-  document.addEventListener("visibilitychange", () => { if(document.hidden) parar(); else if(typeof jogo !== "undefined" && jogo && document.getElementById("tiles")) iniciar(); });
-  return { iniciar, parar, abafar, get tocando(){ return tocando; } };
+  function abafar(){ if(!tocando || !saida) return; const t = ctx.currentTime; try{ saida.gain.cancelScheduledValues(t); saida.gain.setValueAtTime(tema.vol * 0.4, t); saida.gain.linearRampToValueAtTime(tema.vol, t + 0.9); }catch(e){} }
+  /* qual tema cabe na tela que está aberta agora (nenhum: null) */
+  function daTela(){ return typeof jogo !== "undefined" && jogo && document.getElementById("tiles") ? "quiz" : document.getElementById("trilha") ? "trilha" : null; }
+  document.addEventListener("visibilitychange", () => { if(document.hidden) parar(); else { const q = daTela(); if(q) iniciar(q); } });
+  return { iniciar, parar, abafar, daTela, get tocando(){ return tocando; }, get tema(){ return nomeTema; } };
 })();
 
 /* ---------- Missões novas: comemora uma vez e guarda o progresso ---------- */
@@ -5031,6 +5098,9 @@ const _flor = (dx, c) => `<path d="M${dx} 0 V-11" stroke="#3E8E3E" stroke-width=
 const _casa = (dx, w, h) => `<rect x="${dx - w / 2}" y="${-h}" width="${w}" height="${h}" fill="#E6DFEF"/><rect x="${dx + w / 6}" y="${-h}" width="${w / 3}" height="${h}" fill="#C9C0D8"/><rect x="${dx - w / 2 - 1.5}" y="${-h - 3}" width="${w + 3}" height="4" fill="#B9AECB"/><path d="M${dx - 4} 0 V-8 a4 4 0 0 1 8 0 V0Z" fill="#5A3E2B"/><rect x="${dx - w / 2 + 4}" y="${-h + 6}" width="5" height="5" rx="1" fill="#FFD54A"/><circle cx="${dx - w / 2 + 6.5}" cy="${-h + 8.5}" r="7" fill="#FFD54A" opacity=".18"/>`;
 const _arvoreBase = `<rect x="-4" y="-26" width="8" height="26" rx="3" fill="#7A4E2C"/><circle cx="0" cy="-44" r="21" fill="#3A954C"/><circle cx="-14" cy="-34" r="14" fill="#47AA59"/><circle cx="14" cy="-34" r="14" fill="#2F8040"/><circle cx="-7" cy="-51" r="9" fill="#6CCB78"/>`;
 const _montanha = (c1, c2) => `<polygon points="-72,0 -28,-64 -14,-54 6,-88 72,0" fill="${c1}"/><polygon points="6,-88 72,0 18,0 0,-46" fill="${c2}"/><polygon points="6,-88 -5,-73 1,-69 6,-75 12,-67 17,-73" fill="#F7F2EA"/><polygon points="-28,-64 -35,-54 -30,-52 -26,-57 -21,-52 -17,-57" fill="#F7F2EA"/>`;
+/* Movimento leve de cada enfeite do mapa (o que não está aqui fica parado): vento nas plantas, bichos, barcos, nuvens, luzes */
+const ANIMA = { arvore: "vento", macieira: "vento", arvoreVida: "vento", palmeira: "vento", arbusto: "vento", flores: "vento", juncos: "vento", oliveira: "vento",
+  sarca: "chama", ovelha: "pasta", peixe: "nada", barco: "balanca", arca: "balanca", nuvem: "nuvem", sol: "luz", estrelaBelem: "luz", paredeAgua: "agua" };
 const DECO = {
   arvore:     { w: 28, h: 66, d: () => _somb(22) + _arvoreBase },
   macieira:   { w: 28, h: 66, d: () => _somb(22) + _arvoreBase + [[-11, -38], [9, -49], [13, -31], [-1, -30], [-4, -57]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="3.2" fill="#E8505D"/><circle cx="${x - 1}" cy="${y - 1}" r="1" fill="#FFB3BA"/>`).join("") },
@@ -5120,9 +5190,10 @@ function desenharMapa(G, feitas){
       if(f[0] === "colinas"){ const y = y1 - H * f[1]; camadas.fundo += onda(y, f[3], f[2], k * 2.3 + f[1] * 5, Math.min(y1, y + 70)).replace("<path", `<path opacity=".55"`); }
       else if(f[0] === "rio"){
         const y = y1 - H * f[1]; let d = ""; for(let x = -10; x <= W + 10; x += 14) d += (d ? " L" : "M") + x + " " + (y + Math.sin(x / W * Math.PI * 2.4 + k) * 16).toFixed(1);
-        camadas.fundo += `<path d="${d}" stroke="${tom(f[2], -.25)}" stroke-width="30" fill="none" opacity=".35"/><path d="${d}" stroke="${f[2]}" stroke-width="24" fill="none"/><path d="${d}" stroke="#FFFFFF" stroke-width="3" fill="none" stroke-dasharray="10 18" opacity=".55"/>`;
+        camadas.fundo += `<path d="${d}" stroke="${tom(f[2], -.25)}" stroke-width="30" fill="none" opacity=".35"/><path d="${d}" stroke="${f[2]}" stroke-width="24" fill="none"/><path class="tr-rio" d="${d}" stroke="#FFFFFF" stroke-width="3" fill="none" stroke-dasharray="10 18" opacity=".55"/>`;
       }
-      else if(f[0] === "ondas"){ const n = Math.round(W * H / 5200); for(let i = 0; i < n; i++){ const x = rnd() * W, y = y0 + 10 + rnd() * (H - 20), s = .7 + rnd() * .6; camadas.miudos += `<path d="M${x.toFixed(0)} ${y.toFixed(0)} q${3.5 * s} ${-4 * s} ${7 * s} 0 t${7 * s} 0" stroke="${f[1]}" stroke-width="2.2" fill="none" stroke-linecap="round" opacity="${(.35 + rnd() * .35).toFixed(2)}"/>`; } }
+      else if(f[0] === "ondas"){ const n = Math.round(W * H / 5200); let ond = ["", ""]; for(let i = 0; i < n; i++){ const x = rnd() * W, y = y0 + 10 + rnd() * (H - 20), s = .7 + rnd() * .6; ond[i % 2] += `<path d="M${x.toFixed(0)} ${y.toFixed(0)} q${3.5 * s} ${-4 * s} ${7 * s} 0 t${7 * s} 0" stroke="${f[1]}" stroke-width="2.2" fill="none" stroke-linecap="round" opacity="${(.35 + rnd() * .35).toFixed(2)}"/>`; }
+        camadas.miudos += ond.map((o, i) => `<g class="tr-a tr-a-ondas" data-y0="${y0.toFixed(0)}" data-y1="${y1.toFixed(0)}" style="animation-delay:-${i * 2.5}s">${o}</g>`).join(""); }
       else if(f[0] === "estrelas"){ const n = Math.round(W * H / 3000); for(let i = 0; i < n; i++){ const x = rnd() * W, y = y0 + 6 + rnd() * (H - 12), r = .8 + rnd() * 1.6; camadas.miudos += rnd() < .15 ? `<path d="M${x.toFixed(0)} ${(y - 4).toFixed(0)} l1.2 2.8 2.8 1.2 -2.8 1.2 -1.2 2.8 -1.2 -2.8 -2.8 -1.2 2.8 -1.2z" fill="#FFF6C8" class="tr-brilho" style="animation-delay:-${(rnd() * 3).toFixed(1)}s"/>` : `<circle cx="${x.toFixed(0)}" cy="${y.toFixed(0)}" r="${r.toFixed(1)}" fill="#FFFFFF" opacity="${(.4 + rnd() * .5).toFixed(2)}"/>`; } }
     });
     if(z.tufo){ const n = Math.round(W * H / 4200); for(let i = 0; i < n; i++){ const x = rnd() * W, y = y0 + 8 + rnd() * (H - 12); camadas.miudos += rnd() < .7 ? `<path d="M${x.toFixed(0)} ${y.toFixed(0)} l-3 -6 M${x.toFixed(0)} ${y.toFixed(0)} l0 -8 M${x.toFixed(0)} ${y.toFixed(0)} l3 -6" stroke="${z.tufo}" stroke-width="1.6" stroke-linecap="round" opacity=".6"/>` : `<ellipse cx="${x.toFixed(0)}" cy="${y.toFixed(0)}" rx="${(2 + rnd() * 2).toFixed(1)}" ry="1.6" fill="${z.tufo}" opacity=".45"/>`; } }
@@ -5157,7 +5228,8 @@ function desenharMapa(G, feitas){
         if(!livre(x - hw, y - h, x + hw, y + 2)) continue;
         ocupado.push([x - hw - 4, y - h - 4, x + hw + 4, y + 4]);
         const vira = D.vira && (D.lado ? l === "d" : rnd() < .5);
-        camadas.decos += `<g transform="translate(${x.toFixed(1)} ${y.toFixed(1)}) scale(${(vira ? -s : s).toFixed(3)} ${s.toFixed(3)})">${D.d()}</g>`;
+        const an = ANIMA[tipo];
+        camadas.decos += `<g transform="translate(${x.toFixed(1)} ${y.toFixed(1)}) scale(${(vira ? -s : s).toFixed(3)} ${s.toFixed(3)})">${an ? `<g class="tr-a tr-a-${an}" data-y0="${(y - h).toFixed(0)}" data-y1="${y.toFixed(0)}" style="animation-delay:-${(((x * 13 + y * 7) % 50) / 10).toFixed(1)}s">${D.d()}</g>` : D.d()}</g>`;
         return true;
       }
     }
@@ -5189,7 +5261,7 @@ function desenharMapa(G, feitas){
   [[gx - 70, 1], [gx + 46, -1]].forEach(([tx]) => { fimSvg += `<rect x="${tx}" y="${gy - 104}" width="24" height="104" fill="url(#trouro)" stroke="#C98A12" stroke-width="2"/><rect x="${tx - 3}" y="${gy - 112}" width="30" height="9" fill="#FFE68A" stroke="#C98A12" stroke-width="1.6"/><circle cx="${tx + 12}" cy="${gy - 80}" r="5" fill="#5BC0EB" stroke="#FFFFFF" stroke-width="1.5"/>`; });
   fimSvg += `<path d="M${gx - 40} ${gy} V${gy - 64} a40 40 0 0 1 80 0 V${gy}Z" fill="#E7B33A" stroke="#C98A12" stroke-width="2.5"/><path d="M${gx - 30} ${gy} V${gy - 60} a30 30 0 0 1 60 0 V${gy}Z" fill="url(#trperola)"/>`;
   fimSvg += `<circle cx="${gx}" cy="${gy - 98}" r="9" fill="#FFFFFF" stroke="#E7B33A" stroke-width="3"/><circle cx="${gx - 3}" cy="${gy - 101}" r="2.5" fill="#FFFFFF" opacity=".9"/>`;
-  const nuv = (x, y, s) => `<g transform="translate(${x.toFixed(0)} ${y.toFixed(0)}) scale(${s})">${DECO.nuvem.d()}</g>`;
+  const nuv = (x, y, s) => `<g transform="translate(${x.toFixed(0)} ${y.toFixed(0)}) scale(${s})"><g class="tr-a tr-a-nuvem" data-y0="${(y - 60).toFixed(0)}" data-y1="${(y + 10).toFixed(0)}" style="animation-delay:-${((x * 7 + y) % 14).toFixed(1)}s">${DECO.nuvem.d()}</g></g>`;
   fimSvg += nuv(mx0 + 10, gy + 14, 1.6) + nuv(mx0 + muro - 20, gy + 12, 1.5) + nuv(gx - 120, gy - 120, 1.1) + nuv(gx + 130, gy - 140, 1) + nuv(30, gy + 70, 1.3) + nuv(W - 30, gy + 60, 1.2);
   fimSvg += `</g>`;
 
@@ -5204,7 +5276,7 @@ function telaMissoes(vindoDe){
   const noNivel = feitas % 5, faltam = prox ? 5 - noNivel : 0, zona = feitas >= MISSOES.length ? ZONA_FINAL : zonaDoNivel(Math.floor(feitas / 5) + 1);
   const pg = prox ? progressoMissao(prox) : null;
   app.innerHTML = `<div class="result-area duas"><div class="lado">
-    ${cabPagina("Missões", `${feitas} de ${MISSOES.length} cumpridas`, "Jornada Bíblica")}
+    <div class="ms-topo">${cabPagina("Missões", `${feitas} de ${MISSOES.length} cumpridas`, "Jornada Bíblica")}<button type="button" class="q-mus" id="trMus" aria-pressed="${SOM.mus}" aria-label="Música da trilha" title="Música da trilha">${SOM.mus ? "🎵" : "🔇"}</button></div>
     <section class="panel pg-card">
       <div class="hm-cab"><span>📍 ${esc(zona.nome)} <em>${esc(zona.ref)}</em></span><span class="hm-meta">Nível ${nv} · ${esc(nomeNivel(nv))}</span></div>
       <div class="hm-ms"><div class="hm-nivel"><b>${nv}</b><small>nível</small></div><div class="hm-ms-tx">
@@ -5233,13 +5305,24 @@ function telaMissoes(vindoDe){
   h += `<div class="tr-profeta" id="trProfeta">${meuAvatar()}</div>`;
   el.innerHTML = h;
   el.style.width = W + "px";
+  /* música calma enquanto a trilha está aberta (para no nav, como a do quiz) */
+  MUSICA.iniciar("trilha");
+  $("trMus").onclick = () => { const v = !SOM.mus; definirSom("mus", v); if(v) MUSICA.iniciar("trilha"); $("trMus").textContent = v ? "🎵" : "🔇"; $("trMus").setAttribute("aria-pressed", String(v)); };
+  /* o mapa se mexe de leve, mas só o que está à vista: o resto fica parado para não pesar no celular */
+  const vivos = [...el.querySelectorAll("[data-y0]")].map(g => ({ g, y0: +g.dataset.y0, y1: +g.dataset.y1, on: false }));
+  let marcado = false;
+  const olhar = () => { marcado = false; if(!document.body.contains(el)){ window.removeEventListener("scroll", aoRolar); window.removeEventListener("resize", aoRolar); return; }
+    const topo = -el.getBoundingClientRect().top, a = topo - 140, b = topo + window.innerHeight + 140;
+    for(const v of vivos){ const on = v.y1 >= a && v.y0 <= b; if(on !== v.on){ v.on = on; v.g.classList.toggle("on", on); } } };
+  const aoRolar = () => { if(!marcado){ marcado = true; requestAnimationFrame(olhar); } };
+  window.addEventListener("scroll", aoRolar, { passive: true }); window.addEventListener("resize", aoRolar);
   /* o personagem caminha da posição anterior até a missão atual */
   const boneco = $("trProfeta"), posDe = k => k > N ? { x: portao.x, y: portao.y } : pts[k], ir = k => { const p = posDe(k); boneco.style.left = p.x + "px"; boneco.style.top = p.y + "px"; };
   const alvo = feitas >= N ? N + 1 : feitas;            // jornada completa: o personagem entra no portão
   const de = Math.max(0, Math.min(alvo, vindoDe == null ? alvo : vindoDe));
   boneco.style.transition = "none"; ir(de);
   const rolar = k => { const y = el.getBoundingClientRect().top + window.scrollY + posDe(k).y - window.innerHeight * .55; window.scrollTo({ top: Math.max(0, y), behavior: "auto" }); };
-  rolar(de);
+  rolar(de); olhar();
   if(de < alvo){
     let k = de; const lento = matchMedia("(prefers-reduced-motion: reduce)").matches;
     const passo = () => { if(!$("trProfeta")) return; k++; boneco.style.transition = lento ? "none" : "left .42s ease, top .42s ease"; boneco.classList.add("andando"); ir(k); tocar("toque"); rolar(k);
@@ -5281,7 +5364,75 @@ function postDoResultado(L, dia, r){
 }
 function postDaConquista(c){ return { tipo: "conquista", ref: c.id, ic: c.ic, titulo: `Desbloqueou a conquista ${c.t}`, texto: c.d }; }
 
-async function telaMural(){
+/* ---------- Notificações: reações novas nas minhas publicações do mural ---------- */
+const NOTIF = { itens: [], total: 0, em: 0, carregando: false, nomes: {} };
+/* quantas reações de cada publicação eu já vi (guardado no aparelho e no perfil, para valer em outro aparelho também) */
+function muralVisto(){
+  const a = lsGet(KEY + ":muralVisto:" + usuario.uid, {}) || {}; let b = {};
+  try{ b = JSON.parse((perfil && perfil.muralVisto) || "{}") || {}; }catch(e){}
+  const m = Object.assign({}, a); Object.keys(b).forEach(k => { m[k] = Math.max(m[k] || 0, b[k] || 0); });
+  return m;
+}
+function guardarMuralVisto(m){
+  lsSet(KEY + ":muralVisto:" + usuario.uid, m);
+  const txt = JSON.stringify(m); if(perfil.muralVisto === txt) return;
+  perfil.muralVisto = txt; DB.salvarUsuario(usuario.uid, { muralVisto: txt }).catch(()=>{});
+}
+function reacoesDeOutros(p){ const eu = usuario.uid, out = []; Object.keys(p.reacoes || {}).forEach(k => (p.reacoes[k] || []).forEach(u => { if(u !== eu) out.push([k, u]); })); return out; }
+async function carregarNotificacoes(forcar){
+  if(!usuario || !perfil || !perfil.profeta || NOTIF.carregando) return;
+  if(!forcar && Date.now() - NOTIF.em < 90000) return;
+  NOTIF.carregando = true;
+  try{
+    const limite = Date.now() - 45 * 86400e3, visto = muralVisto(); let baixou = false;
+    const meus = (await DB.meusPosts(usuario.uid)).filter(p => (p.quando || 0) >= limite);
+    NOTIF.itens = meus.map(p => { const rs = reacoesDeOutros(p);
+      if((visto[p.id] || 0) > rs.length){ visto[p.id] = rs.length; baixou = true; }      // alguém tirou a reação: a conta de vistas desce junto
+      return { p, rs, n: rs.length, novas: rs.length - (visto[p.id] || 0) }; })
+      .filter(x => x.n > 0).sort((a, b) => (b.novas > 0) - (a.novas > 0) || (b.p.quando || 0) - (a.p.quando || 0));
+    if(baixou) lsSet(KEY + ":muralVisto:" + usuario.uid, visto);
+    NOTIF.total = NOTIF.itens.reduce((s, x) => s + x.novas, 0); NOTIF.em = Date.now();
+  }catch(e){}
+  NOTIF.carregando = false; atualizarSino();
+}
+function atualizarSino(){
+  const b = $("sino"); if(!b) return;
+  b.hidden = $("topbar").hidden || !(NOTIF.total > 0);
+  $("sinoN").textContent = NOTIF.total > 99 ? "99+" : String(NOTIF.total);
+  b.setAttribute("aria-label", NOTIF.total === 1 ? "1 notificação nova" : NOTIF.total + " notificações novas");
+}
+async function nomesDeQuemReagiu(itens){
+  const falta = new Set(); itens.forEach(x => [...new Set(x.rs.map(r => r[1]))].reverse().slice(0, 2).forEach(u => { if(!NOTIF.nomes[u]) falta.add(u); }));
+  SALAS.forEach(s => { const c = typeof membrosCache !== "undefined" && membrosCache[s.id]; if(c) c.lista.forEach(m => { if(m.nome) NOTIF.nomes[m.uid] = NOTIF.nomes[m.uid] || m.nome; }); });
+  await Promise.all([...falta].filter(u => !NOTIF.nomes[u]).slice(0, 20).map(async u => { try{ const p = await DB.getUsuario(u); if(p && p.nome) NOTIF.nomes[u] = p.nome; }catch(e){} }));
+}
+function textoQuemReagiu(x){
+  const uids = [...new Set(x.rs.map(r => r[1]))].reverse(), nomes = uids.slice(0, 2).map(u => (NOTIF.nomes[u] || "Alguém").split(" ")[0]), resto = uids.length - nomes.length;
+  if(uids.length === 1) return `<b>${esc(nomes[0])}</b> reagiu à sua publicação`;
+  if(!resto) return `<b>${esc(nomes[0])} e ${esc(nomes[1])}</b> reagiram à sua publicação`;
+  return `<b>${esc(nomes[0])}, ${esc(nomes[1])} e mais ${resto}</b> reagiram à sua publicação`;
+}
+async function modalNotificacoes(){
+  await carregarNotificacoes(true);
+  const itens = NOTIF.itens.slice(0, 30).map(x => Object.assign({}, x));
+  await nomesDeQuemReagiu(itens);
+  const icones = x => { const ks = [...new Set(x.rs.map(r => r[0]))]; return REACOES.filter(([k]) => ks.includes(k)).slice(0, 3).map(r => r[1]).join(""); };
+  modal("Notificações", itens.length ? `<div class="nt-lista">${itens.map((x, i) => { const s = SALAS.find(y => y.id === x.p.salaId);
+      return `<button type="button" class="nt-item ${x.novas > 0 ? "nova" : ""}" data-nt="${i}"><span class="nt-ic" aria-hidden="true">${icones(x)}</span><span class="nt-tx">${textoQuemReagiu(x)}<small>${esc(x.p.titulo || "")}${s ? " · " + esc(s.nome) : ""}</small></span>${x.novas > 0 ? `<span class="nt-n" aria-label="${x.novas} ${x.novas === 1 ? "nova" : "novas"}">+${x.novas}</span>` : ""}<span class="seta" aria-hidden="true">›</span></button>`; }).join("")}</div>
+      <p class="note">Toque numa notificação para abrir a publicação no mural.</p>`
+    : `<p class="vazio">Nenhuma reação por enquanto. Publique algo no mural e veja a turma reagir!</p>`, (m, fechar) => {
+    m.querySelectorAll("[data-nt]").forEach(b => b.onclick = () => { const x = itens[+b.dataset.nt]; fechar(); abrirPostNoMural(x.p); });
+  });
+  /* abriu a lista: tudo o que estava nela conta como visto, e o sino some */
+  const visto = {}; NOTIF.itens.forEach(x => { visto[x.p.id] = x.n; x.novas = 0; });
+  guardarMuralVisto(visto); NOTIF.total = 0; atualizarSino();
+}
+function abrirPostNoMural(p){
+  if(!SALAS.some(s => s.id === p.salaId)){ aviso("Você não está mais nessa sala."); return; }
+  definirSala(p.salaId); telaMural(p.id);
+}
+
+async function telaMural(focoId){
   tabAtual = "salas"; atualizarCasca(); pararTimer();
   const sala = salaAtual(), eu = usuario.uid;
   app.innerHTML = `<div class="result-area duas"><div class="lado">
@@ -5298,7 +5449,7 @@ async function telaMural(){
     let aberto = null;                                           // publicação com o seletor de reações aberto
     const desenhar = () => {
       corpo.innerHTML = `<div class="mural">${posts.map(p => { const rc = p.reacoes || {};
-        return `<article class="post ${p.uid === eu ? "meu" : ""}" data-post="${esc(p.id)}">
+        return `<article class="post ${p.uid === eu ? "meu" : ""} ${p.id === focoId ? "foco" : ""}" data-post="${esc(p.id)}">
           <div class="post-top"><div class="em">${avatarSVG(p.profeta || PROFETA_PADRAO, null, p.uid === eu ? meuNivel() : p.nivel)}</div><div class="info"><strong>${esc(p.nome || "?")}${p.uid === eu ? " (você)" : ""}</strong><span>${haQuanto(p.quando || 0)}</span></div>${p.uid === eu || ehMaster() || ehDonoSala(sala) || ehAdminSala(sala) ? `<button class="post-x" data-apagar="${esc(p.id)}" aria-label="Apagar publicação">✕</button>` : ""}</div>
           <div class="post-corpo"><div class="ic">${esc(p.ic || "✨")}</div><div><b>${esc(p.titulo)}</b>${p.texto ? `<span>${esc(p.texto)}</span>` : ""}</div></div>
           <div class="post-reacoes">${REACOES.filter(([k]) => (rc[k] || []).length).map(([k, ic, nome]) => { const l = rc[k], on = l.includes(eu); return `<button type="button" class="reacao ${on ? "on" : ""}" data-reagir="${k}" aria-pressed="${on}" aria-label="${nome}: ${l.length}" title="${nome}"><span>${ic}</span><b>${l.length}</b></button>`; }).join("")}<button type="button" class="reacao mais" data-reagir-abrir aria-expanded="${aberto === p.id}" aria-label="Reagir"><span>${aberto === p.id ? "✕" : "🙂"}</span>${aberto === p.id ? "Fechar" : "Reagir"}</button></div>
@@ -5318,6 +5469,9 @@ async function telaMural(){
       });
     };
     desenhar();
+    /* veio de uma notificação: mostra a publicação que recebeu a reação */
+    if(focoId){ const alvo = [...corpo.querySelectorAll("[data-post]")].find(a => a.dataset.post === focoId);
+      if(alvo) setTimeout(() => alvo.scrollIntoView({ block: "center", behavior: "smooth" }), 60); else aviso("Essa publicação é antiga e não aparece mais no mural."); }
   }catch(e){ const c = $("muCorpo"); if(c) c.innerHTML = `<section class="panel"><p class="erro">${esc(erroMsg(e))}</p></section>`; }
 }
 /* Escolher o que compartilhar (sempre algo que a pessoa realmente fez) */
@@ -5336,6 +5490,9 @@ function modalCompartilharMural(){
     m.querySelectorAll("[data-k]").forEach(b => b.onclick = async () => { b.disabled = true; if(await publicarNoMural(opcoes[+b.dataset.k][1])){ fechar(); telaMural(); } else b.disabled = false; });
   });
 }
+
+/* voltou para o site (aba ou aplicativo em primeiro plano): confere se chegou reação nova */
+document.addEventListener("visibilitychange", () => { if(!document.hidden && typeof usuario !== "undefined" && usuario) carregarNotificacoes(); });
 
 /* ============================================================
    BONECOS: MODELOS EM PIXEL ART
