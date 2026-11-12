@@ -1325,6 +1325,14 @@ input[type=text],input[type=email],input[type=password],input[type=number],input
 @keyframes mjpulsa{0%,100%{box-shadow:0 6px 0 #2A8DB0,0 0 0 6px rgba(255,255,255,.45),0 12px 22px rgba(10,9,40,.4)}50%{box-shadow:0 6px 0 #2A8DB0,0 0 0 14px rgba(255,255,255,.1),0 12px 22px rgba(10,9,40,.4)}}
 @keyframes mjbrilho{0%,55%{left:-60%}100%{left:130%}}
 @media (prefers-reduced-motion:reduce){.mj-raios,.mj-moeda,.mj.atual .mj-moeda,.mj-premio::after{animation:none}}
+/* escolha do personagem: mostrar para a turma o raro conquistado */
+.pers-acoes{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px;padding:12px;border-radius:16px;background:linear-gradient(180deg,rgba(242,190,46,.24),rgba(242,190,46,.08));border:1.5px solid rgba(242,190,46,.55)}
+.pers-acoes[hidden]{display:none}
+.pers-acoes p{grid-column:1/-1;margin:0 0 2px;font-size:13.5px;color:var(--muted);line-height:1.35}
+.pers-acoes p b{color:#FFE27A}
+.pers-acoes .btn{width:100%;min-height:40px}
+.post-corpo .ic.pers{font-size:0}
+.post-corpo .ic.pers .avatar{width:40px;height:52px;display:block}
 /* login */
 .logo-login{padding:18px 0 6px}
 .logo-login p{font-size:14px;margin-top:10px}
@@ -2115,16 +2123,27 @@ function telaProfeta(){
       <div class="profetas" role="group" aria-label="Personagens">${PROFETAS.filter(p => !p.nivel).map(botaoProfeta).join("")}</div>
       <h3 class="prof-tit"><span aria-hidden="true">✨</span> Personagens raros <small>liberados ao subir de nível nas missões</small></h3>
       <div class="profetas raros" role="group" aria-label="Personagens raros">${PROFETAS.filter(p => p.nivel).map(botaoProfeta).join("")}</div>
-    <div class="fala" id="fala" aria-live="polite" hidden></div></div>
+    <div class="fala" id="fala" aria-live="polite" hidden></div>
+    <div class="pers-acoes" id="pAcoes" hidden></div></div>
     <div class="btn-row"><button class="btn btn-main" id="pOk">Confirmar</button>${perfil.profeta ? `<button class="btn btn-ghost" id="pVoltar">Voltar</button>` : ""}</div></section></div>`;
   const mostrarFala = (rolar)=>{
     const p = acharProfeta(escolhido), f = $("fala"); if(!p || !f) return;
     f.innerHTML = `<div class="fala-boneco">${avatarSVG(p.id)}</div><div class="balao"><strong>${esc(p.nome)}</strong><p>${esc(p.fala)}</p>${p.ref ? `<span>${esc(p.ref)}</span>` : ""}</div>`;
     f.hidden = false;
-    if(rolar) f.scrollIntoView({ block:"nearest", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+    /* personagem raro já conquistado: dá para mostrar para a turma (imagem para compartilhar ou publicação no mural da sala) */
+    const ac = $("pAcoes"), raroLivre = !!p.nivel && profetaLiberado(p);      // liberado pelo nível ou já em uso pelo jogador
+    ac.hidden = !raroLivre;
+    if(raroLivre){
+      ac.innerHTML = `<p><b>${p.lendario ? "★ Personagem lendário" : "★ Personagem raro"} desbloqueado!</b> Mostre para a turma.</p><button type="button" class="btn btn-wa btn-sm" id="pShare">Compartilhar</button><button type="button" class="btn btn-ghost btn-sm" id="pMural">Publicar no mural</button>`;
+      $("pShare").onclick = () => compartilharPersonagem(p, $("pShare"));
+      $("pMural").onclick = () => publicarNoMural(postDoPersonagem(p), $("pMural"));
+    }
+    if(rolar) (raroLivre ? ac : f).scrollIntoView({ block: raroLivre ? "center" : "nearest", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
   };
   app.querySelectorAll(".prof").forEach(b=> b.onclick = ()=>{ if(b.dataset.nivel){ aviso(`${acharProfeta(b.dataset.p).nome} é liberado no nível ${b.dataset.nivel}. Cumpra as missões para chegar lá!`); return; } escolhido = b.dataset.p; app.querySelectorAll(".prof").forEach(x=> x.setAttribute("aria-pressed", String(x === b))); mostrarFala(true); });
   mostrarFala(false);
+  /* quem está usando um personagem raro já abre a tela vendo ele e os botões de compartilhar */
+  if(!$("pAcoes").hidden) setTimeout(() => { const ac = $("pAcoes"); if(ac) ac.scrollIntoView({ block: "center" }); }, 80);
   const vb = $("pVoltar"); if(vb) vb.onclick = ()=> nav("conta");
   $("pOk").onclick = async ()=>{
     if(!escolhido){ aviso("Escolha seu personagem"); return; }
@@ -3240,6 +3259,46 @@ async function gerarCartao(desenho, nome, btn){
     await compartilharImagem(blob, nome);
   }catch(e){ aviso("Não deu para montar a imagem: " + erroMsg(e)); }
   finally{ if(btn) ocupado(btn, false); }
+}
+/* Personagem raro conquistado: o boneco em destaque, com brilho dourado, o nome e a fala dele */
+function desenharPersonagem(x, p, img){
+  const W = 1080, H = 1350, BB = FONTES, BR = '"Barlow",system-ui,sans-serif';
+  x.save(); x.clearRect(0, 0, W, H); fundoCartao(x, W, H);
+  etiqueta(x, p.lendario ? "PERSONAGEM LENDÁRIO" : "PERSONAGEM RARO", "NÍVEL " + p.nivel);
+  const cx = W / 2, cy = 560;
+  // brilho dourado e raios atrás do boneco
+  x.save();
+  const g = x.createRadialGradient(cx, cy, 40, cx, cy, 430);
+  g.addColorStop(0, "rgba(255,243,184,.9)"); g.addColorStop(.55, "rgba(242,190,46,.38)"); g.addColorStop(1, "rgba(242,190,46,0)");
+  x.fillStyle = g; x.beginPath(); x.arc(cx, cy, 430, 0, Math.PI * 2); x.fill();
+  x.fillStyle = "rgba(255,255,255,.14)";
+  for(let i = 0; i < 12; i++){ const a = i * Math.PI / 6; x.beginPath(); x.moveTo(cx, cy); x.arc(cx, cy, 450, a, a + Math.PI / 14); x.closePath(); x.fill(); }
+  x.restore();
+  // estrelinhas
+  x.fillStyle = "#FFE27A";
+  [[190, 340, 26], [890, 310, 30], [150, 650, 18], [930, 640, 20], [270, 200, 16], [830, 790, 16]].forEach(([sx, sy, t]) => { x.fillRect(sx - t / 6, sy - t, t / 3, 2 * t); x.fillRect(sx - t, sy - t / 6, 2 * t, t / 3); });
+  // o boneco, em pixel art nítido
+  const ih = 580, iw = ih * img.width / img.height;
+  x.fillStyle = "rgba(20,18,60,.3)"; x.beginPath(); x.ellipse(cx, cy + ih / 2 - 16, iw * .34, 22, 0, 0, Math.PI * 2); x.fill();
+  x.imageSmoothingEnabled = false; x.drawImage(img, cx - iw / 2, cy - ih / 2, iw, ih); x.imageSmoothingEnabled = true;
+  // nome, selo e fala
+  x.textAlign = "center"; x.textBaseline = "alphabetic"; x.fillStyle = "#fff";
+  let tam = 150; x.font = tam + "px " + BB; while(x.measureText(p.nome.toUpperCase()).width > W - 144 && tam > 70){ tam -= 4; x.font = tam + "px " + BB; }
+  x.fillText(p.nome.toUpperCase(), cx, 990);
+  x.font = "700 40px " + BR; x.fillStyle = "#FFE27A"; x.fillText("★ " + (p.lendario ? "Personagem lendário" : "Personagem raro") + " desbloqueado", cx, 1046);
+  x.font = "italic 600 34px " + BR; x.fillStyle = "rgba(255,255,255,.92)";
+  quebrar(x, "“" + p.fala + "”", W - 200).slice(0, 2).forEach((l, i) => x.fillText(l, cx, 1104 + i * 44));
+  // rodapé
+  const fy = 1178, nv = Math.max(1, meuNivel());
+  x.textAlign = "left"; x.font = "700 44px " + BR; x.fillStyle = "#fff"; x.fillText(quem(), 72, fy + 64);
+  x.font = "italic 600 32px " + BR; x.fillStyle = "rgba(255,255,255,.88)"; x.fillText("Nível " + nv + " · " + nomeNivel(nv) + " na Corrida do Rolo", 72, fy + 112);
+  x.textAlign = "right"; x.font = "36px " + BB; x.fillStyle = "rgba(255,255,255,.85)"; x.fillText("#EUESTUDOMINHALIÇÃO", W - 72, fy + 150);
+  x.restore();
+}
+async function compartilharPersonagem(p, btn){
+  const img = await new Promise(ok => { const i = new Image(); i.onload = () => ok(i); i.onerror = () => ok(null); i.src = spriteHD(p).url; });
+  if(!img){ aviso("Não deu para montar a imagem."); return; }
+  return gerarCartao(x => desenharPersonagem(x, p, img), "personagem-" + slug(p.nome) + ".jpg", btn);
 }
 function compartilharConquistas(btn){ const lista = conquistas(); return gerarCartao(x => desenharConquistas(x, lista), "conquistas-" + slug(quem() || "quiz") + ".jpg", btn); }
 function compartilharConquista(c, btn){ return gerarCartao(x => desenharConquista(x, c), "conquista-" + slug(c.t) + ".jpg", btn); }
@@ -5471,6 +5530,7 @@ async function publicarNoMural(post, btn){
 function postDoResultado(L, dia, r){
   return { tipo: "quiz", ref: L.id + "_" + dia.data, ic: r.total && r.acertos === r.total ? "🎯" : "📖", titulo: `Fez ${fmt(r.pts)} pontos no quiz de ${dia.nome.toLowerCase()}`, texto: `${L.numero} · ${r.acertos} de ${r.total} certas${r.noPrazo ? " · no prazo" : ""}` };
 }
+function postDoPersonagem(p){ return { tipo: "personagem", ref: p.id, ic: "✨", titulo: `Desbloqueou ${p.nome}, personagem ${p.lendario ? "lendário" : "raro"}`, texto: `Nível ${p.nivel} · ${nomeNivel(p.nivel)}` }; }
 function postDaConquista(c){ return { tipo: "conquista", ref: c.id, ic: c.ic, titulo: `Desbloqueou a conquista ${c.t}`, texto: c.d }; }
 
 /* ---------- Notificações: reações novas nas minhas publicações do mural ---------- */
@@ -5560,7 +5620,7 @@ async function telaMural(focoId){
       corpo.innerHTML = `<div class="mural">${posts.map(p => { const rc = p.reacoes || {};
         return `<article class="post ${p.uid === eu ? "meu" : ""} ${p.id === focoId ? "foco" : ""}" data-post="${esc(p.id)}">
           <div class="post-top"><div class="em">${avatarSVG(p.profeta || PROFETA_PADRAO, null, p.uid === eu ? meuNivel() : p.nivel)}</div><div class="info"><strong>${esc(p.nome || "?")}${p.uid === eu ? " (você)" : ""}</strong><span>${haQuanto(p.quando || 0)}</span></div>${p.uid === eu || ehMaster() || ehDonoSala(sala) || ehAdminSala(sala) ? `<button class="post-x" data-apagar="${esc(p.id)}" aria-label="Apagar publicação">✕</button>` : ""}</div>
-          <div class="post-corpo"><div class="ic">${esc(p.ic || "✨")}</div><div><b>${esc(p.titulo)}</b>${p.texto ? `<span>${esc(p.texto)}</span>` : ""}</div></div>
+          <div class="post-corpo">${p.tipo === "personagem" && acharProfeta(p.ref) ? `<div class="ic pers">${avatarSVG(p.ref)}</div>` : `<div class="ic">${esc(p.ic || "✨")}</div>`}<div><b>${esc(p.titulo)}</b>${p.texto ? `<span>${esc(p.texto)}</span>` : ""}</div></div>
           <div class="post-reacoes">${REACOES.filter(([k]) => (rc[k] || []).length).map(([k, ic, nome]) => { const l = rc[k], on = l.includes(eu); return `<button type="button" class="reacao ${on ? "on" : ""}" data-reagir="${k}" aria-pressed="${on}" aria-label="${nome}: ${l.length}" title="${nome}"><span>${ic}</span><b>${l.length}</b></button>`; }).join("")}<button type="button" class="reacao mais" data-reagir-abrir aria-expanded="${aberto === p.id}" aria-label="Reagir"><span>${aberto === p.id ? "✕" : "🙂"}</span>${aberto === p.id ? "Fechar" : "Reagir"}</button></div>
           ${aberto === p.id ? `<div class="reacao-menu" role="group" aria-label="Escolha uma reação">${REACOES.map(([k, ic, nome]) => `<button type="button" class="${(rc[k] || []).includes(eu) ? "on" : ""}" data-reagir="${k}" aria-pressed="${(rc[k] || []).includes(eu)}"><span>${ic}</span><em>${nome}</em></button>`).join("")}</div>` : ""}
         </article>`; }).join("")}</div>`;
