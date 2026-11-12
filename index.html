@@ -982,6 +982,258 @@ ol.passos li{margin-bottom:8px}
 @media (min-width:1500px){ .admin-area{grid-template-columns:232px minmax(0,1fr);gap:24px} .adm-c .qgrade{grid-template-columns:repeat(3,minmax(0,1fr))} }
 
 @media (prefers-reduced-motion:reduce){.cd-num.anim,.cd-num.vai,.cd-ring,.cd-in .avatar,.modal,.modal-bg{animation:none}}
+
+/* ============================================================
+   VISUAL COMPACTO EM TODO O SITE (mesmo padrão do Início: cara de aplicativo)
+   ============================================================ */
+body{font-size:15.5px}
+.panel{padding:14px;border-radius:18px}
+.panel+.panel{margin-top:10px}
+/* cabeçalho das páginas */
+.pg-cab{padding:2px 2px 10px}
+.pg-rot{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font:800 11.5px/1.2 "Barlow",sans-serif;letter-spacing:.9px;text-transform:uppercase;color:var(--soft)}
+.pg-rot span{background:rgba(255,255,255,.16);color:#fff;border-radius:99px;padding:3px 9px}
+.pg-rot em,.pg-rot i{font-style:normal}
+.pg-cab h1{font:800 22px/1.15 "Barlow",sans-serif;letter-spacing:0;text-transform:none;margin:7px 0 0}
+.pg-cab p{margin:3px 0 0;font-size:13px;line-height:1.4;color:var(--soft)}
+.pg-sobre{margin:2px 0 0;font:800 11.5px/1.2 "Barlow",sans-serif;letter-spacing:.9px;text-transform:uppercase;color:var(--accent)}
+.pg-tit{font:800 19px/1.2 "Barlow",sans-serif;letter-spacing:0;text-transform:none;margin:3px 0 10px}
+.pg-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.pg-kpis.dois{grid-template-columns:1fr 1fr}
+.pg-kpis>div{background:rgba(0,0,0,.14);border-radius:12px;padding:9px 8px;text-align:center;min-width:0}
+.pg-kpis b{display:block;font:800 18px/1.1 "Barlow",sans-serif}
+.pg-kpis span{display:block;font-size:11.5px;color:var(--soft);font-weight:600;margin-top:2px}
+/* títulos e rótulos */
+.h2{font:800 20px/1.2 "Barlow",sans-serif;letter-spacing:0;text-transform:none;margin:0 0 10px}
+.h3,.hoje-lbl,.prof-tit{font:800 11.5px/1.2 "Barlow",sans-serif;letter-spacing:.9px;text-transform:uppercase;color:var(--soft)}
+.h3{margin:0 0 10px}
+.hoje-lbl{color:var(--accent);margin-bottom:3px}
+.prof-tit{margin:16px 0 8px;padding-top:12px}
+.prof-tit small{font-size:11.5px}
+.sub-h{font-size:13px;margin:0 0 10px}
+.note{font-size:12.5px;margin-top:10px}
+.small{font-size:12.5px}
+.vazio{font-size:13.5px;padding:6px 0}
+.erro{font-size:13.5px}
+.rodape{font-size:11.5px;margin-top:12px}
+.aviso-fb{font-size:13px;padding:8px 12px;margin:10px 0}
+/* formulários e botões */
+label{font-size:12.5px;font-weight:700;color:var(--soft);margin-bottom:4px}
+.field{margin-bottom:10px}
+.field .hint{font-size:11.5px}
+input[type=text],input[type=email],input[type=password],input[type=number],input[type=date],select,textarea{padding:10px 12px;font-size:16px;border-width:1.5px;border-radius:12px}
+.check{font-size:14px;color:#fff}
+.btn{min-height:44px;padding:9px 14px;font-size:15px;border-radius:12px}
+.btn-sm{min-height:36px;padding:6px 12px;font-size:13.5px;border-radius:10px}
+.btn-ghost{border-width:1.5px}
+.btn-row{gap:8px;margin-top:12px}
+.sala-sel{gap:8px;margin-bottom:10px}
+.sala-sel .btn-sm{min-height:47px;border-radius:12px}
+.tabs{margin-bottom:10px}
+.tabs button{padding:6px 12px;font-size:13px}
+.tabs.dias button{padding:5px 0}
+.switch{width:42px;height:24px}
+.switch::after{width:18px;height:18px}
+.switch[aria-checked="true"]::after{transform:translateX(18px)}
+.linha-sw{padding:10px 0}
+.linha-sw .txt strong{font-size:14.5px}
+.opcoes button{padding:10px 12px;font-size:14.5px;border-width:1.5px;border-radius:12px}
+.badge{font-size:10px;padding:2px 7px}
+/* números e listas */
+.stats{gap:6px}
+.stat{padding:9px 8px;border-radius:12px;text-align:center}
+.stat b{font:800 18px/1.1 "Barlow",sans-serif;letter-spacing:0}
+.stat span{display:block;font-size:11.5px;line-height:1.25;margin-top:2px}
+.ar-stats{grid-template-columns:repeat(3,1fr)}
+.lista li{padding:9px 0;gap:10px}
+.lista .info strong{font-size:14.5px}
+.lista .info span{font-size:12.5px}
+.lista .em{width:32px;font-size:22px}
+.lista .pts{font:800 15px "Barlow",sans-serif;letter-spacing:0}
+.pos{width:28px;height:28px;border-radius:9px;font:800 13px "Barlow",sans-serif}
+.dz-stat{padding:9px 8px;border-radius:12px;text-align:center}
+.dz-stat b{font:800 18px/1.1 "Barlow",sans-serif}
+.dz-stat span{font-size:11.5px}
+.dz-barras{height:54px}
+/* janelas (modais) */
+.modal{padding:16px 16px calc(16px + env(safe-area-inset-bottom,0px))}
+.modal-h{margin-bottom:10px}
+.modal-h h3{font:800 18px/1.2 "Barlow",sans-serif;letter-spacing:0}
+.fechar{width:32px;height:32px;font-size:16px}
+.cq-modal .ic{font-size:60px}
+.cq-modal h3{font:800 21px/1.2 "Barlow",sans-serif;letter-spacing:0;margin:6px 0 2px}
+.cq-modal p{font-size:14px}
+.cq-festa-item{padding:9px 11px}
+.cq-festa-item .ic{font-size:34px}
+.cq-festa-item .tx b{font:800 16px/1.2 "Barlow",sans-serif;letter-spacing:0}
+.cq-festa-lista.uma .ic{font-size:68px}
+.cq-festa-lista.uma .tx b{font-size:21px}
+.cq-festa-lista.uma .tx span{font-size:13.5px}
+.sala-achada h3{font:800 21px/1.2 "Barlow",sans-serif;letter-spacing:0}
+.convite{padding:10px}
+.convite b{font-size:44px;letter-spacing:6px}
+.tu-in h2{font:800 22px/1.2 "Barlow",sans-serif;letter-spacing:0}
+.tu-relogio{font-size:48px}
+/* quiz: semana */
+.home .col-a .pg-cab{padding-bottom:10px}
+.days{margin-top:2px}
+.day{grid-template-columns:38px 1fr auto;gap:10px;padding:8px 0}
+.day:first-child{padding-top:0}
+.day .dot{width:38px;height:38px;border-radius:12px;font:800 12px "Barlow",sans-serif;letter-spacing:.3px}
+.day .info strong{font-size:14.5px}
+.day .info span{font-size:12.5px;line-height:1.3}
+.day .act{font-size:13.5px;min-height:34px;padding:6px 13px;border-radius:10px}
+.day .act.lock{font-size:12px;padding:6px 0}
+.mp-dica{margin:8px 0 4px;font-size:12.5px}
+.linkish{font-size:13px}
+/* quiz: pergunta */
+.qtop{margin-bottom:12px;gap:10px}
+.qtop .where{font-size:13px;color:var(--soft);flex:1;min-width:0;line-height:1.35}
+.qtop .where b{font:800 11.5px/1.2 "Barlow",sans-serif;letter-spacing:.9px;text-transform:uppercase;color:var(--accent)}
+.q-mus{flex:none;width:36px;height:36px;border-radius:50%;border:1px solid var(--panel-line);background:rgba(255,255,255,.12);color:#fff;font-size:16px;display:grid;place-items:center;padding:0}
+.q-mus[aria-pressed="false"]{opacity:.6}
+.ring{width:50px;height:50px}
+.ring svg{width:50px;height:50px}
+.ring .num{font:800 18px "Barlow",sans-serif}
+.qtext{font-size:clamp(18px,5vw,21px);line-height:1.28;margin-bottom:4px}
+.qhint{font-size:12.5px;font-style:normal;margin-bottom:12px;color:var(--soft)}
+.ajudas-bar{gap:6px;margin:-4px 0 8px}
+.ajuda-btn{font-size:12.5px;padding:4px 6px 4px 9px;border-width:1.5px}
+.ajuda-btn b{min-width:19px;height:19px;font-size:11px}
+.ajuda-dica{font-size:12.5px}
+.tiles{gap:8px}
+.tile{grid-template-columns:32px 1fr;gap:10px;min-height:52px;padding:9px 12px;font-size:15px;border-radius:14px;line-height:1.3}
+.tile .letter{width:32px;height:32px;border-radius:9px;font:800 15px "Barlow",sans-serif}
+.tile .mark{font-size:12px}
+.feedback{margin-top:12px;padding:12px 14px;border-radius:16px;border-width:1.5px}
+.feedback h3{font:800 19px/1.2 "Barlow",sans-serif;letter-spacing:0}
+.feedback p{font-size:13.5px}
+.verso{margin-top:10px;padding:9px 12px;border-left-width:3px}
+.verso p{font-size:14.5px;line-height:1.45}
+.verso cite{font-size:12.5px;margin-top:4px}
+.cd-dia{font:800 14px "Barlow",sans-serif;letter-spacing:1.2px;text-transform:uppercase}
+/* quiz: resultado */
+.result{padding:16px 14px 14px}
+.result .lbl{font:800 11.5px/1.2 "Barlow",sans-serif;letter-spacing:.9px;text-transform:uppercase;color:var(--soft)}
+.result .big{font:800 clamp(46px,14vw,58px)/1.05 "Barlow",sans-serif;letter-spacing:-.5px;margin:4px 0 2px}
+.result h2{font:800 20px/1.2 "Barlow",sans-serif;letter-spacing:0;margin-top:8px}
+.result .sub{font-size:13px;margin-top:3px}
+.result + .fala{margin-top:10px}
+.balao{border-width:2px;padding:9px 12px;box-shadow:3px 3px 0 rgba(34,24,58,.3)}
+.balao strong{font:800 12px/1.2 "Barlow",sans-serif;letter-spacing:.8px;text-transform:uppercase}
+.balao p{font-size:14px;margin-top:3px;line-height:1.35}
+.balao span{font-size:12px;margin-top:4px}
+.res-acoes{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.res-acoes .btn{width:100%;min-height:42px;font-size:14px;padding:8px 10px}
+.res-acoes .btn:first-child{grid-column:1/-1;min-height:46px;font-size:15px}
+/* estudar */
+.estudo{font-size:16px;line-height:1.55}
+.estudo p{margin-bottom:12px}
+.resumo{font-size:14px;padding:8px 12px;border-left-width:3px;margin-bottom:12px}
+.paginas{gap:10px;margin-bottom:12px}
+/* corrida */
+.escala{font:800 10px/1.4 "Barlow",sans-serif;letter-spacing:.5px;text-transform:uppercase}
+.lane{padding:8px 0 10px}
+.lane-top{margin-bottom:5px}
+.lane-top strong{font-size:14px}
+.lane-top span{font-size:12px}
+.lane-top strong .pos{font:800 13px "Barlow",sans-serif}
+.lanes .track{height:42px;border-radius:10px}
+.lanes .runner{top:-6px;width:38px;height:49px;left:calc((100% - 38px) * var(--p))}
+.lanes .runner .avatar{width:38px;height:49px}
+.lanes .flag{font-size:15px}
+.dest{gap:10px}
+.dest h3{font:800 13px/1.2 "Barlow",sans-serif;letter-spacing:0;margin-bottom:5px}
+.dest p{font-size:13px}
+.chips{gap:6px}
+.chips .chip{font-size:12.5px;padding:3px 10px 3px 3px}
+.chips .chip .avatar{width:22px;height:28px}
+/* salas */
+.salas-grid{gap:10px;margin-top:10px}
+.sala{padding:14px;border-radius:18px}
+.sala-nome h3{font:800 17px/1.2 "Barlow",sans-serif;letter-spacing:0;margin-bottom:5px}
+.sala-cod span{font-size:9.5px}
+.sala-cod b{font-size:19px;letter-spacing:1.5px}
+.sala-info{font-size:12.5px;margin-top:6px}
+.sala-pend{font-size:13px;padding:7px 10px}
+.sala-acoes{gap:6px;margin-top:10px}
+.sala-acoes .btn-sm{min-height:34px;font-size:13px;padding:5px 11px}
+.sala-barra{gap:6px}
+.sala-barra .btn{min-height:38px;padding:7px 12px;font-size:13.5px}
+/* mural */
+.mural{gap:10px;margin-top:10px}
+.post{padding:12px 14px;border-radius:18px}
+.post-top .em .avatar{width:30px;height:39px}
+.post-top .info strong{font-size:14px}
+.post-top .info span{font-size:11.5px}
+.post-x{width:26px;height:26px;font-size:11px}
+.post-corpo{gap:10px;margin:8px 0;padding:9px 11px;border-radius:12px}
+.post-corpo .ic{font-size:26px}
+.post-corpo b{font-size:14px}
+.post-corpo span{font-size:12.5px}
+.post-reacoes{gap:6px}
+.reacao{gap:5px;padding:4px 9px;font-size:12.5px;color:#fff}
+.reacao span{font-size:15px;line-height:1.2}
+.reacao b{background:none;padding:0;font-size:12.5px;line-height:1.2}
+.reacao.on{background:rgba(143,230,255,.26);border-color:var(--accent);color:#fff}
+.reacao.on b{background:none;color:#fff}
+.reacao.mais{border-style:dashed;color:var(--soft)}
+.reacao-menu{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-top:8px;padding:8px;border-radius:14px;background:rgba(0,0,0,.2);animation:fade .15s}
+.reacao-menu button{display:flex;align-items:center;gap:6px;min-width:0;background:rgba(255,255,255,.1);border:1px solid transparent;border-radius:10px;padding:7px 8px;color:#fff;font:700 12px "Barlow",sans-serif;text-align:left}
+.reacao-menu button span{font-size:18px;line-height:1;flex:none}
+.reacao-menu button em{font-style:normal;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.reacao-menu button.on{background:rgba(143,230,255,.26);border-color:var(--accent)}
+.mu-opcao .ic{font-size:24px}
+/* minha conta */
+.ct-topo{padding:0 0 12px}
+.ct-topo .hm-ola-tx small{font-size:12px;line-height:1.4;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.menu-conta{grid-template-columns:1fr;gap:0;border-radius:14px;overflow:hidden;background:rgba(0,0,0,.14)}
+.menu-conta button{background:none;border:0;border-top:1px solid var(--panel-line);border-radius:0;padding:10px 12px;min-height:46px;font-size:14.5px;gap:10px}
+.menu-conta button:first-child{border-top:0}
+.menu-conta button .ic{font-size:17px;width:24px}
+/* admin */
+.adm-menu .h2{font-size:20px;margin-bottom:8px}
+.adm-nav button{min-height:52px;padding:6px 3px}
+.adm-nav button .ic{font-size:17px}
+.adm-c{gap:10px}
+.adm-topo{gap:8px;margin-bottom:10px}
+.adm-acoes{gap:8px;margin-top:12px}
+.ar-filtro{padding:12px 14px;gap:8px}
+.ar-dest{gap:8px;margin-bottom:12px}
+.ar-dest-card{padding:9px 12px;border-radius:12px}
+.ar-dest-card span{font-size:10.5px}
+.ar-dest-card b{font:800 15px/1.2 "Barlow",sans-serif;letter-spacing:0;margin-top:3px}
+.ar-dest-card em{font-size:12px;margin-top:2px}
+.ar-linhas{gap:9px}
+.ar-rot b{font-size:13.5px}
+.ar-rot span{font-size:11.5px}
+.ar-bar{height:8px}
+.ar-pct{font:800 14px "Barlow",sans-serif}
+.ar-pergs{gap:8px}
+.ar-perg,.ar-refl{padding:10px 12px;border-radius:12px}
+.ar-perg-top b{font:800 12.5px "Barlow",sans-serif;letter-spacing:0}
+.ar-onde{font-size:10.5px}
+.ar-q{font-size:13.5px;margin:3px 0 7px}
+.qcard .num{font:800 12px "Barlow",sans-serif;letter-spacing:.8px;text-transform:uppercase}
+.total-box{padding:2px 0 10px}
+.total-box b{font:800 40px/1.1 "Barlow",sans-serif;letter-spacing:-.5px}
+.total-box span{font-size:13px}
+.soma{font:800 18px "Barlow",sans-serif}
+.meta-num{font:800 30px/1.1 "Barlow",sans-serif}
+.meta-num small{font-size:16px}
+/* login */
+.logo-login{padding:18px 0 6px}
+.logo-login p{font-size:14px;margin-top:10px}
+@media (min-width:900px){
+  .pg-cab h1{font-size:26px}
+  .pg-tit{font-size:21px}
+  .qtext{font-size:24px}
+  .tile{min-height:60px;font-size:16px}
+  .result-area:not(.duas){max-width:560px}
+  .res-acoes{grid-template-columns:repeat(4,1fr)}
+  .ar-stats{grid-template-columns:repeat(6,1fr)}
+  .menu-conta{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body class="sem-menu">
@@ -1646,7 +1898,7 @@ function atualizarCasca(){
   document.querySelectorAll("#nav button").forEach(b => { if(b.dataset.tab === tabAtual) b.setAttribute("aria-current","page"); else b.removeAttribute("aria-current"); });
 }
 function nav(tab){
-  pararTimer(); if(typeof pararCamera === "function") pararCamera();
+  pararTimer(); if(typeof pararCamera === "function") pararCamera(); if(typeof MUSICA !== "undefined") MUSICA.parar();
   tabAtual = tab; atualizarCasca(); window.scrollTo(0,0);
   ({ inicio: telaInicio, estudar: telaEstudar, quiz: telaQuiz, ranking: telaRanking, missoes: () => telaMissoes(), salas: telaSalas, conta: telaConta, admin: telaAdmin }[tab] || telaInicio)();
 }
@@ -1972,21 +2224,11 @@ async function posicaoCorrida(L){
 /* ============================================================
    TELA: QUIZ (semana)
    ============================================================ */
-function heroLicao(L){
-  const palavras = L.titulo.split(" "); const ultima = palavras.pop();
-  return `<header class="hero">
-    <svg class="quill" viewBox="0 0 160 220" aria-hidden="true">
-      <path d="M152 6 C120 18 84 50 64 100 C56 120 52 140 50 160"/>
-      <path d="M152 6 C146 40 126 78 98 102 C86 112 72 118 58 122"/>
-      <path d="M152 6 C124 28 104 56 86 90"/>
-      <path d="M118 34 C112 40 106 48 100 56 M132 52 C122 60 112 70 104 78"/>
-      <path d="M50 160 C46 176 38 188 26 194 C14 200 8 192 16 186 C34 174 66 190 96 184 C118 180 136 196 150 214"/>
-    </svg>
-    <div class="tag"><span class="box">${esc(L.numero)}</span><span class="date">${esc(L.datas)}</span></div>
-    <h1 style="--hero-fs:calc((min(100vw, var(--hero-w,520px)) - 40px) / ${(Math.max(...L.titulo.split(" ").map(w=>w.length)) * .46).toFixed(2)});font-size:min(var(--hero-max,54px), var(--hero-fs))">${palavras.map(esc).join(" ")}<span class="hl">${esc(ultima)}</span></h1>
-    <p>Responda o quiz do dia depois de estudar a lição. ${esc(L.recap)}.</p>
-  </header>`;
+/* Cabeçalho compacto das páginas: rótulo pequeno + título + frase curta */
+function cabPagina(rotulo, meta, titulo, sub){
+  return `<header class="pg-cab"><div class="pg-rot"><span>${rotulo}</span>${meta ? `<em>${meta}</em>` : ""}</div><h1>${titulo}</h1>${sub ? `<p>${sub}</p>` : ""}</header>`;
 }
+function heroLicao(L){ return cabPagina(esc(L.numero), esc(L.datas), esc(L.titulo), esc(L.recap) + "."); }
 function seletorLicao(id, atual){
   const iAtual = indiceLicaoAtual();
   return `<div class="field" style="margin-bottom:10px"><label for="${id}">Lição</label><select id="${id}">${LICOES.map((l,i)=>`<option value="${i}" ${l===atual?"selected":""}>${esc(l.numero)}: ${esc(l.titulo)}${i===iAtual?" (esta semana)":""}${licaoTravada(l)?" 🔒":""}</option>`).join("")}</select></div>`;
@@ -1995,16 +2237,16 @@ function telaQuiz(){
   pararTimer();
   if(!LICAO) LICAO = LICOES[indiceLicaoAtual()];
   let h = `<div class="home"><div class="col-a">` + heroLicao(LICAO);
-  h += `<section class="panel">
-    <div class="hello2">${meuAvatar()}<div class="hello-txt"><div class="hello-top"><h2>Oi, ${esc(perfil.nome)}</h2><button class="linkish" id="verPontos">Pontuação</button></div>${falaDoDia() ? `<div class="balao mini"><p>${esc(falaDoDia())}</p></div>` : ""}</div></div>
-    <div class="stats">
-      <div class="stat"><b>${fmt(totalSemana())}</b><span>pontos nesta lição</span></div>
-      <div class="stat"><b>${noPrazo()} de ${LICAO.dias.length}</b><span>dias no prazo</span></div>
+  h += `<section class="panel pg-card">
+    <div class="hm-cab"><span>Minha lição</span><button type="button" class="hm-link" id="verPontos">Pontuação <span aria-hidden="true">›</span></button></div>
+    <div class="pg-kpis dois">
+      <div><b>${fmt(totalSemana())}</b><span>pontos nesta lição</span></div>
+      <div><b>${noPrazo()} de ${LICAO.dias.length}</b><span>dias no prazo</span></div>
     </div>
   </section></div><div class="col-b">`;
-  h += `<section class="panel">${mapaTrimestre(LICAO)}`;
+  h += `<section class="panel pg-card"><div class="hm-cab"><span>Trimestre</span></div>${mapaTrimestre(LICAO)}`;
   if(licaoTravada(LICAO)) h += `<div class="aviso-fb">🔒 <b>Lição de uma semana anterior.</b> Está bloqueada. <button class="linkish" id="verBloqueio">Saiba mais</button></div>`;
-  h += `<ul class="days">`;
+  h += `<div class="hm-cab" style="margin-top:14px"><span>Dias da semana</span></div><ul class="days">`;
   LICAO.dias.forEach((d,i)=>{
     const s = status(LICAO, d);
     let btn = "";
@@ -2086,6 +2328,7 @@ function iniciar(i){
   const dia = LICAO.dias[i];
   if(!dia.perguntas.length){ aviso("Este dia ainda não tem perguntas."); return; }
   if(resDe(LICAO, dia)){ telaResultado(i); return; }
+  if(SOM.mus || SOM.on) contextoAudio();                     // libera o áudio no toque do jogador (exigência dos celulares)
   const diaJogo = Object.assign({}, dia, { perguntas: perguntasDoDia(LICAO, i).slice() });
   const total = diaJogo.perguntas.filter(p=>!p.reflexao).length;
   const salvo = PROG[LICAO.id + "|" + dia.data];
@@ -2138,7 +2381,8 @@ function telaPergunta(){
   const p = jogo.dia.perguntas[jogo.q];
   const n = jogo.dia.perguntas.length;
   let h = `<div class="quiz-area"><div class="qtop">
-    <div class="where"><b>${esc(jogo.dia.nome)}</b><br>Pergunta ${jogo.q+1} de ${n}</div>`;
+    <div class="where"><b>${esc(jogo.dia.nome)}</b><br>Pergunta ${jogo.q+1} de ${n}</div>
+    <button type="button" class="q-mus" id="qMus" aria-pressed="${SOM.mus}" aria-label="Música do quiz" title="Música do quiz">${SOM.mus ? "🎵" : "🔇"}</button>`;
   if(!p.reflexao){
     h += `<div class="ring" id="ring"><svg width="64" height="64" viewBox="0 0 64 64" aria-hidden="true">
       <circle class="track" cx="32" cy="32" r="27" fill="none" stroke-width="7"/>
@@ -2155,6 +2399,8 @@ function telaPergunta(){
   app.innerHTML = h;
   window.scrollTo(0,0);
   app.querySelectorAll(".tile").forEach(t=> t.onclick = ()=> responder(+t.dataset.k));
+  $("qMus").onclick = ()=>{ const v = !SOM.mus; definirSom("mus", v); if(v) MUSICA.iniciar(); $("qMus").textContent = v ? "🎵" : "🔇"; $("qMus").setAttribute("aria-pressed", String(v)); };
+  MUSICA.iniciar();
   if(!p.reflexao) ligarAjudas(p);
   if(!(jogo.mostrada && jogo.mostrada.q === jogo.q)) jogo.mostrada = { q: jogo.q, em: Date.now() };
   salvarProgresso();
@@ -2296,6 +2542,7 @@ function responder(k){
    RESULTADO
    ============================================================ */
 function telaResultado(i, novo){
+  MUSICA.parar();
   pararTimer();
   const dia = LICAO.dias[i], r = resDe(LICAO, dia);
   if(!r){ telaQuiz(); return; }
@@ -2309,12 +2556,12 @@ function telaResultado(i, novo){
       <p class="sub">${r.noPrazo ? "" : "Feito com atraso. "}Na lição: <span id="somaAnim">${fmt(novo ? antes : totalSemana())}</span> pontos.</p>
     </section>
     ${balaoFala(falaResultado(r))}
-    <div class="btn-row">
-      <button class="btn btn-main" id="selfie">Tirar selfie com o resultado</button>
+    <div class="res-acoes">
+      <button class="btn btn-main" id="selfie">📸 Selfie com o resultado</button>
       <button class="btn btn-wa" id="wa">Enviar no grupo</button>
       <button class="btn btn-ghost" id="rMural">Publicar no mural</button>
-      <button class="btn btn-ghost" id="verPontos2">Ver pontuação acumulada</button>
-      <button class="btn btn-ghost" id="voltar">Voltar para a semana</button>
+      <button class="btn btn-ghost" id="verPontos2">Pontuação</button>
+      <button class="btn btn-ghost" id="voltar">Voltar</button>
     </div></div>`;
   $("wa").onclick = async ()=>{ ocupado($("wa"), true); try{ await compartilharCartao(i); }catch(e){ aviso("Não deu para gerar a imagem."); } ocupado($("wa"), false); };
   $("voltar").onclick = ()=> nav("quiz");
@@ -2361,10 +2608,10 @@ function telaEstudar(){
   corpo += `<div id="txtDia">${htmlTexto}</div>`;
   if(!texto && !resumo) corpo += `<p class="vazio" id="semTexto">O texto desta lição não foi importado. Leia o dia <b>${esc(d.nome)}</b> na sua lição impressa ou no app e depois faça o quiz.</p>`;
   const s = status(L, d);
-  app.innerHTML = `<div class="estudo-area"><section class="panel"><h2 class="h2">Estudar</h2>${seletorLicao("estSel", L)}
+  app.innerHTML = `<div class="estudo-area">${cabPagina("Estudar", esc(L.numero), esc(L.titulo))}<section class="panel pg-card">${seletorLicao("estSel", L)}
     <div class="tabs dias" role="tablist">${L.dias.map((x,k)=>`<button role="tab" aria-selected="${k===estudoDia}" data-k="${k}"><span>${x.curto}${resDe(L,x)?" ✓":""}</span><small>${dataCurta(x.data)}</small></button>`).join("")}</div>
-    <p class="muted small" style="margin:0 0 4px">${esc(d.nome)}, ${esc(dataLonga(d.data))}</p>
-    <h3 class="h3" style="font-size:30px">${esc(d.tema)}</h3>
+    <p class="pg-sobre">${esc(d.nome)}, ${esc(dataLonga(d.data))}</p>
+    <h2 class="pg-tit">${esc(d.tema)}</h2>
     ${corpo}
     <div class="btn-row uma">${(s==="hoje"||s==="atrasado") && d.perguntas.length ? `<button class="btn btn-main" id="estJogar">Fazer o quiz de ${esc(d.nome)}</button>` : s==="feito" ? `<button class="btn btn-ghost" id="estVer">Ver meu resultado</button>` : ""}</div>
   </section></div>`;
@@ -2427,10 +2674,8 @@ async function telaRanking(){
   if(corridaModo !== "licao" && corridaModo !== "tri") corridaModo = "licao";
   const porLicao = corridaModo === "licao", licSel = cfg.lics.find(l=>l.id===corridaLicao) || cfg.atual;
   app.innerHTML = `<div class="result-area duas"><div class="lado">
-    <header class="hero" style="padding-bottom:14px"><div class="tag"><span class="box">${esc(sala.nome)}</span><span class="date" id="crPeriodo">${porLicao && licSel ? `Lição ${licSel.n}` : (cfg.pista.length ? `Lições ${cfg.pista[0].n} a ${cfg.pista[cfg.pista.length-1].n}` : esc(cfg.tri))}</span></div>
-      <h1 class="rolo-h">Corrida do<span class="hl">Rolo</span></h1>
-      <p>Cada dia de estudo no prazo é um passo no rolo. Feito com atraso, vale meio passo. Ninguém volta para trás.</p></header>
-    <section class="panel" style="padding:12px 14px">
+    ${cabPagina(esc(sala.nome), `<i id="crPeriodo">${porLicao && licSel ? `Lição ${licSel.n}` : (cfg.pista.length ? `Lições ${cfg.pista[0].n} a ${cfg.pista[cfg.pista.length-1].n}` : esc(cfg.tri))}</i>`, "Corrida do Rolo", "No prazo vale um passo; com atraso, meio passo.")}
+    <section class="panel pg-card">
       <div class="sala-sel"><div class="field" style="margin:0"><label for="crSala">Sala</label><select id="crSala">${SALAS.map(x=>`<option value="${esc(x.id)}" ${x.id===sala.id?"selected":""}>${esc(x.nome)}${x.global?" (global)":""}</option>`).join("")}</select></div><button class="btn btn-ghost btn-sm" id="crSalas">Salas</button></div>
       <div class="tabs" role="tablist" style="margin-bottom:${porLicao?"10px":"0"}"><button role="tab" aria-selected="${porLicao}" data-m="licao">Por lição</button><button role="tab" aria-selected="${corridaModo==="tri"}" data-m="tri">Trimestre</button></div>
       ${porLicao ? `<div class="field" style="margin:0"><select id="crLic" aria-label="Lição">${cfg.lics.map(l=>`<option value="${l.id}" ${l.id===corridaLicao?"selected":""}>${esc(l.numero)}: ${esc(l.titulo)}${l===cfg.atual?" (esta semana)":""}</option>`).join("")}</select></div>` : ""}
@@ -2465,7 +2710,7 @@ function renderCorrida(cfg, res, pessoas, licSel, membros){
   const ids = Object.keys(jov).sort((a,b)=> jov[b].passos - jov[a].passos || jov[b].pts - jov[a].pts || jov[a].nome.localeCompare(jov[b].nome,"pt-BR"));
   const fmt1 = n => (Math.round(n*10)/10).toLocaleString("pt-BR");
   let h = "";
-  h += `<section class="panel"><h2 class="h3" style="font-size:32px">A pista</h2>`;
+  h += `<section class="panel pg-card"><div class="hm-cab"><span>A pista</span><span class="hm-meta">${ids.length} ${ids.length === 1 ? "corredor" : "corredores"}</span></div>`;
   if(!ids.length) h += `<p class="vazio">${licSel ? "Ninguém fez o quiz desta lição ainda." : "A corrida desta sala começa quando chegarem os primeiros resultados do quiz."}</p>`;
   else {
     h += `<div class="escala" style="grid-template-columns:repeat(${colunas.length},1fr)">${colunas.map(c=>`<span title="${esc(c.titulo)}">${esc(c.rotulo)}</span>`).join("")}</div><ol class="lanes">`;
@@ -2482,7 +2727,7 @@ function renderCorrida(cfg, res, pessoas, licSel, membros){
     const emDia = daSemana.filter(x => x.regs.length && x.regs.every(r=>r.noPrazo));
     const topPts = daSemana.map(x=>({ id:x.id, p:x.regs.reduce((s,r)=>s+(r.pts||0),0) })).filter(x=>x.p>0).sort((a,b)=>b.p-a.p)[0];
     const chip = id => `<span class="chip">${avatarSVG(jov[id].profeta || PROFETA_PADRAO, null, jov[id].nivel)}${esc(jov[id].nome)}</span>`;
-    h += `<section class="panel"><h2 class="h3" style="font-size:32px">Destaques da lição ${lic.n}</h2><div class="dest">
+    h += `<section class="panel pg-card"><div class="hm-cab"><span>Destaques da lição ${lic.n}</span></div><div class="dest">
       <div><h3>Semana completa, 7 de 7</h3>${completos.length ? `<div class="chips">${completos.map(x=>chip(x.id)).join("")}</div>` : `<p class="muted" style="margin:0">Ainda ninguém. Quem vai ser o primeiro?</p>`}</div>
       <div><h3>Tudo no prazo até agora</h3>${emDia.length ? `<div class="chips">${emDia.map(x=>chip(x.id)).join("")}</div>` : `<p class="muted" style="margin:0">Ninguém por enquanto.</p>`}</div>
       ${topPts ? `<div><h3>Mais pontos no quiz</h3><div class="chips">${chip(topPts.id)}</div></div>` : ""}
@@ -2499,13 +2744,14 @@ function renderCorrida(cfg, res, pessoas, licSel, membros){
 function telaConta(){
   const p = acharProfeta(perfil.profeta);
   app.innerHTML = `<div class="result-area"><section class="panel">
-    <div class="hello2">${meuAvatar()}<div class="hello-txt"><div class="hello-top"><h2>${esc(perfil.nome)}</h2></div><p class="muted small" style="margin:4px 0 0">${esc(perfil.email||"")}${p ? " · Personagem: " + esc(p.nome) : ""}${ehMaster() ? ' · <span class="badge adm">master</span>' : souAdminDeSala() ? ' · <span class="badge">admin de sala</span>' : ""}</p></div></div>
+    <div class="hm-ola ct-topo"><div class="hm-av">${meuAvatar()}</div><div class="hm-ola-tx"><h2>${esc(perfil.nome)}</h2><small>${esc(perfil.email||"")}</small><small>${p ? "Personagem: " + esc(p.nome) : ""}${ehMaster() ? ' <span class="badge adm">master</span>' : souAdminDeSala() ? ' <span class="badge">admin de sala</span>' : ""}</small></div></div>
     <div class="menu-conta">
       <button id="mNome"><span class="ic">✏️</span>Alterar nome<span class="seta">›</span></button>
       <button id="mSenha"><span class="ic">🔑</span>Alterar senha<span class="seta">›</span></button>
       <button id="mTema"><span class="ic">🌗</span>Alterar tema<span class="seta">›</span></button>
       <button id="mProfeta"><span class="ic">🎭</span>Alterar personagem<span class="seta">›</span></button>
       <button id="mSom" role="switch" aria-checked="${SOM.on}"><span class="ic">🔊</span>Sons do jogo<span class="switch" aria-hidden="true" aria-checked="${SOM.on}"></span></button>
+      <button id="mMus" role="switch" aria-checked="${SOM.mus}"><span class="ic">🎵</span>Música no quiz<span class="switch" aria-hidden="true" aria-checked="${SOM.mus}"></span></button>
       <button id="mVib" role="switch" aria-checked="${SOM.vib}"><span class="ic">📳</span>Vibração<span class="switch" aria-hidden="true" aria-checked="${SOM.vib}"></span></button>
       <button id="mDesempenho"><span class="ic">📈</span>Meu desempenho<span class="seta">›</span></button>
       <button id="mRetro"><span class="ic">📜</span>Retrospectiva do trimestre<span class="seta">›</span></button>
@@ -2524,8 +2770,8 @@ function telaConta(){
     m.querySelectorAll("[data-t]").forEach(b=> b.onclick = async ()=>{ aplicarTema(b.dataset.t); perfil.tema = b.dataset.t; m.querySelectorAll("[data-t]").forEach(x=> x.setAttribute("aria-pressed", String(x===b))); try{ await DB.salvarUsuario(usuario.uid, {tema:b.dataset.t}); }catch(e){} setTimeout(fechar, 250); });
   });
   $("mProfeta").onclick = ()=> telaProfeta();
-  const alternar = (id, chave) => { const b = $(id); b.onclick = ()=>{ const v = !SOM[chave]; definirSom(chave, v); b.setAttribute("aria-checked", String(v)); b.querySelector(".switch").setAttribute("aria-checked", String(v)); aviso(chave === "on" ? (v ? "Sons ligados" : "Sons desligados") : (v ? "Vibração ligada" : "Vibração desligada")); }; };
-  alternar("mSom", "on"); alternar("mVib", "vib");
+  const alternar = (id, chave) => { const b = $(id); b.onclick = ()=>{ const v = !SOM[chave]; definirSom(chave, v); b.setAttribute("aria-checked", String(v)); b.querySelector(".switch").setAttribute("aria-checked", String(v)); aviso({ on: ["Sons ligados", "Sons desligados"], vib: ["Vibração ligada", "Vibração desligada"], mus: ["Música do quiz ligada", "Música do quiz desligada"] }[chave][v ? 0 : 1]); }; };
+  alternar("mSom", "on"); alternar("mVib", "vib"); alternar("mMus", "mus");
   $("mDesempenho").onclick = modalDesempenho;
   $("mRetro").onclick = modalRetrospectiva;
   $("mTutorial").onclick = ()=> mostrarTutorial();
@@ -3842,9 +4088,7 @@ async function telaSalas(recarregar){
       </div></article>`;
   };
   app.innerHTML = `<div class="result-area duas"><div class="lado">
-    <header class="hero" style="padding-bottom:14px"><div class="tag"><span class="box">Salas</span><span class="date">${ehMaster() ? "sem limite (master)" : `${part} de ${MAX_SALAS_PARTICIPA} · criadas ${criadas} de ${MAX_SALAS_CRIADAS}`}</span></div>
-      <h1 class="rolo-h">Minhas<span class="hl">Salas</span></h1>
-      <p>Cada sala tem a sua corrida e o seu mural. A sala ativa é a que aparece na Corrida e no Início.</p></header>
+    ${cabPagina("Salas", ehMaster() ? "sem limite (master)" : `${part} de ${MAX_SALAS_PARTICIPA} · criadas ${criadas} de ${MAX_SALAS_CRIADAS}`, "Minhas salas", "A sala ativa é a que aparece na Corrida e no Início.")}
     ${SALAS_ERRO ? `<section class="panel"><p class="erro" style="margin:0">Não deu para carregar as salas agora (${esc(SALAS_ERRO)}). Por enquanto você continua na sala global.</p></section>` : ""}
     <div class="sala-barra"><button class="btn btn-main" id="slCriar">+ Criar sala</button><button class="btn btn-ghost" id="slCodigo">Entrar com código</button><button class="btn btn-ghost" id="slPublicas">Salas públicas</button></div></div>
     <div class="principal"><div class="salas-grid">${SALAS.map(cartao).join("")}</div>
@@ -4381,7 +4625,7 @@ function chipsAjudas(d){
 }
 
 /* ---------- Sons e vibração (podem ser desligados em Minha conta) ---------- */
-const SOM = { on: lsGet(KEY + ":som", true) !== false, vib: lsGet(KEY + ":vib", true) !== false };
+const SOM = { on: lsGet(KEY + ":som", true) !== false, vib: lsGet(KEY + ":vib", true) !== false, mus: lsGet(KEY + ":mus", true) !== false };
 let _audio = null;
 const TONS = {
   certo:  [[659, .09], [988, .16]],
@@ -4398,8 +4642,8 @@ function tocar(tipo){
   if(SOM.vib && VIBRAS[tipo] && navigator.vibrate){ try{ navigator.vibrate(VIBRAS[tipo]); }catch(e){} }
   if(!SOM.on || !TONS[tipo]) return;
   try{
-    const AC = window.AudioContext || window.webkitAudioContext; if(!AC) return;
-    _audio = _audio || new AC(); if(_audio.state === "suspended") _audio.resume();
+    if(!contextoAudio()) return;
+    if(tipo === "certo" || tipo === "errado") MUSICA.abafar();
     let t = _audio.currentTime + 0.01;
     TONS[tipo].forEach(([freq, dur, forma]) => {
       const o = _audio.createOscillator(), g = _audio.createGain();
@@ -4410,7 +4654,70 @@ function tocar(tipo){
     });
   }catch(e){}
 }
-function definirSom(chave, ligado){ SOM[chave] = !!ligado; lsSet(KEY + (chave === "on" ? ":som" : ":vib"), !!ligado); if(ligado) tocar(chave === "on" ? "certo" : "ajuda"); }
+function definirSom(chave, ligado){
+  SOM[chave] = !!ligado; lsSet(KEY + ({ on: ":som", vib: ":vib", mus: ":mus" }[chave]), !!ligado);
+  if(chave === "mus"){ if(!ligado) MUSICA.parar(); return; }
+  if(ligado) tocar(chave === "on" ? "certo" : "ajuda");
+}
+function contextoAudio(){
+  const AC = window.AudioContext || window.webkitAudioContext; if(!AC) return null;
+  try{ _audio = _audio || new AC(); if(_audio.state === "suspended") _audio.resume(); }catch(e){ return null; }
+  return _audio;
+}
+
+/* ---------- Música de fundo do quiz: gerada aqui mesmo (sem arquivo), baixinha e em loop ---------- */
+const MUSICA = (() => {
+  const BPM = 104, PASSO = 60 / BPM / 2, VOL = 1;                       // colcheias
+  const N = f => 440 * Math.pow(2, (f - 69) / 12);             // nota MIDI -> Hz
+  /* 4 compassos: Dó, Lá menor, Fá, Sol (alegre e leve). Cada acorde: baixo + notas do arpejo */
+  const ACORDES = [[48, [60, 64, 67, 72]], [45, [57, 60, 64, 69]], [41, [57, 60, 65, 69]], [43, [59, 62, 67, 71]]];
+  const ARPEJO = [0, 1, 2, 3, 2, 1, 2, 3];                      // ordem das notas em cada compasso (8 colcheias)
+  const MELODIA = [[76, 74, 72, 74], [72, 71, 69, 71], [69, 72, 74, 72], [71, 74, 79, 74]];   // 4 notas por compasso (semínimas)
+  let ctx = null, saida = null, relogio = null, prox = 0, passo = 0, volta = 0, tocando = false;
+  function nota(freq, t, dur, vol, forma){
+    const o = ctx.createOscillator(), g = ctx.createGain();
+    o.type = forma || "sine"; o.frequency.value = freq;
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(g); g.connect(saida); o.start(t); o.stop(t + dur + 0.05);
+  }
+  function chimbal(t, vol){
+    const n = Math.floor(ctx.sampleRate * 0.04), b = ctx.createBuffer(1, n, ctx.sampleRate), d = b.getChannelData(0);
+    for(let i = 0; i < n; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / n);
+    const s = ctx.createBufferSource(), f = ctx.createBiquadFilter(), g = ctx.createGain();
+    s.buffer = b; f.type = "highpass"; f.frequency.value = 7000; g.gain.value = vol;
+    s.connect(f); f.connect(g); g.connect(saida); s.start(t);
+  }
+  function agendar(){
+    while(prox < ctx.currentTime + 0.25){
+      const comp = Math.floor(passo / 8) % 4, k = passo % 8, [baixo, notas] = ACORDES[comp], t = prox;
+      if(k === 0 || k === 4) nota(N(baixo), t, PASSO * 3.6, 0.2, "triangle");
+      nota(N(notas[ARPEJO[k]]), t, PASSO * 1.6, 0.13, "sine");
+      if(k % 2 === 1) chimbal(t, 0.035);
+      if(volta % 2 === 1 && k % 2 === 0) nota(N(MELODIA[comp][k / 2]), t, PASSO * 1.9, 0.09, "triangle");   // a melodia entra a cada duas voltas
+      prox += PASSO; passo++; if(passo % 32 === 0) volta++;
+    }
+  }
+  function iniciar(){
+    if(tocando || !SOM.mus || document.hidden) return;
+    ctx = contextoAudio(); if(!ctx) return;
+    saida = ctx.createGain(); const filtro = ctx.createBiquadFilter();
+    filtro.type = "lowpass"; filtro.frequency.value = 2600;
+    saida.gain.setValueAtTime(0.0001, ctx.currentTime); saida.gain.exponentialRampToValueAtTime(VOL, ctx.currentTime + 1.2);
+    saida.connect(filtro); filtro.connect(ctx.destination);
+    prox = ctx.currentTime + 0.08; passo = 0; volta = 0; tocando = true;
+    agendar(); relogio = setInterval(agendar, 60);
+  }
+  function parar(){
+    if(!tocando) return;
+    tocando = false; clearInterval(relogio); relogio = null;
+    const s = saida; saida = null;
+    try{ s.gain.cancelScheduledValues(ctx.currentTime); s.gain.setValueAtTime(s.gain.value || VOL, ctx.currentTime); s.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.5); setTimeout(() => { try{ s.disconnect(); }catch(e){} }, 900); }catch(e){}
+  }
+  /* abafa a música um instante quando toca um efeito (acerto/erro), para o efeito aparecer */
+  function abafar(){ if(!tocando || !saida) return; const t = ctx.currentTime; try{ saida.gain.cancelScheduledValues(t); saida.gain.setValueAtTime(VOL * 0.4, t); saida.gain.linearRampToValueAtTime(VOL, t + 0.9); }catch(e){} }
+  document.addEventListener("visibilitychange", () => { if(document.hidden) parar(); else if(typeof jogo !== "undefined" && jogo && document.getElementById("tiles")) iniciar(); });
+  return { iniciar, parar, abafar, get tocando(){ return tocando; } };
+})();
 
 /* ---------- Missões novas: comemora uma vez e guarda o progresso ---------- */
 function conferirMissoesNovas(){
@@ -4507,7 +4814,7 @@ function cartaoDesempenhoMin(){
   const acAtual = a.atual && a.atual.acerto != null ? a.atual.acerto : a.geral;
   const kpi = (v, r, d) => `<div><b>${v}</b><span>${r}</span>${d ? `<em>${d}</em>` : ""}</div>`;
   const barras = a.ultimos.length ? `<div class="hm-barras" role="img" aria-label="Acerto nos últimos ${a.ultimos.length} quizzes">${a.ultimos.map(r => { const p = r.total ? Math.round(100 * r.acertos / r.total) : 0; return `<i style="height:${Math.max(10, p)}%" class="${r.noPrazo ? "" : "tarde"}" title="${dataCurta(r.data)}: ${r.acertos} de ${r.total}"></i>`; }).join("")}</div>` : "";
-  return `<section class="panel hm-card"><div class="hm-cab"><span>Meu desempenho <em>só você vê</em></span>${a.porLicao.length ? `<button type="button" class="hm-link" id="dzMais">Detalhes <span aria-hidden="true">›</span></button>` : ""}</div>
+  return `<section class="panel hm-card"><div class="hm-cab"><span>Meu desempenho</span>${a.porLicao.length ? `<button type="button" class="hm-link" id="dzMais">Detalhes <span aria-hidden="true">›</span></button>` : ""}</div>
     <div class="hm-kpis">${kpi(acAtual != null ? acAtual + "%" : "—", "acerto", a.dAc > 0 ? "▲ " + a.dAc : "")}${kpi(st.seq, "seguidos", "rec. " + st.melhorSeq)}${kpi(fmt(a.atual ? a.atual.media : 0), "pts/quiz", a.dMed > 0 ? "▲ " + fmt(a.dMed) : "")}${barras ? `<div class="hm-kpi-graf">${barras}<span>últimos</span></div>` : ""}</div>
     <p class="hm-dica">${esc(a.fala)}</p></section>`;
 }
@@ -4523,7 +4830,7 @@ function cartaoDesempenho(){
   const bloco = (valor, rotulo, extra) => `<div class="dz-stat"><b>${valor}</b><span>${rotulo}</span>${extra || ""}</div>`;
   const acAtual = a.atual && a.atual.acerto != null ? a.atual.acerto : a.geral;
   const barras = a.ultimos.length ? `<div class="dz-barras" role="img" aria-label="Acerto nos últimos ${a.ultimos.length} quizzes">${a.ultimos.map(r => { const p = r.total ? Math.round(100 * r.acertos / r.total) : 0; return `<div title="${dataCurta(r.data)}: ${r.acertos} de ${r.total}"><i style="height:${Math.max(8, p)}%" class="${r.noPrazo ? "" : "tarde"}"></i><small>${dataCurta(r.data).slice(0, 2)}</small></div>`; }).join("")}</div><p class="muted small" style="margin:4px 0 0">Acerto nos seus últimos ${a.ultimos.length} ${a.ultimos.length === 1 ? "quiz" : "quizzes"}</p>` : "";
-  return `<section class="panel dz"><div class="cq-head"><span class="hoje-lbl">Meu desempenho <span class="dz-priv">só você vê</span></span>${a.porLicao.length ? `<button class="btn btn-ghost btn-sm" id="dzMais">Detalhes</button>` : ""}</div>
+  return `<section class="panel dz"><div class="cq-head"><span class="hoje-lbl">Meu desempenho</span>${a.porLicao.length ? `<button class="btn btn-ghost btn-sm" id="dzMais">Detalhes</button>` : ""}</div>
     <div class="fala dz-fala">${meuAvatar()}<div class="balao mini"><p>${esc(a.fala)}</p></div></div>
     ${st.quizzes ? `<div class="dz-stats">
       ${bloco(acAtual != null ? acAtual + "%" : "—", "de acerto nesta lição", sobe(a.dAc, " a mais") || (a.melhorAcerto > (acAtual || 0) ? `<em>seu melhor: ${a.melhorAcerto}%</em>` : ""))}
@@ -4897,20 +5204,17 @@ function telaMissoes(vindoDe){
   const noNivel = feitas % 5, faltam = prox ? 5 - noNivel : 0, zona = feitas >= MISSOES.length ? ZONA_FINAL : zonaDoNivel(Math.floor(feitas / 5) + 1);
   const pg = prox ? progressoMissao(prox) : null;
   app.innerHTML = `<div class="result-area duas"><div class="lado">
-    <header class="hero" style="padding-bottom:10px"><div class="tag"><span class="box">Missões</span><span class="date">${feitas} de ${MISSOES.length} cumpridas</span></div>
-      <h1 class="rolo-h">Jornada<span class="hl">Bíblica</span></h1></header>
-    <section class="panel ms-resumo">
-      <div class="nivel-selo peq"><span>Nível</span><b>${nv}</b><em>${esc(nomeNivel(nv))}</em></div>
-      <div class="ms-resumo-tx">
-        <span class="ms-etapa">📍 ${esc(zona.nome)} <small>${esc(zona.ref)}</small></span>
-        ${prox ? `<span class="hoje-lbl">Próxima: missão ${prox.n}</span><h3>${esc(prox.t)}</h3><p>${esc(prox.d)}</p>
-          <div class="barra-ms"><i style="width:${pg.pct}%"></i></div>
-          <p class="muted small" style="margin:4px 0 0">${fmt(pg.v)} de ${fmt(prox.meta[1])}${prox.premio ? " · Prêmio: " + esc(textoPremio(prox.premio)) : ""}${nv ? ` · faltam ${faltam} para o nível ${nv + 1}` : ""}</p>
-          <p class="muted small" style="margin:6px 0 0">Cada missão começa a contar do zero quando vira a sua missão atual. Uma casa por vez!</p>`
-        : `<h3>Jornada completa!</h3><p>Você chegou à Nova Jerusalém: todas as ${MISSOES.length} missões cumpridas. Que caminhada!</p>`}
-      </div>
+    ${cabPagina("Missões", `${feitas} de ${MISSOES.length} cumpridas`, "Jornada Bíblica")}
+    <section class="panel pg-card">
+      <div class="hm-cab"><span>📍 ${esc(zona.nome)} <em>${esc(zona.ref)}</em></span><span class="hm-meta">Nível ${nv} · ${esc(nomeNivel(nv))}</span></div>
+      <div class="hm-ms"><div class="hm-nivel"><b>${nv}</b><small>nível</small></div><div class="hm-ms-tx">
+        ${prox ? `<strong>${prox.n}. ${esc(prox.t)}</strong><span>${esc(prox.d)}</span>
+          <div class="hm-barra"><i style="width:${pg.pct}%"></i></div>
+          <span class="hm-ms-pg">${fmt(pg.v)} de ${fmt(prox.meta[1])}${prox.premio ? " · 🎁 " + esc(textoPremio(prox.premio)) : ""}${nv ? ` · ${faltam === 1 ? "falta 1" : "faltam " + faltam} para o nível ${nv + 1}` : ""}</span>`
+        : `<strong>Jornada completa!</strong><span>Você chegou à Nova Jerusalém: todas as ${MISSOES.length} missões cumpridas. Que caminhada!</span>`}
+      </div></div>
     </section>
-    <section class="panel"><span class="hoje-lbl">Suas ajudas</span>${chipsAjudas()}<p class="muted small" style="margin:8px 0 0">As ajudas são ganhas nas missões e aparecem durante o quiz.</p></section></div>
+    <section class="panel pg-card"><div class="hm-cab"><span>Suas ajudas</span></div>${chipsAjudas()}<p class="hm-sub" style="margin-top:8px">Ganhas nas missões; aparecem durante o quiz.</p></section></div>
     <div class="principal"><section class="panel trilha-wrap"><div class="trilha" id="trilha"></div></section></div>
   </div>`;
   const el = $("trilha"), W = Math.max(300, Math.round(el.clientWidth || 340)), G = geometriaTrilha(W), { pts, N, portao } = G;
@@ -4950,7 +5254,7 @@ function telaMissoes(vindoDe){
    Publicações prontas (resultado, conquista, missão, nível, sequência, retrospectiva), sem texto livre.
    Reações: amém, parabéns, coração. Coleção mural/{id}, campo salaMes = salaId|AAAA-MM.
    ============================================================ */
-const REACOES = [["amem", "🙏", "Amém"], ["parabens", "🎉", "Parabéns"], ["coracao", "❤️", "Amei"]];
+const REACOES = [["amem", "🙏", "Amém"], ["coracao", "❤️", "Amei"], ["parabens", "🎉", "Parabéns"], ["palmas", "👏", "Palmas"], ["fogo", "🔥", "Arrasou"], ["forca", "💪", "Força"], ["gloria", "🙌", "Glória a Deus"], ["uau", "😮", "Uau"], ["riso", "😂", "Haha"]];
 function mesDe(ts){ const d = new Date(ts); return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0"); }
 function haQuanto(ts){
   const s = Math.max(0, (Date.now() - ts) / 1000);
@@ -4981,10 +5285,8 @@ async function telaMural(){
   tabAtual = "salas"; atualizarCasca(); pararTimer();
   const sala = salaAtual(), eu = usuario.uid;
   app.innerHTML = `<div class="result-area duas"><div class="lado">
-    <header class="hero" style="padding-bottom:10px"><div class="tag"><span class="box">${esc(sala.nome)}</span><span class="date">Mural</span></div>
-      <h1 class="rolo-h">Mural da<span class="hl">Sala</span></h1>
-      <p>Compartilhe o que você conquistou e anime quem está na corrida com você.</p></header>
-    <section class="panel" style="padding:12px 14px"><div class="sala-sel" style="margin:0"><div class="field" style="margin:0"><label for="muSala">Sala</label><select id="muSala">${SALAS.map(x => `<option value="${esc(x.id)}" ${x.id === sala.id ? "selected" : ""}>${esc(x.nome)}${x.global ? " (global)" : ""}</option>`).join("")}</select></div><button class="btn btn-main btn-sm" id="muNovo">Compartilhar</button></div></section></div>
+    ${cabPagina(esc(sala.nome), "Mural", "Mural da sala", "Compartilhe conquistas e anime quem corre com você.")}
+    <section class="panel pg-card"><div class="sala-sel" style="margin:0"><div class="field" style="margin:0"><label for="muSala">Sala</label><select id="muSala">${SALAS.map(x => `<option value="${esc(x.id)}" ${x.id === sala.id ? "selected" : ""}>${esc(x.nome)}${x.global ? " (global)" : ""}</option>`).join("")}</select></div><button class="btn btn-main btn-sm" id="muNovo">Compartilhar</button></div></section></div>
     <div class="principal" id="muCorpo"><section class="panel"><p class="vazio">Carregando o mural…</p></section></div></div>`;
   $("muSala").onchange = e => { definirSala(e.target.value); telaMural(); };
   $("muNovo").onclick = modalCompartilharMural;
@@ -4993,20 +5295,23 @@ async function telaMural(){
     const posts = (await DB.muralDaSala(sala.id, [mesDe(agora), mesDe(mesAnt.getTime())])).sort((a, b) => (b.quando || 0) - (a.quando || 0)).slice(0, 60);
     const corpo = $("muCorpo"); if(!corpo || salaAtual().id !== sala.id) return;
     if(!posts.length){ corpo.innerHTML = `<section class="panel"><p class="vazio">O mural desta sala ainda está vazio. Seja o primeiro a compartilhar!</p></section>`; return; }
+    let aberto = null;                                           // publicação com o seletor de reações aberto
     const desenhar = () => {
       corpo.innerHTML = `<div class="mural">${posts.map(p => { const rc = p.reacoes || {};
         return `<article class="post ${p.uid === eu ? "meu" : ""}" data-post="${esc(p.id)}">
           <div class="post-top"><div class="em">${avatarSVG(p.profeta || PROFETA_PADRAO, null, p.uid === eu ? meuNivel() : p.nivel)}</div><div class="info"><strong>${esc(p.nome || "?")}${p.uid === eu ? " (você)" : ""}</strong><span>${haQuanto(p.quando || 0)}</span></div>${p.uid === eu || ehMaster() || ehDonoSala(sala) || ehAdminSala(sala) ? `<button class="post-x" data-apagar="${esc(p.id)}" aria-label="Apagar publicação">✕</button>` : ""}</div>
           <div class="post-corpo"><div class="ic">${esc(p.ic || "✨")}</div><div><b>${esc(p.titulo)}</b>${p.texto ? `<span>${esc(p.texto)}</span>` : ""}</div></div>
-          <div class="post-reacoes">${REACOES.map(([k, ic, nome]) => { const l = rc[k] || [], on = l.includes(eu); return `<button type="button" class="reacao ${on ? "on" : ""}" data-reagir="${k}" aria-pressed="${on}" title="${nome}"><span>${ic}</span>${nome}${l.length ? `<b>${l.length}</b>` : ""}</button>`; }).join("")}</div>
+          <div class="post-reacoes">${REACOES.filter(([k]) => (rc[k] || []).length).map(([k, ic, nome]) => { const l = rc[k], on = l.includes(eu); return `<button type="button" class="reacao ${on ? "on" : ""}" data-reagir="${k}" aria-pressed="${on}" aria-label="${nome}: ${l.length}" title="${nome}"><span>${ic}</span><b>${l.length}</b></button>`; }).join("")}<button type="button" class="reacao mais" data-reagir-abrir aria-expanded="${aberto === p.id}" aria-label="Reagir"><span>${aberto === p.id ? "✕" : "🙂"}</span>${aberto === p.id ? "Fechar" : "Reagir"}</button></div>
+          ${aberto === p.id ? `<div class="reacao-menu" role="group" aria-label="Escolha uma reação">${REACOES.map(([k, ic, nome]) => `<button type="button" class="${(rc[k] || []).includes(eu) ? "on" : ""}" data-reagir="${k}" aria-pressed="${(rc[k] || []).includes(eu)}"><span>${ic}</span><em>${nome}</em></button>`).join("")}</div>` : ""}
         </article>`; }).join("")}</div>`;
       corpo.querySelectorAll("[data-reagir]").forEach(b => b.onclick = async () => {
         const id = b.closest("[data-post]").dataset.post, p = posts.find(x => x.id === id), k = b.dataset.reagir;
         p.reacoes = p.reacoes || {}; const l = p.reacoes[k] || (p.reacoes[k] = []), on = !l.includes(eu);
         if(on) l.push(eu); else l.splice(l.indexOf(eu), 1);
-        if(on) tocar("toque"); desenhar();
+        aberto = null; if(on) tocar("toque"); desenhar();
         try{ await DB.reagirPost(id, k, eu, on); }catch(e){ if(on) l.splice(l.indexOf(eu), 1); else l.push(eu); desenhar(); aviso(erroMsg(e)); }
       });
+      corpo.querySelectorAll("[data-reagir-abrir]").forEach(b => b.onclick = () => { const id = b.closest("[data-post]").dataset.post; aberto = aberto === id ? null : id; desenhar(); });
       corpo.querySelectorAll("[data-apagar]").forEach(b => b.onclick = async () => {
         if(!(await confirmar("Apagar publicação", "Apagar esta publicação do mural?", "Apagar", "btn-warn"))) return;
         try{ await DB.excluirPost(b.dataset.apagar); posts.splice(posts.findIndex(x => x.id === b.dataset.apagar), 1); if(posts.length) desenhar(); else telaMural(); }catch(e){ aviso(erroMsg(e)); }
