@@ -441,6 +441,113 @@ input[type=file]{width:100%;color:var(--muted);font-size:15px}
 .prof.bloq .avatar{filter:grayscale(1) brightness(.75)}
 .prof em{font-style:normal;font-size:10.5px;font-weight:800;color:var(--warn)}
 /* Trilha */
+
+/* ---------- Início minimalista (cara de aplicativo) ---------- */
+.hm>div{gap:10px;grid-template-columns:minmax(0,1fr);min-width:0}
+.hm .hm-card,.hm .hm-ola{min-width:0;max-width:100%}
+.inicio-grid.hm>div+div{margin-top:10px}
+.hm .hm-card{padding:14px 14px 13px;border-radius:18px}
+.hm .panel+.panel{margin-top:0}
+.hm-cab{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px;min-height:22px}
+.hm-cab>span{font:800 11.5px/1.2 "Barlow",sans-serif;letter-spacing:.9px;text-transform:uppercase;color:var(--soft)}
+.hm-cab>span em{font-style:normal;color:var(--accent);margin-left:4px;letter-spacing:.3px}
+.hm-meta{font-weight:700;font-size:12.5px;color:var(--soft)}
+.hm-link{background:none;border:0;padding:2px 0;color:var(--accent);font:700 13px "Barlow",sans-serif;cursor:pointer;white-space:nowrap}
+.hm-link span{font-size:16px;line-height:0;margin-left:1px}
+.hm-sub{margin:2px 0 0;font-size:13px;color:var(--soft);line-height:1.35}
+/* saudação */
+.hm-ola{display:flex;align-items:center;gap:12px;padding:2px 2px 4px}
+.hm-av{flex:none;width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.14);display:grid;place-items:end center;overflow:hidden;box-shadow:inset 0 0 0 2px rgba(255,255,255,.25)}
+.hm-av .avatar{width:38px;height:49px;margin-bottom:-6px}
+.hm-ola-tx{flex:1;min-width:0}
+.hm-ola-tx small{display:block;font-size:12px;color:var(--soft);font-weight:600}
+.hm-ola-tx h2{font:800 20px/1.1 "Barlow",sans-serif;margin:1px 0 0;letter-spacing:0;text-transform:none;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hm-ola-tx p{margin:3px 0 0;font-size:12px;color:var(--soft);font-style:italic;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.hm-chips{display:flex;flex-direction:column;gap:5px;flex:none}
+.hm-chip{display:inline-flex;align-items:center;justify-content:center;gap:4px;padding:4px 9px;border-radius:99px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.16);color:#fff;font:800 12px "Barlow",sans-serif;white-space:nowrap}
+.hm-chip.ouro{background:linear-gradient(135deg,#FFE27A,#F2BE2E);color:#4A3300;border-color:transparent}
+.hm-chip.sala{cursor:pointer;max-width:110px;overflow:hidden;text-overflow:ellipsis}
+/* hoje */
+.hm-hoje{background:linear-gradient(150deg,rgba(143,230,255,.22),rgba(255,255,255,.08));border-color:rgba(143,230,255,.35)}
+.hm-hoje-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.hm-sobre{font:800 11.5px "Barlow",sans-serif;letter-spacing:.9px;text-transform:uppercase;color:var(--accent)}
+.hm-hoje h2{font:800 21px/1.15 "Barlow",sans-serif;letter-spacing:0;text-transform:none;margin:6px 0 0}
+.hm-tag{font:800 11px "Barlow",sans-serif;padding:3px 9px;border-radius:99px;background:rgba(255,255,255,.16);white-space:nowrap}
+.hm-tag.ok{background:var(--d);color:#fff}.hm-tag.late{background:var(--warn);color:#2A2000}
+.hm-res{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:12px 0 0}
+.hm-res div{background:rgba(0,0,0,.14);border-radius:12px;padding:8px 6px;text-align:center}
+.hm-res b{display:block;font:800 17px/1.1 "Barlow",sans-serif}
+.hm-res span{font-size:11px;color:var(--soft);font-weight:600}
+.hm-acoes{display:grid;grid-template-columns:1.4fr 1fr;gap:8px;margin-top:12px}
+.hm-acoes.uma{grid-template-columns:1fr}
+.hm-acoes .btn{min-height:42px;padding:8px 12px;font-size:14.5px;border-radius:12px;width:100%}
+.hm-contagem{margin:8px 0 0;font-size:12px;color:var(--soft);font-weight:600}
+/* semana */
+.hm-dots{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.hm-dots div{display:grid;justify-items:center;gap:3px}
+.hm-dots i{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-weight:900;font-size:13px;background:rgba(255,255,255,.1);border:2px solid transparent}
+.hm-dots .ok i{background:var(--d);color:#fff}.hm-dots .late i{background:var(--warn);color:#2A2000}
+.hm-dots .hoje i{border-color:#fff}
+.hm-dots small{font-size:10px;font-weight:700;color:var(--soft)}
+.hm-dots .hoje small{color:#fff}
+/* desempenho */
+.hm-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.hm-kpis>div{background:rgba(0,0,0,.14);border-radius:12px;padding:8px 6px 7px;text-align:center;min-width:0}
+.hm-kpis b{display:block;font:800 17px/1.1 "Barlow",sans-serif}
+.hm-kpis span{display:block;font-size:10.5px;color:var(--soft);font-weight:600}
+.hm-kpis em{display:block;font-style:normal;font-size:10px;font-weight:800;color:var(--ok);margin-top:1px}
+.hm-kpi-graf{display:flex!important;flex-direction:column;justify-content:flex-end}
+.hm-barras{display:flex;align-items:flex-end;gap:3px;height:30px;padding:0 2px}
+.hm-barras i{flex:1;border-radius:3px 3px 1px 1px;background:linear-gradient(180deg,var(--accent),var(--ok))}
+.hm-barras i.tarde{background:rgba(255,255,255,.4)}
+.hm-dica{margin:10px 0 0;font-size:12.5px;line-height:1.4;color:var(--muted);padding-left:10px;border-left:3px solid var(--accent);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+/* corrida */
+.hm-pos{display:flex;align-items:center;gap:10px}
+.hm-pos>b{font:800 30px/1 "Barlow",sans-serif;color:var(--accent);min-width:44px}
+.hm-pos>div{flex:1;min-width:0}
+.hm-pos strong{display:block;font-size:14px}
+.hm-pos span{display:block;font-size:12px;color:var(--soft)}
+.hm-track{height:38px;margin-top:10px;border-radius:10px}
+.hm-track .runner{top:-6px;width:34px;height:44px;left:calc((100% - 34px) * var(--p))}
+.hm-track .runner .avatar{width:34px;height:44px}
+.hm-track .flag{font-size:14px}
+/* missões */
+.hm-ms{display:flex;gap:12px;align-items:flex-start}
+.hm-nivel{flex:none;width:48px;height:48px;border-radius:14px;display:grid;place-items:center;align-content:center;background:linear-gradient(145deg,#FFE9A6,#F2BE2E 60%,#D9951C);color:#3A2A00;box-shadow:0 3px 0 #B5800F}
+.hm-nivel b{font:900 20px/1 "Barlow",sans-serif}
+.hm-nivel small{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.5px}
+.hm-ms-tx{flex:1;min-width:0}
+.hm-ms-tx strong{display:block;font-size:15px;line-height:1.2}
+.hm-ms-tx>span{display:block;font-size:12.5px;color:var(--soft);line-height:1.3;margin-top:1px}
+.hm-ms-tx .hm-ms-pg{font-size:11.5px;margin-top:4px}
+.hm-barra{height:6px;border-radius:99px;background:rgba(0,0,0,.22);overflow:hidden;margin-top:7px}
+.hm-barra i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--accent),var(--ok))}
+.hm-ajudas{display:flex;gap:6px;margin-top:12px;flex-wrap:wrap}
+.hm-ajudas::-webkit-scrollbar{display:none}
+.hm-ajudas span{flex:none;display:inline-flex;align-items:center;gap:4px;font-size:11.5px;font-weight:700;padding:4px 8px;border-radius:99px;background:rgba(255,255,255,.1);white-space:nowrap}
+.hm-ajudas b{background:var(--accent);color:#14123C;border-radius:99px;min-width:17px;height:17px;display:grid;place-items:center;font-size:10.5px}
+.hm-ajudas .zero{opacity:.5}.hm-ajudas .zero b{background:rgba(255,255,255,.25);color:#fff}
+/* conquistas */
+.hm-cq{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 -14px;padding:0 14px 2px;scrollbar-width:none}
+.hm-cq::-webkit-scrollbar{display:none}
+.hm-cq button{flex:none;width:68px;scroll-snap-align:start;background:none;border:0;padding:0;color:#fff;display:grid;justify-items:center;gap:4px;cursor:pointer}
+.hm-cq button>span{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;font-size:24px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18)}
+.hm-cq button.on>span{background:linear-gradient(145deg,rgba(255,226,122,.35),rgba(143,230,255,.2));border-color:rgba(255,226,122,.6)}
+.hm-cq button.off>span{filter:grayscale(1);opacity:.4}
+.hm-cq small{font-size:10.5px;font-weight:700;line-height:1.15;text-align:center;color:var(--muted)}
+.hm-cq button.off small{color:var(--soft);opacity:.7}
+/* linha de atalho (mural) */
+.hm-linha{display:flex;align-items:center;gap:12px;width:100%;text-align:left;color:#fff;cursor:pointer;font:inherit}
+.hm-linha-ic{width:38px;height:38px;border-radius:12px;background:rgba(255,255,255,.14);display:grid;place-items:center;font-size:19px;flex:none}
+.hm-linha-tx{flex:1;min-width:0}
+.hm-linha-tx b{display:block;font-size:14.5px}
+.hm-linha-tx small{display:block;font-size:12px;color:var(--soft)}
+.hm-seta{font-size:22px;color:var(--soft)}
+@media (min-width:900px){
+  .inicio-grid.hm .panel,.inicio-grid.hm .hm-ola{margin:0 0 12px}
+  .hm-ola{padding:4px 4px 8px}
+  .hm .hm-card{padding:16px}
+}
 /* ---------- Trilha: mapa da jornada bíblica ---------- */
 .trilha-wrap{padding:0;overflow:hidden;border:0;box-shadow:0 10px 30px rgba(10,9,40,.35)}
 .trilha{position:relative;margin:0 auto;font-family:"Barlow",sans-serif}
@@ -1782,54 +1889,58 @@ function modalConquista(k){
 function telaInicio(){
   clearInterval(inicioTimer);
   const h = hoje(), L = LICOES[indiceLicaoAtual()], hojeIdx = L ? L.dias.findIndex(d => d.data === h) : -1, dHoje = hojeIdx >= 0 ? L.dias[hojeIdx] : null;
-  const fala = falaDoDia();
-  let html = `<div class="inicio-grid"><div>`;
-  html += `<section class="panel"><div class="inicio-hero">${meuAvatar()}<div><div class="saud">${saudacao()}</div><h2>${esc(perfil.nome)}!</h2>${fala ? `<div class="balao mini"><p>${esc(fala)}</p></div>` : ""}</div></div></section>`;
-  // HOJE
-  html += `<section class="panel hoje">`;
+  const fala = falaDoDia(), nv = meuNivel(), st = sequencia();
+  const cab = (titulo, acao) => `<div class="hm-cab"><span>${titulo}</span>${acao || ""}</div>`;
+  const link = (id, t, extra) => `<button type="button" class="hm-link" id="${id}" ${extra || ""}>${t} <span aria-hidden="true">›</span></button>`;
+  let html = `<div class="inicio-grid hm"><div>`;
+  /* saudação: avatar, nome e a fala do dia numa linha só */
+  html += `<header class="hm-ola"><div class="hm-av">${meuAvatar()}</div><div class="hm-ola-tx"><small>${saudacao()}</small><h2>${esc(String(perfil.nome || "").split(" ")[0])}</h2>${fala ? `<p>“${esc(fala)}”</p>` : ""}</div>
+    <div class="hm-chips"><span class="hm-chip" title="Sequência no prazo">${st >= 5 ? "🔥" : "⚡"} ${st}</span><span class="hm-chip ouro" title="Nível ${nv}: ${esc(nomeNivel(nv))}">Nv ${nv}</span></div></header>`;
+  /* hoje */
+  html += `<section class="panel hm-card hm-hoje">`;
   if(dHoje){
     const r = resDe(L, dHoje), prog = PROG[L.id + "|" + dHoje.data];
-    html += `<span class="hoje-lbl">Hoje · ${esc(dHoje.nome)}, ${esc(dataLonga(dHoje.data))}</span><h2>${esc(dHoje.tema)}</h2><p class="muted small" style="margin:0 0 10px">${esc(L.numero)}: ${esc(L.titulo)}</p>`;
-    if(r) html += `<p class="status"><span class="pill ok">✓ Quiz de hoje feito</span><span>${fmt(r.pts)} pontos · ${r.acertos} de ${r.total} certas</span></p><div class="btn-row"><button class="btn btn-ghost" id="inVer">Ver resultado</button><button class="btn btn-ghost" id="inEstudar">Reler a lição</button></div>`;
-    else if(prog) html += `<p class="status"><span class="pill late">Em andamento</span><span>pergunta ${Math.min(prog.q+1, prog.n)} de ${prog.n}</span></p><div class="btn-row"><button class="btn btn-main" id="inJogar">Continuar o quiz</button><button class="btn btn-ghost" id="inEstudar">Estudar</button></div>`;
-    else if(!dHoje.perguntas.length) html += `<p class="status"><span class="pill">Sem quiz hoje</span></p><div class="btn-row uma"><button class="btn btn-main" id="inEstudar">Estudar a lição de hoje</button></div>`;
-    else html += `<p class="status"><span class="pill">Quiz de hoje ainda não feito</span></p><div class="btn-row"><button class="btn btn-main" id="inEstudar">1. Estudar</button><button class="btn btn-ghost" id="inJogar">2. Fazer o quiz</button></div><p class="contagem" id="inContagem"></p>`;
-  } else if(L && licaoFutura(L)) html += `<span class="hoje-lbl">Próxima lição</span><h2>${esc(L.titulo)}</h2><p class="muted" style="margin:0">Começa no sábado, ${esc(dataLonga(L.dias[0].data))}. Enquanto isso, dá para reler as lições anteriores em Estudar.</p>`;
-  else html += `<span class="hoje-lbl">Fim do trimestre</span><h2>Parabéns por chegar até aqui!</h2><p class="muted" style="margin:0">Confira sua corrida e aguarde a próxima lição.</p>`;
+    html += `<div class="hm-hoje-top"><span class="hm-sobre">Hoje · ${esc(dHoje.nome)}, ${esc(dataCurta(dHoje.data))}</span>${r ? `<span class="hm-tag ok">✓ Feito</span>` : prog ? `<span class="hm-tag late">Em andamento</span>` : dHoje.perguntas.length ? `<span class="hm-tag">Pendente</span>` : ""}</div>
+      <h2>${esc(dHoje.tema)}</h2><p class="hm-sub">${esc(L.numero)} · ${esc(L.titulo)}</p>`;
+    if(r) html += `<div class="hm-res"><div><b>${fmt(r.pts)}</b><span>pontos</span></div><div><b>${r.acertos}/${r.total}</b><span>certas</span></div><div><b>${r.noPrazo ? "✓" : "½"}</b><span>${r.noPrazo ? "no prazo" : "atrasado"}</span></div></div>
+      <div class="hm-acoes"><button class="btn btn-main" id="inVer">Ver resultado</button><button class="btn btn-ghost" id="inEstudar">Reler</button></div>`;
+    else if(prog) html += `<p class="hm-sub">Pergunta ${Math.min(prog.q + 1, prog.n)} de ${prog.n}</p><div class="hm-acoes"><button class="btn btn-main" id="inJogar">Continuar o quiz</button><button class="btn btn-ghost" id="inEstudar">Estudar</button></div>`;
+    else if(!dHoje.perguntas.length) html += `<div class="hm-acoes uma"><button class="btn btn-main" id="inEstudar">Estudar a lição de hoje</button></div>`;
+    else html += `<div class="hm-acoes"><button class="btn btn-main" id="inEstudar">Estudar</button><button class="btn btn-ghost" id="inJogar">Fazer o quiz</button></div><p class="hm-contagem" id="inContagem"></p>`;
+  } else if(L && licaoFutura(L)) html += `<span class="hm-sobre">Próxima lição</span><h2>${esc(L.titulo)}</h2><p class="hm-sub">Começa no sábado, ${esc(dataLonga(L.dias[0].data))}.</p>`;
+  else html += `<span class="hm-sobre">Fim do trimestre</span><h2>Parabéns por chegar até aqui!</h2><p class="hm-sub">Confira sua corrida e aguarde a próxima lição.</p>`;
   html += `</section>`;
-  // SEMANA
+  /* semana */
   if(L){
-    const dots = L.dias.map(d => { const r = resDe(L,d); const cls = r ? (r.noPrazo ? "ok" : "late") : ""; return `<div><div class="d ${cls} ${d.data===h?"hoje":""}">${r ? "✓" : d.curto.slice(0,1)}</div><small>${d.curto}</small></div>`; }).join("");
-    const st = sequencia();
-    html += `<section class="panel"><span class="hoje-lbl">Sua semana</span><h2 class="h3" style="margin:0">${esc(L.numero)}: ${esc(L.titulo)}</h2><div class="dots7">${dots}</div>
-      <p class="muted small" style="margin:0">${noPrazo(L)} de 7 dias no prazo · ${fmt(totalSemana(L))} pontos na lição</p>
-      <div class="streak"><span style="font-size:28px">${st >= 5 ? "🔥" : st > 0 ? "✨" : "💤"}</span><div><b>${st} ${st===1?"dia":"dias"}</b><br><span>${st > 0 ? "seguidos no prazo. Não deixe a chama apagar!" : "de sequência. Faça o quiz de hoje para começar!"}</span></div></div></section>`;
+    const dots = L.dias.map(d => { const r = resDe(L, d), cls = r ? (r.noPrazo ? "ok" : "late") : ""; return `<div class="${cls} ${d.data === h ? "hoje" : ""}" title="${esc(d.nome)}"><i>${r ? "✓" : ""}</i><small>${esc(d.curto.slice(0, 3))}</small></div>`; }).join("");
+    html += `<section class="panel hm-card">${cab("Sua semana", `<span class="hm-meta">${noPrazo(L)}/7 · ${fmt(totalSemana(L))} pts</span>`)}<div class="hm-dots">${dots}</div></section>`;
   }
-  // MEU DESEMPENHO (só a própria pessoa vê)
-  html += cartaoDesempenho();
+  /* desempenho */
+  html += cartaoDesempenhoMin();
   html += `</div><div>`;
-  // CORRIDA (posição na lição atual)
-  html += `<section class="panel" id="inCorrida"><span class="hoje-lbl">Corrida do Rolo</span><p class="vazio" style="padding:6px 0">Calculando sua posição…</p></section>`;
-  // MISSÕES
-  html += cartaoMissoesInicio();
-  // CONQUISTAS
-  const cq = conquistas(), ganhas = cq.filter(c=>c.on).length;
-  html += `<section class="panel"><div class="cq-head"><span class="hoje-lbl">Conquistas · ${ganhas} de ${cq.length}</span><button class="btn btn-ghost btn-sm" id="cqShare" ${ganhas?"":"disabled"} title="${ganhas?"Compartilhar suas conquistas":"Ganhe a primeira conquista para compartilhar"}">Compartilhar</button></div><div class="badges">${cq.map((c,k)=>`<button type="button" class="badge-card ${c.on?"on":"off"}" data-cq="${k}" title="${esc(c.d)}"><div class="ic">${c.ic}</div><b>${esc(c.t)}</b><span>${esc(c.d)}</span></button>`).join("")}</div></section>`;
-  html += `<div class="atalhos"><button data-go="estudar"><span class="ic">📖</span>Estudar</button><button data-go="quiz"><span class="ic">🎯</span>Quiz da semana</button><button data-go="ranking"><span class="ic">🏁</span>Corrida</button><button data-go="salas"><span class="ic">👥</span>Salas</button><button id="atMissoes"><span class="ic">🗺️</span>Missões</button><button id="atMural"><span class="ic">📌</span>Mural</button></div>`;
+  /* corrida */
+  html += `<section class="panel hm-card" id="inCorrida">${cab("Corrida do Rolo")}<p class="hm-sub">Calculando sua posição…</p></section>`;
+  /* missões */
+  html += cartaoMissoesMin();
+  /* conquistas: uma fileira que rola para o lado */
+  const cq = conquistas(), ganhas = cq.filter(c => c.on).length;
+  html += `<section class="panel hm-card">${cab(`Conquistas <em>${ganhas}/${cq.length}</em>`, ganhas ? link("cqShare", "Compartilhar") : "")}
+    <div class="hm-cq">${cq.map((c, k) => `<button type="button" class="${c.on ? "on" : "off"}" data-cq="${k}" title="${esc(c.t)}: ${esc(c.d)}"><span>${c.ic}</span><small>${esc(c.t)}</small></button>`).join("")}</div></section>`;
+  /* mural */
+  html += `<button type="button" class="panel hm-card hm-linha" id="atMural"><span class="hm-linha-ic">📌</span><span class="hm-linha-tx"><b>Mural da sala</b><small>Veja e celebre o que a turma conquistou</small></span><span class="hm-seta" aria-hidden="true">›</span></button>`;
   html += `</div></div>`;
   app.innerHTML = html;
-  app.querySelectorAll("[data-go]").forEach(b => b.onclick = ()=> nav(b.dataset.go));
   const cqS = $("cqShare"); if(cqS) cqS.onclick = ()=> compartilharConquistas(cqS);
   setTimeout(conferirNovidades, 350);
-  const tr = $("inTrilha"); if(tr) tr.onclick = ()=> telaMissoes();
+  const tr = $("inTrilha"); if(tr) tr.onclick = ()=> nav("missoes");
   const dz = $("dzMais"); if(dz) dz.onclick = modalDesempenho;
-  $("atMissoes").onclick = ()=> telaMissoes(); $("atMural").onclick = ()=> telaMural();
+  $("atMural").onclick = ()=> telaMural();
   app.querySelectorAll("[data-cq]").forEach(b => b.onclick = ()=> modalConquista(+b.dataset.cq));
   const est = $("inEstudar"); if(est) est.onclick = ()=>{ estudoLicao = L; estudoDia = hojeIdx >= 0 ? hojeIdx : -1; nav("estudar"); };
   const jog = $("inJogar"); if(jog) jog.onclick = ()=>{ LICAO = L; tabAtual = "quiz"; atualizarCasca(); iniciar(hojeIdx); };
   const ver = $("inVer"); if(ver) ver.onclick = ()=>{ LICAO = L; tabAtual = "quiz"; atualizarCasca(); telaResultado(hojeIdx); };
   const ct = $("inContagem");
-  if(ct){ const tick = ()=>{ const el = $("inContagem"); if(!el){ clearInterval(inicioTimer); return; } const ms = proximaVirada() - Date.now(), hh = Math.floor(ms/36e5), mm = Math.floor((ms%36e5)/6e4); el.textContent = `⏳ Faltam ${hh}h${String(mm).padStart(2,"0")} para o dia fechar (à meia-noite). Depois disso o quiz vale metade.`; }; tick(); inicioTimer = setInterval(tick, 30000); }
+  if(ct){ const tick = ()=>{ const el = $("inContagem"); if(!el){ clearInterval(inicioTimer); return; } const ms = proximaVirada() - Date.now(), hh = Math.floor(ms/36e5), mm = Math.floor((ms%36e5)/6e4); el.textContent = `⏳ ${hh}h${String(mm).padStart(2,"0")} para o dia fechar. Depois, o quiz vale metade.`; }; tick(); inicioTimer = setInterval(tick, 30000); }
   if(L) posicaoCorrida(L);
 }
 async function posicaoCorrida(L){
@@ -1850,14 +1961,12 @@ async function posicaoCorrida(L){
     if(pos && ant && ant.chave === chavePos && ant.pos && pos < ant.pos && !document.querySelector(".modal-bg")){ tocar("subiu"); aviso(`Você subiu para ${pos}º na sala ${sala.nome}!`); }
     if(pos) lsSet(KEY + ":pos:" + usuario.uid, { chave: chavePos, pos });
     const fmt1 = n => (Math.round(n*10)/10).toLocaleString("pt-BR");
-    el.innerHTML = `<div class="cq-head"><span class="hoje-lbl">Corrida do Rolo · ${esc(L.numero)}</span><button class="btn btn-ghost btn-sm" id="inSala" title="Trocar de sala">${esc(sala.nome)}</button></div>
-      <div class="posicao">${pos ? `<b>${pos}º</b><span>de ${ordem.length} na pista · ${fmt1(meus)} ${meus===1?"passo":"passos"}</span>` : `<b>—</b><span>${ordem.length ? ordem.length + " já estão correndo. Entre na pista!" : "A pista está vazia. Seja o primeiro!"}</span>`}</div>
-      <div class="track" style="--seg:7"><span class="flag" aria-hidden="true">🏁</span><div class="runner" style="--p:${Math.min(1, meus/7)}">${meuAvatar()}</div></div>
-      <p class="muted small" style="margin:10px 0 0">${pos === 1 && meus ? "Você está na frente! Mantenha o ritmo." : lider > meus ? `O líder tem ${fmt1(lider)} ${lider===1?"passo":"passos"}. Cada dia no prazo é um passo.` : "Cada dia no prazo é um passo. Com atraso, meio passo."}</p>
-      <div class="btn-row uma" style="margin-top:12px"><button class="btn btn-ghost" id="inRolo">Ver a corrida completa</button></div>`;
+    el.innerHTML = `<div class="hm-cab"><span>Corrida do Rolo</span><button type="button" class="hm-link" id="inRolo">Ver pista <span aria-hidden="true">›</span></button></div>
+      <div class="hm-pos"><b>${pos ? pos + "º" : "—"}</b><div><strong>${pos ? `de ${ordem.length} na pista` : ordem.length ? "Entre na pista!" : "Pista vazia: seja o primeiro!"}</strong><span>${fmt1(meus)} ${meus === 1 ? "passo" : "passos"} · ${esc(L.numero)}</span></div><button type="button" class="hm-chip sala" id="inSala" title="Trocar de sala">${esc(sala.nome)}</button></div>
+      <div class="track hm-track" style="--seg:7"><span class="flag" aria-hidden="true">🏁</span><div class="runner" style="--p:${Math.min(1, meus/7)}">${meuAvatar()}</div></div>`;
     $("inRolo").onclick = ()=> nav("ranking");
     $("inSala").onclick = ()=> nav("salas");
-  }catch(e){ el.innerHTML = `<span class="hoje-lbl">Corrida do Rolo</span><p class="muted small" style="margin:0">${esc(erroMsg(e))}</p>`; }
+  }catch(e){ el.innerHTML = `<div class="hm-cab"><span>Corrida do Rolo</span></div><p class="hm-sub">${esc(erroMsg(e))}</p>`; }
 }
 
 /* ============================================================
@@ -2962,17 +3071,22 @@ async function lerPdf(file, log){
       ultY = y;
     });
     pagina += linha;
-    PDF_PAGINAS.push({ num: p, texto: pagina });
-    texto += pagina + "\n\n";
+    /* Páginas "COMUNIDADE" (com o "Diálogo aberto") não fazem parte da lição: a semana termina na sexta-feira antes delas.
+       Elas ficam fora do texto do dia e das imagens, e por isso nunca viram base de perguntas. */
+    const comunidade = esPaginaComunidade(pagina);
+    PDF_PAGINAS.push({ num: p, texto: pagina, comunidade });
+    if(!comunidade) texto += pagina + "\n\n";
     if(log && p % 10 === 0) log(`Lendo página ${p} de ${pdf.numPages}…`);
   }
   return texto.replace(/-\n(?=[a-záéíóúâêôãõç])/g, "").replace(/[ \t]+\n/g, "\n").replace(/\n{3,}/g, "\n\n");
 }
+function esPaginaComunidade(t){ const c = String(t || "").replace(/\s+/g, ""); return /COMUNIDADE/.test(c) && /DI[ÁA]LOGOABERTO/i.test(c); }
 /* Diz a que lição e dia cada página do PDF pertence: capa ("LEIA O TEXTO BÍBLICO" + "Lição N") = sábado; "com TEXTO" = domingo … "com SENSO" = sexta; páginas sem marca continuam o dia anterior */
 function classificarPaginas(paginas){
   const marcaDia = { TEXTO:1, PREENDA:2, ENTE:3, PARE:4, PARTILHE:5, SENSO:6 };
   let n = 0, dia = -1; const out = [];
   paginas.forEach(pg => {
+    if(pg.comunidade){ dia = -1; return; }          // página Comunidade: fora da lição (até a próxima capa)
     const t = pg.texto, compacto = t.replace(/\s+/g, "");
     const mLic = /Li[çc][ãa]o\s*(\d{1,2})\b/i.exec(t);
     if(/LEIAOTEXTOB[ÍI]BLICO|TEXTO-CHAVE/i.test(compacto) && mLic){ n = +mLic[1]; dia = 0; }
@@ -4385,6 +4499,23 @@ function analiseDesempenho(){
     if(falas.length < 2 && dMed != null && dMed > 0) falas.push(`E a sua média por quiz subiu ${fmt(dMed)} pontos.`);
   }
   return { st, porLicao, atual, anterior, ultimos, melhorAcerto, geral, dAc, dMed, fala: falas.slice(0, 2).join(" ") };
+}
+/* Versões compactas para o Início */
+function cartaoDesempenhoMin(){
+  const a = analiseDesempenho(), st = a.st;
+  if(!st.quizzes) return `<section class="panel hm-card"><div class="hm-cab"><span>Meu desempenho</span></div><p class="hm-sub">Faça o primeiro quiz para ver sua evolução aqui.</p></section>`;
+  const acAtual = a.atual && a.atual.acerto != null ? a.atual.acerto : a.geral;
+  const kpi = (v, r, d) => `<div><b>${v}</b><span>${r}</span>${d ? `<em>${d}</em>` : ""}</div>`;
+  const barras = a.ultimos.length ? `<div class="hm-barras" role="img" aria-label="Acerto nos últimos ${a.ultimos.length} quizzes">${a.ultimos.map(r => { const p = r.total ? Math.round(100 * r.acertos / r.total) : 0; return `<i style="height:${Math.max(10, p)}%" class="${r.noPrazo ? "" : "tarde"}" title="${dataCurta(r.data)}: ${r.acertos} de ${r.total}"></i>`; }).join("")}</div>` : "";
+  return `<section class="panel hm-card"><div class="hm-cab"><span>Meu desempenho <em>só você vê</em></span>${a.porLicao.length ? `<button type="button" class="hm-link" id="dzMais">Detalhes <span aria-hidden="true">›</span></button>` : ""}</div>
+    <div class="hm-kpis">${kpi(acAtual != null ? acAtual + "%" : "—", "acerto", a.dAc > 0 ? "▲ " + a.dAc : "")}${kpi(st.seq, "seguidos", "rec. " + st.melhorSeq)}${kpi(fmt(a.atual ? a.atual.media : 0), "pts/quiz", a.dMed > 0 ? "▲ " + fmt(a.dMed) : "")}${barras ? `<div class="hm-kpi-graf">${barras}<span>últimos</span></div>` : ""}</div>
+    <p class="hm-dica">${esc(a.fala)}</p></section>`;
+}
+function cartaoMissoesMin(){
+  const feitas = missoesFeitas(), nv = nivelDe(feitas), prox = MISSOES[feitas] || null, pg = prox ? progressoMissao(prox) : null, d = ajudasDisponiveis();
+  return `<section class="panel hm-card"><div class="hm-cab"><span>Missões <em>${feitas}/${MISSOES.length}</em></span><button type="button" class="hm-link" id="inTrilha">Trilha <span aria-hidden="true">›</span></button></div>
+    <div class="hm-ms"><div class="hm-nivel"><b>${nv}</b><small>nível</small></div><div class="hm-ms-tx">${prox ? `<strong>${prox.n}. ${esc(prox.t)}</strong><span>${esc(prox.d)}</span><div class="hm-barra"><i style="width:${pg.pct}%"></i></div><span class="hm-ms-pg">${fmt(pg.v)} de ${fmt(pg.alvo)}${prox.premio ? ` · 🎁 ${esc(textoPremio(prox.premio))}` : ""}</span>` : `<strong>Jornada completa!</strong><span>Todas as missões cumpridas.</span>`}</div></div>
+    <div class="hm-ajudas">${Object.keys(AJUDAS).map(k => `<span class="${d[k] ? "" : "zero"}" title="${esc(AJUDAS[k].nome)}: ${esc(AJUDAS[k].d)}">${AJUDAS[k].ic} ${({ meio: "Meio a meio", dobro: "Dobro", chance: "2ª chance" })[k] || esc(AJUDAS[k].nome)} <b>${d[k]}</b></span>`).join("")}</div></section>`;
 }
 function cartaoDesempenho(){
   const a = analiseDesempenho(), st = a.st;
