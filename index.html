@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="versao" content="20261113.133042">
+<meta name="versao" content="20261113.202201">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Corrida do Rolo · Quiz da Lição</title>
 <meta name="theme-color" content="#524F9C">
@@ -13,10 +13,7 @@
 <link rel="manifest" id="manifest" href="">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,400;0,600;0,700;0,800;1,500;1,600&display=swap" rel="stylesheet">
-<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,400;0,600;0,700;0,800;1,500;1,600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <style>
 :root{
   --g1:#524F9C; --g2:#6889AE; --g3:#83C6BD;
@@ -1426,6 +1423,65 @@ body:has(.modal-bg) .toast,body:has(.tutorial) .toast,body:has(.lb) .toast{botto
 @media (max-width:520px){ .topo-dir:has(.sino:not([hidden])) .chip span.n{display:none} .topo-dir:has(.sino:not([hidden])) .chip{padding:6px 8px} }
 /* o que o site traz sozinho para a tela (fala do personagem, botões do personagem raro, Próxima pergunta, lição da semana, publicação) para acima do menu de baixo, e não escondido atrás dele */
 #app :is(#prox,.fala,.pers-acoes,.post){scroll-margin:84px 0 calc(100px + env(safe-area-inset-bottom,0px))}
+/* ---------- tela de carregamento: o rolo se abre e o corredor atravessa a pista ---------- */
+.carga{position:fixed;inset:0;z-index:300;display:grid;place-items:center;padding:24px;background:var(--g1) linear-gradient(170deg,var(--g1) 0%,var(--g2) 55%,var(--g3) 100%);transition:opacity .4s ease,visibility .4s}
+.carga.sai{opacity:0;visibility:hidden;pointer-events:none}
+.carga-in{width:min(310px,84vw);text-align:center}
+.carga-tit{margin:0 0 26px;font:400 34px/1 "Bebas Neue","Arial Narrow",Impact,sans-serif;letter-spacing:2px;color:#fff;text-transform:uppercase}
+.carga-tit b{font-weight:400;color:#8FE6FF}
+.cg-rolo{position:relative;height:76px;--t:3.8s}
+.cg-papel{position:absolute;left:10px;right:10px;top:6px;bottom:6px;border-radius:4px;background:#F4F1EA;box-shadow:inset 0 0 0 2px #E2D8B8;overflow:hidden;display:flex;align-items:center;justify-content:space-between;padding:22px 46px 0 30px;animation:cg-abre var(--t) cubic-bezier(.45,0,.3,1) infinite}
+.cg-papel::before{content:"";position:absolute;left:24px;right:30px;top:50%;margin-top:10px;border-top:3px dotted #C9B98C}
+.cg-casa{position:relative;width:11px;height:11px;border-radius:50%;background:#fff;border:2.5px solid #B9A77A}
+.cg-chegada{position:absolute;right:16px;top:50%;margin-top:-15px;width:3px;height:30px;border-radius:2px;background:#6B5A2E}
+.cg-chegada::after{content:"";position:absolute;left:3px;top:1px;width:16px;height:12px;background:conic-gradient(#22183A 25%,#fff 0 50%,#22183A 0 75%,#fff 0) 0 0/8px 6px;box-shadow:0 0 0 1px #22183A}
+.cg-corre{position:absolute;left:0;bottom:17px;animation:cg-anda var(--t) linear infinite}
+.cg-boneco{display:block;animation:cg-pula .32s ease-in-out infinite alternate}
+.cg-p1{animation:cg-perna-a .32s steps(1) infinite}
+.cg-p2{opacity:0;animation:cg-perna-b .32s steps(1) infinite}
+.cg-vara{position:absolute;top:0;bottom:0;width:18px;border-radius:9px;background:linear-gradient(90deg,#8A6A3E,#D9CFAE 32%,#EFE7CC 50%,#B9A77A 78%,#7A5C34);box-shadow:0 4px 10px rgba(20,18,60,.35)}
+.cg-vara::before,.cg-vara::after{content:"";position:absolute;left:3px;right:3px;height:7px;border-radius:3px;background:#6E4A24}
+.cg-vara::before{top:-5px}.cg-vara::after{bottom:-5px}
+.cg-vara.e{left:0}
+.cg-vara.d{left:calc(100% - 18px);animation:cg-vara var(--t) cubic-bezier(.45,0,.3,1) infinite}
+@keyframes cg-abre{0%{clip-path:inset(0 100% 0 0)}30%,88%{clip-path:inset(0 0 0 0)}100%{clip-path:inset(0 100% 0 0)}}
+@keyframes cg-vara{0%{left:14px}30%,88%{left:calc(100% - 18px)}100%{left:14px}}
+@keyframes cg-anda{0%,12%{transform:translateX(8px)}80%,100%{transform:translateX(calc(min(310px,84vw) - 76px))}}
+@keyframes cg-pula{from{transform:translateY(0)}to{transform:translateY(-5px)}}
+@keyframes cg-perna-a{0%{opacity:1}50%,100%{opacity:0}}
+@keyframes cg-perna-b{0%{opacity:0}50%,100%{opacity:1}}
+.carga-tx{position:relative;height:20px;margin:22px 0 0;font:700 13.5px/20px "Barlow",system-ui,sans-serif;color:rgba(255,255,255,.9)}
+.carga-tx span{position:absolute;left:0;right:0;opacity:0;animation:cg-frase 10s linear infinite}
+.carga-tx span:nth-child(2){animation-delay:2.5s}.carga-tx span:nth-child(3){animation-delay:5s}.carga-tx span:nth-child(4){animation-delay:7.5s}
+@keyframes cg-frase{0%{opacity:0;transform:translateY(6px)}3%,22%{opacity:1;transform:none}25%,100%{opacity:0;transform:translateY(-6px)}}
+@media (min-width:900px){.carga-in{transform:scale(1.3)}}
+.carga-lento{margin-top:16px}
+.carga-lento p{margin:0 0 10px;font:600 13px/1.4 "Barlow",system-ui,sans-serif;color:rgba(255,255,255,.85)}
+.carga-lento button{background:#fff;color:#2E2B6E;border:0;border-radius:99px;padding:10px 18px;font:800 13.5px/1 "Barlow",system-ui,sans-serif;cursor:pointer}
+@media (prefers-reduced-motion:reduce){.cg-papel,.cg-vara.d,.cg-corre,.cg-boneco,.cg-p1,.cg-p2{animation:none}.cg-corre{transform:translateX(110px)}.cg-p2{opacity:0}.carga-tx span{animation:none}.carga-tx span:first-child{opacity:1}}
+
+/* ---------- Quiz: placar minimalista (sem balão) e o rolo do trimestre se abrindo ---------- */
+.hud{display:flex;align-items:center;gap:16px;width:100%;margin:0 0 12px;padding:2px 2px 0;background:none;border:0;color:#fff;text-align:left;cursor:pointer}
+.hud-it{display:inline-flex;align-items:baseline;gap:5px;white-space:nowrap}
+.hud-it i{font-style:normal;font-size:13px;color:var(--accent);transform:translateY(-1px)}
+.hud-it b{font:400 22px/1 "Bebas Neue","Arial Narrow",sans-serif;letter-spacing:.6px}
+.hud-it small{font:700 10.5px/1 "Barlow",sans-serif;letter-spacing:.8px;text-transform:uppercase;color:var(--soft)}
+.hud-mais{margin-left:auto;font:800 12px/1 "Barlow",sans-serif;color:var(--soft);white-space:nowrap}
+.hud:hover .hud-mais{color:#fff}
+.mapa-cx{position:relative}
+.mp-vara{display:none}
+.mapa-cx.abrindo .mapa{animation:rolo-abre 1.2s cubic-bezier(.4,0,.2,1) both}
+.mapa-cx.abrindo .mp-vara{display:block;position:absolute;z-index:2;top:-5px;bottom:-5px;left:0;width:20px;border-radius:10px;pointer-events:none;background:linear-gradient(90deg,#8A6A3E,#D9CFAE 32%,#EFE7CC 50%,#B9A77A 78%,#7A5C34);box-shadow:4px 0 12px rgba(20,18,60,.35);animation:rolo-vara 1.2s cubic-bezier(.4,0,.2,1) both}
+.mapa-cx.abrindo .mp-no{animation:rolo-no .45s cubic-bezier(.3,1.6,.5,1) backwards;animation-delay:var(--d,.2s)}
+.mapa-cx.abrindo .mp-rolo{animation:rolo-fim .4s ease backwards;animation-delay:1.05s}
+.mapa-cx.abrindo .mapa{scroll-behavior:auto}
+@keyframes rolo-abre{from{clip-path:inset(0 calc(100% - 20px) 0 0 round 16px)}to{clip-path:inset(0 0 0 0 round 16px)}}
+@keyframes rolo-vara{0%{left:0;opacity:1}88%{opacity:1}100%{left:calc(100% - 20px);opacity:0}}
+@keyframes rolo-no{from{opacity:0;transform:translate(-50%,-50%) scale(.15)}}
+@keyframes rolo-fim{from{opacity:0}}
+@media (prefers-reduced-motion:reduce){.mapa-cx.abrindo .mapa,.mapa-cx.abrindo .mp-vara,.mapa-cx.abrindo .mp-no,.mapa-cx.abrindo .mp-rolo{animation:none}.mapa-cx.abrindo .mp-vara{display:none}}
+.mu-acao{margin:0 0 12px}
+
 /* login */
 .logo-login{padding:18px 0 6px}
 .logo-login p{font-size:14px;margin-top:10px}
@@ -1442,6 +1498,18 @@ body:has(.modal-bg) .toast,body:has(.tutorial) .toast,body:has(.lb) .toast{botto
 </style>
 </head>
 <body class="sem-menu">
+<div class="carga" id="carga" role="status" aria-label="Carregando o jogo">
+  <div class="carga-in">
+    <p class="carga-tit">Corrida do <b>Rolo</b></p>
+    <div class="cg-rolo" aria-hidden="true">
+      <div class="cg-papel"><i class="cg-casa"></i><i class="cg-casa"></i><i class="cg-casa"></i><i class="cg-casa"></i><i class="cg-casa"></i><span class="cg-chegada"></span>
+        <span class="cg-corre"><svg class="cg-boneco" viewBox="0 0 9 12" width="27" height="36" shape-rendering="crispEdges" aria-hidden="true"><rect x="2" y="0" width="5" height="1" fill="#3A2416"/><rect x="1" y="1" width="7" height="1" fill="#3A2416"/><rect x="1" y="2" width="7" height="1" fill="#F2BE2E"/><rect x="1" y="3" width="1" height="1" fill="#D9A47A"/><rect x="2" y="3" width="1" height="1" fill="#22183A"/><rect x="3" y="3" width="3" height="1" fill="#D9A47A"/><rect x="6" y="3" width="1" height="1" fill="#22183A"/><rect x="7" y="3" width="1" height="1" fill="#D9A47A"/><rect x="1" y="4" width="7" height="1" fill="#D9A47A"/><rect x="2" y="5" width="5" height="1" fill="#8FE6FF"/><rect x="1" y="6" width="7" height="1" fill="#8FE6FF"/><rect x="0" y="7" width="1" height="1" fill="#D9A47A"/><rect x="1" y="7" width="2" height="1" fill="#8FE6FF"/><rect x="3" y="7" width="3" height="1" fill="#524F9C"/><rect x="6" y="7" width="2" height="1" fill="#8FE6FF"/><rect x="8" y="7" width="1" height="1" fill="#D9A47A"/><rect x="1" y="8" width="7" height="1" fill="#8FE6FF"/><rect x="1" y="9" width="1" height="1" fill="#5CB8D6"/><rect x="2" y="9" width="5" height="1" fill="#8FE6FF"/><rect x="7" y="9" width="1" height="1" fill="#5CB8D6"/><g class="cg-p1"><rect x="2" y="10" width="1" height="1" fill="#D9A47A"/><rect x="6" y="10" width="1" height="1" fill="#D9A47A"/><rect x="1" y="11" width="2" height="1" fill="#6B4A33"/><rect x="6" y="11" width="2" height="1" fill="#6B4A33"/></g><g class="cg-p2"><rect x="3" y="10" width="1" height="1" fill="#D9A47A"/><rect x="5" y="10" width="1" height="1" fill="#D9A47A"/><rect x="3" y="11" width="1" height="1" fill="#6B4A33"/><rect x="5" y="11" width="2" height="1" fill="#6B4A33"/></g></svg></span></div>
+      <span class="cg-vara e"></span><span class="cg-vara d"></span>
+    </div>
+    <p class="carga-tx" aria-hidden="true"><span>Desenrolando o rolo…</span><span>Chamando os personagens…</span><span>Marcando as casas da pista…</span><span>Quase na largada…</span></p>
+    <div class="carga-lento" id="cargaLento" hidden><p>Está demorando mais que o normal. Confira a sua internet.</p><button type="button" onclick="location.reload()">Tentar de novo</button></div>
+  </div>
+</div>
 <header class="topbar" id="topbar" hidden>
   <div class="brand" id="brand"><span class="brand-ic" id="brandIc"></span><span class="brand-tx">Corrida do <b>Rolo</b><small>Quiz da Lição</small></span></div>
   <div class="topo-dir"><button class="sino" id="sino" type="button" hidden aria-label="Notificações"><span aria-hidden="true">🔔</span><b id="sinoN">0</b></button>
@@ -1459,6 +1527,19 @@ body:has(.modal-bg) .toast,body:has(.tutorial) .toast,body:has(.lb) .toast{botto
 </nav>
 <div class="toast" id="toast" role="status"></div>
 <div class="nova-versao" id="novaVersao" role="status" hidden><span>Tem versão nova do jogo.</span><button type="button" id="nvBtn">Atualizar</button></div>
+<script>
+/* Tela de carregamento: some assim que a primeira tela do jogo aparece; se demorar demais, oferece tentar de novo */
+(function(){
+  var c = document.getElementById("carga"), a = document.getElementById("app");
+  function fim(){ if(!c) return; var x = c; c = null; x.classList.add("sai"); setTimeout(function(){ x.remove(); }, 450); }
+  window.fimDaCarga = fim;
+  if(a && window.MutationObserver){ var o = new MutationObserver(function(){ if(a.firstChild){ o.disconnect(); fim(); } }); o.observe(a, { childList: true }); }
+  setTimeout(function(){ var l = document.getElementById("cargaLento"); if(c && l) l.hidden = false; }, 14000);
+})();
+</script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
 
 <script>
 /* ============================================================
@@ -1959,8 +2040,8 @@ let RES = {};              // meus resultados: chave licaoId|data -> {pts, acert
 let PROG = {};             // quizzes em andamento: chave licaoId|data -> progresso salvo
 let LICAO = null;          // lição selecionada na tela do quiz
 let jogo = null, timer = null, tabAtual = "inicio";
-// Salas (turmas): SALAS = salas em que participo; SALA = sala ativa (usada na Corrida e no Início)
-let SALAS = [], SALAS_PEDIDOS = [], SALA = null, SALAS_PENDENTES = 0, SALAS_ERRO = "", membrosCache = {}, resCache = {};
+// Salas (turmas): SALAS = salas em que participo; SALAS_OUTRAS = só para o master, as demais salas do jogo (ele vê a corrida e o mural e gerencia, sem participar); SALA = sala ativa (usada na Corrida e no Início)
+let SALAS = [], SALAS_OUTRAS = [], SALAS_PEDIDOS = [], SALA = null, SALAS_PENDENTES = 0, SALAS_ERRO = "", membrosCache = {}, resCache = {};
 /* Papéis: MASTER administra o jogo inteiro (usuários, todas as salas, lições). ADMIN DE SALA administra só as salas
    que o master atribuiu a ele (campo "admins" da sala). Os e-mails de ADMINS_INICIAIS são sempre master. */
 const emailInicial = ()=> !!(usuario && ADMINS_INICIAIS.map(e=>e.toLowerCase()).includes(String(usuario.email).toLowerCase()));
@@ -2192,7 +2273,7 @@ function nav(tab){
   setTimeout(() => conferirVersao(false), 400);                                 // e se subiu versão nova do jogo (no máximo a cada 2 min)
   ({ inicio: telaInicio, estudar: telaEstudar, quiz: telaQuiz, ranking: telaRanking, missoes: () => telaMissoes(), salas: telaSalas, mural: telaMuralSalas, conta: telaConta, admin: telaAdmin }[tab] || telaInicio)();
 }
-document.querySelectorAll("#nav button").forEach(b => b.onclick = ()=>{ if(b.dataset.tab === "estudar") estudoVista = "livros"; nav(b.dataset.tab); });   // Estudar pelo menu abre sempre na estante de livros
+document.querySelectorAll("#nav button").forEach(b => b.onclick = ()=>{ const t = b.dataset.tab; if(t === "estudar") estudoVista = "livros"; if(t === "quiz") quizVista = "livros"; if(t === "ranking") corridaVista = "salas"; nav(t); });   // pelo menu, Estudar e Quiz abrem na estante de livros, e a Corrida na escolha da sala
 $("chipConta").onclick = ()=> nav("conta");
 $("sino").onclick = ()=> modalNotificacoes();
 $("brandIc").innerHTML = logoIcone();
@@ -2228,6 +2309,7 @@ DB.onAuth(async u => {
     await carregarSalas();
     carregarNotificacoes(true);
     if(typeof iniciarConquistasVistas === "function") iniciarConquistasVistas();
+    if(typeof conferirPersonagem === "function") conferirPersonagem();   // mapa novo: personagem que virou prêmio e ainda não foi conquistado
     if(!perfil.profeta){ atualizarCasca(); telaProfeta(); return; }
     nav("inicio");
     conferirConvite();
@@ -2288,39 +2370,43 @@ function telaPendente(){
 function telaProfeta(){
   const tinha = !!perfil.profeta;
   let escolhido = perfil.profeta || "";
+  const nvMeu = typeof meuNivel === "function" ? meuNivel() : 0;
   const botaoProfeta = p => { const livre = profetaLiberado(p);
-    return `<button type="button" class="prof ${p.nivel ? "raro" : ""} ${p.lendario ? "lendario" : ""} ${livre ? "" : "bloq"}" data-p="${p.id}" ${livre ? "" : `data-nivel="${p.nivel}"`} aria-pressed="${p.id===escolhido}">${avatarSVG(p.id)}<span>${esc(p.nome)}</span>${p.nivel ? `<em>${livre ? (p.lendario ? "★ Lendário" : "★ Raro") : "🔒 Nível " + p.nivel}</em>` : ""}</button>`; };
-  app.innerHTML = `<div class="estudo-area"><section class="panel"><h2 class="h2">${perfil.profeta ? "Trocar personagem" : "Escolha seu personagem"}</h2>
+    return `<button type="button" class="prof ${p.nivel ? "raro" : ""} ${p.lendario ? "lendario" : ""} ${livre ? "" : "bloq"}" data-p="${p.id}" ${livre ? "" : `data-nivel="${p.nivel}"`} aria-pressed="${p.id===escolhido}">${avatarSVG(p.id, null, 0, nvMeu)}<span>${esc(p.nome)}</span>${p.nivel ? `<em>${livre ? (p.lendario ? "★ Lendário" : "★ Raro") : "🔒 Casa " + casaDoNivel(p.nivel)}</em>` : ""}</button>`; };
+  const perdido = perfil.profetaPerdido ? acharProfeta(perfil.profetaPerdido) : null;
+  app.innerHTML = `<div class="estudo-area"><section class="panel"><h2 class="h2">${perfil.profeta ? "Trocar personagem" : perdido ? "Escolha outro personagem" : "Escolha seu personagem"}</h2>
+    ${perdido ? `<div class="aviso-fb">🔒 <b>${esc(perdido.nome)} agora é personagem raro.</b> Volta a ficar disponível na casa ${casaDoNivel(perdido.nivel)} do mapa das missões (nível ${perdido.nivel}). Enquanto isso, escolha outro personagem para continuar a corrida.</div>` : ""}
     <p class="sub-h">Ele vai correr com você no rolo e comentar seus resultados.</p>
     <div class="field">
       <div class="profetas" role="group" aria-label="Personagens">${PROFETAS.filter(p => !p.nivel).map(botaoProfeta).join("")}</div>
-      <h3 class="prof-tit"><span aria-hidden="true">✨</span> Personagens raros <small>liberados ao subir de nível nas missões</small></h3>
+      <h3 class="prof-tit"><span aria-hidden="true">✨</span> Personagens raros <small>um a cada 5 casas do mapa das missões</small></h3>
       <div class="profetas raros" role="group" aria-label="Personagens raros">${PROFETAS.filter(p => p.nivel).map(botaoProfeta).join("")}</div>
     <div class="fala" id="fala" aria-live="polite" hidden></div>
     <div class="pers-acoes" id="pAcoes" hidden></div></div>
     <div class="btn-row"><button class="btn btn-main" id="pOk">Confirmar</button>${perfil.profeta ? `<button class="btn btn-ghost" id="pVoltar">Voltar</button>` : ""}</div></section></div>`;
   const mostrarFala = (rolar)=>{
     const p = acharProfeta(escolhido), f = $("fala"); if(!p || !f) return;
-    f.innerHTML = `<div class="fala-boneco">${avatarSVG(p.id)}</div><div class="balao"><strong>${esc(p.nome)}</strong><p>${esc(p.fala)}</p>${p.ref ? `<span>${esc(p.ref)}</span>` : ""}</div>`;
+    const ac = acessorioDoPersonagem(p.id), temAc = ac && nvMeu >= ac.nivel;
+    f.innerHTML = `<div class="fala-boneco">${avatarSVG(p.id, null, 0, nvMeu)}</div><div class="balao"><strong>${esc(p.nome)}</strong><p>${esc(p.fala)}</p>${p.ref ? `<span>${esc(p.ref)}</span>` : ""}${ac ? `<span class="balao-ac">${temAc ? "★ Com o acessório: " + esc(ac.nome) : "🔒 Acessório " + esc(ac.nome) + ": casa " + casaDoNivel(ac.nivel) + " do mapa"}</span>` : ""}</div>`;
     f.hidden = false;
     /* personagem raro já conquistado: dá para mostrar para a turma (imagem para compartilhar ou publicação no mural da sala) */
-    const ac = $("pAcoes"), raroLivre = !!p.nivel && profetaLiberado(p);      // liberado pelo nível ou já em uso pelo jogador
-    ac.hidden = !raroLivre;
+    const pa = $("pAcoes"), raroLivre = !!p.nivel && profetaLiberado(p);      // liberado pelo nível ou já em uso pelo jogador
+    pa.hidden = !raroLivre;
     if(raroLivre){
-      ac.innerHTML = `<p><b>${p.lendario ? "★ Personagem lendário" : "★ Personagem raro"} desbloqueado!</b> Mostre para a turma.</p><button type="button" class="btn btn-wa btn-sm" id="pShare">Compartilhar</button><button type="button" class="btn btn-ghost btn-sm" id="pMural">Publicar no mural</button>`;
+      pa.innerHTML = `<p><b>${p.lendario ? "★ Personagem lendário" : "★ Personagem raro"} desbloqueado!</b> Mostre para a turma.</p><button type="button" class="btn btn-wa btn-sm" id="pShare">Compartilhar</button><button type="button" class="btn btn-ghost btn-sm" id="pMural">Publicar no mural</button>`;
       $("pShare").onclick = () => compartilharPersonagem(p, $("pShare"));
       $("pMural").onclick = () => publicarNoMural(postDoPersonagem(p), $("pMural"));
     }
-    if(rolar) (raroLivre ? ac : f).scrollIntoView({ block: raroLivre ? "center" : "nearest", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+    if(rolar) (raroLivre ? pa : f).scrollIntoView({ block: raroLivre ? "center" : "nearest", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
   };
-  app.querySelectorAll(".prof").forEach(b=> b.onclick = ()=>{ if(b.dataset.nivel){ aviso(`${acharProfeta(b.dataset.p).nome} fica disponível no nível ${b.dataset.nivel}. Cumpra as missões para chegar lá!`); return; } escolhido = b.dataset.p; app.querySelectorAll(".prof").forEach(x=> x.setAttribute("aria-pressed", String(x === b))); mostrarFala(true); });
+  app.querySelectorAll(".prof").forEach(b=> b.onclick = ()=>{ if(b.dataset.nivel){ aviso(`${acharProfeta(b.dataset.p).nome} fica disponível na casa ${casaDoNivel(+b.dataset.nivel)} do mapa das missões (nível ${b.dataset.nivel}). Cumpra as missões para chegar lá!`); return; } escolhido = b.dataset.p; app.querySelectorAll(".prof").forEach(x=> x.setAttribute("aria-pressed", String(x === b))); mostrarFala(true); });
   mostrarFala(false);
   /* quem está usando um personagem raro já abre a tela vendo ele e os botões de compartilhar */
   if(!$("pAcoes").hidden) setTimeout(() => { const ac = $("pAcoes"); if(ac) ac.scrollIntoView({ block: "center" }); }, 80);
   const vb = $("pVoltar"); if(vb) vb.onclick = ()=> nav("conta");
   $("pOk").onclick = async ()=>{
     if(!escolhido){ aviso("Escolha seu personagem"); return; }
-    perfil.profeta = escolhido; await DB.salvarUsuario(usuario.uid, {profeta: escolhido}); nav(tinha ? "conta" : "inicio");
+    perfil.profeta = escolhido; delete perfil.profetaPerdido; await DB.salvarUsuario(usuario.uid, {profeta: escolhido}); nav(tinha ? "conta" : "inicio");
   };
 }
 
@@ -2514,9 +2600,9 @@ async function posicaoCorrida(L){
     if(pos) lsSet(KEY + ":pos:" + usuario.uid, { chave: chavePos, pos });
     const fmt1 = n => (Math.round(n*10)/10).toLocaleString("pt-BR");
     el.innerHTML = `<div class="hm-cab"><span>Corrida do Rolo</span><button type="button" class="hm-link" id="inRolo">Ver pista <span aria-hidden="true">›</span></button></div>
-      <div class="hm-pos"><b>${pos ? pos + "º" : "—"}</b><div><strong>${pos ? `de ${ordem.length} na pista` : ordem.length ? "Entre na pista!" : "Pista vazia: seja o primeiro!"}</strong><span>${fmt1(meus)} ${meus === 1 ? "passo" : "passos"} · ${esc(L.numero)}</span></div><button type="button" class="hm-chip sala" id="inSala" title="Trocar de sala">${esc(sala.nome)}</button></div>
+      <div class="hm-pos"><b>${pos ? pos + "º" : "—"}</b><div><strong>${pos ? `de ${ordem.length} na pista` : !souMembroDaSala(sala) ? "Você só está vendo esta sala" : ordem.length ? "Entre na pista!" : "Pista vazia: seja o primeiro!"}</strong><span>${!souMembroDaSala(sala) ? `${ordem.length} ${ordem.length === 1 ? "corredor" : "corredores"} na pista` : `${fmt1(meus)} ${meus === 1 ? "passo" : "passos"}`} · ${esc(L.numero)}</span></div><button type="button" class="hm-chip sala" id="inSala" title="Trocar de sala">${esc(sala.nome)}</button></div>
       <div class="track hm-track" style="--seg:7"><span class="flag" aria-hidden="true">🏁</span><div class="runner" style="--p:${Math.min(1, meus/7)}">${meuAvatar()}</div></div>`;
-    $("inRolo").onclick = ()=> nav("ranking");
+    $("inRolo").onclick = ()=>{ corridaVista = "pista"; nav("ranking"); };
     $("inSala").onclick = ()=> nav("salas");
   }catch(e){ el.innerHTML = `<div class="hm-cab"><span>Corrida do Rolo</span></div><p class="hm-sub">${esc(erroMsg(e))}</p>`; }
 }
@@ -2535,18 +2621,32 @@ function seletorLicao(id, atual){
   const iAtual = indiceLicaoAtual();
   return `<div class="field" style="margin-bottom:10px"><label for="${id}">Lição</label><select id="${id}">${LICOES.map((l,i)=>`<option value="${i}" ${l===atual?"selected":""}>${esc(l.numero)}: ${esc(l.titulo)}${i===iAtual?" (esta semana)":""}${licaoTravada(l)?" 🔒":""}</option>`).join("")}</select></div>`;
 }
-function telaQuiz(){
+/* Quiz em dois passos: primeiro o livro (trimestre), depois o rolo com as lições e os dias da semana */
+let quizVista = "semana", quizAbrindo = false;
+function telaQuiz(){ return quizVista === "livros" ? telaQuizLivros() : telaQuizSemana(); }
+function telaQuizLivros(){
+  pararTimer(); quizVista = "livros";
+  const tris = trimestresComLicao();
+  app.innerHTML = `<div class="estudo-area">${cabPagina("Quiz", tris.length === 1 ? "1 livro" : tris.length + " livros", "De qual livro é o quiz?", "Toque na capa para abrir o rolo das lições.")}
+    <section class="panel pg-card">${estanteDeLivros(tris)}</section></div>`;
+  app.querySelectorAll("[data-tri]").forEach(b => b.onclick = () => {
+    const t = b.dataset.tri, daSemana = LICOES[indiceLicaoAtual()], doLivro = LICOES.filter(l => l.trimestre === t);
+    LICAO = daSemana && daSemana.trimestre === t ? daSemana : (doLivro.filter(l => !licaoFutura(l)).pop() || doLivro[0]);
+    quizVista = "semana"; quizAbrindo = true; window.scrollTo(0, 0); telaQuizSemana();
+  });
+}
+function telaQuizSemana(){
   pararTimer();
   if(!LICAO) LICAO = LICOES[indiceLicaoAtual()];
-  let h = `<div class="home"><div class="col-a">` + heroLicao(LICAO);
-  h += `<section class="panel pg-card">
-    <div class="hm-cab"><span>Minha lição</span><button type="button" class="hm-link" id="verPontos">Pontuação <span aria-hidden="true">›</span></button></div>
-    <div class="pg-kpis dois">
-      <div><b>${fmt(totalSemana())}</b><span>pontos nesta lição</span></div>
-      <div><b>${noPrazo()} de ${LICAO.dias.length}</b><span>dias no prazo</span></div>
-    </div>
-  </section></div><div class="col-b">`;
-  h += `<section class="panel pg-card"><div class="hm-cab"><span>Trimestre</span></div>${mapaTrimestre(LICAO)}`;
+  if(!LICAO) return telaQuizLivros();
+  quizVista = "semana";
+  const abrindo = quizAbrindo; quizAbrindo = false;
+  let h = `<div class="home"><div class="col-a">${botaoVoltar("qzVoltar", "os livros")}` + heroLicao(LICAO);
+  h += `<button type="button" class="hud" id="verPontos" aria-label="${fmt(totalSemana())} pontos nesta lição, ${noPrazo()} de ${LICAO.dias.length} dias no prazo. Ver a pontuação">
+      <span class="hud-it"><i aria-hidden="true">★</i><b>${fmt(totalSemana())}</b><small>pontos</small></span>
+      <span class="hud-it"><i aria-hidden="true">✓</i><b>${noPrazo()}/${LICAO.dias.length}</b><small>no prazo</small></span>
+      <span class="hud-mais">Pontuação ›</span></button></div><div class="col-b">`;
+  h += `<section class="panel pg-card"><div class="hm-cab"><span>${esc(tituloLivro(LICAO.trimestre))}</span><span>${esc(nomeTrimestre(LICAO.trimestre))}</span></div>${mapaTrimestre(LICAO, abrindo)}`;
   if(licaoTravada(LICAO)) h += `<div class="aviso-fb">🔒 <b>Lição de uma semana anterior.</b> Está bloqueada. <button class="linkish" id="verBloqueio">Saiba mais</button></div>`;
   h += `<div class="hm-cab" style="margin-top:14px"><span>Dias da semana</span></div><ul class="days">`;
   LICAO.dias.forEach((d,i)=>{
@@ -2571,7 +2671,8 @@ function telaQuiz(){
   if(LICAO.dias.some(d=>resDe(LICAO,d))) h += `<div class="btn-row uma"><a class="btn btn-wa" id="waSemana" target="_blank" rel="noopener">Enviar resumo da semana</a></div>`;
   h += `</div></div>`;
   app.innerHTML = h;
-  ligarMapaTrimestre(L => { LICAO = L; telaQuiz(); });
+  ligarMapaTrimestre(L => { LICAO = L; telaQuizSemana(); });
+  $("qzVoltar").onclick = () => { quizVista = "livros"; window.scrollTo(0, 0); telaQuizLivros(); };
   $("verPontos").onclick = modalPontuacao;
   const vb = $("verBloqueio"); if(vb) vb.onclick = modalBloqueio;
   app.querySelectorAll("[data-jogar]").forEach(b=> b.onclick = ()=> iniciar(+b.dataset.jogar));
@@ -2866,7 +2967,7 @@ function telaResultado(i, novo){
       <button class="btn btn-ghost" id="voltar">Voltar</button>
     </div></div>`;
   $("wa").onclick = async ()=>{ ocupado($("wa"), true); try{ await compartilharCartao(i); }catch(e){ aviso("Não deu para gerar a imagem."); } ocupado($("wa"), false); };
-  $("voltar").onclick = ()=> nav("quiz");
+  $("voltar").onclick = ()=>{ quizVista = "semana"; nav("quiz"); };
   $("selfie").onclick = ()=> telaSelfie(i);
   $("verPontos2").onclick = modalPontuacao;
   $("rMural").onclick = ()=> publicarNoMural(postDoResultado(LICAO, dia, r), $("rMural"));
@@ -2913,13 +3014,19 @@ function telaEstudar(){
   if(estudoVista === "licoes" && LICOES.some(l => l.trimestre === estudoTri)) return telaEstudarLicoes();
   return telaEstudarLivros();
 }
+/* A estante de livros (um por trimestre), usada no Estudar e no Quiz */
+function trimestresComLicao(){ return [...new Set(LICOES.map(l => l.trimestre))].sort().reverse(); }
+function estanteDeLivros(tris){
+  const atual = (LICOES[indiceLicaoAtual()] || {}).trimestre;
+  return tris.length ? `<div class="livros ${tris.length === 1 ? "um" : ""}">${tris.map(t => { const ls = LICOES.filter(l => l.trimestre === t), feitos = ls.reduce((n, l) => n + diasFeitos(l), 0);
+      return `<button type="button" class="livro ${t === atual ? "atual" : ""}" data-tri="${esc(t)}">${capaLivro(t)}<span class="livro-tx"><b>${esc(tituloLivro(t))}</b><small>${esc(nomeTrimestre(t))}</small><small>${ls.length} ${ls.length === 1 ? "lição" : "lições"} · ${feitos} de ${ls.length * 7} dias feitos</small>${t === atual ? `<span class="badge sala-ativa">Trimestre atual</span>` : ""}</span></button>`; }).join("")}</div>`
+      : `<p class="vazio">Ainda não há lições publicadas.</p>`;
+}
 function telaEstudarLivros(){
   estudoVista = "livros";
-  const tris = [...new Set(LICOES.map(l => l.trimestre))].sort().reverse(), atual = (LICOES[indiceLicaoAtual()] || {}).trimestre;
+  const tris = trimestresComLicao();
   app.innerHTML = `<div class="estudo-area">${cabPagina("Estudar", tris.length === 1 ? "1 livro" : tris.length + " livros", "Qual livro você quer estudar?", "Toque na capa para ver as lições.")}
-    <section class="panel pg-card">${tris.length ? `<div class="livros ${tris.length === 1 ? "um" : ""}">${tris.map(t => { const ls = LICOES.filter(l => l.trimestre === t), feitos = ls.reduce((n, l) => n + diasFeitos(l), 0);
-      return `<button type="button" class="livro ${t === atual ? "atual" : ""}" data-tri="${esc(t)}">${capaLivro(t)}<span class="livro-tx"><b>${esc(tituloLivro(t))}</b><small>${esc(nomeTrimestre(t))}</small><small>${ls.length} ${ls.length === 1 ? "lição" : "lições"} · ${feitos} de ${ls.length * 7} dias feitos</small>${t === atual ? `<span class="badge sala-ativa">Trimestre atual</span>` : ""}</span></button>`; }).join("")}</div>`
-      : `<p class="vazio">Ainda não há lições publicadas.</p>`}</section></div>`;
+    <section class="panel pg-card">${estanteDeLivros(tris)}</section></div>`;
   app.querySelectorAll("[data-tri]").forEach(b => b.onclick = () => { estudoTri = b.dataset.tri; estudoVista = "licoes"; window.scrollTo(0, 0); telaEstudarLicoes(); });
 }
 function telaEstudarLicoes(){
@@ -3006,25 +3113,24 @@ function corridaCfg(res, membros){
   const pista = lics.filter(l => l.n >= inicio);
   return { tri, lics, pista, inicio, atual };
 }
-let corridaModo = "licao", corridaLicao = null;
+let corridaModo = "licao", corridaLicao = null, corridaVista = "pista";   // "salas": antes da pista, escolhe a sala (quando há mais de uma)
 async function telaRanking(){
-  const sala = salaAtual();
+  if(corridaVista === "salas") return telaListaDeSalas("corrida");
+  const sala = salaAtual(), variasSalas = SALAS.length + SALAS_OUTRAS.length > 1;
   const cfg = corridaCfg();
   if(!corridaLicao || !cfg.lics.find(l=>l.id===corridaLicao)) corridaLicao = cfg.atual ? cfg.atual.id : (cfg.lics[0] && cfg.lics[0].id);
   if(corridaModo !== "licao" && corridaModo !== "tri") corridaModo = "licao";
   const porLicao = corridaModo === "licao", licSel = cfg.lics.find(l=>l.id===corridaLicao) || cfg.atual;
   app.innerHTML = `<div class="result-area duas"><div class="lado">
-    ${cabPagina(esc(sala.nome), `<i id="crPeriodo">${porLicao && licSel ? `Lição ${licSel.n}` : (cfg.pista.length ? `Lições ${cfg.pista[0].n} a ${cfg.pista[cfg.pista.length-1].n}` : esc(cfg.tri))}</i>`, "Corrida do Rolo", "No prazo vale um passo; com atraso, meio passo.")}
+    ${variasSalas ? botaoVoltar("crVoltar", "a lista de salas") : ""}${cabPagina(esc(sala.nome), `<i id="crPeriodo">${porLicao && licSel ? `Lição ${licSel.n}` : (cfg.pista.length ? `Lições ${cfg.pista[0].n} a ${cfg.pista[cfg.pista.length-1].n}` : esc(cfg.tri))}</i>`, "Corrida do Rolo", "No prazo vale um passo; com atraso, meio passo.")}
     <section class="panel pg-card">
-      <div class="sala-sel"><div class="field" style="margin:0"><label for="crSala">Sala</label><select id="crSala">${SALAS.map(x=>`<option value="${esc(x.id)}" ${x.id===sala.id?"selected":""}>${esc(x.nome)}${x.global?" (global)":""}</option>`).join("")}</select></div><button class="btn btn-ghost btn-sm" id="crSalas">Salas</button></div>
       <div class="tabs" role="tablist" style="margin-bottom:${porLicao?"10px":"0"}"><button role="tab" aria-selected="${porLicao}" data-m="licao">Por lição</button><button role="tab" aria-selected="${corridaModo==="tri"}" data-m="tri">Trimestre</button></div>
       ${porLicao ? `<div class="field" style="margin:0"><select id="crLic" aria-label="Lição">${cfg.lics.map(l=>`<option value="${l.id}" ${l.id===corridaLicao?"selected":""}>${esc(l.numero)}: ${esc(l.titulo)}${l===cfg.atual?" (esta semana)":""}</option>`).join("")}</select></div>` : ""}
     </section></div>
     <div class="principal" id="rkCorpo"><section class="panel"><p class="vazio">Carregando a pista…</p></section></div></div>`;
   app.querySelectorAll("[data-m]").forEach(b=> b.onclick = ()=>{ corridaModo = b.dataset.m; telaRanking(); });
   const sel = $("crLic"); if(sel) sel.onchange = ()=>{ corridaLicao = sel.value; telaRanking(); };
-  $("crSala").onchange = e => { definirSala(e.target.value); telaRanking(); };
-  $("crSalas").onclick = ()=> nav("salas");
+  const crV = $("crVoltar"); if(crV) crV.onclick = () => { corridaVista = "salas"; window.scrollTo(0, 0); telaRanking(); };
   try{
     // Só os resultados desta sala: da lição escolhida ou do trimestre
     const membros = await membrosAtivos(sala);
@@ -4406,6 +4512,13 @@ function ehDonoSala(s){ return !!(s && !s.global && usuario && s.dono === usuari
 function podeGerenciarSala(s){ return !!s && (ehMaster() || (!s.global && (ehDonoSala(s) || ehAdminSala(s)))); }
 /* Incluir qualquer usuário direto na sala: só o master e o administrador atribuído àquela sala */
 function podeIncluirNaSala(s){ return !!s && !s.global && (ehMaster() || ehAdminSala(s)); }
+/* Participo desta sala? (o master também enxerga salas de que não participa) */
+function souMembroDaSala(s){ return !!s && SALAS.some(x => x.id === s.id); }
+/* Opções de um seletor de sala: as minhas e, para o master, as outras salas do jogo num grupo à parte */
+function opcoesDeSala(atualId){
+  const op = x => `<option value="${esc(x.id)}" ${x.id === atualId ? "selected" : ""}>${esc(x.nome)}${x.global ? " (global)" : ""}</option>`;
+  return SALAS.map(op).join("") + (SALAS_OUTRAS.length ? `<optgroup label="Outras salas (você vê como master)">${SALAS_OUTRAS.map(op).join("")}</optgroup>` : "");
+}
 function minhasParticipacoes(){ return SALAS.filter(x => !x.global).length + SALAS_PEDIDOS.length; }
 function badgesSala(s){
   return (s.global ? '<span class="badge adm">Global</span>' : s.publica ? '<span class="badge ok">Pública</span>' : '<span class="badge warn">Privada</span>')
@@ -4436,6 +4549,13 @@ async function carregarSalas(){
     });
     ativas.sort((a,b) => String(a.nome).localeCompare(String(b.nome), "pt-BR"));
     SALAS = [salaG].concat(ativas); SALAS_PEDIDOS = pedidos;
+    // Master: enxerga também as salas de que não participa (criadas por qualquer pessoa)
+    SALAS_OUTRAS = [];
+    if(ehMaster()){
+      try{ const tenho = new Set(SALAS.concat(pedidos).map(x => x.id));
+        SALAS_OUTRAS = (await DB.listarSalas()).filter(x => x.id !== SALA_GLOBAL_ID && !tenho.has(x.id)).sort((a,b) => String(a.nome).localeCompare(String(b.nome), "pt-BR")); }
+      catch(e){ console.warn("outras salas", e); }
+    }
     // Mantém meu nome/profeta atualizados nas salas
     const nv = typeof nivelAtual === "function" ? nivelAtual() : 0;
     mems.forEach(m => { if(m.nome !== (perfil.nome || "") || m.profeta !== (perfil.profeta || "") || (m.nivel || 0) !== nv) DB.salvarMembro({ salaId: m.salaId, uid: eu, nome: perfil.nome || "", profeta: perfil.profeta || "", nivel: nv }).catch(()=>{}); });
@@ -4448,12 +4568,12 @@ async function carregarSalas(){
     if(!SALAS.length) SALAS = [Object.assign({}, SALA_GLOBAL, { meu: null })];
   }
   const pref = lsGet(KEY + ":sala:" + eu, SALA_GLOBAL_ID);
-  SALA = SALAS.find(x => x.id === pref) || SALAS[0];
+  SALA = SALAS.concat(SALAS_OUTRAS).find(x => x.id === pref) || SALAS[0];
   membrosCache = {}; resCache = {};
   atualizarCasca();
 }
 function definirSala(id){
-  const s = SALAS.find(x => x.id === id); if(!s) return;
+  const s = SALAS.concat(SALAS_OUTRAS).find(x => x.id === id); if(!s) return;
   SALA = s; lsSet(KEY + ":sala:" + usuario.uid, id);
 }
 /* UIDs dos membros ativos de uma sala (null = sala global, vale todo mundo). Guarda por 60 s. */
@@ -4542,20 +4662,27 @@ async function telaSalas(recarregar){
     ${SALAS_ERRO ? `<section class="panel"><p class="erro" style="margin:0">Não deu para carregar as salas agora (${esc(SALAS_ERRO)}). Por enquanto você continua na sala global.</p></section>` : ""}
     <div class="sala-barra"><button class="btn btn-main" id="slCriar">+ Criar sala</button><button class="btn btn-ghost" id="slCodigo">Entrar com código</button><button class="btn btn-ghost" id="slPublicas">Salas públicas</button></div></div>
     <div class="principal"><div class="salas-grid">${SALAS.map(cartao).join("")}</div>
+    ${SALAS_OUTRAS.length ? `<section class="panel" id="slOutras"><h3 class="h3">Outras salas do jogo <span class="badge adm">${SALAS_OUTRAS.length}</span></h3>
+      <p class="muted small" style="margin-top:0">Salas criadas por outras pessoas, de que você não participa. Como master, você vê a corrida e o mural de cada uma e pode gerenciá-las.</p>
+      <div class="salas-grid">${SALAS_OUTRAS.map(s => `<article class="sala ${s.id === ativa.id ? "ativa" : ""}" data-sala="${esc(s.id)}">
+        <div class="sala-top"><div class="sala-nome"><h3>${esc(s.nome)}</h3><div>${badgesSala(s)}${s.id === ativa.id ? '<span class="badge sala-ativa">Você está vendo</span>' : ""}</div></div>
+          <div class="sala-cod"><span>Código</span><b>${esc(s.codigo || "")}</b></div></div>
+        <p class="muted small sala-info">${s.descricao ? esc(s.descricao) + "<br>" : ""}<span data-conta="${esc(s.id)}">Contando membros…</span>${s.donoNome ? " · criada por " + esc(s.donoNome) : ""}</p>
+        <div class="sala-acoes"><button class="btn btn-ghost btn-sm" data-ver="${esc(s.id)}">Ver a corrida</button><button class="btn btn-ghost btn-sm" data-mural="${esc(s.id)}">Mural</button><button class="btn btn-ghost btn-sm" data-gerenciar="${esc(s.id)}">Gerenciar</button></div></article>`).join("")}</div></section>` : ""}
     ${SALAS_PEDIDOS.length ? `<section class="panel"><h3 class="h3">Aguardando aprovação</h3><ul class="lista">${SALAS_PEDIDOS.map(s => `<li><div class="info"><strong>${esc(s.nome)}</strong><span>Sala privada${s.donoNome ? " de " + esc(s.donoNome) : ""}. O dono precisa aprovar a sua entrada.</span></div><button class="btn btn-ghost btn-sm" data-cancelar="${esc(s.id)}">Cancelar</button></li>`).join("")}</ul></section>` : ""}
   </div></div>`;
-  const achar = id => SALAS.find(x => x.id === id) || SALAS_PEDIDOS.find(x => x.id === id);
+  const achar = id => SALAS.find(x => x.id === id) || SALAS_PEDIDOS.find(x => x.id === id) || SALAS_OUTRAS.find(x => x.id === id);
   $("slCriar").onclick = modalCriarSala;
   $("slCodigo").onclick = () => modalEntrarCodigo("");
   $("slPublicas").onclick = modalSalasPublicas;
-  app.querySelectorAll("[data-ver]").forEach(b => b.onclick = () => { definirSala(b.dataset.ver); nav("ranking"); });
+  app.querySelectorAll("[data-ver]").forEach(b => b.onclick = () => { definirSala(b.dataset.ver); corridaVista = "pista"; nav("ranking"); });
   app.querySelectorAll("[data-mural]").forEach(b => b.onclick = () => { definirSala(b.dataset.mural); telaMural(); });
   app.querySelectorAll("[data-convidar]").forEach(b => b.onclick = () => convidarSala(achar(b.dataset.convidar)));
   app.querySelectorAll("[data-gerenciar]").forEach(b => b.onclick = () => modalGerenciarSala(achar(b.dataset.gerenciar)));
   app.querySelectorAll("[data-sair]").forEach(b => b.onclick = () => sairDaSala(achar(b.dataset.sair)));
   app.querySelectorAll("[data-cancelar]").forEach(b => b.onclick = async () => { ocupado(b, true); try{ await DB.excluirMembro(b.dataset.cancelar, eu); aviso("Solicitação cancelada"); }catch(e){ aviso(erroMsg(e)); } telaSalas(); });
   // Quantidade de membros (carrega depois, sem travar a tela)
-  SALAS.filter(x => !x.global).forEach(async s => {
+  SALAS.filter(x => !x.global).concat(SALAS_OUTRAS).forEach(async s => {
     try{ const set = await membrosAtivos(s); const el = app.querySelector(`[data-conta="${CSS.escape(s.id)}"]`); if(el) el.textContent = set.size + (set.size === 1 ? " membro" : " membros"); }
     catch(e){ const el = app.querySelector(`[data-conta="${CSS.escape(s.id)}"]`); if(el) el.textContent = ""; }
   });
@@ -4825,9 +4952,9 @@ async function admSalas(){
 
 /* ============================================================
    MISSÕES, NÍVEIS, AJUDAS, PROFETAS DESBLOQUEÁVEIS, SONS
-   - 45 missões numeradas, cumpridas em ordem, uma casa por vez: cada missão começa a contar do zero
-     quando vira a missão atual. A cada 5 missões, um nível.
-   - Algumas missões dão ajudas para usar no quiz; alguns níveis liberam profetas novos.
+   - 70 missões numeradas (as casas do mapa), cumpridas em ordem, uma casa por vez: cada missão começa a contar
+     do zero quando vira a missão atual. A cada 5 casas, um nível (15 níveis).
+   - Algumas missões dão ajudas para usar no quiz; a cada 5 casas sai um personagem raro ou um acessório.
    - O progresso (perfil.missoes) nunca volta para trás.
    ============================================================ */
 
@@ -4842,15 +4969,36 @@ Object.assign(ICONES, {
   tenda:{p:{w:"#F4ECDA",r:"#C9473B",b:"#5A3A22"},m:["..r...","..ww..",".wwww.",".wbbw.","wwbbww","......"]}
 });
 PROFETAS.push(
-  { id:"enoque",   nome:"Enoque",   bg:"#8FE6FF", pele:"#C68A5E", cabelo:"#ECE7DC", barba:"longa", veste:"#F4F1EA", cob:null, emb:"nuvem", nivel:3, fala:"Andei com Deus dia após dia, e Ele me levou para morar com Ele.", ref:"Gênesis 5:24" },
-  { id:"eva",      nome:"Eva",      bg:"#7CCB6B", pele:"#C68A5E", cabelo:"#5A3A1E", barba:null, veste:"#4FA55A", cob:null, longo:true, emb:"flor", nivel:4, fala:"Deus me criou no jardim e, mesmo depois do meu erro, prometeu um Salvador.", ref:"Gênesis 3:15" },
-  { id:"ester",    nome:"Ester",    bg:"#B48CF0", pele:"#C68A5E", cabelo:"#2B1B12", barba:null, veste:"#6A3FB5", cob:{t:"faixa",c:"#F2BE2E"}, longo:true, emb:"coroa", nivel:6, fala:"Fui falar com o rei para salvar o meu povo, mesmo arriscando a vida.", ref:"Ester 4:14-16" },
-  { id:"sara",     nome:"Sara",     bg:"#2E2B6E", pele:"#D9A47A", cabelo:"#C9C9C9", barba:null, veste:"#B5462F", cob:{t:"veu",c:"#F4ECDA"}, emb:"tenda", nivel:8, fala:"Deus me deu motivo de riso: tive um filho na velhice, como Ele prometeu.", ref:"Gênesis 21:1-7" },
-  { id:"noe",      nome:"Noé",      bg:"#1C9FD0", pele:"#B5774C", cabelo:"#A8A8A8", barba:"longa", veste:"#8A6A3E", cob:{t:"capuz",c:"#2E2B6E"}, emb:"arca", nivel:5, fala:"Construí a arca do jeito que Deus mandou, mesmo sem ver uma nuvem no céu.", ref:"Gênesis 6:22" },
-  { id:"abraao",   nome:"Abraão",   bg:"#2E2B6E", pele:"#C68A5E", cabelo:"#C9C9C9", barba:"longa", veste:"#B5462F", cob:{t:"faixa",c:"#F2BE2E"}, emb:"estrelas", nivel:7, fala:"Deus me mostrou as estrelas e prometeu uma família que ninguém consegue contar.", ref:"Gênesis 15:5" },
-  { id:"zacarias", nome:"Zacarias", bg:"#F08A4B", pele:"#9C6440", cabelo:"#2B1B12", barba:"curta", veste:"#5B4FC9", cob:{t:"faixa",c:"#8FE6FF"}, emb:"candelabro", nivel:9, fala:"Ouvi de Deus: não por força nem por violência, mas pelo meu Espírito.", ref:"Zacarias 4:6" },
-  { id:"messias",  nome:"Messias",  bg:"#F2BE2E", pele:"#B5774C", cabelo:"#4A2E1A", barba:"curta", longo:true, veste:"#F4F1EA", cob:null, emb:"pao", nivel:10, lendario:true, fala:"Eu sou o caminho, a verdade e a vida.", ref:"João 14:6" }
+  { id:"enoque",   nome:"Enoque",   bg:"#8FE6FF", pele:"#C68A5E", cabelo:"#ECE7DC", barba:"longa", veste:"#F4F1EA", cob:null, emb:"nuvem", fala:"Andei com Deus dia após dia, e Ele me levou para morar com Ele.", ref:"Gênesis 5:24" },
+  { id:"eva",      nome:"Eva",      bg:"#7CCB6B", pele:"#C68A5E", cabelo:"#5A3A1E", barba:null, veste:"#4FA55A", cob:null, longo:true, emb:"flor", nivel:3, fala:"Deus me criou no jardim e, mesmo depois do meu erro, prometeu um Salvador.", ref:"Gênesis 3:15" },
+  { id:"ester",    nome:"Ester",    bg:"#B48CF0", pele:"#C68A5E", cabelo:"#2B1B12", barba:null, veste:"#6A3FB5", cob:{t:"faixa",c:"#F2BE2E"}, longo:true, emb:"coroa", fala:"Fui falar com o rei para salvar o meu povo, mesmo arriscando a vida.", ref:"Ester 4:14-16" },
+  { id:"sara",     nome:"Sara",     bg:"#2E2B6E", pele:"#D9A47A", cabelo:"#C9C9C9", barba:null, veste:"#B5462F", cob:{t:"veu",c:"#F4ECDA"}, emb:"tenda", nivel:5, fala:"Deus me deu motivo de riso: tive um filho na velhice, como Ele prometeu.", ref:"Gênesis 21:1-7" },
+  { id:"noe",      nome:"Noé",      bg:"#1C9FD0", pele:"#B5774C", cabelo:"#A8A8A8", barba:"longa", veste:"#8A6A3E", cob:{t:"capuz",c:"#2E2B6E"}, emb:"arca", fala:"Construí a arca do jeito que Deus mandou, mesmo sem ver uma nuvem no céu.", ref:"Gênesis 6:22" },
+  { id:"abraao",   nome:"Abraão",   bg:"#2E2B6E", pele:"#C68A5E", cabelo:"#C9C9C9", barba:"longa", veste:"#B5462F", cob:{t:"faixa",c:"#F2BE2E"}, emb:"estrelas", nivel:4, fala:"Deus me mostrou as estrelas e prometeu uma família que ninguém consegue contar.", ref:"Gênesis 15:5" },
+  { id:"zacarias", nome:"Zacarias", bg:"#F08A4B", pele:"#9C6440", cabelo:"#2B1B12", barba:"curta", veste:"#5B4FC9", cob:{t:"faixa",c:"#8FE6FF"}, emb:"candelabro", fala:"Ouvi de Deus: não por força nem por violência, mas pelo meu Espírito.", ref:"Zacarias 4:6" },
+  { id:"messias",  nome:"Jesus",    bg:"#F2BE2E", pele:"#B5774C", cabelo:"#4A2E1A", barba:"curta", longo:true, veste:"#F4F1EA", cob:null, emb:"pao", nivel:13, lendario:true, fala:"Eu sou o caminho, a verdade e a vida.", ref:"João 14:6" },
+  /* mapa de 70 casas: um personagem (ou acessório) a cada 5 casas */
+  { id:"adao",     nome:"Adão",     bg:"#7CCB6B", pele:"#B5774C", cabelo:"#3A2416", barba:"curta", veste:"#A0723C", cob:null, curto:true, emb:"folha", nivel:2, fala:"Deus me formou do pó da terra, soprou em mim o fôlego da vida e me deu um jardim para cuidar.", ref:"Gênesis 2:7, 15" },
+  { id:"farao",    nome:"Faraó",    bg:"#F2BE2E", pele:"#B5774C", cabelo:"#1E1410", barba:null, veste:"#F4F1EA", cob:{t:"veu",c:"#F2BE2E"}, nemes:true, emb:"cetro", nivel:6, fala:"Perguntei: “Quem é o Senhor, para que eu lhe obedeça?” Depois das pragas e do mar, eu descobri.", ref:"Êxodo 5:2" },
+  { id:"josue",    nome:"Josué",    bg:"#E8505D", pele:"#C68A5E", cabelo:"#3A2416", barba:"curta", veste:"#8A6A3E", cob:{t:"faixa",c:"#F2BE2E"}, emb:"trombeta", nivel:9, fala:"Demos voltas em Jericó, tocamos as trombetas, e Deus derrubou as muralhas.", ref:"Josué 6" },
+  { id:"raabe",    nome:"Raabe",    bg:"#F08A4B", pele:"#C68A5E", cabelo:"#1E1410", barba:null, veste:"#7B2D8E", cob:null, longo:true, emb:"cordao", nivel:10, fala:"Escondi os espias e pendurei o cordão vermelho na janela. Deus salvou a minha casa.", ref:"Josué 2 e 6:25" },
+  { id:"josenazare", nome:"José de Nazaré", bg:"#83C6BD", pele:"#C68A5E", cabelo:"#5A3A22", barba:"curta", veste:"#6E8B5A", cob:null, curto:true, emb:"martelo", nivel:11, fala:"Um anjo me falou em sonho, e eu cuidei de Maria e do menino Jesus como Deus pediu.", ref:"Mateus 1:20-24" },
+  { id:"pedro",    nome:"Simão Pedro", bg:"#1C9FD0", pele:"#B5774C", cabelo:"#6B5A4A", barba:"curta", veste:"#2E6E8E", cob:null, curto:true, emb:"rede", nivel:14, fala:"Larguei as redes quando Jesus me chamou para ser pescador de gente.", ref:"Mateus 4:18-20" }
 );
+/* Moisés e Maria passam a ser prêmios do mapa (casas 30 e 55). Valem para todos: quem usava precisa conquistar de novo. */
+Object.assign(acharProfeta("moises"), { nivel: 7, emb: "cajado", semHeranca: true });
+Object.assign(acharProfeta("maria"), { nivel: 12, semHeranca: true });
+acharProfeta("jose").nome = "José do Egito";
+/* Acessórios: aparecem sozinhos no personagem de quem já chegou à casa certa do mapa */
+const ACESSORIOS = {
+  tabuas:     { id: "tabuas", de: "moises", nivel: 8, nome: "Tábuas dos Dez Mandamentos", rotulo: "com as tábuas dos Dez Mandamentos", d: "Moisés passa a carregar as tábuas da Lei que recebeu no monte Sinai.", ref: "Êxodo 31:18",
+                variante: p => Object.assign({}, p, { id: "moises+tabuas", modelo: "moises", emb2: "tabuas", emb2o: [20, 2] }) },
+  jumentinho: { id: "jumentinho", de: "messias", nivel: 15, nome: "Jumentinho", rotulo: "montado no jumentinho", d: "Jesus aparece montado no jumentinho, como na entrada em Jerusalém.", ref: "Mateus 21:1-9", montaria: true }
+};
+function acessorioDe(idPersonagem, nv){ for(const k in ACESSORIOS){ const a = ACESSORIOS[k]; if(a.de === idPersonagem && nv >= a.nivel) return a; } return null; }
+function acessorioDoPersonagem(idPersonagem){ for(const k in ACESSORIOS) if(ACESSORIOS[k].de === idPersonagem) return ACESSORIOS[k]; return null; }
+const casaDoNivel = n => (n - 1) * 5;          // casa do mapa em que se chega ao nível n
+const JUMENTO_PNG = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARQAAADMCAYAAACyalyPAAAG20lEQVR42u3dT4iUdRgH8GelLhJlBysR2aE/uNRRD7lqeIiSCFLIcFMIwo5RQZhdhDqkifTntgcJPISBRAZRHgKjsiQSQyJXjNhFpH+QWwdP1nabfVfndd+Zed+Z3zvz+ZyGYeb13XfGh+fL83t/MxIwoO6/e81cp+99dc8zzcf79h9uPv7pl9Mj/Tifbv7dXlriawcoKEBybnIJGNSYk40tKZzP1i0Pdn6gYzFXh/ijQwEUFEDkgdpZOPGpR/TQoQAKCoCCAigogIIChCkP1Ep28pKdyGQnNd+e/KatY65bP+7C6lAABQUQeSAscqvMgvuAEr6vR4cCKCiAggIoKAAKChCmPFCZ7EK1Iovcsq+xyE2HAigogMgDUZ/7esJObjoUQEEBRB4g+vFbPDoUQOQBEHkgEtzW4LAOBUBBARQUQEEBUFCAMOWBqPC+nk0b72vrOClsZZDyhtU6FEBBAUQeiDrv3hZtLnKbmjqvQwFQUACRB1I2ffFS83Fj1cqOjzM2tjrKv4dodctd4yJnwqVDAUQeQOQBrok5ec+vyzyf3bIgO+WpIuYUmS7FgnPrXRTSoQAKCpCeEZeAsKH0dZHhyAdH2zrOxPZttfvbszGtrPijQwFEHkDkgWQjT6OxdOBjTtXxR4cCiDxAWNgGdY45MRS/K9T5LnA6FEDkAcKUByxgi9j53PMtn79nxfqWz7/2+vaow/RHhwKIPECY8kDdYk4V8qJNWR57fHPpkUeHAog8gMgDAxlz6nLPTlkxJ+urr480H2/cMLHogjcdCiDyACLP0LbfddfL33ZJwTDHnG7ijw4FEHmAcC/PMEWV78581ve/5cK52VKOs+PpiWTj0rBNdnoZc4rYuGFChwKIPECY8tQq5ry17BYX5Bq7lvzb8XsPZa5tWfFHzElHdvqjQwFEHkDkQbSc63QqlBdzuLHff73U1uv3v/luy+fffueADgUQeQCRp74t94IWevJD34wSTU7ubfn8zPRMtN4lLBb/jDKGYWuCqmNOu8e8c8VKHQog8gAiT/rRZrQx2vK9V3wveiLv+mcjUl4sKhJbUtiMuo4xZ88rL3Qcf3QogMgDiDxJRRvqG4uiwLQoG4Wy8WeQJjtVTHO6OQcdCiDyAGHHtrJjTt6iqSItcdbyihezbThxtNY7tp3Y+VQpx1m++1n/66K8rQxSiDw6FEBBAcKUp8oJTpE4A4Pk00+OJxV/ntz2sg4FEHkAkaf7zYehjqamzjcfj42tLv34L724u9Lzz7uvJxtz/BQpIPIAIo+YA9fEnyKyEWnf/sMtX7N27aroxzQnbyNxHQog8gAiD4g2HcScG/yE61z0OeboUACRBxB5wmQHqlEkhuhQAJEHEHnEHKLKXdrCZKewgpMdHQog8gBY2EYJEfXW2+bb73/+dkEqsnBbg1M6FAAFBRB5ylL1b/FwvT8PvDcwv9FT1mRHhwKgoAAiT0XGD172DSh4fcYrOP7HP7vGEfVfzKZDARQUQOSJfvxeCaQ82RmkxWw6FEBBAYY88mS3LNi65cG22khRiDDZ0aEAIg/A4C5sG6RJ0H+nH56v4ms+980L9+zoUAAUFKAXRvo12YlKdrsq3xP3HorW96Hs6vg4vYw8F87NdvzeH88e79n1GYbI89GxUwM52dGhAAoKEKY8/WhHLYqLoZzClPW5m+zoUAAFBQhTnkhiyhMJT4juuGttrb8cf/z2fe0mLNnPtMh7s5OXqg3qZEeHAigowJBEnrJiTpEWtF8xqpuIVMf4U0Xk6df0JO97NQwxRIcCKChAWNiWqtx29Fg049Xk5N6WL5mZnim9Fe+mXa/7xGe0MVrKde5XzBFtdCiAggKIPFrTSn35xfvNxw9t2rHo66+efKOt45+/+FfL5x/YfjDKmMjkRZ7Uvj8mODoUQEEBKDHyZBezNRpLXc0O4k+e8Zt792/VkQmODgVQUAD6OOU588NZVxZ0KAAKCmBhWyQ5NUh5lznXGR0KoKAAVBp5LGar745zoEMBFBRA5CF6u+Ncntmxkk5idvEIdmJq8cM8uvkRHyg6FEBBAUQeuolC2QlaCueWwvmgQwEUFICaRp7p6St23AIdCoCCAqQQedy/E32Y/vRuwiJyokMBFBTAlIdU7gMCHQqgoAAoKICCAigoABEFpzxlLbiyKA50KAAKCpD4wrbuFlzNxyULt0CHAqCgAAN2L4+YAzoUAAUFUFAABQVQUABKUpupS3aj7GW3Xy39+LOX5wde3Rw/e5w6TrVcZ3QogIICKCgACgqgoAAKCqCgACgogIICKCgACgoQQ38vT+TcbxIV7CbXzfEH6b4S1xkdCqCgAAAAACTsf2flc6KaZZoUAAAAAElFTkSuQmCC";
 /* Ordem da lista: primeiro os profetas comuns (alfabética), depois os raros, do mais fácil ao mais raro (Messias por último). */
 PROFETAS.sort((a,b)=> ((a.nivel || 0) - (b.nivel || 0)) || a.nome.localeCompare(b.nome, "pt-BR"));
 const PROFETA_PADRAO = PROFETAS.find(p => !p.nivel).id;   // boneco usado quando a pessoa ainda não escolheu (nunca um profeta raro)
@@ -4862,29 +5010,42 @@ Object.assign(FALAS, {
   noe:["Obedeci mesmo quando ninguém entendia. Vale a pena confiar em Deus!", "Levei anos construindo a arca. Coisa grande se faz um dia de cada vez.", "Deus fechou a porta da arca e cuidou de nós. Ele cuida de você.", "Depois da chuva, Deus colocou o arco-íris no céu. A promessa dEle não falha.", "Preguei enquanto construía. Seu estudo de hoje também é um testemunho."],
   abraao:["Saí sem saber para onde ia, só porque Deus chamou. Confie no caminho!", "Olhei para as estrelas e cri na promessa. Deus cumpre o que diz.", "Fui chamado amigo de Deus. Ele quer ser seu amigo também.", "Montei altares por onde passei. Reserve hoje o seu momento com Deus.", "No monte, aprendi: o Senhor proverá. Ele provê para você também."],
   messias:["Venham a mim todos os que estão cansados, e eu darei descanso a vocês.", "Eu sou a luz do mundo. Quem me segue não anda em trevas.", "Busquem primeiro o Reino de Deus, e tudo o mais será acrescentado.", "Eu estou com vocês todos os dias, até o fim dos tempos.", "Examinem as Escrituras: são elas que falam de mim."],
+  adao:["Deus soprou em mim o fôlego da vida. Cada dia que você respira é presente dEle.", "No jardim, Deus vinha conversar comigo na brisa da tarde. Separe hoje o seu momento com Ele.", "Dei nome a cada animal que Deus criou. Repare hoje em alguma coisa bonita que Ele fez!", "Errei feio, e mesmo assim Deus veio me procurar: “Onde você está?” Ele procura você também.", "Deus prometeu um Salvador ainda no Éden. A história toda aponta para Jesus."],
+  farao:["Não faça como eu: quando Deus falar, escute de primeira.", "Endureci o coração e perdi muito. Coração aberto aprende mais rápido!", "Eu tinha exército, carros e cavalos. Nada disso segura o Deus que abre o mar.", "Prometi mudar e voltei atrás várias vezes. Cumpra hoje o que você combinou com Deus.", "Achei que mandava em tudo, até conhecer quem manda de verdade. Leia e conheça também!"],
+  josue:["Seja forte e corajoso! O Senhor, seu Deus, está com você por onde você for.", "Não deixe de falar das palavras da Lei: pense nelas de dia e de noite.", "Demos uma volta por dia em Jericó. Fidelidade é dar a volta de hoje.", "Escolham hoje a quem vão servir. Eu e a minha casa serviremos ao Senhor!", "Nenhuma das boas promessas de Deus falhou. Todas se cumpriram."],
+  raabe:["Ouvi o que Deus fez no mar Vermelho e cri. A fé começa por ouvir.", "Pendurei o cordão vermelho e esperei. Confie: Deus cumpre o que promete.", "Meu passado não impediu Deus de me dar um futuro. O seu também não impede.", "Arrisquei tudo para ficar do lado de Deus. Vale a pena!", "Entrei para a família de Jesus. Na casa de Deus sempre cabe mais um."],
+  josenazare:["Deus me falou em sonhos, e eu obedeci sem demora. Obedeça logo você também.", "Trabalhei em silêncio e cuidei de Jesus. O que você faz sem plateia Deus vê.", "Levei a família para o Egito de madrugada. Deus guia quem confia nEle.", "Na oficina, ensinei Jesus a trabalhar. Faça bem feito o estudo de hoje!", "Não entendi tudo de uma vez, mas confiei. Fé é dar o próximo passo."],
+  pedro:["Larguei as redes para seguir Jesus. O que você deixa de lado hoje para ficar com Ele?", "Andei sobre as águas enquanto olhei para Jesus. Não tire os olhos dEle!", "Neguei o Mestre e chorei, mas Ele me perdoou e me deu uma missão. Recomece hoje.", "Senhor, para quem iremos? Só Tu tens as palavras da vida eterna.", "Cresçam na graça e no conhecimento de Jesus. Um dia de estudo por vez!"],
   zacarias:["Deus disse: voltem para mim, e eu voltarei para vocês. Hoje é um bom dia!", "Não por força nem por violência, mas pelo Espírito de Deus. Peça ajuda a Ele!", "Não despreze os pequenos começos. Seu estudo de hoje conta!", "Anunciei um Rei humilde, montado num jumentinho. Era Jesus!", "Deus me deu visões de esperança para animar o povo. Anime alguém hoje."]
 });
 
 /* Gesto de cada personagem raro com o objeto que segura: a nuvem, o pão e a coroa sobem; as estrelas e o candelabro brilham; os outros acenam */
-const GESTOS = { nuvem: "sobe", pao: "sobe", coroa: "sobe", estrelas: "brilha", candelabro: "brilha", arca: "acena", flor: "acena", tenda: "acena" };
+const GESTOS = { nuvem: "sobe", pao: "sobe", coroa: "sobe", estrelas: "brilha", candelabro: "brilha", arca: "acena", flor: "acena", tenda: "acena",
+  folha: "acena", cetro: "sobe", trombeta: "sobe", cordao: "acena", martelo: "acena", rede: "acena", cajado: "sobe", manjedoura: "brilha" };
 /* ---------- Boneco: selo do nível perto do pé e brilho dourado nos profetas conquistados ---------- */
-function avatarSVG(id, rotulo, nivel){
-  const p = acharProfeta(id) || acharProfeta(PROFETA_PADRAO);
-  const lbl = String(rotulo || p.nome).replace(/[&<>"]/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch]));
-  const raro = !!p.nivel, lend = !!p.lendario, nv = Math.floor(+nivel || 0);
+/* nivel: nível de quem usa o boneco (mostra o selo e, se já tiver conquistado, o acessório do personagem).
+   nvAcess: para mostrar o acessório sem o selo (na escolha do personagem e nos prêmios do mapa). */
+function avatarSVG(id, rotulo, nivel, nvAcess){
+  const p0 = acharProfeta(id) || acharProfeta(PROFETA_PADRAO), nv = Math.floor(+nivel || 0);
+  const ac = acessorioDe(p0.id, nvAcess != null ? nvAcess : nv), montado = !!(ac && ac.montaria);
+  const p = ac && ac.variante ? ac.variante(p0) : p0;
+  const lbl = String(rotulo || p.nome).replace(/[&<>"]/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch])) + (ac ? ", " + ac.rotulo : "");
+  const raro = !!p.nivel, lend = !!p.lendario;
   const mais = (cx, cy, t) => `<rect x="${cx - .5}" y="${cy - t}" width="1" height="${2 * t}"/><rect x="${cx - t}" y="${cy - .5}" width="${2 * t}" height="1"/>`;
   const aura = lend ? `<g class="av-aura" shape-rendering="geometricPrecision"><ellipse cx="10" cy="14.5" rx="11.6" ry="15.2" fill="#FFE27A" opacity=".2"/><ellipse cx="10" cy="8.5" rx="8.4" ry="8.4" fill="#FFF3B8" opacity=".34"/></g>` : "";
   const brilho = raro ? `<g class="av-raro" fill="${lend ? "#FFF3B8" : "#FFE27A"}">${mais(.6, 4, 1.5)}${mais(21.2, 2.6, 1.5)}${mais(.2, 17.5, 1)}${mais(21.6, 9.5, 1)}${lend ? mais(10, -.2, 1) + mais(-.2, 11, 1) + mais(21.4, 23, 1) + mais(1.2, 24.5, 1) : ""}</g>` : "";
   /* o boneco vem dos modelos em pixel art (52×60 nos comuns, 92×100 nos raros), encaixado no mesmo espaço de antes; a segunda imagem é a piscada */
   const sp = spriteHD(p), larg = (30 * sp.W / sp.H).toFixed(2), x0 = (11 - 15 * sp.W / sp.H).toFixed(2);
-  const atraso = (p.id.split("").reduce((t, ch) => t + ch.charCodeAt(0), 0) % 37) / 10;
+  const atraso = (p0.id.split("").reduce((t, ch) => t + ch.charCodeAt(0), 0) % 37) / 10;
   const img = (cls, href, extra) => `<image class="${cls}" href="${href}" x="${x0}" y="0" width="${larg}" height="30" preserveAspectRatio="none"${extra || ""}/>`;
   /* raros: a cada 5 segundos o personagem dá um pulinho e faz um gesto com o objeto que segura (cada objeto tem o seu) */
   const gesto = sp.emb ? (GESTOS[p.emb] || "acena") : "";
   const ox = sp.emb ? (+x0 + sp.ex * larg).toFixed(2) : 0, oy = sp.emb ? ((gesto === "brilha" ? sp.ey : sp.eb) * 30).toFixed(2) : 0;
-  const boneco = `<ellipse cx="11" cy="28.2" rx="6.75" ry="1.05" fill="rgba(20,18,60,.32)" shape-rendering="geometricPrecision"/>` + (sp.emb
-    ? `<g class="av-corpo">${img("av-olho", sp.base)}${img("av-pisca", sp.baseFechado)}${img("av-emb av-g-" + gesto, sp.emb, ` style="transform-origin:${ox}px ${oy}px"`)}</g>`
-    : img("av-olho", sp.url) + img("av-pisca", sp.fechado));
+  const corpo = sp.emb ? img("av-olho", sp.base) + img("av-pisca", sp.baseFechado) + img("av-emb av-g-" + gesto, sp.emb, ` style="transform-origin:${ox}px ${oy}px"`) : img("av-olho", sp.url) + img("av-pisca", sp.fechado);
+  /* montado: o personagem fica menor e mais alto, e o jumentinho é desenhado na frente das pernas dele */
+  const boneco = montado
+    ? `<ellipse cx="11" cy="28.4" rx="9.4" ry="1.1" fill="rgba(20,18,60,.32)" shape-rendering="geometricPrecision"/><g class="av-corpo"><g transform="translate(1.3 2.4) scale(.7)">${corpo}</g><image class="av-montaria" href="${JUMENTO_PNG}" x="-.5" y="11.5" width="23" height="17" preserveAspectRatio="none"/></g>`
+    : `<ellipse cx="11" cy="28.2" rx="6.75" ry="1.05" fill="rgba(20,18,60,.32)" shape-rendering="geometricPrecision"/>` + (sp.emb ? `<g class="av-corpo">${corpo}</g>` : corpo);
   const selo = nv > 0 ? `<g class="av-nivel" shape-rendering="geometricPrecision"><circle cx="19.3" cy="26" r="3.7" fill="#F2BE2E" stroke="#3A2A00" stroke-width=".7"/><text x="19.3" y="27.8" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="5.2" fill="#3A2A00">${nv}</text></g>` : "";
   return `<svg viewBox="-1 -1 24 31" class="avatar${raro ? " raro" : ""}${lend ? " lendario" : ""}" role="img" aria-label="${lbl}${nv > 0 ? ", nível " + nv : ""}${lend ? ", personagem lendário" : raro ? ", personagem raro" : ""}" style="overflow:visible;--d:-${atraso}s">${aura}${brilho}${boneco}${selo}</svg>`;
 }
@@ -4917,7 +5078,7 @@ function estatisticas(){
 }
 
 /* ---------- Missões ---------- */
-const NIVEIS = ["Visitante", "Aprendiz", "Ouvinte", "Discípulo", "Mensageiro", "Atalaia", "Escriba", "Arauto", "Vidente", "Profeta", "Embaixador"];
+const NIVEIS = ["Visitante", "Aprendiz", "Ouvinte", "Discípulo", "Mensageiro", "Atalaia", "Escriba", "Arauto", "Vidente", "Profeta", "Embaixador", "Peregrino", "Pastor", "Pescador", "Apóstolo", "Vencedor"];
 const AJUDAS = {
   meio:   { nome: "Meio a meio",     ic: "✂️", d: "Elimina duas respostas erradas da pergunta." },
   dobro:  { nome: "Pontos em dobro", ic: "⚡", d: "Dobra os pontos da sua próxima resposta certa." },
@@ -4931,56 +5092,86 @@ const MISSOES = [
   _ms("Primeiro passo", "Faça um quiz.", "quizzes", 1),
   _ms("Aquecendo", "Faça mais um quiz.", "quizzes", 1),
   _ms("Mira afiada", "Acerte 4 perguntas.", "acertos", 4, { tipo: "meio", q: 1 }),
-  _ms("Dois em dois", "Faça o quiz no prazo 2 dias seguidos.", "seq", 2),
-  _ms("Minha turma", "Faça um quiz participando de uma sala além da 7world. Entre em uma ou crie a sua.", "quizSala", 1, { tipo: "chance", q: 1 }),
+  _ms("Dois em dois", "Faça o quiz no prazo 2 dias seguidos.", "seq", 2, { tipo: "chance", q: 1 }),
+  _ms("Minha turma", "Faça um quiz participando de uma sala além da 7world. Entre em uma ou crie a sua.", "quizSala", 1, { tipo: "profeta", id: "adao" }),
   /* Nível 2 */
   _ms("Sete mil", "Some 7.000 pontos.", "pontos", 7000),
   _ms("Testemunho", "Publique algo no mural da sua sala.", "mural", 1),
   _ms("Gabarito", "Acerte todas as perguntas de um quiz.", "gabaritos", 1, { tipo: "dobro", q: 1 }),
   _ms("Trio", "Faça o quiz no prazo 3 dias seguidos.", "seq", 3),
-  _ms("Ligeiro", "Faça 3.500 pontos ou mais em um quiz.", "quizPts", 3500, { tipo: "profeta", id: "enoque" }),
+  _ms("Ligeiro", "Faça 3.500 pontos ou mais em um quiz.", "quizPts", 3500, { tipo: "profeta", id: "eva" }),
   /* Nível 3 */
   _ms("Em dia", "Faça um quiz no prazo.", "prazo", 1),
   _ms("Oito certas", "Acerte 8 perguntas.", "acertos", 8),
   _ms("Pontual", "Faça 2 quizzes no prazo.", "prazo", 2, { tipo: "meio", q: 2 }),
   _ms("Veloz", "Faça 4.000 pontos ou mais em um quiz.", "quizPts", 4000, { tipo: "chance", q: 2 }),
-  _ms("Dobradinha", "Faça 2 quizzes.", "quizzes", 2, { tipo: "profeta", id: "eva" }),
+  _ms("Dobradinha", "Faça 2 quizzes.", "quizzes", 2, { tipo: "profeta", id: "abraao" }),
   /* Nível 4 */
   _ms("Oito mil", "Some 8.000 pontos.", "pontos", 8000),
   _ms("Outro gabarito", "Acerte todas as perguntas de mais um quiz.", "gabaritos", 1),
   _ms("Três de novo", "Faça o quiz no prazo 3 dias seguidos.", "seq", 3, { tipo: "dobro", q: 2 }),
   _ms("Cinco certas", "Acerte 5 perguntas.", "acertos", 5),
-  _ms("Semana completa", "Feche uma lição com os 7 dias feitos no prazo.", "semanas", 1, { tipo: "profeta", id: "noe" }),
+  _ms("Semana completa", "Feche uma lição com os 7 dias feitos no prazo.", "semanas", 1, { tipo: "profeta", id: "sara" }),
   /* Nível 5 */
   _ms("Mais dois", "Faça 2 quizzes.", "quizzes", 2),
   _ms("Mais oito mil", "Some 8.000 pontos.", "pontos", 8000),
   _ms("Gabarito outra vez", "Acerte todas as perguntas de um quiz.", "gabaritos", 1, { tipo: "meio", q: 2 }),
   _ms("Relâmpago", "Faça 4.500 pontos ou mais em um quiz.", "quizPts", 4500, { tipo: "chance", q: 2 }),
-  _ms("Sempre em dia", "Faça 2 quizzes no prazo.", "prazo", 2, { tipo: "profeta", id: "ester" }),
+  _ms("Sempre em dia", "Faça 2 quizzes no prazo.", "prazo", 2, { tipo: "profeta", id: "farao" }),
   /* Nível 6 */
   _ms("Dez certas", "Acerte 10 perguntas.", "acertos", 10),
   _ms("Quatro seguidos", "Faça o quiz no prazo 4 dias seguidos.", "seq", 4),
   _ms("Dois gabaritos", "Gabarite 2 quizzes.", "gabaritos", 2, { tipo: "dobro", q: 2 }),
   _ms("Nove mil", "Some 9.000 pontos.", "pontos", 9000),
-  _ms("Dois no prazo", "Faça 2 quizzes no prazo.", "prazo", 2, { tipo: "profeta", id: "abraao" }),
+  _ms("Dois no prazo", "Faça 2 quizzes no prazo.", "prazo", 2, { tipo: "profeta", id: "moises" }),
   /* Nível 7 */
   _ms("Raio", "Faça 4.200 pontos ou mais em um quiz.", "quizPts", 4200),
   _ms("Doze certas", "Acerte 12 perguntas.", "acertos", 12),
   _ms("Gabarito em dobro", "Gabarite 2 quizzes.", "gabaritos", 2, { tipo: "meio", q: 3 }),
   _ms("Doze mil", "Some 12.000 pontos.", "pontos", 12000, { tipo: "chance", q: 3 }),
-  _ms("Passo firme", "Faça 2 quizzes.", "quizzes", 2, { tipo: "profeta", id: "sara" }),
+  _ms("Passo firme", "Faça 2 quizzes.", "quizzes", 2, { tipo: "acessorio", id: "tabuas" }),
   /* Nível 8 */
   _ms("Cinco seguidos", "Faça o quiz no prazo 5 dias seguidos.", "seq", 5),
   _ms("Mais dez certas", "Acerte 10 perguntas.", "acertos", 10),
   _ms("Dupla de gabaritos", "Gabarite 2 quizzes.", "gabaritos", 2, { tipo: "dobro", q: 3 }),
   _ms("Doze mil de novo", "Some 12.000 pontos.", "pontos", 12000),
-  _ms("Firme no prazo", "Faça 2 quizzes no prazo.", "prazo", 2, { tipo: "profeta", id: "zacarias" }),
-  /* Nível 9: a reta final, para chegar ao nível 10 e liberar o personagem mais raro */
+  _ms("Firme no prazo", "Faça 2 quizzes no prazo.", "prazo", 2, { tipo: "profeta", id: "josue" }),
+  /* Nível 9 (Muralhas de Jericó) */
   _ms("Quinze certas", "Acerte 15 perguntas.", "acertos", 15),
   _ms("Três gabaritos", "Gabarite 3 quizzes.", "gabaritos", 3, { tipo: "chance", q: 3 }),
   _ms("Sete seguidos", "Faça o quiz no prazo 7 dias seguidos.", "seq", 7),
   _ms("Vinte mil", "Some 20.000 pontos.", "pontos", 20000, { tipo: "dobro", q: 3 }),
-  _ms("Fiel até o fim", "Feche uma lição com os 7 dias feitos no prazo.", "semanas", 1, { tipo: "profeta", id: "messias" })
+  _ms("Fiel até o fim", "Feche uma lição com os 7 dias feitos no prazo.", "semanas", 1, { tipo: "profeta", id: "raabe" }),
+  /* Nível 10 (Belém) */
+  _ms("Rumo a Belém", "Faça 3 quizzes.", "quizzes", 3),
+  _ms("Estrela guia", "Faça 4.300 pontos ou mais em um quiz.", "quizPts", 4300, { tipo: "meio", q: 3 }),
+  _ms("Mais doze certas", "Acerte 12 perguntas.", "acertos", 12),
+  _ms("Cinco em sequência", "Faça o quiz no prazo 5 dias seguidos.", "seq", 5, { tipo: "chance", q: 3 }),
+  _ms("Casa do pão", "Gabarite 2 quizzes.", "gabaritos", 2, { tipo: "profeta", id: "josenazare" }),
+  /* Nível 11 (Belém) */
+  _ms("Boas-novas", "Publique algo no mural da sua sala.", "mural", 1),
+  _ms("Quinze mil", "Some 15.000 pontos.", "pontos", 15000),
+  _ms("Pastores atentos", "Faça 3 quizzes no prazo.", "prazo", 3, { tipo: "dobro", q: 3 }),
+  _ms("Dezesseis certas", "Acerte 16 perguntas.", "acertos", 16),
+  _ms("Noite de louvor", "Feche uma lição com os 7 dias feitos no prazo.", "semanas", 1, { tipo: "profeta", id: "maria" }),
+  /* Nível 12 (Belém) */
+  _ms("Ouro, incenso e mirra", "Gabarite 3 quizzes.", "gabaritos", 3, { tipo: "meio", q: 3 }),
+  _ms("Seis seguidos", "Faça o quiz no prazo 6 dias seguidos.", "seq", 6),
+  _ms("Brilho forte", "Faça 4.500 pontos ou mais em um quiz.", "quizPts", 4500),
+  _ms("Dezoito mil", "Some 18.000 pontos.", "pontos", 18000, { tipo: "chance", q: 3 }),
+  _ms("Emanuel", "Faça o quiz no prazo 7 dias seguidos.", "seq", 7, { tipo: "profeta", id: "messias" }),
+  /* Nível 13 (Mar da Galileia) */
+  _ms("Lance as redes", "Faça 4 quizzes.", "quizzes", 4),
+  _ms("Pesca maravilhosa", "Acerte 20 perguntas.", "acertos", 20, { tipo: "dobro", q: 3 }),
+  _ms("Sobre as águas", "Gabarite 3 quizzes.", "gabaritos", 3),
+  _ms("Vinte e dois mil", "Some 22.000 pontos.", "pontos", 22000, { tipo: "meio", q: 4 }),
+  _ms("Pescador de gente", "Faça 5 quizzes no prazo.", "prazo", 5, { tipo: "profeta", id: "pedro" }),
+  /* Nível 14 (Jerusalém): a reta final, até a Nova Jerusalém */
+  _ms("Subindo a Jerusalém", "Faça o quiz no prazo 7 dias seguidos.", "seq", 7),
+  _ms("Hosana", "Gabarite 4 quizzes.", "gabaritos", 4, { tipo: "chance", q: 4 }),
+  _ms("Vinte e cinco certas", "Acerte 25 perguntas.", "acertos", 25),
+  _ms("Trinta mil", "Some 30.000 pontos.", "pontos", 30000, { tipo: "dobro", q: 4 }),
+  _ms("Entrada triunfal", "Feche 2 lições com os 7 dias feitos no prazo.", "semanas", 2, { tipo: "acessorio", id: "jumentinho" })
 ];
 MISSOES.forEach((m, i) => { m.n = i + 1; });
 
@@ -5066,9 +5257,23 @@ function progressoMissao(m){
 function textoPremio(p){
   if(!p) return "";
   if(p.tipo === "profeta"){ const pr = acharProfeta(p.id); return "Novo personagem: " + (pr ? pr.nome : ""); }
+  if(p.tipo === "acessorio"){ const a = ACESSORIOS[p.id]; return "Novo acessório: " + (a ? a.nome : ""); }
   return p.q + "× " + AJUDAS[p.tipo].nome;
 }
-function profetaLiberado(p){ return !p.nivel || nivelAtual() >= p.nivel || (perfil && perfil.profeta === p.id); }
+/* Liberado: comum; ou já chegou ao nível; ou é um raro do mapa antigo que a pessoa já usava ou tinha conquistado.
+   Moisés e Maria (semHeranca) não entram nessa exceção: todos conquistam de novo. */
+function profetaLiberado(p){ return !p.nivel || nivelAtual() >= p.nivel || (!p.semHeranca && !!perfil && (perfil.profeta === p.id || (perfil.legado || []).includes(p.id))); }
+/* Ao entrar: guarda uma única vez o que a pessoa tinha no mapa antigo (45 casas) e, se o personagem dela virou prêmio
+   que ela ainda não conquistou, pede para escolher outro. */
+function conferirPersonagem(){
+  if(!usuario || !perfil) return;
+  if(perfil.mapa !== 70){
+    const legado = Math.max(perfil.missoes || 0, missoesFeitas()) >= 45 ? ["messias"] : [];
+    perfil.mapa = 70; perfil.legado = legado; DB.salvarUsuario(usuario.uid, { mapa: 70, legado }).catch(()=>{});
+  }
+  const p = perfil.profeta ? acharProfeta(perfil.profeta) : null;
+  if(p && !profetaLiberado(p)){ perfil.profetaPerdido = p.id; perfil.profeta = ""; DB.salvarUsuario(usuario.uid, { profeta: "" }).catch(()=>{}); }
+}
 
 /* ---------- Ajudas: ganhas nas missões, gastas no quiz ---------- */
 function ajudasGanhas(){
@@ -5212,6 +5417,7 @@ function conferirMissoesNovas(){
   if(agora <= antes) return;
   const novas = MISSOES.slice(antes, agora), nvAntes = nivelDe(antes), nvAgora = nivelDe(agora), subiu = nvAgora > nvAntes;
   const premios = novas.filter(m => m.premio), profetas = premios.filter(m => m.premio.tipo === "profeta").map(m => acharProfeta(m.premio.id)).filter(Boolean);
+  const acess = premios.filter(m => m.premio.tipo === "acessorio").map(m => ACESSORIOS[m.premio.id]).filter(Boolean);
   const parar = typeof confetes === "function" ? confetes() : ()=>{};
   tocar(subiu ? "subiu" : "missao");
   modal(subiu ? `Nível ${nvAgora}: ${nomeNivel(nvAgora)}!` : (novas.length === 1 ? "Missão cumprida!" : novas.length + " missões cumpridas!"), `<div class="cq-festa">
@@ -5219,7 +5425,8 @@ function conferirMissoesNovas(){
       <div class="cq-festa-lista">${novas.slice(-6).map(m => `<div class="cq-festa-item"><div class="ms-num">${m.n}</div><div class="tx"><b>${esc(m.t)}</b><span>${esc(m.d)}${m.premio ? " · Prêmio: " + esc(textoPremio(m.premio)) : ""}</span></div></div>`).join("")}</div>
       ${novas.length > 6 ? `<p class="muted small" style="margin:8px 0 0">e mais ${novas.length - 6} ${novas.length - 6 === 1 ? "missão" : "missões"} antes ${novas.length - 6 === 1 ? "dela" : "delas"}.</p>` : ""}
       ${profetas.length ? `<div class="novo-profeta">${profetas.map(p => `<div>${avatarSVG(p.id)}<b>${esc(p.nome)}</b></div>`).join("")}<p>${profetas.length === 1 ? "Novo personagem liberado!" : "Novos personagens liberados!"} Troque em Minha conta, se quiser.</p></div>` : ""}
-      ${premios.some(m => m.premio.tipo !== "profeta") ? `<p class="muted small" style="margin:10px 0 0">Suas ajudas agora:</p>${chipsAjudas()}` : ""}
+      ${acess.length ? `<div class="novo-profeta">${acess.map(a => `<div>${avatarSVG(a.de, null, 0, 99)}<b>${esc(a.nome)}</b></div>`).join("")}<p>Novo acessório liberado! Ele aparece sempre que você usar ${acess.map(a => esc(acharProfeta(a.de).nome)).join(" e ")}.</p></div>` : ""}
+      ${premios.some(m => AJUDAS[m.premio.tipo]) ? `<p class="muted small" style="margin:10px 0 0">Suas ajudas agora:</p>${chipsAjudas()}` : ""}
       <div class="btn-row"><button class="btn btn-main" id="msTrilha">Ver a trilha</button>${typeof publicarNoMural === "function" ? `<button class="btn btn-ghost" id="msMural">Publicar no mural</button>` : ""}<button class="btn btn-ghost" id="msOk">Continuar</button></div>
     </div>`, (m, fechar) => {
     m.querySelector("#msTrilha").onclick = () => { fechar(); telaMissoes(antes); };
@@ -5238,7 +5445,7 @@ function modalMissao(i){
   const m = MISSOES[i]; if(!m) return;
   const st = estatisticas(), feitas = missoesFeitas(st), feita = i < feitas, atual = i === feitas, pg = progressoMissao(m, st);
   const estado = feita ? "feita" : atual ? "atual" : "fechada";
-  const nvDaCasa = Math.floor((m.n - 1) / 5) + 1, z = zonaDoNivel(nvDaCasa), sobeNivel = m.n % 5 === 0, nvNovo = m.n / 5 + 1;
+  const nvDaCasa = Math.floor((m.n - 1) / 5) + 1, z = zonaDaCasa(m.n), sobeNivel = m.n % 5 === 0, nvNovo = m.n / 5 + 1;
   /* paisagem: o céu e o chão da etapa, com dois enfeites dela (os mesmos desenhos do mapa) */
   const tipos = (z.decos || []).map(d => d[0]).filter((t, k, a) => DECO[t] && a.indexOf(t) === k), enfeite = (t, x, alt) => { const D = DECO[t]; if(!D) return ""; const e = Math.min(alt / D.h, 62 / D.w); return `<g transform="translate(${x} 104) scale(${e.toFixed(3)})">${D.d()}</g>`; };
   const cena = `<svg class="mj-cena-svg" viewBox="0 0 340 112" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><defs><linearGradient id="mjceu${i}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${z.c[0]}"/><stop offset="1" stop-color="${z.c[1]}"/></linearGradient></defs>
@@ -5248,19 +5455,22 @@ function modalMissao(i){
   if(m.premio && m.premio.tipo === "profeta"){
     const p = acharProfeta(m.premio.id);
     if(p) premios += `<div class="mj-premio pers"><div class="mj-palco">${avatarSVG(p.id)}</div><div class="mj-ptx"><small>${p.lendario ? "Personagem lendário" : "Personagem raro"}${feita ? " · liberado" : ""}</small><strong>${esc(p.nome)}</strong><span>“${esc(p.fala)}”</span></div></div>`;
+  } else if(m.premio && m.premio.tipo === "acessorio"){
+    const a = ACESSORIOS[m.premio.id], dono = a && acharProfeta(a.de);
+    if(dono) premios += `<div class="mj-premio pers"><div class="mj-palco">${avatarSVG(a.de, null, 0, 99)}</div><div class="mj-ptx"><small>Acessório de ${esc(dono.nome)}${feita ? " · liberado" : ""}</small><strong>${esc(a.nome)}</strong><span>${esc(a.d)}</span></div></div>`;
   } else if(m.premio){
     const a = AJUDAS[m.premio.tipo];
     premios += `<div class="mj-premio ajuda"><div class="mj-ficha"><span aria-hidden="true">${a.ic}</span><b>×${m.premio.q}</b></div><div class="mj-ptx"><small>Ajuda para o quiz${feita ? " · recebida" : ""}</small><strong>${m.premio.q}× ${esc(a.nome)}</strong><span>${esc(a.d)}</span></div></div>`;
   }
   if(sobeNivel){
-    const zn = nvNovo > ZONAS.length ? ZONA_FINAL : zonaDoNivel(nvNovo);
-    premios += `<div class="mj-premio nivel"><div class="hm-nivel"><b>${nvNovo}</b><small>nível</small></div><div class="mj-ptx"><small>${feita ? "Nível alcançado" : "Sobe de nível"}</small><strong>Nível ${nvNovo} · ${esc(nomeNivel(nvNovo))}</strong><span>Nova etapa do mapa: ${esc(zn.nome)}</span></div></div>`;
+    const zn = m.n >= MISSOES.length ? ZONA_FINAL : zonaDaCasa(m.n + 1);
+    premios += `<div class="mj-premio nivel"><div class="hm-nivel"><b>${nvNovo}</b><small>nível</small></div><div class="mj-ptx"><small>${feita ? "Nível alcançado" : "Sobe de nível"}</small><strong>Nível ${nvNovo} · ${esc(nomeNivel(nvNovo))}</strong><span>${zn !== z ? "Nova etapa do mapa: " + esc(zn.nome) : "A jornada continua em " + esc(zn.nome)}</span></div></div>`;
   }
   const semPremio = !premios;
   if(semPremio){ const falta = 5 - (m.n % 5);
     premios = `<div class="mj-premio passo"><div class="mj-ficha"><span aria-hidden="true">👣</span></div><div class="mj-ptx"><small>Sem prêmio nesta casa</small><strong>Um passo na jornada</strong><span>${feita ? "Casa concluída: você seguiu em frente." : (falta === 1 ? "Depois dela falta 1 casa" : "Depois dela faltam " + falta + " casas") + " para o nível " + (nvDaCasa + 1) + "."}</span></div></div>`; }
   /* botão: na missão atual leva direto para onde ela se cumpre */
-  const destino = m.meta[0] === "mural" ? ["Abrir o mural", () => nav("mural")] : m.meta[0] === "quizSala" ? ["Ver as salas", () => nav("salas")] : ["Ir para o quiz", () => nav("quiz")];
+  const destino = m.meta[0] === "mural" ? ["Abrir o mural", () => nav("mural")] : m.meta[0] === "quizSala" ? ["Ver as salas", () => nav("salas")] : ["Ir para o quiz", () => { quizVista = "semana"; LICAO = LICOES[indiceLicaoAtual()] || LICAO; nav("quiz"); }];
   tocar("toque");
   modal(`Missão ${m.n}`, `<div class="mj ${estado}">
       <div class="mj-cena">${cena}<span class="mj-zona">📍 ${esc(z.nome)}</span><div class="mj-raios" aria-hidden="true"></div>
@@ -5363,7 +5573,7 @@ function modalDesempenho(){
 /* ============================================================
    MAPA DO TRIMESTRE (Quiz): as lições como um caminho no rolo, que vai se abrindo a cada semana
    ============================================================ */
-function mapaTrimestre(atual){
+function mapaTrimestre(atual, abrindo){
   const tri = atual ? atual.trimestre : TRIMESTRE_BASE, lics = LICOES.filter(l => l.trimestre === tri), iHoje = indiceLicaoAtual(), licHoje = LICOES[iHoje];
   const abertas = lics.filter(l => !licaoFutura(l)), fechadas = lics.length - abertas.length;
   const PASSO = 88, X0 = 62, H = 172, yDe = k => (k % 2 ? 92 : 52);
@@ -5379,10 +5589,10 @@ function mapaTrimestre(atual){
       <span class="mp-leg"><b>${hoje ? "Esta semana" : "Lição " + l.n}</b>${feitos}/7</span></button>`;
   }).join("");
   const rolo = fechadas ? `<div class="mp-rolo" style="left:${larg - 92}px"><svg viewBox="0 0 80 150" width="80" height="150" aria-hidden="true"><rect x="22" y="6" width="36" height="138" rx="18" fill="#D9CFAE"/><rect x="28" y="6" width="10" height="138" rx="5" fill="#EFE7CC"/><rect x="29" y="0" width="22" height="10" rx="4" fill="#8A6A3E"/><rect x="29" y="140" width="22" height="10" rx="4" fill="#8A6A3E"/></svg><span>+${fechadas}</span></div>` : "";
-  return `<div class="mapa" id="mapa" aria-label="Mapa do trimestre"><div class="mapa-in" style="width:${larg}px;height:${H}px">
+  return `<div class="mapa-cx ${abrindo ? "abrindo" : ""}"><div class="mapa" id="mapa" aria-label="Mapa do trimestre"><div class="mapa-in" style="width:${larg}px;height:${H}px">
       <div class="mp-haste"></div>
       <svg class="mp-svg" width="${larg}" height="${H}" aria-hidden="true"><path d="${d}"/></svg>${nos}${rolo}
-    </div></div>
+    </div></div><span class="mp-vara" aria-hidden="true"></span></div>
     <p class="muted small mp-dica">${esc(atual.numero)}: <b>${esc(atual.titulo)}</b>${fechadas ? ` · ${fechadas === 1 ? "falta 1 lição" : "faltam " + fechadas + " lições"} para o rolo abrir inteiro` : " · rolo todo aberto!"}</p>`;
 }
 function ligarMapaTrimestre(aoEscolher){
@@ -5390,6 +5600,25 @@ function ligarMapaTrimestre(aoEscolher){
   m.querySelectorAll("[data-lic]").forEach(b => b.onclick = () => { tocar("toque"); aoEscolher(LICOES[+b.dataset.lic]); });
   const sel = m.querySelector(".mp-no.sel") || m.querySelector(".mp-no.hoje");
   if(sel) m.scrollLeft = Math.max(0, sel.offsetLeft - m.clientWidth / 2);
+  /* rolo abrindo: cada lição aparece quando a vara do rolo passa por ela */
+  const cx = m.parentNode;
+  if(cx && cx.classList.contains("abrindo")){
+    /* o rolo abre na lição 1 e desliza até a lição escolhida; cada lição "nasce" quando entra na parte já aberta */
+    const semMov = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const alvo = semMov ? 0 : m.scrollLeft, larg = m.clientWidth, ABRE = 1200, T0 = 950, DUR = alvo > 0 ? Math.min(1900, 500 + alvo * 1.6) : 0, FIM = Math.max(ABRE, T0 + DUR);
+    const suave = u => u <= 0 ? 0 : u >= 1 ? 1 : u * u * (3 - 2 * u);
+    const rolagem = t => DUR ? alvo * suave((t - T0) / DUR) : 0, aberto = t => 20 + (larg - 20) * suave(t / ABRE);
+    m.querySelectorAll(".mp-no").forEach(b => { let t = 0; while(t < FIM && b.offsetLeft - rolagem(t) > aberto(t) - 30) t += 30; b.style.setProperty("--d", (t / 1000).toFixed(2) + "s"); });
+    if(DUR){
+      m.scrollLeft = 0;
+      let ini = 0, parou = false; const parar = () => { parou = true; };
+      ["pointerdown", "wheel", "touchstart"].forEach(ev => m.addEventListener(ev, parar, { once: true, passive: true }));
+      const passo = agora => { if(parou || !m.isConnected) return; if(!ini) ini = agora; const t = agora - ini; m.scrollLeft = rolagem(t); if(t < T0 + DUR) requestAnimationFrame(passo); };
+      requestAnimationFrame(passo);
+    }
+    tocar("toque");
+    setTimeout(() => { if(cx.isConnected) cx.classList.remove("abrindo"); }, FIM + 700);
+  }
 }
 
 /* ============================================================
@@ -5536,7 +5765,14 @@ const ZONAS = [
     extra: ["oliveira", "rocha", "oliveira"] }
 ];
 const ZONA_FINAL = { nome: "Nova Jerusalém", ref: "Apocalipse 21", c: ["#FFF9E6", "#FFE29A"] };
-function zonaDoNivel(n){ return ZONAS[Math.max(0, Math.min(ZONAS.length - 1, n - 1))]; }
+/* Quantas casas (missões) tem cada etapa, na ordem do mapa: 70 no total. A cada 5 casas, um nível. */
+const CASAS_ZONA = [10, 10, 5, 5, 5, 10, 15, 5, 5];
+const FIM_ZONA = CASAS_ZONA.reduce((l, n) => (l.push((l[l.length - 1] || 0) + n), l), []);      // última casa de cada etapa: 10, 20, 25...
+function indiceZona(casa){ const k = FIM_ZONA.findIndex(f => casa <= f); return k < 0 ? ZONAS.length - 1 : k; }
+function zonaDaCasa(casa){ return ZONAS[indiceZona(Math.max(1, casa))]; }
+function zonaDoNivel(n){ return zonaDaCasa((Math.max(1, n) - 1) * 5 + 1); }
+/* níveis que se joga dentro de uma etapa (ex.: Belém vai da casa 46 à 60: níveis 10 a 12) */
+function niveisDaZona(k){ const a = (k ? FIM_ZONA[k - 1] : 0) / 5 + 1, b = FIM_ZONA[k] / 5; return a === b ? `Nível ${a} · ${nomeNivel(a)}` : `Níveis ${a} ${b - a === 1 ? "e" : "a"} ${b}`; }
 
 /* ---------- Desenhos (coordenadas locais: chão em y=0, para cima é negativo) ---------- */
 const _somb = w => `<ellipse cx="0" cy="0" rx="${w}" ry="${(w * .24).toFixed(1)}" fill="rgba(30,20,10,.18)"/>`;
@@ -5593,8 +5829,8 @@ function geometriaTrilha(W){
   const pts = Array.from({ length: N + 1 }, (_, i) => ({ x: xN(i), y: yN(i) }));
   const alt = yN(0) + 96;
   const portao = { x: cx, y: 238 };
-  const fim = Math.ceil(N / 5);                     // número de etapas com missões (9)
-  const borda = k => k === 0 ? alt : (k >= fim ? yN(N) - gap * .62 : (yN(5 * k) + yN(5 * k + 1)) / 2);
+  const fim = ZONAS.length;                         // número de etapas com missões (9)
+  const borda = k => k === 0 ? alt : (k >= fim ? yN(N) - gap * .62 : (yN(FIM_ZONA[k - 1]) + yN(FIM_ZONA[k - 1] + 1)) / 2);
   /* x do caminho numa altura qualquer (o caminho entre duas casas é uma curva em S) */
   const xEm = y => {
     if(y <= yN(N)){ const t = Math.max(0, Math.min(1, (yN(N) - y) / (yN(N) - portao.y))); return xN(N) + (portao.x - xN(N)) * (3 * t * t - 2 * t * t * t); }
@@ -5647,9 +5883,9 @@ function desenharMapa(G, feitas){
 
   ocupado.push([pts[0].x - 60, pts[0].y - 26, pts[0].x + 60, pts[0].y + 26]);   // placa da largada
   /* placas com o nome de cada etapa (na beira do caminho, do lado com espaço) */
-  const zAtual = Math.min(fim, Math.floor(feitas / 5) + 1);
+  const zAtual = feitas >= N ? fim + 1 : indiceZona(feitas + 1) + 1;
   ZONAS.forEach((z, k) => {
-    const y1 = borda(k), y0 = borda(k + 1), sub = `🔒 Nível ${k + 1} · ${nomeNivel(k + 1)}`, largP = Math.min(196, Math.max(124, z.nome.length * 9 + 36, sub.length * 6.1 + 34)), altP = 60;
+    const y1 = borda(k), y0 = borda(k + 1), sub = `🔒 ${niveisDaZona(k)}`, largP = Math.min(196, Math.max(124, z.nome.length * 9 + 36, sub.length * 6.1 + 34)), altP = 60;
     for(let y = y1 - G.gap * .85; y > y1 - (y1 - y0) * .7; y -= 8){
       const r = regioes(y - altP / 2, y + altP / 2), we = r.e[1] - r.e[0], wd = r.d[1] - r.d[0];
       const lado = we >= wd ? "e" : "d", R = r[lado], w = Math.max(we, wd);
@@ -5719,7 +5955,7 @@ function desenharMapa(G, feitas){
 function telaMissoes(vindoDe){
   tabAtual = "missoes"; atualizarCasca(); pararTimer(); if(typeof pararCamera === "function") pararCamera();
   const feitas = missoesFeitas(), nv = nivelDe(feitas), prox = MISSOES[feitas] || null;
-  const noNivel = feitas % 5, faltam = prox ? 5 - noNivel : 0, zona = feitas >= MISSOES.length ? ZONA_FINAL : zonaDoNivel(Math.floor(feitas / 5) + 1);
+  const noNivel = feitas % 5, faltam = prox ? 5 - noNivel : 0, zona = feitas >= MISSOES.length ? ZONA_FINAL : zonaDaCasa(feitas + 1);
   const pg = prox ? progressoMissao(prox) : null;
   app.innerHTML = `<div class="result-area duas"><div class="lado">
     <div class="ms-topo">${cabPagina("Missões", `${feitas} de ${MISSOES.length} cumpridas`, "Jornada Bíblica")}<button type="button" class="q-mus" id="trMus" aria-pressed="${SOM.mus}" aria-label="Música da trilha" title="Música da trilha">${SOM.mus ? "🎵" : "🔇"}</button></div>
@@ -5740,12 +5976,12 @@ function telaMissoes(vindoDe){
   el.style.height = G.alt + "px";
   let h = mapa.svg;
   h += `<div class="tr-largada" style="left:${pts[0].x}px;top:${pts[0].y}px"><span>Largada</span></div>`;
-  mapa.placas.forEach(p => { const z = ZONAS[p.k], n = p.k + 1;
-    h += `<div class="tr-zona ${p.estado}" style="left:${p.x.toFixed(1)}px;top:${p.y.toFixed(1)}px;width:${p.w}px"><small>${p.estado === "bloq" ? "🔒 " : p.estado === "feita" ? "✓ " : ""}Nível ${n} · ${esc(nomeNivel(n))}</small><b>${esc(z.nome)}</b><em>${esc(z.ref)}</em></div>`; });
-  h += `<div class="tr-zona final ${feitas >= N ? "atual" : "bloq"}" style="left:${portao.x}px;top:62px"><small>${feitas >= N ? "✓ " : "🔒 "}Nível 10 · ${esc(nomeNivel(10))}</small><b>${esc(ZONA_FINAL.nome)}</b><em>${esc(ZONA_FINAL.ref)}</em></div>`;
+  mapa.placas.forEach(p => { const z = ZONAS[p.k];
+    h += `<div class="tr-zona ${p.estado}" style="left:${p.x.toFixed(1)}px;top:${p.y.toFixed(1)}px;width:${p.w}px"><small>${p.estado === "bloq" ? "🔒 " : p.estado === "feita" ? "✓ " : ""}${esc(niveisDaZona(p.k))}</small><b>${esc(z.nome)}</b><em>${esc(z.ref)}</em></div>`; });
+  h += `<div class="tr-zona final ${feitas >= N ? "atual" : "bloq"}" style="left:${portao.x}px;top:62px"><small>${feitas >= N ? "✓ " : "🔒 "}Nível ${N / 5 + 1} · ${esc(nomeNivel(N / 5 + 1))}</small><b>${esc(ZONA_FINAL.nome)}</b><em>${esc(ZONA_FINAL.ref)}</em></div>`;
   MISSOES.forEach((m, i) => {
     const p = pts[i + 1], feita = i < feitas, atual = i === feitas, portal = m.n % 5 === 0;
-    const pr = m.premio ? (m.premio.tipo === "profeta" ? `<span class="tr-premio pers" title="${esc(textoPremio(m.premio))}">${avatarSVG(m.premio.id)}</span>` : `<span class="tr-premio" title="${esc(textoPremio(m.premio))}">${AJUDAS[m.premio.tipo].ic}</span>`) : "";
+    const pr = m.premio ? (m.premio.tipo === "profeta" ? `<span class="tr-premio pers" title="${esc(textoPremio(m.premio))}">${avatarSVG(m.premio.id)}</span>` : m.premio.tipo === "acessorio" ? `<span class="tr-premio pers" title="${esc(textoPremio(m.premio))}">${avatarSVG(ACESSORIOS[m.premio.id].de, null, 0, 99)}</span>` : `<span class="tr-premio" title="${esc(textoPremio(m.premio))}">${AJUDAS[m.premio.tipo].ic}</span>`) : "";
     h += `<button type="button" class="tr-no ${feita ? "feita" : atual ? "atual" : "fechada"} ${portal ? "portal" : ""}" style="left:${p.x.toFixed(1)}px;top:${p.y}px" data-ms="${i}" aria-label="Missão ${m.n}: ${esc(m.t)}${feita ? " (cumprida)" : atual ? " (missão atual)" : ""}"><span class="nn">${m.n}${pr}${feita ? `<span class="tr-ok" aria-hidden="true">✓</span>` : ""}</span></button>`;
   });
   h += `<div class="tr-profeta" id="trProfeta">${meuAvatar()}</div>`;
@@ -5797,7 +6033,8 @@ function haQuanto(ts){
 function resumoDaSala(s){ return s.global ? "Sala global: todos os jogadores" : (s.descricao || (s.publica ? "Sala pública" : "Sala privada")); }
 /* Em quais salas publicar: quem está numa sala só publica direto nela; quem está em mais de uma marca as salas */
 function escolherSalasParaPublicar(){
-  if(SALAS.length <= 1) return Promise.resolve([salaAtual()]);
+  /* só se publica em sala de que se participa (o master pode estar olhando uma sala que não é dele) */
+  if(SALAS.length <= 1) return Promise.resolve([SALAS[0] || salaAtual()]);
   return new Promise(res => {
     let feito = false; const atual = salaAtual().id;
     modal("Publicar no mural", `<p class="muted small" style="margin-top:0">Você está em ${SALAS.length} salas. Marque em quais quer publicar:</p>
@@ -5836,14 +6073,20 @@ async function publicarNoMural(post, btn){
   return true;
 }
 /* Mural pelo menu: quem está em mais de uma sala escolhe de qual sala quer ver o mural */
-function telaMuralSalas(){
-  if(SALAS.length <= 1){ telaMural(); return; }
-  tabAtual = "mural"; atualizarCasca(); pararTimer();
+/* Escolha da sala antes de abrir o Mural ou a Corrida (quem só tem uma sala vai direto) */
+function telaMuralSalas(){ telaListaDeSalas("mural"); }
+function telaListaDeSalas(para){
+  const corrida = para === "corrida", abrir = () => { if(corrida){ corridaVista = "pista"; telaRanking(); } else telaMural(); };
+  if(SALAS.length + SALAS_OUTRAS.length <= 1){ if(!souMembroDaSala(salaAtual())) definirSala(SALAS[0].id); abrir(); return; }
+  tabAtual = corrida ? "ranking" : "mural"; atualizarCasca(); pararTimer();
   const atual = salaAtual().id;
-  app.innerHTML = `<div class="result-area">${cabPagina("Mural", SALAS.length + " salas", "Mural de qual sala?", "Escolha a sala para ver o que a turma publicou.")}
-    <section class="panel pg-card"><div class="sl-lista">${SALAS.map(s => `<button type="button" class="sl-item" data-sala="${esc(s.id)}"><span class="sl-ic" aria-hidden="true">📌</span><span class="sl-tx"><b>${esc(s.nome)}</b><small>${esc(resumoDaSala(s))}</small></span>${s.id === atual ? `<span class="badge sala-ativa">ativa</span>` : ""}<span class="seta" aria-hidden="true">›</span></button>`).join("")}</div>
-    <p class="note" style="margin-bottom:0">A sala escolhida passa a ser a sua sala ativa (a que aparece na Corrida e no Início).</p></section></div>`;
-  app.querySelectorAll("[data-sala]").forEach(b => b.onclick = () => { definirSala(b.dataset.sala); telaMural(); });
+  const item = (s, minha) => `<button type="button" class="sl-item" data-sala="${esc(s.id)}"><span class="sl-ic" aria-hidden="true">${corrida ? "🏁" : "📌"}</span><span class="sl-tx"><b>${esc(s.nome)}</b><small>${esc(minha ? resumoDaSala(s) : (s.publica ? "Sala pública" : "Sala privada") + (s.donoNome ? " · criada por " + s.donoNome : ""))}</small></span>${s.id === atual ? `<span class="badge sala-ativa">${minha ? "ativa" : "vendo"}</span>` : ""}<span class="seta" aria-hidden="true">›</span></button>`;
+  app.innerHTML = `<div class="result-area">${corrida ? cabPagina("Corrida", (SALAS.length + SALAS_OUTRAS.length) + " salas", "Corrida de qual sala?", "Escolha a sala para ver quem está na frente na pista.")
+      : cabPagina("Mural", (SALAS.length + SALAS_OUTRAS.length) + " salas", "Mural de qual sala?", "Escolha a sala para ver o que a turma publicou.")}
+    <section class="panel pg-card"><div class="sl-lista">${SALAS.map(s => item(s, true)).join("")}</div>
+    ${SALAS_OUTRAS.length ? `<p class="pg-sobre" style="margin:14px 0 8px">Outras salas do jogo (você vê como master)</p><div class="sl-lista">${SALAS_OUTRAS.map(s => item(s, false)).join("")}</div>` : ""}
+    <p class="note" style="margin-bottom:0">A sala escolhida passa a ser a que você vê ${corrida ? "no Mural" : "na Corrida"} e no Início.</p></section></div>`;
+  app.querySelectorAll("[data-sala]").forEach(b => b.onclick = () => { definirSala(b.dataset.sala); window.scrollTo(0, 0); abrir(); });
 }
 function postDoResultado(L, dia, r){
   return { tipo: "quiz", ref: L.id + "_" + dia.data, ic: r.total && r.acertos === r.total ? "🎯" : "📖", titulo: `Fez ${fmt(r.pts)} pontos no quiz de ${dia.nome.toLowerCase()}`, texto: `${L.numero} · ${r.acertos} de ${r.total} certas${r.noPrazo ? " · no prazo" : ""}` };
@@ -5923,10 +6166,9 @@ async function telaMural(focoId){
   tabAtual = "mural"; atualizarCasca(); pararTimer();
   const sala = salaAtual(), eu = usuario.uid;
   app.innerHTML = `<div class="result-area duas"><div class="lado">
-    ${SALAS.length > 1 ? botaoVoltar("muVoltar", "a lista de salas") : ""}${cabPagina(esc(sala.nome), "Mural", "Mural da sala", "Compartilhe conquistas e anime quem corre com você.")}
-    <section class="panel pg-card"><div class="sala-sel" style="margin:0"><div class="field" style="margin:0"><label for="muSala">Sala</label><select id="muSala">${SALAS.map(x => `<option value="${esc(x.id)}" ${x.id === sala.id ? "selected" : ""}>${esc(x.nome)}${x.global ? " (global)" : ""}</option>`).join("")}</select></div><button class="btn btn-main btn-sm" id="muNovo">Compartilhar</button></div></section></div>
+    ${SALAS.length + SALAS_OUTRAS.length > 1 ? botaoVoltar("muVoltar", "a lista de salas") : ""}${cabPagina(esc(sala.nome), "Mural", "Mural da sala", "Compartilhe conquistas e anime quem corre com você.")}
+    <div class="btn-row uma mu-acao"><button class="btn btn-main" id="muNovo">Compartilhar</button></div></div>
     <div class="principal" id="muCorpo"><section class="panel"><p class="vazio">Carregando o mural…</p></section></div></div>`;
-  $("muSala").onchange = e => { definirSala(e.target.value); telaMural(); };
   $("muNovo").onclick = modalCompartilharMural;
   const muV = $("muVoltar"); if(muV) muV.onclick = telaMuralSalas;
   try{
@@ -5972,7 +6214,7 @@ function modalCompartilharMural(){
   const feitas = missoesFeitas(st), nv = nivelDe(feitas);
   if(nv) opcoes.push(["Meu nível", { tipo: "nivel", ref: "n" + nv, ic: "⭐", titulo: `Está no nível ${nv}: ${nomeNivel(nv)}`, texto: `${feitas} ${feitas === 1 ? "missão cumprida" : "missões cumpridas"}` }]);
   if(st.seq >= 2) opcoes.push(["Minha sequência", { tipo: "sequencia", ref: "s" + st.seq, ic: "🔥", titulo: `Está há ${st.seq} dias seguidos no prazo`, texto: st.seq >= st.melhorSeq ? "É o recorde pessoal!" : `Recorde pessoal: ${st.melhorSeq} dias` }]);
-  modal("Compartilhar no mural", opcoes.length ? `<p class="muted small" style="margin-top:0">${SALAS.length > 1 ? "Escolha o que quer mostrar. Depois você marca em quais salas publicar." : `Vai para o mural da sala <b>${esc(sala.nome)}</b>. Escolha o que quer mostrar:`}</p>
+  modal("Compartilhar no mural", opcoes.length ? `<p class="muted small" style="margin-top:0">${SALAS.length > 1 ? "Escolha o que quer mostrar. Depois você marca em quais salas publicar." : `Vai para o mural da sala <b>${esc((SALAS[0] || sala).nome)}</b>. Escolha o que quer mostrar:`}</p>
     <div class="mu-opcoes">${opcoes.map(([rot, p], k) => `<button type="button" class="mu-opcao" data-k="${k}"><span class="ic">${p.ic}</span><span><b>${esc(rot)}</b><small>${esc(p.titulo)}</small></span></button>`).join("")}</div>`
     : `<p>Você ainda não tem nada para compartilhar. Faça o quiz de hoje e volte aqui!</p>`, (m, fechar) => {
     m.querySelectorAll("[data-k]").forEach(b => b.onclick = async () => { b.disabled = true; if(await publicarNoMural(opcoes[+b.dataset.k][1])){ fechar(); telaMural(); } else b.disabled = false; });
@@ -6099,13 +6341,14 @@ function gerarSprite(p, W, H){
       A[py][px]=col; if(!alvo && !o.soTag) T[py][px]=tag;
     }
   };
-  const fem=FEMININAS.has(p.id), cob=p.cob?p.cob.t:null, C=p.cob&&p.cob.c?rampa(p.cob.c):null;
+  const pid=p.modelo||p.id;          // variações de um personagem (com acessório) usam o mesmo modelo
+  const fem=FEMININAS.has(pid), cob=p.cob?p.cob.t:null, C=p.cob&&p.cob.c?rampa(p.cob.c):null;
   const cabelo=p.cabelo?rampa(p.cabelo):null;
   const pele={ b:p.pele, s:mistura(p.pele,"#7A3E4A",.28), d:mistura(p.pele,"#4A2236",.48), l:mistura(p.pele,"#FFE9D0",.3) };
   const listras=p.listras?p.listras.map(rampa):null;
   const V=y=> listras ? listras[Math.max(0,Math.floor((y-20)/2))%listras.length] : rampa(p.veste);
-  const manto=MANTOS[p.id]?rampa(MANTOS[p.id]):null;
-  const cinto=rampa(CINTOS[p.id] || (C ? p.cob.c : mistura(p.veste,"#2A1A30",.45)));
+  const manto=MANTOS[pid]?rampa(MANTOS[pid]):null;
+  const cinto=rampa(CINTOS[pid] || (C ? p.cob.c : mistura(p.veste,"#2A1A30",.45)));
   const longo = p.longo || (cabelo && !cob && fem);
   const {E,R:Rt,P,RR,U,I,N}=F;
 
@@ -6131,7 +6374,7 @@ function gerarSprite(p, W, H){
     const m=P([[8,20.4],[13.6,19.8],[23.2,30],[23.2,32.4],[19.6,32.4],[7.6,23.4]]);
     camada(m,manto,"manto",{dx:1.2,dy:1.2,hx:.8,hy:-.8});
   }
-  if(!manto || p.id==="moises"){
+  if(!manto || pid==="moises"){
     camada(I(tunica,Rt(9,26.6,23,28.1)),cinto,"cinto",{dx:2,dy:0,hx:.8,hy:0});
     camada(P([[12.6,27.4],[14.2,27.4],[14.6,31],[13.4,30.4],[12.4,31.2]]),cinto,"cinto",{dx:.8,dy:.6});
   }
@@ -6148,9 +6391,15 @@ function gerarSprite(p, W, H){
     const vf=U(I(E(16,10.6,10.6,8.2),Rt(0,0,40,10.8)),RR(5.6,9,9.2,fimLado,0,1.6),RR(22.8,9,26.4,fimLado,0,1.6));
     camada(vf,C,"cob",{dx:1.8,dy:.8});
     camada(I(U(Rt(8.4,9.6,9.4,fimLado),Rt(22.6,9.6,23.6,fimLado),Rt(8.4,9.6,23.6,10.6)),vf),{b:C.d},"cob",{plano:1});
-    if(cabelo){ const fr=P([[9.2,10.2],[22.8,10.2],[22.8,12],[20,11.2],[17,12],[16,10.9],[15,12],[12,11.2],[9.2,12.2]]); camada(fr,cabelo,"cabelo",{dx:1.4,dy:.4,semLuz:1}); }
+    if(cabelo && !p.nemes){ const fr=P([[9.2,10.2],[22.8,10.2],[22.8,12],[20,11.2],[17,12],[16,10.9],[15,12],[12,11.2],[9.2,12.2]]); camada(fr,cabelo,"cabelo",{dx:1.4,dy:.4,semLuz:1}); }
     // brilho no véu
     camada(I(vf,E(12,5.4,3.2,1.2)),{b:C.l},"cob",{plano:1});
+    // toucado listrado do faraó (nemes), com a serpente dourada na testa
+    if(p.nemes){
+      camada(I(vf,U(...[2.6,4.8,7,11.6,13.8,16,18.2,20.4,22.6].map(y=>Rt(0,y,40,y+1)))),{b:"#1C5FA8"},"cob",{plano:1});
+      camada(Rt(8.6,9.3,23.4,10.5),{b:"#C9952B"},"cob",{plano:1});
+      camada(U(E(16,8.6,1.1,1.5),Rt(15.5,6.6,16.5,8.2)),{b:"#E0483C"},"cob",{plano:1}); camada(E(16,6.4,.8,.8),{b:"#FFE58A"},"cob",{plano:1});
+    }
   } else if(cabelo){
     const fimLado = longo?23:((p.curto||!fem)?14:17);
     let forma=U(tampa,RR(6.8,9,9.4,fimLado,0,1.2),RR(22.6,9,25.2,fimLado,0,1.2));
@@ -6199,17 +6448,19 @@ function gerarSprite(p, W, H){
   }
   // emblema (escala com Scale2x + amostragem)
   const ic=ICONES[p.emb];
-  if(ic){
+  const emblema=(ic,o)=>{
     let base = ic.m; for(let k=0; tier>0 && k<Math.min(3,Math.ceil(Math.log2(s))); k++) base = scale2x(base);
     const h=Math.round(ic.m.length*s), w=Math.round(ic.m[0].length*s);
-    const r0=Y(ic.o[0]), c0=X(ic.o[1]), mask=new Set();
+    const r0=Y(o[0]), c0=X(o[1]), mask=new Set();
     for(let i=0;i<h;i++) for(let j=0;j<w;j++){ const ch=base[Math.min(base.length-1,Math.floor((i+.5)/h*base.length))][Math.min(base[0].length-1,Math.floor((j+.5)/w*base[0].length))]; if(ch!=="."&&ic.p[ch]){ put(r0+i,c0+j,ic.p[ch],"emb"); mask.add((r0+i)*W+c0+j); } }
     const le=mistura(Object.values(ic.p)[0],"#1A1030",.75);
     let frente=new Set(mask);
     for(let pass=0;pass<ot;pass++){ const nova=new Set();
       frente.forEach(k=>{ const r=Math.floor(k/W),c=k%W; [[1,0],[-1,0],[0,1],[0,-1]].forEach(([a,b])=>{ const rr=r+a,cc=c+b; if(rr<0||rr>=H||cc<0||cc>=W) return; const kk=rr*W+cc; if(!mask.has(kk)&&G[rr][cc]&&G[rr][cc]!==le){ G[rr][cc]=le; nova.add(kk); } }); });
       frente=nova; }
-  }
+  };
+  if(ICONES[p.emb2]) emblema(ICONES[p.emb2], p.emb2o || ICONES[p.emb2].o);   // segundo objeto (acessório), do outro lado
+  if(ic) emblema(ic, ic.o);
   // mão direita
   if(tier<4){
   for(let py=Y(25.9);py<Y(28);py++) for(let px=X(21.9);px<X(25);px++) G[py][px] = py===Y(28)-1 ? pele.s : (px===X(21.9)&&py===Y(25.9) ? pele.l : pele.b);
@@ -6287,7 +6538,7 @@ function gerarSprite(p, W, H){
 
   /* olhos (camadas para piscar) */
   const O=Array.from({length:H},()=>Array(W).fill(null)), Fc=Array.from({length:H},()=>Array(W).fill(null));
-  const iris=p.id==="ellen"?"#3E5C8A":"#3A2416", cores={L:"#22183A",w:"#FFFFFF",I:iris,i:(tier<3 ? mistura(iris,"#FFFFFF",.35) : mistura(iris,"#D9954E",.55)),D:"#1E1410"};
+  const iris=pid==="ellen"?"#3E5C8A":"#3A2416", cores={L:"#22183A",w:"#FFFFFF",I:iris,i:(tier<3 ? mistura(iris,"#FFFFFF",.35) : mistura(iris,"#D9954E",.55)),D:"#1E1410"};
   if(tier===4){
     const pin=(f,cor,alvo)=>{ camada(f,cor,"",{plano:1},alvo); camada(F.M(f),cor,"",{plano:1},alvo); };
     pin(RR(10.4,12.75,13,15.75,1,1.2),cores.I,O);
@@ -6335,12 +6586,31 @@ Object.assign(ICONES, {
 Object.assign(CINTOS, { ester:"#F2BE2E", eva:"#8A5A2B" });
 Object.assign(MANTOS, { ester:"#F2BE2E", sara:"#F4ECDA" });
 
+/* mapa de 70 casas: Adão, Faraó, Josué, Raabe, José de Nazaré e Simão Pedro */
+Object.assign(ICONES, {
+  folha:{o:[18,21],p:{g:"#5CC56E",G:"#2F8F48",l:"#A6E8A0",b:"#8A5A2B"},m:[
+    "....g....","...glg...",".g.gGg.g.","glggGgglg","gGGgGgGGg",".gGGGGGg.","..gGGGg..","...gbg...","....b...."]},
+  cetro:{o:[12,23],p:{y:"#F2BE2E",Y:"#C9952B",b:"#1C5FA8",B:"#134A85"},m:[
+    ".yyy.","y..yY","b..bB","...yY","...yY","...bB","...bB","...yY","...yY","...bB","...bB","...yY","...yY","...bB","...bB","...yY","...yY","...bB","...bB","...YY"]},
+  trombeta:{o:[16,20],p:{s:"#FFE58A",S:"#F2BE2E",d:"#C9952B",w:"#F4F7FC",W:"#A9B2C6"},m:[
+    "......ssss.",".....sSSSSd",".....sSSSSd","......sSSd.",".....sSSd..","....sSSd...","...sSSd....","..sSSd.....",".wSd.......","wWd........","wW........."]},
+  cordao:{o:[18,21],p:{r:"#E8483C",R:"#A32A22",l:"#FF8A7A",y:"#F2BE2E"},m:[
+    "..rrrr...",".rllllr..","rlRRRRlr.","rlRllRlr.","rlRRRRlr.",".rllllR..","..rrrR...","....rR...","...yyyy..","...r.r.r."]},
+  martelo:{o:[18,20],p:{m:"#C9CEDA",M:"#8A90A0",d:"#5E6474",b:"#B5834A",B:"#7A5228"},m:[
+    ".mmmmmm..","mmMMMMMd.","mMMMMMMd.",".dddbdd..","....bB...","....bB...","....bB...","....bB...","....bB...","....BB..."]},
+  rede:{o:[23,19],p:{k:"#E8D9B5",K:"#B79A6A",b:"#8FE6FF",B:"#1C9FD0",w:"#FFFFFF"},m:[
+    "....kK....","...k.kK...","..k.k.kK..",".k.k.k.kK.","k.kbbBk.kK",".kbwbbBk.K","k.kbbBk.kK",".k.k.k.kK.","..kKkKkK.."]}
+});
+FEMININAS.add("raabe");
+Object.assign(CINTOS, { adao:"#5A3A22", farao:"#F2BE2E", josenazare:"#5A3A22", raabe:"#E8483C", pedro:"#8A5A2B" });
+Object.assign(MANTOS, { josue:"#8E3222", pedro:"#E8D9B5" });
+
 return gerarSprite;
 })();
 
 /* ---------- Do modelo para o jogo: cada personagem vira duas imagens PNG (olhos abertos e piscando) ---------- */
 const _hdCache = {};
-const SPRITE_VERSAO = "m2";            // mude quando o desenho dos personagens mudar, para descartar as imagens guardadas no aparelho
+const SPRITE_VERSAO = "m3";            // mude quando o desenho dos personagens mudar, para descartar as imagens guardadas no aparelho
 /* desenhos da versão anterior guardados no aparelho: saem, para não ocupar espaço à toa */
 try{ for(let i = localStorage.length - 1; i >= 0; i--){ const k = localStorage.key(i); if(k && k.indexOf(KEY + ":boneco:") === 0 && k.indexOf(KEY + ":boneco:" + SPRITE_VERSAO + ":") !== 0) localStorage.removeItem(k); } }catch(e){}
 function spriteHD(p){
