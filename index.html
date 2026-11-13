@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="versao" content="20261112.195113">
+<meta name="versao" content="20261113.133042">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Corrida do Rolo · Quiz da Lição</title>
 <meta name="theme-color" content="#524F9C">
@@ -1422,6 +1422,10 @@ body.sem-menu:has(.nova-versao:not([hidden])) .toast{bottom:calc(80px + env(safe
 @media (min-width:900px){ .toast,body:has(.nova-versao:not([hidden])) .toast{bottom:28px} body.sem-menu:has(.nova-versao:not([hidden])) .toast{bottom:80px} }
 /* com janela, tutorial ou página ampliada aberta, o aviso vai para o alto, para não cobrir os botões de baixo */
 body:has(.modal-bg) .toast,body:has(.tutorial) .toast,body:has(.lb) .toast{bottom:auto;top:calc(14px + env(safe-area-inset-top,0px))}
+/* celular: com o sino de notificações à mostra, o chip da conta fica só com o personagem (o nome não cabia e aparecia cortado) */
+@media (max-width:520px){ .topo-dir:has(.sino:not([hidden])) .chip span.n{display:none} .topo-dir:has(.sino:not([hidden])) .chip{padding:6px 8px} }
+/* o que o site traz sozinho para a tela (fala do personagem, botões do personagem raro, Próxima pergunta, lição da semana, publicação) para acima do menu de baixo, e não escondido atrás dele */
+#app :is(#prox,.fala,.pers-acoes,.post){scroll-margin:84px 0 calc(100px + env(safe-area-inset-bottom,0px))}
 /* login */
 .logo-login{padding:18px 0 6px}
 .logo-login p{font-size:14px;margin-top:10px}
