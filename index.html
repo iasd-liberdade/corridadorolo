@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="versao" content="20261113.202201">
+<meta name="versao" content="20261113.205837">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Corrida do Rolo · Quiz da Lição</title>
 <meta name="theme-color" content="#524F9C">
@@ -2183,8 +2183,9 @@ function contagem(dia, cb){
    ============================================================ */
 function atualizarCasca(){
   const logado = !!(usuario && perfil && (perfil.aprovado || perfil.admin || ehMaster()));
-  $("topbar").hidden = !logado; $("nav").hidden = !logado;
-  document.body.classList.toggle("sem-menu", !logado);
+  const comMenu = logado && !!perfil.profeta;          // sem personagem escolhido, o menu só aparece depois da escolha
+  $("topbar").hidden = !logado; $("nav").hidden = !comMenu;
+  document.body.classList.toggle("sem-menu", !comMenu);
   if(logado){ $("chipEm").innerHTML = perfil.profeta ? meuAvatar() : ""; $("chipNome").textContent = perfil.nome || ""; $("chipConta").classList.toggle("atual", tabAtual === "conta" || tabAtual === "admin"); const np = $("navSalasN"); if(np){ const n = typeof SALAS_PENDENTES === "number" ? SALAS_PENDENTES : 0; np.hidden = !n; np.textContent = n > 9 ? "9+" : String(n); } }
   if(typeof atualizarSino === "function") atualizarSino();
   document.querySelectorAll("#nav button").forEach(b => { if(b.dataset.tab === tabAtual) b.setAttribute("aria-current","page"); else b.removeAttribute("aria-current"); });
@@ -2274,7 +2275,7 @@ function nav(tab){
   ({ inicio: telaInicio, estudar: telaEstudar, quiz: telaQuiz, ranking: telaRanking, missoes: () => telaMissoes(), salas: telaSalas, mural: telaMuralSalas, conta: telaConta, admin: telaAdmin }[tab] || telaInicio)();
 }
 document.querySelectorAll("#nav button").forEach(b => b.onclick = ()=>{ const t = b.dataset.tab; if(t === "estudar") estudoVista = "livros"; if(t === "quiz") quizVista = "livros"; if(t === "ranking") corridaVista = "salas"; nav(t); });   // pelo menu, Estudar e Quiz abrem na estante de livros, e a Corrida na escolha da sala
-$("chipConta").onclick = ()=> nav("conta");
+$("chipConta").onclick = ()=>{ if(perfil && !perfil.profeta) return; nav("conta"); };
 $("sino").onclick = ()=> modalNotificacoes();
 $("brandIc").innerHTML = logoIcone();
 $("brand").onclick = ()=>{ if(usuario && perfil && (perfil.aprovado || perfil.admin) && perfil.profeta) nav("inicio"); };
@@ -2373,9 +2374,7 @@ function telaProfeta(){
   const nvMeu = typeof meuNivel === "function" ? meuNivel() : 0;
   const botaoProfeta = p => { const livre = profetaLiberado(p);
     return `<button type="button" class="prof ${p.nivel ? "raro" : ""} ${p.lendario ? "lendario" : ""} ${livre ? "" : "bloq"}" data-p="${p.id}" ${livre ? "" : `data-nivel="${p.nivel}"`} aria-pressed="${p.id===escolhido}">${avatarSVG(p.id, null, 0, nvMeu)}<span>${esc(p.nome)}</span>${p.nivel ? `<em>${livre ? (p.lendario ? "★ Lendário" : "★ Raro") : "🔒 Casa " + casaDoNivel(p.nivel)}</em>` : ""}</button>`; };
-  const perdido = perfil.profetaPerdido ? acharProfeta(perfil.profetaPerdido) : null;
-  app.innerHTML = `<div class="estudo-area"><section class="panel"><h2 class="h2">${perfil.profeta ? "Trocar personagem" : perdido ? "Escolha outro personagem" : "Escolha seu personagem"}</h2>
-    ${perdido ? `<div class="aviso-fb">🔒 <b>${esc(perdido.nome)} agora é personagem raro.</b> Volta a ficar disponível na casa ${casaDoNivel(perdido.nivel)} do mapa das missões (nível ${perdido.nivel}). Enquanto isso, escolha outro personagem para continuar a corrida.</div>` : ""}
+  app.innerHTML = `<div class="estudo-area"><section class="panel"><h2 class="h2">${perfil.profeta ? "Trocar personagem" : "Escolha seu personagem"}</h2>
     <p class="sub-h">Ele vai correr com você no rolo e comentar seus resultados.</p>
     <div class="field">
       <div class="profetas" role="group" aria-label="Personagens">${PROFETAS.filter(p => !p.nivel).map(botaoProfeta).join("")}</div>
@@ -2406,7 +2405,7 @@ function telaProfeta(){
   const vb = $("pVoltar"); if(vb) vb.onclick = ()=> nav("conta");
   $("pOk").onclick = async ()=>{
     if(!escolhido){ aviso("Escolha seu personagem"); return; }
-    perfil.profeta = escolhido; delete perfil.profetaPerdido; await DB.salvarUsuario(usuario.uid, {profeta: escolhido}); nav(tinha ? "conta" : "inicio");
+    perfil.profeta = escolhido; await DB.salvarUsuario(usuario.uid, {profeta: escolhido}); nav(tinha ? "conta" : "inicio");
   };
 }
 
@@ -3162,7 +3161,7 @@ function renderCorrida(cfg, res, pessoas, licSel, membros){
     h += `<div class="escala" style="grid-template-columns:repeat(${colunas.length},1fr)">${colunas.map(c=>`<span title="${esc(c.titulo)}">${esc(c.rotulo)}</span>`).join("")}</div><ol class="lanes">`;
     ids.forEach((id,k)=>{ const j = jov[id];
       h += `<li class="lane ${id===usuario.uid?"eu":""}"><div class="lane-top"><strong>${k<3 && j.passos>0 ? `<span class="pos">${k+1}º</span>` : ""}${esc(j.nome)}${id===usuario.uid?" (você)":""}</strong><span>${fmt1(j.passos)} ${j.passos===1?"passo":"passos"} · ${fmt(j.pts)} pts</span></div>
-        <div class="track" style="--seg:${colunas.length}"><span class="flag" aria-hidden="true">🏁</span><div class="runner" style="--p:${Math.min(1, j.passos/TOTAL)}">${avatarSVG(j.profeta || PROFETA_PADRAO, j.nome, j.nivel)}</div></div></li>`; });
+        <div class="track" style="--seg:${colunas.length}"><span class="flag" aria-hidden="true">🏁</span><div class="runner" style="--p:${Math.min(1, j.passos/TOTAL)}">${avatarSVG(personagemDe(j.profeta, j.nivel), j.nome, j.nivel)}</div></div></li>`; });
     h += `</ol>`;
   }
   h += `</section>`;
@@ -3172,7 +3171,7 @@ function renderCorrida(cfg, res, pessoas, licSel, membros){
     const completos = daSemana.filter(x => x.regs.filter(r=>r.noPrazo).length >= 7);
     const emDia = daSemana.filter(x => x.regs.length && x.regs.every(r=>r.noPrazo));
     const topPts = daSemana.map(x=>({ id:x.id, p:x.regs.reduce((s,r)=>s+(r.pts||0),0) })).filter(x=>x.p>0).sort((a,b)=>b.p-a.p)[0];
-    const chip = id => `<span class="chip">${avatarSVG(jov[id].profeta || PROFETA_PADRAO, null, jov[id].nivel)}${esc(jov[id].nome)}</span>`;
+    const chip = id => `<span class="chip">${avatarSVG(personagemDe(jov[id].profeta, jov[id].nivel), null, jov[id].nivel)}${esc(jov[id].nome)}</span>`;
     h += `<section class="panel pg-card"><div class="hm-cab"><span>Destaques da lição ${lic.n}</span></div><div class="dest">
       <div><h3>Semana completa, 7 de 7</h3>${completos.length ? `<div class="chips">${completos.map(x=>chip(x.id)).join("")}</div>` : `<p class="muted" style="margin:0">Ainda ninguém. Quem vai ser o primeiro?</p>`}</div>
       <div><h3>Tudo no prazo até agora</h3>${emDia.length ? `<div class="chips">${emDia.map(x=>chip(x.id)).join("")}</div>` : `<p class="muted" style="margin:0">Ninguém por enquanto.</p>`}</div>
@@ -4829,7 +4828,7 @@ function modalGerenciarSala(s){
       delete membrosCache[s.id];
       const pend = membros.filter(x => x.status === "pendente").sort((a,b) => (a.quando||0) - (b.quando||0));
       const ativos = membros.filter(x => x.status === "ativo").sort((a,b) => String(a.nome).localeCompare(String(b.nome), "pt-BR"));
-      const linha = (x, tipo) => `<li><div class="em">${avatarSVG(x.profeta || PROFETA_PADRAO, null, x.nivel)}</div><div class="info"><strong>${esc(x.nome || "(sem nome)")}${x.uid === usuario.uid ? " (você)" : ""}</strong><span>${x.uid === s.dono ? "Criou a sala" : tipo === "p" ? "Pediu para entrar" : (s.admins || []).includes(x.uid) ? "Administrador da sala" : "Membro"}</span></div>
+      const linha = (x, tipo) => `<li><div class="em">${avatarSVG(personagemDe(x.profeta, x.nivel), null, x.nivel)}</div><div class="info"><strong>${esc(x.nome || "(sem nome)")}${x.uid === usuario.uid ? " (você)" : ""}</strong><span>${x.uid === s.dono ? "Criou a sala" : tipo === "p" ? "Pediu para entrar" : (s.admins || []).includes(x.uid) ? "Administrador da sala" : "Membro"}</span></div>
         ${tipo === "p" ? `<button class="btn btn-ok btn-sm" data-aprovar="${esc(x.uid)}">Aprovar</button><button class="btn btn-ghost btn-sm" data-recusar="${esc(x.uid)}">Recusar</button>` : (!s.global && x.uid !== s.dono ? `<button class="btn btn-ghost btn-sm" data-remover="${esc(x.uid)}">Remover</button>` : "")}</li>`;
       c.innerHTML = `
         ${pend.length ? `<h3 class="h3">Pedidos de entrada (${pend.length})</h3><ul class="lista">${pend.map(x => linha(x, "p")).join("")}</ul>${pend.length > 1 ? `<div class="btn-row uma" style="margin-bottom:14px"><button class="btn btn-ok btn-sm" id="gsTodos" style="width:100%">Aprovar todos</button></div>` : `<div style="height:10px"></div>`}` : (!s.global && !s.publica ? `<p class="note" style="margin:0 0 12px">Nenhum pedido de entrada no momento.</p>` : "")}
@@ -5272,8 +5271,11 @@ function conferirPersonagem(){
     perfil.mapa = 70; perfil.legado = legado; DB.salvarUsuario(usuario.uid, { mapa: 70, legado }).catch(()=>{});
   }
   const p = perfil.profeta ? acharProfeta(perfil.profeta) : null;
-  if(p && !profetaLiberado(p)){ perfil.profetaPerdido = p.id; perfil.profeta = ""; DB.salvarUsuario(usuario.uid, { profeta: "" }).catch(()=>{}); }
+  if(p && !profetaLiberado(p)){ perfil.profeta = ""; DB.salvarUsuario(usuario.uid, { profeta: "" }).catch(()=>{}); }   // abre direto a escolha do personagem, sem aviso
 }
+/* Boneco de outro jogador na pista, no mural e nas salas: se o personagem guardado virou raro (Moisés, Maria) e a pessoa
+   ainda não chegou à casa dele, aparece o personagem padrão até ela entrar no jogo e escolher outro. */
+function personagemDe(id, nivel){ const p = id ? acharProfeta(id) : null; return p && p.semHeranca && (+nivel || 0) < p.nivel ? PROFETA_PADRAO : (id || PROFETA_PADRAO); }
 
 /* ---------- Ajudas: ganhas nas missões, gastas no quiz ---------- */
 function ajudasGanhas(){
@@ -6180,7 +6182,7 @@ async function telaMural(focoId){
     const desenhar = () => {
       corpo.innerHTML = `<div class="mural">${posts.map(p => { const rc = p.reacoes || {};
         return `<article class="post ${p.uid === eu ? "meu" : ""} ${p.id === focoId ? "foco" : ""}" data-post="${esc(p.id)}">
-          <div class="post-top"><div class="em">${avatarSVG(p.profeta || PROFETA_PADRAO, null, p.uid === eu ? meuNivel() : p.nivel)}</div><div class="info"><strong>${esc(p.nome || "?")}${p.uid === eu ? " (você)" : ""}</strong><span>${haQuanto(p.quando || 0)}</span></div>${p.uid === eu || ehMaster() || ehDonoSala(sala) || ehAdminSala(sala) ? `<button class="post-x" data-apagar="${esc(p.id)}" aria-label="Apagar publicação">✕</button>` : ""}</div>
+          <div class="post-top"><div class="em">${avatarSVG(personagemDe(p.profeta, p.uid === eu ? meuNivel() : p.nivel), null, p.uid === eu ? meuNivel() : p.nivel)}</div><div class="info"><strong>${esc(p.nome || "?")}${p.uid === eu ? " (você)" : ""}</strong><span>${haQuanto(p.quando || 0)}</span></div>${p.uid === eu || ehMaster() || ehDonoSala(sala) || ehAdminSala(sala) ? `<button class="post-x" data-apagar="${esc(p.id)}" aria-label="Apagar publicação">✕</button>` : ""}</div>
           <div class="post-corpo">${p.tipo === "personagem" && acharProfeta(p.ref) ? `<div class="ic pers">${avatarSVG(p.ref)}</div>` : `<div class="ic">${esc(p.ic || "✨")}</div>`}<div><b>${esc(p.titulo)}</b>${p.texto ? `<span>${esc(p.texto)}</span>` : ""}</div></div>
           <div class="post-reacoes">${REACOES.filter(([k]) => (rc[k] || []).length).map(([k, ic, nome]) => { const l = rc[k], on = l.includes(eu); return `<button type="button" class="reacao ${on ? "on" : ""}" data-reagir="${k}" aria-pressed="${on}" aria-label="${nome}: ${l.length}" title="${nome}"><span>${ic}</span><b>${l.length}</b></button>`; }).join("")}<button type="button" class="reacao mais" data-reagir-abrir aria-expanded="${aberto === p.id}" aria-label="Reagir"><span>${aberto === p.id ? "✕" : "🙂"}</span>${aberto === p.id ? "Fechar" : "Reagir"}</button></div>
           ${aberto === p.id ? `<div class="reacao-menu" role="group" aria-label="Escolha uma reação">${REACOES.map(([k, ic, nome]) => `<button type="button" class="${(rc[k] || []).includes(eu) ? "on" : ""}" data-reagir="${k}" aria-pressed="${(rc[k] || []).includes(eu)}"><span>${ic}</span><em>${nome}</em></button>`).join("")}</div>` : ""}
