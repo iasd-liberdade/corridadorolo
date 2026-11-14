@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="versao" content="20261113.205837">
+<meta name="versao" content="20261114.175517">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Corrida do Rolo · Quiz da Lição</title>
 <meta name="theme-color" content="#524F9C">
@@ -1455,6 +1455,19 @@ body:has(.modal-bg) .toast,body:has(.tutorial) .toast,body:has(.lb) .toast{botto
 .carga-tx span:nth-child(2){animation-delay:2.5s}.carga-tx span:nth-child(3){animation-delay:5s}.carga-tx span:nth-child(4){animation-delay:7.5s}
 @keyframes cg-frase{0%{opacity:0;transform:translateY(6px)}3%,22%{opacity:1;transform:none}25%,100%{opacity:0;transform:translateY(-6px)}}
 @media (min-width:900px){.carga-in{transform:scale(1.3)}}
+/* barra de carregamento do primeiro acesso: o corredor anda junto com a porcentagem */
+.carga.carga-pct{z-index:301;--p:0}
+.cb-pista{position:relative;height:16px;margin:46px 6px 0;border-radius:99px;background:rgba(0,0,0,.25);box-shadow:inset 0 0 0 2px rgba(255,255,255,.28)}
+.cb-fill{position:absolute;left:0;top:0;bottom:0;width:calc(var(--p) * 100%);min-width:16px;border-radius:99px;background:linear-gradient(90deg,#8FE6FF,#F2BE2E);transition:width .5s ease}
+.cb-corre{position:absolute;bottom:14px;left:calc(var(--p) * 100%);margin-left:-13px;transition:left .5s ease}
+.cb-flag{position:absolute;right:-2px;bottom:6px;width:3px;height:30px;border-radius:2px;background:#fff}
+.cb-flag::after{content:"";position:absolute;left:3px;top:1px;width:16px;height:12px;background:conic-gradient(#22183A 25%,#fff 0 50%,#22183A 0 75%,#fff 0) 0 0/8px 6px;box-shadow:0 0 0 1px #22183A}
+.cb-pct{margin:14px 0 0;font:400 34px/1 "Bebas Neue","Arial Narrow",Impact,sans-serif;letter-spacing:1px;color:#fff}
+.cb-tx{margin:4px 0 0;min-height:20px;font:700 13.5px/20px "Barlow",system-ui,sans-serif;color:rgba(255,255,255,.92)}
+.cb-nota{margin:14px 0 0;font:600 12px/1.4 "Barlow",system-ui,sans-serif;color:rgba(255,255,255,.7)}
+.livro.baixando{position:relative;opacity:.9;pointer-events:none}
+.livro-baixa{position:absolute;left:8px;right:8px;bottom:8px;padding:6px 8px;border-radius:10px;background:rgba(20,18,60,.82);color:#fff;font:800 12px/1.2 "Barlow",sans-serif;text-align:center}
+@media (prefers-reduced-motion:reduce){.cb-fill,.cb-corre{transition:none}}
 .carga-lento{margin-top:16px}
 .carga-lento p{margin:0 0 10px;font:600 13px/1.4 "Barlow",system-ui,sans-serif;color:rgba(255,255,255,.85)}
 .carga-lento button{background:#fff;color:#2E2B6E;border:0;border-radius:99px;padding:10px 18px;font:800 13.5px/1 "Barlow",system-ui,sans-serif;cursor:pointer}
@@ -1481,6 +1494,46 @@ body:has(.modal-bg) .toast,body:has(.tutorial) .toast,body:has(.lb) .toast{botto
 @keyframes rolo-fim{from{opacity:0}}
 @media (prefers-reduced-motion:reduce){.mapa-cx.abrindo .mapa,.mapa-cx.abrindo .mp-vara,.mapa-cx.abrindo .mp-no,.mapa-cx.abrindo .mp-rolo{animation:none}.mapa-cx.abrindo .mp-vara{display:none}}
 .mu-acao{margin:0 0 12px}
+
+/* ---------- Missões: lista de mapas, recompensas e nome do evento em cada casa ---------- */
+.rec-ajudas{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.rec-aj{display:grid;justify-items:center;gap:1px;padding:9px 4px 8px;border-radius:14px;background:rgba(0,0,0,.16);text-align:center;min-width:0}
+.rec-aj .ic{font-size:19px;line-height:1.1}
+.rec-aj b{font:400 28px/1 "Bebas Neue","Arial Narrow",sans-serif;letter-spacing:.5px;color:#fff}
+.rec-aj small{font:800 10.5px/1.15 "Barlow",sans-serif;color:#fff}
+.rec-aj em{font:600 10px/1.2 "Barlow",sans-serif;font-style:normal;color:var(--soft)}
+.rec-aj.zero b{opacity:.5}
+.rec-nota{margin:8px 0 12px;font-size:12px;line-height:1.35;color:var(--soft)}
+.rec-tit{font:700 13px/1.3 "Barlow",sans-serif;color:var(--soft);margin-bottom:6px}
+.rec-tit b{color:#fff}
+.rec-fila{display:flex;flex-wrap:wrap;gap:4px}
+.rec-av{width:38px;height:46px;border-radius:10px;background:rgba(255,255,255,.12);display:grid;place-items:end center;overflow:hidden}
+.rec-av .avatar{width:32px;height:41px;margin-bottom:1px}
+.rec-av.bloq{background:rgba(0,0,0,.18)}
+.rec-av.bloq .avatar{filter:grayscale(1) brightness(.55);opacity:.55}
+.mapas-lista{display:grid;gap:10px}
+.mapa-card{display:flex;align-items:stretch;gap:12px;width:100%;margin:0;padding:0;text-align:left;background:var(--panel);border:1.5px solid var(--panel-line);border-radius:18px;color:#fff;cursor:pointer;overflow:hidden}
+.mc-faixa{flex:none;width:58px;display:grid;place-items:center}
+.mc-faixa i{font:400 26px/1 "Bebas Neue","Arial Narrow",sans-serif;font-style:normal;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.92);color:#2E2B6E;box-shadow:0 2px 0 rgba(0,0,0,.2)}
+.mc-tx{flex:1;min-width:0;display:grid;gap:1px;padding:11px 0 12px}
+.mc-tx small{font:800 10.5px/1.2 "Barlow",sans-serif;letter-spacing:.8px;text-transform:uppercase;color:var(--accent)}
+.mc-tx b{font:800 17px/1.2 "Barlow",sans-serif}
+.mc-tx em{font:500 12.5px/1.3 "Barlow",sans-serif;font-style:normal;color:var(--soft)}
+.mc-barra{display:block;height:7px;border-radius:99px;background:rgba(0,0,0,.25);margin-top:7px;overflow:hidden}
+.mc-barra i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#8FE6FF,#F2BE2E)}
+.mc-pg{font:600 11.5px/1.3 "Barlow",sans-serif;color:var(--soft);margin-top:3px}
+.mapa-card .seta{flex:none;align-self:center;padding-right:12px;color:var(--soft);font-size:20px}
+.mapa-card.atual{border-color:var(--accent);box-shadow:0 0 0 3px rgba(143,230,255,.22)}
+.mapa-card.bloq{opacity:.72}
+.mapa-card.bloq .mc-faixa{filter:grayscale(.7)}
+.mapa-card.bloq .mc-tx small{color:var(--soft)}
+.mapa-card.feito .mc-faixa i{background:#2BA486;color:#fff}
+.tr-ev{position:absolute;z-index:1;transform:translateY(-50%);padding:5px 10px;border-radius:12px;background:rgba(255,255,255,.95);color:#2A2350;font:800 12px/1.2 "Barlow",sans-serif;box-shadow:0 2px 0 rgba(0,0,0,.14),0 3px 8px rgba(0,0,0,.2);pointer-events:none;width:max-content}
+.tr-ev.e{transform:translate(-100%,-50%);text-align:right}
+.tr-ev.fechada{background:rgba(255,255,255,.74);color:#4E486E}
+.tr-ev.atual{background:#FFF3B8;box-shadow:0 0 0 2px #F2BE2E,0 3px 8px rgba(0,0,0,.22)}
+.tr-zona.faixa{padding:8px 16px 9px}
+.tr-zona.faixa b{font-size:23px}
 
 /* login */
 .logo-login{padding:18px 0 6px}
@@ -1533,6 +1586,7 @@ body:has(.modal-bg) .toast,body:has(.tutorial) .toast,body:has(.lb) .toast{botto
   var c = document.getElementById("carga"), a = document.getElementById("app");
   function fim(){ if(!c) return; var x = c; c = null; x.classList.add("sai"); setTimeout(function(){ x.remove(); }, 450); }
   window.fimDaCarga = fim;
+  var bn = document.querySelector(".cg-boneco"); window.BONECO_CARGA = bn ? bn.outerHTML : "";
   if(a && window.MutationObserver){ var o = new MutationObserver(function(){ if(a.firstChild){ o.disconnect(); fim(); } }); o.observe(a, { childList: true }); }
   setTimeout(function(){ var l = document.getElementById("cargaLento"); if(c && l) l.hidden = false; }, 14000);
 })();
@@ -1791,7 +1845,10 @@ function erroMsg(e){
     "auth/too-many-requests":"Muitas tentativas. Espere um pouco e tente de novo.", "auth/network-request-failed":"Sem conexão com a internet.",
     "auth/requires-recent-login":"Por segurança, saia e entre de novo antes de alterar a senha.", "permission-denied":"Sem permissão para isso (confira as regras do Firestore)."
   };
-  return m[c] || (e && e.message) || String(e);
+  const msg = (e && e.message) || String(e);
+  if(c === "resource-exhausted" || /quota/i.test(msg)) return "O limite diário gratuito do banco de dados do jogo acabou por hoje. Ele volta sozinho de madrugada (por volta das 5h).";
+  if(c === "unavailable" || /client is offline|offline/i.test(msg)) return "Não consegui falar com o banco de dados do jogo. Se a sua internet está funcionando, o limite diário gratuito pode ter acabado: nesse caso o jogo volta de madrugada (por volta das 5h).";
+  return m[c] || msg;
 }
 
 
@@ -1893,9 +1950,17 @@ function dbFirebase(){
     async listarUsuarios(){ return lista(col("usuarios")); },
     async excluirUsuario(uid){ await col("usuarios").doc(uid).delete(); },
     async listarLicoes(){ return (await lista(col("licoes"))).map(deFs); },
+    async getLicao(id){ const d = await col("licoes").doc(id).get(); return d.exists ? deFs(Object.assign({id:d.id}, d.data())) : null; },
+    // Índice das lições (config/licoes): quais existem e quando cada uma mudou
+    async getIndiceLicoes(){ const d = await col("config").doc("licoes").get(); return d.exists ? d.data() : null; },
+    async salvarIndiceLicoes(o){ await col("config").doc("licoes").set(o); },
+    async atualizarIndiceLicao(id, e){ await col("config").doc("licoes").set({ at: Date.now(), l: { [id]: e === null ? firebase.firestore.FieldValue.delete() : e } }, {merge:true}); },
     async salvarLicao(id, dados){ await col("licoes").doc(id).set(paraFs(dados)); },
     async excluirLicao(id){ await col("licoes").doc(id).delete(); },
     async meusResultados(uid){ return lista(col("resultados").where("uid","==",uid)); },
+    async meusResultadosDaLicao(uid, licaoId){ return lista(col("resultados").where("uid","==",uid).where("licaoId","==",licaoId)); },
+    // Resultados (de todos) feitos depois de um instante: é o que mantém a pista em dia sem reler tudo
+    async resultadosDesde(t){ return lista(col("resultados").where("quando",">",t)); },
     async resultadosLicao(licaoId){ return lista(col("resultados").where("licaoId","==",licaoId)); },
     async todosResultados(){ return lista(col("resultados")); },
     async resultadosTrimestre(tri){ return lista(col("resultados").where("trimestre","==",tri)); },
@@ -1992,9 +2057,15 @@ function dbLocal(){
     async listarUsuarios(){ const d = ler(); return Object.keys(d.usuarios).map(k=>Object.assign({id:k}, d.usuarios[k])); },
     async excluirUsuario(uid){ const d = ler(); delete d.usuarios[uid]; delete d.senhas[uid]; gravar(d); },
     async listarLicoes(){ const d = ler(); return Object.keys(d.licoes).map(k=>Object.assign({id:k}, d.licoes[k])); },
+    async getLicao(id){ const d = ler(); return d.licoes[id] ? Object.assign({id}, d.licoes[id]) : null; },
+    async getIndiceLicoes(){ return ler().idxLicoes || null; },
+    async salvarIndiceLicoes(o){ const d = ler(); d.idxLicoes = o; gravar(d); },
+    async atualizarIndiceLicao(id, e){ const d = ler(); d.idxLicoes = d.idxLicoes || { l:{} }; d.idxLicoes.at = Date.now(); if(e === null) delete d.idxLicoes.l[id]; else d.idxLicoes.l[id] = e; gravar(d); },
     async salvarLicao(id, dados){ const d = ler(); d.licoes[id] = dados; gravar(d); },
     async excluirLicao(id){ const d = ler(); delete d.licoes[id]; gravar(d); },
     async meusResultados(uid){ const d = ler(); return Object.values(d.resultados).filter(r=>r.uid===uid); },
+    async meusResultadosDaLicao(uid, licaoId){ const d = ler(); return Object.values(d.resultados).filter(r=>r.uid===uid && r.licaoId===licaoId); },
+    async resultadosDesde(t){ const d = ler(); return Object.values(d.resultados).filter(r=>(r.quando||0) > t); },
     async resultadosLicao(licaoId){ const d = ler(); return Object.values(d.resultados).filter(r=>r.licaoId===licaoId); },
     async todosResultados(){ const d = ler(); return Object.values(d.resultados); },
     async resultadosTrimestre(tri){ const d = ler(); return Object.values(d.resultados).filter(r=>r.trimestre===tri); },
@@ -2027,6 +2098,269 @@ function dbLocal(){
   };
 }
 const DB = FB_OK ? dbFirebase() : dbLocal();
+/* ============================================================
+   GUARDADO NO APARELHO
+   O jogo lia tudo do servidor a cada abertura (todas as lições, todos os resultados da sala...), e isso estourava a cota
+   diária gratuita do Firestore. Agora o que já foi baixado fica guardado no aparelho (IndexedDB) e só o que mudou é lido:
+   - Lições: um índice pequeno (config/licoes) diz quais existem e quando cada uma mudou. O conteúdo de cada lição é baixado
+     uma vez e guardado. Na abertura só a lição da semana é conferida; o trimestre inteiro só é baixado ao abrir o livro.
+   - Meus resultados: guardados; na abertura só os da lição da semana são conferidos (tudo de novo a cada 7 dias).
+   - Resultados da sala (pista): a lição é baixada uma vez; depois só chegam os resultados feitos desde a última leitura.
+   - Salas, membros, páginas do Estudar, mural e notificações: guardados por alguns minutos (as páginas, até a lição mudar).
+   ============================================================ */
+const GUARDA = (() => {
+  const NOME = KEY + ":guarda", mem = new Map(); let dbp = null;
+  const abrir = () => dbp || (dbp = new Promise(res => {
+    try{
+      const r = indexedDB.open(NOME, 1);
+      r.onupgradeneeded = () => r.result.createObjectStore("kv");
+      r.onsuccess = () => { const db = r.result; db.onversionchange = () => { try{ db.close(); }catch(e){} dbp = null; }; res(db); };
+      r.onerror = () => res(null); r.onblocked = () => res(null);
+    }catch(e){ res(null); }
+  }));
+  const tx = async (modo, fn) => {
+    const db = await abrir(); if(!db) return undefined;
+    return new Promise(res => { try{ const t = db.transaction("kv", modo), rq = fn(t.objectStore("kv")); t.oncomplete = () => res(rq && rq.result); t.onerror = t.onabort = () => res(undefined); }catch(e){ res(undefined); } });
+  };
+  const naMem = k => k.indexOf("pag:") !== 0;        // as páginas (imagens) não ficam também na memória
+  return {
+    async get(k){ if(mem.has(k)) return mem.get(k); const v = await tx("readonly", s => s.get(k)); if(v !== undefined && naMem(k)) mem.set(k, v); return v; },
+    async set(k, v){ if(naMem(k)) mem.set(k, v); await tx("readwrite", s => s.put(v, k)); },
+    async del(k){ mem.delete(k); await tx("readwrite", s => s.delete(k)); },
+    async limpar(prefixo){
+      for(const k of [...mem.keys()]) if(!prefixo || k.indexOf(prefixo) === 0) mem.delete(k);
+      if(!prefixo){ await tx("readwrite", s => s.clear()); return; }
+      const ks = (await tx("readonly", s => s.getAllKeys())) || [];
+      for(const k of ks) if(String(k).indexOf(prefixo) === 0) await tx("readwrite", s => s.delete(k));
+    }
+  };
+})();
+const MIN = 60000, DIA_MS = 86400e3;
+/* Lê do aparelho se ainda estiver no prazo; senão busca no servidor e guarda */
+async function guardado(chave, prazo, carregar, forcar){
+  if(!forcar){ const c = await GUARDA.get(chave); if(c && Date.now() - c.em < prazo) return c.v; }
+  const v = await carregar(); GUARDA.set(chave, { em: Date.now(), v }); return v;
+}
+const idRes = r => r.id || (r.uid + "_" + r.licaoId + "_" + r.data);
+
+/* ---------- Configuração: uma leitura só na abertura (o ícone da tela de login e o resto usam a mesma) ---------- */
+let _cfgIni = null;
+function configInicial(){ if(!_cfgIni || Date.now() - _cfgIni.em > MIN) _cfgIni = { em: Date.now(), p: DB.getConfig() }; return _cfgIni.p; }
+
+/* ---------- Lições: índice + conteúdo guardado ---------- */
+let LIC_IDX = null;            // índice das lições (config/licoes); null = ainda não foi criado (o master cria ao abrir o jogo)
+const entradaIdx = l => ({ n: Number(l.n) || 0, t: l.titulo || "", tri: l.trimestre || TRIMESTRE_BASE, ini: l.inicio || "", st: l.status || "", d: l.datas || "" });
+const mesmaEntrada = (a, b) => !!a && !!b && a.n === b.n && a.t === b.t && a.tri === b.tri && a.ini === b.ini && a.st === b.st && a.d === b.d;
+const licaoDoIndice = (id, e) => ({ id, n: e.n, titulo: e.t, trimestre: e.tri, inicio: e.ini, status: e.st, datas: e.d, _pendente: true });
+/* Master: confere o índice com a lista completa das lições (cria na primeira vez, conserta se faltar alguma) */
+async function conferirIndice(todas){
+  if(!ehMaster()) return;
+  const atual = (LIC_IDX && LIC_IDX.l) || {}, novo = {}, agora = Date.now(); let mudou = !LIC_IDX;
+  todas.forEach(l => { const e = entradaIdx(l), a = atual[l.id]; if(mesmaEntrada(a, e)) novo[l.id] = a; else { novo[l.id] = Object.assign(e, { at: agora }); mudou = true; } });
+  if(Object.keys(atual).some(id => !novo[id])) mudou = true;
+  if(!mudou) return;
+  LIC_IDX = { at: agora, l: novo };
+  try{ await DB.salvarIndiceLicoes(LIC_IDX); }catch(e){ console.warn("índice das lições", e); }
+}
+function guardarLicoes(todas){ todas.forEach(l => { const e = LIC_IDX && LIC_IDX.l[l.id]; GUARDA.set("lic:" + l.id, { at: e ? e.at : 0, doc: l }); }); }
+/* Abertura do jogo: monta a lista de lições pelo índice e garante só a lição da semana */
+async function carregarLicoesInicio(){
+  let idx = null; try{ idx = await DB.getIndiceLicoes(); }catch(e){ console.warn("índice das lições", e); }
+  LIC_IDX = idx && idx.l ? idx : null;
+  if(!LIC_IDX){
+    /* ainda sem índice: baixa tudo, como antes. O master cria o índice nessa hora; os outros guardam a lista por 6 horas. */
+    LICOES_DB = ehMaster() ? await DB.listarLicoes() : await guardado("lic:todas", 6 * 60 * MIN, () => DB.listarLicoes());
+    montarLicoes(); return;
+  }
+  const ids = Object.keys(LIC_IDX.l), guardadas = await Promise.all(ids.map(id => GUARDA.get("lic:" + id)));
+  LICOES_DB = ids.map((id, i) => { const g = guardadas[i], e = LIC_IDX.l[id]; return g && g.at === e.at && g.doc ? g.doc : licaoDoIndice(id, e); });
+  montarLicoes();
+  const atual = LICOES[indiceLicaoAtual()];
+  if(atual && atual.pendente) await garantirLicao(atual);
+}
+const _licEmCurso = {};
+function baixarLicao(id){
+  if(_licEmCurso[id]) return _licEmCurso[id];
+  return _licEmCurso[id] = (async () => {
+    try{
+      const doc = await DB.getLicao(id), e = LIC_IDX && LIC_IDX.l[id], i = LICOES_DB.findIndex(l => l.id === id);
+      if(doc){ GUARDA.set("lic:" + id, { at: e ? e.at : 0, doc }); if(i >= 0) LICOES_DB[i] = doc; else LICOES_DB.push(doc); }
+      else if(i >= 0) LICOES_DB.splice(i, 1);          // a lição foi excluída
+      return doc;
+    } finally { delete _licEmCurso[id]; }
+  })();
+}
+/* Monta as lições de novo e mantém a lição aberta (os objetos são recriados) */
+function remontarLicoes(){
+  const idA = LICAO && LICAO.id, idE = typeof estudoLicao !== "undefined" && estudoLicao ? estudoLicao.id : null;
+  montarLicoes();
+  if(idA) LICAO = LICOES.find(l => l.id === idA) || LICOES[indiceLicaoAtual()];
+  if(idE) estudoLicao = LICOES.find(l => l.id === idE) || null;
+}
+/* Garante o conteúdo de uma lição (perguntas e textos). Devolve o objeto atual da lição. */
+async function garantirLicao(L){
+  if(!L || !L.pendente) return L;
+  await baixarLicao(L.id); remontarLicoes();
+  return LICOES.find(l => l.id === L.id) || LICOES[indiceLicaoAtual()];
+}
+/* Ao abrir um livro: baixa (uma vez) as lições daquele trimestre que ainda não estão no aparelho */
+async function garantirTrimestre(tri, aoAndar){
+  const faltam = LICOES.filter(l => l.trimestre === tri && l.pendente); if(!faltam.length) return;
+  let feitas = 0; if(aoAndar) aoAndar(0, faltam.length);
+  await Promise.all(faltam.map(l => baixarLicao(l.id).then(() => { feitas++; if(aoAndar) aoAndar(feitas, faltam.length); })));
+  remontarLicoes();
+}
+/* Botão de um livro enquanto as lições dele são baixadas */
+async function abrirLivro(botao, tri){
+  if(botao.classList.contains("baixando")) return false;
+  if(!LICOES.some(l => l.trimestre === tri && l.pendente)) return true;
+  botao.classList.add("baixando");
+  const tx = document.createElement("span"); tx.className = "livro-baixa"; tx.textContent = "Baixando as lições…"; botao.appendChild(tx);
+  try{ await garantirTrimestre(tri, (f, t) => { tx.textContent = `Baixando as lições… ${f} de ${t}`; }); return botao.isConnected; }
+  catch(e){ aviso("Não deu para baixar as lições: " + erroMsg(e)); if(botao.isConnected){ botao.classList.remove("baixando"); tx.remove(); } return false; }
+}
+/* Mudanças feitas no Admin entram no índice (para os outros aparelhos saberem que mudou) e no que está guardado aqui */
+(function(){
+  const lista = DB.listarLicoes.bind(DB), salvar = DB.salvarLicao.bind(DB), excluir = DB.excluirLicao.bind(DB), salvarPag = DB.salvarPagina.bind(DB), excluirPags = DB.excluirPaginas.bind(DB);
+  DB.listarLicoes = async () => { const todas = await lista(); if(usuario && perfil){ await conferirIndice(todas); guardarLicoes(todas); } return todas; };
+  DB.salvarLicao = async (id, dados) => {
+    await salvar(id, dados);
+    const e = Object.assign(entradaIdx(dados), { at: Date.now() });
+    if(LIC_IDX){ LIC_IDX.l[id] = e; LIC_IDX.at = e.at; try{ await DB.atualizarIndiceLicao(id, e); }catch(x){ console.warn("índice das lições", x); } }
+    GUARDA.set("lic:" + id, { at: LIC_IDX ? e.at : 0, doc: Object.assign({ id }, dados) }); GUARDA.del("lic:todas");
+  };
+  DB.excluirLicao = async id => {
+    await excluir(id);
+    if(LIC_IDX && LIC_IDX.l[id]){ delete LIC_IDX.l[id]; try{ await DB.atualizarIndiceLicao(id, null); }catch(x){ console.warn("índice das lições", x); } }
+    GUARDA.del("lic:" + id); GUARDA.del("lic:todas");
+  };
+  /* páginas importadas de novo: avisa os outros aparelhos (a lição "mudou") um pouco depois da última página */
+  const tocadas = {};
+  const tocar = id => { clearTimeout(tocadas[id]); tocadas[id] = setTimeout(() => { const e = LIC_IDX && LIC_IDX.l[id]; if(!e) return; e.at = Date.now(); DB.atualizarIndiceLicao(id, e).catch(()=>{}); GUARDA.get("lic:" + id).then(g => { if(g) GUARDA.set("lic:" + id, { at: e.at, doc: g.doc }); }); }, 4000); };
+  DB.salvarPagina = async p => { await salvarPag(p); GUARDA.del("pag:" + p.chave); tocar(p.licaoId); };
+  DB.excluirPaginas = async id => { await excluirPags(id); await GUARDA.limpar("pag:" + id + "|"); tocar(id); };
+})();
+/* Páginas do Estudar: baixadas uma vez por dia de lição e guardadas até a lição mudar */
+async function paginasGuardadas(L, k){
+  const e = LIC_IDX && LIC_IDX.l[L.id], at = e ? e.at : 0, chave = "pag:" + L.id + "|" + k, c = await GUARDA.get(chave);
+  if(c && c.at === at && (e || Date.now() - c.em < DIA_MS)) return c.lista;
+  const lista = await DB.listarPaginas(L.id, k);
+  GUARDA.set(chave, { at, em: Date.now(), lista });
+  return lista;
+}
+
+/* ---------- Meus resultados ---------- */
+async function carregarMeusResultados(){
+  const uid = usuario.uid, k = "meus:" + uid; let c = await GUARDA.get(k);
+  const tudo = async () => { const l = await DB.meusResultados(uid); c = { full: Date.now(), docs: {} }; l.forEach(r => c.docs[idRes(r)] = r); };
+  if(!c || !c.full || Date.now() - c.full > 7 * DIA_MS) await tudo();
+  else {
+    /* só a lição da semana (e a anterior, nos dois primeiros dias): o que está no servidor vale, inclusive se algo foi apagado */
+    const i = indiceLicaoAtual(), alvo = LICOES[i] ? [LICOES[i]] : [];
+    if(i > 0 && LICOES[i] && hoje() <= somarDias(LICOES[i].dias[0].data, 1)) alvo.push(LICOES[i - 1]);
+    try{
+      for(const L of alvo){
+        const l = await DB.meusResultadosDaLicao(uid, L.id);
+        Object.keys(c.docs).forEach(id => { if(c.docs[id].licaoId === L.id) delete c.docs[id]; });
+        l.forEach(r => c.docs[idRes(r)] = r);
+      }
+    }catch(e){ console.warn("meus resultados", e); await tudo(); }
+  }
+  GUARDA.set(k, c);
+  return Object.values(c.docs);
+}
+/* Quiz terminado: entra na hora no que está guardado (os meus e os da lição) */
+(function(){
+  const salvar = DB.salvarResultado.bind(DB);
+  DB.salvarResultado = async r => {
+    await salvar(r);
+    try{
+      const id = idRes(r), k = "meus:" + r.uid, c = await GUARDA.get(k); if(c){ c.docs[id] = r; GUARDA.set(k, c); }
+      const kl = "res:l:" + r.licaoId, cl = await GUARDA.get(kl); if(cl){ cl.docs[id] = Object.assign({ id }, r); GUARDA.set(kl, cl); }
+    }catch(e){}
+  };
+})();
+
+/* ---------- Resultados de todos os jogadores, por lição (para a pista) ----------
+   Cada lição é baixada inteira uma vez neste aparelho. Depois, uma leitura só traz o que foi feito desde a última vez
+   (de qualquer lição) e cada resultado novo entra na lição dele. Uma leitura por minuto, no máximo. */
+const RES_MARGEM = 10 * MIN, RES_VALIDADE = 10 * DIA_MS;
+let _resFila = Promise.resolve();
+function resultadosGlobais(escopo){ const p = _resFila.then(() => _resultadosGlobais(escopo)); _resFila = p.catch(() => {}); return p; }   // um pedido por vez
+async function _resultadosGlobais(escopo){
+  const agora = Date.now();
+  let meta = (await GUARDA.get("res:meta")) || { cursor: 0, full: {} };
+  if(meta.cursor && agora - meta.cursor > RES_VALIDADE) meta = { cursor: 0, full: {} };       // aparelho parado há muito tempo: começa de novo
+  const ids = escopo.licaoId ? [escopo.licaoId] : LICOES.filter(l => l.trimestre === escopo.trimestre).map(l => l.id);
+  const regs = {}, mudou = new Set();
+  const reg = async id => regs[id] || (regs[id] = (await GUARDA.get("res:l:" + id)) || { docs: {} });
+  if(!meta.cursor || agora - meta.cursor >= MIN){
+    if(meta.cursor && Object.keys(meta.full).length){
+      const novos = await DB.resultadosDesde(meta.cursor - RES_MARGEM);
+      for(const r of novos){ if(!meta.full[r.licaoId]) continue; (await reg(r.licaoId)).docs[idRes(r)] = r; mudou.add(r.licaoId); }
+    }
+    meta.cursor = agora;
+  }
+  const faltam = ids.filter(id => !meta.full[id]);
+  if(faltam.length){
+    faltam.forEach(id => { regs[id] = { docs: {} }; mudou.add(id); });
+    if(escopo.trimestre && faltam.length > 2){
+      (await DB.resultadosTrimestre(escopo.trimestre)).forEach(r => { if(faltam.includes(r.licaoId)) regs[r.licaoId].docs[idRes(r)] = r; });
+    } else for(const id of faltam) (await DB.resultadosLicao(id)).forEach(r => { regs[id].docs[idRes(r)] = r; });
+    faltam.forEach(id => { meta.full[id] = agora; });
+  }
+  for(const id of mudou) await GUARDA.set("res:l:" + id, regs[id]);
+  await GUARDA.set("res:meta", meta);
+  const out = []; for(const id of ids) out.push(...Object.values((await reg(id)).docs));
+  return out;
+}
+
+/* ---------- Salas, membros, mural e notificações: guardados por alguns minutos ---------- */
+const membrosDaSalaG = id => guardado("mb:" + id, 10 * MIN, () => DB.membrosDaSala(id));
+let _muralMem = {};
+async function muralDaSalaG(salaId, meses){
+  const k = salaId + "|" + meses.join(","), c = _muralMem[k];
+  if(c && Date.now() - c.em < 90000) return c.v;
+  const v = await DB.muralDaSala(salaId, meses); _muralMem[k] = { em: Date.now(), v }; return v;
+}
+const meusPostsG = uid => guardado("posts:" + uid, 10 * MIN, () => DB.meusPosts(uid));
+(function(){
+  const embrulhar = (nome, depois) => { const f = DB[nome].bind(DB); DB[nome] = async (...a) => { const r = await f(...a); try{ depois(...a); }catch(e){} return r; }; };
+  embrulhar("salvarMembro", m => { GUARDA.del("mb:" + m.salaId); if(m.uid) GUARDA.del("sl:mems:" + m.uid); });
+  embrulhar("excluirMembro", (salaId, uid) => { GUARDA.del("mb:" + salaId); GUARDA.del("sl:mems:" + uid); });
+  embrulhar("salvarSala", id => { GUARDA.del("sl:sala:" + id); GUARDA.del("sl:todas"); });
+  embrulhar("excluirSala", id => { GUARDA.del("sl:sala:" + id); GUARDA.del("sl:todas"); GUARDA.del("mb:" + id); });
+  embrulhar("salvarPost", () => { _muralMem = {}; if(usuario) GUARDA.del("posts:" + usuario.uid); });
+  embrulhar("reagirPost", () => { _muralMem = {}; });
+  embrulhar("excluirPost", () => { _muralMem = {}; if(usuario) GUARDA.del("posts:" + usuario.uid); });
+})();
+
+/* ---------- Barra de carregamento do primeiro acesso neste aparelho (0 a 100%) ---------- */
+function barraCarga(pct, texto){
+  let el = document.getElementById("cargaBarra");
+  if(!el){
+    if(typeof fimDaCarga === "function") fimDaCarga();
+    el = document.createElement("div"); el.id = "cargaBarra"; el.className = "carga carga-pct"; el.setAttribute("role", "status");
+    el.innerHTML = `<div class="carga-in"><p class="carga-tit">Corrida do <b>Rolo</b></p>
+      <div class="cb-pista" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i class="cb-fill"></i><span class="cb-corre">${window.BONECO_CARGA || ""}</span><span class="cb-flag" aria-hidden="true"></span></div>
+      <p class="cb-pct"><b id="cbPct">0%</b></p><p class="cb-tx" id="cbTx"></p>
+      <p class="cb-nota">Guardando o jogo neste aparelho. É só na primeira vez: depois ele abre rápido.</p></div>`;
+    document.body.appendChild(el);
+    el.offsetWidth;                                     // para a barra começar do zero e andar
+  }
+  pct = Math.max(0, Math.min(100, Math.round(pct)));
+  el.style.setProperty("--p", pct / 100);
+  el.querySelector(".cb-pista").setAttribute("aria-valuenow", pct);
+  el.querySelector("#cbPct").textContent = pct + "%";
+  if(texto) el.querySelector("#cbTx").textContent = texto;
+}
+function fecharBarra(){ const el = document.getElementById("cargaBarra"); if(!el) return; el.classList.add("sai"); setTimeout(() => el.remove(), 450); }
+/* Minha conta: apaga o que está guardado e baixa tudo de novo (para quando algo parecer desatualizado) */
+async function baixarDeNovo(){
+  try{ await GUARDA.limpar(); Object.keys(localStorage).forEach(k => { if(k.indexOf(KEY + ":aparelho:") === 0) localStorage.removeItem(k); }); }catch(e){}
+  location.reload();
+}
+
 
 /* ============================================================
    ESTADO
@@ -2060,7 +2394,7 @@ function montarLicao(L){
     titulo: L.titulo || ("Lição " + n), numero: "Lição " + n, datas: L.datas || "",
     subtitulo: "Lição " + n + (L.datas ? ", de " + L.datas : ""),
     recap: "Recapitulação no sábado, " + dataLonga(somarDias(L.inicio, 7)),
-    inicio: L.inicio, textos: L.textos || [], resumos: L.resumos || [], origem: L.origem || "banco", qtd: Array.isArray(L.qtd) ? L.qtd : null,
+    inicio: L.inicio, textos: L.textos || [], resumos: L.resumos || [], pendente: !!L._pendente, origem: L.origem || "banco", qtd: Array.isArray(L.qtd) ? L.qtd : null,
     dias: diasQ.map((qs, k) => ({ data: somarDias(L.inicio, k), nome: NOMES_DIAS[k], curto: CURTOS[k], tema: temas[k],
       perguntas: qs.map(q => (q.img && L.trimestre===TRIMESTRE_BASE && TIRINHAS[String(n)]) ? Object.assign({}, q, { img: TIRINHAS[String(n)] }) : Object.assign({}, q, {img:undefined})) }))
   };
@@ -2274,7 +2608,7 @@ function nav(tab){
   setTimeout(() => conferirVersao(false), 400);                                 // e se subiu versão nova do jogo (no máximo a cada 2 min)
   ({ inicio: telaInicio, estudar: telaEstudar, quiz: telaQuiz, ranking: telaRanking, missoes: () => telaMissoes(), salas: telaSalas, mural: telaMuralSalas, conta: telaConta, admin: telaAdmin }[tab] || telaInicio)();
 }
-document.querySelectorAll("#nav button").forEach(b => b.onclick = ()=>{ const t = b.dataset.tab; if(t === "estudar") estudoVista = "livros"; if(t === "quiz") quizVista = "livros"; if(t === "ranking") corridaVista = "salas"; nav(t); });   // pelo menu, Estudar e Quiz abrem na estante de livros, e a Corrida na escolha da sala
+document.querySelectorAll("#nav button").forEach(b => b.onclick = ()=>{ const t = b.dataset.tab; if(t === "estudar") estudoVista = "livros"; if(t === "quiz") quizVista = "livros"; if(t === "ranking") corridaVista = "salas"; if(t === "missoes") missoesVista = "mapas"; nav(t); });   // pelo menu, Estudar e Quiz abrem na estante de livros, e a Corrida na escolha da sala
 $("chipConta").onclick = ()=>{ if(perfil && !perfil.profeta) return; nav("conta"); };
 $("sino").onclick = ()=> modalNotificacoes();
 $("brandIc").innerHTML = logoIcone();
@@ -2283,38 +2617,49 @@ $("brand").onclick = ()=>{ if(usuario && perfil && (perfil.aprovado || perfil.ad
 /* ============================================================
    INÍCIO / AUTENTICAÇÃO
    ============================================================ */
-async function carregarTudo(){
-  const [cfg, lics, meus, prog] = await Promise.all([DB.getConfig(), DB.listarLicoes(), DB.meusResultados(usuario.uid), DB.listarProgresso(usuario.uid).catch(()=>[])]);
-  CONFIG = cfg || {}; LICOES_DB = lics || []; resCache = {};
+async function carregarTudo(passo){
+  passo = passo || (()=>{});
+  const pProg = DB.listarProgresso(usuario.uid).catch(()=>[]);
+  CONFIG = (await configInicial()) || {}; resCache = {};
   aplicarIcone(CONFIG.icone || "");
+  passo(35, "Buscando as lições");
+  await carregarLicoesInicio();                    // só o índice e a lição da semana; o resto vem do aparelho ou ao abrir o livro
+  passo(55, "Buscando os seus resultados");
+  const meus = await carregarMeusResultados(), prog = await pProg;
   RES = {}; (meus||[]).forEach(r => RES[r.licaoId + "|" + r.data] = r);
   PROG = {}; (prog||[]).forEach(p => PROG[p.licaoId + "|" + p.data] = p);
   // cópia local (caso o servidor esteja fora do ar no meio de um quiz)
   const localProg = lsGet(KEY + ":prog:" + usuario.uid, {}); Object.keys(localProg).forEach(k => { if(!PROG[k] || (localProg[k].q || 0) > (PROG[k].q || 0)) PROG[k] = localProg[k]; });
-  montarLicoes();
   LICAO = LICOES[indiceLicaoAtual()];
 }
-DB.getConfig().then(c => { if(c && c.icone !== undefined) aplicarIcone(c.icone || ""); }).catch(()=>{});
+configInicial().then(c => { if(c && c.icone !== undefined) aplicarIcone(c.icone || ""); }).catch(()=>{});
 DB.onAuth(async u => {
   usuario = u;
   try{
     if(!u){ perfil = null; atualizarCasca(); telaLogin(); return; }
+    /* primeira vez neste aparelho: barra de 0 a 100% enquanto o jogo é baixado e guardado */
+    const primeira = !lsGet(KEY + ":aparelho:" + u.uid, 0), passo = primeira ? barraCarga : (()=>{});
+    passo(6, "Entrando na sua conta");
     perfil = await DB.getUsuario(u.uid);
+    passo(18, "Conferindo o jogo");
     if(!perfil){ let auto = false; try{ auto = !!((await DB.getConfig()) || {}).aprovacaoAuto; }catch(e){} perfil = novoPerfil(u.email.split("@")[0], u.email, auto ? {aprovado:true} : {}); await DB.salvarUsuario(u.uid, perfil); }
     if(emailInicial() && !(perfil.master && perfil.admin && perfil.aprovado)){
       perfil.master = true; perfil.admin = true; perfil.aprovado = true; await DB.salvarUsuario(u.uid, {master:true, admin:true, aprovado:true});
     }
-    if(!perfil.aprovado && !perfil.admin && !ehMaster()){ atualizarCasca(); telaPendente(); return; }
+    if(!perfil.aprovado && !perfil.admin && !ehMaster()){ fecharBarra(); atualizarCasca(); telaPendente(); return; }
     aplicarTema(perfil.tema || "auto");
-    await carregarTudo();
-    await carregarSalas();
+    await carregarTudo(passo);
+    passo(72, "Entrando nas salas");
+    await carregarSalas(true);
+    passo(88, "Montando a pista");
+    if(primeira){ try{ await resultadosDaSala(salaAtual(), { licaoId: LICAO && LICAO.id }); }catch(e){} passo(100, "Pronto!"); lsSet(KEY + ":aparelho:" + u.uid, 1); await new Promise(r => setTimeout(r, 450)); fecharBarra(); }
     carregarNotificacoes(true);
     if(typeof iniciarConquistasVistas === "function") iniciarConquistasVistas();
     if(typeof conferirPersonagem === "function") conferirPersonagem();   // mapa novo: personagem que virou prêmio e ainda não foi conquistado
     if(!perfil.profeta){ atualizarCasca(); telaProfeta(); return; }
     nav("inicio");
     conferirConvite();
-  }catch(e){ console.error(e); app.innerHTML = `<section class="panel"><h2 class="h2">Ops</h2><p>${esc(erroMsg(e))}</p><div class="btn-row"><button class="btn btn-main" onclick="location.reload()">Tentar de novo</button><button class="btn btn-ghost" onclick="DB.sair()">Sair</button></div></section>`; }
+  }catch(e){ console.error(e); fecharBarra(); app.innerHTML = `<section class="panel"><h2 class="h2">Ops</h2><p>${esc(erroMsg(e))}</p><div class="btn-row"><button class="btn btn-main" onclick="location.reload()">Tentar de novo</button><button class="btn btn-ghost" onclick="DB.sair()">Sair</button></div></section>`; }
 });
 
 function cabecaLogin(){
@@ -2373,12 +2718,12 @@ function telaProfeta(){
   let escolhido = perfil.profeta || "";
   const nvMeu = typeof meuNivel === "function" ? meuNivel() : 0;
   const botaoProfeta = p => { const livre = profetaLiberado(p);
-    return `<button type="button" class="prof ${p.nivel ? "raro" : ""} ${p.lendario ? "lendario" : ""} ${livre ? "" : "bloq"}" data-p="${p.id}" ${livre ? "" : `data-nivel="${p.nivel}"`} aria-pressed="${p.id===escolhido}">${avatarSVG(p.id, null, 0, nvMeu)}<span>${esc(p.nome)}</span>${p.nivel ? `<em>${livre ? (p.lendario ? "★ Lendário" : "★ Raro") : "🔒 Casa " + casaDoNivel(p.nivel)}</em>` : ""}</button>`; };
+    return `<button type="button" class="prof ${p.nivel ? "raro" : ""} ${p.lendario ? "lendario" : ""} ${livre ? "" : "bloq"}" data-p="${p.id}" ${livre ? "" : `data-nivel="${p.nivel}"`} aria-pressed="${p.id===escolhido}">${avatarSVG(p.id, null, 0, nvMeu)}<span>${esc(p.nome)}</span>${p.nivel ? `<em>${livre ? (p.lendario ? "★ Lendário" : "★ Raro") : "🔒 " + ondeLibera(p.nivel, true)}</em>` : ""}</button>`; };
   app.innerHTML = `<div class="estudo-area"><section class="panel"><h2 class="h2">${perfil.profeta ? "Trocar personagem" : "Escolha seu personagem"}</h2>
     <p class="sub-h">Ele vai correr com você no rolo e comentar seus resultados.</p>
     <div class="field">
       <div class="profetas" role="group" aria-label="Personagens">${PROFETAS.filter(p => !p.nivel).map(botaoProfeta).join("")}</div>
-      <h3 class="prof-tit"><span aria-hidden="true">✨</span> Personagens raros <small>um a cada 5 casas do mapa das missões</small></h3>
+      <h3 class="prof-tit"><span aria-hidden="true">✨</span> Personagens raros <small>prêmios dos mapas das missões</small></h3>
       <div class="profetas raros" role="group" aria-label="Personagens raros">${PROFETAS.filter(p => p.nivel).map(botaoProfeta).join("")}</div>
     <div class="fala" id="fala" aria-live="polite" hidden></div>
     <div class="pers-acoes" id="pAcoes" hidden></div></div>
@@ -2386,7 +2731,7 @@ function telaProfeta(){
   const mostrarFala = (rolar)=>{
     const p = acharProfeta(escolhido), f = $("fala"); if(!p || !f) return;
     const ac = acessorioDoPersonagem(p.id), temAc = ac && nvMeu >= ac.nivel;
-    f.innerHTML = `<div class="fala-boneco">${avatarSVG(p.id, null, 0, nvMeu)}</div><div class="balao"><strong>${esc(p.nome)}</strong><p>${esc(p.fala)}</p>${p.ref ? `<span>${esc(p.ref)}</span>` : ""}${ac ? `<span class="balao-ac">${temAc ? "★ Com o acessório: " + esc(ac.nome) : "🔒 Acessório " + esc(ac.nome) + ": casa " + casaDoNivel(ac.nivel) + " do mapa"}</span>` : ""}</div>`;
+    f.innerHTML = `<div class="fala-boneco">${avatarSVG(p.id, null, 0, nvMeu)}</div><div class="balao"><strong>${esc(p.nome)}</strong><p>${esc(p.fala)}</p>${p.ref ? `<span>${esc(p.ref)}</span>` : ""}${ac ? `<span class="balao-ac">${temAc ? "★ Com o acessório: " + esc(ac.nome) : "🔒 Acessório " + esc(ac.nome) + ": " + esc(ondeLibera(ac.nivel))}</span>` : ""}</div>`;
     f.hidden = false;
     /* personagem raro já conquistado: dá para mostrar para a turma (imagem para compartilhar ou publicação no mural da sala) */
     const pa = $("pAcoes"), raroLivre = !!p.nivel && profetaLiberado(p);      // liberado pelo nível ou já em uso pelo jogador
@@ -2398,7 +2743,7 @@ function telaProfeta(){
     }
     if(rolar) (raroLivre ? pa : f).scrollIntoView({ block: raroLivre ? "center" : "nearest", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
   };
-  app.querySelectorAll(".prof").forEach(b=> b.onclick = ()=>{ if(b.dataset.nivel){ aviso(`${acharProfeta(b.dataset.p).nome} fica disponível na casa ${casaDoNivel(+b.dataset.nivel)} do mapa das missões (nível ${b.dataset.nivel}). Cumpra as missões para chegar lá!`); return; } escolhido = b.dataset.p; app.querySelectorAll(".prof").forEach(x=> x.setAttribute("aria-pressed", String(x === b))); mostrarFala(true); });
+  app.querySelectorAll(".prof").forEach(b=> b.onclick = ()=>{ if(b.dataset.nivel){ aviso(`${acharProfeta(b.dataset.p).nome} fica disponível na ${ondeLibera(+b.dataset.nivel)} (nível ${b.dataset.nivel}). Cumpra as missões para chegar lá!`); return; } escolhido = b.dataset.p; app.querySelectorAll(".prof").forEach(x=> x.setAttribute("aria-pressed", String(x === b))); mostrarFala(true); });
   mostrarFala(false);
   /* quem está usando um personagem raro já abre a tela vendo ele e os botões de compartilhar */
   if(!$("pAcoes").hidden) setTimeout(() => { const ac = $("pAcoes"); if(ac) ac.scrollIntoView({ block: "center" }); }, 80);
@@ -2570,7 +2915,7 @@ function telaInicio(){
   app.innerHTML = html;
   const cqS = $("cqShare"); if(cqS) cqS.onclick = ()=> compartilharConquistas(cqS);
   setTimeout(conferirNovidades, 350);
-  const tr = $("inTrilha"); if(tr) tr.onclick = ()=> nav("missoes");
+  const tr = $("inTrilha"); if(tr) tr.onclick = ()=>{ missoesVista = "atual"; mapaAberto = -1; nav("missoes"); };
   const dz = $("dzMais"); if(dz) dz.onclick = modalDesempenho;
   app.querySelectorAll("[data-cq]").forEach(b => b.onclick = ()=> modalConquista(+b.dataset.cq));
   const est = $("inEstudar"); if(est) est.onclick = ()=>{ estudoLicao = L; estudoDia = hojeIdx >= 0 ? hojeIdx : -1; estudoVista = "dias"; nav("estudar"); };
@@ -2628,7 +2973,8 @@ function telaQuizLivros(){
   const tris = trimestresComLicao();
   app.innerHTML = `<div class="estudo-area">${cabPagina("Quiz", tris.length === 1 ? "1 livro" : tris.length + " livros", "De qual livro é o quiz?", "Toque na capa para abrir o rolo das lições.")}
     <section class="panel pg-card">${estanteDeLivros(tris)}</section></div>`;
-  app.querySelectorAll("[data-tri]").forEach(b => b.onclick = () => {
+  app.querySelectorAll("[data-tri]").forEach(b => b.onclick = async () => {
+    if(!(await abrirLivro(b, b.dataset.tri))) return;          // baixa (uma vez) as lições do livro que ainda não estão no aparelho
     const t = b.dataset.tri, daSemana = LICOES[indiceLicaoAtual()], doLivro = LICOES.filter(l => l.trimestre === t);
     LICAO = daSemana && daSemana.trimestre === t ? daSemana : (doLivro.filter(l => !licaoFutura(l)).pop() || doLivro[0]);
     quizVista = "semana"; quizAbrindo = true; window.scrollTo(0, 0); telaQuizSemana();
@@ -2638,6 +2984,7 @@ function telaQuizSemana(){
   pararTimer();
   if(!LICAO) LICAO = LICOES[indiceLicaoAtual()];
   if(!LICAO) return telaQuizLivros();
+  if(LICAO.pendente){ app.innerHTML = `<section class="panel"><p class="vazio">Carregando a lição…</p></section>`; garantirLicao(LICAO).then(() => { if(tabAtual === "quiz") telaQuizSemana(); }).catch(e => { app.innerHTML = `<section class="panel"><p class="erro">${esc(erroMsg(e))}</p></section>`; }); return; }
   quizVista = "semana";
   const abrindo = quizAbrindo; quizAbrindo = false;
   let h = `<div class="home"><div class="col-a">${botaoVoltar("qzVoltar", "os livros")}` + heroLicao(LICAO);
@@ -2670,7 +3017,7 @@ function telaQuizSemana(){
   if(LICAO.dias.some(d=>resDe(LICAO,d))) h += `<div class="btn-row uma"><a class="btn btn-wa" id="waSemana" target="_blank" rel="noopener">Enviar resumo da semana</a></div>`;
   h += `</div></div>`;
   app.innerHTML = h;
-  ligarMapaTrimestre(L => { LICAO = L; telaQuizSemana(); });
+  ligarMapaTrimestre(async L => { try{ LICAO = await garantirLicao(L); }catch(e){ aviso("Não deu para abrir a lição: " + erroMsg(e)); return; } telaQuizSemana(); });
   $("qzVoltar").onclick = () => { quizVista = "livros"; window.scrollTo(0, 0); telaQuizLivros(); };
   $("verPontos").onclick = modalPontuacao;
   const vb = $("verBloqueio"); if(vb) vb.onclick = modalBloqueio;
@@ -2738,12 +3085,12 @@ function iniciar(i){
     // Retoma de onde parou (inclusive perguntas trocadas pela Segunda chance e ajudas em uso)
     const trocas = salvo.trocas || {};
     Object.keys(trocas).forEach(k => { const nova = dia.perguntas.find(x => x.p === trocas[k]); if(nova && diaJogo.perguntas[+k]) diaJogo.perguntas[+k] = nova; });
-    jogo = { i, dia: diaJogo, L: LICAO, q: Math.min(salvo.q || 0, diaJogo.perguntas.length), pts: salvo.pts || 0, acertos: salvo.acertos || 0, total, prazo: !!salvo.prazo, mostrada: salvo.mostrada || null, resp: Array.isArray(salvo.resp) ? salvo.resp : [], trocas, dobro: !!salvo.dobro, meio: salvo.meio || null };
+    jogo = { i, dia: diaJogo, L: LICAO, q: Math.min(salvo.q || 0, diaJogo.perguntas.length), pts: salvo.pts || 0, acertos: salvo.acertos || 0, total, prazo: !!salvo.prazo, mostrada: salvo.mostrada || null, resp: Array.isArray(salvo.resp) ? salvo.resp : [], trocas, dobro: !!salvo.dobro, meio: salvo.meio || null, usadas: salvo.usadas || {} };
     retomar();
     return;
   }
   const prazo = dia.data >= hoje();
-  jogo = { i, dia: diaJogo, L: LICAO, q:0, pts:0, acertos:0, total, prazo, mostrada:null, resp: [], trocas: {}, dobro: false, meio: null };
+  jogo = { i, dia: diaJogo, L: LICAO, q:0, pts:0, acertos:0, total, prazo, mostrada:null, resp: [], trocas: {}, dobro: false, meio: null, usadas: {} };
   contagem(dia, telaPergunta);
 }
 /* Continua um quiz salvo. Se a pessoa saiu no meio de uma pergunta e já passou o tempo dela, a pergunta conta como "tempo esgotado". */
@@ -2759,7 +3106,7 @@ function retomar(){
 }
 function salvarProgresso(){
   const id = usuario.uid + "_" + jogo.L.id + "_" + jogo.dia.data;
-  const p = { id, uid: usuario.uid, licaoId: jogo.L.id, data: jogo.dia.data, q: jogo.q, n: jogo.dia.perguntas.length, pts: jogo.pts, acertos: jogo.acertos, total: jogo.total, prazo: jogo.prazo, mostrada: jogo.mostrada || null, resp: jogo.resp || [], trocas: jogo.trocas || {}, dobro: !!jogo.dobro, meio: jogo.meio || null, quando: Date.now() };
+  const p = { id, uid: usuario.uid, licaoId: jogo.L.id, data: jogo.dia.data, q: jogo.q, n: jogo.dia.perguntas.length, pts: jogo.pts, acertos: jogo.acertos, total: jogo.total, prazo: jogo.prazo, mostrada: jogo.mostrada || null, resp: jogo.resp || [], trocas: jogo.trocas || {}, dobro: !!jogo.dobro, meio: jogo.meio || null, usadas: jogo.usadas || {}, quando: Date.now() };
   PROG[jogo.L.id + "|" + jogo.dia.data] = p;
   const lp = lsGet(KEY + ":prog:" + usuario.uid, {}); lp[jogo.L.id + "|" + jogo.dia.data] = p; lsSet(KEY + ":prog:" + usuario.uid, lp);
   DB.salvarProgresso(p).catch(()=>{});
@@ -2828,13 +3175,31 @@ function iniciarTimer(jaPassou){
 function pararTimer(){ if(timer){ cancelAnimationFrame(timer); timer = null; } }
 
 /* ---------- Ajudas durante a pergunta ---------- */
+/* Cada tipo de ajuda só pode ser usado uma vez em cada quiz (jogo.usadas), mesmo que a pessoa tenha várias guardadas. */
 function barraAjudas(p){
-  const d = ajudasDisponiveis(), meioAqui = jogo.meio && jogo.meio.q === jogo.q;
-  if(!d.meio && !d.dobro && !jogo.dobro && !meioAqui) return "";
+  const d = ajudasDisponiveis(), u = jogo.usadas || (jogo.usadas = {}), meioAqui = jogo.meio && jogo.meio.q === jogo.q;
+  const podePular = d.pular > 0 && nivelAtual() >= NIVEL_PULAR;
+  if(!d.meio && !d.dobro && !jogo.dobro && !meioAqui && !podePular && !u.meio && !u.dobro && !u.pular) return "";
+  const usada = (id, nome, ic) => `<button type="button" class="ajuda-btn usada" id="${id}" disabled title="Só uma vez por quiz"><span class="ic">${ic}</span>${nome}</button>`;
   return `<div class="ajudas-bar" id="ajBar">
-    ${d.meio || meioAqui ? `<button type="button" class="ajuda-btn ${meioAqui ? "usada" : ""}" id="ajMeio" ${meioAqui ? "disabled" : ""}><span class="ic">${AJUDAS.meio.ic}</span>${meioAqui ? "Meio a meio usado" : "Meio a meio"}${meioAqui ? "" : `<b>${d.meio}</b>`}</button>` : ""}
-    ${d.dobro || jogo.dobro ? `<button type="button" class="ajuda-btn ${jogo.dobro ? "ativa" : ""}" id="ajDobro" aria-pressed="${!!jogo.dobro}"><span class="ic">${AJUDAS.dobro.ic}</span>${jogo.dobro ? "Dobro ativado" : "Pontos em dobro"}<b>${d.dobro}</b></button>` : ""}
+    ${meioAqui || u.meio ? usada("ajMeio", "Meio a meio usado", AJUDAS.meio.ic) : d.meio ? `<button type="button" class="ajuda-btn" id="ajMeio"><span class="ic">${AJUDAS.meio.ic}</span>Meio a meio<b>${d.meio}</b></button>` : ""}
+    ${u.dobro ? usada("ajDobro", "Dobro usado", AJUDAS.dobro.ic) : d.dobro || jogo.dobro ? `<button type="button" class="ajuda-btn ${jogo.dobro ? "ativa" : ""}" id="ajDobro" aria-pressed="${!!jogo.dobro}"><span class="ic">${AJUDAS.dobro.ic}</span>${jogo.dobro ? "Dobro ativado" : "Pontos em dobro"}<b>${d.dobro}</b></button>` : ""}
+    ${u.pular ? usada("ajPular", "Pular usado", AJUDAS.pular.ic) : podePular ? `<button type="button" class="ajuda-btn" id="ajPular"><span class="ic">${AJUDAS.pular.ic}</span>Pular<b>${d.pular}</b></button>` : ""}
   </div>${jogo.dobro ? `<p class="ajuda-dica" id="ajDica">Sua próxima resposta certa vale o dobro.</p>` : `<p class="ajuda-dica" id="ajDica" hidden></p>`}`;
+}
+/* Pular: a pergunta sai do quiz sem contar como erro (não vale ponto e o total do quiz diminui em um) */
+async function pularPergunta(){
+  const tiles = $("tiles"); if(!tiles || tiles.classList.contains("done")) return;
+  if(ajudasDisponiveis().pular < 1 || (jogo.usadas || {}).pular) return;
+  pararTimer(); tiles.classList.add("done");
+  const p = jogo.dia.perguntas[jogo.q], ultima = jogo.q === jogo.dia.perguntas.length - 1;
+  gastarAjuda("pular"); jogo.usadas = Object.assign(jogo.usadas || {}, { pular: true }); tocar("ajuda");
+  if(!(jogo.resp || (jogo.resp = [])).some(r => r.q === jogo.q)) jogo.resp.push({ q: jogo.q, p: p.p, k: -2, c: p.c, r: false, ok: false, pulou: true, o: "" });
+  jogo.total = Math.max(0, jogo.total - 1);
+  if(jogo.meio && jogo.meio.q === jogo.q) jogo.meio = null;
+  jogo.q++; jogo.mostrada = null; salvarProgresso();
+  aviso("Pergunta pulada: não conta como erro.");
+  if(ultima) await finalizarQuiz(); else telaPergunta();
 }
 function aplicarMeio(){
   if(!jogo.meio || jogo.meio.q !== jogo.q) return;
@@ -2847,11 +3212,12 @@ function ligarAjudas(p){
   if(bm && !bm.disabled) bm.onclick = ()=>{
     if($("tiles").classList.contains("done") || ajudasDisponiveis().meio < 1) return;
     const erradas = embaralhar(p.o.map((_, k) => k).filter(k => k !== p.c), semente(p.p + "|" + usuario.uid)).slice(0, Math.max(0, p.o.length - 2));
-    jogo.meio = { q: jogo.q, fora: erradas }; gastarAjuda("meio"); tocar("ajuda"); salvarProgresso(); aplicarMeio();
+    jogo.meio = { q: jogo.q, fora: erradas }; jogo.usadas = Object.assign(jogo.usadas || {}, { meio: true }); gastarAjuda("meio"); tocar("ajuda"); salvarProgresso(); aplicarMeio();
     bm.disabled = true; bm.classList.add("usada"); bm.innerHTML = `<span class="ic">${AJUDAS.meio.ic}</span>Meio a meio usado`;
   };
+  const bp = $("ajPular"); if(bp && !bp.disabled) bp.onclick = pularPergunta;
   const bd = $("ajDobro");
-  if(bd) bd.onclick = ()=>{
+  if(bd && !bd.disabled) bd.onclick = ()=>{
     if($("tiles").classList.contains("done")) return;
     if(!jogo.dobro && ajudasDisponiveis().dobro < 1) return;
     jogo.dobro = !jogo.dobro; tocar("ajuda"); salvarProgresso();
@@ -2870,7 +3236,7 @@ function perguntaReserva(){
 function usarSegundaChance(){
   const nova = perguntaReserva();
   if(!nova || ajudasDisponiveis().chance < 1){ aviso("Não há outra pergunta disponível para este dia."); return; }
-  gastarAjuda("chance"); tocar("ajuda");
+  gastarAjuda("chance"); jogo.usadas = Object.assign(jogo.usadas || {}, { chance: true }); tocar("ajuda");
   // A resposta errada continua registrada para o acompanhamento, mas a vaga passa a ser da nova pergunta
   const reg = (jogo.resp || []).find(r => r.q === jogo.q); if(reg){ reg.q = jogo.q + 0.5; reg.sc = true; }
   jogo.dia.perguntas[jogo.q] = nova;
@@ -2905,7 +3271,7 @@ function responder(k){
     const certo = k === p.c;
     if(certo){
       ganho = Math.round((BASE + (MAX-BASE) * (resta/TEMPO)) * mult); jogo.acertos++;
-      if(jogo.dobro){ ganho *= 2; jogo.dobro = false; gastarAjuda("dobro"); titulo = "Certo! +" + fmt(ganho) + " (em dobro)"; }
+      if(jogo.dobro){ ganho *= 2; jogo.dobro = false; jogo.usadas = Object.assign(jogo.usadas || {}, { dobro: true }); gastarAjuda("dobro"); titulo = "Certo! +" + fmt(ganho) + " (em dobro)"; }
       else titulo = "Certo! +" + fmt(ganho);
     }
     else { cls = "bad"; titulo = k === -1 ? "Tempo esgotado" : "Não foi dessa vez"; }
@@ -2925,7 +3291,7 @@ function responder(k){
   if(p.texto) prova += `<blockquote class="verso"><p><em>“${esc(p.texto)}”</em></p><cite>${esc(p.ref||"")}</cite></blockquote>`;
   if(p.img) prova += `<figure class="tira"><div class="rolagem"><img src="${p.img}" alt="Tirinha da ${esc(jogo.L.numero)}" onerror="this.closest('figure').hidden=true"></div><figcaption>${esc(p.ref||"")}. Arraste para o lado para ver a tirinha toda.</figcaption></figure>`;
   // Segunda chance: só quando errou, tem a ajuda, ainda não usou nesta pergunta e existe outra pergunta do dia para pôr no lugar
-  const podeChance = cls === "bad" && !p.reflexao && !(jogo.trocas && jogo.trocas[jogo.q]) && ajudasDisponiveis().chance > 0 && !!perguntaReserva();
+  const podeChance = cls === "bad" && !p.reflexao && !(jogo.trocas && jogo.trocas[jogo.q]) && !(jogo.usadas || {}).chance && ajudasDisponiveis().chance > 0 && !!perguntaReserva();
   $("fb").innerHTML = `<div class="feedback ${cls}"><h3>${esc(titulo)}</h3>${texto?`<p>${esc(texto)}</p>`:""}${prova}</div>
     ${podeChance ? `<div class="chance-box"><p><b>${AJUDAS.chance.ic} Quer usar a Segunda chance?</b> Esta pergunta sai e entra outra no lugar, valendo ponto. Você tem ${ajudasDisponiveis().chance}.</p>
       <div class="btn-row"><button class="btn btn-ok" id="chSim">Sim, trocar a pergunta</button><button class="btn btn-ghost" id="prox">${ultima ? "Não, ver resultado" : "Não, próxima pergunta"}</button></div></div>`
@@ -3026,7 +3392,7 @@ function telaEstudarLivros(){
   const tris = trimestresComLicao();
   app.innerHTML = `<div class="estudo-area">${cabPagina("Estudar", tris.length === 1 ? "1 livro" : tris.length + " livros", "Qual livro você quer estudar?", "Toque na capa para ver as lições.")}
     <section class="panel pg-card">${estanteDeLivros(tris)}</section></div>`;
-  app.querySelectorAll("[data-tri]").forEach(b => b.onclick = () => { estudoTri = b.dataset.tri; estudoVista = "licoes"; window.scrollTo(0, 0); telaEstudarLicoes(); });
+  app.querySelectorAll("[data-tri]").forEach(b => b.onclick = async () => { if(!(await abrirLivro(b, b.dataset.tri))) return; estudoTri = b.dataset.tri; estudoVista = "licoes"; window.scrollTo(0, 0); telaEstudarLicoes(); });
 }
 function telaEstudarLicoes(){
   const t = estudoTri, ls = LICOES.filter(l => l.trimestre === t), daSemana = LICOES[indiceLicaoAtual()];
@@ -3044,6 +3410,7 @@ function telaEstudarLicoes(){
 }
 function telaEstudarDias(){
   if(!estudoLicao) estudoLicao = LICAO || LICOES[indiceLicaoAtual()];
+  if(estudoLicao && estudoLicao.pendente){ app.innerHTML = `<section class="panel"><p class="vazio">Carregando a lição…</p></section>`; garantirLicao(estudoLicao).then(L2 => { estudoLicao = L2; if(tabAtual === "estudar") telaEstudarDias(); }).catch(e => { app.innerHTML = `<section class="panel"><p class="erro">${esc(erroMsg(e))}</p></section>`; }); return; }
   const L = estudoLicao; estudoVista = "dias"; estudoTri = L.trimestre;
   if(estudoDia < 0){ const kHoje = L.dias.findIndex(d=>d.data===hoje()); estudoDia = kHoje >= 0 ? kHoje : 0; }
   const d = L.dias[estudoDia] || L.dias[0];
@@ -3073,7 +3440,7 @@ async function mostrarPaginas(L, k, htmlTexto){
   const el = $("pgs"); if(!el) return;
   const chave = L.id + "|" + k;
   try{
-    if(!PAG_CACHE[chave]) PAG_CACHE[chave] = await DB.listarPaginas(L.id, k);
+    if(!PAG_CACHE[chave]) PAG_CACHE[chave] = await paginasGuardadas(L, k);
   }catch(e){ PAG_CACHE[chave] = []; }
   const pags = PAG_CACHE[chave];
   if(!$("pgs") || $("pgs") !== el) return;   // mudou de tela enquanto carregava
@@ -3204,10 +3571,12 @@ function telaConta(){
       <button id="mRetro"><span class="ic">📜</span>Retrospectiva do trimestre<span class="seta">›</span></button>
       <button id="mTutorial"><span class="ic">💡</span>Como funciona<span class="seta">›</span></button>
       ${VERSAO ? `<button id="mVersao"><span class="ic">🔄</span><span class="mc-2">Atualizar o jogo<small>Versão em uso: ${esc(versaoLegivel(VERSAO))}</small></span><span class="seta">›</span></button>` : ""}
+      <button id="mBaixar"><span class="ic">📥</span><span class="mc-2">Baixar os dados de novo<small>Apaga o que está guardado neste aparelho e busca tudo outra vez</small></span><span class="seta">›</span></button>
       <button id="mSair"><span class="ic">🚪</span>Sair da conta<span class="seta">›</span></button>
     </div></section></div>`;
   const mAdm = $("mAdmin"); if(mAdm) mAdm.onclick = ()=> nav("admin");
   const mVer = $("mVersao"); if(mVer) mVer.onclick = ()=> recarregarJogo();
+  $("mBaixar").onclick = async ()=>{ if(await confirmar("Baixar os dados de novo", "O jogo apaga o que está guardado neste aparelho (lições, resultados, páginas) e baixa tudo outra vez. Use só se algo parecer desatualizado.", "Baixar de novo")) baixarDeNovo(); };
   $("mNome").onclick = ()=> modal("Alterar nome", `<div class="field"><label for="nNome">Novo nome</label><input type="text" id="nNome" maxlength="30" value="${esc(perfil.nome)}"></div><p class="erro" id="nErro"></p><div class="btn-row"><button class="btn btn-main" id="nOk">Salvar</button></div>`, (m, fechar)=>{
     m.querySelector("#nOk").onclick = async ()=>{ const v = m.querySelector("#nNome").value.trim(); if(!v){ m.querySelector("#nErro").textContent="Digite um nome."; return; } ocupado(m.querySelector("#nOk"), true); try{ await DB.salvarUsuario(usuario.uid, {nome:v}); perfil.nome = v; fechar(); aviso("Nome alterado"); atualizarCasca(); telaConta(); }catch(e){ m.querySelector("#nErro").textContent = erroMsg(e); ocupado(m.querySelector("#nOk"), false); } };
   });
@@ -4429,6 +4798,7 @@ async function painelResultados(c, opt){
     if(a.r) return;
     const chave = r.licaoId + "|" + r.data + "|" + a.p;
     const q = perg[chave] || (perg[chave] = { chave, p: a.p, onde: rotuloDia(r), n:0, err:0, tempo:0, escolhas:{}, certa: a.c, licaoId: r.licaoId, data: r.data });
+    if(a.pulou) return;                                  // pergunta pulada com a ajuda: não entra na conta de erros
     q.n++; if(!a.ok) q.err++; if(a.k === -1) q.tempo++;
     if(a.k >= 0){ const e = q.escolhas[a.k] || (q.escolhas[a.k] = { n:0, o: a.o }); e.n++; if(!e.o && a.o) e.o = a.o; }
   }));
@@ -4524,13 +4894,15 @@ function badgesSala(s){
     + (ehDonoSala(s) ? '<span class="badge">Você criou</span>' : "") + (ehAdminSala(s) ? '<span class="badge adm">Você administra</span>' : "");
 }
 
-async function carregarSalas(){
+/* doAparelho = true (abertura do jogo): usa o que está guardado no aparelho há menos de 15 minutos.
+   Sem isso (depois de criar, entrar ou sair de uma sala): lê do servidor e atualiza o que está guardado. */
+async function carregarSalas(doAparelho){
   SALAS_ERRO = ""; SALAS_PENDENTES = 0;
-  const eu = usuario.uid;
+  const eu = usuario.uid, lerG = (k, f) => guardado("sl:" + k, 15 * MIN, f, !doAparelho);
   try{
-    const mems = await DB.membrosDoUsuario(eu);
+    const mems = (await lerG("mems:" + eu, () => DB.membrosDoUsuario(eu))).slice();
     // Sala global: o admin cria o documento na primeira vez; todo mundo entra sozinho
-    let global = null; try{ global = await DB.getSala(SALA_GLOBAL_ID); }catch(e){}
+    let global = null; try{ global = await lerG("sala:" + SALA_GLOBAL_ID, () => DB.getSala(SALA_GLOBAL_ID)); }catch(e){}
     if(!global && ehMaster()){
       const doc = { nome: SALA_GLOBAL.nome, codigo: SALA_GLOBAL.codigo, publica: true, global: true, dono: eu, donoNome: perfil.nome || "", descricao: SALA_GLOBAL.descricao, criadaEm: Date.now() };
       try{ await DB.salvarSala(SALA_GLOBAL_ID, doc); global = Object.assign({ id: SALA_GLOBAL_ID }, doc); }catch(e){}
@@ -4538,7 +4910,7 @@ async function carregarSalas(){
     if(!mems.some(m => m.salaId === SALA_GLOBAL_ID)){ const m = novoMembro(SALA_GLOBAL_ID, "ativo", "membro"); await DB.salvarMembro(m); mems.push(m); }
     const salaG = Object.assign({}, SALA_GLOBAL, global || {}, { id: SALA_GLOBAL_ID, global: true, publica: true, meu: mems.find(m => m.salaId === SALA_GLOBAL_ID) });
     const outras = mems.filter(m => m.salaId !== SALA_GLOBAL_ID);
-    const docs = await Promise.all(outras.map(m => DB.getSala(m.salaId).catch(() => undefined)));
+    const docs = await Promise.all(outras.map(m => lerG("sala:" + m.salaId, () => DB.getSala(m.salaId)).then(s => s ? Object.assign({}, s) : s).catch(() => undefined)));
     const ativas = [], pedidos = [];
     outras.forEach((m, i) => {
       const s = docs[i];
@@ -4552,7 +4924,7 @@ async function carregarSalas(){
     SALAS_OUTRAS = [];
     if(ehMaster()){
       try{ const tenho = new Set(SALAS.concat(pedidos).map(x => x.id));
-        SALAS_OUTRAS = (await DB.listarSalas()).filter(x => x.id !== SALA_GLOBAL_ID && !tenho.has(x.id)).sort((a,b) => String(a.nome).localeCompare(String(b.nome), "pt-BR")); }
+        SALAS_OUTRAS = (await lerG("todas", () => DB.listarSalas())).map(x => Object.assign({}, x)).filter(x => x.id !== SALA_GLOBAL_ID && !tenho.has(x.id)).sort((a,b) => String(a.nome).localeCompare(String(b.nome), "pt-BR")); }
       catch(e){ console.warn("outras salas", e); }
     }
     // Mantém meu nome/profeta atualizados nas salas
@@ -4560,7 +4932,7 @@ async function carregarSalas(){
     mems.forEach(m => { if(m.nome !== (perfil.nome || "") || m.profeta !== (perfil.profeta || "") || (m.nivel || 0) !== nv) DB.salvarMembro({ salaId: m.salaId, uid: eu, nome: perfil.nome || "", profeta: perfil.profeta || "", nivel: nv }).catch(()=>{}); });
     // Solicitações esperando a minha aprovação (salas privadas que eu criei)
     const minhas = SALAS.filter(x => !x.global && !x.publica && podeGerenciarSala(x));
-    const listas = await Promise.all(minhas.map(x => DB.membrosDaSala(x.id).catch(() => [])));
+    const listas = await Promise.all(minhas.map(x => membrosDaSalaG(x.id).catch(() => [])));
     minhas.forEach((x, i) => { x.pendentes = listas[i].filter(m => m.status === "pendente").length; SALAS_PENDENTES += x.pendentes; });
   }catch(e){
     console.warn("salas", e); SALAS_ERRO = erroMsg(e);
@@ -4581,7 +4953,7 @@ async function membrosAtivos(s){
   if(!s || s.global) return null;
   const c = membrosCache[s.id];
   if(c && Date.now() - c.em < 60000) return c.set;
-  const lista = (await DB.membrosDaSala(s.id)).filter(m => m.status === "ativo");
+  const lista = (await membrosDaSalaG(s.id)).filter(m => m.status === "ativo");
   const set = new Set(lista.map(m => m.uid));
   membrosCache[s.id] = { set, lista, em: Date.now() };
   return set;
@@ -4593,13 +4965,10 @@ async function resultadosDaSala(s, escopo){
   const chave = s.id + "|" + (escopo.licaoId || "tri:" + escopo.trimestre);
   const c = resCache[chave];
   if(c && Date.now() - c.em < 60000) return c.res;
-  let res;
-  if(s.global) res = escopo.licaoId ? await DB.resultadosLicao(escopo.licaoId) : await DB.resultadosTrimestre(escopo.trimestre);
-  else {
-    const uids = [...(await membrosAtivos(s))];
-    res = await DB.resultadosDeUsuarios(uids, escopo.licaoId || null);
-    if(!escopo.licaoId) res = res.filter(r => r.trimestre === escopo.trimestre);
-  }
+  /* todos os resultados da lição (ou do trimestre) vêm do que está guardado no aparelho, só com o que há de novo lido do servidor;
+     numa sala comum, ficam só os dos membros */
+  let res = await resultadosGlobais(escopo);
+  if(!s.global){ const membros = await membrosAtivos(s); res = res.filter(r => membros.has(r.uid)); }
   resCache[chave] = { res, em: Date.now() };
   return res;
 }
@@ -4825,7 +5194,7 @@ function modalGerenciarSala(s){
     const render = async () => {
       let membros = [];
       try{ membros = await DB.membrosDaSala(s.id); }catch(e){ c.innerHTML = `<p class="erro">${esc(erroMsg(e))}</p>`; return; }
-      delete membrosCache[s.id];
+      delete membrosCache[s.id]; GUARDA.del("mb:" + s.id);
       const pend = membros.filter(x => x.status === "pendente").sort((a,b) => (a.quando||0) - (b.quando||0));
       const ativos = membros.filter(x => x.status === "ativo").sort((a,b) => String(a.nome).localeCompare(String(b.nome), "pt-BR"));
       const linha = (x, tipo) => `<li><div class="em">${avatarSVG(personagemDe(x.profeta, x.nivel), null, x.nivel)}</div><div class="info"><strong>${esc(x.nome || "(sem nome)")}${x.uid === usuario.uid ? " (você)" : ""}</strong><span>${x.uid === s.dono ? "Criou a sala" : tipo === "p" ? "Pediu para entrar" : (s.admins || []).includes(x.uid) ? "Administrador da sala" : "Membro"}</span></div>
@@ -4925,7 +5294,7 @@ async function admSalas(){
   if(!ehMaster()){
     // Administrador de sala: só as salas que o master atribuiu a ele
     const minhas = SALAS.filter(ehAdminSala);
-    const listas = await Promise.all(minhas.map(x => DB.membrosDaSala(x.id).catch(() => [])));
+    const listas = await Promise.all(minhas.map(x => membrosDaSalaG(x.id).catch(() => [])));
     if(!$("admC")) return;
     c.innerHTML = `<section class="panel larga"><h3 class="h3">Salas que você administra (${minhas.length})</h3>
       <p class="muted small">Em Gerenciar você aprova pedidos, inclui qualquer pessoa com conta, remove membros e vê os resultados da sala.</p>
@@ -4938,7 +5307,7 @@ async function admSalas(){
     const uMap = {}; usuarios.forEach(u => uMap[u.id] = u); marcarPendentes(usuarios);
     const lista = salas.map(s => s.id === SALA_GLOBAL_ID ? Object.assign({}, SALA_GLOBAL, s, { global: true, publica: true }) : s)
       .sort((a,b) => (b.global ? 1 : 0) - (a.global ? 1 : 0) || String(a.nome).localeCompare(String(b.nome), "pt-BR"));
-    const contagens = await Promise.all(lista.map(s => s.global ? Promise.resolve(null) : DB.membrosDaSala(s.id).catch(() => [])));
+    const contagens = await Promise.all(lista.map(s => s.global ? Promise.resolve(null) : membrosDaSalaG(s.id).catch(() => [])));
     if(!$("admC")) return;
     c.innerHTML = `<section class="panel larga"><div class="adm-cab"><h3 class="h3">Todas as salas (${lista.length})</h3><button class="btn btn-main btn-sm" id="asCriar">➕ Criar sala</button></div>
       <p class="muted small">Como master, você vê todas as salas criadas por qualquer pessoa, cria quantas quiser e gerencia qualquer uma. Para dar a alguém a administração de uma sala, edite a pessoa em Usuários. Cada pessoa cria até ${MAX_SALAS_CRIADAS} e participa de até ${MAX_SALAS_PARTICIPA} (fora a global).</p>
@@ -4948,6 +5317,99 @@ async function admSalas(){
     c.querySelectorAll("[data-gs]").forEach(b => b.onclick = () => modalGerenciarSala(lista.find(x => x.id === b.dataset.gs)));
   }catch(e){ c.innerHTML = `<section class="panel"><p class="erro">${esc(erroMsg(e))}</p></section>`; }
 }
+
+/* ============================================================
+   MAPAS DAS MISSÕES
+   Cada mapa é uma jornada com territórios de 10 casas. Cada casa tem o nome de um evento bíblico daquele território.
+   Os mapas se abrem em sequência: o seguinte só é liberado quando o anterior é concluído.
+   - terr: territórios, de baixo para cima no mapa. b = paisagem (ver BIOMAS em parte7b_trilha.js); casas = 10 eventos.
+   - premios: casa (dentro do mapa) -> personagem raro; com "+" na frente é acessório. Nas outras casas de prêmio saem ajudas.
+   - fim: o destino desenhado no alto do mapa.
+   Para trocar o nome de um evento, basta editar o texto aqui. Não mude a quantidade de casas de um mapa que já tem jogadores.
+   ============================================================ */
+const MAPAS = [
+  { id: "at", sigla: "AT", nome: "Antigo Testamento", sub: "Da Criação à volta do exílio", fim: { nome: "A Promessa do Messias", ref: "Malaquias 4" },
+    premios: { 5: "adao", 10: "eva", 15: "abraao", 20: "sara", 25: "farao", 30: "moises", 35: "+tabuas", 40: "josue", 45: "raabe", 55: "sansao", 60: "rute", 65: "davi", 70: "salomao" },
+    terr: [
+      { nome: "Éden e Dilúvio", ref: "Gênesis 1 a 11", b: "edenDiluvio", casas: ["A Criação", "O Sábado", "Adão e Eva no Éden", "A Queda", "A Promessa e a Saída do Éden", "Caim e Abel", "Enoque Anda com Deus", "A Construção da Arca", "O Dilúvio", "O Arco-Íris e a Torre de Babel"] },
+      { nome: "Canaã dos Patriarcas", ref: "Gênesis 12 a 36", b: "tendas", casas: ["O Chamado de Abrão", "Abrão e Ló", "A Aliança com Abraão", "O Nascimento de Isaque", "O Sacrifício em Moriá", "Rebeca no Poço", "Jacó e Esaú", "A Escada de Betel", "Lia e Raquel em Harã", "A Luta em Peniel"] },
+      { nome: "Egito", ref: "Gênesis 37 a Êxodo 12", b: "egito", casas: ["Os Sonhos de José", "José Vendido pelos Irmãos", "José na Prisão", "José, Governador do Egito", "A Família de Jacó no Egito", "O Bebê Moisés no Nilo", "A Sarça Ardente", "As Dez Pragas", "A Primeira Páscoa", "A Saída do Egito"] },
+      { nome: "Deserto do Sinai", ref: "Êxodo 14 a Deuteronômio 34", b: "sinai", casas: ["A Travessia do Mar Vermelho", "O Maná no Deserto", "Água da Rocha", "O Monte Sinai", "As Tábuas da Lei", "O Bezerro de Ouro", "O Santuário no Deserto", "Os Doze Espias", "A Serpente de Bronze", "Josué, o Novo Líder"] },
+      { nome: "Conquista de Canaã", ref: "Josué", b: "jerico", casas: ["Raabe e os Espias", "A Travessia do Jordão", "As Doze Pedras de Gilgal", "O Príncipe do Exército do Senhor", "A Queda de Jericó", "O Pecado de Acã", "Os Gibeonitas", "O Dia em que o Sol Parou", "A Divisão da Terra", "“Escolham Hoje a Quem Servir”"] },
+      { nome: "Tempo dos Juízes", ref: "Juízes e Rute", b: "campos", casas: ["Débora e Baraque", "Gideão e o Velo de Lã", "Os Trezentos de Gideão", "O Nascimento de Sansão", "A Força de Sansão", "A Última Oração de Sansão", "Noemi Volta a Belém", "Rute nos Campos de Boaz", "Rute na Eira", "Rute e Boaz, o Resgatador"] },
+      { nome: "Reino de Israel", ref: "1 Samuel a 1 Reis 11", b: "reino", casas: ["A Oração de Ana", "Deus Chama Samuel", "Saul, o Primeiro Rei", "Davi é Ungido", "Davi e Golias", "Davi e Jônatas", "Davi Poupa a Vida de Saul", "A Arca Chega a Jerusalém", "O Pedido de Salomão", "O Templo de Salomão"] },
+      { nome: "Reis e Profetas", ref: "1 Reis 12 a 2 Reis 17", b: "carmelo", casas: ["O Reino se Divide", "Elias e os Corvos", "A Viúva de Sarepta", "Fogo no Monte Carmelo", "A Voz Mansa no Horebe", "Elias Sobe ao Céu", "Eliseu e o Azeite da Viúva", "A Cura de Naamã", "Jonas e o Grande Peixe", "O Chamado de Isaías"] },
+      { nome: "Exílio na Babilônia", ref: "2 Reis 18 a 25, Daniel e Ester", b: "babilonia", casas: ["Ezequias e o Anjo do Senhor", "Josias Encontra o Livro da Lei", "Jeremias e o Rolo Queimado", "A Queda de Jerusalém", "Daniel e Seus Amigos na Babilônia", "A Fornalha Ardente", "A Escrita na Parede", "Daniel na Cova dos Leões", "O Vale de Ossos Secos", "A Rainha Ester"] },
+      { nome: "A Volta para Casa", ref: "Esdras, Neemias e Malaquias", b: "jerusalem", casas: ["O Decreto de Ciro", "A Volta do Exílio", "O Altar Reconstruído", "Ageu e Zacarias Animam o Povo", "O Segundo Templo", "Esdras Ensina a Lei", "A Oração de Neemias", "Os Muros de Jerusalém", "A Leitura da Lei e a Alegria do Povo", "Malaquias e a Promessa do Mensageiro"] }
+    ] },
+  { id: "nt", sigla: "NT", nome: "Novo Testamento", sub: "De Belém à promessa da volta de Jesus", fim: { nome: "Maranata!", ref: "Apocalipse 22:20" },
+    premios: { 5: "josenazare", 10: "maria", 20: "pedro", 50: "messias", 55: "+jumentinho" },
+    terr: [
+      { nome: "Belém e Nazaré", ref: "Mateus 1 e 2, Lucas 1 e 2", b: "belem", casas: ["O Anjo Fala com Zacarias", "O Anúncio a Maria", "Maria Visita Isabel", "Nasce João Batista", "O Sonho de José", "O Nascimento em Belém", "Os Pastores e os Anjos", "Simeão e Ana no Templo", "Os Sábios do Oriente", "A Fuga para o Egito"] },
+      { nome: "Jordão e Deserto", ref: "Lucas 2 a 5, João 1 a 4", b: "jordao", casas: ["O Menino Jesus no Templo", "A Pregação de João Batista", "O Batismo de Jesus", "A Tentação no Deserto", "“Eis o Cordeiro de Deus”", "As Bodas de Caná", "Nicodemos Procura Jesus à Noite", "A Mulher Samaritana", "Rejeitado em Nazaré", "A Pesca Maravilhosa e o Chamado"] },
+      { nome: "Galileia", ref: "Mateus 8 a 14, Marcos 2 a 6", b: "galileia", casas: ["O Paralítico Descido pelo Telhado", "O Chamado de Mateus", "Os Doze Apóstolos", "O Servo do Centurião", "O Filho da Viúva de Naim", "A Tempestade Acalmada", "O Endemoninhado Geraseno", "A Filha de Jairo", "A Multiplicação dos Pães", "Jesus Anda sobre o Mar"] },
+      { nome: "Monte das Bem-Aventuranças", ref: "Mateus 5 a 7, 13 e 17, Lucas 10 e 15", b: "monte", casas: ["O Sermão do Monte", "A Oração do Pai-Nosso", "A Casa na Rocha", "A Parábola do Semeador", "O Tesouro e a Pérola", "O Bom Samaritano", "Marta e Maria", "O Filho Pródigo", "A Confissão de Pedro", "A Transfiguração"] },
+      { nome: "A Caminho de Jerusalém", ref: "Mateus 19 e 20, Lucas 17 e 18, João 8 a 11", b: "judeia", casas: ["Jesus e as Crianças", "O Jovem Rico", "“Nem Eu Te Condeno”", "O Cego de Nascença", "O Bom Pastor", "Os Dez Leprosos", "O Fariseu e o Publicano", "Os Trabalhadores da Vinha", "“Eu Sou a Ressurreição e a Vida”", "A Ressurreição de Lázaro"] },
+      { nome: "A Última Semana", ref: "Mateus 20 a 26, João 12 e 13", b: "jerusalem", casas: ["O Cego Bartimeu", "Zaqueu Desce da Árvore", "A Unção em Betânia", "Os Discípulos Buscam o Jumentinho", "A Entrada Triunfal", "A Purificação do Templo", "A Oferta da Viúva", "Os Sinais da Volta de Jesus", "A Última Ceia", "O Lava-Pés"] },
+      { nome: "Getsêmani e Calvário", ref: "Mateus 26 a 28", b: "calvario", casas: ["A Oração no Getsêmani", "A Prisão de Jesus", "A Negação de Pedro", "Jesus diante de Pilatos", "O Caminho do Calvário", "A Crucifixão", "“Está Consumado”", "O Sepultamento", "O Sábado no Túmulo", "A Ressurreição"] },
+      { nome: "O Ressuscitado e o Pentecostes", ref: "Lucas 24, João 20 e 21, Atos 1 a 7", b: "jerusalemDia", casas: ["Maria Madalena no Jardim", "No Caminho de Emaús", "Tomé Vê e Crê", "“Apascenta as Minhas Ovelhas”", "A Grande Comissão", "A Ascensão", "O Pentecostes", "O Coxo na Porta Formosa", "A Igreja Reparte Tudo", "Estêvão, o Primeiro Mártir"] },
+      { nome: "Até os Confins da Terra", ref: "Atos 8 a 28", b: "mediterraneo", casas: ["Filipe e o Etíope", "A Conversão de Saulo", "Pedro e Cornélio", "Pedro Liberto da Prisão", "Antioquia: os Primeiros Cristãos", "A Primeira Viagem Missionária", "O Concílio de Jerusalém", "O Carcereiro de Filipos", "Paulo em Atenas", "O Naufrágio e a Chegada a Roma"] },
+      { nome: "Cartas e Esperança", ref: "Das cartas ao Apocalipse", b: "ceu", casas: ["Justificados pela Fé", "O Hino do Amor", "O Fruto do Espírito", "A Armadura de Deus", "“Tudo Posso Naquele que me Fortalece”", "Os Heróis da Fé", "Fé e Obras", "“Deus é Amor”", "João em Patmos", "“Eis que Venho sem Demora”"] }
+    ] },
+  { id: "paulo", sigla: "Paulo", nome: "A Jornada de Paulo", sub: "De perseguidor a apóstolo dos gentios", fim: { nome: "A Coroa da Justiça", ref: "2 Timóteo 4:8" },
+    premios: { 5: "paulo" },
+    terr: [
+      { nome: "De Saulo a Paulo", ref: "Atos 7 a 12", b: "judeia", casas: ["Saulo de Tarso, Aluno de Gamaliel", "A Morte de Estêvão", "Saulo Persegue a Igreja", "A Luz no Caminho de Damasco", "Ananias e o Batismo", "A Fuga no Cesto", "Os Anos na Arábia", "Barnabé Apresenta Saulo", "De Volta a Tarso", "Um Ano em Antioquia"] },
+      { nome: "Primeira Viagem", ref: "Atos 13 a 15", b: "mediterraneo", casas: ["Separados pelo Espírito", "Chipre e o Mágico Elimas", "João Marcos Volta para Casa", "O Sermão em Antioquia da Pisídia", "Expulsos, mas Cheios de Alegria", "O Coxo de Listra", "Apedrejado em Listra", "Fortalecendo as Igrejas", "O Concílio de Jerusalém", "A Carta aos Gentios"] },
+      { nome: "Segunda Viagem", ref: "Atos 15 a 18", b: "grecia", casas: ["Paulo e Silas", "Timóteo se Junta à Missão", "O Chamado da Macedônia", "Lídia, a Vendedora de Púrpura", "Cânticos na Prisão de Filipos", "Tessalônica e Bereia", "O Deus Desconhecido em Atenas", "Áquila e Priscila em Corinto", "“Não Temas, Fala”", "As Cartas aos Tessalonicenses"] },
+      { nome: "Terceira Viagem", ref: "Atos 18 a 21", b: "efeso", casas: ["Apolo em Éfeso", "A Escola de Tirano", "Os Livros Queimados", "O Tumulto dos Ourives", "As Cartas aos Coríntios", "A Carta aos Romanos", "Êutico Cai da Janela", "A Despedida em Mileto", "A Profecia de Ágabo", "A Chegada a Jerusalém"] },
+      { nome: "Prisioneiro de Cristo", ref: "Atos 21 a 28 e 2 Timóteo", b: "roma", casas: ["Preso no Templo", "Diante do Sinédrio", "O Sobrinho de Paulo Descobre a Cilada", "Diante de Félix e Festo", "“Apelo para César”", "Diante do Rei Agripa", "A Tempestade e o Naufrágio", "A Víbora em Malta", "Preso em Roma, Pregando Livremente", "“Combati o Bom Combate”"] }
+    ] },
+  { id: "milagres", sigla: "Milagres", nome: "Milagres de Jesus", sub: "Os sinais que mostram quem Ele é", fim: { nome: "Para que Vocês Creiam", ref: "João 20:31" },
+    premios: {},
+    terr: [
+      { nome: "Primeiros Sinais", ref: "João 2 a 5, Marcos 1 a 3", b: "galileia", casas: ["Água em Vinho em Caná", "O Filho do Oficial do Rei", "A Primeira Pesca Maravilhosa", "O Homem na Sinagoga de Cafarnaum", "A Sogra de Pedro", "O Leproso Purificado", "O Paralítico Perdoado e Curado", "O Paralítico de Betesda", "O Homem da Mão Ressequida", "O Servo do Centurião"] },
+      { nome: "Senhor da Natureza", ref: "Mateus 8, 14, 15 e 17", b: "mediterraneo", casas: ["A Tempestade Acalmada", "Pães e Peixes para Cinco Mil", "Jesus Anda sobre o Mar", "Pedro Anda sobre as Águas", "Pães para Quatro Mil", "A Moeda na Boca do Peixe", "A Figueira sem Frutos", "A Pesca Depois da Ressurreição", "A Transfiguração", "O Sol Escurece na Cruz"] },
+      { nome: "Mãos que Curam", ref: "Marcos 5 a 10, Lucas 13 a 18, João 9", b: "monte", casas: ["A Mulher que Tocou no Manto", "Dois Cegos Recebem a Visão", "“Efatá”: o Surdo Ouve", "O Cego de Betsaida", "A Filha da Mulher Cananeia", "O Cego de Nascença", "A Mulher Encurvada", "O Homem Curado no Sábado", "Os Dez Leprosos", "O Cego Bartimeu"] },
+      { nome: "Libertação", ref: "Marcos 5 e 9, Lucas 8 e 22", b: "judeia", casas: ["O Endemoninhado Geraseno", "O Mudo Volta a Falar", "O Menino que os Discípulos não Curaram", "Maria Madalena Liberta", "“Tudo é Possível ao que Crê”", "A Orelha de Malco", "Curas ao Pôr do Sol", "Curas em Genesaré", "Cegos e Coxos Curados no Templo", "Muitos Outros Sinais"] },
+      { nome: "Vida sobre a Morte", ref: "Lucas 7 e 8, João 11 e 20", b: "calvario", casas: ["O Filho da Viúva de Naim", "A Filha de Jairo", "“Lázaro, Vem para Fora!”", "Túmulos Abertos", "A Pedra Removida", "O Túmulo Vazio", "Jesus Entra de Portas Fechadas", "O Coração Ardente em Emaús", "Mais de Quinhentos O Viram", "“Eu Sou a Ressurreição e a Vida”"] }
+    ] },
+  { id: "parabolas", sigla: "Parábolas", nome: "Parábolas de Jesus", sub: "As histórias que explicam o Reino", fim: { nome: "O Banquete do Reino", ref: "Lucas 14:15" },
+    premios: {},
+    terr: [
+      { nome: "O Reino de Deus", ref: "Mateus 13, Marcos 4", b: "campos", casas: ["O Semeador", "O Joio e o Trigo", "A Semente que Cresce Sozinha", "O Grão de Mostarda", "O Fermento", "O Tesouro Escondido", "A Pérola de Grande Valor", "A Rede", "Coisas Novas e Velhas", "A Candeia no Velador"] },
+      { nome: "Perdidos e Achados", ref: "Lucas 7, 14 e 15, Mateus 18 a 21", b: "monte", casas: ["A Ovelha Perdida", "A Moeda Perdida", "O Filho Pródigo", "O Irmão Mais Velho", "Os Dois Devedores", "O Credor sem Compaixão", "Os Trabalhadores da Vinha", "O Fariseu e o Publicano", "Os Dois Filhos", "O Grande Banquete"] },
+      { nome: "Oração e Confiança", ref: "Lucas 11, 12, 14 e 18, João 15", b: "jordao", casas: ["O Amigo à Meia-Noite", "A Viúva e o Juiz", "O Pai que Dá Coisas Boas", "As Aves e os Lírios", "O Rico Insensato", "A Casa na Rocha", "O Construtor da Torre", "O Rei que Vai à Guerra", "Remendo Novo e Odres Novos", "A Videira e os Ramos"] },
+      { nome: "Amor e Serviço", ref: "Lucas 10, 13, 16, 17 e 19, Mateus 25", b: "judeia", casas: ["O Bom Samaritano", "O Rico e Lázaro", "O Administrador Astuto", "Os Talentos", "As Dez Minas", "Os Servos que Só Fizeram o Dever", "Os Primeiros Lugares", "A Figueira Estéril", "O Bom Pastor", "As Ovelhas e os Cabritos"] },
+      { nome: "Vigiar e Esperar", ref: "Mateus 21, 22, 24 e 25, Marcos 13", b: "belem", casas: ["As Dez Virgens", "O Servo Fiel e Prudente", "O Dono da Casa e o Ladrão", "O Porteiro", "As Bodas do Filho do Rei", "A Veste Nupcial", "Os Lavradores Maus", "A Pedra Rejeitada", "A Figueira que Brota", "“Vigiai, pois”"] }
+    ] },
+  { id: "daniel", sigla: "Daniel", nome: "Daniel e os Reinos", sub: "Fidelidade na Babilônia e as profecias", fim: { nome: "O Reino que Nunca Passará", ref: "Daniel 2:44" },
+    premios: {},
+    terr: [
+      { nome: "Fiéis na Babilônia", ref: "Daniel 1 e 2", b: "babilonia", casas: ["Levados para a Babilônia", "Novos Nomes, o Mesmo Deus", "A Decisão de Daniel", "A Prova dos Dez Dias", "Dez Vezes Mais Sábios", "O Sonho Esquecido do Rei", "Os Quatro Amigos Oram", "O Mistério Revelado", "A Estátua de Quatro Metais", "A Pedra que Enche a Terra"] },
+      { nome: "O Fogo e o Orgulho", ref: "Daniel 3 e 4", b: "babiloniaFogo", casas: ["A Estátua de Ouro", "“Não nos Curvaremos”", "A Fornalha Sete Vezes Mais Quente", "O Quarto Homem no Fogo", "Nem Cheiro de Fumaça", "O Sonho da Grande Árvore", "O Aviso de Daniel", "O Rei Vive como os Animais", "Nabucodonosor Olha para o Céu", "O Louvor do Rei"] },
+      { nome: "A Última Noite e os Leões", ref: "Daniel 5 e 6", b: "babiloniaNoite", casas: ["O Banquete de Belsazar", "Os Vasos do Templo", "A Mão que Escreve", "Mene, Mene, Tequel, Parsim", "A Queda da Babilônia", "A Inveja dos Governadores", "O Decreto de Dario", "Janelas Abertas para Jerusalém", "A Cova dos Leões", "“O Meu Deus Enviou o Seu Anjo”"] },
+      { nome: "As Visões", ref: "Daniel 7 e 8", b: "mediterraneo", casas: ["Os Quatro Animais", "O Chifre Pequeno", "O Ancião de Dias", "O Juízo se Assenta", "O Filho do Homem Recebe o Reino", "O Carneiro e o Bode", "O Chifre que Cresceu", "As 2.300 Tardes e Manhãs", "Gabriel Explica a Visão", "Daniel Adoece e Espera"] },
+      { nome: "O Tempo do Fim", ref: "Daniel 9 a 12", b: "ceu", casas: ["A Oração de Daniel", "As Setenta Semanas", "O Messias, o Príncipe", "Três Semanas de Jejum", "O Homem Vestido de Linho", "“Homem Muito Amado”", "Miguel, o Grande Príncipe", "Os Sábios Brilharão", "O Livro Selado", "“Descansarás e te Levantarás”"] }
+    ] },
+  { id: "apocalipse", sigla: "Apocalipse", nome: "Apocalipse", sub: "A revelação de Jesus Cristo", fim: { nome: "Nova Jerusalém", ref: "Apocalipse 21" },
+    premios: { 5: "joaoap" },
+    terr: [
+      { nome: "Patmos e as Sete Igrejas", ref: "Apocalipse 1 a 3", b: "patmos", casas: ["João na Ilha de Patmos", "Jesus entre os Candelabros", "Éfeso: o Primeiro Amor", "Esmirna: Fiel até a Morte", "Pérgamo: a Pedrinha Branca", "Tiatira: a Estrela da Manhã", "Sardes: Vestes Brancas", "Filadélfia: a Porta Aberta", "Laodiceia: “Eis que Estou à Porta”", "“Ao Vencedor”"] },
+      { nome: "O Trono e os Selos", ref: "Apocalipse 4 a 7", b: "ceu", casas: ["A Porta Aberta no Céu", "O Trono e o Arco-Íris", "“Santo, Santo, Santo”", "O Livro com Sete Selos", "O Leão que é Cordeiro", "Os Quatro Cavaleiros", "As Almas sob o Altar", "O Sexto Selo", "Os 144 Mil Selados", "A Grande Multidão"] },
+      { nome: "As Trombetas", ref: "Apocalipse 8 a 11", b: "calvario", casas: ["Silêncio no Céu", "O Incensário de Ouro", "As Quatro Primeiras Trombetas", "A Quinta e a Sexta Trombetas", "O Anjo e o Livrinho", "Doce na Boca, Amargo no Ventre", "A Medida do Templo", "As Duas Testemunhas", "A Sétima Trombeta", "A Arca da Aliança no Céu"] },
+      { nome: "O Grande Conflito", ref: "Apocalipse 12 a 14", b: "mediterraneo", casas: ["A Mulher e o Dragão", "Guerra no Céu", "“Venceram pelo Sangue do Cordeiro”", "A Besta que Sobe do Mar", "A Besta que Sobe da Terra", "O Cordeiro no Monte Sião", "O Primeiro Anjo: o Evangelho Eterno", "O Segundo Anjo: Caiu Babilônia", "O Terceiro Anjo: a Perseverança dos Santos", "A Colheita da Terra"] },
+      { nome: "A Vitória Final", ref: "Apocalipse 15 a 22", b: "ceuDourado", casas: ["O Cântico de Moisés e do Cordeiro", "As Sete Últimas Pragas", "A Queda de Babilônia", "“Sai Dela, Povo Meu”", "As Bodas do Cordeiro", "O Cavaleiro do Cavalo Branco", "Os Mil Anos", "O Grande Trono Branco", "Novo Céu e Nova Terra", "A Cidade Santa"] }
+    ] }
+];
+/* posição de cada mapa na fila única de casas: ini = casas antes dele; n = casas dele */
+(function(){ let ini = 0; MAPAS.forEach((m, i) => { m.i = i; m.ini = ini; m.n = m.terr.length * 10; ini += m.n; }); })();
+const TOTAL_CASAS = MAPAS.reduce((s, m) => s + m.n, 0);
+/* prêmios fixos pela casa na fila única: { tipo: "profeta" | "acessorio", id } */
+const PREMIOS_FIXOS = {};
+MAPAS.forEach(m => Object.keys(m.premios).forEach(c => { const v = m.premios[c]; PREMIOS_FIXOS[m.ini + (+c)] = v[0] === "+" ? { tipo: "acessorio", id: v.slice(1) } : { tipo: "profeta", id: v }; }));
+function mapaDaCasa(g){ return MAPAS.find(m => g <= m.ini + m.n) || MAPAS[MAPAS.length - 1]; }      // g = casa na fila única (1, 2, 3...)
+function nivelDoPremio(id){ for(const g in PREMIOS_FIXOS) if(PREMIOS_FIXOS[g].id === id) return (+g) / 5 + 1; return 0; }
 
 /* ============================================================
    MISSÕES, NÍVEIS, AJUDAS, PROFETAS DESBLOQUEÁVEIS, SONS
@@ -4984,10 +5446,20 @@ PROFETAS.push(
   { id:"josenazare", nome:"José de Nazaré", bg:"#83C6BD", pele:"#C68A5E", cabelo:"#5A3A22", barba:"curta", veste:"#6E8B5A", cob:null, curto:true, emb:"martelo", nivel:11, fala:"Um anjo me falou em sonho, e eu cuidei de Maria e do menino Jesus como Deus pediu.", ref:"Mateus 1:20-24" },
   { id:"pedro",    nome:"Simão Pedro", bg:"#1C9FD0", pele:"#B5774C", cabelo:"#6B5A4A", barba:"curta", veste:"#2E6E8E", cob:null, curto:true, emb:"rede", nivel:14, fala:"Larguei as redes quando Jesus me chamou para ser pescador de gente.", ref:"Mateus 4:18-20" }
 );
-/* Moisés e Maria passam a ser prêmios do mapa (casas 30 e 55). Valem para todos: quem usava precisa conquistar de novo. */
+PROFETAS.push(
+  { id:"sansao",  nome:"Sansão",  bg:"#F08A4B", pele:"#B5774C", cabelo:"#2B1B12", barba:"curta", longo:true, veste:"#8A5A2B", cob:{t:"faixa",c:"#E8505D"}, emb:"coluna", nivel:12, fala:"Pedi a Deus: “Lembra-te de mim e dá-me força só mais esta vez.” E Ele me ouviu.", ref:"Juízes 16:28" },
+  { id:"rute",    nome:"Rute",    bg:"#F2D07A", pele:"#C68A5E", cabelo:"#3A2416", barba:null, veste:"#2BA486", cob:{t:"veu",c:"#F08A4B"}, emb:"trigo", nivel:13, fala:"Eu disse a Noemi: o teu povo é o meu povo, e o teu Deus é o meu Deus.", ref:"Rute 1:16" },
+  { id:"davi",    nome:"Davi",    bg:"#7CCB6B", pele:"#D9A47A", cabelo:"#8A4E22", barba:null, curto:true, veste:"#C9A060", cob:null, emb:"harpa", nivel:14, fala:"Fui contra o gigante em nome do Senhor dos Exércitos. A batalha é do Senhor!", ref:"1 Samuel 17:45-47" },
+  { id:"salomao", nome:"Salomão", bg:"#B48CF0", pele:"#C68A5E", cabelo:"#2B1B12", barba:"curta", veste:"#7B2D8E", cob:{t:"faixa",c:"#F2BE2E"}, emb:"coroa", nivel:15, fala:"Pedi a Deus um coração sábio para governar o povo, e Ele me deu sabedoria.", ref:"1 Reis 3:9-12" },
+  { id:"paulo",   nome:"Paulo",   bg:"#E8505D", pele:"#C68A5E", cabelo:null, barba:"longa", veste:"#8E3222", cob:null, emb:"carta", nivel:42, fala:"Combati o bom combate, terminei a corrida, guardei a fé.", ref:"2 Timóteo 4:7" },
+  { id:"joaoap",  nome:"João, o Apóstolo", bg:"#8FE6FF", pele:"#D9A47A", cabelo:"#ECE7DC", barba:"longa", veste:"#F4F1EA", cob:null, emb:"candelabro", nivel:82, fala:"Na ilha de Patmos, ouvi uma voz e vi Jesus no meio dos sete candelabros.", ref:"Apocalipse 1:9-13" }
+);
+/* Moisés e Maria passam a ser prêmios do mapa. Valem para todos: quem usava precisa conquistar de novo. */
 Object.assign(acharProfeta("moises"), { nivel: 7, emb: "cajado", semHeranca: true });
 Object.assign(acharProfeta("maria"), { nivel: 12, semHeranca: true });
 acharProfeta("jose").nome = "José do Egito";
+/* o nível de cada personagem raro (e de cada acessório) vem da casa em que ele é o prêmio: casa ÷ 5 + 1 */
+PROFETAS.forEach(p => { const nv = nivelDoPremio(p.id); if(nv) p.nivel = nv; });
 /* Acessórios: aparecem sozinhos no personagem de quem já chegou à casa certa do mapa */
 const ACESSORIOS = {
   tabuas:     { id: "tabuas", de: "moises", nivel: 8, nome: "Tábuas dos Dez Mandamentos", rotulo: "com as tábuas dos Dez Mandamentos", d: "Moisés passa a carregar as tábuas da Lei que recebeu no monte Sinai.", ref: "Êxodo 31:18",
@@ -4996,7 +5468,10 @@ const ACESSORIOS = {
 };
 function acessorioDe(idPersonagem, nv){ for(const k in ACESSORIOS){ const a = ACESSORIOS[k]; if(a.de === idPersonagem && nv >= a.nivel) return a; } return null; }
 function acessorioDoPersonagem(idPersonagem){ for(const k in ACESSORIOS) if(ACESSORIOS[k].de === idPersonagem) return ACESSORIOS[k]; return null; }
-const casaDoNivel = n => (n - 1) * 5;          // casa do mapa em que se chega ao nível n
+Object.keys(ACESSORIOS).forEach(k => { const nv = nivelDoPremio(k); if(nv) ACESSORIOS[k].nivel = nv; });
+const casaDoNivel = n => (n - 1) * 5;          // casa (na fila única) em que se chega ao nível n
+/* onde um prêmio é liberado, em palavras: "casa 25" (primeiro mapa) ou "casa 5 do mapa Novo Testamento" */
+function ondeLibera(nivel, curto){ const g = casaDoNivel(nivel), m = mapaDaCasa(g), c = g - m.ini; return m.i === 0 ? (curto ? "Casa " + c : "casa " + c + " do mapa das missões") : (curto ? m.sigla + " · casa " + c : "casa " + c + " do mapa " + m.nome); }
 const JUMENTO_PNG = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARQAAADMCAYAAACyalyPAAAG20lEQVR42u3dT4iUdRgH8GelLhJlBysR2aE/uNRRD7lqeIiSCFLIcFMIwo5RQZhdhDqkifTntgcJPISBRAZRHgKjsiQSQyJXjNhFpH+QWwdP1nabfVfndd+Zed+Z3zvz+ZyGYeb13XfGh+fL83t/MxIwoO6/e81cp+99dc8zzcf79h9uPv7pl9Mj/Tifbv7dXlriawcoKEBybnIJGNSYk40tKZzP1i0Pdn6gYzFXh/ijQwEUFEDkgdpZOPGpR/TQoQAKCoCCAigogIIChCkP1Ep28pKdyGQnNd+e/KatY65bP+7C6lAABQUQeSAscqvMgvuAEr6vR4cCKCiAggIoKAAKChCmPFCZ7EK1Iovcsq+xyE2HAigogMgDUZ/7esJObjoUQEEBRB4g+vFbPDoUQOQBEHkgEtzW4LAOBUBBARQUQEEBUFCAMOWBqPC+nk0b72vrOClsZZDyhtU6FEBBAUQeiDrv3hZtLnKbmjqvQwFQUACRB1I2ffFS83Fj1cqOjzM2tjrKv4dodctd4yJnwqVDAUQeQOQBrok5ec+vyzyf3bIgO+WpIuYUmS7FgnPrXRTSoQAKCpCeEZeAsKH0dZHhyAdH2zrOxPZttfvbszGtrPijQwFEHkDkgWQjT6OxdOBjTtXxR4cCiDxAWNgGdY45MRS/K9T5LnA6FEDkAcKUByxgi9j53PMtn79nxfqWz7/2+vaow/RHhwKIPECY8kDdYk4V8qJNWR57fHPpkUeHAog8gMgDAxlz6nLPTlkxJ+urr480H2/cMLHogjcdCiDyACLP0LbfddfL33ZJwTDHnG7ijw4FEHmAcC/PMEWV78581ve/5cK52VKOs+PpiWTj0rBNdnoZc4rYuGFChwKIPECY8tQq5ry17BYX5Bq7lvzb8XsPZa5tWfFHzElHdvqjQwFEHkDkQbSc63QqlBdzuLHff73U1uv3v/luy+fffueADgUQeQCRp74t94IWevJD34wSTU7ubfn8zPRMtN4lLBb/jDKGYWuCqmNOu8e8c8VKHQog8gAiT/rRZrQx2vK9V3wveiLv+mcjUl4sKhJbUtiMuo4xZ88rL3Qcf3QogMgDiDxJRRvqG4uiwLQoG4Wy8WeQJjtVTHO6OQcdCiDyAGHHtrJjTt6iqSItcdbyihezbThxtNY7tp3Y+VQpx1m++1n/66K8rQxSiDw6FEBBAcKUp8oJTpE4A4Pk00+OJxV/ntz2sg4FEHkAkaf7zYehjqamzjcfj42tLv34L724u9Lzz7uvJxtz/BQpIPIAIo+YA9fEnyKyEWnf/sMtX7N27aroxzQnbyNxHQog8gAiD4g2HcScG/yE61z0OeboUACRBxB5wmQHqlEkhuhQAJEHEHnEHKLKXdrCZKewgpMdHQog8gBY2EYJEfXW2+bb73/+dkEqsnBbg1M6FAAFBRB5ylL1b/FwvT8PvDcwv9FT1mRHhwKgoAAiT0XGD172DSh4fcYrOP7HP7vGEfVfzKZDARQUQOSJfvxeCaQ82RmkxWw6FEBBAYY88mS3LNi65cG22khRiDDZ0aEAIg/A4C5sG6RJ0H+nH56v4ms+980L9+zoUAAUFKAXRvo12YlKdrsq3xP3HorW96Hs6vg4vYw8F87NdvzeH88e79n1GYbI89GxUwM52dGhAAoKEKY8/WhHLYqLoZzClPW5m+zoUAAFBQhTnkhiyhMJT4juuGttrb8cf/z2fe0mLNnPtMh7s5OXqg3qZEeHAigowJBEnrJiTpEWtF8xqpuIVMf4U0Xk6df0JO97NQwxRIcCKChAWNiWqtx29Fg049Xk5N6WL5mZnim9Fe+mXa/7xGe0MVrKde5XzBFtdCiAggKIPFrTSn35xfvNxw9t2rHo66+efKOt45+/+FfL5x/YfjDKmMjkRZ7Uvj8mODoUQEEBKDHyZBezNRpLXc0O4k+e8Zt792/VkQmODgVQUAD6OOU588NZVxZ0KAAKCmBhWyQ5NUh5lznXGR0KoKAAVBp5LGar745zoEMBFBRA5CF6u+Ncntmxkk5idvEIdmJq8cM8uvkRHyg6FEBBAUQeuolC2QlaCueWwvmgQwEUFICaRp7p6St23AIdCoCCAqQQedy/E32Y/vRuwiJyokMBFBTAlIdU7gMCHQqgoAAoKICCAigoABEFpzxlLbiyKA50KAAKCpD4wrbuFlzNxyULt0CHAqCgAAN2L4+YAzoUAAUFUFAABQVQUABKUpupS3aj7GW3Xy39+LOX5wde3Rw/e5w6TrVcZ3QogIICKCgACgqgoAAKCqCgACgogIICKCgACgoQQ38vT+TcbxIV7CbXzfEH6b4S1xkdCqCgAAAAACTsf2flc6KaZZoUAAAAAElFTkSuQmCC";
 /* Ordem da lista: primeiro os profetas comuns (alfabética), depois os raros, do mais fácil ao mais raro (Messias por último). */
 PROFETAS.sort((a,b)=> ((a.nivel || 0) - (b.nivel || 0)) || a.nome.localeCompare(b.nome, "pt-BR"));
@@ -5015,12 +5490,18 @@ Object.assign(FALAS, {
   raabe:["Ouvi o que Deus fez no mar Vermelho e cri. A fé começa por ouvir.", "Pendurei o cordão vermelho e esperei. Confie: Deus cumpre o que promete.", "Meu passado não impediu Deus de me dar um futuro. O seu também não impede.", "Arrisquei tudo para ficar do lado de Deus. Vale a pena!", "Entrei para a família de Jesus. Na casa de Deus sempre cabe mais um."],
   josenazare:["Deus me falou em sonhos, e eu obedeci sem demora. Obedeça logo você também.", "Trabalhei em silêncio e cuidei de Jesus. O que você faz sem plateia Deus vê.", "Levei a família para o Egito de madrugada. Deus guia quem confia nEle.", "Na oficina, ensinei Jesus a trabalhar. Faça bem feito o estudo de hoje!", "Não entendi tudo de uma vez, mas confiei. Fé é dar o próximo passo."],
   pedro:["Larguei as redes para seguir Jesus. O que você deixa de lado hoje para ficar com Ele?", "Andei sobre as águas enquanto olhei para Jesus. Não tire os olhos dEle!", "Neguei o Mestre e chorei, mas Ele me perdoou e me deu uma missão. Recomece hoje.", "Senhor, para quem iremos? Só Tu tens as palavras da vida eterna.", "Cresçam na graça e no conhecimento de Jesus. Um dia de estudo por vez!"],
+  sansao:["Minha força vinha de Deus, não dos meus músculos. A sua também vem dEle.", "Brinquei com o que era sagrado e paguei caro. Leve a sério o seu compromisso com Deus.", "Mesmo depois de cair, orei, e Deus me ouviu. Nunca é tarde para voltar.", "Deus me separou desde antes de eu nascer. Ele também tem um plano para você."],
+  rute:["Para onde você for, eu irei. Decidir seguir a Deus foi a melhor escolha da minha vida.", "Fui catar espigas sem saber onde ia dar. Deus guia os passos de quem confia.", "Eu era estrangeira e Deus me deu um lugar na família de Jesus. Há lugar para você.", "Fidelidade nas coisas pequenas abre portas grandes. Faça bem o estudo de hoje!"],
+  davi:["O Senhor é o meu pastor: nada me faltará.", "Antes do gigante, enfrentei o leão e o urso. Deus treina a gente no dia a dia.", "Guardei a Palavra no coração para não pecar contra Deus. Guarde a de hoje!", "Errei muito, mas pedi: cria em mim um coração puro. Deus atende esse pedido."],
+  salomao:["O temor do Senhor é o princípio da sabedoria.", "Confie no Senhor de todo o coração e não se apoie no seu próprio entendimento.", "Pedi sabedoria em vez de riqueza, e Deus me deu as duas. Peça sabedoria hoje!", "Lembre-se do seu Criador nos dias da sua juventude."],
+  paulo:["Posso todas as coisas nAquele que me fortalece.", "Eu perseguia a igreja, e Jesus me alcançou. Ninguém está longe demais para Ele.", "Esqueço o que ficou para trás e avanço para o alvo. Um dia de cada vez!", "Cantei na prisão à meia-noite. Louve a Deus mesmo no dia difícil.", "Examine tudo e fique com o que é bom."],
+  joaoap:["Deus é amor. Quem ama conhece a Deus.", "Vi um novo céu e uma nova terra. Vale a pena esperar!", "Jesus disse: “Eis que venho sem demora.” Amém! Vem, Senhor Jesus!", "Feliz quem lê e guarda as palavras desta profecia."],
   zacarias:["Deus disse: voltem para mim, e eu voltarei para vocês. Hoje é um bom dia!", "Não por força nem por violência, mas pelo Espírito de Deus. Peça ajuda a Ele!", "Não despreze os pequenos começos. Seu estudo de hoje conta!", "Anunciei um Rei humilde, montado num jumentinho. Era Jesus!", "Deus me deu visões de esperança para animar o povo. Anime alguém hoje."]
 });
 
 /* Gesto de cada personagem raro com o objeto que segura: a nuvem, o pão e a coroa sobem; as estrelas e o candelabro brilham; os outros acenam */
 const GESTOS = { nuvem: "sobe", pao: "sobe", coroa: "sobe", estrelas: "brilha", candelabro: "brilha", arca: "acena", flor: "acena", tenda: "acena",
-  folha: "acena", cetro: "sobe", trombeta: "sobe", cordao: "acena", martelo: "acena", rede: "acena", cajado: "sobe", manjedoura: "brilha" };
+  coluna: "acena", harpa: "brilha", carta: "acena", trigo: "acena", folha: "acena", cetro: "sobe", trombeta: "sobe", cordao: "acena", martelo: "acena", rede: "acena", cajado: "sobe", manjedoura: "brilha" };
 /* ---------- Boneco: selo do nível perto do pé e brilho dourado nos profetas conquistados ---------- */
 /* nivel: nível de quem usa o boneco (mostra o selo e, se já tiver conquistado, o acessório do personagem).
    nvAcess: para mostrar o acessório sem o selo (na escolha do personagem e nos prêmios do mapa). */
@@ -5077,16 +5558,22 @@ function estatisticas(){
 }
 
 /* ---------- Missões ---------- */
-const NIVEIS = ["Visitante", "Aprendiz", "Ouvinte", "Discípulo", "Mensageiro", "Atalaia", "Escriba", "Arauto", "Vidente", "Profeta", "Embaixador", "Peregrino", "Pastor", "Pescador", "Apóstolo", "Vencedor"];
+const NIVEIS = ["Visitante", "Aprendiz", "Ouvinte", "Discípulo", "Mensageiro", "Atalaia", "Escriba", "Arauto", "Vidente", "Profeta", "Embaixador", "Peregrino", "Conquistador", "Juiz", "Salmista", "Sábio",
+  "Vigia", "Reformador", "Fiel no Exílio", "Restaurador", "Guardião da Promessa"];          // até o nível 20 (as 100 casas do Antigo Testamento)
+const GRAUS = ["Aprendiz", "Viajante", "Mensageiro", "Guardião", "Mestre"];     // do nível 21 em diante: o grau dentro do mapa em que a pessoa está
 const AJUDAS = {
   meio:   { nome: "Meio a meio",     ic: "✂️", d: "Elimina duas respostas erradas da pergunta." },
   dobro:  { nome: "Pontos em dobro", ic: "⚡", d: "Dobra os pontos da sua próxima resposta certa." },
-  chance: { nome: "Segunda chance",  ic: "🔁", d: "Errou? Troca a pergunta por outra e você tenta de novo." }
+  chance: { nome: "Segunda chance",  ic: "🔁", d: "Errou? Troca a pergunta por outra e você tenta de novo." },
+  pular:  { nome: "Pular",           ic: "⏭️", d: "Não sabe a resposta? Pula a pergunta: ela não conta como erro." }
 };
+const NIVEL_PULAR = 3;      // a ajuda Pular só pode ser usada a partir deste nível
 const _ms = (t, d, chave, alvo, premio) => ({ t, d, meta: [chave, alvo], premio: premio || null });
 /* Cada missão começa a contar do zero quando vira a missão atual, e cada quiz conta para uma missão só.
    Por isso o jogador anda uma casa por vez: nenhuma missão se cumpre sozinha por causa do que foi feito antes. */
-const MISSOES = [
+/* As 45 primeiras casas do mapa: as metas e os prêmios de antes continuam iguais (ninguém perde o que já conquistou).
+   O nome de cada casa agora é o evento bíblico (parte7c_mapas.js); daqui só saem a meta, o texto dela e o prêmio. */
+const MISSOES_BASE = [
   /* Nível 1 */
   _ms("Primeiro passo", "Faça um quiz.", "quizzes", 1),
   _ms("Aquecendo", "Faça mais um quiz.", "quizzes", 1),
@@ -5140,39 +5627,37 @@ const MISSOES = [
   _ms("Três gabaritos", "Gabarite 3 quizzes.", "gabaritos", 3, { tipo: "chance", q: 3 }),
   _ms("Sete seguidos", "Faça o quiz no prazo 7 dias seguidos.", "seq", 7),
   _ms("Vinte mil", "Some 20.000 pontos.", "pontos", 20000, { tipo: "dobro", q: 3 }),
-  _ms("Fiel até o fim", "Feche uma lição com os 7 dias feitos no prazo.", "semanas", 1, { tipo: "profeta", id: "raabe" }),
-  /* Nível 10 (Belém) */
-  _ms("Rumo a Belém", "Faça 3 quizzes.", "quizzes", 3),
-  _ms("Estrela guia", "Faça 4.300 pontos ou mais em um quiz.", "quizPts", 4300, { tipo: "meio", q: 3 }),
-  _ms("Mais doze certas", "Acerte 12 perguntas.", "acertos", 12),
-  _ms("Cinco em sequência", "Faça o quiz no prazo 5 dias seguidos.", "seq", 5, { tipo: "chance", q: 3 }),
-  _ms("Casa do pão", "Gabarite 2 quizzes.", "gabaritos", 2, { tipo: "profeta", id: "josenazare" }),
-  /* Nível 11 (Belém) */
-  _ms("Boas-novas", "Publique algo no mural da sua sala.", "mural", 1),
-  _ms("Quinze mil", "Some 15.000 pontos.", "pontos", 15000),
-  _ms("Pastores atentos", "Faça 3 quizzes no prazo.", "prazo", 3, { tipo: "dobro", q: 3 }),
-  _ms("Dezesseis certas", "Acerte 16 perguntas.", "acertos", 16),
-  _ms("Noite de louvor", "Feche uma lição com os 7 dias feitos no prazo.", "semanas", 1, { tipo: "profeta", id: "maria" }),
-  /* Nível 12 (Belém) */
-  _ms("Ouro, incenso e mirra", "Gabarite 3 quizzes.", "gabaritos", 3, { tipo: "meio", q: 3 }),
-  _ms("Seis seguidos", "Faça o quiz no prazo 6 dias seguidos.", "seq", 6),
-  _ms("Brilho forte", "Faça 4.500 pontos ou mais em um quiz.", "quizPts", 4500),
-  _ms("Dezoito mil", "Some 18.000 pontos.", "pontos", 18000, { tipo: "chance", q: 3 }),
-  _ms("Emanuel", "Faça o quiz no prazo 7 dias seguidos.", "seq", 7, { tipo: "profeta", id: "messias" }),
-  /* Nível 13 (Mar da Galileia) */
-  _ms("Lance as redes", "Faça 4 quizzes.", "quizzes", 4),
-  _ms("Pesca maravilhosa", "Acerte 20 perguntas.", "acertos", 20, { tipo: "dobro", q: 3 }),
-  _ms("Sobre as águas", "Gabarite 3 quizzes.", "gabaritos", 3),
-  _ms("Vinte e dois mil", "Some 22.000 pontos.", "pontos", 22000, { tipo: "meio", q: 4 }),
-  _ms("Pescador de gente", "Faça 5 quizzes no prazo.", "prazo", 5, { tipo: "profeta", id: "pedro" }),
-  /* Nível 14 (Jerusalém): a reta final, até a Nova Jerusalém */
-  _ms("Subindo a Jerusalém", "Faça o quiz no prazo 7 dias seguidos.", "seq", 7),
-  _ms("Hosana", "Gabarite 4 quizzes.", "gabaritos", 4, { tipo: "chance", q: 4 }),
-  _ms("Vinte e cinco certas", "Acerte 25 perguntas.", "acertos", 25),
-  _ms("Trinta mil", "Some 30.000 pontos.", "pontos", 30000, { tipo: "dobro", q: 4 }),
-  _ms("Entrada triunfal", "Feche 2 lições com os 7 dias feitos no prazo.", "semanas", 2, { tipo: "acessorio", id: "jumentinho" })
+  _ms("Fiel até o fim", "Feche uma lição com os 7 dias feitos no prazo.", "semanas", 1, { tipo: "profeta", id: "raabe" })
 ];
-MISSOES.forEach((m, i) => { m.n = i + 1; });
+[10, 20, 30, 40].forEach(k => { if(!MISSOES_BASE[k].premio) MISSOES_BASE[k].premio = { tipo: "pular", q: 1 }; });     // casas 11, 21, 31 e 41: a ajuda Pular
+/* Da casa 46 em diante as metas seguem um rodízio por território (10 casas), e ficam um pouco maiores a cada 50 casas. */
+function textoMeta(k, a){
+  return k === "quizzes" ? (a === 1 ? "Faça um quiz." : `Faça ${a} quizzes.`) : k === "prazo" ? (a === 1 ? "Faça um quiz no prazo." : `Faça ${a} quizzes no prazo.`)
+    : k === "acertos" ? `Acerte ${a} perguntas.` : k === "pontos" ? `Some ${fmt(a)} pontos.` : k === "gabaritos" ? (a === 1 ? "Acerte todas as perguntas de um quiz." : `Gabarite ${a} quizzes.`)
+    : k === "quizPts" ? `Faça ${fmt(a)} pontos ou mais em um quiz.` : k === "seq" ? `Faça o quiz no prazo ${a} dias seguidos.`
+    : k === "semanas" ? (a === 1 ? "Feche uma lição com os 7 dias feitos no prazo." : `Feche ${a} lições com os 7 dias feitos no prazo.`) : "Publique algo no mural da sua sala.";
+}
+function metaGerada(g, c, ultimoTerritorio){
+  const t = Math.min(8, Math.floor((g - 1) / 50)), m = Math.min;
+  return c === 1 ? ["quizzes", 2 + m(t, 2)] : c === 2 ? ["acertos", 10 + 2 * m(t, 5)] : c === 3 ? ["prazo", 2 + m(t, 2)] : c === 4 ? ["quizPts", 4000 + 100 * m(t, 5)] : c === 5 ? ["seq", 3 + m(t, 4)]
+    : c === 6 ? ["pontos", 10000 + 2500 * m(t, 8)] : c === 7 ? ["gabaritos", 1 + m(t, 3)] : c === 8 ? ["acertos", 14 + 2 * m(t, 8)]
+    : c === 9 ? (Math.floor((g - 1) / 10) % 2 ? ["mural", 1] : ["quizzes", 3]) : ["semanas", ultimoTerritorio ? 2 : 1];
+}
+const AJ_RODIZIO = ["meio", "pular", "dobro", "chance"];
+/* A fila única de casas: todos os mapas, um depois do outro. n = casa na fila; casa = número dentro do mapa. */
+const MISSOES = [];
+MAPAS.forEach(mp => mp.terr.forEach((tr, ti) => tr.casas.forEach((evento, ci) => {
+  const g = MISSOES.length + 1, c = ci + 1, base = MISSOES_BASE[g - 1], tg = Math.floor((g - 1) / 10), q = 1 + Math.min(2, Math.floor(g / 150));
+  let meta, d, premio;
+  if(base){ meta = base.meta; d = base.d; premio = base.premio; }
+  else {
+    meta = metaGerada(g, c, ti === mp.terr.length - 1); d = textoMeta(meta[0], meta[1]);
+    premio = c === 3 ? { tipo: AJ_RODIZIO[tg % 4], q } : c === 7 ? { tipo: AJ_RODIZIO[(tg + 2) % 4], q } : c % 5 === 0 ? { tipo: AJ_RODIZIO[(tg + (c === 5 ? 1 : 3)) % 4], q: q + 1 } : null;
+  }
+  if(PREMIOS_FIXOS[g]) premio = PREMIOS_FIXOS[g];
+  MISSOES.push({ t: evento, d, meta, premio: premio || null, n: g, casa: g - mp.ini, mapa: mp.i, terr: ti });
+})));
+
 
 /* Regra antiga (metas somadas desde o primeiro quiz). Só serve para, uma única vez, manter o que cada jogador já tinha
    conquistado antes da mudança: ninguém perde missão, nível, ajuda ou personagem. */
@@ -5248,7 +5733,12 @@ function estadoMissoes(){
 function missoesFeitas(){ return estadoMissoes().n; }
 function nivelDe(feitas){ return feitas >= 1 ? 1 + Math.floor(feitas / 5) : 0; }
 function nivelAtual(){ return nivelDe(missoesFeitas()); }
-function nomeNivel(n){ return NIVEIS[Math.min(n, NIVEIS.length - 1)]; }
+function nomeNivel(n){
+  if(n < NIVEIS.length) return NIVEIS[Math.max(0, n)];
+  if((n - 1) * 5 >= TOTAL_CASAS) return "Cidadão da Nova Jerusalém";
+  const g = (n - 1) * 5 + 1, m = mapaDaCasa(g);
+  return GRAUS[Math.min(4, Math.floor((g - m.ini - 1) / m.n * 5))] + " · " + m.sigla;
+}
 function progressoMissao(m){
   const e = estadoMissoes(), alvo = m.meta[1], v = m.n <= e.n ? alvo : (m.n === e.n + 1 ? Math.min(e.prog, alvo) : 0);
   return { v, alvo, pct: Math.round(100 * v / alvo) };
@@ -5261,14 +5751,17 @@ function textoPremio(p){
 }
 /* Liberado: comum; ou já chegou ao nível; ou é um raro do mapa antigo que a pessoa já usava ou tinha conquistado.
    Moisés e Maria (semHeranca) não entram nessa exceção: todos conquistam de novo. */
-function profetaLiberado(p){ return !p.nivel || nivelAtual() >= p.nivel || (!p.semHeranca && !!perfil && (perfil.profeta === p.id || (perfil.legado || []).includes(p.id))); }
+function profetaLiberado(p){ return !p.nivel || nivelAtual() >= p.nivel || (!!perfil && ((perfil.legado || []).includes(p.id) || (!p.semHeranca && perfil.profeta === p.id))); }
 /* Ao entrar: guarda uma única vez o que a pessoa tinha no mapa antigo (45 casas) e, se o personagem dela virou prêmio
    que ela ainda não conquistou, pede para escolher outro. */
 function conferirPersonagem(){
   if(!usuario || !perfil) return;
-  if(perfil.mapa !== 70){
-    const legado = Math.max(perfil.missoes || 0, missoesFeitas()) >= 45 ? ["messias"] : [];
-    perfil.mapa = 70; perfil.legado = legado; DB.salvarUsuario(usuario.uid, { mapa: 70, legado }).catch(()=>{});
+  if(perfil.mapa !== "m2"){
+    /* quem já tinha passado das casas 50 a 65 do mapa antigo (ou das 45 do primeiro) mantém os personagens que estavam lá */
+    const n = Math.max(perfil.missoes || 0, missoesFeitas()), legado = new Set(perfil.legado || []);
+    if(perfil.mapa !== 70 && n >= 45) legado.add("messias");
+    if(perfil.mapa === 70){ if(n >= 50) legado.add("josenazare"); if(n >= 55) legado.add("maria"); if(n >= 60) legado.add("messias"); if(n >= 65) legado.add("pedro"); }
+    perfil.mapa = "m2"; perfil.legado = [...legado]; DB.salvarUsuario(usuario.uid, { mapa: "m2", legado: perfil.legado }).catch(()=>{});
   }
   const p = perfil.profeta ? acharProfeta(perfil.profeta) : null;
   if(p && !profetaLiberado(p)){ perfil.profeta = ""; DB.salvarUsuario(usuario.uid, { profeta: "" }).catch(()=>{}); }   // abre direto a escolha do personagem, sem aviso
@@ -5279,16 +5772,16 @@ function personagemDe(id, nivel){ const p = id ? acharProfeta(id) : null; return
 
 /* ---------- Ajudas: ganhas nas missões, gastas no quiz ---------- */
 function ajudasGanhas(){
-  const g = { meio: 0, dobro: 0, chance: 0 };
+  const g = { meio: 0, dobro: 0, chance: 0, pular: 0 };
   MISSOES.slice(0, missoesFeitas()).forEach(m => { if(m.premio && g[m.premio.tipo] != null) g[m.premio.tipo] += m.premio.q; });
   return g;
 }
 function ajudasDisponiveis(){
   const g = ajudasGanhas(), u = (perfil && perfil.ajudasUsadas) || {};
-  return { meio: Math.max(0, g.meio - (u.meio || 0)), dobro: Math.max(0, g.dobro - (u.dobro || 0)), chance: Math.max(0, g.chance - (u.chance || 0)) };
+  return { meio: Math.max(0, g.meio - (u.meio || 0)), dobro: Math.max(0, g.dobro - (u.dobro || 0)), chance: Math.max(0, g.chance - (u.chance || 0)), pular: Math.max(0, g.pular - (u.pular || 0)) };
 }
 function gastarAjuda(tipo){
-  const u = Object.assign({ meio: 0, dobro: 0, chance: 0 }, perfil.ajudasUsadas || {});
+  const u = Object.assign({ meio: 0, dobro: 0, chance: 0, pular: 0 }, perfil.ajudasUsadas || {});
   u[tipo] = (u[tipo] || 0) + 1; perfil.ajudasUsadas = u;
   DB.salvarUsuario(usuario.uid, { ajudasUsadas: u }).catch(()=>{});
 }
@@ -5424,7 +5917,7 @@ function conferirMissoesNovas(){
   tocar(subiu ? "subiu" : "missao");
   modal(subiu ? `Nível ${nvAgora}: ${nomeNivel(nvAgora)}!` : (novas.length === 1 ? "Missão cumprida!" : novas.length + " missões cumpridas!"), `<div class="cq-festa">
       ${subiu ? `<div class="nivel-selo"><span>Nível</span><b>${nvAgora}</b><em>${esc(nomeNivel(nvAgora))}</em></div>` : ""}
-      <div class="cq-festa-lista">${novas.slice(-6).map(m => `<div class="cq-festa-item"><div class="ms-num">${m.n}</div><div class="tx"><b>${esc(m.t)}</b><span>${esc(m.d)}${m.premio ? " · Prêmio: " + esc(textoPremio(m.premio)) : ""}</span></div></div>`).join("")}</div>
+      <div class="cq-festa-lista">${novas.slice(-6).map(m => `<div class="cq-festa-item"><div class="ms-num">${m.casa}</div><div class="tx"><b>${esc(m.t)}</b><span>${esc(m.d)}${m.premio ? " · Prêmio: " + esc(textoPremio(m.premio)) : ""}</span></div></div>`).join("")}</div>
       ${novas.length > 6 ? `<p class="muted small" style="margin:8px 0 0">e mais ${novas.length - 6} ${novas.length - 6 === 1 ? "missão" : "missões"} antes ${novas.length - 6 === 1 ? "dela" : "delas"}.</p>` : ""}
       ${profetas.length ? `<div class="novo-profeta">${profetas.map(p => `<div>${avatarSVG(p.id)}<b>${esc(p.nome)}</b></div>`).join("")}<p>${profetas.length === 1 ? "Novo personagem liberado!" : "Novos personagens liberados!"} Troque em Minha conta, se quiser.</p></div>` : ""}
       ${acess.length ? `<div class="novo-profeta">${acess.map(a => `<div>${avatarSVG(a.de, null, 0, 99)}<b>${esc(a.nome)}</b></div>`).join("")}<p>Novo acessório liberado! Ele aparece sempre que você usar ${acess.map(a => esc(acharProfeta(a.de).nome)).join(" e ")}.</p></div>` : ""}
@@ -5433,7 +5926,7 @@ function conferirMissoesNovas(){
     </div>`, (m, fechar) => {
     m.querySelector("#msTrilha").onclick = () => { fechar(); telaMissoes(antes); };
     m.querySelector("#msOk").onclick = fechar;
-    const mu = m.querySelector("#msMural"); if(mu) mu.onclick = () => publicarNoMural(subiu ? { tipo: "nivel", ref: "n" + nvAgora, ic: "⭐", titulo: `Subiu para o nível ${nvAgora}: ${nomeNivel(nvAgora)}`, texto: `${agora} missões cumpridas` } : { tipo: "missao", ref: "m" + agora, ic: "🎯", titulo: `Cumpriu a missão ${agora}: ${novas[novas.length-1].t}`, texto: novas[novas.length-1].d }, mu);
+    const mu = m.querySelector("#msMural"); if(mu) mu.onclick = () => publicarNoMural(subiu ? { tipo: "nivel", ref: "n" + nvAgora, ic: "⭐", titulo: `Subiu para o nível ${nvAgora}: ${nomeNivel(nvAgora)}`, texto: `${agora} missões cumpridas` } : { tipo: "missao", ref: "m" + agora, ic: "🎯", titulo: `Chegou à casa ${novas[novas.length-1].casa} do mapa ${MAPAS[novas[novas.length-1].mapa].nome}: ${novas[novas.length-1].t}`, texto: novas[novas.length-1].d }, mu);
   }, parar);
 }
 
@@ -5465,8 +5958,8 @@ function modalMissao(i){
     premios += `<div class="mj-premio ajuda"><div class="mj-ficha"><span aria-hidden="true">${a.ic}</span><b>×${m.premio.q}</b></div><div class="mj-ptx"><small>Ajuda para o quiz${feita ? " · recebida" : ""}</small><strong>${m.premio.q}× ${esc(a.nome)}</strong><span>${esc(a.d)}</span></div></div>`;
   }
   if(sobeNivel){
-    const zn = m.n >= MISSOES.length ? ZONA_FINAL : zonaDaCasa(m.n + 1);
-    premios += `<div class="mj-premio nivel"><div class="hm-nivel"><b>${nvNovo}</b><small>nível</small></div><div class="mj-ptx"><small>${feita ? "Nível alcançado" : "Sobe de nível"}</small><strong>Nível ${nvNovo} · ${esc(nomeNivel(nvNovo))}</strong><span>${zn !== z ? "Nova etapa do mapa: " + esc(zn.nome) : "A jornada continua em " + esc(zn.nome)}</span></div></div>`;
+    const fimDoMapa = m.casa === MAPAS[m.mapa].n, zn = fimDoMapa ? MAPAS[m.mapa].fim : zonaDaCasa(m.n + 1);
+    premios += `<div class="mj-premio nivel"><div class="hm-nivel"><b>${nvNovo}</b><small>nível</small></div><div class="mj-ptx"><small>${feita ? "Nível alcançado" : "Sobe de nível"}</small><strong>Nível ${nvNovo} · ${esc(nomeNivel(nvNovo))}</strong><span>${fimDoMapa ? "Fim do mapa: " + esc(zn.nome) + (MAPAS[m.mapa + 1] ? ". Libera o mapa " + esc(MAPAS[m.mapa + 1].nome) : "") : zn !== z ? "Novo território: " + esc(zn.nome) : "A jornada continua em " + esc(zn.nome)}</span></div></div>`;
   }
   const semPremio = !premios;
   if(semPremio){ const falta = 5 - (m.n % 5);
@@ -5474,13 +5967,13 @@ function modalMissao(i){
   /* botão: na missão atual leva direto para onde ela se cumpre */
   const destino = m.meta[0] === "mural" ? ["Abrir o mural", () => nav("mural")] : m.meta[0] === "quizSala" ? ["Ver as salas", () => nav("salas")] : ["Ir para o quiz", () => { quizVista = "semana"; LICAO = LICOES[indiceLicaoAtual()] || LICAO; nav("quiz"); }];
   tocar("toque");
-  modal(`Missão ${m.n}`, `<div class="mj ${estado}">
+  modal(`Casa ${m.casa} · ${MAPAS[m.mapa].nome}`, `<div class="mj ${estado}">
       <div class="mj-cena">${cena}<span class="mj-zona">📍 ${esc(z.nome)}</span><div class="mj-raios" aria-hidden="true"></div>
-        <div class="mj-moeda"><b>${m.n}</b>${feita ? `<i aria-hidden="true">✓</i>` : atual ? "" : `<i aria-hidden="true">🔒</i>`}</div></div>
+        <div class="mj-moeda"><b>${m.casa}</b>${feita ? `<i aria-hidden="true">✓</i>` : atual ? "" : `<i aria-hidden="true">🔒</i>`}</div></div>
       <span class="mj-selo">${feita ? "Missão cumprida" : atual ? "Missão atual" : "Bloqueada"}</span>
       <h3>${esc(m.t)}</h3><p class="mj-desc">${esc(m.d)}</p>
       <div class="mj-barra" role="img" aria-label="${feita ? "Completa" : fmt(pg.v) + " de " + fmt(pg.alvo)}"><i style="width:${feita ? 100 : pg.pct}%"></i><span>${feita ? "Completa!" : fmt(pg.v) + " / " + fmt(pg.alvo)}</span></div>
-      ${estado === "fechada" ? `<p class="mj-nota">Libera depois da missão ${feitas + 1}.</p>` : ""}
+      ${estado === "fechada" ? `<p class="mj-nota">${MISSOES[feitas].mapa === m.mapa ? "Libera depois da casa " + MISSOES[feitas].casa + "." : "Libera quando você concluir o mapa " + MAPAS[m.mapa - 1].nome + "."}</p>` : ""}
       <div class="mj-rot"><span>${semPremio ? "Nesta casa" : feita ? "Recompensa recebida" : "Recompensa"}</span></div>
       <div class="mj-premios">${premios}</div>
       <div class="btn-row uma"><button type="button" class="btn ${atual ? "btn-main" : "btn-ghost"}" id="mjIr">${atual ? destino[0] : "Voltar para a trilha"}</button></div>
@@ -5490,12 +5983,17 @@ function modalMissao(i){
     });
 }
 /* Cartão das missões no Início */
+/* "Antigo Testamento · 12 de 100" (curto: "AT 12/100") */
+function resumoMapaAtual(feitas, curto){
+  const m = mapaDaCasa(Math.min(TOTAL_CASAS, feitas + 1)), f = Math.max(0, Math.min(m.n, feitas - m.ini));
+  return curto ? `${m.sigla} ${f}/${m.n}` : `${m.nome} · ${f} de ${m.n}`;
+}
 function cartaoMissoesInicio(){
   const st = estatisticas(), feitas = missoesFeitas(st), nv = nivelDe(feitas), prox = MISSOES[feitas] || null;
   const pg = prox ? progressoMissao(prox, st) : null;
-  return `<section class="panel ms-inicio"><div class="cq-head"><span class="hoje-lbl">Missões · ${feitas} de ${MISSOES.length}</span><button class="btn btn-ghost btn-sm" id="inTrilha">Ver a trilha</button></div>
+  return `<section class="panel ms-inicio"><div class="cq-head"><span class="hoje-lbl">${esc(resumoMapaAtual(feitas))}</span><button class="btn btn-ghost btn-sm" id="inTrilha">Ver a trilha</button></div>
     <div class="ms-resumo"><div class="nivel-selo peq"><span>Nível</span><b>${nv}</b><em>${esc(nomeNivel(nv))}</em></div>
-      <div class="ms-resumo-tx">${prox ? `<h3>${prox.n}. ${esc(prox.t)}</h3><p>${esc(prox.d)}</p><div class="barra-ms"><i style="width:${pg.pct}%"></i></div><p class="muted small" style="margin:4px 0 0">${fmt(pg.v)} de ${fmt(pg.alvo)}${prox.premio ? " · Prêmio: " + esc(textoPremio(prox.premio)) : ""}</p>` : `<h3>Trilha completa!</h3><p>Todas as missões cumpridas.</p>`}</div></div>
+      <div class="ms-resumo-tx">${prox ? `<h3>${prox.casa}. ${esc(prox.t)}</h3><p>${esc(prox.d)}</p><div class="barra-ms"><i style="width:${pg.pct}%"></i></div><p class="muted small" style="margin:4px 0 0">${fmt(pg.v)} de ${fmt(pg.alvo)}${prox.premio ? " · Prêmio: " + esc(textoPremio(prox.premio)) : ""}</p>` : `<h3>Trilha completa!</h3><p>Todas as missões cumpridas.</p>`}</div></div>
     ${chipsAjudas()}</section>`;
 }
 
@@ -5545,9 +6043,9 @@ function cartaoDesempenhoMin(){
 }
 function cartaoMissoesMin(){
   const feitas = missoesFeitas(), nv = nivelDe(feitas), prox = MISSOES[feitas] || null, pg = prox ? progressoMissao(prox) : null, d = ajudasDisponiveis();
-  return `<section class="panel hm-card"><div class="hm-cab"><span>Missões <em>${feitas}/${MISSOES.length}</em></span><button type="button" class="hm-link" id="inTrilha">Trilha <span aria-hidden="true">›</span></button></div>
-    <div class="hm-ms"><div class="hm-nivel"><b>${nv}</b><small>nível</small></div><div class="hm-ms-tx">${prox ? `<strong>${prox.n}. ${esc(prox.t)}</strong><span>${esc(prox.d)}</span><div class="hm-barra"><i style="width:${pg.pct}%"></i></div><span class="hm-ms-pg">${fmt(pg.v)} de ${fmt(pg.alvo)}${prox.premio ? ` · 🎁 ${esc(textoPremio(prox.premio))}` : ""}</span>` : `<strong>Jornada completa!</strong><span>Todas as missões cumpridas.</span>`}</div></div>
-    <div class="hm-ajudas">${Object.keys(AJUDAS).map(k => `<span class="${d[k] ? "" : "zero"}" title="${esc(AJUDAS[k].nome)}: ${esc(AJUDAS[k].d)}">${AJUDAS[k].ic} ${({ meio: "Meio a meio", dobro: "Dobro", chance: "2ª chance" })[k] || esc(AJUDAS[k].nome)} <b>${d[k]}</b></span>`).join("")}</div></section>`;
+  return `<section class="panel hm-card"><div class="hm-cab"><span>Missões <em>${esc(resumoMapaAtual(feitas, true))}</em></span><button type="button" class="hm-link" id="inTrilha">Trilha <span aria-hidden="true">›</span></button></div>
+    <div class="hm-ms"><div class="hm-nivel"><b>${nv}</b><small>nível</small></div><div class="hm-ms-tx">${prox ? `<strong>${prox.casa}. ${esc(prox.t)}</strong><span>${esc(prox.d)}</span><div class="hm-barra"><i style="width:${pg.pct}%"></i></div><span class="hm-ms-pg">${fmt(pg.v)} de ${fmt(pg.alvo)}${prox.premio ? ` · 🎁 ${esc(textoPremio(prox.premio))}` : ""}</span>` : `<strong>Jornada completa!</strong><span>Todas as missões cumpridas.</span>`}</div></div>
+    <div class="hm-ajudas">${Object.keys(AJUDAS).map(k => `<span class="${d[k] ? "" : "zero"}" title="${esc(AJUDAS[k].nome)}: ${esc(AJUDAS[k].d)}">${AJUDAS[k].ic} ${({ meio: "Meio a meio", dobro: "Dobro", chance: "2ª chance", pular: "Pular" })[k] || esc(AJUDAS[k].nome)} <b>${d[k]}</b></span>`).join("")}</div></section>`;
 }
 function cartaoDesempenho(){
   const a = analiseDesempenho(), st = a.st;
@@ -5767,14 +6265,50 @@ const ZONAS = [
     extra: ["oliveira", "rocha", "oliveira"] }
 ];
 const ZONA_FINAL = { nome: "Nova Jerusalém", ref: "Apocalipse 21", c: ["#FFF9E6", "#FFE29A"] };
-/* Quantas casas (missões) tem cada etapa, na ordem do mapa: 70 no total. A cada 5 casas, um nível. */
-const CASAS_ZONA = [10, 10, 5, 5, 5, 10, 15, 5, 5];
-const FIM_ZONA = CASAS_ZONA.reduce((l, n) => (l.push((l[l.length - 1] || 0) + n), l), []);      // última casa de cada etapa: 10, 20, 25...
-function indiceZona(casa){ const k = FIM_ZONA.findIndex(f => casa <= f); return k < 0 ? ZONAS.length - 1 : k; }
-function zonaDaCasa(casa){ return ZONAS[indiceZona(Math.max(1, casa))]; }
-function zonaDoNivel(n){ return zonaDaCasa((Math.max(1, n) - 1) * 5 + 1); }
-/* níveis que se joga dentro de uma etapa (ex.: Belém vai da casa 46 à 60: níveis 10 a 12) */
-function niveisDaZona(k){ const a = (k ? FIM_ZONA[k - 1] : 0) / 5 + 1, b = FIM_ZONA[k] / 5; return a === b ? `Nível ${a} · ${nomeNivel(a)}` : `Níveis ${a} ${b - a === 1 ? "e" : "a"} ${b}`; }
+/* As 9 paisagens acima viraram modelos ("biomas"). Cada território de cada mapa (parte7c_mapas.js) escolhe um bioma. */
+const _bio = (base, extra) => Object.assign({}, base, extra);
+const BIOMAS = { eden: ZONAS[0], tendas: ZONAS[1], egito: ZONAS[2], mar: ZONAS[3], sinai: ZONAS[4], jerico: ZONAS[5], belem: ZONAS[6], galileia: ZONAS[7], jerusalem: ZONAS[8], jerusalemDia: ZONAS[8] };
+Object.assign(BIOMAS, {
+  edenDiluvio: _bio(ZONAS[0], { fundo: [["colinas", .92, "#8FCBE0", 22], ["rio", .6, "#5EC8E8"], ["colinas", .2, "#4FA55A", 16]],
+    decos: [["arvoreVida", .22, 1], ["macieira", .08, 1], ["flores", .3, 1], ["ovelha", .42, 1], ["arvore", .5, .9], ["arcaNoe", .72, 1.1], ["nuvem", .8, 1], ["arcoIris", .88, 1.1], ["zigurate", .97, .85]] }),
+  campos: { c: ["#F1E08E", "#DDBE55"], tufo: "#B8963A", fundo: [["colinas", .8, "#E8CE6A", 22], ["colinas", .3, "#D2B044", 16]],
+    decos: [["tenda", .2, 1], ["arvore", .4, .9], ["ovelha", .3, 1], ["palmeira", .6, .9], ["arbusto", .75, 1], ["ovelha", .85, .9], ["flores", .5, 1]], extra: ["arbusto", "flores", "ovelha", "rocha", "arvore"] },
+  reino: { c: ["#EBD9B0", "#D6BC8A"], tufo: "#B79A6A", fundo: [["colinas", .85, "#E2CC9C", 20], ["colinas", .3, "#CDB07E", 18]],
+    decos: [["templo", .9, 1.05], ["muralha", .52, 1], ["casas", .25, 1], ["oliveira", .66, 1], ["palmeira", .15, .9], ["oliveira", .38, .9]], extra: ["oliveira", "rocha", "casas", "palmeira"] },
+  carmelo: { c: ["#BFD696", "#93B872"], tufo: "#5E8A45", fundo: [["colinas", .85, "#A9C983", 26], ["rio", .42, "#5EC8E8"], ["colinas", .2, "#86AE64", 18]],
+    decos: [["montanha", .82, .9], ["sarca", .52, 1.1], ["nuvem", .95, 1], ["oliveira", .3, 1], ["arvore", .15, .9], ["rocha", .66, 1], ["peixe", .42, 1]], extra: ["arvore", "rocha", "arbusto", "oliveira"] },
+  babilonia: { c: ["#EBCB8E", "#CFA862"], tufo: "#A8813F", fundo: [["rio", .5, "#4FA3C8"], ["colinas", .85, "#E0BC78", 18]],
+    decos: [["zigurate", .84, 1.1], ["estatua", .62, 1], ["leao", .3, 1.1], ["palmeira", .2, 1], ["muralha", .42, .9], ["palmeira", .72, .9], ["juncos", .5, 1]], extra: ["palmeira", "rocha", "juncos", "leao"] },
+  jordao: { c: ["#C6E6A6", "#93CC80"], tufo: "#4F9A4F", fundo: [["rio", .5, "#5EC8E8"], ["colinas", .85, "#B2DA94", 22], ["colinas", .2, "#84BF72", 16]],
+    decos: [["juncos", .5, 1.1], ["palmeira", .75, 1], ["arvore", .25, 1], ["rocha", .62, 1], ["juncos", .44, 1], ["oliveira", .9, .9], ["flores", .12, 1]], extra: ["juncos", "arvore", "rocha", "flores", "arbusto"] },
+  monte: { c: ["#B4DE96", "#84C272"], tufo: "#3E9B4F", fundo: [["colinas", .9, "#A2D485", 30], ["colinas", .5, "#90C876", 22], ["colinas", .15, "#78B764", 16]],
+    decos: [["montanha", .9, .8], ["flores", .3, 1], ["ovelha", .45, 1], ["arvore", .6, 1], ["oliveira", .2, 1], ["flores", .7, 1], ["ovelha", .1, .9]], extra: ["flores", "arbusto", "ovelha", "arvore", "rocha"] },
+  judeia: { c: ["#F1DFB4", "#DDC28C"], tufo: "#B79A6A", fundo: [["colinas", .8, "#E8D3A2", 22], ["colinas", .3, "#D4B67E", 16]],
+    decos: [["casas", .75, 1], ["oliveira", .5, 1], ["palmeira", .25, 1], ["rocha", .62, 1], ["ovelha", .4, 1], ["oliveira", .9, .9], ["casas", .12, .9]], extra: ["oliveira", "rocha", "palmeira", "arbusto"] },
+  calvario: { c: ["#3A3466", "#5E5088"], tufo: null, fundo: [["estrelas"], ["colinas", .3, "#4A4278", 26], ["colinas", .1, "#554B86", 18]],
+    decos: [["calvario", .76, 1.1], ["tumulo", .93, 1], ["oliveira", .3, 1], ["oliveira", .15, .9], ["rocha", .5, 1], ["oliveira", .45, .9]], extra: ["oliveira", "rocha"] },
+  mediterraneo: { c: ["#3C93C8", "#62BBE0"], tufo: null, fundo: [["ondas", "#E8FBFF"]],
+    decos: [["barco", .76, 1.1], ["barco", .3, .95], ["peixe", .5, 1], ["peixe", .9, 1], ["peixe", .15, .9], ["nuvem", .62, .9]], extra: ["peixe", "barco"] },
+  grecia: { c: ["#EDE8D8", "#D3CCB6"], tufo: "#A8A08A", fundo: [["colinas", .85, "#E2DCC8", 20], ["colinas", .3, "#C9C1A8", 16]],
+    decos: [["templo", .82, 1], ["coluna", .58, 1.1], ["coluna", .5, .9], ["oliveira", .3, 1], ["coluna", .15, 1], ["rocha", .68, 1], ["oliveira", .93, .9]], extra: ["coluna", "oliveira", "rocha"] },
+  roma: { c: ["#E8D5C2", "#CFB49C"], tufo: "#A88A70", fundo: [["colinas", .85, "#DEC8B2", 20], ["colinas", .3, "#C6A88E", 16]],
+    decos: [["muralha", .84, 1.1], ["coluna", .62, 1.2], ["casas", .4, 1], ["coluna", .25, 1], ["oliveira", .12, 1], ["coluna", .72, 1]], extra: ["coluna", "oliveira", "rocha", "casas"] },
+  patmos: { c: ["#5DB6C9", "#8AD3DE"], tufo: null, fundo: [["ondas", "#F0FFFF"]],
+    decos: [["montanha", .82, .7], ["candelabro", .6, 1.2], ["barco", .3, 1], ["rocha", .5, 1.3], ["peixe", .15, 1], ["candelabro", .92, 1], ["rocha", .72, 1]], extra: ["peixe", "rocha", "barco"] },
+  ceu: { c: ["#D6ECFF", "#F1E6FF"], tufo: null, fundo: [],
+    decos: [["trono", .86, 1.2], ["arcoIris", .7, 1.2], ["nuvem", .5, 1.2], ["candelabro", .35, 1.1], ["nuvem", .2, 1], ["nuvem", .94, 1], ["candelabro", .6, 1]], extra: ["nuvem", "candelabro"] }
+});
+Object.assign(BIOMAS, {
+  efeso: _bio(BIOMAS.grecia, { c: ["#E9DCC2", "#D0BB98"], decos: [["templo", .86, 1.1], ["casas", .62, 1], ["coluna", .42, 1.1], ["palmeira", .2, 1], ["coluna", .72, .9], ["oliveira", .12, 1]] }),
+  babiloniaFogo: _bio(BIOMAS.babilonia, { c: ["#F0B878", "#D98E52"], decos: [["estatua", .8, 1.3], ["sarca", .5, 1.3], ["zigurate", .25, .9], ["arvore", .64, 1.1], ["palmeira", .4, .9], ["leao", .12, 1]] }),
+  babiloniaNoite: _bio(BIOMAS.babilonia, { c: ["#2B2A5E", "#4B4284"], tufo: null, fundo: [["estrelas"], ["colinas", .3, "#3A3277", 22]], decos: [["zigurate", .82, 1.1], ["muralha", .52, 1], ["leao", .3, 1.2], ["leao", .18, 1], ["palmeira", .66, .9], ["candelabro", .92, 1]], extra: ["palmeira", "rocha", "leao"] }),
+  ceuDourado: _bio(BIOMAS.ceu, { c: ["#FFF3C4", "#FFE08A"], decos: [["trono", .82, 1.3], ["arcoIris", .62, 1.3], ["nuvem", .4, 1.2], ["nuvem", .2, 1], ["candelabro", .3, 1.1], ["nuvem", .92, 1.1]] })
+});
+/* cada território vira uma "zona" do mapa: a paisagem do bioma com o nome e a referência dele */
+MAPAS.forEach(m => { m.zonas = m.terr.map(t => Object.assign({}, BIOMAS[t.b] || BIOMAS.eden, { nome: t.nome, ref: t.ref })); });
+function zonaDaCasa(g){ const m = mapaDaCasa(Math.max(1, g)); return m.zonas[Math.max(0, Math.min(m.zonas.length - 1, Math.floor((Math.max(1, g) - m.ini - 1) / 10)))]; }
+/* os dois níveis que se joga em cada território (10 casas) */
+function niveisDaZona(m, k){ const a = (m.ini + 10 * k) / 5 + 1; return `Níveis ${a} e ${a + 1}`; }
 
 /* ---------- Desenhos (coordenadas locais: chão em y=0, para cima é negativo) ---------- */
 const _somb = w => `<ellipse cx="0" cy="0" rx="${w}" ry="${(w * .24).toFixed(1)}" fill="rgba(30,20,10,.18)"/>`;
@@ -5784,7 +6318,7 @@ const _arvoreBase = `<rect x="-4" y="-26" width="8" height="26" rx="3" fill="#7A
 const _montanha = (c1, c2) => `<polygon points="-72,0 -28,-64 -14,-54 6,-88 72,0" fill="${c1}"/><polygon points="6,-88 72,0 18,0 0,-46" fill="${c2}"/><polygon points="6,-88 -5,-73 1,-69 6,-75 12,-67 17,-73" fill="#F7F2EA"/><polygon points="-28,-64 -35,-54 -30,-52 -26,-57 -21,-52 -17,-57" fill="#F7F2EA"/>`;
 /* Movimento leve de cada enfeite do mapa (o que não está aqui fica parado): vento nas plantas, bichos, barcos, nuvens, luzes */
 const ANIMA = { arvore: "vento", macieira: "vento", arvoreVida: "vento", palmeira: "vento", arbusto: "vento", flores: "vento", juncos: "vento", oliveira: "vento",
-  sarca: "chama", ovelha: "pasta", peixe: "nada", barco: "balanca", arca: "balanca", nuvem: "nuvem", sol: "luz", estrelaBelem: "luz", paredeAgua: "agua" };
+  sarca: "chama", candelabro: "luz", arcaNoe: "balanca", leao: "pasta", ovelha: "pasta", peixe: "nada", barco: "balanca", arca: "balanca", nuvem: "nuvem", sol: "luz", estrelaBelem: "luz", paredeAgua: "agua" };
 const DECO = {
   arvore:     { w: 28, h: 66, d: () => _somb(22) + _arvoreBase },
   macieira:   { w: 28, h: 66, d: () => _somb(22) + _arvoreBase + [[-11, -38], [9, -49], [13, -31], [-1, -30], [-4, -57]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="3.2" fill="#E8505D"/><circle cx="${x - 1}" cy="${y - 1}" r="1" fill="#FFB3BA"/>`).join("") },
@@ -5802,6 +6336,14 @@ const DECO = {
   paredeAgua: { w: 40, h: 86, vira: true, lado: true, d: () => `<path d="M-34 0 C-38 -38 -20 -78 14 -82 C34 -84 44 -66 34 -54 C26 -46 14 -52 18 -62 C-2 -56 -10 -30 -6 0 Z" fill="#1E6AA2"/><path d="M-26 -8 C-28 -40 -14 -66 8 -72" stroke="#5AB8E6" stroke-width="5" fill="none" stroke-linecap="round" opacity=".75"/><path d="M14 -82 C34 -84 44 -66 34 -54 C26 -46 14 -52 18 -62" fill="none" stroke="#E6F7FF" stroke-width="4" stroke-linecap="round"/><circle cx="40" cy="-74" r="2.2" fill="#E6F7FF"/><circle cx="44" cy="-62" r="1.6" fill="#E6F7FF"/><circle cx="26" cy="-88" r="1.8" fill="#E6F7FF"/><path d="M-36 0 q4 -3 8 0 t8 0 t8 0 t8 0" stroke="#E6F7FF" stroke-width="2.2" fill="none" opacity=".8"/>` },
   montanha:   { w: 72, h: 90, d: () => _montanha("#A0806A", "#7F604E") },
   sinai:      { w: 74, h: 128, d: () => `<circle cx="6" cy="-96" r="40" fill="#FFE9A6" opacity=".22"/>` + _montanha("#8F6E5A", "#6E5244") + `<g transform="translate(6 -96)"><g fill="#8C8FA8"><ellipse cx="0" cy="0" rx="30" ry="11"/><circle cx="-12" cy="-6" r="12"/><circle cx="6" cy="-11" r="14"/><circle cx="20" cy="-4" r="10"/></g><polygon points="2,6 -6,22 0,22 -4,36 10,16 3,16 8,6" fill="#FFD54A"/></g>` },
+  arcaNoe:    { w: 44, h: 46, d: () => _somb(40) + `<path d="M-42 -14 H42 L32 0 H-32Z" fill="#8A5A2B"/><path d="M-40 -11 H40" stroke="#C9934E" stroke-width="2.5"/><rect x="-22" y="-32" width="44" height="18" fill="#A0723C"/><polygon points="-26,-32 0,-44 26,-32" fill="#B5462F"/><rect x="-4" y="-27" width="8" height="8" rx="1" fill="#F4E8CC"/>` },
+  arcoIris:   { w: 44, h: 46, d: () => ["#E8505D", "#F08A4B", "#F2BE2E", "#2BA486", "#1C9FD0", "#7B6CF0"].map((c, i) => `<path d="M${-42 + i * 4} 0 A${42 - i * 4} ${42 - i * 4} 0 0 1 ${42 - i * 4} 0" stroke="${c}" stroke-width="4.4" fill="none" opacity=".85"/>`).join("") },
+  zigurate:   { w: 46, h: 60, d: () => _somb(44) + [[44, 0], [34, -14], [24, -28], [14, -42]].map(([w, y], i) => `<rect x="${-w}" y="${y - 14}" width="${2 * w}" height="14" fill="${["#C99A5A", "#D6A866", "#E2B672", "#EEC47E"][i]}" stroke="#9C7340" stroke-width="1"/>`).join("") + `<rect x="-5" y="-14" width="10" height="14" fill="#6E4A24"/>` },
+  estatua:    { w: 16, h: 64, d: () => _somb(14) + `<circle cx="0" cy="-56" r="7" fill="#F2BE2E"/><rect x="-9" y="-49" width="18" height="16" rx="3" fill="#D9DDE6"/><rect x="-8" y="-33" width="16" height="13" fill="#C98A4E"/><rect x="-7" y="-20" width="6" height="16" fill="#7C7F8C"/><rect x="1" y="-20" width="6" height="16" fill="#7C7F8C"/><rect x="-8" y="-4" width="7" height="4" fill="#A0806A"/><rect x="1" y="-4" width="7" height="4" fill="#A0806A"/>` },
+  leao:       { w: 22, h: 24, vira: true, d: () => _somb(16) + `<ellipse cx="2" cy="-9" rx="13" ry="7" fill="#D9A04A"/><circle cx="-11" cy="-15" r="9" fill="#A8672A"/><circle cx="-11" cy="-15" r="5.5" fill="#E8B866"/><circle cx="-13" cy="-16" r="1" fill="#22183A"/><path d="M-6 0 V-5 M8 0 V-5" stroke="#B8853A" stroke-width="3" stroke-linecap="round"/><path d="M15 -10 q8 -4 6 -12" stroke="#B8853A" stroke-width="2.4" fill="none" stroke-linecap="round"/>` },
+  coluna:     { w: 12, h: 56, d: () => _somb(12) + `<rect x="-11" y="-6" width="22" height="6" fill="#CFC8B4"/><rect x="-8" y="-48" width="16" height="42" fill="#F1ECDD"/><path d="M-4 -48 V-6 M0 -48 V-6 M4 -48 V-6" stroke="#CFC8B4" stroke-width="1.4"/><rect x="-11" y="-54" width="22" height="6" rx="1" fill="#DAD3BF"/>` },
+  candelabro: { w: 18, h: 40, d: () => `<circle cx="0" cy="-30" r="18" fill="#FFE9A6" opacity=".3"/><path d="M0 0 V-26 M-12 -26 Q-12 -12 0 -12 Q12 -12 12 -26 M-6 -26 Q-6 -18 0 -18 Q6 -18 6 -26" stroke="#E0A419" stroke-width="2.6" fill="none" stroke-linecap="round"/><rect x="-8" y="-2" width="16" height="3" rx="1" fill="#E0A419"/>` + [-12, -6, 0, 6, 12].map(x => `<ellipse cx="${x}" cy="-30" rx="2" ry="3.4" fill="#FFB347"/>`).join("") },
+  trono:      { w: 26, h: 54, d: () => `<circle cx="0" cy="-34" r="34" fill="#FFFFFF" opacity=".4"/><rect x="-18" y="-50" width="36" height="34" rx="6" fill="#FFE68A" stroke="#C98A12" stroke-width="2"/><rect x="-24" y="-18" width="48" height="12" rx="3" fill="#F2BE2E" stroke="#C98A12" stroke-width="2"/><rect x="-22" y="-6" width="8" height="6" fill="#C98A12"/><rect x="14" y="-6" width="8" height="6" fill="#C98A12"/>` },
   nuvem:      { w: 28, h: 34, d: () => `<g fill="#FFFFFF" opacity=".95"><ellipse cx="0" cy="-10" rx="26" ry="10"/><circle cx="-10" cy="-16" r="11"/><circle cx="6" cy="-20" r="13"/><circle cx="18" cy="-13" r="9"/></g>` },
   tabuas:     { w: 22, h: 34, d: () => _somb(22) + `<path d="M-19 0 V-24 a9 9 0 0 1 18 0 V0Z" fill="#E1DBCF" stroke="#8E877A" stroke-width="1.5"/><path d="M1 0 V-24 a9 9 0 0 1 18 0 V0Z" fill="#D2CBBE" stroke="#8E877A" stroke-width="1.5"/><path d="M-15 -22 H-5 M-15 -17 H-5 M-15 -12 H-5 M-15 -7 H-5 M5 -22 H15 M5 -17 H15 M5 -12 H15 M5 -7 H15" stroke="#8E877A" stroke-width="1.3"/>` },
   sarca:      { w: 22, h: 44, d: () => `<circle cx="0" cy="-18" r="24" fill="#FFB347" opacity=".25"/>` + _somb(17) + `<circle cx="-8" cy="-8" r="9" fill="#6E7F3A"/><circle cx="7" cy="-9" r="10" fill="#586A2C"/><circle cx="-1" cy="-15" r="9" fill="#7E9145"/><path d="M-8 -12 C-14 -24 -4 -28 -4 -38 C4 -30 12 -26 6 -12Z" fill="#F08A4B"/><path d="M-4 -14 C-6 -22 -1 -26 -1 -31 C4 -25 6 -21 3 -14Z" fill="#FFD54A"/><path d="M6 -10 C6 -18 12 -20 12 -26 C16 -20 18 -16 14 -10Z" fill="#F06A3B"/><path d="M-12 -9 C-14 -15 -10 -18 -11 -22 C-7 -18 -5 -14 -7 -9Z" fill="#F06A3B"/>` },
@@ -5823,28 +6365,30 @@ const DECO = {
 function _sorteio(semente){ let s = semente >>> 0; return () => { s = (s + 0x6D2B79F5) | 0; let t = Math.imul(s ^ (s >>> 15), 1 | s); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
 
 /* ---------- Geometria do mapa ---------- */
-function geometriaTrilha(W){
-  const N = MISSOES.length, gap = W < 600 ? 96 : 104, topo = 340;
+function geometriaTrilha(W, M){
+  const N = M.n, nz = M.zonas.length, gap = W < 600 ? 96 : 104, topo = 340, salto = 96;
   const amp = Math.min(W * .27, 170), cx = W / 2;
-  const yN = i => topo + (N - i) * gap;
+  /* antes da primeira casa de cada território há um respiro (salto), onde fica a faixa com o nome dele */
+  const yN = i => topo + (N - i) * gap + (nz - Math.ceil(i / 10)) * salto;
   const xN = i => cx + Math.sin(i * .9 + .5) * amp;
   const pts = Array.from({ length: N + 1 }, (_, i) => ({ x: xN(i), y: yN(i) }));
   const alt = yN(0) + 96;
   const portao = { x: cx, y: 238 };
-  const fim = ZONAS.length;                         // número de etapas com missões (9)
-  const borda = k => k === 0 ? alt : (k >= fim ? yN(N) - gap * .62 : (yN(FIM_ZONA[k - 1]) + yN(FIM_ZONA[k - 1] + 1)) / 2);
+  const yPlaca = k => (yN(10 * k) + yN(10 * k + 1)) / 2;        // faixa do território k: entre a última casa do anterior e a primeira dele
+  const borda = k => k === 0 ? alt : (k >= nz ? yN(N) - gap * .62 : yPlaca(k) + 44);
   /* x do caminho numa altura qualquer (o caminho entre duas casas é uma curva em S) */
   const xEm = y => {
     if(y <= yN(N)){ const t = Math.max(0, Math.min(1, (yN(N) - y) / (yN(N) - portao.y))); return xN(N) + (portao.x - xN(N)) * (3 * t * t - 2 * t * t * t); }
-    const f = Math.max(0, Math.min(N, N - (y - topo) / gap)), i0 = Math.min(N - 1, Math.floor(f)), t = f - i0;
-    return xN(i0) + (xN(i0 + 1) - xN(i0)) * (3 * t * t - 2 * t * t * t);
+    let i0 = 0; while(i0 < N - 1 && pts[i0 + 1].y > y) i0++;
+    const a = pts[i0], b = pts[i0 + 1], t = Math.max(0, Math.min(1, (a.y - y) / (a.y - b.y)));
+    return a.x + (b.x - a.x) * (3 * t * t - 2 * t * t * t);
   };
-  return { N, gap, topo, amp, cx, W, alt, pts, portao, borda, xEm, fim };
+  return { N, gap, topo, amp, cx, W, alt, pts, portao, borda, xEm, fim: nz, yPlaca, mapa: M, zonas: M.zonas };
 }
 
 /* ---------- Monta o SVG do mapa e as posições das placas ---------- */
 function desenharMapa(G, feitas){
-  const { W, alt, pts, portao, borda, xEm, N, fim } = G;
+  const { W, alt, pts, portao, borda, xEm, N, fim, zonas } = G, ZONAS = zonas;      // daqui para baixo, ZONAS são os territórios deste mapa
   const sc = Math.max(.82, Math.min(1.25, W / 420));
   const rnd = _sorteio(7 + Math.round(W));
   const ocupado = [];
@@ -5884,21 +6428,22 @@ function desenharMapa(G, feitas){
   });
 
   ocupado.push([pts[0].x - 60, pts[0].y - 26, pts[0].x + 60, pts[0].y + 26]);   // placa da largada
-  /* placas com o nome de cada etapa (na beira do caminho, do lado com espaço) */
-  const zAtual = feitas >= N ? fim + 1 : indiceZona(feitas + 1) + 1;
+  /* faixa de cada território (atravessa o caminho, no respiro antes da primeira casa dele) */
+  const zAtual = feitas >= N ? fim + 1 : Math.floor(feitas / 10) + 1, largP = Math.min(W - 36, 330);
   ZONAS.forEach((z, k) => {
-    const y1 = borda(k), y0 = borda(k + 1), sub = `🔒 ${niveisDaZona(k)}`, largP = Math.min(196, Math.max(124, z.nome.length * 9 + 36, sub.length * 6.1 + 34)), altP = 60;
-    for(let y = y1 - G.gap * .85; y > y1 - (y1 - y0) * .7; y -= 8){
-      const r = regioes(y - altP / 2, y + altP / 2), we = r.e[1] - r.e[0], wd = r.d[1] - r.d[0];
-      const lado = we >= wd ? "e" : "d", R = r[lado], w = Math.max(we, wd);
-      if(w < largP + 4) continue;
-      const x = (R[0] + R[1]) / 2;
-      if(!livre(x - largP / 2, y - altP / 2, x + largP / 2, y + altP / 2)) continue;
-      ocupado.push([x - largP / 2 - 6, y - altP / 2 - 6, x + largP / 2 + 6, y + altP / 2 + 6]);
-      placas.push({ k, x, y, w: largP, estado: k + 1 < zAtual ? "feita" : k + 1 === zAtual ? "atual" : "bloq" });
-      break;
-    }
+    const y = G.yPlaca(k);
+    ocupado.push([W / 2 - largP / 2 - 14, y - 38, W / 2 + largP / 2 + 14, y + 38]);
+    placas.push({ k, x: W / 2, y, w: largP, estado: k + 1 < zAtual ? "feita" : k + 1 === zAtual ? "atual" : "bloq" });
   });
+  /* nome do evento ao lado de cada casa, do lado em que sobra mais espaço */
+  const rotulos = [], maxR = W < 600 ? 158 : 210;
+  for(let i = 1; i <= N; i++){
+    const p = pts[i], esq = p.x > W / 2, txt = (G.eventos && G.eventos[i - 1]) || "";
+    const w = Math.max(80, Math.min(maxR, (esq ? p.x - 38 : W - p.x - 38) - 6)), larg = Math.min(w, txt.length * 6.7 + 22);
+    const linhas = Math.min(3, Math.ceil((txt.length * 6.7) / Math.max(40, w - 22))), h = linhas * 15 + 12, x0 = esq ? p.x - 38 - larg : p.x + 38;
+    rotulos.push({ x: esq ? p.x - 38 : p.x + 38, y: p.y, w, lado: esq ? "e" : "d" });
+    ocupado.push([x0 - 4, p.y - h / 2 - 3, x0 + larg + 4, p.y + h / 2 + 3]);
+  }
 
   /* enfeites de cada etapa; depois, se sobrar espaço (telas largas), mais alguns */
   const por = (tipo, y, tam, ladoPedido, xLivre) => {
@@ -5950,41 +6495,86 @@ function desenharMapa(G, feitas){
   fimSvg += `</g>`;
 
   const svg = `<svg class="trilha-svg" width="${W}" height="${alt}" viewBox="0 0 ${W} ${alt}" aria-hidden="true"><defs>${defs}</defs>${camadas.fundo}${camadas.miudos}${camadas.decos}<g fill="none" stroke-linecap="round" stroke-linejoin="round">${estrada}</g>${fimSvg}</svg>`;
-  return { svg, placas, zAtual };
+  return { svg, placas, zAtual, rotulos };
 }
 
-/* ---------- A tela ---------- */
+/* ---------- As telas ---------- */
+let missoesVista = "atual", mapaAberto = -1;          // "mapas": a lista de mapas (pelo menu); senão, o mapa aberto
+function mapaEmAndamento(){ return mapaDaCasa(Math.min(TOTAL_CASAS, missoesFeitas() + 1)); }
 function telaMissoes(vindoDe){
-  tabAtual = "missoes"; atualizarCasca(); pararTimer(); if(typeof pararCamera === "function") pararCamera();
-  const feitas = missoesFeitas(), nv = nivelDe(feitas), prox = MISSOES[feitas] || null;
-  const noNivel = feitas % 5, faltam = prox ? 5 - noNivel : 0, zona = feitas >= MISSOES.length ? ZONA_FINAL : zonaDaCasa(feitas + 1);
-  const pg = prox ? progressoMissao(prox) : null;
+  if(vindoDe == null && missoesVista === "mapas") return telaMapas();
+  const m = vindoDe != null ? mapaDaCasa(Math.min(TOTAL_CASAS, Math.max(1, vindoDe + 1))) : (MAPAS[mapaAberto] || mapaEmAndamento());
+  telaMapa(m.i, vindoDe);
+}
+/* Lista dos mapas, com o resumo das recompensas no alto */
+function telaMapas(){
+  tabAtual = "missoes"; missoesVista = "mapas"; atualizarCasca(); pararTimer(); if(typeof pararCamera === "function") pararCamera(); MUSICA.parar();
+  const feitas = missoesFeitas(), nv = nivelDe(feitas), g = ajudasGanhas(), d = ajudasDisponiveis();
+  const raros = PROFETAS.filter(p => p.nivel), meus = raros.filter(p => profetaLiberado(p)), acess = Object.values(ACESSORIOS), meusAc = acess.filter(a => nv >= a.nivel);
+  const curto = { meio: "Meio a meio", dobro: "Pontos em dobro", chance: "Segunda chance", pular: "Pular" };
+  const cartao = M => {
+    const f = Math.max(0, Math.min(M.n, feitas - M.ini)), feito = f >= M.n, bloq = feitas < M.ini, nz = M.zonas.length;
+    const faixa = "linear-gradient(90deg," + M.zonas.map((z, k) => `${z.c[1]} ${(k * 100 / nz).toFixed(1)}% ${((k + 1) * 100 / nz).toFixed(1)}%`).join(",") + ")";
+    const pers = Object.values(M.premios).filter(v => v[0] !== "+").length;
+    return `<button type="button" class="mapa-card ${feito ? "feito" : bloq ? "bloq" : "atual"}" data-mapa="${M.i}" aria-label="Mapa ${M.i + 1}: ${esc(M.nome)}, ${f} de ${M.n} casas${bloq ? ", bloqueado" : ""}">
+      <span class="mc-faixa" style="background:${faixa}"><i>${feito ? "✓" : bloq ? "🔒" : M.i + 1}</i></span>
+      <span class="mc-tx"><small>${feito ? "Concluído" : bloq ? "Abre ao concluir " + esc(MAPAS[M.i - 1].nome) : "Mapa " + (M.i + 1) + " · em andamento"}</small><b>${esc(M.nome)}</b><em>${esc(M.sub)}</em>
+        <span class="mc-barra"><i style="width:${Math.round(100 * f / M.n)}%"></i></span>
+        <span class="mc-pg">${f} de ${M.n} casas · ${nz} territórios${pers ? " · " + pers + (pers === 1 ? " personagem" : " personagens") : ""}</span></span>
+      <span class="seta" aria-hidden="true">›</span></button>`;
+  };
+  app.innerHTML = `<div class="result-area duas"><div class="lado">${cabPagina("Missões", `${feitas} de ${TOTAL_CASAS} casas`, "Mapas das missões", "Cada mapa é uma jornada pela Bíblia. Conclua um para abrir o próximo.")}
+    <section class="panel pg-card rec"><div class="hm-cab"><span>Suas recompensas</span><span class="hm-meta">Nível ${nv} · ${esc(nomeNivel(nv))}</span></div>
+      <div class="rec-ajudas">${Object.keys(AJUDAS).map(k => `<div class="rec-aj ${d[k] ? "" : "zero"}" title="${esc(AJUDAS[k].d)}"><span class="ic" aria-hidden="true">${AJUDAS[k].ic}</span><b>${d[k]}</b><small>${curto[k] || esc(AJUDAS[k].nome)}</small><em>${g[k]} ${g[k] === 1 ? "ganha" : "ganhas"}</em></div>`).join("")}</div>
+      <p class="rec-nota">O número grande é o que você tem para usar. Cada ajuda só pode ser usada uma vez por quiz.${nv < NIVEL_PULAR ? " A ajuda Pular começa no nível " + NIVEL_PULAR + "." : ""}</p>
+      <div class="rec-tit"><b>${meus.length} de ${raros.length}</b> personagens raros${acess.length ? ` · <b>${meusAc.length} de ${acess.length}</b> acessórios` : ""}</div>
+      <div class="rec-fila">${raros.map(p => `<span class="rec-av ${profetaLiberado(p) ? "" : "bloq"}" title="${esc(p.nome)}${profetaLiberado(p) ? "" : " (" + esc(ondeLibera(p.nivel)) + ")"}">${avatarSVG(p.id, null, 0, nv)}</span>`).join("")}</div>
+    </section></div>
+    <div class="principal"><div class="mapas-lista">${MAPAS.map(cartao).join("")}</div></div></div>`;
+  app.querySelectorAll("[data-mapa]").forEach(b => b.onclick = () => {
+    const M = MAPAS[+b.dataset.mapa];
+    if(feitas < M.ini){ aviso(`Conclua o mapa ${MAPAS[M.i - 1].nome} para abrir ${M.nome}.`); return; }
+    tocar("toque"); window.scrollTo(0, 0); telaMapa(M.i);
+  });
+}
+/* Um mapa aberto: a trilha com as casas, o nome do evento de cada uma e a faixa de cada território */
+function telaMapa(mi, vindoDe){
+  const M = MAPAS[mi], feitasG = missoesFeitas();
+  if(!M || feitasG < M.ini) return telaMapas();
+  tabAtual = "missoes"; missoesVista = "mapa"; mapaAberto = mi; atualizarCasca(); pararTimer(); if(typeof pararCamera === "function") pararCamera();
+  const N = M.n, feitas = Math.min(N, feitasG - M.ini), nv = nivelDe(feitasG), prox = feitas < N ? MISSOES[feitasG] : null, casas = MISSOES.slice(M.ini, M.ini + N);
+  const noNivel = feitasG % 5, faltam = prox ? 5 - noNivel : 0, zona = prox ? M.zonas[prox.terr] : M.fim;
+  const pg = prox ? progressoMissao(prox) : null, seguinte = MAPAS[mi + 1];
   app.innerHTML = `<div class="result-area duas"><div class="lado">
-    <div class="ms-topo">${cabPagina("Missões", `${feitas} de ${MISSOES.length} cumpridas`, "Jornada Bíblica")}<button type="button" class="q-mus" id="trMus" aria-pressed="${SOM.mus}" aria-label="Música da trilha" title="Música da trilha">${SOM.mus ? "🎵" : "🔇"}</button></div>
+    ${botaoVoltar("trVoltar", "os mapas")}
+    <div class="ms-topo">${cabPagina("Mapa " + (mi + 1), `${feitas} de ${N} casas`, esc(M.nome), esc(M.sub))}<button type="button" class="q-mus" id="trMus" aria-pressed="${SOM.mus}" aria-label="Música da trilha" title="Música da trilha">${SOM.mus ? "🎵" : "🔇"}</button></div>
     <section class="panel pg-card">
       <div class="hm-cab"><span>📍 ${esc(zona.nome)} <em>${esc(zona.ref)}</em></span><span class="hm-meta">Nível ${nv} · ${esc(nomeNivel(nv))}</span></div>
       <div class="hm-ms"><div class="hm-nivel"><b>${nv}</b><small>nível</small></div><div class="hm-ms-tx">
-        ${prox ? `<strong>${prox.n}. ${esc(prox.t)}</strong><span>${esc(prox.d)}</span>
+        ${prox ? `<strong>${prox.casa}. ${esc(prox.t)}</strong><span>${esc(prox.d)}</span>
           <div class="hm-barra"><i style="width:${pg.pct}%"></i></div>
           <span class="hm-ms-pg">${fmt(pg.v)} de ${fmt(prox.meta[1])}${prox.premio ? " · 🎁 " + esc(textoPremio(prox.premio)) : ""}${nv ? ` · ${faltam === 1 ? "falta 1" : "faltam " + faltam} para o nível ${nv + 1}` : ""}</span>`
-        : `<strong>Jornada completa!</strong><span>Você chegou à Nova Jerusalém: todas as ${MISSOES.length} missões cumpridas. Que caminhada!</span>`}
+        : `<strong>Mapa concluído!</strong><span>Você passou pelas ${N} casas de ${esc(M.nome)}.${seguinte ? " O mapa " + esc(seguinte.nome) + " está aberto." : " Você chegou à Nova Jerusalém: todos os mapas concluídos. Que caminhada!"}</span>`}
       </div></div>
     </section>
-    <section class="panel pg-card"><div class="hm-cab"><span>Suas ajudas</span></div>${chipsAjudas()}<p class="hm-sub" style="margin-top:8px">Ganhas nas missões; aparecem durante o quiz.</p></section></div>
+    <section class="panel pg-card"><div class="hm-cab"><span>Suas ajudas</span></div>${chipsAjudas()}<p class="hm-sub" style="margin-top:8px">Ganhas nas missões; aparecem durante o quiz. Cada uma, uma vez por quiz.</p></section></div>
     <div class="principal"><section class="panel trilha-wrap"><div class="trilha" id="trilha"></div></section></div>
   </div>`;
-  const el = $("trilha"), W = Math.max(300, Math.round(el.clientWidth || 340)), G = geometriaTrilha(W), { pts, N, portao } = G;
+  $("trVoltar").onclick = () => { MUSICA.parar(); window.scrollTo(0, 0); telaMapas(); };
+  const el = $("trilha"), W = Math.max(300, Math.round(el.clientWidth || 340)), G = geometriaTrilha(W, M), { pts, portao } = G;
+  G.eventos = casas.map(m => m.t);
   const mapa = desenharMapa(G, feitas);
   el.style.height = G.alt + "px";
   let h = mapa.svg;
   h += `<div class="tr-largada" style="left:${pts[0].x}px;top:${pts[0].y}px"><span>Largada</span></div>`;
-  mapa.placas.forEach(p => { const z = ZONAS[p.k];
-    h += `<div class="tr-zona ${p.estado}" style="left:${p.x.toFixed(1)}px;top:${p.y.toFixed(1)}px;width:${p.w}px"><small>${p.estado === "bloq" ? "🔒 " : p.estado === "feita" ? "✓ " : ""}${esc(niveisDaZona(p.k))}</small><b>${esc(z.nome)}</b><em>${esc(z.ref)}</em></div>`; });
-  h += `<div class="tr-zona final ${feitas >= N ? "atual" : "bloq"}" style="left:${portao.x}px;top:62px"><small>${feitas >= N ? "✓ " : "🔒 "}Nível ${N / 5 + 1} · ${esc(nomeNivel(N / 5 + 1))}</small><b>${esc(ZONA_FINAL.nome)}</b><em>${esc(ZONA_FINAL.ref)}</em></div>`;
-  MISSOES.forEach((m, i) => {
-    const p = pts[i + 1], feita = i < feitas, atual = i === feitas, portal = m.n % 5 === 0;
-    const pr = m.premio ? (m.premio.tipo === "profeta" ? `<span class="tr-premio pers" title="${esc(textoPremio(m.premio))}">${avatarSVG(m.premio.id)}</span>` : m.premio.tipo === "acessorio" ? `<span class="tr-premio pers" title="${esc(textoPremio(m.premio))}">${avatarSVG(ACESSORIOS[m.premio.id].de, null, 0, 99)}</span>` : `<span class="tr-premio" title="${esc(textoPremio(m.premio))}">${AJUDAS[m.premio.tipo].ic}</span>`) : "";
-    h += `<button type="button" class="tr-no ${feita ? "feita" : atual ? "atual" : "fechada"} ${portal ? "portal" : ""}" style="left:${p.x.toFixed(1)}px;top:${p.y}px" data-ms="${i}" aria-label="Missão ${m.n}: ${esc(m.t)}${feita ? " (cumprida)" : atual ? " (missão atual)" : ""}"><span class="nn">${m.n}${pr}${feita ? `<span class="tr-ok" aria-hidden="true">✓</span>` : ""}</span></button>`;
+  mapa.placas.forEach(p => { const z = M.zonas[p.k];
+    h += `<div class="tr-zona faixa ${p.estado}" style="left:${p.x.toFixed(1)}px;top:${p.y.toFixed(1)}px;width:${p.w}px"><small>${p.estado === "bloq" ? "🔒 " : p.estado === "feita" ? "✓ " : ""}Território ${p.k + 1} · ${esc(niveisDaZona(M, p.k))}</small><b>${esc(z.nome)}</b><em>${esc(z.ref)}</em></div>`; });
+  h += `<div class="tr-zona final ${feitas >= N ? "atual" : "bloq"}" style="left:${portao.x}px;top:62px"><small>${feitas >= N ? "✓ " : "🔒 "}Nível ${(M.ini + N) / 5 + 1} · ${esc(nomeNivel((M.ini + N) / 5 + 1))}</small><b>${esc(M.fim.nome)}</b><em>${esc(M.fim.ref)}</em></div>`;
+  casas.forEach((m, i) => {
+    const p = pts[i + 1], feita = i < feitas, atual = i === feitas, portal = m.n % 5 === 0, est = feita ? "feita" : atual ? "atual" : "fechada", r = mapa.rotulos[i];
+    const pr = m.premio ? (m.premio.tipo === "profeta" ? `<span class="tr-premio pers" title="${esc(textoPremio(m.premio))}">${avatarSVG(m.premio.id)}</span>` : m.premio.tipo === "acessorio" ? `<span class="tr-premio pers" title="${esc(textoPremio(m.premio))}">${avatarSVG(ACESSORIOS[m.premio.id].de, null, 0, 999)}</span>` : `<span class="tr-premio" title="${esc(textoPremio(m.premio))}">${AJUDAS[m.premio.tipo].ic}</span>`) : "";
+    h += `<span class="tr-ev ${r.lado} ${est}" style="left:${r.x.toFixed(1)}px;top:${r.y}px;max-width:${r.w}px" aria-hidden="true">${esc(m.t)}</span>`;
+    h += `<button type="button" class="tr-no ${est} ${portal ? "portal" : ""}" style="left:${p.x.toFixed(1)}px;top:${p.y}px" data-ms="${m.n - 1}" aria-label="Casa ${m.casa}: ${esc(m.t)}${feita ? " (cumprida)" : atual ? " (missão atual)" : ""}"><span class="nn">${m.casa}${pr}${feita ? `<span class="tr-ok" aria-hidden="true">✓</span>` : ""}</span></button>`;
   });
   h += `<div class="tr-profeta" id="trProfeta">${meuAvatar()}</div>`;
   el.innerHTML = h;
@@ -6002,8 +6592,8 @@ function telaMissoes(vindoDe){
   window.addEventListener("scroll", aoRolar, { passive: true }); window.addEventListener("resize", aoRolar);
   /* o personagem caminha da posição anterior até a missão atual */
   const boneco = $("trProfeta"), posDe = k => k > N ? { x: portao.x, y: portao.y } : pts[k], ir = k => { const p = posDe(k); boneco.style.left = p.x + "px"; boneco.style.top = p.y + "px"; };
-  const alvo = feitas >= N ? N + 1 : feitas;            // jornada completa: o personagem entra no portão
-  const de = Math.max(0, Math.min(alvo, vindoDe == null ? alvo : vindoDe));
+  const alvo = feitas >= N ? N + 1 : feitas;            // mapa concluído: o personagem entra no portão
+  const de = Math.max(0, Math.min(alvo, vindoDe == null ? alvo : vindoDe - M.ini));
   boneco.style.transition = "none"; ir(de);
   const rolar = k => { const y = el.getBoundingClientRect().top + window.scrollY + posDe(k).y - window.innerHeight * .55; window.scrollTo({ top: Math.max(0, y), behavior: "auto" }); };
   rolar(de); olhar();
@@ -6113,11 +6703,11 @@ function guardarMuralVisto(m){
 function reacoesDeOutros(p){ const eu = usuario.uid, out = []; Object.keys(p.reacoes || {}).forEach(k => (p.reacoes[k] || []).forEach(u => { if(u !== eu) out.push([k, u]); })); return out; }
 async function carregarNotificacoes(forcar){
   if(!usuario || !perfil || !perfil.profeta || NOTIF.carregando) return;
-  if(!forcar && Date.now() - NOTIF.em < 90000) return;
+  if(!forcar && Date.now() - NOTIF.em < 5 * 60000) return;
   NOTIF.carregando = true;
   try{
     const limite = Date.now() - 45 * 86400e3, visto = muralVisto(); let baixou = false;
-    const meus = (await DB.meusPosts(usuario.uid)).filter(p => (p.quando || 0) >= limite);
+    const meus = (await meusPostsG(usuario.uid)).filter(p => (p.quando || 0) >= limite);
     NOTIF.itens = meus.map(p => { const rs = reacoesDeOutros(p);
       if((visto[p.id] || 0) > rs.length){ visto[p.id] = rs.length; baixou = true; }      // alguém tirou a reação: a conta de vistas desce junto
       return { p, rs, n: rs.length, novas: rs.length - (visto[p.id] || 0) }; })
@@ -6175,7 +6765,7 @@ async function telaMural(focoId){
   const muV = $("muVoltar"); if(muV) muV.onclick = telaMuralSalas;
   try{
     const agora = Date.now(), mesAnt = new Date(); mesAnt.setDate(1); mesAnt.setMonth(mesAnt.getMonth() - 1);
-    const posts = (await DB.muralDaSala(sala.id, [mesDe(agora), mesDe(mesAnt.getTime())])).sort((a, b) => (b.quando || 0) - (a.quando || 0)).slice(0, 60);
+    const posts = (await muralDaSalaG(sala.id, [mesDe(agora), mesDe(mesAnt.getTime())])).slice().sort((a, b) => (b.quando || 0) - (a.quando || 0)).slice(0, 60);
     const corpo = $("muCorpo"); if(!corpo || salaAtual().id !== sala.id) return;
     if(!posts.length){ corpo.innerHTML = `<section class="panel"><p class="vazio">O mural desta sala ainda está vazio. Seja o primeiro a compartilhar!</p></section>`; return; }
     let aberto = null;                                           // publicação com o seletor de reações aberto
@@ -6603,7 +7193,14 @@ Object.assign(ICONES, {
   rede:{o:[23,19],p:{k:"#E8D9B5",K:"#B79A6A",b:"#8FE6FF",B:"#1C9FD0",w:"#FFFFFF"},m:[
     "....kK....","...k.kK...","..k.k.kK..",".k.k.k.kK.","k.kbbBk.kK",".kbwbbBk.K","k.kbbBk.kK",".k.k.k.kK.","..kKkKkK.."]}
 });
-FEMININAS.add("raabe");
+Object.assign(ICONES, {
+  coluna:{o:[17,21],p:{l:"#F0E6CC",s:"#D8CBA8",d:"#A8987A"},m:["lllllll",".lsssd.",".lsssd.",".lsssd.",".lsssd.",".lsssd.",".lsssd.",".lsssd.","lllllll","sssssss"]},
+  harpa:{o:[17,20],p:{y:"#F2BE2E",Y:"#C9952B",w:"#FFF3B0"},m:["yy.......","yYyy...yy","yY.wyyyyY","yY.w.w.yY","yY.w.w.yY","yY.w.wyY.","yY.w.yY..","yYyyyY...",".YYY....."]},
+  carta:{o:[20,20],p:{w:"#F4F1EA",W:"#C9C2E0",k:"#B9B3D9",r:"#E0483C"},m:["wwwwwwwww","wkwwwwwkw","wwkwwwkww","wwwkrkwww","wwwwrwwww","wwwwwwwww","WWWWWWWWW"]}
+});
+FEMININAS.add("raabe"); FEMININAS.add("rute");
+Object.assign(MANTOS, { paulo:"#E8D9B5", joaoap:"#1C5FA8", salomao:"#F2BE2E" });
+Object.assign(CINTOS, { sansao:"#5A3A22", davi:"#8A5A2B" });
 Object.assign(CINTOS, { adao:"#5A3A22", farao:"#F2BE2E", josenazare:"#5A3A22", raabe:"#E8483C", pedro:"#8A5A2B" });
 Object.assign(MANTOS, { josue:"#8E3222", pedro:"#E8D9B5" });
 
@@ -6612,7 +7209,7 @@ return gerarSprite;
 
 /* ---------- Do modelo para o jogo: cada personagem vira duas imagens PNG (olhos abertos e piscando) ---------- */
 const _hdCache = {};
-const SPRITE_VERSAO = "m3";            // mude quando o desenho dos personagens mudar, para descartar as imagens guardadas no aparelho
+const SPRITE_VERSAO = "m4";            // mude quando o desenho dos personagens mudar, para descartar as imagens guardadas no aparelho
 /* desenhos da versão anterior guardados no aparelho: saem, para não ocupar espaço à toa */
 try{ for(let i = localStorage.length - 1; i >= 0; i--){ const k = localStorage.key(i); if(k && k.indexOf(KEY + ":boneco:") === 0 && k.indexOf(KEY + ":boneco:" + SPRITE_VERSAO + ":") !== 0) localStorage.removeItem(k); } }catch(e){}
 function spriteHD(p){
