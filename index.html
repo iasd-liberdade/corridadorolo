@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="versao" content="20261114.201815">
+<meta name="versao" content="20261114.202542">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Corrida do Rolo · Quiz da Lição</title>
 <meta name="theme-color" content="#524F9C">
@@ -1625,7 +1625,12 @@ body:has(.modal-bg) .toast,body:has(.tutorial) .toast,body:has(.lb) .toast{botto
 .pf-av{flex:none;width:78px;height:98px;border-radius:18px;display:grid;place-items:end center;background:radial-gradient(circle at 50% 38%,rgba(255,243,184,.5),rgba(242,190,46,.12) 62%,transparent 78%)}
 .pf-av .avatar{width:68px;height:88px;margin-bottom:4px}
 .pf-tx h3{margin:0;font:800 19px/1.2 "Barlow",sans-serif;letter-spacing:0;text-transform:none}
-.pf-tx span{font-size:13px;color:var(--soft)}
+.pf-tx{min-width:0}
+.pf-tx .pf-l{display:block;font-size:13px;line-height:1.35;color:var(--soft)}
+.pf-tx .pf-pers b{color:var(--ink,inherit);font-weight:800}
+.pf-tx small{display:block;font-size:12px;line-height:1.4;color:var(--soft);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pf-tx small .badge{display:inline-block;margin-top:3px}
+.ct-pf{padding:0 0 14px;margin-bottom:12px;border-bottom:1px solid rgba(128,128,128,.22)}
 .pf-kpis{margin-bottom:12px}
 .pf-cqs{display:flex;flex-wrap:wrap;gap:6px}
 .pf-cqs span{display:inline-flex;align-items:center;gap:5px;padding:4px 9px;border-radius:99px;background:rgba(255,255,255,.12);font:700 12px/1.2 "Barlow",sans-serif}
@@ -3751,7 +3756,7 @@ function renderCorrida(cfg, res, pessoas, licSel, membros){
 function telaConta(){
   const p = acharProfeta(perfil.profeta);
   app.innerHTML = `<div class="result-area"><section class="panel">
-    <div class="hm-ola ct-topo"><div class="hm-av">${meuAvatar()}</div><div class="hm-ola-tx"><h2>${esc(perfil.nome)}</h2><small>${esc(perfil.email||"")}</small><small>${p ? "Personagem: " + esc(p.nome) : ""}${ehMaster() ? ' <span class="badge adm">master</span>' : souAdminDeSala() ? ' <span class="badge">admin de sala</span>' : ""}</small></div></div>
+    <div class="pf ct-pf" id="ctPerfil"></div>
     <div class="menu-conta">
       ${ehMaster() || souAdminDeSala() ? `<button id="mAdmin" class="adm"><span class="ic">🛠️</span>Área do administrador${typeof admPend === "number" && admPend > 0 ? `<span class="nt-n">${admPend}</span>` : ""}<span class="seta">›</span></button>` : ""}
       <button id="mNome"><span class="ic">✏️</span>Alterar nome<span class="seta">›</span></button>
@@ -3760,7 +3765,6 @@ function telaConta(){
       <button id="mSalas"><span class="ic">👥</span>Salas${typeof SALAS_PENDENTES === "number" && SALAS_PENDENTES > 0 ? `<span class="nt-n">${SALAS_PENDENTES}</span>` : ""}<span class="seta">›</span></button>
       <button id="mProfeta"><span class="ic">🎭</span>Alterar personagem<span class="seta">›</span></button>
       <button id="mLoja"><span class="ic">🛍️</span><span class="mc-2">Loja<small>${moedas()} ${moedas() === 1 ? "moeda" : "moedas"} para gastar</small></span><span class="seta">›</span></button>
-      <button id="mPerfil"><span class="ic">🪪</span>Meu perfil (como os outros veem)<span class="seta">›</span></button>
       <button id="mSom" role="switch" aria-checked="${SOM.on}"><span class="ic">🔊</span>Sons do jogo<span class="switch" aria-hidden="true" aria-checked="${SOM.on}"></span></button>
       <button id="mMus" role="switch" aria-checked="${SOM.mus}"><span class="ic">🎵</span>Música (quiz e missões)<span class="switch" aria-hidden="true" aria-checked="${SOM.mus}"></span></button>
       <button id="mVib" role="switch" aria-checked="${SOM.vib}"><span class="ic">📳</span>Vibração<span class="switch" aria-hidden="true" aria-checked="${SOM.vib}"></span></button>
@@ -3774,7 +3778,8 @@ function telaConta(){
     </div></section></div>`;
   const mAdm = $("mAdmin"); if(mAdm) mAdm.onclick = ()=> nav("admin");
   const mVer = $("mVersao"); if(mVer) mVer.onclick = ()=> recarregarJogo();
-  $("mSalas").onclick = ()=> nav("salas"); $("mLoja").onclick = ()=> nav("loja"); $("mPerfil").onclick = ()=> modalPerfil(usuario.uid);
+  $("mSalas").onclick = ()=> nav("salas"); $("mLoja").onclick = ()=> nav("loja");
+  montarPerfil($("ctPerfil"), usuario.uid, null, { usarGuardado: true, extra: `<small class="pf-email">${esc(perfil.email || "")}</small>${ehMaster() ? '<small><b class="badge adm">master</b></small>' : souAdminDeSala() ? '<small><b class="badge">admin de sala</b></small>' : ""}` });
   $("mBaixar").onclick = async ()=>{ if(await confirmar("Baixar os dados de novo", "O jogo apaga o que está guardado neste aparelho (lições, resultados, páginas) e baixa tudo outra vez. Use só se algo parecer desatualizado.", "Baixar de novo")) baixarDeNovo(); };
   $("mNome").onclick = ()=> modal("Alterar nome", `<div class="field"><label for="nNome">Novo nome</label><input type="text" id="nNome" maxlength="30" value="${esc(perfil.nome)}"></div><p class="erro" id="nErro"></p><div class="btn-row"><button class="btn btn-main" id="nOk">Salvar</button></div>`, (m, fechar)=>{
     m.querySelector("#nOk").onclick = async ()=>{ const v = m.querySelector("#nNome").value.trim(); if(!v){ m.querySelector("#nErro").textContent="Digite um nome."; return; } ocupado(m.querySelector("#nOk"), true); try{ await DB.salvarUsuario(usuario.uid, {nome:v}); perfil.nome = v; fechar(); aviso("Nome alterado"); atualizarCasca(); telaConta(); }catch(e){ m.querySelector("#nErro").textContent = erroMsg(e); ocupado(m.querySelector("#nOk"), false); } };
@@ -7579,15 +7584,18 @@ async function perfilPublico(uid){
   const c = _perfis[uid]; if(c && Date.now() - c.em < 2 * MIN) return c.v;
   const v = await DB.getPost("perfil_" + uid); _perfis[uid] = { em: Date.now(), v }; return v;
 }
-/* Janela do perfil: abre na hora com o que a pista já sabe (nome, boneco, nível) e completa com o resumo */
-function modalPerfil(uid, base){
-  base = base || {};
+/* nome do personagem em uso (o id pode vir como personagem~acessório) */
+function nomeDoPersonagem(id, nivel){ const p = acharProfeta(idPuro(personagemDe(id, nivel))); return p ? p.nome : ""; }
+/* Perfil: desenha na hora com o que já se sabe (nome, boneco, nível) e completa com o resumo.
+   Serve para a janela (Corrida, notificações) e para o topo de Minha conta. */
+function montarPerfil(el, uid, base, op){
+  base = base || {}; op = op || {};
   const eu = uid === usuario.uid, defs = {}; conquistas().forEach(c => defs[c.id] = c);
   const corpo = d => {
     const nv = Math.max(+d.nivel || 0, +base.nivel || 0), rc = d.reacoes || {}, cqs = (d.conquistas || []).map(id => defs[id]).filter(Boolean);
-    const num = (v, r) => `<div><b>${v}</b><span>${r}</span></div>`;
+    const num = (v, r) => `<div><b>${v}</b><span>${r}</span></div>`, pers = nomeDoPersonagem(d.profeta || base.profeta, nv);
     return `<div class="pf-topo"><div class="pf-av">${avatarSVG(personagemDe(d.profeta || base.profeta, nv), d.nome || base.nome, nv)}</div>
-        <div class="pf-tx"><h3>${esc(d.nome || base.nome || "Jogador")}${eu ? " (você)" : ""}</h3><span>Nível ${nv} · ${esc(nomeNivel(nv))}</span></div></div>
+        <div class="pf-tx"><h3>${esc(d.nome || base.nome || "Jogador")}${eu ? " (você)" : ""}</h3><span class="pf-l">Nível ${nv} · ${esc(nomeNivel(nv))}</span>${pers ? `<span class="pf-l pf-pers">Personagem: <b>${esc(pers)}</b></span>` : ""}${op.extra || ""}</div></div>
       ${d.pts != null ? `<div class="pg-kpis pf-kpis">${num(fmt(d.pts), "pontos no total")}${num(d.quizzes || 0, d.quizzes === 1 ? "quiz feito" : "quizzes feitos")}${num(d.casas || 0, "casas nas missões")}</div>
         <div class="rec-tit"><b>${cqs.length}</b> ${cqs.length === 1 ? "conquista" : "conquistas"}</div>
         ${cqs.length ? `<div class="pf-cqs">${cqs.map(c => `<span title="${esc(c.d)}"><i aria-hidden="true">${c.ic}</i>${esc(c.t)}</span>`).join("")}</div>` : `<p class="muted small" style="margin:0">Nenhuma conquista ainda.</p>`}`
@@ -7595,20 +7603,23 @@ function modalPerfil(uid, base){
       ${d.pts != null ? `<div class="rec-tit" style="margin-top:14px">${eu ? "Reações ao seu perfil" : "Reaja ao perfil"}</div>
         <div class="pf-reacoes">${REACOES.map(([k, ic, nome]) => { const l = rc[k] || [], on = l.includes(usuario.uid); return eu ? (l.length ? `<span class="reacao on" title="${nome}"><span>${ic}</span><b>${l.length}</b></span>` : "") : `<button type="button" class="reacao ${on ? "on" : ""}" data-pf-reagir="${k}" aria-pressed="${on}" title="${nome}" aria-label="${nome}"><span>${ic}</span>${l.length ? `<b>${l.length}</b>` : ""}</button>`; }).join("") || `<p class="muted small" style="margin:0">Ainda sem reações. Elas aparecem aqui e nas suas notificações.</p>`}</div>` : ""}`;
   };
-  modal(eu ? "Meu perfil" : "Perfil", `<div class="pf" id="pfCorpo">${corpo(eu ? Object.assign(meuResumoPublico(), { reacoes: {} }) : base)}</div>`, m => {
-    const el = m.querySelector("#pfCorpo"); let dados = null;
-    const ligar = () => el.querySelectorAll("[data-pf-reagir]").forEach(b => b.onclick = async () => {
-      const k = b.dataset.pfReagir, l = (dados.reacoes = dados.reacoes || {})[k] = (dados.reacoes[k] || []).slice(), i = l.indexOf(usuario.uid), ligando = i < 0;
-      if(ligando) l.push(usuario.uid); else l.splice(i, 1);
-      el.innerHTML = corpo(dados); ligar(); tocar("toque");
-      try{ await DB.reagirPost("perfil_" + uid, k, usuario.uid, ligando); }catch(e){ aviso("Não deu para reagir agora: " + erroMsg(e)); }
-    });
-    (eu ? Promise.resolve().then(() => { sincronizarPerfilPublico(); delete _perfis[uid]; return perfilPublico(uid); }) : perfilPublico(uid)).then(v => {
-      if(!el.isConnected) return;
-      dados = eu ? Object.assign(meuResumoPublico(), { reacoes: (v && v.reacoes) || {} }) : v ? Object.assign({}, v) : Object.assign({}, base, { semDados: true });
-      el.innerHTML = corpo(dados); ligar();
-    }).catch(e => { const p = el.querySelector("#pfEspera"); if(p) p.textContent = erroMsg(e); });
+  let dados = null;
+  const ligar = () => el.querySelectorAll("[data-pf-reagir]").forEach(b => b.onclick = async () => {
+    const k = b.dataset.pfReagir, l = (dados.reacoes = dados.reacoes || {})[k] = (dados.reacoes[k] || []).slice(), i = l.indexOf(usuario.uid), ligando = i < 0;
+    if(ligando) l.push(usuario.uid); else l.splice(i, 1);
+    el.innerHTML = corpo(dados); ligar(); tocar("toque");
+    try{ await DB.reagirPost("perfil_" + uid, k, usuario.uid, ligando); }catch(e){ aviso("Não deu para reagir agora: " + erroMsg(e)); }
   });
+  const guardadas = eu && _perfis[uid] && _perfis[uid].v ? _perfis[uid].v.reacoes || {} : {};
+  el.innerHTML = corpo(eu ? Object.assign(meuResumoPublico(), { reacoes: guardadas }) : base);
+  (eu ? Promise.resolve().then(() => { sincronizarPerfilPublico(); if(!op.usarGuardado) delete _perfis[uid]; return perfilPublico(uid); }) : perfilPublico(uid)).then(v => {
+    if(!el.isConnected) return;
+    dados = eu ? Object.assign(meuResumoPublico(), { reacoes: (v && v.reacoes) || {} }) : v ? Object.assign({}, v) : Object.assign({}, base, { semDados: true });
+    el.innerHTML = corpo(dados); ligar();
+  }).catch(e => { const p = el.querySelector("#pfEspera"); if(p) p.textContent = erroMsg(e); });
+}
+function modalPerfil(uid, base){
+  modal(uid === usuario.uid ? "Meu perfil" : "Perfil", `<div class="pf" id="pfCorpo"></div>`, m => montarPerfil(m.querySelector("#pfCorpo"), uid, base));
 }
 /* qualquer boneco marcado com data-perfil abre o perfil (pista da Corrida e destaques) */
 document.getElementById("app").addEventListener("click", e => {
