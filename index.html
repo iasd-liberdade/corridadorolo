@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="versao" content="20261114.184121">
+<meta name="versao" content="20261114.192619">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Corrida do Rolo · Quiz da Lição</title>
 <meta name="theme-color" content="#524F9C">
@@ -1632,6 +1632,51 @@ body:has(.modal-bg) .toast,body:has(.tutorial) .toast,body:has(.lb) .toast{botto
 .pf-cqs i{font-style:normal}
 .pf-reacoes{display:flex;flex-wrap:wrap;gap:6px}
 
+/* ---------- pedidos de sala no nome (as Salas agora ficam em Minha conta) e aviso da Loja no menu ---------- */
+.chip{position:relative}
+.chip .chip-n{position:absolute;right:-4px;top:-6px}
+.dica-nav{position:fixed;z-index:90;width:min(300px,calc(100vw - 16px));padding:12px 14px 13px;border-radius:16px;background:#fff;color:#2A2350;box-shadow:0 10px 30px rgba(10,9,40,.45);animation:dica-entra .35s ease both}
+.dica-nav b{display:block;font:800 15px/1.2 "Barlow",sans-serif;color:#2E2B6E}
+.dica-nav p{margin:4px 0 10px;font-size:13.5px;line-height:1.4;color:#3A3560}
+.dica-nav>div{display:flex;gap:8px}
+.dica-nav .btn{min-height:36px;padding:6px 14px;font-size:13.5px;border-radius:99px;width:auto}
+.dica-nav .btn-main{background:#524F9C;color:#fff}
+.dica-nav .btn-ghost{background:#EEECF8;color:#2E2B6E;border-color:transparent}
+.dica-nav>i{position:absolute;width:16px;height:16px;background:#fff;transform:translateX(-50%) rotate(45deg)}
+.dica-nav.acima>i{bottom:-7px}.dica-nav.abaixo>i{top:-7px}
+@keyframes dica-entra{from{opacity:0;transform:translateY(8px)}}
+#nav button.novidade{position:relative;animation:novidade-pulsa 1.2s ease-in-out infinite}
+#nav button.novidade .ic{filter:drop-shadow(0 0 8px #FFE27A)}
+@keyframes novidade-pulsa{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@media (prefers-reduced-motion:reduce){.dica-nav,#nav button.novidade{animation:none}}
+/* ---------- Estudar: observações e ferramentas de anotação ---------- */
+.an-obs{margin:4px 0 14px}
+.an-obs label{display:block;font:800 11.5px/1.2 "Barlow",sans-serif;letter-spacing:.9px;text-transform:uppercase;color:var(--soft);margin-bottom:6px}
+.an-obs textarea{width:100%;min-height:110px;resize:vertical;border-radius:14px;border:1.5px solid var(--panel-line);background:rgba(255,255,255,.96);color:#2A2350;padding:11px 12px;font:500 15px/1.45 "Barlow",sans-serif}
+.an-obs-rod{display:flex;align-items:center;gap:10px;margin-top:8px}
+.an-obs-rod span{flex:1;font-size:12px;line-height:1.3;color:var(--soft)}
+.an-obs-rod .btn{width:auto;min-height:38px;padding:7px 18px}
+#anSalvar.pendente,#anSalvar2.pendente{box-shadow:0 0 0 3px rgba(255,226,122,.75)}
+.an-barra{position:sticky;top:60px;z-index:20;margin:0 0 10px;padding:7px 8px;border-radius:14px;background:rgba(27,25,74,.9);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--panel-line)}
+.an-ferr{display:grid;grid-template-columns:repeat(5,1fr);gap:4px}
+.an-ferr button{display:grid;justify-items:center;gap:1px;padding:5px 2px 4px;border-radius:10px;border:1.5px solid transparent;background:rgba(255,255,255,.1);color:#fff;cursor:pointer}
+.an-ferr button span{font-size:17px;line-height:1.1}
+.an-ferr button small{font:800 9.5px/1.1 "Barlow",sans-serif}
+.an-ferr button[aria-pressed="true"]{background:#fff;color:#2E2B6E;border-color:#F2BE2E}
+.an-linha2{display:flex;align-items:center;gap:8px;margin-top:7px}
+.an-cores{display:flex;gap:6px;flex:1}
+.an-cores button{width:26px;height:26px;border-radius:50%;border:2px solid rgba(255,255,255,.5);background:var(--c);padding:0;cursor:pointer}
+.an-cores button[aria-pressed="true"]{box-shadow:0 0 0 2px #1B194A,0 0 0 4px #fff}
+.an-acao{flex:none;min-width:38px;height:34px;padding:0 12px;border-radius:99px;border:1.5px solid var(--panel-line);background:rgba(255,255,255,.12);color:#fff;font:800 13px/1 "Barlow",sans-serif;cursor:pointer}
+.an-acao.salvar{background:#fff;color:#2E2B6E;border-color:transparent}
+.an-pg{position:relative}
+.an-svg{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;mix-blend-mode:multiply;border-radius:10px}
+.paginas.desenhando .an-svg{pointer-events:auto;touch-action:none;cursor:crosshair}
+.paginas.desenhando img{cursor:crosshair}
+.an-pinos{position:absolute;inset:0;pointer-events:none}
+.an-pino{position:absolute;transform:translate(-50%,-50%);width:26px;height:26px;border-radius:50% 50% 50% 4px;border:2px solid #fff;background:#F2BE2E;font-size:12px;line-height:1;padding:0;display:grid;place-items:center;pointer-events:auto;cursor:pointer;box-shadow:0 2px 6px rgba(20,18,60,.45)}
+.paginas[data-f="m"] .an-pino,.paginas[data-f="p"] .an-pino,.paginas[data-f="nota"] .an-pino{pointer-events:none}
+
 /* login */
 .logo-login{padding:18px 0 6px}
 .logo-login p{font-size:14px;margin-top:10px}
@@ -1663,7 +1708,7 @@ body:has(.modal-bg) .toast,body:has(.tutorial) .toast,body:has(.lb) .toast{botto
 <header class="topbar" id="topbar" hidden>
   <div class="brand" id="brand"><span class="brand-ic" id="brandIc"></span><span class="brand-tx">Corrida do <b>Rolo</b><small>Quiz da Lição</small></span></div>
   <div class="topo-dir"><button class="sino" id="sino" type="button" hidden aria-label="Notificações"><span aria-hidden="true">🔔</span><b id="sinoN">0</b></button>
-  <button class="chip" id="chipConta" type="button"><span class="em" id="chipEm"></span><span class="n" id="chipNome"></span></button></div>
+  <button class="chip" id="chipConta" type="button"><span class="em" id="chipEm"></span><span class="n" id="chipNome"></span><b class="nav-n chip-n" id="navSalasN" hidden></b></button></div>
 </header>
 <div class="wrap" id="app" aria-live="polite"></div>
 <nav class="bottomnav n7" id="nav" hidden aria-label="Menu principal">
@@ -1673,7 +1718,7 @@ body:has(.modal-bg) .toast,body:has(.tutorial) .toast,body:has(.lb) .toast{botto
   <button type="button" data-tab="quiz"><span class="ic">🎯</span>Quiz</button>
   <button type="button" data-tab="ranking"><span class="ic">🏃‍♂️</span>Corrida</button>
   <button type="button" data-tab="missoes"><span class="ic">🗺️</span>Missões</button>
-  <button type="button" data-tab="salas"><span class="ic">👥<b class="nav-n" id="navSalasN" hidden></b></span>Salas</button>
+  <button type="button" data-tab="loja"><span class="ic">🛍️</span>Loja</button>
 </nav>
 <div class="toast" id="toast" role="status"></div>
 <div class="nova-versao" id="novaVersao" role="status" hidden><span>Tem versão nova do jogo.</span><button type="button" id="nvBtn">Atualizar</button></div>
@@ -2100,6 +2145,10 @@ function dbFirebase(){
     async excluirPost(id){ await col("mural").doc(id).delete(); },
     // Progresso de um quiz em andamento (uma resposta de cada vez)
     async listarProgresso(uid){ return lista(col("progresso").where("uid","==",uid)); },
+    async progressoDaLicao(uid, licaoId){ return lista(col("progresso").where("uid","==",uid).where("licaoId","==",licaoId)); },
+    // Anotações do Estudar: um documento por dia, com id uid_nota-<lição>_<dia> (a regra do "progresso" só deixa a própria pessoa ler e gravar)
+    async anotacoesDaLicao(uid, licaoId){ return lista(col("progresso").where("uid","==",uid).where("licaoId","==","nota-" + licaoId)); },
+    async salvarAnotacao(uid, licaoId, dia, dados){ const lid = "nota-" + licaoId; await col("progresso").doc(uid + "_" + lid + "_" + dia).set(Object.assign({ uid, licaoId: lid, data: String(dia), tipo: "nota" }, dados)); },
     async salvarProgresso(p){ await col("progresso").doc(p.id).set(p); },
     async excluirProgresso(id){ await col("progresso").doc(id).delete(); },
     // Páginas do PDF como imagem (uma por documento, campo "chave" = licaoId|dia)
@@ -2191,6 +2240,9 @@ function dbLocal(){
     async reagirPost(id, tipo, uid, ligar){ const d = ler(), p = (d.mural||{})[id]; if(!p) throw err("not-found","Publicação não encontrada."); p.reacoes = p.reacoes || {}; const l = new Set(p.reacoes[tipo] || []); if(ligar) l.add(uid); else l.delete(uid); p.reacoes[tipo] = [...l]; gravar(d); },
     async excluirPost(id){ const d = ler(); if(d.mural) delete d.mural[id]; gravar(d); },
     async listarProgresso(uid){ const d = ler(); return Object.values(d.progresso||{}).filter(p=>p.uid===uid); },
+    async progressoDaLicao(uid, licaoId){ const d = ler(); return Object.values(d.progresso||{}).filter(p=>p.uid===uid && p.licaoId===licaoId); },
+    async anotacoesDaLicao(uid, licaoId){ const d = ler(); return Object.values(d.progresso||{}).filter(p=>p.uid===uid && p.licaoId==="nota-"+licaoId); },
+    async salvarAnotacao(uid, licaoId, dia, dados){ const d = ler(), lid = "nota-" + licaoId; d.progresso = d.progresso || {}; d.progresso[uid + "_" + lid + "_" + dia] = Object.assign({ uid, licaoId: lid, data: String(dia), tipo: "nota" }, dados); gravar(d); },
     async salvarProgresso(p){ const d = ler(); d.progresso = d.progresso || {}; d.progresso[p.id] = p; gravar(d); },
     async excluirProgresso(id){ const d = ler(); if(d.progresso) delete d.progresso[id]; gravar(d); },
     async salvarPagina(p){ await idbTx("readwrite", st => st.put(p)); },
@@ -2621,7 +2673,7 @@ function atualizarCasca(){
   const comMenu = logado && !!perfil.profeta;          // sem personagem escolhido, o menu só aparece depois da escolha
   $("topbar").hidden = !logado; $("nav").hidden = !comMenu;
   document.body.classList.toggle("sem-menu", !comMenu);
-  if(logado){ $("chipEm").innerHTML = perfil.profeta ? meuAvatar() : ""; $("chipNome").textContent = perfil.nome || ""; $("chipConta").classList.toggle("atual", tabAtual === "conta" || tabAtual === "admin"); const np = $("navSalasN"); if(np){ const n = typeof SALAS_PENDENTES === "number" ? SALAS_PENDENTES : 0; np.hidden = !n; np.textContent = n > 9 ? "9+" : String(n); } }
+  if(logado){ $("chipEm").innerHTML = perfil.profeta ? meuAvatar() : ""; $("chipNome").textContent = perfil.nome || ""; $("chipConta").classList.toggle("atual", tabAtual === "conta" || tabAtual === "admin" || tabAtual === "salas"); const np = $("navSalasN"); if(np){ const n = typeof SALAS_PENDENTES === "number" ? SALAS_PENDENTES : 0; np.hidden = !n; np.textContent = n > 9 ? "9+" : String(n); } }
   if(typeof atualizarSino === "function") atualizarSino();
   document.querySelectorAll("#nav button").forEach(b => { if(b.dataset.tab === tabAtual) b.setAttribute("aria-current","page"); else b.removeAttribute("aria-current"); });
 }
@@ -2703,11 +2755,12 @@ $("nvBtn").onclick = () => aplicarVersaoNova(true);
 })();
 
 function nav(tab){
+  if(typeof fecharAnotacoes === "function") fecharAnotacoes();          // anotações do Estudar ainda não enviadas seguem para a conta
   pararTimer(); if(typeof pararCamera === "function") pararCamera(); if(typeof MUSICA !== "undefined") MUSICA.parar();
   tabAtual = tab; atualizarCasca(); window.scrollTo(0,0);
   if(typeof carregarNotificacoes === "function") carregarNotificacoes();        // confere reações novas (no máximo a cada 90 s)
   setTimeout(() => conferirVersao(false), 400);                                 // e se subiu versão nova do jogo (no máximo a cada 2 min)
-  ({ inicio: telaInicio, estudar: telaEstudar, quiz: telaQuiz, ranking: telaRanking, missoes: () => telaMissoes(), salas: telaSalas, mural: telaMuralSalas, conta: telaConta, admin: telaAdmin }[tab] || telaInicio)();
+  ({ inicio: telaInicio, estudar: telaEstudar, quiz: telaQuiz, ranking: telaRanking, missoes: () => telaMissoes(), salas: telaSalas, mural: telaMuralSalas, conta: telaConta, admin: telaAdmin, loja: telaLoja }[tab] || telaInicio)();
 }
 document.querySelectorAll("#nav button").forEach(b => b.onclick = ()=>{ const t = b.dataset.tab; if(t === "estudar") estudoVista = "livros"; if(t === "quiz") quizVista = "livros"; if(t === "ranking") corridaVista = "salas"; if(t === "missoes") missoesVista = "mapas"; nav(t); });   // pelo menu, Estudar e Quiz abrem na estante de livros, e a Corrida na escolha da sala
 $("chipConta").onclick = ()=>{ if(perfil && !perfil.profeta) return; nav("conta"); };
@@ -2720,12 +2773,14 @@ $("brand").onclick = ()=>{ if(usuario && perfil && (perfil.aprovado || perfil.ad
    ============================================================ */
 async function carregarTudo(passo){
   passo = passo || (()=>{});
-  const pProg = DB.listarProgresso(usuario.uid).catch(()=>[]);
   CONFIG = (await configInicial()) || {}; resCache = {};
   aplicarIcone(CONFIG.icone || "");
   passo(35, "Buscando as lições");
   await carregarLicoesInicio();                    // só o índice e a lição da semana; o resto vem do aparelho ou ao abrir o livro
   passo(55, "Buscando os seus resultados");
+  /* quizzes em andamento: só os da lição da semana e da anterior (as anotações do Estudar ficam na mesma coleção e não são lidas aqui) */
+  const iAt = indiceLicaoAtual(), lics = [LICOES[iAt], LICOES[iAt - 1]].filter(Boolean);
+  const pProg = Promise.all(lics.map(l => DB.progressoDaLicao(usuario.uid, l.id).catch(()=>[]))).then(x => [].concat(...x));
   const meus = await carregarMeusResultados(), prog = await pProg;
   RES = {}; (meus||[]).forEach(r => RES[r.licaoId + "|" + r.data] = r);
   PROG = {}; (prog||[]).forEach(p => PROG[p.licaoId + "|" + p.data] = p);
@@ -3023,7 +3078,8 @@ function telaInicio(){
   const dz = $("dzMais"); if(dz) dz.onclick = modalDesempenho;
   app.querySelectorAll("[data-cq]").forEach(b => b.onclick = ()=> modalConquista(+b.dataset.cq));
   const est = $("inEstudar"); if(est) est.onclick = ()=>{ estudoLicao = L; estudoDia = hojeIdx >= 0 ? hojeIdx : -1; estudoVista = "dias"; nav("estudar"); };
-  $("inLoja").onclick = telaLoja;
+  $("inLoja").onclick = ()=> nav("loja");
+  if(typeof dicaDaLoja === "function") dicaDaLoja();          // aponta a Loja no menu, uma vez por pessoa
   const jog = $("inJogar"); if(jog) jog.onclick = ()=>{ LICAO = L; tabAtual = "quiz"; atualizarCasca(); iniciar(hojeIdx); };
   const ver = $("inVer"); if(ver) ver.onclick = ()=>{ LICAO = L; tabAtual = "quiz"; atualizarCasca(); telaResultado(hojeIdx); };
   const ct = $("inContagem");
@@ -3543,10 +3599,11 @@ function telaEstudarDias(){
   const d = L.dias[estudoDia] || L.dias[0];
   const texto = (L.textos && L.textos[estudoDia]) || "", resumo = (L.resumos && L.resumos[estudoDia]) || "";
   let corpo = `<div class="paginas" id="pgs"><p class="vazio">Carregando páginas…</p></div>`;
-  if(resumo) corpo += `<div class="resumo">${esc(resumo)}</div>`;
+  /* o texto por escrito só aparece se o dia não tiver as páginas da lição (mostrarPaginas tira quando elas existem) */
   const htmlTexto = texto ? `<div class="estudo">${texto.split(/\n{2,}/).map(p=>`<p>${esc(p.trim().replace(/\n(?![•\-–\d(])/g, " "))}</p>`).join("")}</div>` : "";
-  corpo += `<div id="txtDia">${htmlTexto}</div>`;
+  corpo += `<div id="txtDia">${resumo ? `<div class="resumo">${esc(resumo)}</div>` : ""}${htmlTexto}</div>`;
   if(!texto && !resumo) corpo += `<p class="vazio" id="semTexto">O texto desta lição não foi importado. Leia o dia <b>${esc(d.nome)}</b> na sua lição impressa ou no app e depois faça o quiz.</p>`;
+  corpo += htmlObservacoes(d);
   const s = status(L, d);
   app.innerHTML = `<div class="estudo-area">${botaoVoltar("edVoltar", "as lições")}${cabPagina(esc(L.numero), esc(L.datas), esc(L.titulo), `${diasFeitos(L)} de 7 dias feitos`)}<section class="panel pg-card">
     <div class="tabs dias" role="tablist">${L.dias.map((x,k)=>`<button role="tab" aria-selected="${k===estudoDia}" data-k="${k}"><span>${x.curto}${resDe(L,x)?" ✓":""}</span><small>${dataCurta(x.data)}</small></button>`).join("")}</div>
@@ -3556,6 +3613,7 @@ function telaEstudarDias(){
     <div class="btn-row uma">${(s==="hoje"||s==="atrasado") && d.perguntas.length ? `<button class="btn btn-main" id="estJogar">Fazer o quiz de ${esc(d.nome)}</button>` : s==="feito" ? `<button class="btn btn-ghost" id="estVer">Ver meu resultado</button>` : ""}</div>
   </section></div>`;
   $("edVoltar").onclick = ()=>{ estudoVista = "licoes"; telaEstudarLicoes(); };
+  abrirAnotacoes(L, estudoDia);                    // minhas observações e marcações deste dia
   mostrarPaginas(L, estudoDia, htmlTexto);
   app.querySelectorAll("[data-k]").forEach(b=> b.onclick = ()=>{ estudoDia = +b.dataset.k; telaEstudarDias(); });
   const j = $("estJogar"); if(j) j.onclick = ()=>{ LICAO = L; tabAtual = "quiz"; atualizarCasca(); iniciar(estudoDia); };
@@ -3574,8 +3632,9 @@ async function mostrarPaginas(L, k, htmlTexto){
   if(!pags.length){ el.remove(); return; }
   el.innerHTML = pags.map((p,i)=>`<img src="${p.img}" alt="Página ${i+1} de ${esc(L.dias[k].nome)}" loading="${i?"lazy":"eager"}" data-i="${i}">`).join("");
   const st = $("semTexto"); if(st) st.remove();
-  const tx = $("txtDia"); if(tx && htmlTexto) tx.innerHTML = `<details style="margin-top:4px"><summary class="muted" style="cursor:pointer;font-weight:700">Ver o texto (para copiar)</summary>${htmlTexto}</details>`;
+  const tx = $("txtDia"); if(tx) tx.remove();          // com as páginas na tela, a lição por escrito não aparece mais
   el.querySelectorAll("img").forEach(img => img.onclick = ()=> abrirPagina(pags, +img.dataset.i));
+  if(typeof anMontarPaginas === "function") anMontarPaginas();
 }
 function abrirPagina(pags, i){
   const lb = document.createElement("div"); lb.className = "lb"; let zoom = 1;
@@ -3689,6 +3748,7 @@ function telaConta(){
       <button id="mNome"><span class="ic">✏️</span>Alterar nome<span class="seta">›</span></button>
       <button id="mSenha"><span class="ic">🔑</span>Alterar senha<span class="seta">›</span></button>
       <button id="mTema"><span class="ic">🌗</span>Alterar tema<span class="seta">›</span></button>
+      <button id="mSalas"><span class="ic">👥</span>Salas${typeof SALAS_PENDENTES === "number" && SALAS_PENDENTES > 0 ? `<span class="nt-n">${SALAS_PENDENTES}</span>` : ""}<span class="seta">›</span></button>
       <button id="mProfeta"><span class="ic">🎭</span>Alterar personagem<span class="seta">›</span></button>
       <button id="mLoja"><span class="ic">🛍️</span><span class="mc-2">Loja<small>${moedas()} ${moedas() === 1 ? "moeda" : "moedas"} para gastar</small></span><span class="seta">›</span></button>
       <button id="mPerfil"><span class="ic">🪪</span>Meu perfil (como os outros veem)<span class="seta">›</span></button>
@@ -3705,7 +3765,7 @@ function telaConta(){
     </div></section></div>`;
   const mAdm = $("mAdmin"); if(mAdm) mAdm.onclick = ()=> nav("admin");
   const mVer = $("mVersao"); if(mVer) mVer.onclick = ()=> recarregarJogo();
-  $("mLoja").onclick = telaLoja; $("mPerfil").onclick = ()=> modalPerfil(usuario.uid);
+  $("mSalas").onclick = ()=> nav("salas"); $("mLoja").onclick = ()=> nav("loja"); $("mPerfil").onclick = ()=> modalPerfil(usuario.uid);
   $("mBaixar").onclick = async ()=>{ if(await confirmar("Baixar os dados de novo", "O jogo apaga o que está guardado neste aparelho (lições, resultados, páginas) e baixa tudo outra vez. Use só se algo parecer desatualizado.", "Baixar de novo")) baixarDeNovo(); };
   $("mNome").onclick = ()=> modal("Alterar nome", `<div class="field"><label for="nNome">Novo nome</label><input type="text" id="nNome" maxlength="30" value="${esc(perfil.nome)}"></div><p class="erro" id="nErro"></p><div class="btn-row"><button class="btn btn-main" id="nOk">Salvar</button></div>`, (m, fechar)=>{
     m.querySelector("#nOk").onclick = async ()=>{ const v = m.querySelector("#nNome").value.trim(); if(!v){ m.querySelector("#nErro").textContent="Digite um nome."; return; } ocupado(m.querySelector("#nOk"), true); try{ await DB.salvarUsuario(usuario.uid, {nome:v}); perfil.nome = v; fechar(); aviso("Nome alterado"); atualizarCasca(); telaConta(); }catch(e){ m.querySelector("#nErro").textContent = erroMsg(e); ocupado(m.querySelector("#nOk"), false); } };
@@ -5156,7 +5216,7 @@ async function telaSalas(recarregar){
       </div></article>`;
   };
   app.innerHTML = `<div class="result-area duas"><div class="lado">
-    ${cabPagina("Salas", ehMaster() ? "sem limite (master)" : `${part} de ${MAX_SALAS_PARTICIPA} · criadas ${criadas} de ${MAX_SALAS_CRIADAS}`, "Minhas salas", "A sala ativa é a que aparece na Corrida e no Início.")}
+    ${botaoVoltar("slVoltarConta", "Minha conta")}${cabPagina("Salas", ehMaster() ? "sem limite (master)" : `${part} de ${MAX_SALAS_PARTICIPA} · criadas ${criadas} de ${MAX_SALAS_CRIADAS}`, "Minhas salas", "A sala ativa é a que aparece na Corrida e no Início.")}
     ${SALAS_ERRO ? `<section class="panel"><p class="erro" style="margin:0">Não deu para carregar as salas agora (${esc(SALAS_ERRO)}). Por enquanto você continua na sala global.</p></section>` : ""}
     <div class="sala-barra"><button class="btn btn-main" id="slCriar">+ Criar sala</button><button class="btn btn-ghost" id="slCodigo">Entrar com código</button><button class="btn btn-ghost" id="slPublicas">Salas públicas</button></div></div>
     <div class="principal"><div class="salas-grid">${SALAS.map(cartao).join("")}</div>
@@ -5170,6 +5230,7 @@ async function telaSalas(recarregar){
     ${SALAS_PEDIDOS.length ? `<section class="panel"><h3 class="h3">Aguardando aprovação</h3><ul class="lista">${SALAS_PEDIDOS.map(s => `<li><div class="info"><strong>${esc(s.nome)}</strong><span>Sala privada${s.donoNome ? " de " + esc(s.donoNome) : ""}. O dono precisa aprovar a sua entrada.</span></div><button class="btn btn-ghost btn-sm" data-cancelar="${esc(s.id)}">Cancelar</button></li>`).join("")}</ul></section>` : ""}
   </div></div>`;
   const achar = id => SALAS.find(x => x.id === id) || SALAS_PEDIDOS.find(x => x.id === id) || SALAS_OUTRAS.find(x => x.id === id);
+  $("slVoltarConta").onclick = () => nav("conta");
   $("slCriar").onclick = modalCriarSala;
   $("slCodigo").onclick = () => modalEntrarCodigo("");
   $("slPublicas").onclick = modalSalasPublicas;
@@ -6697,7 +6758,7 @@ function modalRecompensas(){
       <div class="rec-tit"><b>${meus.length} de ${raros.length}</b> personagens raros${acess.length ? ` · <b>${meusAc.length} de ${acess.length}</b> acessórios das missões` : ""}</div>
       <div class="rec-fila">${raros.map(p => `<span class="rec-av ${profetaLiberado(p) ? "" : "bloq"}" title="${esc(p.nome)}${profetaLiberado(p) ? "" : " (" + esc(ondeLibera(p.nivel)) + ")"}">${avatarSVG(p.id, null, 0, nv)}</span>`).join("")}</div>
       ${typeof moedas === "function" ? `<div class="rec-tit" style="margin-top:12px"><b>${moedas()}</b> moedas para gastar na loja</div><div class="btn-row uma"><button type="button" class="btn btn-ghost" id="recLoja">Abrir a loja</button></div>` : ""}
-    </div>`, (m, fechar) => { const b = m.querySelector("#recLoja"); if(b) b.onclick = () => { fechar(); telaLoja(); }; });
+    </div>`, (m, fechar) => { const b = m.querySelector("#recLoja"); if(b) b.onclick = () => { fechar(); nav("loja"); }; });
 }
 /* Um mapa aberto: a trilha com as casas, o nome do evento de cada uma e a faixa de cada território */
 function telaMapa(mi, vindoDe){
@@ -7440,21 +7501,20 @@ const MOEDA = `<i class="moeda" aria-hidden="true"></i>`;
 
 /* ---------- Loja ---------- */
 function telaLoja(){
-  tabAtual = "conta"; atualizarCasca(); pararTimer(); if(typeof MUSICA !== "undefined") MUSICA.parar();
+  tabAtual = "loja"; atualizarCasca(); pararTimer(); if(typeof MUSICA !== "undefined") MUSICA.parar();
   const saldo = moedas(), pers = PROFETAS.filter(p => p.preco);
   const botao = (id, preco, emUso, rotUsar) => comprado(id)
     ? `<button type="button" class="btn btn-sm ${emUso ? "btn-ok" : "btn-ghost"}" data-usar="${id}">${emUso ? "✓ Em uso" : rotUsar}</button>`
     : `<button type="button" class="btn btn-sm btn-main ${saldo < preco ? "caro" : ""}" data-comprar="${id}">${MOEDA}${preco}</button>`;
   const cartaoAc = a => `<div class="lj-item ${comprado("a:" + a.id) ? "meu" : ""}"><div class="lj-av" data-prev="${esc((perfil.profeta || PROFETA_PADRAO) + "~" + a.id + "~v")}"></div><b>${esc(a.nome)}</b><small>${esc(a.ref)}</small>${botao("a:" + a.id, a.preco, perfil.acess === a.id, "Usar")}</div>`;
   const cartaoP = p => `<div class="lj-item ${comprado("p:" + p.id) ? "meu" : ""}"><div class="lj-av" data-prev="${esc(p.id)}"></div><b>${esc(p.nome)}</b><small>${esc(p.ref || "")}</small>${botao("p:" + p.id, p.preco, perfil.profeta === p.id, "Usar")}</div>`;
-  app.innerHTML = `<div class="estudo-area">${botaoVoltar("ljVoltar", "o Início")}
+  app.innerHTML = `<div class="estudo-area">
     <div class="lj-topo">${cabPagina("Loja", "", "Loja do Rolo", "Cada resposta certa no quiz vale 1 moeda.")}<div class="lj-saldo" aria-label="${saldo} moedas">${MOEDA}<b>${saldo}</b><small>${saldo === 1 ? "moeda" : "moedas"}</small></div></div>
     <section class="panel pg-card"><div class="hm-cab"><span>Acessórios</span><span class="hm-meta">o personagem segura na outra mão</span></div>
       <div class="lj-grade">${LOJA_ACESSORIOS.map(cartaoAc).join("")}</div></section>
     <section class="panel pg-card"><div class="hm-cab"><span>Personagens</span><span class="hm-meta">só na loja</span></div>
       <div class="lj-grade">${pers.map(cartaoP).join("")}</div></section>
     <p class="note center">Moedas ganhas até hoje: ${moedasGanhas()} · gastas: ${moedasGastas()}</p></div>`;
-  $("ljVoltar").onclick = () => nav("inicio");
   /* os bonecos de amostra são desenhados aos poucos, para a tela abrir na hora */
   const prevs = [...app.querySelectorAll("[data-prev]")]; let k = 0;
   const desenhar = () => { const fim = Math.min(prevs.length, k + 3); for(; k < fim; k++){ if(!prevs[k].isConnected) return; prevs[k].innerHTML = avatarSVG(prevs[k].dataset.prev, null, 0, 0); } if(k < prevs.length) setTimeout(desenhar, 30); };
@@ -7546,6 +7606,199 @@ document.getElementById("app").addEventListener("click", e => {
   const el = e.target.closest ? e.target.closest("[data-perfil]") : null; if(!el || !usuario || !perfil) return;
   tocar("toque"); modalPerfil(el.dataset.perfil, { nome: el.dataset.nome || "", profeta: el.dataset.boneco || "", nivel: +el.dataset.nivel || 0 });
 });
+
+/* ============================================================
+   ESTUDAR: MINHAS ANOTAÇÕES (só a própria pessoa vê)
+   Em cada dia da lição: um campo de observações e, sobre as páginas, marca-texto, pincel, notas (viram um ícone
+   pequeno no lugar marcado) e borracha, com cores. Tudo fica guardado no aparelho na hora; o botão Salvar envia
+   para a conta da pessoa (documento só dela, na coleção "progresso": ninguém mais consegue ler).
+   Formato de um dia: { texto, pags: { "<nº da página>": { t: [traços], n: [notas] } }, quando }
+     traço = { f: "m" (marca-texto) | "p" (pincel), c: cor, p: [x, y, x, y...] }; nota = { x, y, tx }
+     As medidas são relativas à largura da página (0 a 1000), para servirem em qualquer tela.
+   ============================================================ */
+const AN_CORES = ["#FFE14D", "#7EE081", "#FF8FB1", "#6EC8FF", "#FF9F43", "#E0483C"];
+const AN_LARG = { m: 26, p: 5 };
+let AN = null;            // dia aberto: { L, k, chave, dados, ferramenta, cor, desfazer: [], sujo, noServidor }
+const anChaveLocal = (L, k) => "nota:" + usuario.uid + ":" + L.id + "|" + k;
+const anVazio = () => ({ texto: "", pags: {}, quando: 0 });
+/* Lê as anotações do dia: primeiro do aparelho; do servidor só se o aparelho não conferiu nas últimas 12 horas */
+async function anCarregar(L, k){
+  const kl = anChaveLocal(L, k); let loc = await GUARDA.get(kl);
+  if(!loc || Date.now() - (loc.lido || 0) > 12 * 60 * MIN){
+    try{
+      const docs = await DB.anotacoesDaLicao(usuario.uid, L.id), agora = Date.now();           // uma leitura traz a semana toda
+      for(let d = 0; d < 7; d++){
+        const srv = docs.find(x => String(x.data) === String(d)), kd = anChaveLocal(L, d), l = d === k ? loc : await GUARDA.get(kd);
+        const dados = srv && (!l || (srv.quando || 0) > ((l.dados && l.dados.quando) || 0)) ? { texto: srv.texto || "", pags: srv.pags || {}, quando: srv.quando || 0 } : (l ? l.dados : null);
+        if(dados || l){ const novo = { dados: dados || anVazio(), lido: agora, pendente: !!(l && l.pendente) }; await GUARDA.set(kd, novo); if(d === k) loc = novo; }
+      }
+      if(!loc){ loc = { dados: anVazio(), lido: agora }; await GUARDA.set(kl, loc); }
+    }catch(e){ console.warn("anotações", e); }
+  }
+  return loc || { dados: anVazio(), lido: 0 };
+}
+let _anGuardar = null;
+function anGuardarLocal(){
+  if(!AN) return; AN.sujo = true; AN.dados.quando = Date.now(); anEstado();
+  clearTimeout(_anGuardar); const a = AN;
+  _anGuardar = setTimeout(() => GUARDA.set(a.chave, { dados: a.dados, lido: Date.now(), pendente: true }), 400);
+}
+/* Envia para a conta da pessoa. silencioso = ao sair da tela. */
+async function anSalvar(silencioso){
+  const a = AN; if(!a) return;
+  if(!a.sujo){ if(!silencioso) aviso("Suas anotações já estão salvas."); return; }
+  clearTimeout(_anGuardar);
+  const b = $("anSalvar"); if(b && !silencioso) ocupado(b, true);
+  try{
+    await DB.salvarAnotacao(usuario.uid, a.L.id, a.k, { texto: a.dados.texto || "", pags: a.dados.pags || {}, quando: a.dados.quando || Date.now() });
+    a.sujo = false; await GUARDA.set(a.chave, { dados: a.dados, lido: Date.now(), pendente: false });
+    if(!silencioso){ tocar("ajuda"); aviso("Anotações salvas. Só você vê."); }
+  }catch(e){
+    await GUARDA.set(a.chave, { dados: a.dados, lido: Date.now(), pendente: true });
+    if(!silencioso) aviso("Ficou guardado neste aparelho, mas não deu para enviar para a sua conta: " + erroMsg(e));
+  }
+  if(b && !silencioso && b.isConnected) ocupado(b, false);
+  if(AN === a) anEstado();
+}
+/* ao trocar de dia ou sair do Estudar: o que ainda não foi enviado segue sozinho */
+function fecharAnotacoes(){ if(AN && AN.sujo) anSalvar(true); AN = null; }      // (o campo de observações já atualiza AN.dados a cada letra)
+function anEstado(){
+  const e = $("anEstado"), b = $("anSalvar"), b2 = $("anSalvar2"); if(!AN) return;
+  if(e) e.textContent = AN.sujo ? "Guardado neste aparelho. Toque em Salvar para enviar à sua conta." : "Só você vê estas anotações.";
+  [b, b2].forEach(x => { if(x) x.classList.toggle("pendente", !!AN.sujo); });
+}
+
+/* ---------- Campo de observações do dia (aparece mesmo quando o dia não tem páginas) ---------- */
+function htmlObservacoes(d){
+  return `<div class="an-obs"><label for="anObs">Minhas observações de ${esc(d.nome.toLowerCase())}</label>
+    <textarea id="anObs" rows="4" maxlength="4000" placeholder="Escreva aqui o que chamou a sua atenção. Só você vê." disabled></textarea>
+    <div class="an-obs-rod"><span id="anEstado">Carregando suas anotações…</span><button type="button" class="btn btn-main btn-sm" id="anSalvar">Salvar</button></div></div>`;
+}
+/* Liga o dia: carrega as anotações, o campo de observações e, se houver páginas, as ferramentas sobre elas */
+async function abrirAnotacoes(L, k){
+  fecharAnotacoes();
+  const a = AN = { L, k, chave: anChaveLocal(L, k), dados: anVazio(), ferramenta: "mover", cor: 0, desfazer: [], sujo: false };
+  const loc = await anCarregar(L, k);
+  if(AN !== a) return;
+  a.dados = JSON.parse(JSON.stringify(loc.dados || anVazio())); a.dados.pags = a.dados.pags || {}; a.sujo = !!loc.pendente;
+  const ta = $("anObs");
+  if(ta){ ta.disabled = false; ta.value = a.dados.texto || ""; ta.oninput = () => { a.dados.texto = ta.value; anGuardarLocal(); }; }
+  const b = $("anSalvar"); if(b) b.onclick = () => anSalvar();
+  anEstado(); anMontarPaginas();
+  document.querySelectorAll("#pgs .an-pg").forEach(anDesenhar);          // se as páginas chegaram antes das anotações, desenha agora
+}
+/* ---------- Ferramentas sobre as páginas ---------- */
+function anMontarPaginas(){
+  const el = $("pgs"), a = AN; if(!el || !a || !el.querySelector("img") || el.dataset.an === a.chave) return;
+  el.dataset.an = a.chave;
+  /* cada imagem ganha uma camada de desenho por cima */
+  el.querySelectorAll("img").forEach(img => {
+    if(img.parentNode.classList.contains("an-pg")) return;
+    const cx = document.createElement("div"); cx.className = "an-pg"; cx.dataset.i = img.dataset.i;
+    img.parentNode.insertBefore(cx, img); cx.appendChild(img);
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg"); svg.setAttribute("class", "an-svg"); svg.setAttribute("preserveAspectRatio", "none"); cx.appendChild(svg);
+    const pinos = document.createElement("div"); pinos.className = "an-pinos"; cx.appendChild(pinos);
+    const medir = () => { if(img.naturalWidth){ svg.setAttribute("viewBox", `0 0 1000 ${Math.round(1000 * img.naturalHeight / img.naturalWidth)}`); anDesenhar(cx); } };
+    if(img.complete) medir(); else img.addEventListener("load", medir);
+    anLigarDesenho(cx, svg);
+  });
+  const barra = document.createElement("div"); barra.className = "an-barra"; barra.id = "anBarra";
+  const f = (id, ic, nome) => `<button type="button" data-an-f="${id}" aria-pressed="${a.ferramenta === id}" title="${nome}"><span aria-hidden="true">${ic}</span><small>${nome}</small></button>`;
+  barra.innerHTML = `<div class="an-ferr" role="group" aria-label="Ferramentas de anotação">${f("mover", "✋", "Rolar")}${f("m", "🖍️", "Marcador")}${f("p", "✏️", "Pincel")}${f("nota", "💬", "Nota")}${f("borracha", "🧽", "Borracha")}</div>
+    <div class="an-linha2"><div class="an-cores" role="group" aria-label="Cor">${AN_CORES.map((c, i) => `<button type="button" data-an-c="${i}" aria-pressed="${i === a.cor}" style="--c:${c}" aria-label="Cor ${i + 1}"></button>`).join("")}</div>
+      <button type="button" class="an-acao" id="anDesfazer" title="Desfazer">↩︎</button><button type="button" class="an-acao salvar" id="anSalvar2">Salvar</button></div>`;
+  el.parentNode.insertBefore(barra, el);
+  const tb = $("topbar"); if(tb) barra.style.top = (tb.offsetHeight - 1) + "px";
+  barra.querySelectorAll("[data-an-f]").forEach(b => b.onclick = () => { a.ferramenta = b.dataset.anF; barra.querySelectorAll("[data-an-f]").forEach(x => x.setAttribute("aria-pressed", String(x === b))); el.classList.toggle("desenhando", a.ferramenta !== "mover"); el.dataset.f = a.ferramenta;
+    if(a.ferramenta !== "mover" && !lsGet(KEY + ":anDica", 0)){ lsSet(KEY + ":anDica", 1); aviso("Com uma ferramenta ligada, o dedo desenha na página. Para rolar a tela, toque em ✋ Rolar."); } });
+  barra.querySelectorAll("[data-an-c]").forEach(b => b.onclick = () => { a.cor = +b.dataset.anC; barra.querySelectorAll("[data-an-c]").forEach(x => x.setAttribute("aria-pressed", String(x === b))); });
+  $("anDesfazer").onclick = () => { const s = a.desfazer.pop(); if(!s){ aviso("Nada para desfazer."); return; } a.dados.pags = JSON.parse(s); anGuardarLocal(); el.querySelectorAll(".an-pg").forEach(anDesenhar); };
+  $("anSalvar2").onclick = () => anSalvar();
+  anEstado();
+}
+const anPag = i => { const p = AN.dados.pags; return p[i] || (p[i] = { t: [], n: [] }); };
+const anCaminho = p => { let d = ""; for(let i = 0; i < p.length; i += 2) d += (i ? "L" : "M") + p[i] + " " + p[i + 1]; return p.length === 2 ? d + "l.1 0" : d; };
+const anTraco = t => `<path d="${anCaminho(t.p)}" fill="none" stroke="${/^#[0-9A-Fa-f]{6}$/.test(t.c) ? t.c : AN_CORES[0]}" stroke-width="${AN_LARG[t.f] || 5}" stroke-opacity="${t.f === "m" ? .5 : .95}" stroke-linecap="round" stroke-linejoin="round"/>`;
+function anDesenhar(cx){
+  if(!AN) return; const pg = AN.dados.pags[cx.dataset.i] || { t: [], n: [] }, svg = cx.querySelector(".an-svg"), pinos = cx.querySelector(".an-pinos");
+  svg.innerHTML = (pg.t || []).map(anTraco).join("");
+  const vb = (svg.getAttribute("viewBox") || "0 0 1000 1400").split(" "), H = +vb[3] || 1400;
+  pinos.innerHTML = (pg.n || []).map((n, j) => `<button type="button" class="an-pino" data-j="${j}" style="left:${(n.x / 10).toFixed(2)}%;top:${(n.y / H * 100).toFixed(2)}%" aria-label="Ver a nota">💬</button>`).join("");
+  pinos.querySelectorAll(".an-pino").forEach(b => b.onclick = e => { e.stopPropagation(); if(AN.ferramenta === "borracha"){ anMudar(() => pg.n.splice(+b.dataset.j, 1)); anDesenhar(cx); } else anNota(cx, +b.dataset.j); });
+}
+/* guarda como estava (para o Desfazer), aplica a mudança e guarda no aparelho */
+function anMudar(f){ AN.desfazer.push(JSON.stringify(AN.dados.pags)); if(AN.desfazer.length > 25) AN.desfazer.shift(); f(); anGuardarLocal(); }
+function anLigarDesenho(cx, svg){
+  let traco = null, vivo = null, apagou = false;
+  const ponto = e => { const r = svg.getBoundingClientRect(), k = 1000 / r.width; return [Math.round((e.clientX - r.left) * k), Math.round((e.clientY - r.top) * k)]; };
+  const apagar = (x, y) => { const pg = AN.dados.pags[cx.dataset.i]; if(!pg) return; const perto = t => { const lim = (AN_LARG[t.f] || 5) / 2 + 7; for(let i = 0; i < t.p.length; i += 2) if(Math.abs(t.p[i] - x) < lim && Math.abs(t.p[i + 1] - y) < lim) return true; return false; };
+    const antes = pg.t.length + pg.n.length, fazer = () => { pg.t = pg.t.filter(t => !perto(t)); pg.n = pg.n.filter(n => Math.abs(n.x - x) > 30 || Math.abs(n.y - y) > 30); };
+    if(!pg.t.some(perto) && !pg.n.some(n => Math.abs(n.x - x) <= 30 && Math.abs(n.y - y) <= 30)) return;
+    if(!apagou){ anMudar(fazer); apagou = true; } else { fazer(); anGuardarLocal(); }
+    if(pg.t.length + pg.n.length !== antes) anDesenhar(cx); };
+  svg.addEventListener("pointerdown", e => {
+    if(!AN || AN.ferramenta === "mover" || (e.pointerType === "mouse" && e.button !== 0)) return;
+    e.preventDefault(); try{ svg.setPointerCapture(e.pointerId); }catch(x){}
+    const [x, y] = ponto(e), f = AN.ferramenta;
+    if(f === "borracha"){ apagou = false; traco = { apagando: true }; apagar(x, y); return; }
+    if(f === "nota"){ traco = { nota: [x, y] }; return; }
+    traco = { f, c: AN_CORES[AN.cor], p: [x, y] };
+    vivo = document.createElementNS("http://www.w3.org/2000/svg", "g"); vivo.innerHTML = anTraco(traco); svg.appendChild(vivo);
+  });
+  svg.addEventListener("pointermove", e => {
+    if(!traco) return; const [x, y] = ponto(e);
+    if(traco.apagando){ apagar(x, y); return; }
+    if(traco.nota) return;
+    const p = traco.p, n = p.length; if(Math.abs(p[n - 2] - x) + Math.abs(p[n - 1] - y) < 6 || n > 1200) return;
+    p.push(x, y); vivo.innerHTML = anTraco(traco);
+  });
+  const fim = e => {
+    const t = traco; traco = null; if(!t || !AN) return;
+    if(t.apagando) return;
+    if(t.nota){ if(e.type === "pointerup") anNota(cx, -1, t.nota); return; }
+    if(vivo){ vivo.remove(); vivo = null; }
+    anMudar(() => anPag(cx.dataset.i).t.push({ f: t.f, c: t.c, p: t.p })); anDesenhar(cx);
+  };
+  svg.addEventListener("pointerup", fim); svg.addEventListener("pointercancel", fim);
+}
+/* Nota num ponto da página: escreve numa janela; depois de salvar fica só o ícone 💬 no lugar */
+function anNota(cx, j, onde){
+  const pg = anPag(cx.dataset.i), n = j >= 0 ? pg.n[j] : null;
+  modal(n ? "Minha nota" : "Nova nota", `<div class="field" style="margin:0"><textarea id="anNotaTx" rows="5" maxlength="1500" placeholder="Escreva a sua observação sobre este trecho. Só você vê.">${esc(n ? n.tx : "")}</textarea></div>
+      <div class="btn-row"><button type="button" class="btn btn-main" id="anNotaOk">Salvar nota</button>${n ? `<button type="button" class="btn btn-ghost" id="anNotaDel">Excluir</button>` : `<button type="button" class="btn btn-ghost" id="anNotaNao">Cancelar</button>`}</div>`, (m, fechar) => {
+    const ta = m.querySelector("#anNotaTx"); setTimeout(() => { try{ ta.focus(); }catch(e){} }, 80);
+    m.querySelector("#anNotaOk").onclick = () => { const tx = ta.value.trim(); if(!tx){ aviso("Escreva alguma coisa na nota."); return; }
+      anMudar(() => { if(n) n.tx = tx; else pg.n.push({ x: onde[0], y: onde[1], tx }); }); fechar(); anDesenhar(cx); };
+    const del = m.querySelector("#anNotaDel"); if(del) del.onclick = () => { anMudar(() => pg.n.splice(j, 1)); fechar(); anDesenhar(cx); };
+    const nao = m.querySelector("#anNotaNao"); if(nao) nao.onclick = fechar;
+  });
+}
+
+/* ---------- Aviso da loja no menu (uma vez por pessoa) ---------- */
+let _dicaLoja = false;
+function dicaDaLoja(){
+  if(_dicaLoja || !usuario || !perfil || perfil.viuLoja || lsGet(KEY + ":viuLoja:" + usuario.uid, 0)) return;
+  _dicaLoja = true;
+  const tentar = n => {
+    const alvo = document.querySelector('#nav [data-tab="loja"]');
+    if(!alvo || $("nav").hidden || tabAtual !== "inicio" || document.querySelector(".modal-bg, .tutorial, .cd, #cargaBarra, .dica-nav")){ if(n < 90) setTimeout(() => tentar(n + 1), 1000); else _dicaLoja = false; return; }
+    const r = alvo.getBoundingClientRect(), emCima = r.top > window.innerHeight / 2, el = document.createElement("div");
+    el.className = "dica-nav " + (emCima ? "acima" : "abaixo"); el.setAttribute("role", "dialog"); el.setAttribute("aria-label", "Novidade: loja");
+    el.innerHTML = `<b>Novidade: a Loja chegou!</b><p>Agora dá para personalizar o seu personagem. Cada resposta certa no quiz vale 1 moeda${moedas() ? `, e você já tem <strong>${moedas()}</strong>` : ""}.</p><div><button type="button" class="btn btn-main btn-sm" id="dlVer">Ver a loja</button><button type="button" class="btn btn-ghost btn-sm" id="dlDepois">Depois</button></div><i aria-hidden="true"></i>`;
+    document.body.appendChild(el);
+    const larg = el.offsetWidth, cx = r.left + r.width / 2, x = Math.max(8, Math.min(window.innerWidth - larg - 8, cx - larg / 2));
+    el.style.left = x + "px"; el.querySelector("i").style.left = Math.max(14, Math.min(larg - 14, cx - x)) + "px";
+    if(emCima) el.style.bottom = (window.innerHeight - r.top + 12) + "px"; else el.style.top = (r.bottom + 12) + "px";
+    alvo.classList.add("novidade");
+    const fechar = () => { el.remove(); alvo.classList.remove("novidade"); document.removeEventListener("click", fora, true); };
+    const fora = e => { if(!el.contains(e.target)) fechar(); };
+    setTimeout(() => document.addEventListener("click", fora, true), 300);
+    lsSet(KEY + ":viuLoja:" + usuario.uid, 1); perfil.viuLoja = true; DB.salvarUsuario(usuario.uid, { viuLoja: true }).catch(()=>{});
+    el.querySelector("#dlVer").onclick = () => { fechar(); nav("loja"); };
+    el.querySelector("#dlDepois").onclick = fechar;
+  };
+  setTimeout(() => tentar(0), 1500);
+}
 
 </script>
 </body>
