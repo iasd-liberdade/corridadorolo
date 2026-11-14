@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="versao" content="20261114.192619">
+<meta name="versao" content="20261114.201815">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Corrida do Rolo · Quiz da Lição</title>
 <meta name="theme-color" content="#524F9C">
@@ -1657,25 +1657,33 @@ body:has(.modal-bg) .toast,body:has(.tutorial) .toast,body:has(.lb) .toast{botto
 .an-obs-rod span{flex:1;font-size:12px;line-height:1.3;color:var(--soft)}
 .an-obs-rod .btn{width:auto;min-height:38px;padding:7px 18px}
 #anSalvar.pendente,#anSalvar2.pendente{box-shadow:0 0 0 3px rgba(255,226,122,.75)}
-.an-barra{position:sticky;top:60px;z-index:20;margin:0 0 10px;padding:7px 8px;border-radius:14px;background:rgba(27,25,74,.9);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--panel-line)}
-.an-ferr{display:grid;grid-template-columns:repeat(5,1fr);gap:4px}
+body:has(.an-lb):not(:has(.modal-bg)) .toast{top:auto;bottom:calc(24px + env(safe-area-inset-bottom,0px))}      /* com a página aberta para anotar, o aviso fica embaixo (em cima estão as ferramentas) */
+.an-dica{margin:0 0 8px;font:700 12.5px/1.3 "Barlow",sans-serif;color:var(--soft)}
+.lb.an-lb{display:flex;flex-direction:column;overflow:hidden;background:#15143A}
+.lb ~ .modal-bg{z-index:86}
+.an-barra{flex:none;padding:8px 8px 9px;background:#1B194A;border-bottom:1px solid rgba(255,255,255,.18);display:grid;gap:7px}
+.an-topo{display:flex;align-items:center;gap:6px}
+.an-topo #anPgN{flex:1;min-width:0;text-align:center;font:800 12px/1 "Barlow",sans-serif;letter-spacing:.6px;text-transform:uppercase;color:rgba(255,255,255,.75);white-space:nowrap}
+.an-ferr{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;max-width:560px;width:100%;margin:0 auto}
 .an-ferr button{display:grid;justify-items:center;gap:1px;padding:5px 2px 4px;border-radius:10px;border:1.5px solid transparent;background:rgba(255,255,255,.1);color:#fff;cursor:pointer}
 .an-ferr button span{font-size:17px;line-height:1.1}
 .an-ferr button small{font:800 9.5px/1.1 "Barlow",sans-serif}
 .an-ferr button[aria-pressed="true"]{background:#fff;color:#2E2B6E;border-color:#F2BE2E}
-.an-linha2{display:flex;align-items:center;gap:8px;margin-top:7px}
-.an-cores{display:flex;gap:6px;flex:1}
-.an-cores button{width:26px;height:26px;border-radius:50%;border:2px solid rgba(255,255,255,.5);background:var(--c);padding:0;cursor:pointer}
+.an-cores{display:flex;gap:8px;justify-content:center}
+.an-cores button{width:28px;height:28px;border-radius:50%;border:2px solid rgba(255,255,255,.5);background:var(--c);padding:0;cursor:pointer}
 .an-cores button[aria-pressed="true"]{box-shadow:0 0 0 2px #1B194A,0 0 0 4px #fff}
-.an-acao{flex:none;min-width:38px;height:34px;padding:0 12px;border-radius:99px;border:1.5px solid var(--panel-line);background:rgba(255,255,255,.12);color:#fff;font:800 13px/1 "Barlow",sans-serif;cursor:pointer}
+.an-acao{flex:none;min-width:36px;height:34px;padding:0 11px;border-radius:99px;border:1.5px solid rgba(255,255,255,.25);background:rgba(255,255,255,.12);color:#fff;font:800 13px/1 "Barlow",sans-serif;cursor:pointer}
+.an-acao:disabled{opacity:.35}
 .an-acao.salvar{background:#fff;color:#2E2B6E;border-color:transparent}
+.an-area{flex:1;min-height:0;overflow:auto;-webkit-overflow-scrolling:touch;padding:10px 0 30px}
+.an-folha{width:min(100%,900px);margin:0 auto}
+.lb.an-lb img{width:100%;min-width:0;max-width:none;margin:0;border-radius:0;cursor:default}
 .an-pg{position:relative}
 .an-svg{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;mix-blend-mode:multiply;border-radius:10px}
-.paginas.desenhando .an-svg{pointer-events:auto;touch-action:none;cursor:crosshair}
-.paginas.desenhando img{cursor:crosshair}
+.desenhando .an-svg{pointer-events:auto;touch-action:none;cursor:crosshair}
 .an-pinos{position:absolute;inset:0;pointer-events:none}
 .an-pino{position:absolute;transform:translate(-50%,-50%);width:26px;height:26px;border-radius:50% 50% 50% 4px;border:2px solid #fff;background:#F2BE2E;font-size:12px;line-height:1;padding:0;display:grid;place-items:center;pointer-events:auto;cursor:pointer;box-shadow:0 2px 6px rgba(20,18,60,.45)}
-.paginas[data-f="m"] .an-pino,.paginas[data-f="p"] .an-pino,.paginas[data-f="nota"] .an-pino{pointer-events:none}
+[data-f="m"] .an-pino,[data-f="p"] .an-pino,[data-f="nota"] .an-pino{pointer-events:none}
 
 /* login */
 .logo-login{padding:18px 0 6px}
@@ -3637,6 +3645,7 @@ async function mostrarPaginas(L, k, htmlTexto){
   if(typeof anMontarPaginas === "function") anMontarPaginas();
 }
 function abrirPagina(pags, i){
+  if(typeof anEditor === "function" && anEditor(pags, i)) return;      // no Estudar, a página abre com as ferramentas de anotação
   const lb = document.createElement("div"); lb.className = "lb"; let zoom = 1;
   lb.innerHTML = `<button class="fechar" type="button" aria-label="Fechar">✕</button><button class="zoom" type="button">Ampliar</button><img src="${pags[i].img}" alt="Página ${i+1}" style="width:100%">`;
   document.body.appendChild(lb); document.body.style.overflow = "hidden";
@@ -7609,8 +7618,8 @@ document.getElementById("app").addEventListener("click", e => {
 
 /* ============================================================
    ESTUDAR: MINHAS ANOTAÇÕES (só a própria pessoa vê)
-   Em cada dia da lição: um campo de observações e, sobre as páginas, marca-texto, pincel, notas (viram um ícone
-   pequeno no lugar marcado) e borracha, com cores. Tudo fica guardado no aparelho na hora; o botão Salvar envia
+   Em cada dia da lição: um campo de observações e, ao tocar numa página (ela abre grande), marca-texto, pincel, notas
+   (viram um ícone pequeno no lugar marcado) e borracha, com cores. Tudo fica guardado no aparelho na hora; o botão Salvar envia
    para a conta da pessoa (documento só dela, na coleção "progresso": ninguém mais consegue ler).
    Formato de um dia: { texto, pags: { "<nº da página>": { t: [traços], n: [notas] } }, quando }
      traço = { f: "m" (marca-texto) | "p" (pincel), c: cor, p: [x, y, x, y...] }; nota = { x, y, tx }
@@ -7680,41 +7689,68 @@ async function abrirAnotacoes(L, k){
   const a = AN = { L, k, chave: anChaveLocal(L, k), dados: anVazio(), ferramenta: "mover", cor: 0, desfazer: [], sujo: false };
   const loc = await anCarregar(L, k);
   if(AN !== a) return;
-  a.dados = JSON.parse(JSON.stringify(loc.dados || anVazio())); a.dados.pags = a.dados.pags || {}; a.sujo = !!loc.pendente;
+  a.dados = JSON.parse(JSON.stringify(loc.dados || anVazio())); a.dados.pags = a.dados.pags || {}; a.sujo = !!loc.pendente; a.pronto = true;
   const ta = $("anObs");
   if(ta){ ta.disabled = false; ta.value = a.dados.texto || ""; ta.oninput = () => { a.dados.texto = ta.value; anGuardarLocal(); }; }
   const b = $("anSalvar"); if(b) b.onclick = () => anSalvar();
   anEstado(); anMontarPaginas();
   document.querySelectorAll("#pgs .an-pg").forEach(anDesenhar);          // se as páginas chegaram antes das anotações, desenha agora
 }
-/* ---------- Ferramentas sobre as páginas ---------- */
+/* ---------- Marcações sobre as páginas ----------
+   Na lista do dia, cada página mostra as marcações por cima (só para ver). Para editar, a pessoa toca na página:
+   ela abre grande, com as ferramentas (marcador, pincel, nota, borracha, cores, desfazer e salvar). */
+function anCamada(img, i, editar){
+  const cx = document.createElement("div"); cx.className = "an-pg"; cx.dataset.i = i;
+  img.parentNode.insertBefore(cx, img); cx.appendChild(img);
+  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg"); svg.setAttribute("class", "an-svg"); svg.setAttribute("preserveAspectRatio", "none"); cx.appendChild(svg);
+  const pinos = document.createElement("div"); pinos.className = "an-pinos"; cx.appendChild(pinos);
+  const medir = () => { if(img.naturalWidth){ svg.setAttribute("viewBox", `0 0 1000 ${Math.round(1000 * img.naturalHeight / img.naturalWidth)}`); anDesenhar(cx); } };
+  if(img.complete) medir(); else img.addEventListener("load", medir);
+  if(editar) anLigarDesenho(cx, svg);
+  return cx;
+}
 function anMontarPaginas(){
   const el = $("pgs"), a = AN; if(!el || !a || !el.querySelector("img") || el.dataset.an === a.chave) return;
   el.dataset.an = a.chave;
-  /* cada imagem ganha uma camada de desenho por cima */
-  el.querySelectorAll("img").forEach(img => {
-    if(img.parentNode.classList.contains("an-pg")) return;
-    const cx = document.createElement("div"); cx.className = "an-pg"; cx.dataset.i = img.dataset.i;
-    img.parentNode.insertBefore(cx, img); cx.appendChild(img);
-    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg"); svg.setAttribute("class", "an-svg"); svg.setAttribute("preserveAspectRatio", "none"); cx.appendChild(svg);
-    const pinos = document.createElement("div"); pinos.className = "an-pinos"; cx.appendChild(pinos);
-    const medir = () => { if(img.naturalWidth){ svg.setAttribute("viewBox", `0 0 1000 ${Math.round(1000 * img.naturalHeight / img.naturalWidth)}`); anDesenhar(cx); } };
-    if(img.complete) medir(); else img.addEventListener("load", medir);
-    anLigarDesenho(cx, svg);
-  });
-  const barra = document.createElement("div"); barra.className = "an-barra"; barra.id = "anBarra";
-  const f = (id, ic, nome) => `<button type="button" data-an-f="${id}" aria-pressed="${a.ferramenta === id}" title="${nome}"><span aria-hidden="true">${ic}</span><small>${nome}</small></button>`;
-  barra.innerHTML = `<div class="an-ferr" role="group" aria-label="Ferramentas de anotação">${f("mover", "✋", "Rolar")}${f("m", "🖍️", "Marcador")}${f("p", "✏️", "Pincel")}${f("nota", "💬", "Nota")}${f("borracha", "🧽", "Borracha")}</div>
-    <div class="an-linha2"><div class="an-cores" role="group" aria-label="Cor">${AN_CORES.map((c, i) => `<button type="button" data-an-c="${i}" aria-pressed="${i === a.cor}" style="--c:${c}" aria-label="Cor ${i + 1}"></button>`).join("")}</div>
-      <button type="button" class="an-acao" id="anDesfazer" title="Desfazer">↩︎</button><button type="button" class="an-acao salvar" id="anSalvar2">Salvar</button></div>`;
-  el.parentNode.insertBefore(barra, el);
-  const tb = $("topbar"); if(tb) barra.style.top = (tb.offsetHeight - 1) + "px";
-  barra.querySelectorAll("[data-an-f]").forEach(b => b.onclick = () => { a.ferramenta = b.dataset.anF; barra.querySelectorAll("[data-an-f]").forEach(x => x.setAttribute("aria-pressed", String(x === b))); el.classList.toggle("desenhando", a.ferramenta !== "mover"); el.dataset.f = a.ferramenta;
-    if(a.ferramenta !== "mover" && !lsGet(KEY + ":anDica", 0)){ lsSet(KEY + ":anDica", 1); aviso("Com uma ferramenta ligada, o dedo desenha na página. Para rolar a tela, toque em ✋ Rolar."); } });
-  barra.querySelectorAll("[data-an-c]").forEach(b => b.onclick = () => { a.cor = +b.dataset.anC; barra.querySelectorAll("[data-an-c]").forEach(x => x.setAttribute("aria-pressed", String(x === b))); });
-  $("anDesfazer").onclick = () => { const s = a.desfazer.pop(); if(!s){ aviso("Nada para desfazer."); return; } a.dados.pags = JSON.parse(s); anGuardarLocal(); el.querySelectorAll(".an-pg").forEach(anDesenhar); };
-  $("anSalvar2").onclick = () => anSalvar();
-  anEstado();
+  el.querySelectorAll("img").forEach(img => { if(!img.parentNode.classList.contains("an-pg")) anCamada(img, img.dataset.i, false); });
+  if(!$("anDica")){ const p = document.createElement("p"); p.id = "anDica"; p.className = "an-dica"; p.innerHTML = `<span aria-hidden="true">🖍️</span> Toque na página para abrir e fazer suas marcações.`; el.parentNode.insertBefore(p, el); }
+}
+/* A página aberta, com as ferramentas de edição. Devolve false se as anotações ainda não estão prontas. */
+function anEditor(pags, i){
+  const a = AN; if(!a) return false;
+  if(!a.pronto){ aviso("Carregando suas anotações… tente de novo em um instante."); return true; }
+  a.ferramenta = "mover";
+  const lb = document.createElement("div"); lb.className = "lb an-lb"; let pg = i, zoom = 1, cx = null;
+  const f = (id, ic, nome) => `<button type="button" data-an-f="${id}" aria-pressed="${id === "mover"}" title="${nome}"><span aria-hidden="true">${ic}</span><small>${nome}</small></button>`;
+  lb.innerHTML = `<div class="an-barra" id="anBarra">
+      <div class="an-topo"><button type="button" class="an-acao" id="anFechar" aria-label="Fechar">✕</button>
+        ${pags.length > 1 ? `<button type="button" class="an-acao" id="anAnt" aria-label="Página anterior">‹</button><span id="anPgN"></span><button type="button" class="an-acao" id="anProx" aria-label="Próxima página">›</button>` : `<span id="anPgN"></span>`}
+        <button type="button" class="an-acao" id="anZoom">Ampliar</button><button type="button" class="an-acao" id="anDesfazer" title="Desfazer" aria-label="Desfazer">↩︎</button><button type="button" class="an-acao salvar" id="anSalvar2">Salvar</button></div>
+      <div class="an-ferr" role="group" aria-label="Ferramentas de anotação">${f("mover", "✋", "Rolar")}${f("m", "🖍️", "Marcador")}${f("p", "✏️", "Pincel")}${f("nota", "💬", "Nota")}${f("borracha", "🧽", "Borracha")}</div>
+      <div class="an-cores" role="group" aria-label="Cor">${AN_CORES.map((c, k) => `<button type="button" data-an-c="${k}" aria-pressed="${k === a.cor}" style="--c:${c}" aria-label="Cor ${k + 1}"></button>`).join("")}</div></div>
+    <div class="an-area" id="anArea"><div class="an-folha" id="anFolha"></div></div>`;
+  document.body.appendChild(lb); document.body.style.overflow = "hidden";
+  const area = lb.querySelector("#anArea"), folha = lb.querySelector("#anFolha"), q = sel => lb.querySelector(sel);
+  const largura = () => { folha.style.width = zoom === 1 ? "" : Math.min(area.clientWidth * 2, 1900) + "px"; q("#anZoom").textContent = zoom === 1 ? "Ampliar" : "Reduzir"; };
+  const montar = () => {
+    folha.innerHTML = `<img src="${pags[pg].img}" alt="Página ${pg + 1}" data-i="${pg}">`;
+    cx = anCamada(folha.querySelector("img"), pg, true); area.scrollTop = 0;
+    q("#anPgN").textContent = pags.length > 1 ? `${pg + 1} de ${pags.length}` : "Página";
+    const an = q("#anAnt"), pr = q("#anProx"); if(an) an.disabled = pg === 0; if(pr) pr.disabled = pg === pags.length - 1;
+  };
+  const fechar = () => { lb.remove(); document.body.style.overflow = ""; document.removeEventListener("keydown", tecla); if(AN === a){ a.ferramenta = "mover"; document.querySelectorAll("#pgs .an-pg").forEach(anDesenhar); anEstado(); } };
+  const tecla = e => { if(e.key === "Escape" && !document.querySelector(".modal-bg")) fechar(); };
+  document.addEventListener("keydown", tecla);
+  q("#anFechar").onclick = fechar;
+  q("#anZoom").onclick = () => { zoom = zoom === 1 ? 2 : 1; largura(); };
+  const an = q("#anAnt"), pr = q("#anProx"); if(an) an.onclick = () => { if(pg > 0){ pg--; montar(); } }; if(pr) pr.onclick = () => { if(pg < pags.length - 1){ pg++; montar(); } };
+  lb.querySelectorAll("[data-an-f]").forEach(b => b.onclick = () => { a.ferramenta = b.dataset.anF; lb.querySelectorAll("[data-an-f]").forEach(x => x.setAttribute("aria-pressed", String(x === b))); area.classList.toggle("desenhando", a.ferramenta !== "mover"); area.dataset.f = a.ferramenta;
+    if(a.ferramenta !== "mover" && !lsGet(KEY + ":anDica", 0)){ lsSet(KEY + ":anDica", 1); aviso("Com uma ferramenta ligada, o dedo desenha na página. Para mover a página, toque em ✋ Rolar."); } });
+  lb.querySelectorAll("[data-an-c]").forEach(b => b.onclick = () => { a.cor = +b.dataset.anC; lb.querySelectorAll("[data-an-c]").forEach(x => x.setAttribute("aria-pressed", String(x === b))); });
+  q("#anDesfazer").onclick = () => { const s = a.desfazer.pop(); if(!s){ aviso("Nada para desfazer."); return; } a.dados.pags = JSON.parse(s); anGuardarLocal(); if(cx) anDesenhar(cx); };
+  q("#anSalvar2").onclick = () => anSalvar();
+  montar(); largura(); anEstado();
+  return true;
 }
 const anPag = i => { const p = AN.dados.pags; return p[i] || (p[i] = { t: [], n: [] }); };
 const anCaminho = p => { let d = ""; for(let i = 0; i < p.length; i += 2) d += (i ? "L" : "M") + p[i] + " " + p[i + 1]; return p.length === 2 ? d + "l.1 0" : d; };
@@ -7731,7 +7767,10 @@ function anMudar(f){ AN.desfazer.push(JSON.stringify(AN.dados.pags)); if(AN.desf
 function anLigarDesenho(cx, svg){
   let traco = null, vivo = null, apagou = false;
   const ponto = e => { const r = svg.getBoundingClientRect(), k = 1000 / r.width; return [Math.round((e.clientX - r.left) * k), Math.round((e.clientY - r.top) * k)]; };
-  const apagar = (x, y) => { const pg = AN.dados.pags[cx.dataset.i]; if(!pg) return; const perto = t => { const lim = (AN_LARG[t.f] || 5) / 2 + 7; for(let i = 0; i < t.p.length; i += 2) if(Math.abs(t.p[i] - x) < lim && Math.abs(t.p[i + 1] - y) < lim) return true; return false; };
+  const apagar = (x, y) => { const pg = AN.dados.pags[cx.dataset.i]; if(!pg) return; const perto = t => { const lim = (AN_LARG[t.f] || 5) / 2 + 9, p = t.p;                  // distância da borracha até cada pedaço do traço
+      for(let i = 0; i < p.length; i += 2){ const ax = p[i], ay = p[i + 1], bx = i + 3 < p.length ? p[i + 2] : ax, by = i + 3 < p.length ? p[i + 3] : ay, dx = bx - ax, dy = by - ay, c = dx * dx + dy * dy;
+        const u = c ? Math.max(0, Math.min(1, ((x - ax) * dx + (y - ay) * dy) / c)) : 0, ex = ax + u * dx - x, ey = ay + u * dy - y; if(ex * ex + ey * ey < lim * lim) return true; }
+      return false; };
     const antes = pg.t.length + pg.n.length, fazer = () => { pg.t = pg.t.filter(t => !perto(t)); pg.n = pg.n.filter(n => Math.abs(n.x - x) > 30 || Math.abs(n.y - y) > 30); };
     if(!pg.t.some(perto) && !pg.n.some(n => Math.abs(n.x - x) <= 30 && Math.abs(n.y - y) <= 30)) return;
     if(!apagou){ anMudar(fazer); apagou = true; } else { fazer(); anGuardarLocal(); }
