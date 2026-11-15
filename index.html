@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="versao" content="20261115.210551">
+<meta name="versao" content="20261115.220220">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Corrida do Rolo · Quiz da Lição</title>
 <meta name="theme-color" content="#524F9C">
@@ -213,7 +213,7 @@ input[type=file]{width:100%;color:var(--muted);font-size:15px}
 .erro{color:var(--bad);font-weight:700;font-size:15px;margin:8px 0 0;min-height:1.2em}
 .logo-login{text-align:center;padding:30px 0 10px}
 .logo-login h1{font-size:clamp(64px,20vw,96px);line-height:.86;text-transform:uppercase}
-.logo-login h1 .hl{display:block;color:var(--accent)}
+
 .logo-login p{color:var(--muted);font-style:italic;margin:12px auto 0;max-width:30ch}
 
 /* Modal */
@@ -261,9 +261,7 @@ input[type=file]{width:100%;color:var(--muted);font-size:15px}
 .menu-conta button{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:var(--panel);border:1px solid var(--panel-line);border-radius:var(--radius);padding:14px;font-weight:700;font-size:16px;color:#fff}
 .menu-conta button .ic{font-size:22px;width:30px;text-align:center}
 .menu-conta button .seta{margin-left:auto;color:var(--soft)}
-.emojis{display:grid;grid-template-columns:repeat(auto-fill,minmax(52px,1fr));gap:6px}
-.emojis button{font-size:28px;background:rgba(255,255,255,.08);border:2px solid transparent;border-radius:12px;padding:6px 0;line-height:1.3}
-.emojis button[aria-pressed="true"]{background:rgba(255,255,255,.26);border-color:#fff}
+
 .opcoes{display:grid;gap:8px}
 .opcoes button{display:flex;align-items:center;gap:10px;background:var(--panel);border:2px solid var(--panel-line);border-radius:var(--radius);padding:12px 14px;font-weight:700;color:#fff;text-align:left}
 .opcoes button[aria-pressed="true"]{border-color:#fff;background:rgba(255,255,255,.22)}
@@ -325,8 +323,7 @@ input[type=file]{width:100%;color:var(--muted);font-size:15px}
 .cq-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px}
 .cq-head .hoje-lbl{margin-bottom:0}
 .cq-head .btn-sm{min-height:34px;padding:5px 12px;font-size:13px}
-.badge-card{font:inherit;color:inherit;cursor:pointer;width:100%}
-.badge-card:focus-visible{outline:2px solid #fff;outline-offset:2px}
+
 .cq-modal{text-align:center;padding:4px 0}
 .cq-modal .ic{font-size:84px;line-height:1.1;filter:drop-shadow(0 6px 18px rgba(143,230,255,.45))}
 .cq-modal.off .ic{opacity:.5;filter:grayscale(1)}
@@ -360,7 +357,7 @@ input[type=file]{width:100%;color:var(--muted);font-size:15px}
 @media (max-width:899px){ .bottomnav.n7 button{font-size:9.5px;letter-spacing:-.2px} }
 @media (max-width:380px){ .bottomnav.n7 button{font-size:8.6px} .bottomnav.n7{padding-left:4px;padding-right:4px;gap:0} }
 .salas-grid{display:grid;gap:14px;margin-top:14px}
-@media (min-width:900px){ .salas-grid{grid-template-columns:1fr 1fr} .btn-row.sala-botoes{grid-template-columns:repeat(3,1fr)} }
+@media (min-width:900px){ .salas-grid{grid-template-columns:1fr 1fr}  }
 .sala{background:var(--panel);border:1px solid var(--panel-line);border-radius:var(--radius-lg);padding:16px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
 .sala.ativa{border-color:rgba(143,230,255,.75);box-shadow:0 0 0 1px rgba(143,230,255,.35),0 0 22px rgba(143,230,255,.18)}
 .sala-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
@@ -373,8 +370,7 @@ input[type=file]{width:100%;color:var(--muted);font-size:15px}
 .sala-pend{margin:10px 0 0;padding:8px 10px;border-radius:12px;background:rgba(242,190,46,.18);border:1px solid rgba(242,190,46,.5);font-size:14px}
 .sala-acoes{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
 .badge.sala-ativa{background:var(--accent);color:#14123C}
-.sala-sel{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:end;margin-bottom:10px}
-.sala-sel .btn-sm{min-height:52px}
+
 .convite{text-align:center;background:rgba(0,0,0,.16);border-radius:var(--radius);padding:14px}
 .convite span{display:block;font-size:12px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--muted)}
 .convite b{font-family:"Bebas Neue","Arial Narrow",sans-serif;font-weight:400;font-size:56px;letter-spacing:8px;line-height:1.1}
@@ -403,13 +399,10 @@ input[type=file]{width:100%;color:var(--muted);font-size:15px}
 .logo-login{padding:26px 0 8px}
 .logo-full{display:block;width:min(100%,400px);height:auto;margin:0 auto}
 /* Títulos das telas (Quiz, Corrida, Salas): menores e mais leves */
-.hero{padding:2px 0 18px;--hero-max:54px}
-.hero h1{font-size:clamp(34px,10vw,54px);margin-top:12px;line-height:.92}
-.hero p{font-size:16px;margin-top:10px;max-width:46ch;line-height:1.45}
-.hero .quill{width:104px;top:6px;right:-10px}
+
 .rolo-h{font-size:clamp(34px,9.6vw,50px);line-height:.95;margin:10px 0 4px}
-.hero h1.rolo-h .hl{display:inline;margin-left:.22em}
-@media (min-width:900px){ .hero{--hero-max:68px} .rolo-h{font-size:56px} .logo-ic{height:34px} }
+
+@media (min-width:900px){  .rolo-h{font-size:56px} .logo-ic{height:34px} }
 /* Missões, níveis e ajudas */
 .nivel-selo{display:grid;justify-items:center;align-content:center;width:112px;height:112px;margin:0 auto 12px;border-radius:50%;background:radial-gradient(circle at 30% 25%,#FFE9A6,#F2BE2E 55%,#C98A12);color:#3A2A00;box-shadow:0 6px 22px rgba(242,190,46,.45),inset 0 0 0 4px rgba(255,255,255,.55)}
 .nivel-selo span{font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;line-height:1}
@@ -431,7 +424,7 @@ input[type=file]{width:100%;color:var(--muted);font-size:15px}
 .ms-num{flex:none;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--ok);color:#06301F;font-family:"Bebas Neue","Arial Narrow",sans-serif;font-size:24px}
 .ms-num.grande{width:84px;height:84px;font-size:46px;margin:0 auto 6px;background:rgba(255,255,255,.2);color:#fff}
 .ms-num.grande.feita{background:var(--ok);color:#06301F}
-.ms-premio{margin:10px 0 0;padding:8px 10px;border-radius:12px;background:rgba(242,190,46,.18);border:1px solid rgba(242,190,46,.5);font-weight:600}
+
 .novo-profeta{margin-top:12px;padding:12px;border-radius:var(--radius);background:rgba(255,255,255,.12);display:grid;justify-items:center;gap:6px}
 .novo-profeta > div{display:grid;justify-items:center}
 .novo-profeta .avatar{width:72px;height:92px}
@@ -536,12 +529,7 @@ input[type=file]{width:100%;color:var(--muted);font-size:15px}
 .hm-cq small{font-size:10.5px;font-weight:700;line-height:1.15;text-align:center;color:var(--muted)}
 .hm-cq button.off small{color:var(--soft);opacity:.7}
 /* linha de atalho (mural) */
-.hm-linha{display:flex;align-items:center;gap:12px;width:100%;text-align:left;color:#fff;cursor:pointer;font:inherit}
-.hm-linha-ic{width:38px;height:38px;border-radius:12px;background:rgba(255,255,255,.14);display:grid;place-items:center;font-size:19px;flex:none}
-.hm-linha-tx{flex:1;min-width:0}
-.hm-linha-tx b{display:block;font-size:14.5px}
-.hm-linha-tx small{display:block;font-size:12px;color:var(--soft)}
-.hm-seta{font-size:22px;color:var(--soft)}
+
 @media (min-width:900px){
   .inicio-grid.hm .panel,.inicio-grid.hm .hm-ola{margin:0 0 12px}
   .hm-ola{padding:4px 4px 8px}
@@ -553,8 +541,7 @@ input[type=file]{width:100%;color:var(--muted);font-size:15px}
 .trilha-svg{position:absolute;left:0;top:0;display:block}
 .tr-brilho{animation:trbrilha 2.6s ease-in-out infinite}
 @keyframes trbrilha{0%,100%{opacity:1}50%{opacity:.25}}
-.ms-etapa{display:block;font-weight:800;font-size:13px;color:#FFE27A;margin-bottom:4px}
-.ms-etapa small{font-weight:600;color:var(--muted);font-size:11.5px}
+
 /* casas do caminho: botões com cara de jogo (relevo embaixo) */
 .tr-no{position:absolute;transform:translate(-50%,-50%);width:54px;height:54px;border-radius:50%;border:0;padding:0;display:grid;place-items:center;z-index:2;cursor:pointer;
   font-family:"Bebas Neue","Arial Narrow",sans-serif;font-size:25px;line-height:1;
@@ -606,7 +593,7 @@ input[type=file]{width:100%;color:var(--muted);font-size:15px}
 .chance-box{margin-top:12px;padding:12px 14px;border-radius:var(--radius-lg);background:rgba(242,190,46,.16);border:2px solid rgba(242,190,46,.6)}
 .chance-box p{margin:0 0 10px}
 /* Meu desempenho */
-.dz-priv{font:700 11px "Barlow",sans-serif;letter-spacing:0;color:var(--muted);background:rgba(255,255,255,.14);border-radius:99px;padding:2px 8px;margin-left:6px;vertical-align:middle;text-transform:none}
+
 .dz-fala{margin:4px 0 12px}
 .dz-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .dz-stat{background:rgba(0,0,0,.12);border-radius:var(--radius);padding:10px 12px}
@@ -648,22 +635,7 @@ input[type=file]{width:100%;color:var(--muted);font-size:15px}
 .mu-opcao small{display:block;font-size:13px;color:var(--muted)}
 /* Mapa do trimestre (rolo) */
 .mapa{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;border-radius:16px;background:#F4F1EA;box-shadow:inset 0 0 0 2px #E2D8B8, 0 6px 16px rgba(20,18,60,.25);scrollbar-width:thin}
-.mapa-in{position:relative}
-.mp-haste{position:absolute;left:6px;top:8px;bottom:8px;width:14px;border-radius:7px;background:linear-gradient(90deg,#B9A77A,#EFE7CC 45%,#B9A77A)}
-.mp-svg{position:absolute;left:0;top:0}
-.mp-svg path{fill:none;stroke:#B9A77A;stroke-width:5;stroke-dasharray:3 11;stroke-linecap:round}
-.mp-no{position:absolute;transform:translate(-50%,-50%);width:52px;height:52px;border-radius:50%;border:3px solid #B9A77A;background:#fff;color:#4A3F6B;display:grid;place-items:center;padding:0}
-.mp-n{font-family:"Bebas Neue","Arial Narrow",sans-serif;font-size:26px;line-height:1}
-.mp-no.completa{background:#2BA486;border-color:#1E7D66;color:#fff}
-.mp-no.hoje{border-color:#524F9C;box-shadow:0 0 0 5px rgba(82,79,156,.22)}
-.mp-no.sel{background:#524F9C;border-color:#2E2B6E;color:#fff;transform:translate(-50%,-50%) scale(1.12)}
-.mp-no.sel.completa{background:#2BA486;border-color:#2E2B6E}
-.mp-leg{position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:6px;white-space:nowrap;font-size:11px;font-weight:700;color:#6B6189;line-height:1.25;text-align:center}
-.mp-leg b{display:block;font-size:11.5px;color:#3A2F52}
-.mp-cad{position:absolute;right:-8px;top:-8px;font-size:13px}
-.mp-rolo{position:absolute;top:50%;transform:translateY(-50%);display:grid;justify-items:center}
-.mp-rolo span{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:"Bebas Neue","Arial Narrow",sans-serif;font-size:22px;color:#6B5A2E}
-.mp-dica{margin:10px 0 12px}
+
 /* Chaves de liga/desliga em Minha conta */
 .menu-conta button .switch{margin-left:auto;pointer-events:none}
 /* Tutorial de primeiro acesso */
@@ -705,10 +677,7 @@ input[type=file]{width:100%;color:var(--muted);font-size:15px}
 .sala-barra{display:flex;flex-wrap:wrap;gap:8px}
 .sala-barra .btn{flex:1 1 auto;width:auto;min-height:40px;padding:8px 14px;font-size:14.5px;white-space:nowrap}
 /* Tela inicial */
-.inicio-hero{display:grid;grid-template-columns:72px 1fr;gap:14px;align-items:center}
-.inicio-hero .avatar{width:72px;height:92px}
-.inicio-hero h2{font-size:34px;line-height:1}
-.inicio-hero .saud{color:var(--muted);font-weight:700;font-size:14px;letter-spacing:.5px;text-transform:uppercase}
+
 .hoje-lbl{display:inline-block;font-family:"Bebas Neue","Arial Narrow",sans-serif;font-size:18px;letter-spacing:1px;color:var(--accent);margin-bottom:4px}
 .hoje h2{font-size:36px;margin-bottom:6px}
 .hoje .status{display:flex;align-items:center;gap:8px;font-weight:700;margin:0 0 12px}
@@ -716,46 +685,22 @@ input[type=file]{width:100%;color:var(--muted);font-size:15px}
 .hoje .status .pill.ok{background:var(--d);color:#fff}
 .hoje .status .pill.late{background:var(--warn);color:#2A2000}
 .contagem{color:var(--muted);font-size:14px;margin:10px 0 0;font-weight:600}
-.dots7{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin:12px 0 8px}
-.dots7 div{text-align:center}
-.dots7 .d{width:100%;aspect-ratio:1;max-width:44px;margin:0 auto 4px;border-radius:50%;display:grid;place-items:center;font-family:"Bebas Neue","Arial Narrow",sans-serif;font-size:16px;background:rgba(255,255,255,.12);color:var(--soft);border:2px solid transparent}
-.dots7 .d.ok{background:var(--d);color:#fff}
-.dots7 .d.late{background:var(--warn);color:#2A2000}
-.dots7 .d.hoje{border-color:#fff;color:#fff}
-.dots7 small{display:block;font-size:10px;color:var(--soft);font-weight:700}
-.streak{display:flex;align-items:center;gap:10px;background:rgba(0,0,0,.14);border-radius:var(--radius);padding:10px 14px;margin-top:10px}
-.streak b{font-family:"Bebas Neue","Arial Narrow",sans-serif;font-weight:400;font-size:34px;line-height:1}
-.streak span{color:var(--muted);font-size:14px;font-weight:600}
-.posicao{display:flex;align-items:baseline;gap:8px;margin-bottom:8px}
-.posicao b{font-family:"Bebas Neue","Arial Narrow",sans-serif;font-weight:400;font-size:52px;line-height:1;color:var(--accent)}
-.posicao span{color:var(--muted);font-weight:600}
-.badges{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.badge-card{background:rgba(255,255,255,.1);border:1px solid var(--panel-line);border-radius:var(--radius);padding:10px 6px;text-align:center}
-.badge-card .ic{font-size:30px;line-height:1.2}
-.badge-card b{display:block;font-size:12px;line-height:1.2;margin-top:4px}
-.badge-card span{display:block;font-size:10px;color:var(--soft);line-height:1.2;margin-top:2px}
-.badge-card.off{opacity:.45;filter:grayscale(1)}
-.badge-card.on{background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.5);box-shadow:0 0 18px rgba(143,230,255,.25)}
-.atalhos{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.atalhos button{background:var(--panel);border:1px solid var(--panel-line);border-radius:var(--radius);padding:14px 10px;color:#fff;font-weight:800;font-size:15px;display:grid;justify-items:center;gap:4px}
-.atalhos button .ic{font-size:26px}
+
 /* Espaço entre os cartões da tela inicial (celular e desktop) */
 .inicio-grid>div{display:grid;gap:14px}
 .inicio-grid>div+div{margin-top:14px}
 .inicio-grid .panel{margin:0}
-.inicio-hero>div{min-width:0}
+
 #rkCorpo{margin-top:14px}
 /* Notebook e monitor: o Início vira colunas equilibradas (2, e 3 em telas largas) */
-@media (min-width:900px){ .inicio-grid{display:block;column-count:2;column-gap:18px} .inicio-grid>div{display:contents} .inicio-grid .panel,.inicio-grid .atalhos{break-inside:avoid;margin:0 0 18px} .inicio-grid>div+div{margin-top:0} #rkCorpo{margin-top:16px} .badges{grid-template-columns:repeat(6,1fr)} }
+@media (min-width:900px){ .inicio-grid{display:block;column-count:2;column-gap:18px} .inicio-grid>div{display:contents} .inicio-grid .panel{break-inside:avoid;margin:0 0 18px} .inicio-grid>div+div{margin-top:0} #rkCorpo{margin-top:16px}  }
 /* Abas dos dias (Estudar): sempre numa linha só */
 .tabs.dias{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;overflow:visible}
 .tabs.dias button{padding:6px 0;font-size:12px;line-height:1.15;white-space:normal;display:grid;justify-items:center;gap:1px;border-radius:12px}
 .tabs.dias button small{font-size:10px;font-weight:600;opacity:.85}
 /* Corrida do Rolo (Ranking) */
 .rolo-h{font-size:clamp(48px,13.5vw,84px);text-transform:uppercase;line-height:.86;margin:0 0 6px}
-.rolo-h .hl{display:block;color:var(--accent)}
-.meta-num{font-family:"Bebas Neue","Arial Narrow",sans-serif;font-size:56px;line-height:1}
-.meta-num small{font-size:28px;color:var(--muted)}
+
 .barra{height:16px;border-radius:99px;background:rgba(0,0,0,.18);overflow:hidden;margin:10px 0 8px}
 .barra i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--ok));border-radius:99px;transition:width .8s}
 .escala{display:grid;margin:0 0 6px 0;font-family:"Bebas Neue","Arial Narrow",sans-serif;font-size:15px;letter-spacing:.5px;color:var(--soft)}
@@ -837,17 +782,14 @@ ol.passos li{margin-bottom:8px}
   .bottomnav button .ic .avatar{width:18px;height:23px}
   .wrap{max-width:1040px;padding:28px 28px 60px}
   body.sem-menu .wrap{max-width:560px;padding-top:40px}
-  .home{display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:start}
-  .home .hero{padding-top:0;--hero-w:470px}
-  .home .hero h1{font-size:min(110px, var(--hero-fs,110px))}
-  .home .col-b .panel{position:sticky;top:80px}
+
   .quiz-area,.result-area{max-width:700px;margin:0 auto}
   .tiles{grid-template-columns:1fr 1fr}
   .tile{min-height:76px;font-size:18px}
   .qtext{font-size:30px}
   .estudo-area{max-width:780px;margin:0 auto}
   .estudo{font-size:18px}
-  .emojis{grid-template-columns:repeat(auto-fill,minmax(58px,1fr))}
+  
   .modal-bg{place-items:center}
   .modal{max-width:640px;border-radius:22px}
   .menu-conta{grid-template-columns:1fr 1fr}
@@ -860,19 +802,17 @@ ol.passos li{margin-bottom:8px}
 }
 @media (min-width:1200px){
   .wrap{max-width:1240px}
-  .home{gap:40px}
-  .home .hero{--hero-w:540px}
+
 }
 /* Telas largas: usa a largura toda, com a navegação da tela à esquerda e o conteúdo à direita */
-.so-largo{display:none}
+
 @media (min-width:1200px){
   .result-area.duas{max-width:none;display:grid;grid-template-columns:minmax(300px,380px) minmax(0,1fr);gap:26px;align-items:start}
   .result-area.duas .lado{position:sticky;top:84px}
   .result-area.duas .principal{min-width:0;margin-top:0}
   .result-area.duas #rkCorpo,.result-area.duas #muCorpo{margin-top:0}
   .result-area.duas .salas-grid,.result-area.duas .mural{margin-top:0}
-  .so-largo{display:grid}.so-estreito{display:none}
-  .home{grid-template-columns:minmax(340px,440px) minmax(0,1fr)}
+
   .menu-conta{grid-template-columns:1fr 1fr}
 }
 @media (min-width:1400px){
@@ -882,8 +822,6 @@ ol.passos li{margin-bottom:8px}
   .result-area.duas{grid-template-columns:minmax(320px,400px) minmax(0,1fr)}
 }
 @media (min-width:1700px){ .wrap{max-width:1640px} }
-
-
 
 /* Barra de cima em celulares estreitos: o nome encurta com reticências em vez de empurrar a tela para o lado */
 .topbar .brand{flex:none}
@@ -1026,8 +964,7 @@ input[type=text],input[type=email],input[type=password],input[type=number],input
 .btn-sm{min-height:36px;padding:6px 12px;font-size:13.5px;border-radius:10px}
 .btn-ghost{border-width:1.5px}
 .btn-row{gap:8px;margin-top:12px}
-.sala-sel{gap:8px;margin-bottom:10px}
-.sala-sel .btn-sm{min-height:47px;border-radius:12px}
+
 .tabs{margin-bottom:10px}
 .tabs button{padding:6px 12px;font-size:13px}
 .tabs.dias button{padding:5px 0}
@@ -1074,7 +1011,7 @@ input[type=text],input[type=email],input[type=password],input[type=number],input
 .tu-in h2{font:800 22px/1.2 "Barlow",sans-serif;letter-spacing:0}
 .tu-relogio{font-size:48px}
 /* quiz: semana */
-.home .col-a .pg-cab{padding-bottom:10px}
+
 .days{margin-top:2px}
 .day{grid-template-columns:38px 1fr auto;gap:10px;padding:8px 0}
 .day:first-child{padding-top:0}
@@ -1083,7 +1020,7 @@ input[type=text],input[type=email],input[type=password],input[type=number],input
 .day .info span{font-size:12.5px;line-height:1.3}
 .day .act{font-size:13.5px;min-height:34px;padding:6px 13px;border-radius:10px}
 .day .act.lock{font-size:12px;padding:6px 0}
-.mp-dica{margin:8px 0 4px;font-size:12.5px}
+
 .linkish{font-size:13px}
 /* quiz: pergunta */
 .qtop{margin-bottom:12px;gap:10px}
@@ -1184,8 +1121,7 @@ input[type=text],input[type=email],input[type=password],input[type=number],input
 .reacao-menu button.on{background:rgba(143,230,255,.26);border-color:var(--accent)}
 .mu-opcao .ic{font-size:24px}
 /* minha conta */
-.ct-topo{padding:0 0 12px}
-.ct-topo .hm-ola-tx small{font-size:12px;line-height:1.4;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
 .menu-conta{grid-template-columns:1fr;gap:0;border-radius:14px;overflow:hidden;background:rgba(0,0,0,.14)}
 .menu-conta button{background:none;border:0;border-top:1px solid var(--panel-line);border-radius:0;padding:10px 12px;min-height:46px;font-size:14.5px;gap:10px}
 .menu-conta button:first-child{border-top:0}
@@ -1218,11 +1154,9 @@ input[type=text],input[type=email],input[type=password],input[type=number],input
 .total-box b{font:800 40px/1.1 "Barlow",sans-serif;letter-spacing:-.5px}
 .total-box span{font-size:13px}
 .soma{font:800 18px "Barlow",sans-serif}
-.meta-num{font:800 30px/1.1 "Barlow",sans-serif}
-.meta-num small{font-size:16px}
+
 /* missões: cabeçalho com o botão da música e o mapa com movimento leve (só o que está à vista se mexe) */
-.ms-topo{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
-.ms-topo .pg-cab{flex:1;min-width:0}
+
 .trilha-svg .tr-a{animation:var(--an) var(--du,5s) ease-in-out infinite;animation-play-state:paused;transform-origin:0 0}
 .trilha-svg .tr-a.on{animation-play-state:running}
 .tr-a-vento{--an:trvento;--du:4.6s}
@@ -1448,7 +1382,7 @@ body:has(.modal-bg) .toast,body:has(.tutorial) .toast,body:has(.lb) .toast{botto
 .cb-flag{position:absolute;right:-2px;bottom:6px;width:3px;height:30px;border-radius:2px;background:#fff}
 .cb-flag::after{content:"";position:absolute;left:3px;top:1px;width:16px;height:12px;background:conic-gradient(#22183A 25%,#fff 0 50%,#22183A 0 75%,#fff 0) 0 0/8px 6px;box-shadow:0 0 0 1px #22183A}
 .cb-pct{margin:14px 0 0;font-variant-numeric:tabular-nums;font:400 40px/1 "Bebas Neue","Arial Narrow",Impact,sans-serif;letter-spacing:1px;color:#fff}
-.cb-tx{margin:4px 0 0;min-height:20px;font:700 13.5px/20px "Barlow",system-ui,sans-serif;color:rgba(255,255,255,.92)}
+
 .livro.baixando{position:relative;opacity:.9;pointer-events:none}
 .livro-baixa{position:absolute;left:8px;right:8px;bottom:8px;padding:6px 8px;border-radius:10px;background:rgba(20,18,60,.82);color:#fff;font:800 12px/1.2 "Barlow",sans-serif;text-align:center}
 .carga-lento{margin-top:16px}
@@ -1464,18 +1398,7 @@ body:has(.modal-bg) .toast,body:has(.tutorial) .toast,body:has(.lb) .toast{botto
 .hud-it small{font:700 10.5px/1 "Barlow",sans-serif;letter-spacing:.8px;text-transform:uppercase;color:var(--soft)}
 .hud-mais{margin-left:auto;font:800 12px/1 "Barlow",sans-serif;color:var(--soft);white-space:nowrap}
 .hud:hover .hud-mais{color:#fff}
-.mapa-cx{position:relative}
-.mp-vara{display:none}
-.mapa-cx.abrindo .mapa{animation:rolo-abre 1.2s cubic-bezier(.4,0,.2,1) both}
-.mapa-cx.abrindo .mp-vara{display:block;position:absolute;z-index:2;top:-5px;bottom:-5px;left:0;width:20px;border-radius:10px;pointer-events:none;background:linear-gradient(90deg,#8A6A3E,#D9CFAE 32%,#EFE7CC 50%,#B9A77A 78%,#7A5C34);box-shadow:4px 0 12px rgba(20,18,60,.35);animation:rolo-vara 1.2s cubic-bezier(.4,0,.2,1) both}
-.mapa-cx.abrindo .mp-no{animation:rolo-no .45s cubic-bezier(.3,1.6,.5,1) backwards;animation-delay:var(--d,.2s)}
-.mapa-cx.abrindo .mp-rolo{animation:rolo-fim .4s ease backwards;animation-delay:1.05s}
-.mapa-cx.abrindo .mapa{scroll-behavior:auto}
-@keyframes rolo-abre{from{clip-path:inset(0 calc(100% - 20px) 0 0 round 16px)}to{clip-path:inset(0 0 0 0 round 16px)}}
-@keyframes rolo-vara{0%{left:0;opacity:1}88%{opacity:1}100%{left:calc(100% - 20px);opacity:0}}
-@keyframes rolo-no{from{opacity:0;transform:translate(-50%,-50%) scale(.15)}}
-@keyframes rolo-fim{from{opacity:0}}
-@media (prefers-reduced-motion:reduce){.mapa-cx.abrindo .mapa,.mapa-cx.abrindo .mp-vara,.mapa-cx.abrindo .mp-no,.mapa-cx.abrindo .mp-rolo{animation:none}.mapa-cx.abrindo .mp-vara{display:none}}
+
 .mu-acao{margin:0 0 12px}
 
 /* ---------- Missões: lista de mapas, recompensas e nome do evento em cada casa ---------- */
@@ -1741,6 +1664,82 @@ body:has(.an-lb):not(:has(.modal-bg)) .toast{top:auto;bottom:calc(24px + env(saf
 #nav button[aria-current="page"] .ic{animation:nav-salta .4s cubic-bezier(.3,1.4,.5,1)}
 @keyframes nav-salta{0%{transform:none}45%{transform:translateY(-4px) scale(1.16)}100%{transform:none}}
 @media (prefers-reduced-motion:reduce){.nav-pilula{transition:none}#nav button[aria-current="page"] .ic{animation:none}}
+/* ---------- moedas: bônus e missões ---------- */
+.res-bonus{display:block;margin-top:5px;font:800 12.5px/1.3 "Barlow",sans-serif;font-style:normal;color:#FFE27A}
+.cq-moedas{margin:12px 0 0;text-align:center;font:700 14px/1.3 "Barlow",sans-serif;color:#FFE27A}
+.cq-moedas .moeda{font-size:17px}
+.mj-premio.moedas .mj-ficha .moeda{font-size:26px;margin:0}
+/* ---------- pergunta de verdadeiro ou falso: dois botões grandes, verde e vermelho ---------- */
+.tiles.vf{grid-template-columns:1fr 1fr}
+.tiles.vf .tile{grid-template-columns:1fr;justify-items:center;text-align:center;gap:6px;min-height:96px;padding:14px 8px;font-size:17px;font-weight:800}
+.tiles.vf .tile .letter{width:40px;height:40px;border-radius:50%;font-size:22px;background:rgba(255,255,255,.92)}
+.tiles.vf .tile.tv{background:linear-gradient(160deg,#35C98A,#1F9D6B);color:#fff;border-color:transparent}
+.tiles.vf .tile.tv .letter{color:#1F9D6B}
+.tiles.vf .tile.tf{background:linear-gradient(160deg,#F2707A,#D2434F);color:#fff;border-color:transparent}
+.tiles.vf .tile.tf .letter{color:#D2434F}
+/* ---------- loja: molduras de perfil (um anel em volta do personagem) ---------- */
+.mold{position:relative}
+.mold::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:3px;pointer-events:none;z-index:2;background:var(--mold,#F2BE2E);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)}
+.mold-ouro{--mold:linear-gradient(135deg,#FFF3B8,#F2BE2E 38%,#B8860B 68%,#FFE27A);box-shadow:0 0 10px rgba(242,190,46,.45)}
+.mold-louros{--mold:conic-gradient(#2E9E5B,#A7E3A0,#2E9E5B,#1E7A45,#A7E3A0,#2E9E5B,#1E7A45,#A7E3A0,#2E9E5B);box-shadow:0 0 9px rgba(95,224,176,.4)}
+.mold-arcoiris{--mold:conic-gradient(#E8505D,#F08A4B,#F2BE2E,#5FE0B0,#8FE6FF,#B48CF0,#E8505D);box-shadow:0 0 10px rgba(180,140,240,.4)}
+.mold-ceu{--mold:linear-gradient(160deg,#8FE6FF,#3B4CCA 45%,#1B1F5E 70%,#FFF3B8);box-shadow:0 0 10px rgba(143,230,255,.5)}
+.mold-sarca{--mold:conic-gradient(#FF6A00,#FFD23F,#FF3D00,#FFB300,#FF6A00);box-shadow:0 0 12px rgba(255,122,26,.65);animation:mold-chama 1.4s ease-in-out infinite}
+.mold-perola{--mold:conic-gradient(#fff,#E8D9F5,#CFEFFF,#FFE9F0,#fff,#CFEFFF,#fff);box-shadow:0 0 12px rgba(255,255,255,.6)}
+@keyframes mold-chama{0%,100%{box-shadow:0 0 9px rgba(255,122,26,.55)}50%{box-shadow:0 0 16px rgba(255,190,60,.85)}}
+.topbar .chip.mold::before{padding:2.5px}
+.lj-av.lj-mold{width:70px;height:86px;border-radius:16px;background:rgba(255,255,255,.1);margin-bottom:2px}
+/* ---------- loja: temas da pista (a raia da pessoa na Corrida) ---------- */
+.track{--linhas:repeating-linear-gradient(90deg,transparent 0,transparent calc(100%/var(--seg) - 1px),rgba(255,255,255,.3) calc(100%/var(--seg) - 1px),rgba(255,255,255,.3) calc(100%/var(--seg)))}
+.track.pista-deserto{background:var(--linhas),radial-gradient(circle at 12% 70%,rgba(160,110,40,.35) 0 3px,transparent 4px),radial-gradient(circle at 63% 30%,rgba(160,110,40,.3) 0 2px,transparent 3px),linear-gradient(180deg,#EBCB86,#C99A4B)}
+.track.pista-jardim{background:var(--linhas),radial-gradient(circle at 20% 28%,#FFD1E0 0 2.5px,transparent 3.5px),radial-gradient(circle at 55% 74%,#FFF3B8 0 2.5px,transparent 3.5px),radial-gradient(circle at 82% 34%,#FFD1E0 0 2.5px,transparent 3.5px),linear-gradient(180deg,#49B878,#2E7D4F)}
+.track.pista-mar{background:var(--linhas),linear-gradient(180deg,#2E86C1 0,#5DADE2 20%,#E3C58E 20%,#D4AE6E 80%,#5DADE2 80%,#2E86C1 100%)}
+.track.pista-noite{background:var(--linhas),radial-gradient(circle at 88% 26%,#FFF3B8 0 3px,rgba(255,243,184,.35) 4px,transparent 9px),radial-gradient(circle at 30% 22%,#fff 0 1px,transparent 2px),radial-gradient(circle at 58% 68%,#fff 0 1px,transparent 2px),radial-gradient(circle at 12% 62%,#fff 0 1px,transparent 2px),linear-gradient(180deg,#10163F,#2B2F77)}
+.track.pista-ouro{background:var(--linhas),linear-gradient(110deg,transparent 40%,rgba(255,255,255,.45) 50%,transparent 60%) 0 0/220% 100%,linear-gradient(180deg,#FFE27A,#E0A91E 60%,#B8860B);animation:pista-brilho 3.2s linear infinite}
+@keyframes pista-brilho{from{background-position:0 0,120% 0,0 0}to{background-position:0 0,-120% 0,0 0}}
+.lj-grade.pistas{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+.lj-pista{width:100%;padding:8px 4px 2px}
+.lj-pista .track{height:44px}
+.lj-pista .runner{top:-10px}
+/* ---------- loja: comemorações ---------- */
+.lj-festa{width:64px;height:82px;display:grid;place-items:center;align-content:center;gap:6px;border-radius:14px;border:1px dashed rgba(255,255,255,.35);background:rgba(20,18,60,.35);color:var(--soft);font:800 11px/1 "Barlow",sans-serif;cursor:pointer}
+.lj-festa svg{width:34px;height:34px}
+.lj-festa:hover{background:rgba(20,18,60,.5);color:#fff}
+@media (prefers-reduced-motion:reduce){.mold-sarca,.track.pista-ouro{animation:none}}
+/* ---------- desafios entre amigos ---------- */
+.des-placar{display:flex;align-items:center;justify-content:center;gap:16px;margin:2px 0 10px;text-align:center}
+.des-placar>div{display:grid;justify-items:center;gap:2px;min-width:0;flex:1}
+.des-placar b{font:800 14px/1.2 "Barlow",sans-serif;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.des-placar span{font-size:12px;color:var(--soft)}
+.des-placar>i{font:400 30px/1 "Bebas Neue","Arial Narrow",sans-serif;font-style:normal;color:var(--accent)}
+.des-av{width:52px;height:64px;display:grid;place-items:end center;flex:none}
+.des-av .avatar{width:48px;height:62px}
+.des-qual{margin:0 0 12px;text-align:center;font-size:13.5px;color:var(--soft)}
+.des-qual b{color:#fff}
+.des-apostas{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px}
+.des-apostas button{flex:1 1 56px;display:inline-flex;align-items:center;justify-content:center;padding:10px 6px;border-radius:12px;border:1.5px solid rgba(255,226,122,.45);background:rgba(0,0,0,.22);color:#FFE27A;font:800 15px/1 "Barlow",sans-serif;cursor:pointer}
+.des-apostas button[aria-checked="true"]{background:linear-gradient(135deg,#FFE27A,#F2BE2E);color:#4A3300;border-color:transparent}
+.des-apostas button:disabled{opacity:.35;cursor:default}
+.des-lista{margin:0}
+.des-li{display:flex;align-items:center;gap:10px}
+.des-li .des-av{width:38px;height:48px}
+.des-li .des-av .avatar{width:34px;height:44px}
+.des-li .info{flex:1;min-width:0}
+.des-li .info span{display:block;font-size:12px;color:var(--soft);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.des-lado{display:grid;justify-items:end;gap:5px;flex:none}
+.des-val{font:800 14px/1 "Barlow",sans-serif;color:#FFE27A;white-space:nowrap}
+.des-val.mais{color:#7DF0B8}.des-val.menos{color:#FF9AA2}
+.des-acoes{display:flex;gap:5px}
+.des-li.recusado,.des-li.expirado{opacity:.6}
+.des-card .lista li:first-child{border-top:0;padding-top:4px}
+.des-moedas{margin:6px 0;text-align:center;font:800 18px/1.2 "Barlow",sans-serif;color:#FFE27A}
+.des-fim.perdeu .des-moedas{color:#FF9AA2}
+.pf-desafio{margin-top:12px}
+/* ---------- transição entre telas ---------- */
+@keyframes tela-entra{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.tela-entra{animation:tela-entra .28s cubic-bezier(.2,.8,.2,1)}
+@media (prefers-reduced-motion:reduce){.tela-entra{animation:none}}
 /* login */
 .logo-login{padding:18px 0 6px}
 .logo-login p{font-size:14px;margin-top:10px}
@@ -2151,9 +2150,10 @@ function redimensionarIcone(file, tam){
    CAMADA DE DADOS — Firebase (real) ou Local (demonstração)
    ============================================================ */
 const FB_OK = !!(FIREBASE_CONFIG.apiKey && !/^COLE_/.test(FIREBASE_CONFIG.apiKey) && typeof firebase !== "undefined");
+let CADASTRO = null;      // {email, nome} da conta que está sendo criada agora
 function novoPerfil(nome, email, extra){
   const boot = ADMINS_INICIAIS.map(e=>e.toLowerCase()).includes(String(email).toLowerCase());
-  return Object.assign({ nome, email:String(email).toLowerCase(), emoji:"🙂", tema:"auto", profeta:"", admin:boot, master:boot, aprovado:boot, liberarAnterior:false, criadoEm:Date.now() }, extra||{});
+  return Object.assign({ nome, emoji:"🙂", tema:"auto", profeta:"", admin:boot, master:boot, aprovado:boot, liberarAnterior:false, criadoEm:Date.now() }, extra||{});
 }
 
 function dbFirebase(){
@@ -2169,10 +2169,16 @@ function dbFirebase(){
     onAuth(cb){ auth.onAuthStateChanged(u => cb(u ? {uid:u.uid, email:u.email} : null)); },
     async login(email, senha){ await auth.signInWithEmailAndPassword(email, senha); },
     async criarConta(nome, email, senha){
+      CADASTRO = { email: String(email).toLowerCase(), nome };          // o aviso de "entrou" chega antes de o perfil ser gravado: guarda o nome digitado para ele
       const cred = await auth.createUserWithEmailAndPassword(email, senha);
       let auto = false; try{ const c = await col("config").doc("geral").get(); auto = !!(c.exists && c.data().aprovacaoAuto); }catch(e){}
-      await col("usuarios").doc(cred.user.uid).set(novoPerfil(nome, email, auto ? {aprovado:true} : {}));
+      await col("usuarios").doc(cred.user.uid).set(novoPerfil(nome, email, auto ? {aprovado:true} : {}), {merge:true});
+      await col("usuarios").doc(cred.user.uid).set({ nome }, {merge:true});
     },
+    async salvarPrivado(uid, dados){ await col("privado").doc(uid).set(dados, {merge:true}); },
+    async listarPrivados(){ return lista(col("privado")); },
+    async tirarEmailPublico(uid){ await col("usuarios").doc(uid).update({ email: firebase.firestore.FieldValue.delete() }); },
+    async exportarColecao(nome){ return lista(col(nome)); },
     async sair(){ await auth.signOut(); },
     async alterarSenha(atual, nova){
       const u = auth.currentUser;
@@ -2184,6 +2190,7 @@ function dbFirebase(){
       const sec = firebase.apps.find(a=>a.name==="sec") || firebase.initializeApp(FIREBASE_CONFIG, "sec");
       const cred = await sec.auth().createUserWithEmailAndPassword(email, senha);
       await col("usuarios").doc(cred.user.uid).set(novoPerfil(nome, email, { aprovado:!!aprovado, admin:!!admin }));
+      try{ await col("privado").doc(cred.user.uid).set({ email: String(email).toLowerCase() }, {merge:true}); }catch(e){}
       await sec.auth().signOut();
       return cred.user.uid;
     },
@@ -2221,6 +2228,11 @@ function dbFirebase(){
       return out;
     },
     async salvarResultado(r){ await col("resultados").doc(r.uid+"_"+r.licaoId+"_"+r.data).set(r); },
+    async resultadoDe(uid, licaoId, data){ const d = await col("resultados").doc(uid+"_"+licaoId+"_"+data).get(); return d.exists ? d.data() : null; },
+    async criarDesafio(d){ const r = await col("desafios").add(d); return r.id; },
+    async meusDesafios(uid, meses){ const ks = meses.map(m => uid + "|" + m); const [a, b] = await Promise.all([lista(col("desafios").where("deMes","in",ks)), lista(col("desafios").where("paraMes","in",ks))]); return a.concat(b); },
+    async responderDesafio(id, status){ await col("desafios").doc(id).update({ status, respondido: Date.now() }); },
+    async cancelarDesafio(id){ await col("desafios").doc(id).delete(); },
     async getConfig(){ const d = await col("config").doc("geral").get(); return d.exists ? d.data() : {}; },
     async salvarConfig(c){ await col("config").doc("geral").set(c, {merge:true}); },
     // Salas (turmas) e seus membros. Membro: id = salaId_uid, status "ativo" | "pendente"
@@ -2273,7 +2285,7 @@ function dbLocal(){
   const gravar = d => lsSet(LK, d);
   let cb = null;
   const uidDe = email => "u_" + String(email).toLowerCase().replace(/[^a-z0-9]/g,"_");
-  const avisar = ()=>{ const d = ler(); if(cb) cb(d.sessao && d.usuarios[d.sessao] ? {uid:d.sessao, email:d.usuarios[d.sessao].email} : null); };
+  const avisar = ()=>{ const d = ler(); if(cb) cb(d.sessao && d.usuarios[d.sessao] ? {uid:d.sessao, email:((d.privado||{})[d.sessao]||{}).email || d.usuarios[d.sessao].email || ""} : null); };
   const err = (code, message)=> Object.assign(new Error(message), {code});
   return {
     modo:"local",
@@ -2290,6 +2302,7 @@ function dbLocal(){
       if(String(senha).length < 6) throw err("auth/weak-password");
       const primeiro = Object.keys(d.usuarios).length === 0;
       d.usuarios[uid] = novoPerfil(nome, email, primeiro ? {admin:true, master:true, aprovado:true} : ((d.config||{}).aprovacaoAuto ? {aprovado:true} : {}));
+      (d.privado = d.privado || {})[uid] = { email: String(email).toLowerCase() };
       d.senhas[uid] = senha; d.sessao = uid; gravar(d); avisar();
     },
     async sair(){ const d = ler(); d.sessao = ""; gravar(d); avisar(); },
@@ -2298,9 +2311,13 @@ function dbLocal(){
     async criarUsuarioAdmin(nome, email, senha, aprovado, admin){
       const d = ler(), uid = uidDe(email);
       if(d.usuarios[uid]) throw err("auth/email-already-in-use");
-      d.usuarios[uid] = novoPerfil(nome, email, {aprovado:!!aprovado, admin:!!admin}); d.senhas[uid] = senha; gravar(d); return uid;
+      d.usuarios[uid] = novoPerfil(nome, email, {aprovado:!!aprovado, admin:!!admin}); (d.privado = d.privado || {})[uid] = { email: String(email).toLowerCase() }; d.senhas[uid] = senha; gravar(d); return uid;
     },
     async getUsuario(uid){ const d = ler(); return d.usuarios[uid] ? Object.assign({id:uid}, d.usuarios[uid]) : null; },
+    async salvarPrivado(uid, dados){ const d = ler(); (d.privado = d.privado || {})[uid] = Object.assign((d.privado||{})[uid] || {}, dados); gravar(d); },
+    async listarPrivados(){ const d = ler(); return Object.keys(d.privado || {}).map(k => Object.assign({id:k}, d.privado[k])); },
+    async tirarEmailPublico(uid){ const d = ler(); if(d.usuarios[uid]){ delete d.usuarios[uid].email; gravar(d); } },
+    async exportarColecao(nome){ const d = ler(), m = d[nome] || {}; return Array.isArray(m) ? m : Object.keys(m).map(k => Object.assign({id:k}, m[k])); },
     async salvarUsuario(uid, dados){ const d = ler(); d.usuarios[uid] = Object.assign(d.usuarios[uid]||{}, dados); gravar(d); },
     async listarUsuarios(){ const d = ler(); return Object.keys(d.usuarios).map(k=>Object.assign({id:k}, d.usuarios[k])); },
     async excluirUsuario(uid){ const d = ler(); delete d.usuarios[uid]; delete d.senhas[uid]; gravar(d); },
@@ -2319,6 +2336,11 @@ function dbLocal(){
     async resultadosTrimestre(tri){ const d = ler(); return Object.values(d.resultados).filter(r=>r.trimestre===tri); },
     async resultadosDeUsuarios(uids, licaoId){ const d = ler(), set = new Set(uids); return Object.values(d.resultados).filter(r=>set.has(r.uid) && (!licaoId || r.licaoId===licaoId)); },
     async salvarResultado(r){ const d = ler(); d.resultados[r.uid+"_"+r.licaoId+"_"+r.data] = r; gravar(d); },
+    async resultadoDe(uid, licaoId, data){ return ler().resultados[uid+"_"+licaoId+"_"+data] || null; },
+    async criarDesafio(x){ const d = ler(), id = "d" + Date.now().toString(36) + Math.floor(Math.random()*1e4); (d.desafios = d.desafios || {})[id] = x; gravar(d); return id; },
+    async meusDesafios(uid, meses){ const d = ler().desafios || {}; return Object.keys(d).filter(k => (d[k].de === uid || d[k].para === uid) && meses.includes(d[k].mes)).map(k => Object.assign({id:k}, d[k])); },
+    async responderDesafio(id, status){ const d = ler(); if(d.desafios && d.desafios[id]){ Object.assign(d.desafios[id], { status, respondido: Date.now() }); gravar(d); } },
+    async cancelarDesafio(id){ const d = ler(); if(d.desafios){ delete d.desafios[id]; gravar(d); } },
     async getConfig(){ return ler().config || {}; },
     async salvarConfig(c){ const d = ler(); d.config = Object.assign(d.config||{}, c); gravar(d); },
     async getSala(id){ const d = ler(); return (d.salas||{})[id] ? Object.assign({id}, d.salas[id]) : null; },
@@ -2748,6 +2770,18 @@ function contagem(dia, cb){
 /* ============================================================
    CASCA: barra superior + menu inferior
    ============================================================ */
+/* Transição entre telas: quando a tela muda de verdade (outra aba, outro título, outra pergunta), o conteúdo entra subindo de leve.
+   Redesenhar a mesma tela (trocar o dia, marcar uma opção) não anima de novo. */
+(function(){
+  if(!window.MutationObserver) return;
+  let assinatura = "";
+  new MutationObserver(() => {
+    const r = app.firstElementChild; if(!r) return;
+    const t = app.querySelector("h1, h2"), a = tabAtual + "|" + r.className.replace(/\s*tela-entra/, "") + "|" + (t ? t.textContent : "");
+    if(a === assinatura) return; assinatura = a;
+    Array.from(app.children).forEach(c => c.classList.add("tela-entra"));
+  }).observe(app, { childList: true });
+})();
 /* Menu: o fundo do botão escolhido é uma peça só, que desliza de um botão para o outro.
    Sem botão escolhido (Minha conta, admin, salas) ela some; ao reaparecer, surge no lugar, sem atravessar o menu. */
 let pilulaNaTela = false;
@@ -2780,6 +2814,7 @@ function atualizarCasca(){
   $("topbar").hidden = !logado; $("nav").hidden = !comMenu;
   document.body.classList.toggle("sem-menu", !comMenu);
   if(logado){ $("chipEm").innerHTML = perfil.profeta ? meuAvatar() : ""; $("chipConta").setAttribute("aria-label", "Minha conta de " + (perfil.nome || "")); $("chipConta").title = perfil.nome || ""; $("chipConta").classList.toggle("atual", tabAtual === "conta" || tabAtual === "admin" || tabAtual === "salas"); const np = $("navSalasN"); if(np){ const n = typeof SALAS_PENDENTES === "number" ? SALAS_PENDENTES : 0; np.hidden = !n; np.textContent = n > 9 ? "9+" : String(n); } }
+  if(logado && typeof minhaMoldura === "function"){ const cc = $("chipConta"), mm = minhaMoldura(); Array.from(cc.classList).filter(c => c.indexOf("mold") === 0).forEach(c => cc.classList.remove(c)); if(mm) cc.classList.add("mold", "mold-" + mm); }
   const tm = $("topoMoedas"); if(tm){ tm.hidden = !comMenu; if(comMenu) pintarMoedasTopo(); }
   if(typeof atualizarSino === "function") atualizarSino();
   const abaMenu = tabAtual === "quiz" ? "estudar" : tabAtual;          // estudar e quiz moram no mesmo botão (Lição)
@@ -2869,6 +2904,7 @@ function nav(tab){
   if(typeof antesDaConta !== "undefined" && antesDaConta && !AREA_DA_CONTA.includes(tab)) antesDaConta = null;      // saiu da conta por outro caminho: esquece para onde voltar
   tabAtual = tab; atualizarCasca(); window.scrollTo(0,0);
   if(typeof carregarNotificacoes === "function") carregarNotificacoes();        // confere reações novas (no máximo a cada 90 s)
+  if(typeof conferirDesafios === "function" && Date.now() - desafiosEm > 3 * MIN) conferirDesafios().catch(()=>{});      // e desafios (no máximo a cada 3 min)
   setTimeout(() => conferirVersao(false), 400);                                 // e se subiu versão nova do jogo (no máximo a cada 2 min)
   ({ inicio: telaInicio, estudar: telaEstudar, quiz: telaQuiz, ranking: telaRanking, missoes: () => telaMissoes(), salas: telaSalas, mural: telaMuralSalas, conta: telaConta, admin: telaAdmin, loja: telaLoja }[tab] || telaInicio)();
 }
@@ -2887,7 +2923,7 @@ $("chipConta").onclick = ()=>{
   if(!AREA_DA_CONTA.includes(tabAtual)) antesDaConta = { tab: tabAtual, y: window.scrollY || 0 };
   nav("conta");
 };
-$("sino").onclick = ()=> modalNotificacoes();
+$("sino").onclick = ()=>{ if(typeof desafiosParaResponder === "function" && desafiosParaResponder().length && !(NOTIF.total > 0)) modalDesafios(); else modalNotificacoes(); };
 $("brandIc").innerHTML = logoIcone();
 $("brand").onclick = ()=>{ if(usuario && perfil && (perfil.aprovado || perfil.admin) && perfil.profeta) nav("inicio"); };
 
@@ -2912,6 +2948,45 @@ async function carregarTudo(passo){
   LICAO = LICOES[indiceLicaoAtual()];
 }
 configInicial().then(c => { if(c && c.icone !== undefined) aplicarIcone(c.icone || ""); }).catch(()=>{});
+/* O e-mail sai do perfil (que todos os jogadores leem) e vai para privado/{uid}, que só a própria pessoa e o master leem */
+function guardarEmailPrivado(){
+  if(!usuario || !perfil || !usuario.email) return;
+  const k = KEY + ":priv:" + usuario.uid, email = String(usuario.email).toLowerCase();
+  if(lsGet(k, "") !== email) DB.salvarPrivado(usuario.uid, { email }).then(() => lsSet(k, email)).catch(e => console.warn("e-mail privado (publique as regras novas)", e && e.code));
+  if(perfil.email !== undefined){ delete perfil.email; DB.tirarEmailPublico(usuario.uid).catch(e => console.warn("tirar e-mail do perfil", e)); }
+}
+/* Quem ficou com o começo do e-mail como nome (contas criadas quando o cadastro perdia o nome digitado): pede o nome uma vez por visita */
+let pediuNome = false;
+function conferirNomeDoEmail(){
+  if(pediuNome || !usuario || !perfil || !usuario.email || !perfil.profeta) return false;
+  const pref = String(usuario.email).split("@")[0].toLowerCase(); if(String(perfil.nome || "").trim().toLowerCase() !== pref) return false;
+  if(!/[\d._+-]/.test(pref)) return false;                                      // "ana@..." pode ser o nome de verdade: só pergunta quando tem cara de e-mail (números, ponto, traço)
+  const kDepois = KEY + ":nomeDepois:" + usuario.uid; if(Date.now() - lsGet(kDepois, 0) < 7 * 24 * 60 * MIN) return false;
+  pediuNome = true;
+  modal("Como você quer ser chamado?", `<p class="muted small" style="margin:0 0 10px">O seu nome no jogo ficou igual ao começo do seu e-mail. Escreva o nome que os outros devem ver na corrida.</p><div class="field"><label for="nmNovo">Seu nome</label><input type="text" id="nmNovo" maxlength="30" autocomplete="name"></div><p class="erro" id="nmErro"></p><div class="btn-row"><button class="btn btn-main" id="nmOk">Salvar</button><button class="btn btn-ghost" id="nmDepois">Depois</button></div>`, (m, fechar) => {
+    m.querySelector("#nmDepois").onclick = () => { lsSet(kDepois, Date.now()); fechar(); };
+    m.querySelector("#nmOk").onclick = async () => { const v = m.querySelector("#nmNovo").value.trim(); if(!v){ m.querySelector("#nmErro").textContent = "Digite um nome."; return; }
+      ocupado(m.querySelector("#nmOk"), true);
+      try{ await DB.salvarUsuario(usuario.uid, { nome: v }); perfil.nome = v; fechar(); aviso("Nome alterado"); atualizarCasca(); if(typeof sincronizarPerfilPublico === "function") sincronizarPerfilPublico(); if(typeof carregarSalas === "function") carregarSalas().catch(()=>{}); if(tabAtual === "inicio") telaInicio(); }
+      catch(e){ m.querySelector("#nmErro").textContent = erroMsg(e); ocupado(m.querySelector("#nmOk"), false); } };
+  });
+  return true;
+}
+/* Lista de usuários para o admin: o master junta os e-mails (guardados à parte) e termina de tirar os que ainda estão no perfil público */
+let _privados = null;
+async function listarUsuariosAdm(){
+  const us = await DB.listarUsuarios();
+  if(!ehMaster()) return us.map(u => { const c = Object.assign({}, u); delete c.email; return c; });
+  try{
+    if(!_privados || Date.now() - _privados.em > 10 * MIN){ const m = {}; (await DB.listarPrivados()).forEach(p => m[p.id] = p.email || ""); _privados = { em: Date.now(), m }; }
+    for(const u of us){
+      if(u.email && !_privados.m[u.id]){ await DB.salvarPrivado(u.id, { email: u.email }); _privados.m[u.id] = u.email; }
+      if(u.email !== undefined && _privados.m[u.id]) DB.tirarEmailPublico(u.id).catch(()=>{});
+      u.email = _privados.m[u.id] || u.email || "";
+    }
+  }catch(e){ console.warn("e-mails privados (publique as regras novas)", e && e.code); }
+  return us;
+}
 DB.onAuth(async u => {
   usuario = u;
   try{
@@ -2921,7 +2996,9 @@ DB.onAuth(async u => {
     passo(6, "Entrando na sua conta");
     perfil = await DB.getUsuario(u.uid);
     passo(18, "Conferindo o jogo");
-    if(!perfil){ let auto = false; try{ auto = !!((await DB.getConfig()) || {}).aprovacaoAuto; }catch(e){} perfil = novoPerfil(u.email.split("@")[0], u.email, auto ? {aprovado:true} : {}); await DB.salvarUsuario(u.uid, perfil); }
+    if(!perfil){ let auto = false; try{ auto = !!((await DB.getConfig()) || {}).aprovacaoAuto; }catch(e){} perfil = novoPerfil((CADASTRO && CADASTRO.email === String(u.email).toLowerCase() && CADASTRO.nome) || u.email.split("@")[0], u.email, auto ? {aprovado:true} : {}); await DB.salvarUsuario(u.uid, perfil); }
+    if(CADASTRO && CADASTRO.email === String(u.email).toLowerCase()){ if(CADASTRO.nome && perfil.nome !== CADASTRO.nome){ perfil.nome = CADASTRO.nome; DB.salvarUsuario(u.uid, { nome: CADASTRO.nome }).catch(()=>{}); } CADASTRO = null; }
+    guardarEmailPrivado();
     if(emailInicial() && !(perfil.master && perfil.admin && perfil.aprovado)){
       perfil.master = true; perfil.admin = true; perfil.aprovado = true; await DB.salvarUsuario(u.uid, {master:true, admin:true, aprovado:true});
     }
@@ -2934,6 +3011,7 @@ DB.onAuth(async u => {
     if(primeira){ try{ await resultadosDaSala(salaAtual(), { licaoId: LICAO && LICAO.id }); }catch(e){} lsSet(KEY + ":aparelho:" + u.uid, 1); }
     await barraCheia();
     carregarNotificacoes(true);
+    if(typeof conferirDesafios === "function") conferirDesafios(true).catch(()=>{});
     if(typeof iniciarConquistasVistas === "function") iniciarConquistasVistas();
     if(typeof conferirPersonagem === "function") conferirPersonagem();   // mapa novo: personagem que virou prêmio e ainda não foi conquistado
     if(!perfil.profeta){ atualizarCasca(); telaProfeta(); fecharBarra(); return; }
@@ -3162,8 +3240,9 @@ function telaInicio(){
   const link = (id, t, extra) => `<button type="button" class="hm-link" id="${id}" ${extra || ""}>${t} <span aria-hidden="true">›</span></button>`;
   let html = `<div class="inicio-grid hm"><div>`;
   /* saudação: avatar, nome e a fala do dia numa linha só */
-  html += `<header class="hm-ola"><div class="hm-av">${meuAvatar()}</div><div class="hm-ola-tx"><small>${saudacao()}</small><h2>${esc(String(perfil.nome || "").split(" ")[0])}</h2>${fala ? `<p>“${esc(fala)}”</p>` : ""}</div>
+  html += `<header class="hm-ola"><div class="hm-av${classeMoldura(minhaMoldura())}">${meuAvatar()}</div><div class="hm-ola-tx"><small>${saudacao()}</small><h2>${esc(String(perfil.nome || "").split(" ")[0])}</h2>${fala ? `<p>“${esc(fala)}”</p>` : ""}</div>
     <div class="hm-chips"><span class="hm-chip" title="Sequência no prazo">${st >= 5 ? "🔥" : "⚡"} ${st}</span><span class="hm-chip ouro" title="Nível ${nv}: ${esc(nomeNivel(nv))}">Nv ${nv}</span></div></header>`;
+  html += typeof htmlDesafiosInicio === "function" ? htmlDesafiosInicio() : "";
   /* hoje */
   html += `<section class="panel hm-card hm-hoje">`;
   if(dHoje){
@@ -3197,7 +3276,7 @@ function telaInicio(){
   html += `</div></div>`;
   app.innerHTML = html;
   const cqS = $("cqShare"); if(cqS) cqS.onclick = ()=> compartilharConquistas(cqS);
-  setTimeout(conferirNovidades, 350);
+  setTimeout(() => { if(!(typeof conferirNomeDoEmail === "function" && conferirNomeDoEmail())) conferirNovidades(); }, 350);
   const tr = $("inTrilha"); if(tr) tr.onclick = ()=>{ missoesVista = "atual"; mapaAberto = -1; nav("missoes"); };
   const dz = $("dzMais"); if(dz) dz.onclick = modalDesempenho;
   app.querySelectorAll("[data-cq]").forEach(b => b.onclick = ()=> modalConquista(+b.dataset.cq));
@@ -3229,7 +3308,7 @@ async function posicaoCorrida(L){
     const fmt1 = n => (Math.round(n*10)/10).toLocaleString("pt-BR");
     el.innerHTML = `<div class="hm-cab"><span>Corrida do Rolo</span><button type="button" class="hm-link" id="inRolo">Ver pista <span aria-hidden="true">›</span></button></div>
       <div class="hm-pos"><b>${pos ? pos + "º" : "—"}</b><div><strong>${pos ? `de ${ordem.length} na pista` : !souMembroDaSala(sala) ? "Você só está vendo esta sala" : ordem.length ? "Entre na pista!" : "Pista vazia: seja o primeiro!"}</strong><span>${!souMembroDaSala(sala) ? `${ordem.length} ${ordem.length === 1 ? "corredor" : "corredores"} na pista` : `${fmt1(meus)} ${meus === 1 ? "passo" : "passos"}`} · ${esc(L.numero)}</span></div><button type="button" class="hm-chip sala" id="inSala" title="Trocar de sala">${esc(sala.nome)}</button></div>
-      <div class="track hm-track" style="--seg:7"><span class="flag" aria-hidden="true">🏁</span><div class="runner" style="--p:${Math.min(1, meus/7)}">${meuAvatar()}</div></div>`;
+      <div class="track hm-track${classePista(minhaPista())}" style="--seg:7"><span class="flag" aria-hidden="true">🏁</span><div class="runner" style="--p:${Math.min(1, meus/7)}">${meuAvatar()}</div></div>`;
     $("inRolo").onclick = ()=>{ corridaVista = "pista"; nav("ranking"); };
     $("inSala").onclick = ()=> nav("salas");
   }catch(e){ el.innerHTML = `<div class="hm-cab"><span>Corrida do Rolo</span></div><p class="hm-sub">${esc(erroMsg(e))}</p>`; }
@@ -3431,12 +3510,14 @@ async function finalizarQuiz(){
   const r = { uid: usuario.uid, nome: perfil.nome, profeta: meuBoneco(), licaoId: jogo.L.id, trimestre: jogo.L.trimestre, data: jogo.dia.data,
     pts: jogo.pts, acertos: jogo.acertos, total: jogo.total, noPrazo: jogo.prazo, resp: jogo.resp || [], nivel: Math.max(1, meuNivel()), quando: Date.now() };
   try{ await DB.salvarResultado(r); }catch(e){ aviso("Não deu para salvar no servidor: " + erroMsg(e)); }
+  const moedasAntes = moedas(), semanasAntes = semanasCompletas();
   RES[r.licaoId + "|" + r.data] = r;
   limparCacheResultados();
   limparProgresso(jogo.L, jogo.dia.data);
   if(typeof sincronizarPerfilPublico === "function") sincronizarPerfilPublico();
   LICAO = jogo.L;
-  telaResultado(jogo.i, true);
+  telaResultado(jogo.i, true, { moedasAntes, semana: semanasCompletas() > semanasAntes });
+  if(typeof conferirDesafios === "function") setTimeout(() => conferirDesafios(true), 4500);          // o quiz pode ter decidido um desafio
 }
 function telaPergunta(){
   const p = jogo.dia.perguntas[jogo.q];
@@ -3452,10 +3533,11 @@ function telaPergunta(){
   }
   h += `</div>
     <h2 class="qtext">${esc(p.p)}</h2>
-    <p class="qhint">${p.reflexao ? "Reflexão: qualquer resposta vale ponto" : "Quanto mais rápido, mais pontos"}</p>
+    <p class="qhint">${p.reflexao ? "Reflexão: qualquer resposta vale ponto" : p.vf ? "Verdadeiro ou falso? Quanto mais rápido, mais pontos" : "Quanto mais rápido, mais pontos"}</p>
     ${p.reflexao ? "" : barraAjudas(p)}
-    <div class="tiles" id="tiles">
-      ${p.o.map((op,k)=>`<button class="tile t${k}" data-k="${k}"><span class="letter">${LETRAS[k]}</span><span>${esc(op)}</span></button>`).join("")}
+    <div class="tiles ${p.vf ? "vf" : ""}" id="tiles">
+      ${p.vf ? ["Verdadeiro", "Falso"].map((op,k)=>`<button class="tile t${k} ${k ? "tf" : "tv"}" data-k="${k}"><span class="letter" aria-hidden="true">${k ? "✕" : "✓"}</span><span>${op}</span></button>`).join("")
+        : p.o.map((op,k)=>`<button class="tile t${k}" data-k="${k}"><span class="letter">${LETRAS[k]}</span><span>${esc(op)}</span></button>`).join("")}
     </div><div id="fb"></div></div>`;
   app.innerHTML = h;
   window.scrollTo(0,0);
@@ -3494,7 +3576,7 @@ function barraAjudas(p){
   if(!d.meio && !d.dobro && !jogo.dobro && !meioAqui && !podePular && !u.meio && !u.dobro && !u.pular) return "";
   const usada = (id, nome, ic) => `<button type="button" class="ajuda-btn usada" id="${id}" disabled title="Só uma vez por quiz"><span class="ic">${ic}</span>${nome}</button>`;
   return `<div class="ajudas-bar" id="ajBar">
-    ${meioAqui || u.meio ? usada("ajMeio", "Meio a meio usado", AJUDAS.meio.ic) : d.meio ? `<button type="button" class="ajuda-btn" id="ajMeio"><span class="ic">${AJUDAS.meio.ic}</span>Meio a meio<b>${d.meio}</b></button>` : ""}
+    ${meioAqui || u.meio ? usada("ajMeio", "Meio a meio usado", AJUDAS.meio.ic) : d.meio && p.vf ? `<button type="button" class="ajuda-btn usada" id="ajMeio" disabled title="O meio a meio não vale em pergunta de verdadeiro ou falso"><span class="ic">${AJUDAS.meio.ic}</span>Meio a meio não vale aqui</button>` : d.meio ? `<button type="button" class="ajuda-btn" id="ajMeio"><span class="ic">${AJUDAS.meio.ic}</span>Meio a meio<b>${d.meio}</b></button>` : ""}
     ${u.dobro ? usada("ajDobro", "Dobro usado", AJUDAS.dobro.ic) : d.dobro || jogo.dobro ? `<button type="button" class="ajuda-btn ${jogo.dobro ? "ativa" : ""}" id="ajDobro" aria-pressed="${!!jogo.dobro}"><span class="ic">${AJUDAS.dobro.ic}</span>${jogo.dobro ? "Dobro ativado" : "Pontos em dobro"}<b>${d.dobro}</b></button>` : ""}
     ${u.pular ? usada("ajPular", "Pular usado", AJUDAS.pular.ic) : podePular ? `<button type="button" class="ajuda-btn" id="ajPular"><span class="ic">${AJUDAS.pular.ic}</span>Pular<b>${d.pular}</b></button>` : ""}
   </div>${jogo.dobro ? `<p class="ajuda-dica" id="ajDica">Sua próxima resposta certa vale o dobro.</p>` : `<p class="ajuda-dica" id="ajDica" hidden></p>`}`;
@@ -3625,7 +3707,7 @@ function responder(k){
 /* ============================================================
    RESULTADO
    ============================================================ */
-function telaResultado(i, novo){
+function telaResultado(i, novo, extra){
   MUSICA.parar();
   pararTimer();
   const dia = LICAO.dias[i], r = resDe(LICAO, dia);
@@ -3633,12 +3715,13 @@ function telaResultado(i, novo){
   const frase = r.acertos === r.total ? "Gabaritou!" : (r.acertos >= Math.ceil(r.total/2) ? "Mandou bem!" : "Amanhã tem mais!");
   const antes = totalSemana() - r.pts;
   /* fim do quiz: os pontos sobem de 0 até o total e depois as moedas ganhas voam para o total lá em cima */
-  const ganhas = r.acertos || 0, tinha = Math.max(0, moedas() - ganhas), animar = !!novo && !matchMedia("(prefers-reduced-motion: reduce)").matches;
+  /* ao terminar agora, mostra tudo o que entrou de moedas (acertos + bônus da semana completa + casas de missão que este quiz cumpriu) */
+  const ganhas = novo && extra ? Math.max(0, moedas() - extra.moedasAntes) : (r.acertos || 0), tinha = novo && extra ? extra.moedasAntes : Math.max(0, moedas() - ganhas), animar = !!novo && !matchMedia("(prefers-reduced-motion: reduce)").matches;
   app.innerHTML = `<div class="result-area"><section class="panel result">
       <p class="lbl">${esc(dia.nome)}</p>
       <div class="big" id="resPts" aria-label="${fmt(r.pts)} pontos">${fmt(animar ? 0 : r.pts)}</div>
       <p class="lbl">pontos</p>
-      <p class="res-moedas ${animar ? "espera" : ""}" id="resMoedas" title="Cada resposta certa vale 1 moeda"><i class="moeda" id="resMoedaIc" aria-hidden="true"></i><b id="resMoedasN">+${ganhas}</b> ${ganhas === 1 ? "moeda" : "moedas"}<span>você tem <strong id="resMoedasT">${fmt(animar ? tinha : moedas())}</strong> para gastar na loja</span></p>
+      <p class="res-moedas ${animar ? "espera" : ""}" id="resMoedas" title="Cada resposta certa vale 1 moeda"><i class="moeda" id="resMoedaIc" aria-hidden="true"></i><b id="resMoedasN">+${ganhas}</b> ${ganhas === 1 ? "moeda" : "moedas"}<span>você tem <strong id="resMoedasT">${fmt(animar ? tinha : moedas())}</strong> para gastar na loja</span>${extra && extra.semana ? `<em class="res-bonus">Semana completa no prazo: +${MOEDAS_SEMANA} moedas de bônus!</em>` : extra && ganhas > (r.acertos || 0) ? `<em class="res-bonus">${r.acertos || 0} dos acertos e ${ganhas - (r.acertos || 0)} das missões</em>` : ""}</p>
       <h2>${frase}</h2>
       <p class="sub">${r.noPrazo ? "" : "Feito com atraso. "}Na lição: <span id="somaAnim">${fmt(novo ? antes : totalSemana())}</span> pontos.</p>
     </section>
@@ -3657,6 +3740,7 @@ function telaResultado(i, novo){
   $("rMural").onclick = ()=> publicarNoMural(postDoResultado(LICAO, dia, r), $("rMural"));
   window.scrollTo(0,0);
   if(animar) animarResultado(r.pts, ganhas, tinha); else pintarMoedasTopo();
+  if(novo && minhaFesta()) setTimeout(() => { if($("resPts")) festejar(minhaFesta()); }, 900);           // a comemoração comprada na loja
   if(novo){
     tocar(r.total && r.acertos === r.total ? "subiu" : "missao");
     const el = $("somaAnim"), alvo = totalSemana(), ini = performance.now(), dur = 1100;
@@ -3880,7 +3964,7 @@ function renderCorrida(cfg, res, pessoas, licSel, membros){
   const jov = {};
   res.filter(r => idsPista.has(r.licaoId)).forEach(r=>{
     const u = pessoas[r.uid];
-    const j = jov[r.uid] || (jov[r.uid] = { uid:r.uid, nome:(u&&u.nome)||r.nome||"?", profeta:(u&&u.profeta)||r.profeta||"", nivel:(u&&u.nivel)||r.nivel||0, passos:0, pts:0, regs:[] });
+    const j = jov[r.uid] || (jov[r.uid] = { uid:r.uid, nome:(u&&u.nome)||r.nome||"?", profeta:(u&&u.profeta)||r.profeta||"", nivel:(u&&u.nivel)||r.nivel||0, pista:(u&&u.pista)||"", passos:0, pts:0, regs:[] });
     j.passos += r.noPrazo ? 1 : .5; j.pts += r.pts||0; j.regs.push(r);
   });
   const ids = Object.keys(jov).sort((a,b)=> jov[b].passos - jov[a].passos || jov[b].pts - jov[a].pts || jov[a].nome.localeCompare(jov[b].nome,"pt-BR"));
@@ -3892,7 +3976,7 @@ function renderCorrida(cfg, res, pessoas, licSel, membros){
     h += `<div class="escala" style="grid-template-columns:repeat(${colunas.length},1fr)">${colunas.map(c=>`<span title="${esc(c.titulo)}">${esc(c.rotulo)}</span>`).join("")}</div><ol class="lanes">`;
     ids.forEach((id,k)=>{ const j = jov[id];
       h += `<li class="lane ${id===usuario.uid?"eu":""}"><div class="lane-top"><strong>${k<3 && j.passos>0 ? `<span class="pos">${k+1}º</span>` : ""}${esc(j.nome)}${id===usuario.uid?" (você)":""}</strong><span>${fmt1(j.passos)} ${j.passos===1?"passo":"passos"} · ${fmt(j.pts)} pts</span></div>
-        <div class="track" style="--seg:${colunas.length}"><span class="flag" aria-hidden="true">🏁</span><div class="runner" style="--p:${Math.min(1, j.passos/TOTAL)}" role="button" tabindex="0" data-perfil="${esc(id)}" data-nome="${esc(j.nome)}" data-boneco="${esc(j.profeta || "")}" data-nivel="${j.nivel || 0}" title="Ver o perfil de ${esc(j.nome)}">${avatarSVG(personagemDe(j.profeta, j.nivel), j.nome, j.nivel)}</div></div></li>`; });
+        <div class="track${classePista(j.pista)}" style="--seg:${colunas.length}"><span class="flag" aria-hidden="true">🏁</span><div class="runner" style="--p:${Math.min(1, j.passos/TOTAL)}" role="button" tabindex="0" data-perfil="${esc(id)}" data-nome="${esc(j.nome)}" data-boneco="${esc(j.profeta || "")}" data-nivel="${j.nivel || 0}" title="Ver o perfil de ${esc(j.nome)}">${avatarSVG(personagemDe(j.profeta, j.nivel), j.nome, j.nivel)}</div></div></li>`; });
     h += `</ol>`;
   }
   h += `</section>`;
@@ -3926,6 +4010,7 @@ function telaConta(){
       <button id="mNome"><span class="ic">✏️</span>Alterar nome<span class="seta">›</span></button>
       <button id="mSenha"><span class="ic">🔑</span>Alterar senha<span class="seta">›</span></button>
       <button id="mTema"><span class="ic">🌗</span>Alterar tema<span class="seta">›</span></button>
+      <button id="mDesafios"><span class="ic">⚔️</span><span class="mc-2">Desafios<small>Valendo moedas, contra os amigos</small></span>${typeof desafiosParaResponder === "function" && desafiosParaResponder().length ? `<span class="nt-n">${desafiosParaResponder().length}</span>` : ""}<span class="seta">›</span></button>
       <button id="mSalas"><span class="ic">👥</span>Salas${typeof SALAS_PENDENTES === "number" && SALAS_PENDENTES > 0 ? `<span class="nt-n">${SALAS_PENDENTES}</span>` : ""}<span class="seta">›</span></button>
       <button id="mProfeta"><span class="ic">🎭</span>Alterar personagem<span class="seta">›</span></button>
       <button id="mLoja"><span class="ic">🛍️</span><span class="mc-2">Loja<small>${moedas()} ${moedas() === 1 ? "moeda" : "moedas"} para gastar</small></span><span class="seta">›</span></button>
@@ -3942,8 +4027,9 @@ function telaConta(){
     </div></section></div>`;
   const mAdm = $("mAdmin"); if(mAdm) mAdm.onclick = ()=> nav("admin");
   const mVer = $("mVersao"); if(mVer) mVer.onclick = ()=> recarregarJogo();
+  $("mDesafios").onclick = ()=> modalDesafios();
   $("mSalas").onclick = ()=> nav("salas"); $("mLoja").onclick = ()=> nav("loja");
-  montarPerfil($("ctPerfil"), usuario.uid, null, { usarGuardado: true, extra: `<small class="pf-email">${esc(perfil.email || "")}</small>${ehMaster() ? '<small><b class="badge adm">master</b></small>' : souAdminDeSala() ? '<small><b class="badge">admin de sala</b></small>' : ""}` });
+  montarPerfil($("ctPerfil"), usuario.uid, null, { usarGuardado: true, extra: `<small class="pf-email">${esc(usuario.email || "")}</small>${ehMaster() ? '<small><b class="badge adm">master</b></small>' : souAdminDeSala() ? '<small><b class="badge">admin de sala</b></small>' : ""}` });
   $("mBaixar").onclick = async ()=>{ if(await confirmar("Baixar os dados de novo", "O jogo apaga o que está guardado neste aparelho (lições, resultados, páginas) e baixa tudo outra vez. Use só se algo parecer desatualizado.", "Baixar de novo")) baixarDeNovo(); };
   $("mNome").onclick = ()=> modal("Alterar nome", `<div class="field"><label for="nNome">Novo nome</label><input type="text" id="nNome" maxlength="30" value="${esc(perfil.nome)}"></div><p class="erro" id="nErro"></p><div class="btn-row"><button class="btn btn-main" id="nOk">Salvar</button></div>`, (m, fechar)=>{
     m.querySelector("#nOk").onclick = async ()=>{ const v = m.querySelector("#nNome").value.trim(); if(!v){ m.querySelector("#nErro").textContent="Digite um nome."; return; } ocupado(m.querySelector("#nOk"), true); try{ await DB.salvarUsuario(usuario.uid, {nome:v}); perfil.nome = v; fechar(); aviso("Nome alterado"); atualizarCasca(); telaConta(); }catch(e){ m.querySelector("#nErro").textContent = erroMsg(e); ocupado(m.querySelector("#nOk"), false); } };
@@ -4370,7 +4456,7 @@ const ADM_TABS = [
   ["resultados", "📊", "Resultados", "Acompanhar"], ["salas", "🏫", "Salas", "Acompanhar"],
   ["usuarios", "👥", "Usuários", "Pessoas"], ["aprovar", "✅", "Aprovar", "Pessoas"], ["cadastrar", "➕", "Novo usuário", "Pessoas"],
   ["licao", "📥", "Importar lição", "Conteúdo"], ["perguntas", "📝", "Perguntas", "Conteúdo"], ["livros", "📚", "Livros (capas)", "Conteúdo"],
-  ["icone", "🖼️", "Ícone do site", "Aparência"]];
+  ["icone", "🖼️", "Ícone do site", "Aparência"], ["exportar", "💾", "Exportar dados", "Segurança"]];
 let admPend = null;                      // contas aguardando aprovação (preenchido quando a lista de usuários é carregada)
 function marcarPendentes(usuarios){
   admPend = usuarios.filter(u => !u.aprovado && !u.admin && !u.master).length;
@@ -4405,7 +4491,7 @@ function telaAdmin(){
     <div id="admC" class="adm-c adm-${admTab}"></div></div>`;
   $("admVoltar").onclick = ()=> nav("conta");
   app.querySelectorAll(".adm-nav [data-t]").forEach(b=> b.onclick = ()=>{ admTab = b.dataset.t; telaAdmin(); });
-  ({resultados:admResultados, salas:admSalas, usuarios:admUsuarios, aprovar:admAprovar, cadastrar:admCadastrar, licao:admLicao, perguntas:admPerguntas, livros:admLivros, icone:admIcone}[admTab])();
+  ({resultados:admResultados, salas:admSalas, usuarios:admUsuarios, aprovar:admAprovar, cadastrar:admCadastrar, licao:admLicao, perguntas:admPerguntas, livros:admLivros, icone:admIcone, exportar:admExportar}[admTab])();
 }
 function linhaUsuario(u, pendente){
   const eu = u.id === usuario.uid;
@@ -4415,7 +4501,7 @@ function linhaUsuario(u, pendente){
 async function admUsuarios(){
   const c = $("admC"); c.innerHTML = `<section class="panel"><p class="vazio">Carregando…</p></section>`;
   let usuarios = [];
-  try{ usuarios = (await DB.listarUsuarios()).sort((a,b)=> ((b.master?2:0)+(b.admin?1:0))-((a.master?2:0)+(a.admin?1:0)) || String(a.nome).localeCompare(String(b.nome),"pt-BR")); }catch(e){ c.innerHTML = `<section class="panel"><p class="erro">${esc(erroMsg(e))}</p></section>`; return; }
+  try{ usuarios = (await listarUsuariosAdm()).sort((a,b)=> ((b.master?2:0)+(b.admin?1:0))-((a.master?2:0)+(a.admin?1:0)) || String(a.nome).localeCompare(String(b.nome),"pt-BR")); }catch(e){ c.innerHTML = `<section class="panel"><p class="erro">${esc(erroMsg(e))}</p></section>`; return; }
   marcarPendentes(usuarios);
   const busca = lsGet(KEY+":busca","");
   const grupos = { todos: u => true, pend: u => !u.aprovado, adm: u => u.admin || u.master };
@@ -4495,7 +4581,7 @@ function modalUsuario(u, depois){
 async function admAprovar(){
   const c = $("admC"); c.innerHTML = `<section class="panel"><p class="vazio">Carregando…</p></section>`;
   try{
-    const todosU = await DB.listarUsuarios(); marcarPendentes(todosU);
+    const todosU = await listarUsuariosAdm(); marcarPendentes(todosU);
     const pend = todosU.filter(u=>!u.aprovado && !u.admin).sort((a,b)=> (a.criadoEm||0)-(b.criadoEm||0));
     c.innerHTML = `<section class="panel"><div class="adm-cab"><h3 class="h3">Aguardando aprovação${pend.length ? " (" + pend.length + ")" : ""}</h3>${pend.length > 1 ? `<button class="btn btn-ok btn-sm" id="apTodos">Aprovar todos</button>` : ""}</div>${pend.length ? `<ul class="lista">${pend.map(u=>linhaUsuario(u,true)).join("")}</ul>` : `<p class="vazio">Nenhum usuário pendente. 🎉</p>`}</section>
       <section class="panel"><h3 class="h3">Novas contas</h3>
@@ -4679,6 +4765,7 @@ function dividirDias(texto){
 }
 function normalizarPerguntas(dias){
   return Array.from({length:7}, (_,k)=> ((dias && dias[k]) || []).map(q=>{
+    if(q.vf && !q.reflexao){ const v = { p:String(q.p||""), o:["Verdadeiro","Falso"], ref:String(q.ref||""), c: +q.c === 1 ? 1 : 0, vf:true }; if(q.texto) v.texto = String(q.texto).slice(0,400); return v; }
     const o = Array.isArray(q.o) ? q.o.slice(0,4).map(x=>String(x)) : [];
     while(o.length < 4) o.push("");
     const out = { p:String(q.p||""), o, ref:String(q.ref||"") };
@@ -4794,7 +4881,7 @@ async function baixarModelo(){
   const wb = XLSX.utils.book_new();
   const instr = [["MODELO DE PERGUNTAS — Quiz da Lição"],[""],
     ["Aba \"Perguntas\": uma linha por pergunta. Até 10 perguntas por dia. Colunas:"],
-    ["Lição","número da lição (1 a 13)"],["Dia","Sábado, Domingo, Segunda, Terça, Quarta, Quinta ou Sexta"],["Tipo","Objetiva (tem resposta certa) ou Reflexão (qualquer resposta vale ponto; deixe Correta em branco)"],
+    ["Lição","número da lição (1 a 13)"],["Dia","Sábado, Domingo, Segunda, Terça, Quarta, Quinta ou Sexta"],["Tipo","Objetiva (tem resposta certa), V ou F (verdadeiro ou falso: deixe as opções em branco e escreva V ou F em Correta) ou Reflexão (qualquer resposta vale ponto; deixe Correta em branco)"],
     ["Pergunta","o enunciado"],["Opção A a D","as alternativas (mínimo 2)"],["Correta","A, B, C ou D"],["Referência","texto bíblico ou \"Lição de domingo\" (aparece para o jogador)"],["Trecho que comprova","frase curta da lição que confirma a resposta (opcional)"],
     [""],["Aba \"Lições\": uma linha por lição, com título, datas e o tema de cada dia (opcional, mas recomendado)."],
     [""],["Depois de preencher, vá em Admin › Cadastrar perguntas › Importar planilha."],["As linhas de exemplo podem ser apagadas."]];
@@ -4803,7 +4890,7 @@ async function baixarModelo(){
   const wsL = XLSX.utils.aoa_to_sheet(lics); wsL["!cols"] = [{wch:7},{wch:30},{wch:30}].concat(Array(7).fill({wch:30}));
   const perg = [CAB_PERG];
   const L1 = LICOES_DADOS[0];
-  L1.dias.forEach((qs, k)=> qs.forEach(q => perg.push([L1.n, NOMES_DIAS[k], q.reflexao ? "Reflexão" : "Objetiva", q.p, q.o[0]||"", q.o[1]||"", q.o[2]||"", q.o[3]||"", q.reflexao ? "" : LETRAS[q.c], q.ref||"", q.texto||""])));
+  L1.dias.forEach((qs, k)=> qs.forEach(q => perg.push([L1.n, NOMES_DIAS[k], q.reflexao ? "Reflexão" : q.vf ? "V ou F" : "Objetiva", q.p, q.vf ? "" : q.o[0]||"", q.vf ? "" : q.o[1]||"", q.o[2]||"", q.o[3]||"", q.reflexao ? "" : q.vf ? (q.c ? "F" : "V") : LETRAS[q.c], q.ref||"", q.texto||""])));
   const wsP = XLSX.utils.aoa_to_sheet(perg); wsP["!cols"] = [{wch:7},{wch:10},{wch:10},{wch:60},{wch:28},{wch:28},{wch:28},{wch:28},{wch:8},{wch:26},{wch:60}];
   XLSX.utils.book_append_sheet(wb, wsI, "Instruções");
   XLSX.utils.book_append_sheet(wb, wsP, "Perguntas");
@@ -4829,6 +4916,13 @@ async function importarPlanilha(file, tri, ini, substituir, log){
     const n = parseInt(r.licao, 10), k = ordem.indexOf(chave(r.dia).slice(0,3));
     const p = r.pergunta;
     if(!n || k < 0 || !p){ ign++; if(ign <= 5) log(`Linha ${i+2} ignorada (lição, dia ou pergunta em branco).`); return; }
+    /* Tipo "V ou F" (ou "Verdadeiro ou falso"): as opções são fixas e a coluna Correta leva V ou F */
+    if(/^(v|verd)/.test(chave(r.tipo))){
+      const cv = chave(r.correta).charAt(0), c = cv === "v" || cv === "a" ? 0 : cv === "f" || cv === "b" ? 1 : -1;
+      if(c < 0){ ign++; log(`Linha ${i+2} ignorada: em pergunta de verdadeiro ou falso, a coluna "Correta" precisa ser V ou F.`); return; }
+      const qv = { p, o:["Verdadeiro","Falso"], ref: r.referencia || "", c, vf:true }; if(r.trechoquecomprova) qv.texto = r.trechoquecomprova.slice(0,400);
+      (porLicao[n] = porLicao[n] || [[],[],[],[],[],[],[]])[k].push(qv); return;
+    }
     const refl = /^ref/i.test(chave(r.tipo));
     const o = [r.opcaoa, r.opcaob, r.opcaoc, r.opcaod].map(x=>String(x||"").trim());
     const q = { p, o: o.filter(Boolean).concat(["","","",""]).slice(0,4), ref: r.referencia || "" };
@@ -4925,7 +5019,7 @@ async function admPerguntas(){
       <div class="linha-sw" style="border-top:0;padding-top:0"><div class="txt"><strong>Perguntas que aparecem para o jogador</strong><span>${qs.filter(q=>!q.reflexao).length} objetiva(s) cadastrada(s)${qs.some(q=>q.reflexao) ? " + reflexão (sempre no fim)" : ""}. Cada pessoa recebe um sorteio diferente.</span></div><input type="number" id="vQtd" min="1" max="10" value="${L.qtd[valDia]}" style="width:84px;text-align:center;padding:10px"></div>
       <div id="vQs" class="qgrade">${qs.map((q,i)=>cardPergunta(q,i)).join("")}</div>
       ${qs.length ? "" : `<p class="vazio">Nenhuma pergunta neste dia.</p>`}
-      <div class="inline"><button class="btn btn-ghost btn-sm" id="vAddQ">+ Pergunta objetiva</button><button class="btn btn-ghost btn-sm" id="vAddR">+ Reflexão</button></div>
+      <div class="inline"><button class="btn btn-ghost btn-sm" id="vAddQ">+ Pergunta objetiva</button><button class="btn btn-ghost btn-sm" id="vAddV">+ Verdadeiro ou falso</button><button class="btn btn-ghost btn-sm" id="vAddR">+ Reflexão</button></div>
       <p class="erro" id="vErro"></p>
       <div class="adm-acoes">
         <button class="btn btn-main" id="vSalvar">Salvar alterações</button>
@@ -4937,6 +5031,7 @@ async function admPerguntas(){
     c.querySelectorAll("[data-rm]").forEach(b=> b.onclick = ()=>{ coletar(); L.dias[valDia].splice(+b.dataset.rm, 1); render(); });
     c.querySelectorAll("[data-up]").forEach(b=> b.onclick = ()=>{ coletar(); const i = +b.dataset.up; if(i>0){ const a = L.dias[valDia]; [a[i-1],a[i]] = [a[i],a[i-1]]; } render(); });
     $("vAddQ").onclick = ()=>{ coletar(); L.dias[valDia].push({p:"", o:["","","",""], c:0, ref:""}); render(); setTimeout(()=>{ const n = c.querySelectorAll(".qcard"); if(n.length) n[n.length-1].scrollIntoView({block:"center"}); }, 50); };
+    $("vAddV").onclick = ()=>{ coletar(); L.dias[valDia].push({p:"", o:["Verdadeiro","Falso"], c:0, ref:"", vf:true}); render(); setTimeout(()=>{ const n = c.querySelectorAll(".qcard"); if(n.length) n[n.length-1].scrollIntoView({block:"center"}); }, 50); };
     $("vAddR").onclick = ()=>{ coletar(); L.dias[valDia].push({p:"", o:["","","",""], ref:"", reflexao:true}); render(); };
     $("vSalvar").onclick = ()=> salvar(false);
     $("vPub").onclick = ()=> salvar(true);
@@ -4951,6 +5046,7 @@ async function admPerguntas(){
       const refl = card.dataset.r === "1";
       const q = { p: card.querySelector(".qp").value.trim(), o: Array.from(card.querySelectorAll(".qo")).map(x=>x.value.trim()), ref: card.querySelector(".qref").value.trim() };
       if(refl) q.reflexao = true; else { const r = card.querySelector("input[type=radio]:checked"); q.c = r ? +r.value : 0; const t = card.querySelector(".qtx").value.trim(); if(t) q.texto = t; }
+      if(card.dataset.vf === "1" && !refl){ q.vf = true; q.o = ["Verdadeiro","Falso"]; q.c = q.c === 1 ? 1 : 0; }
       return q;
     });
   };
@@ -4967,17 +5063,17 @@ async function admPerguntas(){
     const novoStatus = alternarPub ? (L.status==="publicada" ? "rascunho" : "publicada") : L.status;
     if(novoStatus === "publicada" && probs.length){ er.textContent = "Corrija antes de publicar: " + probs.slice(0,4).join("; ") + (probs.length>4 ? ` (+${probs.length-4})` : ""); return; }
     if(novoStatus === "publicada" && L.dias.every(d=>!d.length) && !(await confirmar("Publicar sem perguntas?", "Esta lição não tem nenhuma pergunta. Publicar mesmo assim (só o texto para Estudar)?", "Publicar", "btn-ok"))) return;
-    const doc = Object.assign({}, L, { status: novoStatus, atualizadoEm: Date.now(), dias: L.dias.map(qs => qs.map(q => { const o = {p:q.p, o:q.o, ref:q.ref}; if(q.reflexao) o.reflexao = true; else { o.c = q.c; if(q.texto) o.texto = q.texto; } return o; })) });
+    const doc = Object.assign({}, L, { status: novoStatus, atualizadoEm: Date.now(), dias: L.dias.map(qs => qs.map(q => { const o = {p:q.p, o:q.o, ref:q.ref}; if(q.reflexao) o.reflexao = true; else { o.c = q.c; if(q.texto) o.texto = q.texto; if(q.vf) o.vf = true; } return o; })) });
     try{ await DB.salvarLicao(L.id, doc); L.status = novoStatus; aviso(alternarPub ? (novoStatus==="publicada" ? "Lição publicada!" : "Lição voltou para rascunho") : "Alterações salvas"); await recarregarLicoes(); render(); }
     catch(e){ er.textContent = erroMsg(e); }
   };
   render();
 }
 function cardPergunta(q, i){
-  const refl = !!q.reflexao;
-  return `<div class="qcard" data-r="${refl?1:0}"><div class="num"><span>${i+1}. ${refl ? "Reflexão" : "Objetiva"}</span><span class="inline"><button class="btn btn-ghost btn-sm" data-up="${i}" title="Subir">↑</button><button class="btn btn-ghost btn-sm" data-rm="${i}" title="Remover">🗑️</button></span></div>
+  const refl = !!q.reflexao, vf = !!q.vf && !refl;
+  return `<div class="qcard" data-r="${refl?1:0}" data-vf="${vf?1:0}"><div class="num"><span>${i+1}. ${refl ? "Reflexão" : vf ? "Verdadeiro ou falso" : "Objetiva"}</span><span class="inline"><button class="btn btn-ghost btn-sm" data-up="${i}" title="Subir">↑</button><button class="btn btn-ghost btn-sm" data-rm="${i}" title="Remover">🗑️</button></span></div>
     <div class="campo"><label>Pergunta</label><textarea class="qp">${esc(q.p)}</textarea></div>
-    ${q.o.map((o,k)=>`<div class="opt">${refl ? `<span class="muted">${LETRAS[k]}</span>` : `<input type="radio" name="c${i}" value="${k}" ${q.c===k?"checked":""} title="Marcar como certa">`}<input type="text" class="qo" value="${esc(o)}" placeholder="Opção ${LETRAS[k]}"></div>`).join("")}
+    ${(vf ? ["Verdadeiro","Falso"] : q.o).map((o,k)=>`<div class="opt">${refl ? `<span class="muted">${LETRAS[k]}</span>` : `<input type="radio" name="c${i}" value="${k}" ${q.c===k?"checked":""} title="Marcar como certa">`}<input type="text" class="qo" value="${esc(o)}" placeholder="Opção ${LETRAS[k]}" ${vf ? "readonly" : ""}></div>`).join("")}
     <div class="campo" style="margin-top:8px"><label>Referência${refl?" (opcional)":""}</label><input type="text" class="qref" value="${esc(q.ref||"")}" placeholder="Gênesis 3:9 ou Lição de domingo" style="padding:9px 12px;font-size:15px"></div>
     ${refl ? "" : `<div class="campo"><label>Trecho que comprova a resposta (opcional)</label><textarea class="qtx">${esc(q.texto||"")}</textarea></div>`}
   </div>`;
@@ -5094,7 +5190,7 @@ async function painelResultados(c, opt){
       membrosSala = new Set(ms.map(m => m.uid));
       usuarios = ms.map(m => ({ id: m.uid, nome: m.nome, profeta: m.profeta, aprovado: true }));
       res = await DB.resultadosDeUsuarios([...membrosSala]);
-    } else [res, usuarios] = await Promise.all([DB.todosResultados(), DB.listarUsuarios()]);
+    } else [res, usuarios] = await Promise.all([DB.todosResultados(), listarUsuariosAdm()]);
   }
   catch(e){ c.innerHTML = `<section class="panel"><p class="erro">${esc(erroMsg(e))}</p></section>`; return; }
   if(!c.isConnected) return;
@@ -5223,6 +5319,47 @@ async function painelResultados(c, opt){
   }
 }
 
+/* ---------- Exportar os dados (cópia de segurança). O plano gratuito do Firebase não faz cópia sozinho. ---------- */
+function baixarArquivo(nome, texto, tipo){
+  const a = document.createElement("a"), url = URL.createObjectURL(new Blob([texto], { type: tipo || "application/json" }));
+  a.href = url; a.download = nome; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 4000);
+}
+function admExportar(){
+  const el = $("admC"); if(!el) return;
+  el.innerHTML = `<section class="panel larga"><h3 class="h3">Exportar os dados</h3>
+    <p class="muted small">Baixa uma cópia de tudo o que está no banco para um arquivo no seu computador. Guarde num lugar seguro: o arquivo tem os e-mails dos participantes.</p>
+    <div class="linha-sw"><div class="txt"><strong>Incluir as páginas das lições</strong><span>São as imagens do PDF. Deixam o arquivo bem maior e gastam mais leituras; dá para refazer importando o PDF de novo</span></div><button class="switch" role="switch" aria-checked="false" id="exPag"></button></div>
+    <div class="btn-row"><button class="btn btn-main" id="exTudo">Baixar cópia completa (.json)</button><button class="btn btn-ghost" id="exCsv">Planilha de resultados (.csv)</button></div>
+    <p class="muted small" id="exLog" style="margin-top:10px;white-space:pre-line"></p>
+    <p class="muted small">Cada registro baixado conta uma leitura na cota diária do Firebase (50 mil). Prefira exportar num horário de pouco uso. As anotações pessoais do Estudar e os quizzes em andamento não entram na cópia.</p></section>`;
+  const sw = $("exPag"); sw.onclick = () => sw.setAttribute("aria-checked", String(sw.getAttribute("aria-checked") !== "true"));
+  const log = t => { const l = $("exLog"); if(l) l.textContent += t + "\n"; };
+  const carimbo = () => new Date().toISOString().slice(0, 16).replace(/[:T]/g, "-");
+  $("exTudo").onclick = async () => {
+    const b = $("exTudo"); ocupado(b, true); $("exLog").textContent = "";
+    const nomes = ["config", "licoes", "usuarios", "privado", "resultados", "salas", "membros", "mural", "desafios"].concat(sw.getAttribute("aria-checked") === "true" ? ["paginas"] : []);
+    const saida = { jogo: "Corrida do Rolo", exportadoEm: new Date().toISOString(), versao: VERSAO || "", colecoes: {} }; let total = 0, falhas = 0;
+    for(const n of nomes){
+      try{ const docs = await DB.exportarColecao(n); saida.colecoes[n] = docs; total += docs.length; log(`✅ ${n}: ${docs.length} ${docs.length === 1 ? "registro" : "registros"}`); }
+      catch(e){ falhas++; log(`⚠️ ${n}: não deu para ler (${erroMsg(e)})`); }
+    }
+    baixarArquivo(`corrida-do-rolo-${carimbo()}.json`, JSON.stringify(saida));
+    log(`Pronto: ${total} registros no arquivo${falhas ? `, ${falhas} ${falhas === 1 ? "coleção ficou" : "coleções ficaram"} de fora` : ""}.`);
+    ocupado(b, false);
+  };
+  $("exCsv").onclick = async () => {
+    const b = $("exCsv"); ocupado(b, true); $("exLog").textContent = "";
+    try{
+      const res = await DB.exportarColecao("resultados"), c = v => '"' + String(v == null ? "" : v).replace(/"/g, '""') + '"';
+      const linhas = [["nome", "licao", "data", "pontos", "acertos", "perguntas", "no prazo", "feito em"].map(c).join(";")]
+        .concat(res.sort((a, b2) => String(a.data).localeCompare(String(b2.data)) || String(a.nome).localeCompare(String(b2.nome))).map(r => [r.nome, r.licaoId, r.data, r.pts, r.acertos, r.total, r.noPrazo ? "sim" : "não", r.quando ? new Date(r.quando).toLocaleString("pt-BR") : ""].map(c).join(";")));
+      baixarArquivo(`corrida-do-rolo-resultados-${carimbo()}.csv`, "﻿" + linhas.join("\r\n"), "text/csv;charset=utf-8");
+      log(`Pronto: ${res.length} resultados na planilha.`);
+    }catch(e){ log("Não deu para exportar: " + erroMsg(e)); }
+    ocupado(b, false);
+  };
+}
+
 /* ============================================================
    SALAS (turmas)
    - Sala global "7world": todo mundo entra automaticamente e não dá para sair.
@@ -5244,7 +5381,7 @@ const MAX_SALAS_CRIADAS = 3, MAX_SALAS_PARTICIPA = 5;
 })();
 function normalizarCodigo(c){ return String(c || "").toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 12); }
 function salaAtual(){ return SALA || SALA_GLOBAL; }
-function novoMembro(salaId, status, papel){ return { salaId, uid: usuario.uid, nome: perfil.nome || "", profeta: meuBoneco(), status, papel: papel || "membro", quando: Date.now() }; }
+function novoMembro(salaId, status, papel){ return { salaId, uid: usuario.uid, nome: perfil.nome || "", profeta: meuBoneco(), pista: minhaPista(), status, papel: papel || "membro", quando: Date.now() }; }
 function ehDonoSala(s){ return !!(s && !s.global && usuario && s.dono === usuario.uid); }
 function podeGerenciarSala(s){ return !!s && (ehMaster() || (!s.global && (ehDonoSala(s) || ehAdminSala(s)))); }
 /* Incluir qualquer usuário direto na sala: só o master e o administrador atribuído àquela sala */
@@ -5297,7 +5434,7 @@ async function carregarSalas(doAparelho){
     }
     // Mantém meu nome/profeta atualizados nas salas
     const nv = typeof nivelAtual === "function" ? nivelAtual() : 0;
-    mems.forEach(m => { if(m.nome !== (perfil.nome || "") || m.profeta !== meuBoneco() || (m.nivel || 0) !== nv) DB.salvarMembro({ salaId: m.salaId, uid: eu, nome: perfil.nome || "", profeta: meuBoneco(), nivel: nv }).catch(()=>{}); });
+    mems.forEach(m => { if(m.nome !== (perfil.nome || "") || m.profeta !== meuBoneco() || (m.nivel || 0) !== nv || (m.pista || "") !== minhaPista()) DB.salvarMembro({ salaId: m.salaId, uid: eu, nome: perfil.nome || "", profeta: meuBoneco(), nivel: nv, pista: minhaPista() }).catch(()=>{}); });
     // Solicitações esperando a minha aprovação (salas privadas que eu criei)
     const minhas = SALAS.filter(x => !x.global && !x.publica && podeGerenciarSala(x));
     const listas = await Promise.all(minhas.map(x => membrosDaSalaG(x.id).catch(() => [])));
@@ -5346,8 +5483,8 @@ function pessoasDaSala(s, res){
   const m = {};
   (res || []).forEach(r => { const a = m[r.uid]; if(!a || (r.quando || 0) >= a.q) m[r.uid] = { nome: r.nome || (a && a.nome) || "?", profeta: r.profeta || (a && a.profeta) || "", nivel: Math.max(r.nivel || 0, (a && a.nivel) || 0), q: r.quando || 0 }; else if((r.nivel || 0) > (a.nivel || 0)) a.nivel = r.nivel; });
   const c = s && membrosCache[s.id];
-  if(c) c.lista.forEach(x => { m[x.uid] = { nome: x.nome || (m[x.uid] && m[x.uid].nome) || "?", profeta: x.profeta || (m[x.uid] && m[x.uid].profeta) || "", nivel: Math.max(x.nivel || 0, (m[x.uid] && m[x.uid].nivel) || 0), q: 0 }; });
-  if(usuario && perfil && m[usuario.uid]) m[usuario.uid] = { nome: perfil.nome || "?", profeta: meuBoneco(), nivel: meuNivel(), q: 0 };
+  if(c) c.lista.forEach(x => { m[x.uid] = { nome: x.nome || (m[x.uid] && m[x.uid].nome) || "?", profeta: x.profeta || (m[x.uid] && m[x.uid].profeta) || "", nivel: Math.max(x.nivel || 0, (m[x.uid] && m[x.uid].nivel) || 0), pista: x.pista || "", q: 0 }; });
+  if(usuario && perfil && m[usuario.uid]) m[usuario.uid] = { nome: perfil.nome || "?", profeta: meuBoneco(), nivel: meuNivel(), pista: minhaPista(), q: 0 };
   return m;
 }
 async function novoCodigoSala(){
@@ -5633,7 +5770,7 @@ function modalGerenciarSala(s){
         const bi = c.querySelector("#gsBusca");
         bi.addEventListener("input", () => { busca = bi.value; if(todosUsuarios) listar(); });
         if(todosUsuarios) listar();
-        else DB.listarUsuarios().then(us => { todosUsuarios = us; if(add.isConnected) listar(); }).catch(e => { add.innerHTML = `<p class="erro">${esc(erroMsg(e))}</p>`; });
+        else listarUsuariosAdm().then(us => { todosUsuarios = us; if(add.isConnected) listar(); }).catch(e => { add.innerHTML = `<p class="erro">${esc(erroMsg(e))}</p>`; });
       }
       const td = c.querySelector("#gsTodos"); if(td) td.onclick = async () => { ocupado(td, true); try{ for(const x of pend) await DB.salvarMembro({ salaId: s.id, uid: x.uid, status: "ativo" }); mudou = true; aviso("Todos aprovados"); }catch(e){ aviso(erroMsg(e)); } render(); };
       c.querySelector("#gsRes").onclick = () => { mudou = false; fechar(); telaResultadosSala(s); };
@@ -5672,7 +5809,7 @@ async function admSalas(){
     return;
   }
   try{
-    const [salas, usuarios] = await Promise.all([DB.listarSalas(), DB.listarUsuarios()]);
+    const [salas, usuarios] = await Promise.all([DB.listarSalas(), listarUsuariosAdm()]);
     const uMap = {}; usuarios.forEach(u => uMap[u.id] = u); marcarPendentes(usuarios);
     const lista = salas.map(s => s.id === SALA_GLOBAL_ID ? Object.assign({}, SALA_GLOBAL, s, { global: true, publica: true }) : s)
       .sort((a,b) => (b.global ? 1 : 0) - (a.global ? 1 : 0) || String(a.nome).localeCompare(String(b.nome), "pt-BR"));
@@ -6303,6 +6440,7 @@ function conferirMissoesNovas(){
   const novo = { missoes: Math.max(agora, antes), missaoIni: est.ini, missaoMural: est.mural, missoesRegra: 2 };
   Object.assign(perfil, novo); DB.salvarUsuario(usuario.uid, novo).catch(()=>{});
   if(agora <= antes) return;
+  atualizarCasca();
   const novas = MISSOES.slice(antes, agora), nvAntes = nivelDe(antes), nvAgora = nivelDe(agora), subiu = nvAgora > nvAntes;
   const premios = novas.filter(m => m.premio), profetas = premios.filter(m => m.premio.tipo === "profeta").map(m => acharProfeta(m.premio.id)).filter(Boolean);
   const acess = premios.filter(m => m.premio.tipo === "acessorio").map(m => ACESSORIOS[m.premio.id]).filter(Boolean);
@@ -6315,6 +6453,7 @@ function conferirMissoesNovas(){
       ${profetas.length ? `<div class="novo-profeta">${profetas.map(p => `<div>${avatarSVG(p.id)}<b>${esc(p.nome)}</b></div>`).join("")}<p>${profetas.length === 1 ? "Novo personagem liberado!" : "Novos personagens liberados!"} Troque em Minha conta, se quiser.</p></div>` : ""}
       ${acess.length ? `<div class="novo-profeta">${acess.map(a => `<div>${avatarSVG(a.de, null, 0, 99)}<b>${esc(a.nome)}</b></div>`).join("")}<p>Novo acessório liberado! Ele aparece sempre que você usar ${acess.map(a => esc(acharProfeta(a.de).nome)).join(" e ")}.</p></div>` : ""}
       ${premios.some(m => AJUDAS[m.premio.tipo]) ? `<p class="muted small" style="margin:10px 0 0">Suas ajudas agora:</p>${chipsAjudas()}` : ""}
+      <p class="cq-moedas"><i class="moeda" aria-hidden="true"></i><b>+${novas.reduce((t, x) => t + moedasDaCasa(x.n), 0)} moedas</b> ${novas.length === 1 ? "por esta casa" : "por estas casas"}</p>
       <div class="btn-row"><button class="btn btn-main" id="msTrilha">Ver a trilha</button>${typeof publicarNoMural === "function" ? `<button class="btn btn-ghost" id="msMural">Publicar no mural</button>` : ""}<button class="btn btn-ghost" id="msOk">Continuar</button></div>
     </div>`, (m, fechar) => {
     m.querySelector("#msTrilha").onclick = () => { fechar(); telaMissoes(antes); };
@@ -6357,6 +6496,7 @@ function modalMissao(i){
   const semPremio = !premios;
   if(semPremio){ const falta = 5 - (m.n % 5);
     premios = `<div class="mj-premio passo"><div class="mj-ficha"><span aria-hidden="true">👣</span></div><div class="mj-ptx"><small>Sem prêmio nesta casa</small><strong>Um passo na jornada</strong><span>${feita ? "Casa concluída: você seguiu em frente." : (falta === 1 ? "Depois dela falta 1 casa" : "Depois dela faltam " + falta + " casas") + " para o nível " + (nvDaCasa + 1) + "."}</span></div></div>`; }
+  premios += `<div class="mj-premio moedas"><div class="mj-ficha"><i class="moeda" aria-hidden="true"></i></div><div class="mj-ptx"><small>${feita ? "Moedas recebidas" : "Moedas desta casa"}</small><strong>+${moedasDaCasa(m.n)} moedas</strong><span>Para gastar na loja.${m.n % 10 === 0 ? " Fim de território vale mais." : ""}</span></div></div>`;
   /* botão: na missão atual leva direto para onde ela se cumpre */
   const destino = m.meta[0] === "mural" ? ["Abrir o mural", () => nav("mural")] : m.meta[0] === "quizSala" ? ["Ver as salas", () => nav("salas")] : ["Ir para o quiz", () => { quizVista = "semana"; LICAO = LICOES[indiceLicaoAtual()] || LICAO; nav("quiz"); }];
   tocar("toque");
@@ -6466,54 +6606,6 @@ function modalDesempenho(){
 /* ============================================================
    MAPA DO TRIMESTRE (Quiz): as lições como um caminho no rolo, que vai se abrindo a cada semana
    ============================================================ */
-function mapaTrimestre(atual, abrindo){
-  const tri = atual ? atual.trimestre : TRIMESTRE_BASE, lics = LICOES.filter(l => l.trimestre === tri), iHoje = indiceLicaoAtual(), licHoje = LICOES[iHoje];
-  const abertas = lics.filter(l => !licaoFutura(l)), fechadas = lics.length - abertas.length;
-  const PASSO = 88, X0 = 62, H = 172, yDe = k => (k % 2 ? 92 : 52);
-  const larg = X0 + Math.max(1, abertas.length) * PASSO + (fechadas ? 96 : 30);
-  const pts = abertas.map((l, k) => ({ x: X0 + k * PASSO, y: yDe(k) }));
-  let d = pts.length ? `M${pts[0].x - 46} ${pts[0].y + 10} L${pts[0].x} ${pts[0].y}` : "";
-  for(let k = 1; k < pts.length; k++){ const a = pts[k-1], b = pts[k], mx = (a.x + b.x) / 2; d += ` C${mx} ${a.y}, ${mx} ${b.y}, ${b.x} ${b.y}`; }
-  if(pts.length && fechadas){ const u = pts[pts.length-1]; d += ` C${u.x + 40} ${u.y}, ${u.x + 44} 72, ${u.x + 70} 72`; }
-  const nos = abertas.map((l, k) => {
-    const feitos = l.dias.filter(x => resDe(l, x)).length, completa = feitos === 7, sel = l === atual, hoje = l === licHoje;
-    return `<button type="button" class="mp-no ${completa ? "completa" : ""} ${sel ? "sel" : ""} ${hoje ? "hoje" : ""}" style="left:${pts[k].x}px;top:${pts[k].y}px" data-lic="${LICOES.indexOf(l)}" aria-pressed="${sel}" aria-label="${esc(l.numero)}: ${esc(l.titulo)}, ${feitos} de 7 dias">
-      <span class="mp-n">${completa ? "✓" : l.n}</span>${licaoTravada(l) ? '<span class="mp-cad">🔒</span>' : ""}
-      <span class="mp-leg"><b>${hoje ? "Esta semana" : "Lição " + l.n}</b>${feitos}/7</span></button>`;
-  }).join("");
-  const rolo = fechadas ? `<div class="mp-rolo" style="left:${larg - 92}px"><svg viewBox="0 0 80 150" width="80" height="150" aria-hidden="true"><rect x="22" y="6" width="36" height="138" rx="18" fill="#D9CFAE"/><rect x="28" y="6" width="10" height="138" rx="5" fill="#EFE7CC"/><rect x="29" y="0" width="22" height="10" rx="4" fill="#8A6A3E"/><rect x="29" y="140" width="22" height="10" rx="4" fill="#8A6A3E"/></svg><span>+${fechadas}</span></div>` : "";
-  return `<div class="mapa-cx ${abrindo ? "abrindo" : ""}"><div class="mapa" id="mapa" aria-label="Mapa do trimestre"><div class="mapa-in" style="width:${larg}px;height:${H}px">
-      <div class="mp-haste"></div>
-      <svg class="mp-svg" width="${larg}" height="${H}" aria-hidden="true"><path d="${d}"/></svg>${nos}${rolo}
-    </div></div><span class="mp-vara" aria-hidden="true"></span></div>
-    <p class="muted small mp-dica">${esc(atual.numero)}: <b>${esc(atual.titulo)}</b>${fechadas ? ` · ${fechadas === 1 ? "falta 1 lição" : "faltam " + fechadas + " lições"} para o rolo abrir inteiro` : " · rolo todo aberto!"}</p>`;
-}
-function ligarMapaTrimestre(aoEscolher){
-  const m = $("mapa"); if(!m) return;
-  m.querySelectorAll("[data-lic]").forEach(b => b.onclick = () => { tocar("toque"); aoEscolher(LICOES[+b.dataset.lic]); });
-  const sel = m.querySelector(".mp-no.sel") || m.querySelector(".mp-no.hoje");
-  if(sel) m.scrollLeft = Math.max(0, sel.offsetLeft - m.clientWidth / 2);
-  /* rolo abrindo: cada lição aparece quando a vara do rolo passa por ela */
-  const cx = m.parentNode;
-  if(cx && cx.classList.contains("abrindo")){
-    /* o rolo abre na lição 1 e desliza até a lição escolhida; cada lição "nasce" quando entra na parte já aberta */
-    const semMov = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const alvo = semMov ? 0 : m.scrollLeft, larg = m.clientWidth, ABRE = 1200, T0 = 950, DUR = alvo > 0 ? Math.min(1900, 500 + alvo * 1.6) : 0, FIM = Math.max(ABRE, T0 + DUR);
-    const suave = u => u <= 0 ? 0 : u >= 1 ? 1 : u * u * (3 - 2 * u);
-    const rolagem = t => DUR ? alvo * suave((t - T0) / DUR) : 0, aberto = t => 20 + (larg - 20) * suave(t / ABRE);
-    m.querySelectorAll(".mp-no").forEach(b => { let t = 0; while(t < FIM && b.offsetLeft - rolagem(t) > aberto(t) - 30) t += 30; b.style.setProperty("--d", (t / 1000).toFixed(2) + "s"); });
-    if(DUR){
-      m.scrollLeft = 0;
-      let ini = 0, parou = false; const parar = () => { parou = true; };
-      ["pointerdown", "wheel", "touchstart"].forEach(ev => m.addEventListener(ev, parar, { once: true, passive: true }));
-      const passo = agora => { if(parou || !m.isConnected) return; if(!ini) ini = agora; const t = agora - ini; m.scrollLeft = rolagem(t); if(t < T0 + DUR) requestAnimationFrame(passo); };
-      requestAnimationFrame(passo);
-    }
-    tocar("toque");
-    setTimeout(() => { if(cx.isConnected) cx.classList.remove("abrindo"); }, FIM + 700);
-  }
-}
-
 /* ============================================================
    TUTORIAL DE PRIMEIRO ACESSO (3 telas)
    ============================================================ */
@@ -6936,7 +7028,7 @@ function modalRecompensas(){
       <p class="rec-nota">O número grande é o que você tem para usar. Cada ajuda só pode ser usada uma vez por quiz.${nv < NIVEL_PULAR ? " A ajuda Pular começa no nível " + NIVEL_PULAR + "." : ""}</p>
       <div class="rec-tit"><b>${meus.length} de ${raros.length}</b> personagens raros${acess.length ? ` · <b>${meusAc.length} de ${acess.length}</b> acessórios das missões` : ""}</div>
       <div class="rec-fila">${raros.map(p => `<span class="rec-av ${profetaLiberado(p) ? "" : "bloq"}" title="${esc(p.nome)}${profetaLiberado(p) ? "" : " (" + esc(ondeLibera(p.nivel)) + ")"}">${avatarSVG(p.id, null, 0, nv)}</span>`).join("")}</div>
-      ${typeof moedas === "function" ? `<div class="rec-tit" style="margin-top:12px"><b>${moedas()}</b> moedas para gastar na loja</div><div class="btn-row uma"><button type="button" class="btn btn-ghost" id="recLoja">Abrir a loja</button></div>` : ""}
+      ${typeof moedas === "function" ? `<div class="rec-tit" style="margin-top:12px"><b>${moedas()}</b> moedas para gastar na loja · ${moedasDeMissoes()} vieram das missões</div><p class="rec-nota">Cada casa vale 2 moedas; as casas 5, 15, 25… valem 5; o fim de cada território vale 10.</p><div class="btn-row uma"><button type="button" class="btn btn-ghost" id="recLoja">Abrir a loja</button></div>` : ""}
     </div>`, (m, fechar) => { const b = m.querySelector("#recLoja"); if(b) b.onclick = () => { fechar(); nav("loja"); }; });
 }
 /* Um mapa aberto: a trilha com as casas, o nome do evento de cada uma e a faixa de cada território */
@@ -7111,9 +7203,10 @@ async function carregarNotificacoes(forcar){
 }
 function atualizarSino(){
   const b = $("sino"); if(!b) return;
-  b.hidden = $("topbar").hidden || !(NOTIF.total > 0);
-  $("sinoN").textContent = NOTIF.total > 99 ? "99+" : String(NOTIF.total);
-  b.setAttribute("aria-label", NOTIF.total === 1 ? "1 notificação nova" : NOTIF.total + " notificações novas");
+  const nd = typeof desafiosParaResponder === "function" && usuario && perfil ? desafiosParaResponder().length : 0, tot = (NOTIF.total || 0) + nd;
+  b.hidden = $("topbar").hidden || !(tot > 0);
+  $("sinoN").textContent = tot > 99 ? "99+" : String(tot);
+  b.setAttribute("aria-label", tot === 1 ? "1 notificação nova" : tot + " notificações novas");
 }
 async function nomesDeQuemReagiu(itens){
   const falta = new Set(); itens.forEach(x => [...new Set(x.rs.map(r => r[1]))].reverse().slice(0, 2).forEach(u => { if(!NOTIF.nomes[u]) falta.add(u); }));
@@ -7668,14 +7761,62 @@ const LOJA_ACESSORIOS = [
   { id: "candelabro", nome: "Candelabro de Ouro",      ref: "Êxodo 25:31",      emb: "candelabro", preco: 55 },
   { id: "coroa",      nome: "Coroa da Vida",           ref: "Apocalipse 2:10",  emb: "coroa",      preco: 60 }
 ];
+/* Molduras do perfil, temas da pista e comemorações: comprados como os acessórios (compras "m:", "t:" e "c:"); o que está em uso fica em perfil.moldura, perfil.pista e perfil.festa */
+const LOJA_MOLDURAS = [
+  { id: "ouro",     nome: "Moldura de Ouro",        ref: "1 Reis 6:22",       preco: 30 },
+  { id: "louros",   nome: "Coroa de Louros",        ref: "1 Coríntios 9:25",  preco: 35 },
+  { id: "arcoiris", nome: "Arco da Aliança",        ref: "Gênesis 9:13",      preco: 40 },
+  { id: "ceu",      nome: "Céu Estrelado",          ref: "Gênesis 15:5",      preco: 45 },
+  { id: "sarca",    nome: "Sarça Ardente",          ref: "Êxodo 3:2",         preco: 50 },
+  { id: "perola",   nome: "Pérola de Grande Valor", ref: "Mateus 13:46",      preco: 60 }
+];
+const LOJA_PISTAS = [
+  { id: "deserto", nome: "Areias do Deserto", ref: "Êxodo 13:18",      preco: 30 },
+  { id: "jardim",  nome: "Jardim do Éden",    ref: "Gênesis 2:8",      preco: 35 },
+  { id: "mar",     nome: "Caminho no Mar",    ref: "Êxodo 14:22",      preco: 40 },
+  { id: "noite",   nome: "Noite de Belém",    ref: "Lucas 2:8",        preco: 45 },
+  { id: "ouro",    nome: "Ruas de Ouro",      ref: "Apocalipse 21:21", preco: 60 }
+];
+const LOJA_FESTAS = [
+  { id: "estrelas",  nome: "Chuva de Estrelas",   ref: "Daniel 12:3",  preco: 25 },
+  { id: "trombetas", nome: "Toque das Trombetas", ref: "Salmo 150:3",  preco: 30 },
+  { id: "mana",      nome: "Maná do Céu",         ref: "Êxodo 16:4",   preco: 35 },
+  { id: "pombas",    nome: "Revoada de Pombas",   ref: "Mateus 3:16",  preco: 40 },
+  { id: "fogo",      nome: "Línguas de Fogo",     ref: "Atos 2:3",     preco: 45 }
+];
+const LOJA_EXTRAS = {
+  m: { lista: LOJA_MOLDURAS, campo: "moldura", usar: "Moldura em uso.", tirar: "Moldura guardada." },
+  t: { lista: LOJA_PISTAS,   campo: "pista",   usar: "Tema da pista em uso.", tirar: "Pista de volta ao normal." },
+  c: { lista: LOJA_FESTAS,   campo: "festa",   usar: "Comemoração escolhida.", tirar: "Comemoração guardada." }
+};
+function extraDaLoja(tipo, k){ const g = LOJA_EXTRAS[tipo]; return g ? g.lista.find(x => x.id === k) || null : null; }
+function emUsoDaLoja(tipo){ const g = LOJA_EXTRAS[tipo], k = g && perfil && perfil[g.campo]; return k && extraDaLoja(tipo, k) && comprado(tipo + ":" + k) ? k : ""; }
+const minhaMoldura = () => emUsoDaLoja("m"), minhaPista = () => emUsoDaLoja("t"), minhaFesta = () => emUsoDaLoja("c");
+const classeMoldura = id => id && extraDaLoja("m", id) ? " mold mold-" + id : "";
+const classePista = id => id && extraDaLoja("t", id) ? " pista-" + id : "";
+const FESTA_ICONE = {
+  estrelas:  `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.2 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z" fill="#FFE27A"/></svg>`,
+  trombetas: `<svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="8" cy="18" rx="4" ry="3" fill="#8FE6FF"/><rect x="11" y="4" width="2" height="14" fill="#8FE6FF"/><path d="M13 4c4 0 6 2 6 6-2-2-4-2.5-6-2z" fill="#8FE6FF"/></svg>`,
+  mana:      `<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="7" cy="7" r="3" fill="#fff"/><circle cx="16" cy="11" r="4" fill="#fff"/><circle cx="8" cy="17" r="2.5" fill="#fff"/></svg>`,
+  pombas:    `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 13c3-5 6-5 10-1 4-4 7-4 10 1-3-2-6-2-10 2-4-4-7-4-10-2z" fill="#fff"/></svg>`,
+  fogo:      `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2c1 4 6 6 6 12a6 6 0 01-12 0c0-3 2-4 3-7 1 2 2 2 3-5z" fill="#FF7A1A"/><path d="M12 11c.5 2 3 3 3 5.5a3 3 0 01-6 0c0-1.5 1-2 1.5-3.5.5 1 1 1 1.5-2z" fill="#FFE27A"/></svg>`
+};
 const LOJA_AC = {}; LOJA_ACESSORIOS.forEach(a => { a.o = a.o || [19, 2]; LOJA_AC[a.id] = a; });
 const idPuro = v => String(v || "").split("~")[0];
 /* como o meu boneco é guardado para os outros verem: personagem + acessório da loja em uso */
 function meuBoneco(){ const p = (perfil && perfil.profeta) || ""; return p && perfil.acess && LOJA_AC[perfil.acess] && comprado("a:" + perfil.acess) ? p + "~" + perfil.acess : p; }
 function comprado(id){ return !!(perfil && perfil.compras && perfil.compras[id] != null); }
-function moedasGanhas(){ return Object.values(RES).reduce((s, r) => s + (r.acertos || 0), 0); }
+/* De onde vêm as moedas (tudo calculado do que já existe; nada extra é gravado para ganhar):
+   acertos nos quizzes (1 cada) + semanas completas no prazo (bônus) + casas das missões + desafios vencidos (menos os perdidos) */
+const MOEDAS_SEMANA = 10;
+function moedasDeAcertos(){ return Object.values(RES).reduce((s, r) => s + (r.acertos || 0), 0); }
+function semanasCompletas(){ const m = {}; Object.values(RES).forEach(r => { if(r.noPrazo && r.licaoId) m[r.licaoId] = (m[r.licaoId] || 0) + 1; }); return Object.keys(m).filter(k => m[k] >= 7).length; }
+function moedasDaCasa(n){ return n % 10 === 0 ? 10 : n % 5 === 0 ? 5 : 2; }          // n = número da casa na jornada inteira; fim de território vale mais
+function moedasDeMissoes(){ let f = 0; try{ f = Math.min(MISSOES.length, missoesFeitas()); }catch(e){} let s = 0; for(let n = 1; n <= f; n++) s += moedasDaCasa(n); return s; }
+function moedasDeDesafios(){ const d = (perfil && perfil.duelos) || {}; return Object.keys(d).reduce((s, k) => s + (+d[k] || 0), 0); }
+function moedasGanhas(){ return moedasDeAcertos() + semanasCompletas() * MOEDAS_SEMANA + moedasDeMissoes() + moedasDeDesafios(); }
 function moedasGastas(){ const c = (perfil && perfil.compras) || {}; return Object.keys(c).reduce((s, k) => s + (+c[k] || 0), 0); }
-function moedas(){ return Math.max(0, moedasGanhas() - moedasGastas()); }
+function moedas(){ return Math.max(0, moedasGanhas() - moedasGastas() - (typeof moedasEmJogo === "function" ? moedasEmJogo() : 0)); }
 const MOEDA = `<i class="moeda" aria-hidden="true"></i>`;
 
 /* ---------- Loja ---------- */
@@ -7687,12 +7828,21 @@ function telaLoja(){
     : `<button type="button" class="btn btn-sm btn-main ${saldo < preco ? "caro" : ""}" data-comprar="${id}">${MOEDA}${preco}</button>`;
   const cartaoAc = a => `<div class="lj-item ${comprado("a:" + a.id) ? "meu" : ""}"><div class="lj-av" data-prev="${esc((perfil.profeta || PROFETA_PADRAO) + "~" + a.id + "~v")}"></div><b>${esc(a.nome)}</b><small>${esc(a.ref)}</small>${botao("a:" + a.id, a.preco, perfil.acess === a.id, "Usar")}</div>`;
   const cartaoP = p => `<div class="lj-item ${comprado("p:" + p.id) ? "meu" : ""}"><div class="lj-av" data-prev="${esc(p.id)}"></div><b>${esc(p.nome)}</b><small>${esc(p.ref || "")}</small>${botao("p:" + p.id, p.preco, perfil.profeta === p.id, "Usar")}</div>`;
+  const cartaoM = x => `<div class="lj-item ${comprado("m:" + x.id) ? "meu" : ""}"><div class="lj-av lj-mold${classeMoldura(x.id)}" data-prev="${esc(perfil.profeta || PROFETA_PADRAO)}"></div><b>${esc(x.nome)}</b><small>${esc(x.ref)}</small>${botao("m:" + x.id, x.preco, minhaMoldura() === x.id, "Usar")}</div>`;
+  const cartaoT = x => `<div class="lj-item larga ${comprado("t:" + x.id) ? "meu" : ""}"><div class="lj-pista"><div class="track${classePista(x.id)}" style="--seg:4"><span class="flag" aria-hidden="true">🏁</span><div class="runner" style="--p:.38" data-prev="${esc(meuBoneco() || PROFETA_PADRAO)}"></div></div></div><b>${esc(x.nome)}</b><small>${esc(x.ref)}</small>${botao("t:" + x.id, x.preco, minhaPista() === x.id, "Usar")}</div>`;
+  const cartaoC = x => `<div class="lj-item ${comprado("c:" + x.id) ? "meu" : ""}"><button type="button" class="lj-festa" data-festa="${x.id}" title="Ver a comemoração" aria-label="Ver a comemoração ${esc(x.nome)}">${FESTA_ICONE[x.id] || ""}<span>▶ ver</span></button><b>${esc(x.nome)}</b><small>${esc(x.ref)}</small>${botao("c:" + x.id, x.preco, minhaFesta() === x.id, "Usar")}</div>`;
   app.innerHTML = `<div class="estudo-area">
-    <div class="lj-topo">${cabPagina("Loja", "", "Loja do Rolo", "Cada resposta certa no quiz vale 1 moeda.")}<div class="lj-saldo" aria-label="${saldo} moedas">${MOEDA}<b>${saldo}</b><small>${saldo === 1 ? "moeda" : "moedas"}</small></div></div>
+    <div class="lj-topo">${cabPagina("Loja", "", "Loja do Rolo", "Ganhe moedas nos acertos do quiz, nas missões, na semana completa no prazo e nos desafios.")}<div class="lj-saldo" aria-label="${saldo} moedas">${MOEDA}<b>${saldo}</b><small>${saldo === 1 ? "moeda" : "moedas"}</small></div></div>
     <section class="panel pg-card"><div class="hm-cab"><span>Acessórios</span><span class="hm-meta">o personagem segura na outra mão</span></div>
       <div class="lj-grade">${LOJA_ACESSORIOS.map(cartaoAc).join("")}</div></section>
     <section class="panel pg-card"><div class="hm-cab"><span>Personagens</span><span class="hm-meta">só na loja</span></div>
       <div class="lj-grade">${pers.map(cartaoP).join("")}</div></section>
+    <section class="panel pg-card"><div class="hm-cab"><span>Molduras de perfil</span><span class="hm-meta">em volta do seu personagem</span></div>
+      <div class="lj-grade">${LOJA_MOLDURAS.map(cartaoM).join("")}</div></section>
+    <section class="panel pg-card"><div class="hm-cab"><span>Temas da pista</span><span class="hm-meta">a sua raia na Corrida</span></div>
+      <div class="lj-grade pistas">${LOJA_PISTAS.map(cartaoT).join("")}</div></section>
+    <section class="panel pg-card"><div class="hm-cab"><span>Comemorações</span><span class="hm-meta">ao terminar o quiz</span></div>
+      <div class="lj-grade">${LOJA_FESTAS.map(cartaoC).join("")}</div></section>
     <p class="note center">Moedas ganhas até hoje: ${moedasGanhas()} · gastas: ${moedasGastas()}</p></div>`;
   /* os bonecos de amostra são desenhados aos poucos, para a tela abrir na hora */
   const prevs = [...app.querySelectorAll("[data-prev]")]; let k = 0;
@@ -7700,10 +7850,12 @@ function telaLoja(){
   desenhar();
   app.querySelectorAll("[data-comprar]").forEach(b => b.onclick = () => comprarNaLoja(b.dataset.comprar));
   app.querySelectorAll("[data-usar]").forEach(b => b.onclick = () => usarDaLoja(b.dataset.usar));
+  app.querySelectorAll("[data-festa]").forEach(b => b.onclick = () => { tocar("toque"); festejar(b.dataset.festa, 2600); });
 }
 function itemDaLoja(id){
   const [tipo, k] = id.split(":");
   if(tipo === "a"){ const a = LOJA_AC[k]; return a ? { nome: a.nome, preco: a.preco } : null; }
+  if(LOJA_EXTRAS[tipo]){ const x = extraDaLoja(tipo, k); return x ? { nome: x.nome, preco: x.preco } : null; }
   const p = acharProfeta(k); return p && p.preco ? { nome: p.nome, preco: p.preco } : null;
 }
 async function comprarNaLoja(id){
@@ -7720,10 +7872,13 @@ async function comprarNaLoja(id){
 /* Usar (ou tirar) um acessório; ou trocar para um personagem comprado */
 async function usarDaLoja(id, semAviso){
   if(!comprado(id)) return;
-  const [tipo, k] = id.split(":"), muda = tipo === "a" ? { acess: perfil.acess === k && !semAviso ? "" : k } : { profeta: k };
+  const [tipo, k] = id.split(":"), g = LOJA_EXTRAS[tipo];
+  const muda = tipo === "a" ? { acess: perfil.acess === k && !semAviso ? "" : k } : g ? { [g.campo]: perfil[g.campo] === k && !semAviso ? "" : k } : { profeta: k };
   Object.assign(perfil, muda);
   try{ await DB.salvarUsuario(usuario.uid, muda); }catch(e){ aviso(erroMsg(e)); }
-  if(!semAviso) aviso(tipo === "a" ? (perfil.acess ? "Acessório em uso." : "Acessório guardado.") : "Personagem trocado.");
+  if(!semAviso) aviso(tipo === "a" ? (perfil.acess ? "Acessório em uso." : "Acessório guardado.") : g ? (perfil[g.campo] ? g.usar : g.tirar) : "Personagem trocado.");
+  if(tipo === "t" && typeof carregarSalas === "function") carregarSalas().catch(()=>{});          // os outros veem a minha raia com o tema
+  if(tipo === "c" && perfil.festa === k) festejar(k, 2600);
   atualizarCasca(); sincronizarPerfilPublico();
   if(document.querySelector(".lj-grade")) telaLoja();
 }
@@ -7731,7 +7886,7 @@ async function usarDaLoja(id, semAviso){
 /* ---------- Resumo público do jogador ---------- */
 function meuResumoPublico(){
   const rs = Object.values(RES);
-  return { uid: usuario.uid, tipo: "perfil", salaId: "", salaMes: "perfil|" + usuario.uid, titulo: "Seu perfil", nome: perfil.nome || "", profeta: meuBoneco(), nivel: meuNivel(),
+  return { uid: usuario.uid, tipo: "perfil", salaId: "", salaMes: "perfil|" + usuario.uid, titulo: "Seu perfil", nome: perfil.nome || "", profeta: meuBoneco(), nivel: meuNivel(), moldura: minhaMoldura(), pista: minhaPista(),
     pts: rs.reduce((s, r) => s + (r.pts || 0), 0), quizzes: rs.length, acertos: rs.reduce((s, r) => s + (r.acertos || 0), 0), casas: missoesFeitas(), seq: sequencia(),
     conquistas: conquistas().filter(c => c.on).map(c => c.id) };
 }
@@ -7759,12 +7914,13 @@ function montarPerfil(el, uid, base, op){
   const corpo = d => {
     const nv = Math.max(+d.nivel || 0, +base.nivel || 0), rc = d.reacoes || {}, cqs = (d.conquistas || []).map(id => defs[id]).filter(Boolean);
     const num = (v, r) => `<div><b>${v}</b><span>${r}</span></div>`, pers = nomeDoPersonagem(d.profeta || base.profeta, nv);
-    return `<div class="pf-topo"><div class="pf-av">${avatarSVG(personagemDe(d.profeta || base.profeta, nv), d.nome || base.nome, nv)}</div>
+    return `<div class="pf-topo"><div class="pf-av${classeMoldura(d.moldura)}">${avatarSVG(personagemDe(d.profeta || base.profeta, nv), d.nome || base.nome, nv)}</div>
         <div class="pf-tx"><h3>${esc(d.nome || base.nome || "Jogador")}${eu ? " (você)" : ""}</h3><span class="pf-l">Nível ${nv} · ${esc(nomeNivel(nv))}</span>${pers ? `<span class="pf-l pf-pers">Personagem: <b>${esc(pers)}</b></span>` : ""}${op.extra || ""}</div></div>
       ${d.pts != null ? `<div class="pg-kpis pf-kpis">${num(fmt(d.pts), "pontos no total")}${num(d.quizzes || 0, d.quizzes === 1 ? "quiz feito" : "quizzes feitos")}${num(d.casas || 0, "casas nas missões")}</div>
         <div class="rec-tit"><b>${cqs.length}</b> ${cqs.length === 1 ? "conquista" : "conquistas"}</div>
         ${cqs.length ? `<div class="pf-cqs">${cqs.map(c => `<span title="${esc(c.d)}"><i aria-hidden="true">${c.ic}</i>${esc(c.t)}</span>`).join("")}</div>` : `<p class="muted small" style="margin:0">Nenhuma conquista ainda.</p>`}`
         : `<p class="vazio" id="pfEspera">${d.semDados ? "Este jogador ainda não abriu o jogo na versão nova. O perfil completo aparece quando ele entrar." : "Carregando o perfil…"}</p>`}
+      ${!eu && !op.extra && typeof modalDesafiar === "function" ? `<div class="btn-row uma pf-desafio"><button type="button" class="btn btn-main" data-pf-desafiar><span aria-hidden="true">⚔️</span> Desafiar valendo moedas</button></div>` : ""}
       ${d.pts != null ? `<div class="rec-tit" style="margin-top:14px">${eu ? "Reações ao seu perfil" : "Reaja ao perfil"}</div>
         <div class="pf-reacoes">${REACOES.map(([k, ic, nome]) => { const l = rc[k] || [], on = l.includes(usuario.uid); return eu ? (l.length ? `<span class="reacao on" title="${nome}"><span>${ic}</span><b>${l.length}</b></span>` : "") : `<button type="button" class="reacao ${on ? "on" : ""}" data-pf-reagir="${k}" aria-pressed="${on}" title="${nome}" aria-label="${nome}"><span>${ic}</span>${l.length ? `<b>${l.length}</b>` : ""}</button>`; }).join("") || `<p class="muted small" style="margin:0">Ainda sem reações. Elas aparecem aqui e nas suas notificações.</p>`}</div>` : ""}`;
   };
@@ -7775,6 +7931,7 @@ function montarPerfil(el, uid, base, op){
     el.innerHTML = corpo(dados); ligar(); tocar("toque");
     try{ await DB.reagirPost("perfil_" + uid, k, usuario.uid, ligando); }catch(e){ aviso("Não deu para reagir agora: " + erroMsg(e)); }
   });
+  el.addEventListener("click", e => { if(e.target.closest && e.target.closest("[data-pf-desafiar]")){ const d = dados || base; modalDesafiar({ uid, nome: d.nome || base.nome || "", profeta: d.profeta || base.profeta || "", nivel: Math.max(+d.nivel || 0, +base.nivel || 0) }); } });
   const guardadas = eu && _perfis[uid] && _perfis[uid].v ? _perfis[uid].v.reacoes || {} : {};
   el.innerHTML = corpo(eu ? Object.assign(meuResumoPublico(), { reacoes: guardadas }) : base);
   (eu ? Promise.resolve().then(() => { sincronizarPerfilPublico(); if(!op.usarGuardado) delete _perfis[uid]; return perfilPublico(uid); }) : perfilPublico(uid)).then(v => {
@@ -7791,6 +7948,45 @@ document.getElementById("app").addEventListener("click", e => {
   const el = e.target.closest ? e.target.closest("[data-perfil]") : null; if(!el || !usuario || !perfil) return;
   tocar("toque"); modalPerfil(el.dataset.perfil, { nome: el.dataset.nome || "", profeta: el.dataset.boneco || "", nivel: +el.dataset.nivel || 0 });
 });
+
+/* ---------- Comemorações: o que cai (ou sobe) na tela quando o quiz termina ---------- */
+const FESTA_FX = {
+  estrelas:  { n: 46, sobe: false, cores: ["#FFE27A", "#FFF3B8", "#FFFFFF", "#F2BE2E"], des(x, p){ x.beginPath(); for(let i = 0; i < 10; i++){ const r = i % 2 ? p.s * .45 : p.s, a = i * Math.PI / 5 - Math.PI / 2; x.lineTo(Math.cos(a) * r, Math.sin(a) * r); } x.closePath(); x.fill(); } },
+  trombetas: { n: 34, sobe: true,  cores: ["#8FE6FF", "#FFE27A", "#FFFFFF", "#5FE0B0"], des(x, p){ const s = p.s; x.beginPath(); x.ellipse(-s * .3, s * .7, s * .5, s * .36, -.4, 0, Math.PI * 2); x.fill(); x.fillRect(s * .1, -s, s * .16, s * 1.7); x.beginPath(); x.moveTo(s * .26, -s); x.quadraticCurveTo(s * 1.1, -s * .8, s * .9, 0); x.quadraticCurveTo(s * .7, -s * .5, s * .26, -s * .5); x.fill(); } },
+  mana:      { n: 70, sobe: false, cores: ["#FFFFFF", "#FFF8E1", "#F4F1EA"], des(x, p){ x.shadowColor = "rgba(255,255,255,.8)"; x.shadowBlur = 6; x.beginPath(); x.arc(0, 0, p.s * .55, 0, Math.PI * 2); x.fill(); } },
+  pombas:    { n: 16, sobe: true,  cores: ["#FFFFFF", "#F4F1EA", "#E6F7FF"], reto: true, des(x, p){ const s = p.s * 1.5, b = Math.sin(p.bal * 3) * .55; x.beginPath(); x.moveTo(-s, -s * b); x.quadraticCurveTo(-s * .5, -s * (.5 + b * .3), 0, 0); x.quadraticCurveTo(s * .5, -s * (.5 + b * .3), s, -s * b); x.quadraticCurveTo(s * .45, s * .1, 0, s * .32); x.quadraticCurveTo(-s * .45, s * .1, -s, -s * b); x.fill(); } },
+  fogo:      { n: 60, sobe: true,  cores: ["#FF7A1A", "#FFB300", "#FFE27A", "#FF4A1A"], reto: true, des(x, p){ const s = p.s; x.beginPath(); x.moveTo(0, -s * 1.3); x.quadraticCurveTo(s, 0, 0, s); x.quadraticCurveTo(-s, 0, 0, -s * 1.3); x.fill(); } }
+};
+let festaParar = null;
+function festejar(id, ms){
+  const F = FESTA_FX[id]; if(!F || (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches)) return;
+  if(festaParar) festaParar();
+  const cv = document.createElement("canvas"); cv.className = "confete"; cv.setAttribute("aria-hidden", "true"); document.body.appendChild(cv);
+  const x = cv.getContext("2d"), dpr = Math.min(2, window.devicePixelRatio || 1), W = window.innerWidth, H = window.innerHeight, DUR = ms || 4200, ini = performance.now();
+  cv.width = W * dpr; cv.height = H * dpr; x.setTransform(dpr, 0, 0, dpr, 0, 0);
+  const novo = (p, espalha) => { p.x = Math.random() * W; p.y = F.sobe ? H + 20 + (espalha ? Math.random() * H * .7 : 0) : -20 - (espalha ? Math.random() * H * .7 : 0); return p; };
+  const ps = Array.from({ length: F.n }, (_, i) => novo({ s: 6 + Math.random() * 7, v: 1.6 + Math.random() * 2.6, bal: Math.random() * 6.3, rot: Math.random() * 6.3, vr: -.05 + Math.random() * .1, cor: F.cores[i % F.cores.length] }, true));
+  let raf = 0, parado = false;
+  const parar = () => { if(parado) return; parado = true; cancelAnimationFrame(raf); cv.remove(); if(festaParar === parar) festaParar = null; };
+  const quadro = t => {
+    if(parado) return;
+    const passou = t - ini, fim = passou > DUR; let vivos = 0;
+    x.clearRect(0, 0, W, H);
+    ps.forEach(p => {
+      p.bal += .04; p.x += Math.sin(p.bal) * 1.1 + (id === "pombas" ? 1.2 : 0); p.y += F.sobe ? -p.v : p.v; p.rot += p.vr;
+      const fora = F.sobe ? p.y < -30 : p.y > H + 30;
+      if(fora){ if(fim) return; novo(p, false); }
+      vivos++;
+      x.save(); x.translate(p.x, p.y); if(!F.reto) x.rotate(p.rot);
+      x.globalAlpha = (fim ? Math.max(0, 1 - (passou - DUR) / 1200) : 1) * (id === "estrelas" ? .65 + .35 * Math.sin(p.bal * 4) : id === "fogo" ? Math.min(1, Math.max(.15, p.y / H)) : 1);
+      x.fillStyle = p.cor; F.des(x, p); x.restore();
+    });
+    if(!vivos || passou > DUR + 1200){ parar(); return; }
+    raf = requestAnimationFrame(quadro);
+  };
+  raf = requestAnimationFrame(quadro); festaParar = parar;
+  return parar;
+}
 
 /* ============================================================
    ESTUDAR: MINHAS ANOTAÇÕES (só a própria pessoa vê)
@@ -8014,6 +8210,185 @@ function dicaDaLoja(){
   };
   setTimeout(() => tentar(0), 1500);
 }
+
+/* ============================================================
+   DESAFIO ENTRE AMIGOS (valendo moedas)
+   - Quem desafia escolhe quantas moedas vale; o oponente aceita ou recusa.
+   - O desafio é o quiz de um dia (hoje ou amanhã). Vence quem fizer mais pontos nele, no prazo.
+     Quem não jogar no prazo perde; se ninguém jogar, ou der empate, ninguém ganha nem perde.
+   - Fica na coleção "desafios" (regras novas no firestore.rules). O resultado é sempre calculado
+     dos resultados dos dois quizzes (que ninguém consegue alterar depois); cada jogador anota o seu
+     saldo em perfil.duelos { idDoDesafio: +moedas | -moedas | 0 }.
+   ============================================================ */
+let DESAFIOS = [], desafiosEm = 0, desafiosOk = true;
+const DES_APOSTAS = [5, 10, 20, 30, 50], DES_MAX_ABERTOS = 3;
+const mesDeHoje = () => hoje().slice(0, 7);
+function mesAnterior(){ const [a, m] = mesDeHoje().split("-").map(Number); return m === 1 ? (a - 1) + "-12" : a + "-" + String(m - 1).padStart(2, "0"); }
+const souDe = d => d.de === usuario.uid, outroDe = d => souDe(d) ? { uid: d.para, nome: d.paraNome, boneco: d.paraBoneco } : { uid: d.de, nome: d.deNome, boneco: d.deBoneco };
+const duelo = id => perfil && perfil.duelos ? perfil.duelos[id] : undefined;
+/* estado para a tela: pendente | expirado | recusado | andamento | fim */
+function estadoDoDesafio(d){
+  if(d.status === "recusado") return "recusado";
+  if(d.status === "pendente") return hoje() > d.data ? "expirado" : "pendente";
+  return duelo(d.id) !== undefined || d._fim ? "fim" : "andamento";
+}
+function desafiosParaResponder(){ return DESAFIOS.filter(d => d.para === usuario.uid && estadoDoDesafio(d) === "pendente"); }
+/* moedas presas: o que eu apostei em desafios que ainda não terminaram */
+function moedasEmJogo(){
+  if(!usuario) return 0;
+  return DESAFIOS.reduce((s, d) => { const e = estadoDoDesafio(d); return s + ((e === "pendente" && souDe(d)) || e === "andamento" ? (+d.moedas || 0) : 0); }, 0);
+}
+async function carregarDesafios(forcar){
+  if(!usuario || !perfil || !perfil.profeta) return DESAFIOS;
+  if(!forcar && Date.now() - desafiosEm < 3 * MIN) return DESAFIOS;
+  desafiosEm = Date.now();
+  try{
+    const antes = {}; DESAFIOS.forEach(d => antes[d.id] = d);
+    const l = await DB.meusDesafios(usuario.uid, [mesDeHoje(), mesAnterior()]);
+    l.forEach(d => { const a = antes[d.id]; if(a){ d._ra = a._ra; d._rb = a._rb; d._visto = a._visto; d._fim = a._fim; } });
+    DESAFIOS = l.sort((a, b) => (b.quando || 0) - (a.quando || 0)); desafiosOk = true;
+  }catch(e){ desafiosOk = false; console.warn("desafios (publique as regras novas)", e && e.code); }
+  return DESAFIOS;
+}
+/* confere o que mudou: decide os desafios aceitos e avisa o resultado */
+async function conferirDesafios(forcar){
+  await carregarDesafios(forcar);
+  for(const d of DESAFIOS){
+    if(d.status !== "aceito" || duelo(d.id) !== undefined) continue;
+    const meu = RES[d.licaoId + "|" + d.data], acabou = hoje() > d.data;
+    if(!meu && !acabou) continue;                                   // ainda posso jogar: nada a decidir
+    const o = outroDe(d);
+    if(!d._rb || Date.now() - (d._visto || 0) > 3 * MIN){ d._visto = Date.now(); try{ d._rb = (await DB.resultadoDe(o.uid, d.licaoId, d.data)) || null; }catch(e){ continue; } }
+    const vale = r => r && r.noPrazo ? r.pts || 0 : -1, a = vale(meu), b = vale(d._rb);
+    if(!acabou && (a < 0 || b < 0)) continue;                        // falta alguém jogar e o dia ainda não acabou
+    const v = a > b ? +d.moedas : a < b ? -d.moedas : 0;
+    d._fim = { v, a, b };
+    const duelos = Object.assign({}, perfil.duelos || {}, { [d.id]: v }); perfil.duelos = duelos;
+    try{ await DB.salvarUsuario(usuario.uid, { duelos }); }catch(e){ console.warn(e); }
+    atualizarCasca(); anunciarDesafio(d, v, a, b);
+  }
+  atualizarCasca();
+  if(tabAtual === "inicio" && $("desInicio")) $("desInicio").outerHTML = htmlDesafiosInicio();
+  return DESAFIOS;
+}
+function anunciarDesafio(d, v, a, b){
+  const o = outroDe(d), pts = n => n < 0 ? "não jogou no prazo" : fmt(n) + " pontos";
+  if(v > 0){ tocar("subiu"); if(typeof festejar === "function") festejar(minhaFesta() || "estrelas", 3200); } else tocar(v < 0 ? "errado" : "toque");
+  modal(v > 0 ? "Você venceu o desafio!" : v < 0 ? "Não foi desta vez" : "Desafio empatado", `<div class="des-fim ${v > 0 ? "ganhou" : v < 0 ? "perdeu" : ""}">
+      <div class="des-placar"><div><div class="des-av">${meuAvatar()}</div><b>Você</b><span>${pts(a)}</span></div><i>×</i><div><div class="des-av">${avatarSVG(personagemDe(o.boneco, 0), o.nome)}</div><b>${esc(o.nome || "Jogador")}</b><span>${pts(b)}</span></div></div>
+      <p class="des-moedas">${v ? `<i class="moeda" aria-hidden="true"></i><b>${v > 0 ? "+" : "−"}${Math.abs(v)} moedas</b>` : "Ninguém ganha nem perde moedas."}</p>
+      <p class="muted small">${esc(d.diaNome || "")}${d.licaoNome ? " · " + esc(d.licaoNome) : ""}</p>
+      <div class="btn-row uma"><button class="btn btn-main" id="dfOk">Continuar</button></div></div>`, (m, fechar) => { m.querySelector("#dfOk").onclick = fechar; });
+}
+/* o dia em que o desafio pode valer: hoje, se nenhum dos dois jogou ainda; senão amanhã */
+async function diaParaDesafiar(uidOutro){
+  const dias = [hoje(), somarDias(hoje(), 1)];
+  for(const data of dias){
+    let alvo = null; LICOES.forEach(L => L.dias.forEach((d, k) => { if(d.data === data) alvo = { L, d, k }; }));
+    if(!alvo || licaoTravada(alvo.L)) continue;
+    if(data === hoje() && !alvo.L.pendente && !alvo.d.perguntas.length) continue;
+    if(RES[alvo.L.id + "|" + data]) continue;
+    try{ if(await DB.resultadoDe(uidOutro, alvo.L.id, data)) continue; }catch(e){}
+    return alvo;
+  }
+  return null;
+}
+function modalDesafiar(o){
+  if(!o || !o.uid || o.uid === usuario.uid) return;
+  const saldo = moedas(), abertos = DESAFIOS.filter(d => souDe(d) && ["pendente", "andamento"].includes(estadoDoDesafio(d)));
+  if(saldo < DES_APOSTAS[0]){ aviso(`Você precisa de pelo menos ${DES_APOSTAS[0]} moedas para desafiar. Cada resposta certa no quiz vale 1 moeda.`); return; }
+  if(abertos.length >= DES_MAX_ABERTOS){ aviso(`Você já tem ${DES_MAX_ABERTOS} desafios em aberto. Espere um terminar.`); return; }
+  modal("Desafiar " + (o.nome || "jogador"), `<div class="des-novo"><p class="vazio" id="dnEspera">Procurando o quiz do desafio…</p></div>`, async (m, fechar) => {
+    const el = m.querySelector(".des-novo");
+    let alvo = null; try{ alvo = await diaParaDesafiar(o.uid); }catch(e){}
+    if(!el.isConnected) return;
+    if(!alvo){ el.innerHTML = `<p class="vazio">Não há quiz para desafiar agora: vocês dois já fizeram o de hoje e o de amanhã ainda não está disponível.</p>`; return; }
+    if(DESAFIOS.some(d => d.data === alvo.d.data && [d.de, d.para].includes(o.uid) && ["pendente", "andamento"].includes(estadoDoDesafio(d)))){ el.innerHTML = `<p class="vazio">Vocês já têm um desafio em aberto para o quiz de ${esc(alvo.d.nome)}.</p>`; return; }
+    let aposta = DES_APOSTAS.filter(v => v <= saldo)[Math.min(1, DES_APOSTAS.filter(v => v <= saldo).length - 1)];
+    const ehHoje = alvo.d.data === hoje();
+    const desenhar = () => {
+      el.innerHTML = `<div class="des-placar"><div><div class="des-av">${meuAvatar()}</div><b>Você</b></div><i>×</i><div><div class="des-av">${avatarSVG(personagemDe(o.profeta, o.nivel), o.nome, o.nivel)}</div><b>${esc(o.nome || "Jogador")}</b></div></div>
+        <p class="des-qual">Vale o quiz de <b>${esc(alvo.d.nome)}, ${dataCurta(alvo.d.data)}</b> (${ehHoje ? "hoje" : "amanhã"}) · ${esc(alvo.L.numero)}</p>
+        <div class="rec-tit">Quantas moedas vale?</div>
+        <div class="des-apostas" role="radiogroup" aria-label="Moedas do desafio">${DES_APOSTAS.map(v => `<button type="button" role="radio" aria-checked="${v === aposta}" data-v="${v}" ${v > saldo ? "disabled" : ""}><i class="moeda" aria-hidden="true"></i>${v}</button>`).join("")}</div>
+        <p class="muted small">Você tem ${saldo} moedas. Se ${esc(o.nome || "o oponente")} aceitar, vence quem fizer mais pontos nesse quiz, no prazo: o vencedor ganha ${aposta} moedas do outro. Quem não jogar no prazo perde. Empate não vale nada.</p>
+        <p class="erro" id="dnErro"></p>
+        <div class="btn-row"><button class="btn btn-main" id="dnOk">Enviar desafio</button><button class="btn btn-ghost" id="dnNao">Cancelar</button></div>`;
+      el.querySelectorAll("[data-v]").forEach(b => b.onclick = () => { aposta = +b.dataset.v; tocar("toque"); desenhar(); });
+      el.querySelector("#dnNao").onclick = fechar;
+      el.querySelector("#dnOk").onclick = async () => {
+        const b = el.querySelector("#dnOk"); ocupado(b, true);
+        const mes = alvo.d.data.slice(0, 7), doc = { de: usuario.uid, deNome: perfil.nome || "", deBoneco: meuBoneco(), para: o.uid, paraNome: o.nome || "", paraBoneco: o.profeta || "",
+          moedas: aposta, licaoId: alvo.L.id, licaoNome: alvo.L.numero, data: alvo.d.data, diaNome: alvo.d.nome + ", " + dataCurta(alvo.d.data), status: "pendente", quando: Date.now(), mes, deMes: usuario.uid + "|" + mes, paraMes: o.uid + "|" + mes };
+        try{ const id = await DB.criarDesafio(doc); DESAFIOS.unshift(Object.assign({ id }, doc)); fechar(); tocar("ajuda"); aviso(`Desafio enviado para ${o.nome || "o oponente"}. As ${aposta} moedas ficam reservadas até a resposta.`); atualizarCasca(); }
+        catch(e){ el.querySelector("#dnErro").textContent = e && e.code === "permission-denied" ? "Os desafios ainda não foram liberados: o administrador precisa publicar as regras novas do Firestore." : erroMsg(e); ocupado(b, false); }
+      };
+    };
+    desenhar();
+  });
+}
+async function responderDesafio(id, aceitar){
+  const d = DESAFIOS.find(x => x.id === id); if(!d || estadoDoDesafio(d) !== "pendente" || d.para !== usuario.uid) return;
+  if(aceitar){
+    if(RES[d.licaoId + "|" + d.data]){ aviso("Você já fez esse quiz, então não dá mais para aceitar este desafio."); return; }
+    if(moedas() < d.moedas){ aviso(`Você precisa de ${d.moedas} moedas para aceitar. Você tem ${moedas()}.`); return; }
+  }
+  try{ await DB.responderDesafio(id, aceitar ? "aceito" : "recusado"); d.status = aceitar ? "aceito" : "recusado"; tocar(aceitar ? "ajuda" : "toque");
+    aviso(aceitar ? `Desafio aceito! Faça o quiz de ${d.diaNome} no prazo.` : "Desafio recusado."); }
+  catch(e){ aviso(erroMsg(e)); }
+  atualizarCasca(); redesenharDesafios();
+}
+async function cancelarDesafio(id){
+  const d = DESAFIOS.find(x => x.id === id); if(!d || !souDe(d) || d.status !== "pendente") return;
+  try{ await DB.cancelarDesafio(id); DESAFIOS = DESAFIOS.filter(x => x.id !== id); aviso("Desafio cancelado. As moedas voltaram."); }catch(e){ aviso(erroMsg(e)); }
+  atualizarCasca(); redesenharDesafios();
+}
+function jogarDesafio(id){
+  const d = DESAFIOS.find(x => x.id === id); if(!d) return;
+  if(d.data !== hoje()){ aviso(`Esse quiz abre em ${dataCurta(d.data)}.`); return; }
+  const L = LICOES.find(l => l.id === d.licaoId); if(!L) return;
+  document.querySelectorAll(".modal-bg").forEach(m => m.remove());
+  LICAO = L; tabAtual = "quiz"; atualizarCasca(); iniciar(L.dias.findIndex(x => x.data === d.data));
+}
+function linhaDesafio(d){
+  const o = outroDe(d), e = estadoDoDesafio(d), meu = RES[d.licaoId + "|" + d.data], v = duelo(d.id);
+  const txt = e === "pendente" ? (souDe(d) ? "Esperando a resposta" : "Te desafiou") : e === "andamento" ? (meu ? `Você fez ${fmt(meu.pts)} pontos. Esperando ${esc(o.nome || "o oponente")}` : d.data === hoje() ? "Aceito: faça o quiz hoje" : "Aceito: o quiz abre em " + dataCurta(d.data))
+    : e === "fim" ? (v > 0 ? "Você venceu" : v < 0 ? "Você perdeu" : "Empate") : e === "recusado" ? (souDe(d) ? "Recusou o desafio" : "Você recusou") : "Passou do prazo sem resposta";
+  const acoes = e === "pendente" && !souDe(d) ? `<button class="btn btn-ok btn-sm" data-des-aceitar="${esc(d.id)}">Aceitar</button><button class="btn btn-ghost btn-sm" data-des-recusar="${esc(d.id)}">Recusar</button>`
+    : e === "pendente" ? `<button class="btn btn-ghost btn-sm" data-des-cancelar="${esc(d.id)}">Cancelar</button>`
+    : e === "andamento" && !meu && d.data === hoje() ? `<button class="btn btn-main btn-sm" data-des-jogar="${esc(d.id)}">Jogar</button>` : "";
+  return `<li class="des-li ${e}"><div class="des-av">${avatarSVG(personagemDe(o.boneco, 0), o.nome)}</div><div class="info"><strong>${esc(o.nome || "Jogador")}</strong><span>${txt}</span><span>${esc(d.diaNome || "")}</span></div>
+    <div class="des-lado"><b class="des-val ${e === "fim" ? (v > 0 ? "mais" : v < 0 ? "menos" : "") : ""}"><i class="moeda" aria-hidden="true"></i>${e === "fim" && v ? (v > 0 ? "+" : "−") : ""}${d.moedas}</b><div class="des-acoes">${acoes}</div></div></li>`;
+}
+function htmlListaDesafios(){
+  if(!desafiosOk) return `<p class="vazio">Os desafios ainda não foram liberados: o administrador precisa publicar as regras novas do Firestore.</p>`;
+  const g = { pendente: [], andamento: [], outros: [] };
+  DESAFIOS.forEach(d => { const e = estadoDoDesafio(d); (g[e] || g.outros).push(d); });
+  const bloco = (t, l) => l.length ? `<div class="rec-tit" style="margin-top:12px">${t}</div><ul class="lista des-lista">${l.map(linhaDesafio).join("")}</ul>` : "";
+  return (bloco("Esperando resposta", g.pendente) + bloco("Em andamento", g.andamento) + bloco("Encerrados", g.outros.slice(0, 10)))
+    || `<p class="vazio">Nenhum desafio ainda. Na Corrida, toque no personagem de um amigo e escolha <b>Desafiar</b>.</p>`;
+}
+function modalDesafios(){
+  modal("Desafios", `<div class="des-modal" id="desModal"><p class="vazio">Carregando…</p></div>`, m => {
+    const el = m.querySelector("#desModal");
+    const pintar = () => { if(el.isConnected) el.innerHTML = `<p class="muted small" style="margin:0">Moedas reservadas em desafios: <b>${moedasEmJogo()}</b> · saldo dos desafios: <b>${moedasDeDesafios() > 0 ? "+" : ""}${moedasDeDesafios()}</b></p>${htmlListaDesafios()}`; };
+    pintar(); conferirDesafios(Date.now() - desafiosEm > 20000).then(pintar);
+  });
+}
+function htmlDesafiosInicio(){
+  const l = DESAFIOS.filter(d => { const e = estadoDoDesafio(d); return (e === "pendente" && !souDe(d)) || e === "andamento"; }).slice(0, 3);
+  return `<div id="desInicio">${l.length ? `<section class="panel hm-card des-card"><div class="hm-cab"><span>Desafios</span><button type="button" class="hm-link" data-des-todos>Ver todos <span aria-hidden="true">›</span></button></div><ul class="lista des-lista">${l.map(linhaDesafio).join("")}</ul></section>` : ""}</div>`;
+}
+function redesenharDesafios(){
+  const m = $("desModal"); if(m) m.innerHTML = htmlListaDesafios();
+  const i = $("desInicio"); if(i) i.outerHTML = htmlDesafiosInicio();
+}
+document.addEventListener("click", e => {
+  const t = e.target.closest ? e.target.closest("[data-des-aceitar],[data-des-recusar],[data-des-cancelar],[data-des-jogar],[data-des-todos]") : null; if(!t || !usuario || !perfil) return;
+  const d = t.dataset;
+  if(d.desAceitar) responderDesafio(d.desAceitar, true); else if(d.desRecusar) responderDesafio(d.desRecusar, false);
+  else if(d.desCancelar) cancelarDesafio(d.desCancelar); else if(d.desJogar) jogarDesafio(d.desJogar); else modalDesafios();
+});
 
 </script>
 </body>
