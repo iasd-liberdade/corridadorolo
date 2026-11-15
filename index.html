@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="versao" content="20261115.201145">
+<meta name="versao" content="20261115.204039">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Corrida do Rolo · Quiz da Lição</title>
 <meta name="theme-color" content="#524F9C">
@@ -1693,6 +1693,33 @@ body:has(.an-lb):not(:has(.modal-bg)) .toast{top:auto;bottom:calc(24px + env(saf
 .res-moedas b.pulo{display:inline-block;animation:tm-pulo .28s ease-out}
 .moeda-voa{position:fixed;left:0;top:0;z-index:120;margin:0;font-size:22px;pointer-events:none;will-change:transform,opacity;filter:drop-shadow(0 2px 5px rgba(0,0,0,.35))}
 @media (prefers-reduced-motion:reduce){.result .big.pop,.topo-moedas.pulo,.topo-moedas.pulo .moeda,.res-moedas b.pulo{animation:none}.res-moedas{transition:none}}
+/* ---------- menu: um botão só para a lição (livro com o alvo do quiz no canto) ---------- */
+.ic-duo{position:relative}
+.ic-duo i{position:absolute;left:58%;top:42%;font-style:normal;font-size:.66em;line-height:1;filter:drop-shadow(0 0 1.5px rgba(20,18,60,.95)) drop-shadow(0 0 1.5px rgba(20,18,60,.95))}
+#nav button[aria-current] .ic-duo i{animation:duo-pisca 1.6s ease-in-out 1}
+@keyframes duo-pisca{0%,100%{transform:none}30%{transform:scale(1.35) rotate(-12deg)}60%{transform:scale(.95)}}
+/* ---------- Lição: abas "Lição | Quiz" como aba de navegador (a escolhida se junta com a página de baixo) ---------- */
+.abas-l{display:flex;align-items:flex-end;gap:10px;margin:6px 0 0}
+.aba-l{position:relative;flex:1 1 0;min-width:0;display:flex;align-items:center;justify-content:center;gap:9px;padding:8px 10px 9px;border:0;border-radius:16px 16px 0 0;background:rgba(20,18,60,.42);color:rgba(255,255,255,.72);cursor:pointer;text-align:left;transition:background .15s ease,color .15s ease}
+.aba-l:hover{background:rgba(20,18,60,.3);color:#fff}
+.aba-l[aria-selected="true"],.aba-l[aria-selected="true"]:hover{padding-top:12px;padding-bottom:12px;background:var(--panel);color:#fff;box-shadow:none;cursor:default}
+.aba-l[aria-selected="true"]::after{content:"";position:absolute;bottom:0;width:10px;height:10px;pointer-events:none}
+.aba-l[aria-selected="true"]:first-child::after{left:100%;background:radial-gradient(circle at 100% 0,transparent 9.6px,var(--aba-cor,transparent) 10px)}
+.aba-l[aria-selected="true"]:last-child::after{right:100%;background:radial-gradient(circle at 0 0,transparent 9.6px,var(--aba-cor,transparent) 10px)}
+.aba-ic{font-size:21px;line-height:1;flex:none;transition:transform .15s ease}
+.aba-l:not([aria-selected="true"]) .aba-ic{filter:saturate(.75);opacity:.85}
+.aba-l[aria-selected="true"] .aba-ic{transform:scale(1.12)}
+.aba-tx{display:grid;min-width:0}
+.aba-tx b{font:800 15.5px/1.15 "Barlow",sans-serif}
+.aba-tx small{font:600 11px/1.2 "Barlow",sans-serif;color:var(--soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.aba-ponto{position:absolute;top:7px;right:9px;width:9px;height:9px;border-radius:50%;background:#FF5A5F;box-shadow:0 0 0 2px rgba(20,18,60,.55);animation:aba-pulsa 1.6s ease-in-out infinite}
+@keyframes aba-pulsa{0%,100%{transform:scale(1)}50%{transform:scale(1.35)}}
+.abas-l + .panel{margin-top:0;border:0;border-top-left-radius:0;border-top-right-radius:0;padding:15px}
+.aba-corpo{animation:aba-entra .22s ease-out}
+@keyframes aba-entra{from{opacity:.4}to{opacity:1}}
+.aba-corpo .hud{margin:2px 0 12px;padding:0 2px 10px;border-bottom:1px solid var(--panel-line)}
+@media (max-width:359px){ .aba-tx small{display:none} }
+@media (prefers-reduced-motion:reduce){.aba-ponto,.aba-corpo,#nav button[aria-current] .ic-duo i{animation:none}}
 /* login */
 .logo-login{padding:18px 0 6px}
 .logo-login p{font-size:14px;margin-top:10px}
@@ -1725,11 +1752,10 @@ body:has(.an-lb):not(:has(.modal-bg)) .toast{top:auto;bottom:calc(24px + env(saf
   <button class="chip" id="chipConta" type="button" aria-label="Minha conta"><span class="em" id="chipEm"></span><b class="nav-n chip-n" id="navSalasN" hidden></b></button></div>
 </header>
 <div class="wrap" id="app" aria-live="polite"></div>
-<nav class="bottomnav n7" id="nav" hidden aria-label="Menu principal">
+<nav class="bottomnav n6" id="nav" hidden aria-label="Menu principal">
   <button type="button" data-tab="inicio"><span class="ic">🏠</span>Início</button>
   <button type="button" data-tab="mural"><span class="ic">📌</span>Mural</button>
-  <button type="button" data-tab="estudar"><span class="ic">📖</span>Estudar</button>
-  <button type="button" data-tab="quiz"><span class="ic">🎯</span>Quiz</button>
+  <button type="button" data-tab="estudar" aria-label="Lição: estudar e fazer o quiz"><span class="ic ic-duo" aria-hidden="true">📖<i>🎯</i></span>Lição</button>
   <button type="button" data-tab="ranking"><span class="ic">🏃‍♂️</span>Corrida</button>
   <button type="button" data-tab="missoes"><span class="ic">🗺️</span>Missões</button>
   <button type="button" data-tab="loja"><span class="ic">🛍️</span>Loja</button>
@@ -2717,7 +2743,8 @@ function atualizarCasca(){
   if(logado){ $("chipEm").innerHTML = perfil.profeta ? meuAvatar() : ""; $("chipConta").setAttribute("aria-label", "Minha conta de " + (perfil.nome || "")); $("chipConta").title = perfil.nome || ""; $("chipConta").classList.toggle("atual", tabAtual === "conta" || tabAtual === "admin" || tabAtual === "salas"); const np = $("navSalasN"); if(np){ const n = typeof SALAS_PENDENTES === "number" ? SALAS_PENDENTES : 0; np.hidden = !n; np.textContent = n > 9 ? "9+" : String(n); } }
   const tm = $("topoMoedas"); if(tm){ tm.hidden = !comMenu; if(comMenu) pintarMoedasTopo(); }
   if(typeof atualizarSino === "function") atualizarSino();
-  document.querySelectorAll("#nav button").forEach(b => { if(b.dataset.tab === tabAtual) b.setAttribute("aria-current","page"); else b.removeAttribute("aria-current"); });
+  const abaMenu = tabAtual === "quiz" ? "estudar" : tabAtual;          // estudar e quiz moram no mesmo botão (Lição)
+  document.querySelectorAll("#nav button").forEach(b => { if(b.dataset.tab === abaMenu) b.setAttribute("aria-current","page"); else b.removeAttribute("aria-current"); });
 }
 /* ============================================================
    ATUALIZAÇÃO AUTOMÁTICA
@@ -2804,7 +2831,7 @@ function nav(tab){
   setTimeout(() => conferirVersao(false), 400);                                 // e se subiu versão nova do jogo (no máximo a cada 2 min)
   ({ inicio: telaInicio, estudar: telaEstudar, quiz: telaQuiz, ranking: telaRanking, missoes: () => telaMissoes(), salas: telaSalas, mural: telaMuralSalas, conta: telaConta, admin: telaAdmin, loja: telaLoja }[tab] || telaInicio)();
 }
-document.querySelectorAll("#nav button").forEach(b => b.onclick = ()=>{ const t = b.dataset.tab; if(t === "estudar") estudoVista = "livros"; if(t === "quiz") quizVista = "livros"; if(t === "ranking") corridaVista = "salas"; if(t === "missoes") missoesVista = "mapas"; nav(t); });   // pelo menu, Estudar e Quiz abrem na estante de livros, e a Corrida na escolha da sala
+document.querySelectorAll("#nav button").forEach(b => b.onclick = ()=>{ const t = b.dataset.tab; if(t === "estudar") estudoVista = "livros"; if(t === "ranking") corridaVista = "salas"; if(t === "missoes") missoesVista = "mapas"; nav(t); });   // pelo menu, a Lição abre na estante de livros, e a Corrida na escolha da sala
 $("chipConta").onclick = ()=>{ if(perfil && !perfil.profeta) return; nav("conta"); };
 $("sino").onclick = ()=> modalNotificacoes();
 $("brandIc").innerHTML = logoIcone();
@@ -3171,18 +3198,26 @@ function seletorLicao(id, atual){
 /* Quiz em dois passos: primeiro o livro (trimestre), depois o rolo com as lições e os dias da semana */
 let quizVista = "semana", quizAbrindo = false;
 function telaQuiz(){ return quizVista === "livros" ? telaQuizLivros() : telaQuizSemana(); }
-function telaQuizLivros(){
-  pararTimer(); quizVista = "livros";
-  const tris = trimestresComLicao();
-  app.innerHTML = `<div class="estudo-area">${cabPagina("Quiz", tris.length === 1 ? "1 livro" : tris.length + " livros", "De qual livro é o quiz?", "Toque na capa para abrir o rolo das lições.")}
-    <section class="panel pg-card">${estanteDeLivros(tris)}</section></div>`;
-  app.querySelectorAll("[data-tri]").forEach(b => b.onclick = async () => {
-    if(!(await abrirLivro(b, b.dataset.tri))) return;          // baixa (uma vez) as lições do livro que ainda não estão no aparelho
-    const t = b.dataset.tri, daSemana = LICOES[indiceLicaoAtual()], doLivro = LICOES.filter(l => l.trimestre === t);
-    LICAO = daSemana && daSemana.trimestre === t ? daSemana : (doLivro.filter(l => !licaoFutura(l)).pop() || doLivro[0]);
-    quizVista = "semana"; quizAbrindo = true; window.scrollTo(0, 0); telaQuizSemana();
-  });
+/* a estante agora é uma só (a do botão Lição): quem pede a do quiz cai nela */
+function telaQuizLivros(){ pararTimer(); quizVista = "semana"; estudoVista = "livros"; tabAtual = "estudar"; atualizarCasca(); telaEstudarLivros(); }
+/* As duas abas da lição: Lição (ler e anotar) e Quiz (os dias da semana). São a mesma lição vista de dois jeitos. */
+function abasDaLicao(ativa, L){
+  const dH = L.dias.find(d => d.data === hoje()), espera = !!(dH && dH.perguntas.length && !resDe(L, dH) && !licaoTravada(L)), f = diasFeitos(L);
+  const aba = (id, k, ic, nome, sub, extra) => `<button type="button" role="tab" class="aba-l" id="${id}" aria-selected="${ativa === k}" ${ativa === k ? "" : 'tabindex="-1"'}><span class="aba-ic" aria-hidden="true">${ic}</span><span class="aba-tx"><b>${nome}</b><small>${sub}</small></span>${extra || ""}</button>`;
+  return `<div class="abas-l" role="tablist" aria-label="Ver a lição ou o quiz">${aba("abaLicao", "licao", "📖", "Lição", "Ler e anotar")}${aba("abaQuiz", "quiz", "🎯", "Quiz", `${f} de 7 ${f === 1 ? "feito" : "feitos"}`, espera && ativa !== "quiz" ? `<i class="aba-ponto" title="O quiz de hoje está esperando" aria-label="O quiz de hoje está esperando"></i>` : "")}</div>`;
 }
+function ligarAbasDaLicao(L){
+  const a = $("abaLicao"), q = $("abaQuiz"); if(!a || !q) return;
+  const irLicao = () => { tocar("toque"); if(estudoLicao !== L) estudoDia = -1; estudoLicao = L; estudoVista = "dias"; tabAtual = "estudar"; telaEstudarDias(); const n = $("abaLicao"); if(n) n.focus({ preventScroll: true }); };
+  const irQuiz = () => { tocar("toque"); if(typeof fecharAnotacoes === "function") fecharAnotacoes(); LICAO = L; quizVista = "semana"; tabAtual = "quiz"; telaQuizSemana(); const n = $("abaQuiz"); if(n) n.focus({ preventScroll: true }); };
+  a.onclick = () => { if(a.getAttribute("aria-selected") !== "true") irLicao(); };
+  q.onclick = () => { if(q.getAttribute("aria-selected") !== "true") irQuiz(); };
+  [a, q].forEach(b => b.onkeydown = e => { if(e.key === "ArrowRight" || e.key === "ArrowLeft"){ e.preventDefault(); (b === a ? irQuiz : irLicao)(); } });
+  /* a aba escolhida "vaza" para a página de baixo: mesma cor do painel, e a curvinha do pé usa essa cor */
+  const p = app.querySelector(".abas-l + .panel"), sel = a.getAttribute("aria-selected") === "true" ? a : q;
+  if(p){ const c = getComputedStyle(p); sel.style.background = c.backgroundColor; sel.style.backdropFilter = sel.style.webkitBackdropFilter = c.backdropFilter || c.webkitBackdropFilter || ""; sel.style.setProperty("--aba-cor", c.backgroundColor); }
+}
+function voltarParaAsLicoes(L){ if(typeof fecharAnotacoes === "function") fecharAnotacoes(); estudoTri = L.trimestre; estudoVista = "licoes"; tabAtual = "estudar"; atualizarCasca(); window.scrollTo(0, 0); telaEstudarLicoes(); }
 function telaQuizSemana(){
   pararTimer();
   if(!LICAO) LICAO = LICOES[indiceLicaoAtual()];
@@ -3190,12 +3225,12 @@ function telaQuizSemana(){
   if(LICAO.pendente){ app.innerHTML = `<section class="panel"><p class="vazio">Carregando a lição…</p></section>`; garantirLicao(LICAO).then(() => { if(tabAtual === "quiz") telaQuizSemana(); }).catch(e => { app.innerHTML = `<section class="panel"><p class="erro">${esc(erroMsg(e))}</p></section>`; }); return; }
   quizVista = "semana";
   const abrindo = quizAbrindo; quizAbrindo = false;
-  let h = `<div class="home"><div class="col-a">${botaoVoltar("qzVoltar", "os livros")}` + heroLicao(LICAO);
+  let h = `<div class="estudo-area lic-tela">${botaoVoltar("qzVoltar", "as lições")}${heroLicao(LICAO)}${abasDaLicao("quiz", LICAO)}<section class="panel pg-card aba-corpo" role="tabpanel" aria-labelledby="abaQuiz">`;
   h += `<button type="button" class="hud" id="verPontos" aria-label="${fmt(totalSemana())} pontos nesta lição, ${noPrazo()} de ${LICAO.dias.length} dias no prazo. Ver a pontuação">
       <span class="hud-it"><i aria-hidden="true">★</i><b>${fmt(totalSemana())}</b><small>pontos</small></span>
       <span class="hud-it"><i aria-hidden="true">✓</i><b>${noPrazo()}/${LICAO.dias.length}</b><small>no prazo</small></span>
-      <span class="hud-mais">Pontuação ›</span></button></div><div class="col-b">`;
-  h += `<section class="panel pg-card"><div class="hm-cab"><span>${esc(tituloLivro(LICAO.trimestre))}</span><span>${esc(nomeTrimestre(LICAO.trimestre))}</span></div>${mapaTrimestre(LICAO, abrindo)}`;
+      <span class="hud-mais">Pontuação ›</span></button>`;
+  h += `<div class="hm-cab"><span>${esc(tituloLivro(LICAO.trimestre))}</span><span>${esc(nomeTrimestre(LICAO.trimestre))}</span></div>${mapaTrimestre(LICAO, abrindo)}`;
   if(licaoTravada(LICAO)) h += `<div class="aviso-fb">🔒 <b>Lição de uma semana anterior.</b> Está bloqueada. <button class="linkish" id="verBloqueio">Saiba mais</button></div>`;
   h += `<div class="hm-cab" style="margin-top:14px"><span>Dias da semana</span></div><ul class="days">`;
   LICAO.dias.forEach((d,i)=>{
@@ -3216,12 +3251,13 @@ function telaQuizSemana(){
     h += `<li class="day ${s}"><div class="dot">${s==="feito"?"✓":d.curto}</div>
       <div class="info"><strong>${esc(d.nome)}</strong><span>${sub}</span></div>${btn}</li>`;
   });
-  h += `</ul></section>`;
+  h += `</ul>`;
   if(LICAO.dias.some(d=>resDe(LICAO,d))) h += `<div class="btn-row uma"><a class="btn btn-wa" id="waSemana" target="_blank" rel="noopener">Enviar resumo da semana</a></div>`;
-  h += `</div></div>`;
+  h += `</section></div>`;
   app.innerHTML = h;
+  ligarAbasDaLicao(LICAO);
   ligarMapaTrimestre(async L => { try{ LICAO = await garantirLicao(L); }catch(e){ aviso("Não deu para abrir a lição: " + erroMsg(e)); return; } telaQuizSemana(); });
-  $("qzVoltar").onclick = () => { quizVista = "livros"; window.scrollTo(0, 0); telaQuizLivros(); };
+  $("qzVoltar").onclick = () => voltarParaAsLicoes(LICAO);
   $("verPontos").onclick = modalPontuacao;
   const vb = $("verBloqueio"); if(vb) vb.onclick = modalBloqueio;
   app.querySelectorAll("[data-jogar]").forEach(b=> b.onclick = ()=> iniciar(+b.dataset.jogar));
@@ -3559,7 +3595,7 @@ function telaResultado(i, novo){
       <button class="btn btn-ghost" id="voltar">Voltar</button>
     </div></div>`;
   $("wa").onclick = async ()=>{ ocupado($("wa"), true); try{ await compartilharCartao(i); }catch(e){ aviso("Não deu para gerar a imagem."); } ocupado($("wa"), false); };
-  $("voltar").onclick = ()=>{ quizVista = "semana"; nav("quiz"); };
+  $("voltar").onclick = ()=>{ quizAbrindo = false; quizVista = "semana"; nav("quiz"); };
   $("selfie").onclick = ()=> telaSelfie(i);
   $("verPontos2").onclick = modalPontuacao;
   $("rMural").onclick = ()=> publicarNoMural(postDoResultado(LICAO, dia, r), $("rMural"));
@@ -3646,7 +3682,7 @@ function telaEstudar(){
   if(estudoVista === "licoes" && LICOES.some(l => l.trimestre === estudoTri)) return telaEstudarLicoes();
   return telaEstudarLivros();
 }
-/* A estante de livros (um por trimestre), usada no Estudar e no Quiz */
+/* A estante de livros (um por trimestre): primeiro passo do botão Lição */
 function trimestresComLicao(){ return [...new Set(LICOES.map(l => l.trimestre))].sort().reverse(); }
 function estanteDeLivros(tris){
   const atual = (LICOES[indiceLicaoAtual()] || {}).trimestre;
@@ -3657,7 +3693,7 @@ function estanteDeLivros(tris){
 function telaEstudarLivros(){
   estudoVista = "livros";
   const tris = trimestresComLicao();
-  app.innerHTML = `<div class="estudo-area">${cabPagina("Estudar", tris.length === 1 ? "1 livro" : tris.length + " livros", "Qual livro você quer estudar?", "Toque na capa para ver as lições.")}
+  app.innerHTML = `<div class="estudo-area">${cabPagina("Lição", tris.length === 1 ? "1 livro" : tris.length + " livros", "Qual livro você quer abrir?", "Toque na capa para ver as lições. Em cada uma você estuda e faz o quiz.")}
     <section class="panel pg-card">${estanteDeLivros(tris)}</section></div>`;
   app.querySelectorAll("[data-tri]").forEach(b => b.onclick = async () => { if(!(await abrirLivro(b, b.dataset.tri))) return; estudoTri = b.dataset.tri; estudoVista = "licoes"; window.scrollTo(0, 0); telaEstudarLicoes(); });
 }
@@ -3666,13 +3702,13 @@ function telaEstudarLicoes(){
   if(!ls.length) return telaEstudarLivros();
   estudoVista = "licoes";
   app.innerHTML = `<div class="estudo-area">${botaoVoltar("elVoltar", "os livros")}
-    <div class="livro-topo">${capaLivro(t)}${cabPagina("Estudar", esc(nomeTrimestre(t)), esc(tituloLivro(t)), `${ls.length} ${ls.length === 1 ? "lição" : "lições"}. Toque numa lição para abrir os dias.`)}</div>
+    <div class="livro-topo">${capaLivro(t)}${cabPagina("Lição", esc(nomeTrimestre(t)), esc(tituloLivro(t)), `${ls.length} ${ls.length === 1 ? "lição" : "lições"}. Toque numa semana para estudar e fazer o quiz.`)}</div>
     <div class="lic-lista">${ls.map(l => { const f = diasFeitos(l), at = l === daSemana;
       return `<button type="button" class="lic ${at ? "atual" : ""} ${f === 7 ? "cheia" : ""}" data-l="${LICOES.indexOf(l)}" ${at ? 'aria-current="true"' : ""}><span class="lic-n">${l.n}</span>
         <span class="lic-tx">${at ? `<span class="badge sala-ativa">Esta semana</span>` : ""}<b>${esc(l.titulo)}</b><small>${esc(l.datas || (dataCurta(l.dias[0].data) + " a " + dataCurta(l.dias[6].data)))}${licaoTravada(l) ? " · 🔒 quiz bloqueado" : licaoFutura(l) ? " · em breve" : ""}</small></span>
         <span class="lic-feito" aria-label="${f} de 7 dias feitos"><b>${f} de 7 ${f === 1 ? "feito" : "feitos"}</b><span aria-hidden="true">${l.dias.map(d => `<i class="${resDe(l, d) ? "on" : ""}"></i>`).join("")}</span></span></button>`; }).join("")}</div></div>`;
   $("elVoltar").onclick = () => { estudoVista = "livros"; window.scrollTo(0, 0); telaEstudarLivros(); };
-  app.querySelectorAll("[data-l]").forEach(b => b.onclick = () => { estudoLicao = LICOES[+b.dataset.l]; estudoDia = -1; estudoVista = "dias"; window.scrollTo(0, 0); telaEstudarDias(); });
+  app.querySelectorAll("[data-l]").forEach(b => b.onclick = () => { estudoLicao = LICOES[+b.dataset.l]; estudoDia = -1; estudoVista = "dias"; quizAbrindo = true; window.scrollTo(0, 0); telaEstudarDias(); });
   const at = app.querySelector(".lic.atual"); if(at) setTimeout(() => { if(at.isConnected) at.scrollIntoView({ block: "nearest" }); }, 40);   // a lição desta semana já aparece na tela, sem esconder o cabeçalho à toa
 }
 function telaEstudarDias(){
@@ -3689,14 +3725,15 @@ function telaEstudarDias(){
   if(!texto && !resumo) corpo += `<p class="vazio" id="semTexto">O texto desta lição não foi importado. Leia o dia <b>${esc(d.nome)}</b> na sua lição impressa ou no app e depois faça o quiz.</p>`;
   corpo += htmlObservacoes(d);
   const s = status(L, d);
-  app.innerHTML = `<div class="estudo-area">${botaoVoltar("edVoltar", "as lições")}${cabPagina(esc(L.numero), esc(L.datas), esc(L.titulo), `${diasFeitos(L)} de 7 dias feitos`)}<section class="panel pg-card">
+  app.innerHTML = `<div class="estudo-area lic-tela">${botaoVoltar("edVoltar", "as lições")}${heroLicao(L)}${abasDaLicao("licao", L)}<section class="panel pg-card aba-corpo" role="tabpanel" aria-labelledby="abaLicao">
     <div class="tabs dias" role="tablist">${L.dias.map((x,k)=>`<button role="tab" aria-selected="${k===estudoDia}" data-k="${k}"><span>${x.curto}${resDe(L,x)?" ✓":""}</span><small>${dataCurta(x.data)}</small></button>`).join("")}</div>
     <p class="pg-sobre">${esc(d.nome)}, ${esc(dataLonga(d.data))}</p>
     <h2 class="pg-tit">${esc(d.tema)}</h2>
     ${corpo}
     <div class="btn-row uma">${(s==="hoje"||s==="atrasado") && d.perguntas.length ? `<button class="btn btn-main" id="estJogar">Fazer o quiz de ${esc(d.nome)}</button>` : s==="feito" ? `<button class="btn btn-ghost" id="estVer">Ver meu resultado</button>` : ""}</div>
   </section></div>`;
-  $("edVoltar").onclick = ()=>{ estudoVista = "licoes"; telaEstudarLicoes(); };
+  $("edVoltar").onclick = ()=> voltarParaAsLicoes(L);
+  ligarAbasDaLicao(L);
   abrirAnotacoes(L, estudoDia);                    // minhas observações e marcações deste dia
   mostrarPaginas(L, estudoDia, htmlTexto);
   app.querySelectorAll("[data-k]").forEach(b=> b.onclick = ()=>{ estudoDia = +b.dataset.k; telaEstudarDias(); });
@@ -4596,7 +4633,7 @@ function normalizarPerguntas(dias){
 function admLicao(){
   const tri = lsGet(KEY+":tri", ""), ini = lsGet(KEY+":ini", "");
   $("admC").innerHTML = `<section class="panel larga"><h3 class="h3">Cadastrar lição (importar PDF)</h3>
-    <p class="muted small">Envie o PDF do trimestre. O site separa as lições e os dias, guarda as páginas como imagem (a aba Estudar fica igual ao PDF) e o texto. As perguntas entram depois, em <b>Cadastrar perguntas</b>, pela planilha.</p>
+    <p class="muted small">Envie o PDF do trimestre. O site separa as lições e os dias, guarda as páginas como imagem (a aba Lição fica igual ao PDF) e o texto. As perguntas entram depois, em <b>Cadastrar perguntas</b>, pela planilha.</p>
     <div class="adm-duo"><div class="adm-a">
     <div class="field"><label for="iPdf">Arquivo PDF da lição</label><input type="file" id="iPdf" accept="application/pdf,.pdf"></div>
     <div class="adm-campos">
@@ -4604,8 +4641,8 @@ function admLicao(){
       <div class="field"><label for="iIni">Sábado da Lição 1</label><input type="date" id="iIni" value="${esc(ini)}"></div>
       <div class="field"><label for="iLic">Quantidade de lições</label><input type="number" id="iLic" min="1" max="14" value="13"></div>
     </div></div><div class="adm-b">
-    <div class="linha-sw"><div class="txt"><strong>Guardar as páginas como imagem</strong><span>A aba Estudar mostra cada página igual ao PDF (tirinha, diagramação). Demora alguns minutos e usa mais espaço no banco</span></div><button class="switch" role="switch" aria-checked="true" id="iImg"></button></div>
-    <div class="linha-sw"><div class="txt"><strong>Publicar ao importar</strong><span>Ligado: o texto já aparece em Estudar. Enquanto a planilha de perguntas não for importada, valem as perguntas que já vêm no site (se houver para esse trimestre)</span></div><button class="switch" role="switch" aria-checked="true" id="iPub"></button></div>
+    <div class="linha-sw"><div class="txt"><strong>Guardar as páginas como imagem</strong><span>A aba Lição mostra cada página igual ao PDF (tirinha, diagramação). Demora alguns minutos e usa mais espaço no banco</span></div><button class="switch" role="switch" aria-checked="true" id="iImg"></button></div>
+    <div class="linha-sw"><div class="txt"><strong>Publicar ao importar</strong><span>Ligado: a lição já aparece para todos. Enquanto a planilha de perguntas não for importada, valem as perguntas que já vêm no site (se houver para esse trimestre)</span></div><button class="switch" role="switch" aria-checked="true" id="iPub"></button></div>
     <div class="linha-sw"><div class="txt"><strong>Substituir lições já cadastradas</strong><span>Desligado: pula as lições desse trimestre que já existem</span></div><button class="switch" role="switch" aria-checked="false" id="iSubst"></button></div>
     </div></div>
     <p class="erro" id="iErro"></p>
@@ -4680,7 +4717,7 @@ function admLicao(){
         Object.keys(PAG_CACHE).forEach(k => delete PAG_CACHE[k]);
       }
       bar.style.width = "100%";
-      log(`✅ Pronto: ${ok} lição(ões) salva(s)${pulou ? `, ${pulou} mantida(s)` : ""}${pub ? " e publicada(s): o texto já aparece em Estudar." : " como rascunho: para aparecerem em Estudar e no Quiz, publique em \"Cadastrar perguntas\"."} Agora importe as perguntas pela planilha em "Cadastrar perguntas".`);
+      log(`✅ Pronto: ${ok} lição(ões) salva(s)${pulou ? `, ${pulou} mantida(s)` : ""}${pub ? " e publicada(s): já aparecem em Lição." : " como rascunho: para aparecerem em Lição (estudo e quiz), publique em \"Cadastrar perguntas\"."} Agora importe as perguntas pela planilha em "Cadastrar perguntas".`);
       await recarregarLicoes();
       aviso("Importação concluída");
     }catch(e){ log("❌ " + (e.message || e)); er.textContent = e.message || String(e); }
@@ -4826,7 +4863,7 @@ async function admPerguntas(){
       <div class="field"><label for="vDatas">Datas (texto)</label><input type="text" id="vDatas" value="${esc(L.datas||"")}" placeholder="26 de setembro a 2 de outubro"></div><div class="field"><label for="vIni">Sábado inicial</label><input type="date" id="vIni" value="${esc(L.inicio)}"></div></div>
       <div class="tabs dias-adm" role="tablist">${NOMES_DIAS.map((d,k)=>`<button role="tab" aria-selected="${k===valDia}" data-d="${k}">${CURTOS[k]} (${L.dias[k].length})</button>`).join("")}</div>
       <div class="field"><label for="vTema">Tema de ${NOMES_DIAS[valDia]}</label><input type="text" id="vTema" value="${esc(L.temas[valDia])}"></div>
-      <div class="field"><label for="vResumo">Resumo do dia (aparece em Estudar)</label><textarea id="vResumo">${esc(L.resumos[valDia]||"")}</textarea></div>
+      <div class="field"><label for="vResumo">Resumo do dia (aparece na aba Lição)</label><textarea id="vResumo">${esc(L.resumos[valDia]||"")}</textarea></div>
       <details style="margin-bottom:14px"><summary class="muted" style="cursor:pointer;font-weight:700">Texto do dia (${fmt((L.textos[valDia]||"").length)} caracteres)</summary><textarea id="vTexto" style="min-height:160px;margin-top:8px">${esc(L.textos[valDia]||"")}</textarea></details>
       <h3 class="h3">Perguntas de ${NOMES_DIAS[valDia]}</h3>
       <div class="linha-sw" style="border-top:0;padding-top:0"><div class="txt"><strong>Perguntas que aparecem para o jogador</strong><span>${qs.filter(q=>!q.reflexao).length} objetiva(s) cadastrada(s)${qs.some(q=>q.reflexao) ? " + reflexão (sempre no fim)" : ""}. Cada pessoa recebe um sorteio diferente.</span></div><input type="number" id="vQtd" min="1" max="10" value="${L.qtd[valDia]}" style="width:84px;text-align:center;padding:10px"></div>
@@ -6431,7 +6468,7 @@ function mostrarTutorial(aoFim){
     { arte: `<div class="tu-arte"><div class="tu-relogio">⏳</div><div class="tu-pilulas"><span class="pill ok">No prazo: 1 passo</span><span class="pill late">Atrasado: meio passo</span></div></div>`,
       t: "Fique de olho no prazo", d: "O quiz de cada dia vale até a meia-noite. Feito depois, vale metade dos pontos e meio passo. Cada resposta fica salva: se precisar sair, você continua de onde parou." },
     { arte: `<div class="tu-arte"><div class="tu-sala">${["daniel","miria","elias","debora"].map(p => avatarSVG(p)).join("")}</div><div class="convite" style="padding:8px 14px"><span>Código da sala</span><b style="font-size:34px;letter-spacing:5px">K7M2QX</b></div></div>`,
-      t: "Corra com a sua turma", d: "Todo mundo começa na sala 7world. Em Salas, entre na sala da sua classe com o código ou crie a sua. Cada sala tem a própria corrida e mural." }
+      t: "Corra com a sua turma", d: "Todo mundo começa na sala 7world. Em Minha conta → Salas, entre na sala da sua classe com o código ou crie a sua. Cada sala tem a própria corrida e mural." }
   ];
   let k = 0;
   const el = document.createElement("div"); el.className = "tutorial"; el.setAttribute("role", "dialog"); el.setAttribute("aria-modal", "true"); el.setAttribute("aria-label", "Como funciona");
