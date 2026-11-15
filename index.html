@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="versao" content="20261114.202542">
+<meta name="versao" content="20261115.201145">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Corrida do Rolo · Quiz da Lição</title>
 <meta name="theme-color" content="#524F9C">
@@ -1423,55 +1423,38 @@ body:has(.modal-bg) .toast,body:has(.tutorial) .toast,body:has(.lb) .toast{botto
 @media (max-width:520px){ .topo-dir:has(.sino:not([hidden])) .chip span.n{display:none} .topo-dir:has(.sino:not([hidden])) .chip{padding:6px 8px} }
 /* o que o site traz sozinho para a tela (fala do personagem, botões do personagem raro, Próxima pergunta, lição da semana, publicação) para acima do menu de baixo, e não escondido atrás dele */
 #app :is(#prox,.fala,.pers-acoes,.post){scroll-margin:84px 0 calc(100px + env(safe-area-inset-bottom,0px))}
-/* ---------- tela de carregamento: o rolo se abre e o corredor atravessa a pista ---------- */
+/* ---------- tela de carregamento: barra de 0 a 100% com frases que vão mudando ---------- */
 .carga{position:fixed;inset:0;z-index:300;display:grid;place-items:center;padding:24px;background:var(--g1) linear-gradient(170deg,var(--g1) 0%,var(--g2) 55%,var(--g3) 100%);transition:opacity .4s ease,visibility .4s}
 .carga.sai{opacity:0;visibility:hidden;pointer-events:none}
 .carga-in{width:min(310px,84vw);text-align:center}
 .carga-tit{margin:0 0 26px;font:400 34px/1 "Bebas Neue","Arial Narrow",Impact,sans-serif;letter-spacing:2px;color:#fff;text-transform:uppercase}
 .carga-tit b{font-weight:400;color:#8FE6FF}
-.cg-rolo{position:relative;height:76px;--t:3.8s}
-.cg-papel{position:absolute;left:10px;right:10px;top:6px;bottom:6px;border-radius:4px;background:#F4F1EA;box-shadow:inset 0 0 0 2px #E2D8B8;overflow:hidden;display:flex;align-items:center;justify-content:space-between;padding:22px 46px 0 30px;animation:cg-abre var(--t) cubic-bezier(.45,0,.3,1) infinite}
-.cg-papel::before{content:"";position:absolute;left:24px;right:30px;top:50%;margin-top:10px;border-top:3px dotted #C9B98C}
-.cg-casa{position:relative;width:11px;height:11px;border-radius:50%;background:#fff;border:2.5px solid #B9A77A}
-.cg-chegada{position:absolute;right:16px;top:50%;margin-top:-15px;width:3px;height:30px;border-radius:2px;background:#6B5A2E}
-.cg-chegada::after{content:"";position:absolute;left:3px;top:1px;width:16px;height:12px;background:conic-gradient(#22183A 25%,#fff 0 50%,#22183A 0 75%,#fff 0) 0 0/8px 6px;box-shadow:0 0 0 1px #22183A}
-.cg-corre{position:absolute;left:0;bottom:17px;animation:cg-anda var(--t) linear infinite}
 .cg-boneco{display:block;animation:cg-pula .32s ease-in-out infinite alternate}
 .cg-p1{animation:cg-perna-a .32s steps(1) infinite}
 .cg-p2{opacity:0;animation:cg-perna-b .32s steps(1) infinite}
-.cg-vara{position:absolute;top:0;bottom:0;width:18px;border-radius:9px;background:linear-gradient(90deg,#8A6A3E,#D9CFAE 32%,#EFE7CC 50%,#B9A77A 78%,#7A5C34);box-shadow:0 4px 10px rgba(20,18,60,.35)}
-.cg-vara::before,.cg-vara::after{content:"";position:absolute;left:3px;right:3px;height:7px;border-radius:3px;background:#6E4A24}
-.cg-vara::before{top:-5px}.cg-vara::after{bottom:-5px}
-.cg-vara.e{left:0}
-.cg-vara.d{left:calc(100% - 18px);animation:cg-vara var(--t) cubic-bezier(.45,0,.3,1) infinite}
-@keyframes cg-abre{0%{clip-path:inset(0 100% 0 0)}30%,88%{clip-path:inset(0 0 0 0)}100%{clip-path:inset(0 100% 0 0)}}
-@keyframes cg-vara{0%{left:14px}30%,88%{left:calc(100% - 18px)}100%{left:14px}}
-@keyframes cg-anda{0%,12%{transform:translateX(8px)}80%,100%{transform:translateX(calc(min(310px,84vw) - 76px))}}
 @keyframes cg-pula{from{transform:translateY(0)}to{transform:translateY(-5px)}}
 @keyframes cg-perna-a{0%{opacity:1}50%,100%{opacity:0}}
 @keyframes cg-perna-b{0%{opacity:0}50%,100%{opacity:1}}
-.carga-tx{position:relative;height:20px;margin:22px 0 0;font:700 13.5px/20px "Barlow",system-ui,sans-serif;color:rgba(255,255,255,.9)}
-.carga-tx span{position:absolute;left:0;right:0;opacity:0;animation:cg-frase 10s linear infinite}
-.carga-tx span:nth-child(2){animation-delay:2.5s}.carga-tx span:nth-child(3){animation-delay:5s}.carga-tx span:nth-child(4){animation-delay:7.5s}
-@keyframes cg-frase{0%{opacity:0;transform:translateY(6px)}3%,22%{opacity:1;transform:none}25%,100%{opacity:0;transform:translateY(-6px)}}
+.carga-tx{position:relative;height:20px;margin:6px 0 0;font:700 13.5px/20px "Barlow",system-ui,sans-serif;color:rgba(255,255,255,.9)}
+.carga-tx span{position:absolute;left:0;right:0;opacity:0;animation:cg-frase 13.2s linear infinite}
+.carga-tx span:nth-child(2){animation-delay:2.2s}.carga-tx span:nth-child(3){animation-delay:4.4s}.carga-tx span:nth-child(4){animation-delay:6.6s}.carga-tx span:nth-child(5){animation-delay:8.8s}.carga-tx span:nth-child(6){animation-delay:11s}
+@keyframes cg-frase{0%{opacity:0;transform:translateY(6px)}2.2%,14.4%{opacity:1;transform:none}16.66%,100%{opacity:0;transform:translateY(-6px)}}
 @media (min-width:900px){.carga-in{transform:scale(1.3)}}
-/* barra de carregamento do primeiro acesso: o corredor anda junto com a porcentagem */
+/* a barra: o corredor anda junto com a porcentagem */
 .carga.carga-pct{z-index:301;--p:0}
 .cb-pista{position:relative;height:16px;margin:46px 6px 0;border-radius:99px;background:rgba(0,0,0,.25);box-shadow:inset 0 0 0 2px rgba(255,255,255,.28)}
-.cb-fill{position:absolute;left:0;top:0;bottom:0;width:calc(var(--p) * 100%);min-width:16px;border-radius:99px;background:linear-gradient(90deg,#8FE6FF,#F2BE2E);transition:width .5s ease}
-.cb-corre{position:absolute;bottom:14px;left:calc(var(--p) * 100%);margin-left:-13px;transition:left .5s ease}
+.cb-fill{position:absolute;left:0;top:0;bottom:0;width:calc(var(--p) * 100%);min-width:16px;border-radius:99px;background:linear-gradient(90deg,#8FE6FF,#F2BE2E)}
+.cb-corre{position:absolute;bottom:14px;left:calc(var(--p) * 100%);margin-left:-13px}
 .cb-flag{position:absolute;right:-2px;bottom:6px;width:3px;height:30px;border-radius:2px;background:#fff}
 .cb-flag::after{content:"";position:absolute;left:3px;top:1px;width:16px;height:12px;background:conic-gradient(#22183A 25%,#fff 0 50%,#22183A 0 75%,#fff 0) 0 0/8px 6px;box-shadow:0 0 0 1px #22183A}
-.cb-pct{margin:14px 0 0;font:400 34px/1 "Bebas Neue","Arial Narrow",Impact,sans-serif;letter-spacing:1px;color:#fff}
+.cb-pct{margin:14px 0 0;font-variant-numeric:tabular-nums;font:400 40px/1 "Bebas Neue","Arial Narrow",Impact,sans-serif;letter-spacing:1px;color:#fff}
 .cb-tx{margin:4px 0 0;min-height:20px;font:700 13.5px/20px "Barlow",system-ui,sans-serif;color:rgba(255,255,255,.92)}
-.cb-nota{margin:14px 0 0;font:600 12px/1.4 "Barlow",system-ui,sans-serif;color:rgba(255,255,255,.7)}
 .livro.baixando{position:relative;opacity:.9;pointer-events:none}
 .livro-baixa{position:absolute;left:8px;right:8px;bottom:8px;padding:6px 8px;border-radius:10px;background:rgba(20,18,60,.82);color:#fff;font:800 12px/1.2 "Barlow",sans-serif;text-align:center}
-@media (prefers-reduced-motion:reduce){.cb-fill,.cb-corre{transition:none}}
 .carga-lento{margin-top:16px}
 .carga-lento p{margin:0 0 10px;font:600 13px/1.4 "Barlow",system-ui,sans-serif;color:rgba(255,255,255,.85)}
 .carga-lento button{background:#fff;color:#2E2B6E;border:0;border-radius:99px;padding:10px 18px;font:800 13.5px/1 "Barlow",system-ui,sans-serif;cursor:pointer}
-@media (prefers-reduced-motion:reduce){.cg-papel,.cg-vara.d,.cg-corre,.cg-boneco,.cg-p1,.cg-p2{animation:none}.cg-corre{transform:translateX(110px)}.cg-p2{opacity:0}.carga-tx span{animation:none}.carga-tx span:first-child{opacity:1}}
+@media (prefers-reduced-motion:reduce){.cg-boneco,.cg-p1,.cg-p2{animation:none}.cg-p2{opacity:0}.carga-tx span{animation:none}.carga-tx span:first-child{opacity:1}}
 
 /* ---------- Quiz: placar minimalista (sem balão) e o rolo do trimestre se abrindo ---------- */
 .hud{display:flex;align-items:center;gap:16px;width:100%;margin:0 0 12px;padding:2px 2px 0;background:none;border:0;color:#fff;text-align:left;cursor:pointer}
@@ -1690,6 +1673,26 @@ body:has(.an-lb):not(:has(.modal-bg)) .toast{top:auto;bottom:calc(24px + env(saf
 .an-pino{position:absolute;transform:translate(-50%,-50%);width:26px;height:26px;border-radius:50% 50% 50% 4px;border:2px solid #fff;background:#F2BE2E;font-size:12px;line-height:1;padding:0;display:grid;place-items:center;pointer-events:auto;cursor:pointer;box-shadow:0 2px 6px rgba(20,18,60,.45)}
 [data-f="m"] .an-pino,[data-f="p"] .an-pino,[data-f="nota"] .an-pino{pointer-events:none}
 
+/* ---------- topo: moedas ao lado do personagem (o nome fica só no Início) ---------- */
+.topo-moedas{flex:none;display:inline-flex;align-items:center;gap:1px;height:40px;padding:0 12px 0 10px;border-radius:99px;border:1px solid rgba(255,226,122,.55);background:rgba(0,0,0,.26);color:#FFE27A;font:800 15px/1 "Barlow",sans-serif;font-variant-numeric:tabular-nums;cursor:pointer}
+.topo-moedas .moeda{font-size:17px;margin-right:6px;vertical-align:0}
+.topo-moedas.pulo{animation:tm-pulo .28s ease-out}
+.topo-moedas.pulo .moeda{animation:tm-brilho .28s ease-out}
+@keyframes tm-pulo{0%{transform:scale(1)}45%{transform:scale(1.18)}100%{transform:scale(1)}}
+@keyframes tm-brilho{0%{filter:none}45%{filter:brightness(1.5) drop-shadow(0 0 6px #FFE27A)}100%{filter:none}}
+.topbar .chip{padding:5px 9px;max-width:none}
+.topbar .chip .em .avatar{width:25px;height:32px}
+@media (max-width:420px){ .topbar{padding-left:12px;padding-right:12px;gap:8px} .topbar .topo-dir{gap:6px} .topo-moedas{padding:0 10px 0 8px;font-size:14px} .topbar .brand{font-size:21px} .topbar .brand small{font-size:10px} }
+@media (max-width:359px){ .topbar .brand small{display:none} .topbar .brand{font-size:19px} }
+/* ---------- fim do quiz: pontos subindo e moedas voando para o total ---------- */
+.result .big{font-variant-numeric:tabular-nums}
+.result .big.pop{animation:tm-pulo .38s ease-out}
+.res-moedas{transition:opacity .35s ease,transform .35s ease}
+.res-moedas.espera{opacity:0;transform:translateY(8px)}
+.res-moedas span strong{font-weight:800;color:#FFE27A;font-variant-numeric:tabular-nums}
+.res-moedas b.pulo{display:inline-block;animation:tm-pulo .28s ease-out}
+.moeda-voa{position:fixed;left:0;top:0;z-index:120;margin:0;font-size:22px;pointer-events:none;will-change:transform,opacity;filter:drop-shadow(0 2px 5px rgba(0,0,0,.35))}
+@media (prefers-reduced-motion:reduce){.result .big.pop,.topo-moedas.pulo,.topo-moedas.pulo .moeda,.res-moedas b.pulo{animation:none}.res-moedas{transition:none}}
 /* login */
 .logo-login{padding:18px 0 6px}
 .logo-login p{font-size:14px;margin-top:10px}
@@ -1706,22 +1709,20 @@ body:has(.an-lb):not(:has(.modal-bg)) .toast{top:auto;bottom:calc(24px + env(saf
 </style>
 </head>
 <body class="sem-menu">
-<div class="carga" id="carga" role="status" aria-label="Carregando o jogo">
+<div class="carga carga-pct" id="carga" role="status" aria-label="Carregando o jogo">
   <div class="carga-in">
     <p class="carga-tit">Corrida do <b>Rolo</b></p>
-    <div class="cg-rolo" aria-hidden="true">
-      <div class="cg-papel"><i class="cg-casa"></i><i class="cg-casa"></i><i class="cg-casa"></i><i class="cg-casa"></i><i class="cg-casa"></i><span class="cg-chegada"></span>
-        <span class="cg-corre"><svg class="cg-boneco" viewBox="0 0 9 12" width="27" height="36" shape-rendering="crispEdges" aria-hidden="true"><rect x="2" y="0" width="5" height="1" fill="#3A2416"/><rect x="1" y="1" width="7" height="1" fill="#3A2416"/><rect x="1" y="2" width="7" height="1" fill="#F2BE2E"/><rect x="1" y="3" width="1" height="1" fill="#D9A47A"/><rect x="2" y="3" width="1" height="1" fill="#22183A"/><rect x="3" y="3" width="3" height="1" fill="#D9A47A"/><rect x="6" y="3" width="1" height="1" fill="#22183A"/><rect x="7" y="3" width="1" height="1" fill="#D9A47A"/><rect x="1" y="4" width="7" height="1" fill="#D9A47A"/><rect x="2" y="5" width="5" height="1" fill="#8FE6FF"/><rect x="1" y="6" width="7" height="1" fill="#8FE6FF"/><rect x="0" y="7" width="1" height="1" fill="#D9A47A"/><rect x="1" y="7" width="2" height="1" fill="#8FE6FF"/><rect x="3" y="7" width="3" height="1" fill="#524F9C"/><rect x="6" y="7" width="2" height="1" fill="#8FE6FF"/><rect x="8" y="7" width="1" height="1" fill="#D9A47A"/><rect x="1" y="8" width="7" height="1" fill="#8FE6FF"/><rect x="1" y="9" width="1" height="1" fill="#5CB8D6"/><rect x="2" y="9" width="5" height="1" fill="#8FE6FF"/><rect x="7" y="9" width="1" height="1" fill="#5CB8D6"/><g class="cg-p1"><rect x="2" y="10" width="1" height="1" fill="#D9A47A"/><rect x="6" y="10" width="1" height="1" fill="#D9A47A"/><rect x="1" y="11" width="2" height="1" fill="#6B4A33"/><rect x="6" y="11" width="2" height="1" fill="#6B4A33"/></g><g class="cg-p2"><rect x="3" y="10" width="1" height="1" fill="#D9A47A"/><rect x="5" y="10" width="1" height="1" fill="#D9A47A"/><rect x="3" y="11" width="1" height="1" fill="#6B4A33"/><rect x="5" y="11" width="2" height="1" fill="#6B4A33"/></g></svg></span></div>
-      <span class="cg-vara e"></span><span class="cg-vara d"></span>
-    </div>
-    <p class="carga-tx" aria-hidden="true"><span>Desenrolando o rolo…</span><span>Chamando os personagens…</span><span>Marcando as casas da pista…</span><span>Quase na largada…</span></p>
-    <div class="carga-lento" id="cargaLento" hidden><p>Está demorando mais que o normal. Confira a sua internet.</p><button type="button" onclick="location.reload()">Tentar de novo</button></div>
+    <div class="cb-pista" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i class="cb-fill"></i><span class="cb-corre" aria-hidden="true"><svg class="cg-boneco" viewBox="0 0 9 12" width="27" height="36" shape-rendering="crispEdges" aria-hidden="true"><rect x="2" y="0" width="5" height="1" fill="#3A2416"/><rect x="1" y="1" width="7" height="1" fill="#3A2416"/><rect x="1" y="2" width="7" height="1" fill="#F2BE2E"/><rect x="1" y="3" width="1" height="1" fill="#D9A47A"/><rect x="2" y="3" width="1" height="1" fill="#22183A"/><rect x="3" y="3" width="3" height="1" fill="#D9A47A"/><rect x="6" y="3" width="1" height="1" fill="#22183A"/><rect x="7" y="3" width="1" height="1" fill="#D9A47A"/><rect x="1" y="4" width="7" height="1" fill="#D9A47A"/><rect x="2" y="5" width="5" height="1" fill="#8FE6FF"/><rect x="1" y="6" width="7" height="1" fill="#8FE6FF"/><rect x="0" y="7" width="1" height="1" fill="#D9A47A"/><rect x="1" y="7" width="2" height="1" fill="#8FE6FF"/><rect x="3" y="7" width="3" height="1" fill="#524F9C"/><rect x="6" y="7" width="2" height="1" fill="#8FE6FF"/><rect x="8" y="7" width="1" height="1" fill="#D9A47A"/><rect x="1" y="8" width="7" height="1" fill="#8FE6FF"/><rect x="1" y="9" width="1" height="1" fill="#5CB8D6"/><rect x="2" y="9" width="5" height="1" fill="#8FE6FF"/><rect x="7" y="9" width="1" height="1" fill="#5CB8D6"/><g class="cg-p1"><rect x="2" y="10" width="1" height="1" fill="#D9A47A"/><rect x="6" y="10" width="1" height="1" fill="#D9A47A"/><rect x="1" y="11" width="2" height="1" fill="#6B4A33"/><rect x="6" y="11" width="2" height="1" fill="#6B4A33"/></g><g class="cg-p2"><rect x="3" y="10" width="1" height="1" fill="#D9A47A"/><rect x="5" y="10" width="1" height="1" fill="#D9A47A"/><rect x="3" y="11" width="1" height="1" fill="#6B4A33"/><rect x="5" y="11" width="2" height="1" fill="#6B4A33"/></g></svg></span><span class="cb-flag" aria-hidden="true"></span></div>
+    <p class="cb-pct"><b class="cb-n">0%</b></p>
+    <p class="carga-tx" aria-hidden="true"><span>Desenrolando o rolo…</span><span>Chamando os personagens…</span><span>Marcando as casas da pista…</span><span>Abrindo a lição da semana…</span><span>Contando as moedas…</span><span>Quase na largada…</span></p>
+    <div class="carga-lento" hidden><p>Está demorando mais que o normal. Confira a sua internet.</p><button type="button" onclick="location.reload()">Tentar de novo</button></div>
   </div>
 </div>
 <header class="topbar" id="topbar" hidden>
   <div class="brand" id="brand"><span class="brand-ic" id="brandIc"></span><span class="brand-tx">Corrida do <b>Rolo</b><small>Quiz da Lição</small></span></div>
   <div class="topo-dir"><button class="sino" id="sino" type="button" hidden aria-label="Notificações"><span aria-hidden="true">🔔</span><b id="sinoN">0</b></button>
-  <button class="chip" id="chipConta" type="button"><span class="em" id="chipEm"></span><span class="n" id="chipNome"></span><b class="nav-n chip-n" id="navSalasN" hidden></b></button></div>
+  <button class="topo-moedas" id="topoMoedas" type="button" hidden title="Suas moedas: abrir a loja"><i class="moeda" aria-hidden="true"></i><b id="topoMoedasN">0</b></button>
+  <button class="chip" id="chipConta" type="button" aria-label="Minha conta"><span class="em" id="chipEm"></span><b class="nav-n chip-n" id="navSalasN" hidden></b></button></div>
 </header>
 <div class="wrap" id="app" aria-live="polite"></div>
 <nav class="bottomnav n7" id="nav" hidden aria-label="Menu principal">
@@ -1736,14 +1737,52 @@ body:has(.an-lb):not(:has(.modal-bg)) .toast{top:auto;bottom:calc(24px + env(saf
 <div class="toast" id="toast" role="status"></div>
 <div class="nova-versao" id="novaVersao" role="status" hidden><span>Tem versão nova do jogo.</span><button type="button" id="nvBtn">Atualizar</button></div>
 <script>
-/* Tela de carregamento: some assim que a primeira tela do jogo aparece; se demorar demais, oferece tentar de novo */
+/* Tela de carregamento: uma barra de 0 a 100%, toda vez que o jogo abre.
+   Antes de entrar na conta ela anda devagar sozinha; depois o jogo avisa cada passo com barraCarga(%).
+   Some quando a primeira tela aparece (login) ou quando o jogo chama fecharBarra(). */
 (function(){
-  var c = document.getElementById("carga"), a = document.getElementById("app");
-  function fim(){ if(!c) return; var x = c; c = null; x.classList.add("sai"); setTimeout(function(){ x.remove(); }, 450); }
-  window.fimDaCarga = fim;
-  var bn = document.querySelector(".cg-boneco"); window.BONECO_CARGA = bn ? bn.outerHTML : "";
-  if(a && window.MutationObserver){ var o = new MutationObserver(function(){ if(a.firstChild){ o.disconnect(); fim(); } }); o.observe(a, { childList: true }); }
-  setTimeout(function(){ var l = document.getElementById("cargaLento"); if(c && l) l.hidden = false; }, 14000);
+  var app = document.getElementById("app"), el = document.getElementById("carga"), molde = el ? el.innerHTML : "";
+  var alvo = 0, teto = 5, visto = 0, raf = 0, antes = 0, dono = false, espera = [], lento = 0;
+  var calmo = !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
+  function pintar(){
+    if(!el) return; var p = Math.round(visto), n = el.querySelector(".cb-n"), pista = el.querySelector(".cb-pista");
+    el.style.setProperty("--p", visto / 100); if(n) n.textContent = p + "%"; if(pista) pista.setAttribute("aria-valuenow", p);
+  }
+  function avisar(){ var e = espera; espera = []; for(var i = 0; i < e.length; i++) e[i](); }
+  function quadro(t){
+    raf = 0; if(!el) return;
+    var dt = Math.min(.1, Math.max(0, (t - antes) / 1000)); antes = t;
+    if(visto < alvo) visto = Math.min(alvo, visto + dt * 170);            /* corre até o passo que o jogo avisou */
+    else if(visto < teto) visto = Math.min(teto, visto + dt * 2.2);       /* entre um passo e outro anda devagar, para não parecer parado */
+    pintar();
+    if(visto >= 100) avisar(); else raf = requestAnimationFrame(quadro);
+  }
+  function rodar(){ if(el && !raf){ antes = performance.now(); raf = requestAnimationFrame(quadro); } }
+  function vigiar(){ clearTimeout(lento); lento = setTimeout(function(){ var l = el && el.querySelector(".carga-lento"); if(l) l.hidden = false; }, 14000); }
+  function fechar(){
+    clearTimeout(lento); if(raf){ cancelAnimationFrame(raf); raf = 0; }
+    var x = el; el = null; dono = false; alvo = 0; teto = 5; visto = 0; avisar();
+    if(x){ x.classList.add("sai"); setTimeout(function(){ x.remove(); }, 450); }
+  }
+  window.barraCarga = function(pct){
+    if(!el){ el = document.createElement("div"); el.id = "cargaBarra"; el.className = "carga carga-pct"; el.setAttribute("role", "status"); el.setAttribute("aria-label", "Carregando o jogo"); el.innerHTML = molde; document.body.appendChild(el); visto = 0; alvo = 0; pintar(); vigiar(); }
+    dono = true;
+    pct = Math.max(0, Math.min(100, Math.round(+pct || 0))); if(pct > alvo) alvo = pct; teto = Math.min(alvo + 10, 96);
+    if(calmo){ visto = alvo; pintar(); }
+    rodar();
+  };
+  /* leva a barra até 100% e avisa quando o número chegou lá (com um limite, para nunca prender a entrada) */
+  window.barraCheia = function(){
+    return new Promise(function(ok){
+      if(!el){ ok(); return; }
+      var feito = false, f = function(){ if(feito) return; feito = true; setTimeout(ok, 180); };
+      espera.push(f); setTimeout(f, 1300); window.barraCarga(100);
+    });
+  };
+  window.fecharBarra = fechar;
+  window.fimDaCarga = function(){ if(!dono) fechar(); };
+  if(app && window.MutationObserver){ var o = new MutationObserver(function(){ if(app.firstChild){ o.disconnect(); if(!dono) fechar(); } }); o.observe(app, { childList: true }); }
+  pintar(); rodar(); vigiar();
 })();
 </script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
@@ -2501,26 +2540,6 @@ const meusPostsG = uid => guardado("posts:" + uid, 10 * MIN, () => DB.meusPosts(
   embrulhar("excluirPost", () => { _muralMem = {}; if(usuario) GUARDA.del("posts:" + usuario.uid); });
 })();
 
-/* ---------- Barra de carregamento do primeiro acesso neste aparelho (0 a 100%) ---------- */
-function barraCarga(pct, texto){
-  let el = document.getElementById("cargaBarra");
-  if(!el){
-    if(typeof fimDaCarga === "function") fimDaCarga();
-    el = document.createElement("div"); el.id = "cargaBarra"; el.className = "carga carga-pct"; el.setAttribute("role", "status");
-    el.innerHTML = `<div class="carga-in"><p class="carga-tit">Corrida do <b>Rolo</b></p>
-      <div class="cb-pista" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i class="cb-fill"></i><span class="cb-corre">${window.BONECO_CARGA || ""}</span><span class="cb-flag" aria-hidden="true"></span></div>
-      <p class="cb-pct"><b id="cbPct">0%</b></p><p class="cb-tx" id="cbTx"></p>
-      <p class="cb-nota">Guardando o jogo neste aparelho. É só na primeira vez: depois ele abre rápido.</p></div>`;
-    document.body.appendChild(el);
-    el.offsetWidth;                                     // para a barra começar do zero e andar
-  }
-  pct = Math.max(0, Math.min(100, Math.round(pct)));
-  el.style.setProperty("--p", pct / 100);
-  el.querySelector(".cb-pista").setAttribute("aria-valuenow", pct);
-  el.querySelector("#cbPct").textContent = pct + "%";
-  if(texto) el.querySelector("#cbTx").textContent = texto;
-}
-function fecharBarra(){ const el = document.getElementById("cargaBarra"); if(!el) return; el.classList.add("sai"); setTimeout(() => el.remove(), 450); }
 /* Minha conta: apaga o que está guardado e baixa tudo de novo (para quando algo parecer desatualizado) */
 async function baixarDeNovo(){
   try{ await GUARDA.limpar(); Object.keys(localStorage).forEach(k => { if(k.indexOf(KEY + ":aparelho:") === 0) localStorage.removeItem(k); }); }catch(e){}
@@ -2681,12 +2700,22 @@ function contagem(dia, cb){
 /* ============================================================
    CASCA: barra superior + menu inferior
    ============================================================ */
+/* moedas no topo: durante a animação do fim do quiz mostram o valor que a animação está contando */
+let moedasAnim = null;
+function pintarMoedasTopo(){
+  const b = $("topoMoedas"); if(!b || typeof moedas !== "function") return;
+  if(moedasAnim && !(moedasAnim.el && moedasAnim.el.isConnected)) moedasAnim = null;
+  const v = moedasAnim ? moedasAnim.v : moedas();
+  $("topoMoedasN").textContent = fmt(v); b.setAttribute("aria-label", v + (v === 1 ? " moeda" : " moedas") + ". Abrir a loja");
+}
+$("topoMoedas").onclick = ()=>{ if(usuario && perfil && perfil.profeta) nav("loja"); };
 function atualizarCasca(){
   const logado = !!(usuario && perfil && (perfil.aprovado || perfil.admin || ehMaster()));
   const comMenu = logado && !!perfil.profeta;          // sem personagem escolhido, o menu só aparece depois da escolha
   $("topbar").hidden = !logado; $("nav").hidden = !comMenu;
   document.body.classList.toggle("sem-menu", !comMenu);
-  if(logado){ $("chipEm").innerHTML = perfil.profeta ? meuAvatar() : ""; $("chipNome").textContent = perfil.nome || ""; $("chipConta").classList.toggle("atual", tabAtual === "conta" || tabAtual === "admin" || tabAtual === "salas"); const np = $("navSalasN"); if(np){ const n = typeof SALAS_PENDENTES === "number" ? SALAS_PENDENTES : 0; np.hidden = !n; np.textContent = n > 9 ? "9+" : String(n); } }
+  if(logado){ $("chipEm").innerHTML = perfil.profeta ? meuAvatar() : ""; $("chipConta").setAttribute("aria-label", "Minha conta de " + (perfil.nome || "")); $("chipConta").title = perfil.nome || ""; $("chipConta").classList.toggle("atual", tabAtual === "conta" || tabAtual === "admin" || tabAtual === "salas"); const np = $("navSalasN"); if(np){ const n = typeof SALAS_PENDENTES === "number" ? SALAS_PENDENTES : 0; np.hidden = !n; np.textContent = n > 9 ? "9+" : String(n); } }
+  const tm = $("topoMoedas"); if(tm){ tm.hidden = !comMenu; if(comMenu) pintarMoedasTopo(); }
   if(typeof atualizarSino === "function") atualizarSino();
   document.querySelectorAll("#nav button").forEach(b => { if(b.dataset.tab === tabAtual) b.setAttribute("aria-current","page"); else b.removeAttribute("aria-current"); });
 }
@@ -2806,8 +2835,8 @@ DB.onAuth(async u => {
   usuario = u;
   try{
     if(!u){ perfil = null; atualizarCasca(); telaLogin(); return; }
-    /* primeira vez neste aparelho: barra de 0 a 100% enquanto o jogo é baixado e guardado */
-    const primeira = !lsGet(KEY + ":aparelho:" + u.uid, 0), passo = primeira ? barraCarga : (()=>{});
+    /* a barra de 0 a 100% aparece toda vez que o jogo abre; na primeira vez neste aparelho ela também espera a pista ser baixada */
+    const primeira = !lsGet(KEY + ":aparelho:" + u.uid, 0), passo = barraCarga;
     passo(6, "Entrando na sua conta");
     perfil = await DB.getUsuario(u.uid);
     passo(18, "Conferindo o jogo");
@@ -2821,12 +2850,13 @@ DB.onAuth(async u => {
     passo(72, "Entrando nas salas");
     await carregarSalas(true);
     passo(88, "Montando a pista");
-    if(primeira){ try{ await resultadosDaSala(salaAtual(), { licaoId: LICAO && LICAO.id }); }catch(e){} passo(100, "Pronto!"); lsSet(KEY + ":aparelho:" + u.uid, 1); await new Promise(r => setTimeout(r, 450)); fecharBarra(); }
+    if(primeira){ try{ await resultadosDaSala(salaAtual(), { licaoId: LICAO && LICAO.id }); }catch(e){} lsSet(KEY + ":aparelho:" + u.uid, 1); }
+    await barraCheia();
     carregarNotificacoes(true);
     if(typeof iniciarConquistasVistas === "function") iniciarConquistasVistas();
     if(typeof conferirPersonagem === "function") conferirPersonagem();   // mapa novo: personagem que virou prêmio e ainda não foi conquistado
-    if(!perfil.profeta){ atualizarCasca(); telaProfeta(); return; }
-    nav("inicio");
+    if(!perfil.profeta){ atualizarCasca(); telaProfeta(); fecharBarra(); return; }
+    nav("inicio"); fecharBarra();
     conferirConvite();
     if(typeof sincronizarPerfilPublico === "function") setTimeout(sincronizarPerfilPublico, 2500);        // resumo que os outros veem ao tocar no meu personagem
   }catch(e){ console.error(e); fecharBarra(); app.innerHTML = `<section class="panel"><h2 class="h2">Ops</h2><p>${esc(erroMsg(e))}</p><div class="btn-row"><button class="btn btn-main" onclick="location.reload()">Tentar de novo</button><button class="btn btn-ghost" onclick="DB.sair()">Sair</button></div></section>`; }
@@ -3052,7 +3082,7 @@ function telaInicio(){
   let html = `<div class="inicio-grid hm"><div>`;
   /* saudação: avatar, nome e a fala do dia numa linha só */
   html += `<header class="hm-ola"><div class="hm-av">${meuAvatar()}</div><div class="hm-ola-tx"><small>${saudacao()}</small><h2>${esc(String(perfil.nome || "").split(" ")[0])}</h2>${fala ? `<p>“${esc(fala)}”</p>` : ""}</div>
-    <div class="hm-chips"><span class="hm-chip" title="Sequência no prazo">${st >= 5 ? "🔥" : "⚡"} ${st}</span><span class="hm-chip ouro" title="Nível ${nv}: ${esc(nomeNivel(nv))}">Nv ${nv}</span><button type="button" class="hm-chip moedas" id="inLoja" title="Suas moedas: abrir a loja" aria-label="${moedas()} moedas. Abrir a loja">${MOEDA}${moedas()}</button></div></header>`;
+    <div class="hm-chips"><span class="hm-chip" title="Sequência no prazo">${st >= 5 ? "🔥" : "⚡"} ${st}</span><span class="hm-chip ouro" title="Nível ${nv}: ${esc(nomeNivel(nv))}">Nv ${nv}</span></div></header>`;
   /* hoje */
   html += `<section class="panel hm-card hm-hoje">`;
   if(dHoje){
@@ -3091,7 +3121,6 @@ function telaInicio(){
   const dz = $("dzMais"); if(dz) dz.onclick = modalDesempenho;
   app.querySelectorAll("[data-cq]").forEach(b => b.onclick = ()=> modalConquista(+b.dataset.cq));
   const est = $("inEstudar"); if(est) est.onclick = ()=>{ estudoLicao = L; estudoDia = hojeIdx >= 0 ? hojeIdx : -1; estudoVista = "dias"; nav("estudar"); };
-  $("inLoja").onclick = ()=> nav("loja");
   if(typeof dicaDaLoja === "function") dicaDaLoja();          // aponta a Loja no menu, uma vez por pessoa
   const jog = $("inJogar"); if(jog) jog.onclick = ()=>{ LICAO = L; tabAtual = "quiz"; atualizarCasca(); iniciar(hojeIdx); };
   const ver = $("inVer"); if(ver) ver.onclick = ()=>{ LICAO = L; tabAtual = "quiz"; atualizarCasca(); telaResultado(hojeIdx); };
@@ -3511,11 +3540,13 @@ function telaResultado(i, novo){
   if(!r){ telaQuiz(); return; }
   const frase = r.acertos === r.total ? "Gabaritou!" : (r.acertos >= Math.ceil(r.total/2) ? "Mandou bem!" : "Amanhã tem mais!");
   const antes = totalSemana() - r.pts;
+  /* fim do quiz: os pontos sobem de 0 até o total e depois as moedas ganhas voam para o total lá em cima */
+  const ganhas = r.acertos || 0, tinha = Math.max(0, moedas() - ganhas), animar = !!novo && !matchMedia("(prefers-reduced-motion: reduce)").matches;
   app.innerHTML = `<div class="result-area"><section class="panel result">
       <p class="lbl">${esc(dia.nome)}</p>
-      <div class="big ${novo?"pop":""}">${fmt(r.pts)}</div>
+      <div class="big" id="resPts" aria-label="${fmt(r.pts)} pontos">${fmt(animar ? 0 : r.pts)}</div>
       <p class="lbl">pontos</p>
-      <p class="res-moedas" title="Cada resposta certa vale 1 moeda">${MOEDA}<b>+${r.acertos || 0}</b> ${r.acertos === 1 ? "moeda" : "moedas"}<span>você tem ${moedas()} para gastar na loja</span></p>
+      <p class="res-moedas ${animar ? "espera" : ""}" id="resMoedas" title="Cada resposta certa vale 1 moeda"><i class="moeda" id="resMoedaIc" aria-hidden="true"></i><b id="resMoedasN">+${ganhas}</b> ${ganhas === 1 ? "moeda" : "moedas"}<span>você tem <strong id="resMoedasT">${fmt(animar ? tinha : moedas())}</strong> para gastar na loja</span></p>
       <h2>${frase}</h2>
       <p class="sub">${r.noPrazo ? "" : "Feito com atraso. "}Na lição: <span id="somaAnim">${fmt(novo ? antes : totalSemana())}</span> pontos.</p>
     </section>
@@ -3533,12 +3564,52 @@ function telaResultado(i, novo){
   $("verPontos2").onclick = modalPontuacao;
   $("rMural").onclick = ()=> publicarNoMural(postDoResultado(LICAO, dia, r), $("rMural"));
   window.scrollTo(0,0);
+  if(animar) animarResultado(r.pts, ganhas, tinha); else pintarMoedasTopo();
   if(novo){
     tocar(r.total && r.acertos === r.total ? "subiu" : "missao");
     const el = $("somaAnim"), alvo = totalSemana(), ini = performance.now(), dur = 1100;
     const anim = t => { const f = Math.min(1, (t - ini)/dur), e = 1 - Math.pow(1-f, 3); el.textContent = fmt(Math.round(antes + (alvo-antes)*e)); if(f < 1) requestAnimationFrame(anim); };
     setTimeout(()=> requestAnimationFrame(anim), 500);
   }
+}
+/* Animação do fim do quiz. Se a pessoa sair da tela no meio, para sozinha e o topo mostra o total certo. */
+function animarResultado(pts, ganhas, tinha){
+  const painel = $("resPts"), caixa = $("resMoedas"), topo = $("topoMoedas"); if(!painel) return;
+  const viva = () => painel.isConnected;
+  moedasAnim = { el: painel, v: tinha }; pintarMoedasTopo();
+  const fim = () => { if(moedasAnim && moedasAnim.el === painel){ moedasAnim = null; pintarMoedasTopo(); } };
+  const pulo = el => { if(!el) return; el.classList.remove("pulo"); void el.offsetWidth; el.classList.add("pulo"); };
+  const somar = n => { if(!viva()) return; moedasAnim = { el: painel, v: tinha + n }; pintarMoedasTopo(); pulo(topo); const t = $("resMoedasT"); if(t) t.textContent = fmt(tinha + n); tocar("moeda"); };
+  const moedasVoando = () => {
+    if(!viva()) return fim();
+    caixa.classList.remove("espera");
+    if(!ganhas || !topo || topo.hidden || !document.body.animate){ somar(ganhas); return fim(); }
+    const qtd = Math.min(ganhas, 12); let chegou = 0;
+    setTimeout(() => { if(!viva()) return fim();
+      for(let k = 0; k < qtd; k++) setTimeout(() => {
+        if(!viva()){ if(++chegou === qtd) fim(); return; }
+        const de = $("resMoedaIc").getBoundingClientRect(), ate = topo.querySelector(".moeda").getBoundingClientRect();
+        const m = document.createElement("i"); m.className = "moeda moeda-voa"; m.setAttribute("aria-hidden", "true"); document.body.appendChild(m);
+        const x0 = de.left + de.width / 2 - 11, y0 = de.top + de.height / 2 - 11, x1 = ate.left + ate.width / 2 - 11, y1 = ate.top + ate.height / 2 - 11, lado = (k % 2 ? 1 : -1) * (26 + (k % 3) * 12);
+        pulo($("resMoedasN"));
+        const a = m.animate([
+          { transform: `translate(${x0}px,${y0}px) scale(.6)`, opacity: 0 },
+          { transform: `translate(${x0 + lado}px,${y0 - 34}px) scale(1.15)`, opacity: 1, offset: .22 },
+          { transform: `translate(${x1}px,${y1}px) scale(.8)`, opacity: 1 }
+        ], { duration: 760, easing: "cubic-bezier(.45,0,.55,1)", fill: "forwards" });
+        const pousar = () => { m.remove(); chegou++; somar(Math.round(ganhas * chegou / qtd)); if(chegou === qtd) fim(); };
+        a.onfinish = pousar; a.oncancel = pousar;
+      }, k * 150);
+    }, 420);
+  };
+  const ini = performance.now() + 250, dur = Math.min(1700, 900 + pts / 12);
+  const sobe = t => {
+    if(!viva()) return fim();
+    const f = Math.max(0, Math.min(1, (t - ini) / dur)), e = 1 - Math.pow(1 - f, 3);
+    painel.textContent = fmt(Math.round(pts * e));
+    if(f < 1) requestAnimationFrame(sobe); else { painel.classList.add("pop"); moedasVoando(); }
+  };
+  requestAnimationFrame(sobe);
 }
 function msgDia(dia, r){
   return "📖 Quiz da " + LICAO.numero + ": " + dia.nome + "\n" + "👤 " + quem() + "\n" + "🎭 Personagem: " + nomeProfeta() + "\n" +
@@ -6029,7 +6100,8 @@ const TONS = {
   tique:  [[440, .06]],
   vai:    [[880, .2]],
   ajuda:  [[740, .07], [932, .1]],
-  toque:  [[520, .05]]
+  toque:  [[520, .05]],
+  moeda:  [[1568, .04], [2093, .07]]
 };
 const VIBRAS = { certo: [30], errado: [70, 50, 70], subiu: [40, 40, 40, 40, 90], missao: [40, 40, 40, 40, 120], ajuda: [25], vai: [40] };
 function tocar(tipo){
@@ -7548,7 +7620,7 @@ async function comprarNaLoja(id){
   if(!(await confirmar("Comprar na loja", `Comprar ${it.nome} por ${it.preco} moedas? Você fica com ${saldo - it.preco}.`, "Comprar"))) return;
   const compras = Object.assign({}, perfil.compras || {}, { [id]: it.preco });
   try{ await DB.salvarUsuario(usuario.uid, { compras }); }catch(e){ aviso("Não deu para comprar: " + erroMsg(e)); return; }
-  perfil.compras = compras; tocar("missao");
+  perfil.compras = compras; tocar("missao"); atualizarCasca();
   aviso(`${it.nome} é seu!`);
   await usarDaLoja(id, true);
 }
