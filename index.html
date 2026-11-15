@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="versao" content="20261115.220220">
+<meta name="versao" content="20261115.221740">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Corrida do Rolo · Quiz da Lição</title>
 <meta name="theme-color" content="#524F9C">
@@ -1740,6 +1740,26 @@ body:has(.an-lb):not(:has(.modal-bg)) .toast{top:auto;bottom:calc(24px + env(saf
 @keyframes tela-entra{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 .tela-entra{animation:tela-entra .28s cubic-bezier(.2,.8,.2,1)}
 @media (prefers-reduced-motion:reduce){.tela-entra{animation:none}}
+/* ---------- loja: movimentos do personagem na raia (só raros e da loja) ---------- */
+.runner[class*="mov-"] .avatar{transform-origin:50% 100%;will-change:transform}
+.runner.mov-marcha .avatar{animation:mov-marcha .7s steps(2,jump-none) infinite}
+.runner.mov-salto .avatar{animation:mov-salto 1.25s cubic-bezier(.3,0,.4,1) infinite}
+.runner.mov-danca .avatar{animation:mov-danca 1.3s ease-in-out infinite}
+.runner.mov-corrida .avatar{animation:mov-corrida .42s ease-in-out infinite}
+.runner.mov-aguia .avatar{animation:mov-aguia 2.6s ease-in-out infinite}
+@keyframes mov-marcha{0%{transform:translateY(0) rotate(-3deg)}100%{transform:translateY(-3px) rotate(3deg)}}
+@keyframes mov-salto{0%,58%,100%{transform:translateY(0) scale(1,1)}8%{transform:translateY(0) scale(1.08,.9)}30%{transform:translateY(-12px) scale(.96,1.06)}50%{transform:translateY(0) scale(1.06,.93)}}
+@keyframes mov-danca{0%,100%{transform:rotate(-9deg) translateX(-2px)}25%{transform:rotate(0) translateY(-3px)}50%{transform:rotate(9deg) translateX(2px)}75%{transform:rotate(0) translateY(-3px)}}
+@keyframes mov-corrida{0%,100%{transform:rotate(7deg) translate(0,0)}50%{transform:rotate(7deg) translate(2px,-3px)}}
+@keyframes mov-aguia{0%,100%{transform:translateY(-2px);filter:drop-shadow(0 6px 4px rgba(20,18,60,.25))}50%{transform:translateY(-9px);filter:drop-shadow(0 12px 6px rgba(20,18,60,.18)) drop-shadow(0 0 6px rgba(255,255,255,.55))}}
+.lj-av.lj-mov{position:relative;display:block;width:78px;height:86px;border-radius:14px;background:rgba(255,255,255,.09);overflow:hidden;margin-bottom:2px}
+.lj-av.lj-mov::after{content:"";position:absolute;left:0;right:0;bottom:0;height:20px;background:rgba(20,18,60,.3);border-top:1px solid rgba(255,255,255,.22)}
+.lj-mov .runner{position:absolute;left:17px;top:auto;bottom:10px;width:44px;height:56px;transition:none;z-index:1}
+.lj-mov .runner .avatar{width:44px;height:56px}
+.lj-nota{margin:0 0 10px;font-size:12.5px;line-height:1.4;color:var(--soft)}
+.lj-nota.alerta{padding:8px 10px;border-radius:10px;background:rgba(242,190,46,.14);border:1px solid rgba(242,190,46,.4);color:#FFE9A8}
+.lj-nota b{color:#fff}
+@media (prefers-reduced-motion:reduce){.runner[class*="mov-"] .avatar{animation:none}}
 /* login */
 .logo-login{padding:18px 0 6px}
 .logo-login p{font-size:14px;margin-top:10px}
@@ -3308,7 +3328,7 @@ async function posicaoCorrida(L){
     const fmt1 = n => (Math.round(n*10)/10).toLocaleString("pt-BR");
     el.innerHTML = `<div class="hm-cab"><span>Corrida do Rolo</span><button type="button" class="hm-link" id="inRolo">Ver pista <span aria-hidden="true">›</span></button></div>
       <div class="hm-pos"><b>${pos ? pos + "º" : "—"}</b><div><strong>${pos ? `de ${ordem.length} na pista` : !souMembroDaSala(sala) ? "Você só está vendo esta sala" : ordem.length ? "Entre na pista!" : "Pista vazia: seja o primeiro!"}</strong><span>${!souMembroDaSala(sala) ? `${ordem.length} ${ordem.length === 1 ? "corredor" : "corredores"} na pista` : `${fmt1(meus)} ${meus === 1 ? "passo" : "passos"}`} · ${esc(L.numero)}</span></div><button type="button" class="hm-chip sala" id="inSala" title="Trocar de sala">${esc(sala.nome)}</button></div>
-      <div class="track hm-track${classePista(minhaPista())}" style="--seg:7"><span class="flag" aria-hidden="true">🏁</span><div class="runner" style="--p:${Math.min(1, meus/7)}">${meuAvatar()}</div></div>`;
+      <div class="track hm-track${classePista(minhaPista())}" style="--seg:7"><span class="flag" aria-hidden="true">🏁</span><div class="runner${classeMovimento(meuMovimento(), meuBoneco(), meuNivel())}" style="--p:${Math.min(1, meus/7)}">${meuAvatar()}</div></div>`;
     $("inRolo").onclick = ()=>{ corridaVista = "pista"; nav("ranking"); };
     $("inSala").onclick = ()=> nav("salas");
   }catch(e){ el.innerHTML = `<div class="hm-cab"><span>Corrida do Rolo</span></div><p class="hm-sub">${esc(erroMsg(e))}</p>`; }
@@ -3964,7 +3984,7 @@ function renderCorrida(cfg, res, pessoas, licSel, membros){
   const jov = {};
   res.filter(r => idsPista.has(r.licaoId)).forEach(r=>{
     const u = pessoas[r.uid];
-    const j = jov[r.uid] || (jov[r.uid] = { uid:r.uid, nome:(u&&u.nome)||r.nome||"?", profeta:(u&&u.profeta)||r.profeta||"", nivel:(u&&u.nivel)||r.nivel||0, pista:(u&&u.pista)||"", passos:0, pts:0, regs:[] });
+    const j = jov[r.uid] || (jov[r.uid] = { uid:r.uid, nome:(u&&u.nome)||r.nome||"?", profeta:(u&&u.profeta)||r.profeta||"", nivel:(u&&u.nivel)||r.nivel||0, pista:(u&&u.pista)||"", mov:(u&&u.mov)||"", passos:0, pts:0, regs:[] });
     j.passos += r.noPrazo ? 1 : .5; j.pts += r.pts||0; j.regs.push(r);
   });
   const ids = Object.keys(jov).sort((a,b)=> jov[b].passos - jov[a].passos || jov[b].pts - jov[a].pts || jov[a].nome.localeCompare(jov[b].nome,"pt-BR"));
@@ -3976,7 +3996,7 @@ function renderCorrida(cfg, res, pessoas, licSel, membros){
     h += `<div class="escala" style="grid-template-columns:repeat(${colunas.length},1fr)">${colunas.map(c=>`<span title="${esc(c.titulo)}">${esc(c.rotulo)}</span>`).join("")}</div><ol class="lanes">`;
     ids.forEach((id,k)=>{ const j = jov[id];
       h += `<li class="lane ${id===usuario.uid?"eu":""}"><div class="lane-top"><strong>${k<3 && j.passos>0 ? `<span class="pos">${k+1}º</span>` : ""}${esc(j.nome)}${id===usuario.uid?" (você)":""}</strong><span>${fmt1(j.passos)} ${j.passos===1?"passo":"passos"} · ${fmt(j.pts)} pts</span></div>
-        <div class="track${classePista(j.pista)}" style="--seg:${colunas.length}"><span class="flag" aria-hidden="true">🏁</span><div class="runner" style="--p:${Math.min(1, j.passos/TOTAL)}" role="button" tabindex="0" data-perfil="${esc(id)}" data-nome="${esc(j.nome)}" data-boneco="${esc(j.profeta || "")}" data-nivel="${j.nivel || 0}" title="Ver o perfil de ${esc(j.nome)}">${avatarSVG(personagemDe(j.profeta, j.nivel), j.nome, j.nivel)}</div></div></li>`; });
+        <div class="track${classePista(j.pista)}" style="--seg:${colunas.length}"><span class="flag" aria-hidden="true">🏁</span><div class="runner${classeMovimento(j.mov, j.profeta, j.nivel)}" style="--p:${Math.min(1, j.passos/TOTAL)}" role="button" tabindex="0" data-perfil="${esc(id)}" data-nome="${esc(j.nome)}" data-boneco="${esc(j.profeta || "")}" data-nivel="${j.nivel || 0}" title="Ver o perfil de ${esc(j.nome)}">${avatarSVG(personagemDe(j.profeta, j.nivel), j.nome, j.nivel)}</div></div></li>`; });
     h += `</ol>`;
   }
   h += `</section>`;
@@ -5381,7 +5401,7 @@ const MAX_SALAS_CRIADAS = 3, MAX_SALAS_PARTICIPA = 5;
 })();
 function normalizarCodigo(c){ return String(c || "").toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 12); }
 function salaAtual(){ return SALA || SALA_GLOBAL; }
-function novoMembro(salaId, status, papel){ return { salaId, uid: usuario.uid, nome: perfil.nome || "", profeta: meuBoneco(), pista: minhaPista(), status, papel: papel || "membro", quando: Date.now() }; }
+function novoMembro(salaId, status, papel){ return { salaId, uid: usuario.uid, nome: perfil.nome || "", profeta: meuBoneco(), pista: minhaPista(), mov: meuMovimento(), status, papel: papel || "membro", quando: Date.now() }; }
 function ehDonoSala(s){ return !!(s && !s.global && usuario && s.dono === usuario.uid); }
 function podeGerenciarSala(s){ return !!s && (ehMaster() || (!s.global && (ehDonoSala(s) || ehAdminSala(s)))); }
 /* Incluir qualquer usuário direto na sala: só o master e o administrador atribuído àquela sala */
@@ -5434,7 +5454,7 @@ async function carregarSalas(doAparelho){
     }
     // Mantém meu nome/profeta atualizados nas salas
     const nv = typeof nivelAtual === "function" ? nivelAtual() : 0;
-    mems.forEach(m => { if(m.nome !== (perfil.nome || "") || m.profeta !== meuBoneco() || (m.nivel || 0) !== nv || (m.pista || "") !== minhaPista()) DB.salvarMembro({ salaId: m.salaId, uid: eu, nome: perfil.nome || "", profeta: meuBoneco(), nivel: nv, pista: minhaPista() }).catch(()=>{}); });
+    mems.forEach(m => { if(m.nome !== (perfil.nome || "") || m.profeta !== meuBoneco() || (m.nivel || 0) !== nv || (m.pista || "") !== minhaPista() || (m.mov || "") !== meuMovimento()) DB.salvarMembro({ salaId: m.salaId, uid: eu, nome: perfil.nome || "", profeta: meuBoneco(), nivel: nv, pista: minhaPista(), mov: meuMovimento() }).catch(()=>{}); });
     // Solicitações esperando a minha aprovação (salas privadas que eu criei)
     const minhas = SALAS.filter(x => !x.global && !x.publica && podeGerenciarSala(x));
     const listas = await Promise.all(minhas.map(x => membrosDaSalaG(x.id).catch(() => [])));
@@ -5483,8 +5503,8 @@ function pessoasDaSala(s, res){
   const m = {};
   (res || []).forEach(r => { const a = m[r.uid]; if(!a || (r.quando || 0) >= a.q) m[r.uid] = { nome: r.nome || (a && a.nome) || "?", profeta: r.profeta || (a && a.profeta) || "", nivel: Math.max(r.nivel || 0, (a && a.nivel) || 0), q: r.quando || 0 }; else if((r.nivel || 0) > (a.nivel || 0)) a.nivel = r.nivel; });
   const c = s && membrosCache[s.id];
-  if(c) c.lista.forEach(x => { m[x.uid] = { nome: x.nome || (m[x.uid] && m[x.uid].nome) || "?", profeta: x.profeta || (m[x.uid] && m[x.uid].profeta) || "", nivel: Math.max(x.nivel || 0, (m[x.uid] && m[x.uid].nivel) || 0), pista: x.pista || "", q: 0 }; });
-  if(usuario && perfil && m[usuario.uid]) m[usuario.uid] = { nome: perfil.nome || "?", profeta: meuBoneco(), nivel: meuNivel(), pista: minhaPista(), q: 0 };
+  if(c) c.lista.forEach(x => { m[x.uid] = { nome: x.nome || (m[x.uid] && m[x.uid].nome) || "?", profeta: x.profeta || (m[x.uid] && m[x.uid].profeta) || "", nivel: Math.max(x.nivel || 0, (m[x.uid] && m[x.uid].nivel) || 0), pista: x.pista || "", mov: x.mov || "", q: 0 }; });
+  if(usuario && perfil && m[usuario.uid]) m[usuario.uid] = { nome: perfil.nome || "?", profeta: meuBoneco(), nivel: meuNivel(), pista: minhaPista(), mov: meuMovimento(), q: 0 };
   return m;
 }
 async function novoCodigoSala(){
@@ -7784,15 +7804,28 @@ const LOJA_FESTAS = [
   { id: "pombas",    nome: "Revoada de Pombas",   ref: "Mateus 3:16",  preco: 40 },
   { id: "fogo",      nome: "Línguas de Fogo",     ref: "Atos 2:3",     preco: 45 }
 ];
+/* Movimentos: o que o personagem fica fazendo na raia da Corrida. Só valem para personagem raro (das missões) ou da loja. */
+const LOJA_MOVIMENTOS = [
+  { id: "marcha",  nome: "Marcha de Jericó",   ref: "Josué 6:3",       preco: 30 },
+  { id: "salto",   nome: "Salto de Alegria",   ref: "Atos 3:8",        preco: 35 },
+  { id: "danca",   nome: "Dança de Davi",      ref: "2 Samuel 6:14",   preco: 40 },
+  { id: "corrida", nome: "Corrida da Fé",      ref: "Hebreus 12:1",    preco: 45 },
+  { id: "aguia",   nome: "Asas como Águias",   ref: "Isaías 40:31",    preco: 55 }
+];
 const LOJA_EXTRAS = {
   m: { lista: LOJA_MOLDURAS, campo: "moldura", usar: "Moldura em uso.", tirar: "Moldura guardada." },
   t: { lista: LOJA_PISTAS,   campo: "pista",   usar: "Tema da pista em uso.", tirar: "Pista de volta ao normal." },
-  c: { lista: LOJA_FESTAS,   campo: "festa",   usar: "Comemoração escolhida.", tirar: "Comemoração guardada." }
+  c: { lista: LOJA_FESTAS,   campo: "festa",   usar: "Comemoração escolhida.", tirar: "Comemoração guardada." },
+  v: { lista: LOJA_MOVIMENTOS, campo: "mov",   usar: "Movimento em uso.", tirar: "Movimento guardado." }
 };
 function extraDaLoja(tipo, k){ const g = LOJA_EXTRAS[tipo]; return g ? g.lista.find(x => x.id === k) || null : null; }
 function emUsoDaLoja(tipo){ const g = LOJA_EXTRAS[tipo], k = g && perfil && perfil[g.campo]; return k && extraDaLoja(tipo, k) && comprado(tipo + ":" + k) ? k : ""; }
 const minhaMoldura = () => emUsoDaLoja("m"), minhaPista = () => emUsoDaLoja("t"), minhaFesta = () => emUsoDaLoja("c");
 const classeMoldura = id => id && extraDaLoja("m", id) ? " mold mold-" + id : "";
+const meuMovimento = () => emUsoDaLoja("v");
+/* o movimento só aparece se o personagem daquele jogador for raro (prêmio das missões) ou da loja */
+function personagemEspecial(boneco, nivel){ const p = acharProfeta(idPuro(personagemDe(boneco, nivel))); return !!(p && (p.nivel || p.preco)); }
+const classeMovimento = (id, boneco, nivel) => id && extraDaLoja("v", id) && personagemEspecial(boneco, nivel) ? " mov-" + id : "";
 const classePista = id => id && extraDaLoja("t", id) ? " pista-" + id : "";
 const FESTA_ICONE = {
   estrelas:  `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.2 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z" fill="#FFE27A"/></svg>`,
@@ -7831,6 +7864,8 @@ function telaLoja(){
   const cartaoM = x => `<div class="lj-item ${comprado("m:" + x.id) ? "meu" : ""}"><div class="lj-av lj-mold${classeMoldura(x.id)}" data-prev="${esc(perfil.profeta || PROFETA_PADRAO)}"></div><b>${esc(x.nome)}</b><small>${esc(x.ref)}</small>${botao("m:" + x.id, x.preco, minhaMoldura() === x.id, "Usar")}</div>`;
   const cartaoT = x => `<div class="lj-item larga ${comprado("t:" + x.id) ? "meu" : ""}"><div class="lj-pista"><div class="track${classePista(x.id)}" style="--seg:4"><span class="flag" aria-hidden="true">🏁</span><div class="runner" style="--p:.38" data-prev="${esc(meuBoneco() || PROFETA_PADRAO)}"></div></div></div><b>${esc(x.nome)}</b><small>${esc(x.ref)}</small>${botao("t:" + x.id, x.preco, minhaPista() === x.id, "Usar")}</div>`;
   const cartaoC = x => `<div class="lj-item ${comprado("c:" + x.id) ? "meu" : ""}"><button type="button" class="lj-festa" data-festa="${x.id}" title="Ver a comemoração" aria-label="Ver a comemoração ${esc(x.nome)}">${FESTA_ICONE[x.id] || ""}<span>▶ ver</span></button><b>${esc(x.nome)}</b><small>${esc(x.ref)}</small>${botao("c:" + x.id, x.preco, minhaFesta() === x.id, "Usar")}</div>`;
+  const especial = personagemEspecial(meuBoneco(), meuNivel()), amostra = especial ? meuBoneco() : "zaqueu";
+  const cartaoV = x => `<div class="lj-item ${comprado("v:" + x.id) ? "meu" : ""}"><div class="lj-av lj-mov"><div class="runner mov-${x.id}" data-prev="${esc(amostra)}"></div></div><b>${esc(x.nome)}</b><small>${esc(x.ref)}</small>${botao("v:" + x.id, x.preco, meuMovimento() === x.id, "Usar")}</div>`;
   app.innerHTML = `<div class="estudo-area">
     <div class="lj-topo">${cabPagina("Loja", "", "Loja do Rolo", "Ganhe moedas nos acertos do quiz, nas missões, na semana completa no prazo e nos desafios.")}<div class="lj-saldo" aria-label="${saldo} moedas">${MOEDA}<b>${saldo}</b><small>${saldo === 1 ? "moeda" : "moedas"}</small></div></div>
     <section class="panel pg-card"><div class="hm-cab"><span>Acessórios</span><span class="hm-meta">o personagem segura na outra mão</span></div>
@@ -7841,6 +7876,9 @@ function telaLoja(){
       <div class="lj-grade">${LOJA_MOLDURAS.map(cartaoM).join("")}</div></section>
     <section class="panel pg-card"><div class="hm-cab"><span>Temas da pista</span><span class="hm-meta">a sua raia na Corrida</span></div>
       <div class="lj-grade pistas">${LOJA_PISTAS.map(cartaoT).join("")}</div></section>
+    <section class="panel pg-card"><div class="hm-cab"><span>Movimentos</span><span class="hm-meta">o que o personagem faz na raia</span></div>
+      <p class="lj-nota ${especial ? "" : "alerta"}">${especial ? "Vale com personagem raro ou da loja, como o que você está usando." : "Só aparece com personagem <b>raro</b> (das missões) ou <b>da loja</b>. O seu personagem de agora é comum: você pode comprar, mas o movimento só aparece quando trocar. A amostra abaixo usa o Zaqueu."}</p>
+      <div class="lj-grade">${LOJA_MOVIMENTOS.map(cartaoV).join("")}</div></section>
     <section class="panel pg-card"><div class="hm-cab"><span>Comemorações</span><span class="hm-meta">ao terminar o quiz</span></div>
       <div class="lj-grade">${LOJA_FESTAS.map(cartaoC).join("")}</div></section>
     <p class="note center">Moedas ganhas até hoje: ${moedasGanhas()} · gastas: ${moedasGastas()}</p></div>`;
@@ -7877,7 +7915,8 @@ async function usarDaLoja(id, semAviso){
   Object.assign(perfil, muda);
   try{ await DB.salvarUsuario(usuario.uid, muda); }catch(e){ aviso(erroMsg(e)); }
   if(!semAviso) aviso(tipo === "a" ? (perfil.acess ? "Acessório em uso." : "Acessório guardado.") : g ? (perfil[g.campo] ? g.usar : g.tirar) : "Personagem trocado.");
-  if(tipo === "t" && typeof carregarSalas === "function") carregarSalas().catch(()=>{});          // os outros veem a minha raia com o tema
+  if((tipo === "t" || tipo === "v") && typeof carregarSalas === "function") carregarSalas().catch(()=>{});          // os outros veem a minha raia com o tema e o movimento
+  if(tipo === "v" && perfil.mov === k && !personagemEspecial(meuBoneco(), meuNivel())) aviso("Movimento guardado. Ele aparece quando você usar um personagem raro ou da loja.");
   if(tipo === "c" && perfil.festa === k) festejar(k, 2600);
   atualizarCasca(); sincronizarPerfilPublico();
   if(document.querySelector(".lj-grade")) telaLoja();
