@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="versao" content="20261115.204039">
+<meta name="versao" content="20261115.210551">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Corrida do Rolo · Quiz da Lição</title>
 <meta name="theme-color" content="#524F9C">
@@ -1720,6 +1720,27 @@ body:has(.an-lb):not(:has(.modal-bg)) .toast{top:auto;bottom:calc(24px + env(saf
 .aba-corpo .hud{margin:2px 0 12px;padding:0 2px 10px;border-bottom:1px solid var(--panel-line)}
 @media (max-width:359px){ .aba-tx small{display:none} }
 @media (prefers-reduced-motion:reduce){.aba-ponto,.aba-corpo,#nav button[aria-current] .ic-duo i{animation:none}}
+/* ---------- topo da tela da lição: Voltar à esquerda e, ao lado, número, datas e título ---------- */
+.lic-topo{display:flex;align-items:center;gap:12px;margin:0 0 10px;min-height:40px}
+.lic-topo .pg-voltar{margin:0;flex:none}
+.pg-voltar b{font:inherit}
+.pv-curto{display:none}
+.lic-topo-tx{flex:1;min-width:0}
+.lic-topo-tx .pg-rot{flex-wrap:nowrap;gap:6px;font-size:10.5px;letter-spacing:.6px;white-space:nowrap;overflow:hidden}
+.lic-topo-tx .pg-rot span{flex:none;padding:2px 8px}
+.lic-topo-tx .pg-rot em{min-width:0;overflow:hidden;text-overflow:ellipsis}
+.lic-topo-tx h1{margin:3px 0 0;font:800 17px/1.15 "Barlow",sans-serif;letter-spacing:0;text-transform:none;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+@media (max-width:479px){ .lic-topo{gap:10px} .lic-topo .pv-longo{display:none} .lic-topo .pv-curto{display:inline} }
+@media (min-width:900px){ .lic-topo{gap:16px} .lic-topo-tx h1{font-size:22px} .lic-topo-tx .pg-rot{font-size:11.5px} }
+/* ---------- menu: o fundo do botão escolhido desliza até o próximo ---------- */
+.nav-pilula{position:absolute;left:0;top:0;width:0;height:0;border-radius:12px;background:rgba(255,255,255,.16);box-shadow:inset 0 0 0 1px rgba(255,255,255,.1);opacity:0;pointer-events:none;will-change:transform;
+  transition:transform .36s cubic-bezier(.34,1.3,.44,1),width .3s cubic-bezier(.3,1,.4,1),height .2s ease,opacity .2s ease}
+.nav-pilula.sem-anim{transition:none}
+#nav button{position:relative;z-index:1;transition:color .2s ease}
+#nav.com-pilula button[aria-current="page"]{background:transparent}
+#nav button[aria-current="page"] .ic{animation:nav-salta .4s cubic-bezier(.3,1.4,.5,1)}
+@keyframes nav-salta{0%{transform:none}45%{transform:translateY(-4px) scale(1.16)}100%{transform:none}}
+@media (prefers-reduced-motion:reduce){.nav-pilula{transition:none}#nav button[aria-current="page"] .ic{animation:none}}
 /* login */
 .logo-login{padding:18px 0 6px}
 .logo-login p{font-size:14px;margin-top:10px}
@@ -1753,6 +1774,7 @@ body:has(.an-lb):not(:has(.modal-bg)) .toast{top:auto;bottom:calc(24px + env(saf
 </header>
 <div class="wrap" id="app" aria-live="polite"></div>
 <nav class="bottomnav n6" id="nav" hidden aria-label="Menu principal">
+  <span class="nav-pilula" id="navPilula" aria-hidden="true"></span>
   <button type="button" data-tab="inicio"><span class="ic">🏠</span>Início</button>
   <button type="button" data-tab="mural"><span class="ic">📌</span>Mural</button>
   <button type="button" data-tab="estudar" aria-label="Lição: estudar e fazer o quiz"><span class="ic ic-duo" aria-hidden="true">📖<i>🎯</i></span>Lição</button>
@@ -2726,6 +2748,23 @@ function contagem(dia, cb){
 /* ============================================================
    CASCA: barra superior + menu inferior
    ============================================================ */
+/* Menu: o fundo do botão escolhido é uma peça só, que desliza de um botão para o outro.
+   Sem botão escolhido (Minha conta, admin, salas) ela some; ao reaparecer, surge no lugar, sem atravessar o menu. */
+let pilulaNaTela = false;
+function moverPilula(semAnimar){
+  const n = $("nav"), p = $("navPilula"); if(!n || !p) return;
+  n.classList.add("com-pilula");
+  const b = n.hidden ? null : n.querySelector('button[aria-current="page"]');
+  if(!b || !b.offsetWidth){ p.style.opacity = "0"; pilulaNaTela = false; return; }
+  const direto = semAnimar || !pilulaNaTela;
+  if(direto) p.classList.add("sem-anim");
+  p.style.width = b.offsetWidth + "px"; p.style.height = b.offsetHeight + "px";
+  p.style.transform = `translate(${b.offsetLeft}px,${b.offsetTop}px)`;
+  p.style.borderRadius = getComputedStyle(b).borderRadius;
+  if(direto){ void p.offsetWidth; p.classList.remove("sem-anim"); }
+  p.style.opacity = "1"; pilulaNaTela = true;
+}
+if(window.ResizeObserver) new ResizeObserver(() => moverPilula(true)).observe($("nav")); else window.addEventListener("resize", () => moverPilula(true));
 /* moedas no topo: durante a animação do fim do quiz mostram o valor que a animação está contando */
 let moedasAnim = null;
 function pintarMoedasTopo(){
@@ -2745,6 +2784,7 @@ function atualizarCasca(){
   if(typeof atualizarSino === "function") atualizarSino();
   const abaMenu = tabAtual === "quiz" ? "estudar" : tabAtual;          // estudar e quiz moram no mesmo botão (Lição)
   document.querySelectorAll("#nav button").forEach(b => { if(b.dataset.tab === abaMenu) b.setAttribute("aria-current","page"); else b.removeAttribute("aria-current"); });
+  moverPilula();
 }
 /* ============================================================
    ATUALIZAÇÃO AUTOMÁTICA
@@ -2826,13 +2866,27 @@ $("nvBtn").onclick = () => aplicarVersaoNova(true);
 function nav(tab){
   if(typeof fecharAnotacoes === "function") fecharAnotacoes();          // anotações do Estudar ainda não enviadas seguem para a conta
   pararTimer(); if(typeof pararCamera === "function") pararCamera(); if(typeof MUSICA !== "undefined") MUSICA.parar();
+  if(typeof antesDaConta !== "undefined" && antesDaConta && !AREA_DA_CONTA.includes(tab)) antesDaConta = null;      // saiu da conta por outro caminho: esquece para onde voltar
   tabAtual = tab; atualizarCasca(); window.scrollTo(0,0);
   if(typeof carregarNotificacoes === "function") carregarNotificacoes();        // confere reações novas (no máximo a cada 90 s)
   setTimeout(() => conferirVersao(false), 400);                                 // e se subiu versão nova do jogo (no máximo a cada 2 min)
   ({ inicio: telaInicio, estudar: telaEstudar, quiz: telaQuiz, ranking: telaRanking, missoes: () => telaMissoes(), salas: telaSalas, mural: telaMuralSalas, conta: telaConta, admin: telaAdmin, loja: telaLoja }[tab] || telaInicio)();
 }
 document.querySelectorAll("#nav button").forEach(b => b.onclick = ()=>{ const t = b.dataset.tab; if(t === "estudar") estudoVista = "livros"; if(t === "ranking") corridaVista = "salas"; if(t === "missoes") missoesVista = "mapas"; nav(t); });   // pelo menu, a Lição abre na estante de livros, e a Corrida na escolha da sala
-$("chipConta").onclick = ()=>{ if(perfil && !perfil.profeta) return; nav("conta"); };
+/* Tocar no personagem abre a Minha conta; tocar de novo fecha e volta para a tela (e a altura) em que a pessoa estava */
+let antesDaConta = null;
+const AREA_DA_CONTA = ["conta", "admin", "salas"];
+$("chipConta").onclick = ()=>{
+  if(perfil && !perfil.profeta) return;
+  if(tabAtual === "conta"){
+    const a = antesDaConta || { tab: "inicio", y: 0 }; antesDaConta = null;
+    nav(a.tab);
+    if(a.y){ const sobe = () => { if(tabAtual === a.tab) window.scrollTo(0, a.y); }; requestAnimationFrame(sobe); setTimeout(sobe, 350); }
+    return;
+  }
+  if(!AREA_DA_CONTA.includes(tabAtual)) antesDaConta = { tab: tabAtual, y: window.scrollY || 0 };
+  nav("conta");
+};
 $("sino").onclick = ()=> modalNotificacoes();
 $("brandIc").innerHTML = logoIcone();
 $("brand").onclick = ()=>{ if(usuario && perfil && (perfil.aprovado || perfil.admin) && perfil.profeta) nav("inicio"); };
@@ -3191,6 +3245,10 @@ function cabPagina(rotulo, meta, titulo, sub){
 /* Botão Voltar das telas de dentro (o destino aparece no rótulo) */
 function botaoVoltar(id, destino){ return `<button type="button" class="pg-voltar" id="${id}"><span aria-hidden="true">‹</span>${destino ? "Voltar para " + destino : "Voltar"}</button>`; }
 function heroLicao(L){ return cabPagina(esc(L.numero), esc(L.datas), esc(L.titulo), esc(L.recap) + "."); }
+function topoDaLicao(L, idVoltar){
+  return `<div class="lic-topo"><button type="button" class="pg-voltar" id="${idVoltar}" aria-label="Voltar para as lições"><span aria-hidden="true">‹</span><b class="pv-longo">Voltar para as lições</b><b class="pv-curto">Voltar</b></button>
+    <header class="lic-topo-tx"><div class="pg-rot"><span>${esc(L.numero)}</span><em>${esc(L.datas || "")}</em></div><h1>${esc(L.titulo)}</h1></header></div>`;
+}
 function seletorLicao(id, atual){
   const iAtual = indiceLicaoAtual();
   return `<div class="field" style="margin-bottom:10px"><label for="${id}">Lição</label><select id="${id}">${LICOES.map((l,i)=>`<option value="${i}" ${l===atual?"selected":""}>${esc(l.numero)}: ${esc(l.titulo)}${i===iAtual?" (esta semana)":""}${licaoTravada(l)?" 🔒":""}</option>`).join("")}</select></div>`;
@@ -3224,15 +3282,14 @@ function telaQuizSemana(){
   if(!LICAO) return telaQuizLivros();
   if(LICAO.pendente){ app.innerHTML = `<section class="panel"><p class="vazio">Carregando a lição…</p></section>`; garantirLicao(LICAO).then(() => { if(tabAtual === "quiz") telaQuizSemana(); }).catch(e => { app.innerHTML = `<section class="panel"><p class="erro">${esc(erroMsg(e))}</p></section>`; }); return; }
   quizVista = "semana";
-  const abrindo = quizAbrindo; quizAbrindo = false;
-  let h = `<div class="estudo-area lic-tela">${botaoVoltar("qzVoltar", "as lições")}${heroLicao(LICAO)}${abasDaLicao("quiz", LICAO)}<section class="panel pg-card aba-corpo" role="tabpanel" aria-labelledby="abaQuiz">`;
+  quizAbrindo = false;
+  let h = `<div class="estudo-area lic-tela">${topoDaLicao(LICAO, "qzVoltar")}${abasDaLicao("quiz", LICAO)}<section class="panel pg-card aba-corpo" role="tabpanel" aria-labelledby="abaQuiz">`;
   h += `<button type="button" class="hud" id="verPontos" aria-label="${fmt(totalSemana())} pontos nesta lição, ${noPrazo()} de ${LICAO.dias.length} dias no prazo. Ver a pontuação">
       <span class="hud-it"><i aria-hidden="true">★</i><b>${fmt(totalSemana())}</b><small>pontos</small></span>
       <span class="hud-it"><i aria-hidden="true">✓</i><b>${noPrazo()}/${LICAO.dias.length}</b><small>no prazo</small></span>
       <span class="hud-mais">Pontuação ›</span></button>`;
-  h += `<div class="hm-cab"><span>${esc(tituloLivro(LICAO.trimestre))}</span><span>${esc(nomeTrimestre(LICAO.trimestre))}</span></div>${mapaTrimestre(LICAO, abrindo)}`;
   if(licaoTravada(LICAO)) h += `<div class="aviso-fb">🔒 <b>Lição de uma semana anterior.</b> Está bloqueada. <button class="linkish" id="verBloqueio">Saiba mais</button></div>`;
-  h += `<div class="hm-cab" style="margin-top:14px"><span>Dias da semana</span></div><ul class="days">`;
+  h += `<div class="hm-cab"><span>Dias da semana</span></div><ul class="days">`;
   LICAO.dias.forEach((d,i)=>{
     const s = status(LICAO, d);
     let btn = "";
@@ -3256,7 +3313,6 @@ function telaQuizSemana(){
   h += `</section></div>`;
   app.innerHTML = h;
   ligarAbasDaLicao(LICAO);
-  ligarMapaTrimestre(async L => { try{ LICAO = await garantirLicao(L); }catch(e){ aviso("Não deu para abrir a lição: " + erroMsg(e)); return; } telaQuizSemana(); });
   $("qzVoltar").onclick = () => voltarParaAsLicoes(LICAO);
   $("verPontos").onclick = modalPontuacao;
   const vb = $("verBloqueio"); if(vb) vb.onclick = modalBloqueio;
@@ -3725,7 +3781,7 @@ function telaEstudarDias(){
   if(!texto && !resumo) corpo += `<p class="vazio" id="semTexto">O texto desta lição não foi importado. Leia o dia <b>${esc(d.nome)}</b> na sua lição impressa ou no app e depois faça o quiz.</p>`;
   corpo += htmlObservacoes(d);
   const s = status(L, d);
-  app.innerHTML = `<div class="estudo-area lic-tela">${botaoVoltar("edVoltar", "as lições")}${heroLicao(L)}${abasDaLicao("licao", L)}<section class="panel pg-card aba-corpo" role="tabpanel" aria-labelledby="abaLicao">
+  app.innerHTML = `<div class="estudo-area lic-tela">${topoDaLicao(L, "edVoltar")}${abasDaLicao("licao", L)}<section class="panel pg-card aba-corpo" role="tabpanel" aria-labelledby="abaLicao">
     <div class="tabs dias" role="tablist">${L.dias.map((x,k)=>`<button role="tab" aria-selected="${k===estudoDia}" data-k="${k}"><span>${x.curto}${resDe(L,x)?" ✓":""}</span><small>${dataCurta(x.data)}</small></button>`).join("")}</div>
     <p class="pg-sobre">${esc(d.nome)}, ${esc(dataLonga(d.data))}</p>
     <h2 class="pg-tit">${esc(d.tema)}</h2>
