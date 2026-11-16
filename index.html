@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="versao" content="20261116.132052">
+<meta name="versao" content="20261116.133700">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Corrida do Rolo · Quiz da Lição</title>
 <meta name="theme-color" content="#524F9C">
@@ -1843,6 +1843,18 @@ html{overscroll-behavior-y:contain}
 .sem-sala-ic{font-size:40px;line-height:1;margin-bottom:6px}
 .sem-sala h2{margin:0 0 6px;font:800 19px/1.25 "Barlow",sans-serif;letter-spacing:0;text-transform:none}
 .sem-sala p{margin:0 auto 12px;max-width:420px;font-size:14px;line-height:1.45;color:var(--soft)}
+/* ---------- super quiz: o cartão abre as regras ---------- */
+.sq-card[role="button"]{cursor:pointer;transition:transform .12s ease,background .15s ease}
+.sq-card[role="button"]:hover{background:rgba(255,255,255,.2)}
+.sq-card.aberto[role="button"]:hover{background:linear-gradient(135deg,rgba(255,226,122,.36),rgba(242,190,46,.18))}
+.sq-card[role="button"]:active{transform:scale(.985)}
+.sq-mini::after{content:"›";flex:none;margin-left:-2px;font-size:20px;color:var(--soft)}
+.sq-estado{display:grid;justify-items:center;gap:3px;margin:0 0 12px;padding:12px 10px;border-radius:14px;background:rgba(0,0,0,.2);text-align:center}
+.sq-estado.aberto{background:linear-gradient(135deg,rgba(255,226,122,.26),rgba(242,190,46,.1));border:1px solid rgba(255,226,122,.5)}
+.sq-estado small{font:800 11px/1 "Barlow",sans-serif;letter-spacing:.8px;text-transform:uppercase;color:var(--soft)}
+.sq-estado b{font:400 34px/1 "Bebas Neue","Arial Narrow",sans-serif;letter-spacing:1.5px;font-variant-numeric:tabular-nums;color:#FFE27A}
+.sq-estado span{font-size:13px;line-height:1.35;color:var(--soft)}
+.sq-estado span:first-letter{text-transform:uppercase}
 /* login */
 .logo-login{padding:18px 0 6px}
 .logo-login p{font-size:14px;margin-top:10px}
@@ -8677,18 +8689,19 @@ function tempoAte(ms){
 /* ---------- Cartão do Início, sempre no alto: fechado é uma faixa com o relógio; aberto é o cartão dourado com o botão ---------- */
 function htmlSuperQuizInicio(){
   const j = janelaSuper(), L = licaoDoSuper(j.id), sq = meuSuper(j.id);
-  const faixa = (rot, ate, extra) => `<section class="panel hm-card sq-card sq-mini" id="sqCard"><span class="sq-ic" aria-hidden="true">🏁</span><div class="sq-mini-tx"><b>Super quiz das missões</b><small>${extra}</small></div><div class="sq-mini-rel"><small>${rot}</small><b id="sqRelogio" data-ate="${ate}">${tempoAte(ate - Date.now())}</b></div></section>`;
+  const faixa = (rot, ate, extra) => `<section class="panel hm-card sq-card sq-mini" id="sqCard" role="button" tabindex="0" aria-label="Super quiz das missões: ver as regras"><span class="sq-ic" aria-hidden="true">🏁</span><div class="sq-mini-tx"><b>Super quiz das missões</b><small>${extra}</small></div><div class="sq-mini-rel"><small>${rot}</small><b id="sqRelogio" data-ate="${ate}">${tempoAte(ate - Date.now())}</b></div></section>`;
   if(!j.aberto) return faixa("abre em", j.ini.getTime(), `Sexta às ${SQ_HORA}h · ${SQ_POR_CASA} acertos = 1 casa`);
   const prox = j.ini.getTime() + 7 * 864e5;
   if(!L) return faixa("próximo em", prox, "Sem lição cadastrada nesta semana");
   if(sq && sq.fim) return faixa("próximo em", prox, `Feito: ${sq.acertos} ${sq.acertos === 1 ? "acerto" : "acertos"}, +${casasDoSuper(sq.acertos)} ${casasDoSuper(sq.acertos) === 1 ? "casa" : "casas"}`);
   const corpo = `<p class="sq-tx"><b>Está aberto!</b> ${esc(L.numero)} · ${sq ? `você parou na pergunta ${sq.q + 1} de ${sq.n} e já avançou ${casasDoSuper(sq.acertos)} ${casasDoSuper(sq.acertos) === 1 ? "casa" : "casas"}.` : `${SQ_PERGUNTAS} perguntas da semana. A cada ${SQ_POR_CASA} acertos você avança 1 casa nas missões.`}</p><div class="sq-relogio"><small>Fecha em</small><b id="sqRelogio" data-ate="${j.fim.getTime()}">${tempoAte(j.fim - Date.now())}</b></div>`;
-  return `<section class="panel hm-card sq-card aberto" id="sqCard"><div class="hm-cab"><span><i class="sq-ic" aria-hidden="true">🏁</i> Super quiz das missões</span><span class="hm-meta">até sábado ${SQ_HORA}h</span></div>${corpo}<div class="hm-acoes uma"><button class="btn btn-main sq-btn" id="sqJogar">${sq ? "Continuar o super quiz" : "Jogar o super quiz"}</button></div></section>`;
+  return `<section class="panel hm-card sq-card aberto" id="sqCard" role="button" tabindex="0" aria-label="Super quiz das missões: ver as regras"><div class="hm-cab"><span><i class="sq-ic" aria-hidden="true">🏁</i> Super quiz das missões</span><span class="hm-meta">até sábado ${SQ_HORA}h</span></div>${corpo}<div class="hm-acoes uma"><button class="btn btn-main sq-btn" id="sqJogar">${sq ? "Continuar o super quiz" : "Jogar o super quiz"}</button></div></section>`;
 }
 let sqTimer = null;
 function ligarSuperQuizInicio(){
   clearInterval(sqTimer);
-  const b = $("sqJogar"); if(b) b.onclick = () => abrirSuperQuiz();
+  const b = $("sqJogar"); if(b) b.onclick = e => { e.stopPropagation(); abrirSuperQuiz(); };
+  const c = $("sqCard"); if(c){ c.onclick = () => { tocar("toque"); modalRegrasSuper(); }; c.onkeydown = e => { if(e.target === c && (e.key === "Enter" || e.key === " ")){ e.preventDefault(); c.click(); } }; }
   if(!$("sqRelogio")) return;
   sqTimer = setInterval(() => {
     const el = $("sqRelogio"); if(!el){ clearInterval(sqTimer); return; }
@@ -8697,9 +8710,32 @@ function ligarSuperQuizInicio(){
     el.textContent = tempoAte(falta);
   }, 1000);
 }
+/* ---------- Janela com as informações e as regras (toque no cartão do Início) ---------- */
+function modalRegrasSuper(){
+  const j = janelaSuper(), L = licaoDoSuper(j.id), sq = meuSuper(j.id), dia = d => d.toLocaleDateString("pt-BR", { weekday: "long", day: "numeric", month: "long" });
+  const estado = !j.aberto ? `<div class="sq-estado"><small>Abre em</small><b id="sqRegRel" data-ate="${j.ini.getTime()}">${tempoAte(j.ini - Date.now())}</b><span>${esc(dia(j.ini))}, às ${SQ_HORA}h${L ? ` · ${esc(L.numero)}: ${esc(L.titulo)}` : ""}</span></div>`
+    : sq && sq.fim ? `<div class="sq-estado feito"><small>Esta semana</small><b>+${casasDoSuper(sq.acertos)} ${casasDoSuper(sq.acertos) === 1 ? "casa" : "casas"}</b><span>Você acertou ${sq.acertos} de ${sq.n}. O próximo abre ${esc(dia(new Date(j.ini.getTime() + 7 * 864e5)))}, às ${SQ_HORA}h.</span></div>`
+    : `<div class="sq-estado aberto"><small>Aberto · fecha em</small><b id="sqRegRel" data-ate="${j.fim.getTime()}">${tempoAte(j.fim - Date.now())}</b><span>${L ? `${esc(L.numero)}: ${esc(L.titulo)}` : "Sem lição cadastrada nesta semana"}${sq ? ` · você está na pergunta ${sq.q + 1} de ${sq.n}` : ""}</span></div>`;
+  const pode = j.aberto && L && !(sq && sq.fim);
+  modal("Super quiz das missões", `<div class="sq-info">${estado}
+      <div class="sq-regras">
+        <div><span aria-hidden="true">📅</span><p><b>Quando:</b> toda semana, de <b>sexta às ${SQ_HORA}h até sábado às ${SQ_HORA}h</b> (horário do seu celular).</p></div>
+        <div><span aria-hidden="true">❓</span><p><b>${SQ_PERGUNTAS} perguntas</b> sorteadas da lição da semana que terminou. Cada jogador recebe um sorteio diferente.</p></div>
+        <div><span aria-hidden="true">🏁</span><p><b>A cada ${SQ_POR_CASA} acertos, você avança 1 casa</b> no mapa das missões. Acertando todas, são ${Math.floor(SQ_PERGUNTAS / SQ_POR_CASA)} casas.</p></div>
+        <div><span aria-hidden="true">🎁</span><p><b>Os prêmios das casas são seus:</b> moedas, personagens, acessórios, ajudas e o nível.</p></div>
+        <div><span aria-hidden="true">🧘</span><p><b>Sem tempo e sem pontos.</b> Não conta na corrida e não usa ajudas: pense com calma, o que vale é acertar.</p></div>
+        <div><span aria-hidden="true">1️⃣</span><p><b>Uma vez por semana.</b> Se sair no meio, continua de onde parou até sábado às ${SQ_HORA}h. As respostas ficam salvas, então não dá para recomeçar.</p></div>
+      </div>
+      <div class="btn-row">${pode ? `<button type="button" class="btn btn-main sq-btn" id="sqRegJogar">${sq ? "Continuar o super quiz" : "Jogar agora"}</button>` : ""}<button type="button" class="btn btn-ghost" id="sqRegOk">${pode ? "Agora não" : "Entendi"}</button></div></div>`, (m, fechar) => {
+    m.querySelector("#sqRegOk").onclick = fechar;
+    const jg = m.querySelector("#sqRegJogar"); if(jg) jg.onclick = () => { fechar(); abrirSuperQuiz(true); };
+    const rel = m.querySelector("#sqRegRel");
+    if(rel){ const t = setInterval(() => { if(!rel.isConnected){ clearInterval(t); return; } const f = +rel.dataset.ate - Date.now(); rel.textContent = tempoAte(f); if(f <= 0){ clearInterval(t); fechar(); if(tabAtual === "inicio") telaInicio(); } }, 1000); }
+  });
+}
 /* ---------- O jogo ---------- */
 let SQ = null;      // { L, id, pergs, q, acertos, de }
-async function abrirSuperQuiz(){
+async function abrirSuperQuiz(semRegras){
   const j = janelaSuper(); if(!j.aberto){ aviso("O super quiz abre na sexta às 18h."); return; }
   let L = licaoDoSuper(j.id); if(!L){ aviso("Esta semana não tem lição para o super quiz."); return; }
   try{ L = await garantirLicao(L); }catch(e){ aviso(erroMsg(e)); return; }
@@ -8712,7 +8748,7 @@ async function abrirSuperQuiz(){
     if(!sq) salvarSuper(false);
     tabAtual = "missoes"; atualizarCasca(); window.scrollTo(0, 0); perguntaSuper();
   };
-  if(sq){ comecar(); return; }
+  if(sq || semRegras){ comecar(); return; }          // quem veio da janela de regras já leu tudo
   modal("Super quiz das missões", `<div class="aq"><div class="sq-regras">
       <div><span aria-hidden="true">❓</span><p><b>${pergs.length} perguntas</b> sorteadas da ${esc(L.numero)}: ${esc(L.titulo)}.</p></div>
       <div><span aria-hidden="true">🏁</span><p><b>A cada ${SQ_POR_CASA} acertos, você avança 1 casa</b> no mapa das missões, com as moedas e os prêmios da casa.</p></div>
