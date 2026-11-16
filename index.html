@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="versao" content="20261116.111733">
+<meta name="versao" content="20261116.132052">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Corrida do Rolo · Quiz da Lição</title>
 <meta name="theme-color" content="#524F9C">
@@ -1800,6 +1800,49 @@ html{overscroll-behavior-y:contain}
 .lj-topo.cat{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
 .lj-topo.cat .pg-voltar{margin:0}
 @media (min-width:700px){.lj-cats{grid-template-columns:repeat(3,minmax(0,1fr))}}
+/* ---------- super quiz das missões ---------- */
+.sq-card{position:relative;overflow:hidden}
+.sq-card.aberto{background:linear-gradient(135deg,rgba(255,226,122,.28),rgba(242,190,46,.12));border-color:rgba(255,226,122,.6);box-shadow:0 0 0 1px rgba(255,226,122,.25),0 8px 22px rgba(242,190,46,.18)}
+.sq-ic{font-style:normal;margin-right:2px}
+.sq-tx{margin:2px 0 8px;font-size:13.5px;line-height:1.4;color:var(--soft)}
+.sq-tx b{color:#fff}
+.sq-relogio{display:flex;align-items:baseline;justify-content:center;gap:10px;padding:8px 10px;border-radius:12px;background:rgba(0,0,0,.2)}
+.sq-relogio small{font:800 11px/1 "Barlow",sans-serif;letter-spacing:.8px;text-transform:uppercase;color:var(--soft)}
+.sq-relogio b{font:400 30px/1 "Bebas Neue","Arial Narrow",sans-serif;letter-spacing:1.5px;font-variant-numeric:tabular-nums;color:#FFE27A}
+.sq-card .hm-acoes{margin-top:10px}
+.sq-btn{background:linear-gradient(135deg,#FFE27A,#F2BE2E);color:#4A3300;border-color:transparent}
+.sq-casas{display:grid;justify-items:center;padding:6px 12px;border-radius:14px;background:rgba(255,226,122,.18);border:1px solid rgba(255,226,122,.5);color:#FFE27A}
+.sq-casas i{font-style:normal;font-size:15px;line-height:1}
+.sq-casas b{font:400 26px/1 "Bebas Neue","Arial Narrow",sans-serif;letter-spacing:.5px}
+.sq-casas small{font:800 10px/1 "Barlow",sans-serif;text-transform:uppercase;letter-spacing:.6px}
+.sq-barra{height:6px;border-radius:99px;background:rgba(0,0,0,.2);margin:6px 0 14px;overflow:hidden}
+.sq-barra i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#FFE27A,#F2BE2E);transition:width .3s ease}
+.sq-regras{display:grid;gap:8px;margin:0 0 14px}
+.sq-regras div{display:flex;gap:10px;align-items:flex-start;padding:9px 11px;border-radius:12px;background:rgba(255,255,255,.1)}
+.sq-regras span{font-size:20px;line-height:1.2;flex:none}
+.sq-regras p{margin:0;font-size:13.5px;line-height:1.4}
+.sq-sub{margin:4px 0 8px;font-size:13px;color:var(--soft)}
+.sq-premios{margin:10px auto 0;padding:0;list-style:none;font-size:13px;color:var(--soft);display:grid;gap:3px}
+.sq-fim .novo-profeta{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 14px}
+.sq-fim .novo-profeta .avatar{width:58px;height:74px}
+.sq-fim .novo-profeta p{flex-basis:100%;text-align:center}
+.hm-cedo,.aq-cedo{margin:8px 0 0;font:700 12.5px/1.35 "Barlow",sans-serif;color:#FFE27A}
+.aq-cedo{margin:0 0 10px;padding:8px 10px;border-radius:10px;background:rgba(255,226,122,.14)}
+/* ---------- super quiz: faixa com o relógio no alto do Início ---------- */
+.sq-mini{display:flex;align-items:center;gap:10px;padding:10px 12px}
+.sq-mini .sq-ic{font-size:22px;line-height:1;flex:none}
+.sq-mini-tx{flex:1;min-width:0;display:grid}
+.sq-mini-tx b{font:800 14px/1.2 "Barlow",sans-serif}
+.sq-mini-tx small{font-size:11.5px;color:var(--soft);line-height:1.3}
+.sq-mini-rel{flex:none;display:grid;justify-items:end;padding:5px 10px;border-radius:10px;background:rgba(0,0,0,.22)}
+.sq-mini-rel small{font:800 9.5px/1 "Barlow",sans-serif;letter-spacing:.6px;text-transform:uppercase;color:var(--soft)}
+.sq-mini-rel b{font:400 22px/1 "Bebas Neue","Arial Narrow",sans-serif;letter-spacing:1px;font-variant-numeric:tabular-nums;color:#FFE27A;white-space:nowrap}
+.sq-casas em{font:700 10px/1.2 "Barlow",sans-serif;font-style:normal;color:var(--soft);margin-top:2px}
+/* ---------- quem ainda não está em nenhuma sala ---------- */
+.sem-sala{text-align:center;padding:22px 18px}
+.sem-sala-ic{font-size:40px;line-height:1;margin-bottom:6px}
+.sem-sala h2{margin:0 0 6px;font:800 19px/1.25 "Barlow",sans-serif;letter-spacing:0;text-transform:none}
+.sem-sala p{margin:0 auto 12px;max-width:420px;font-size:14px;line-height:1.45;color:var(--soft)}
 /* login */
 .logo-login{padding:18px 0 6px}
 .logo-login p{font-size:14px;margin-top:10px}
@@ -3253,7 +3296,8 @@ function conquistas(){
     { ic:"🏁", id:"maratonista", t:"Maratonista", d:"21 dias de estudo", on: rs.length >= 21 },
     { ic:"🕊️", id:"fiel", t:"Fiel na reta", d:"3 semanas completas", on: LICOES.filter(L => L.dias.every(d => resDe(L,d) && resDe(L,d).noPrazo)).length >= 3 },
     { ic:"💎", id:"tesouro", t:"Tesouro", d:"20.000 pontos no trimestre", on: totalTrimestre() >= 20000 },
-    { ic:"📖", id:"rolo", t:"Rolo inteiro", d:"Todos os dias do trimestre", on: LICOES.length > 0 && LICOES.every(L => L.dias.every(d => resDe(L,d))) }
+    { ic:"📖", id:"rolo", t:"Rolo inteiro", d:"Todos os dias do trimestre", on: LICOES.length > 0 && LICOES.every(L => L.dias.every(d => resDe(L,d))) },
+    { ic:"💰", id:"rico", t:"Rico", d:"Ganhou 1.000 moedas no total", on: typeof moedasGanhas === "function" && moedasGanhas() >= 1000 }
   ];
 }
 /* ---------- Conquistas novas: aparecem uma única vez, com confetes ---------- */
@@ -3352,6 +3396,7 @@ function telaInicio(){
   html += `<header class="hm-ola"><div class="hm-av${classeMoldura(minhaMoldura())}">${meuAvatar()}</div><div class="hm-ola-tx"><small>${saudacao()}</small><h2>${esc(String(perfil.nome || "").split(" ")[0])}</h2>${fala ? `<p>“${esc(fala)}”</p>` : ""}</div>
     <div class="hm-chips"><span class="hm-chip" title="Sequência no prazo">${st >= 5 ? "🔥" : "⚡"} ${st}</span><span class="hm-chip ouro" title="Nível ${nv}: ${esc(nomeNivel(nv))}">Nv ${nv}</span></div></header>`;
   html += typeof htmlDesafiosInicio === "function" ? htmlDesafiosInicio() : "";
+  if(typeof htmlSuperQuizInicio === "function") html += htmlSuperQuizInicio();         // super quiz: o relógio fica sempre no alto
   /* hoje */
   html += `<section class="panel hm-card hm-hoje">`;
   if(dHoje){
@@ -3362,7 +3407,7 @@ function telaInicio(){
       <div class="hm-acoes"><button class="btn btn-main" id="inVer">Ver resultado</button><button class="btn btn-ghost" id="inEstudar">Reler</button></div>`;
     else if(prog) html += `<p class="hm-sub">Pergunta ${Math.min(prog.q + 1, prog.n)} de ${prog.n}</p><div class="hm-acoes"><button class="btn btn-main" id="inJogar">Continuar o quiz</button><button class="btn btn-ghost" id="inEstudar">Estudar</button></div>`;
     else if(!dHoje.perguntas.length) html += `<div class="hm-acoes uma"><button class="btn btn-main" id="inEstudar">Estudar a lição de hoje</button></div>`;
-    else html += `<div class="hm-acoes"><button class="btn btn-main" id="inEstudar">Estudar</button><button class="btn btn-ghost" id="inJogar">Fazer o quiz</button></div><p class="hm-contagem" id="inContagem"></p>`;
+    else html += `<div class="hm-acoes"><button class="btn btn-main" id="inEstudar">Estudar</button><button class="btn btn-ghost" id="inJogar">Fazer o quiz</button></div>${new Date().getHours() < DOBRO_CEDO_HORA ? `<p class="hm-cedo">⏰ Até as ${DOBRO_CEDO_HORA}h as moedas deste quiz valem o dobro.</p>` : ""}<p class="hm-contagem" id="inContagem"></p>`;
   } else if(L && licaoFutura(L)) html += `<span class="hm-sobre">Próxima lição</span><h2>${esc(L.titulo)}</h2><p class="hm-sub">Começa no sábado, ${esc(dataLonga(L.dias[0].data))}.</p>`;
   else html += `<span class="hm-sobre">Fim do trimestre</span><h2>Parabéns por chegar até aqui!</h2><p class="hm-sub">Confira sua corrida e aguarde a próxima lição.</p>`;
   html += `</section>`;
@@ -3391,6 +3436,7 @@ function telaInicio(){
   app.querySelectorAll("[data-cq]").forEach(b => b.onclick = ()=> modalConquista(+b.dataset.cq));
   const est = $("inEstudar"); if(est) est.onclick = ()=>{ estudoLicao = L; estudoDia = hojeIdx >= 0 ? hojeIdx : -1; estudoVista = "dias"; nav("estudar"); };
   if(typeof dicaDaLoja === "function") dicaDaLoja();          // aponta a Loja no menu, uma vez por pessoa
+  if(typeof ligarSuperQuizInicio === "function") ligarSuperQuizInicio();
   const jog = $("inJogar"); if(jog) jog.onclick = ()=>{ LICAO = L; tabAtual = "quiz"; atualizarCasca(); iniciar(hojeIdx); };
   const ver = $("inVer"); if(ver) ver.onclick = ()=>{ LICAO = L; tabAtual = "quiz"; atualizarCasca(); telaResultado(hojeIdx); };
   const ct = $("inContagem");
@@ -3399,6 +3445,7 @@ function telaInicio(){
 }
 async function posicaoCorrida(L){
   const el = $("inCorrida"); if(!el) return;
+  if(semSala()){ el.innerHTML = `<div class="hm-cab"><span>Corrida do Rolo</span></div><p class="hm-sub">Você ainda não está em nenhuma sala. Entre na sala da sua turma para correr com ela.</p><div class="hm-acoes uma"><button class="btn btn-ghost" data-ir-salas>Entrar ou criar uma sala</button></div>`; return; }
   try{
     const sala = salaAtual();
     let res = await resultadosDaSala(sala, { licaoId: L.id });
@@ -3586,7 +3633,8 @@ function antesDoQuiz(dia, jogar){
     ? `<p class="aq-tx">Você tem estas ajudas para usar. <b>Cada uma só pode ser usada uma vez neste quiz.</b></p>
        <div class="aq-lista">${tipos.map(k => `<div class="aq-item"><span class="ic" aria-hidden="true">${AJUDAS[k].ic}</span><span class="aq-n"><b>${esc(AJUDAS[k].nome)}</b><small>${esc(AJUDAS[k].d)}</small></span><em>${d[k]}</em></div>`).join("")}</div>`
     : `<div class="aq-vazio"><span aria-hidden="true">🎁</span><p><b>Você ainda não tem ajudas.</b> Elas são conquistadas nas missões: Meio a meio, Pontos em dobro, Segunda chance e Pular.</p></div>`;
-  modal(`Quiz de ${dia.nome.toLowerCase()}`, `<div class="aq">${corpo}
+  const cedo = dia.data === hoje() && new Date().getHours() < DOBRO_CEDO_HORA ? `<p class="aq-cedo">⏰ <b>Antes das ${DOBRO_CEDO_HORA}h:</b> as moedas deste quiz valem o dobro.</p>` : "";
+  modal(`Quiz de ${dia.nome.toLowerCase()}`, `<div class="aq">${cedo}${corpo}
       <div class="btn-row"><button type="button" class="btn btn-main" id="aqJogar">Jogar</button><button type="button" class="btn btn-ghost" id="aqVoltar">Voltar</button></div></div>`, (m, fechar) => {
     m.querySelector("#aqJogar").onclick = () => { fechar(); jogar(); };
     m.querySelector("#aqVoltar").onclick = fechar;
@@ -3825,12 +3873,12 @@ function telaResultado(i, novo, extra){
   const antes = totalSemana() - r.pts;
   /* fim do quiz: os pontos sobem de 0 até o total e depois as moedas ganhas voam para o total lá em cima */
   /* ao terminar agora, mostra tudo o que entrou de moedas (acertos + bônus da semana completa + casas de missão que este quiz cumpriu) */
-  const ganhas = novo && extra ? Math.max(0, moedas() - extra.moedasAntes) : (r.acertos || 0), tinha = novo && extra ? extra.moedasAntes : Math.max(0, moedas() - ganhas), animar = !!novo && !matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const ganhas = novo && extra ? Math.max(0, moedas() - extra.moedasAntes) : moedasDoResultado(r), tinha = novo && extra ? extra.moedasAntes : Math.max(0, moedas() - ganhas), animar = !!novo && !matchMedia("(prefers-reduced-motion: reduce)").matches;
   app.innerHTML = `<div class="result-area"><section class="panel result">
       <p class="lbl">${esc(dia.nome)}</p>
       <div class="big" id="resPts" aria-label="${fmt(r.pts)} pontos">${fmt(animar ? 0 : r.pts)}</div>
       <p class="lbl">pontos</p>
-      <p class="res-moedas ${animar ? "espera" : ""}" id="resMoedas" title="Cada resposta certa vale 1 moeda"><i class="moeda" id="resMoedaIc" aria-hidden="true"></i><b id="resMoedasN">+${ganhas}</b> ${ganhas === 1 ? "moeda" : "moedas"}<span>você tem <strong id="resMoedasT">${fmt(animar ? tinha : moedas())}</strong> para gastar na loja</span>${extra && extra.semana ? `<em class="res-bonus">Semana completa no prazo: +${MOEDAS_SEMANA} moedas de bônus!</em>` : extra && ganhas > (r.acertos || 0) ? `<em class="res-bonus">${r.acertos || 0} dos acertos e ${ganhas - (r.acertos || 0)} das missões</em>` : ""}</p>
+      <p class="res-moedas ${animar ? "espera" : ""}" id="resMoedas" title="Cada resposta certa vale 1 moeda"><i class="moeda" id="resMoedaIc" aria-hidden="true"></i><b id="resMoedasN">+${ganhas}</b> ${ganhas === 1 ? "moeda" : "moedas"}<span>você tem <strong id="resMoedasT">${fmt(animar ? tinha : moedas())}</strong> para gastar na loja</span>${quizCedo(r) ? `<em class="res-bonus">⏰ Feito antes das 8h: moedas em dobro!</em>` : ""}${extra && extra.semana ? `<em class="res-bonus">Semana completa no prazo: +${MOEDAS_SEMANA} moedas de bônus!</em>` : extra && ganhas > moedasDoResultado(r) ? `<em class="res-bonus">${moedasDoResultado(r)} dos acertos e ${ganhas - moedasDoResultado(r)} das missões</em>` : ""}</p>
       <h2>${frase}</h2>
       <p class="sub">${r.noPrazo ? "" : "Feito com atraso. "}Na lição: <span id="somaAnim">${fmt(novo ? antes : totalSemana())}</span> pontos.</p>
     </section>
@@ -4038,7 +4086,7 @@ function corridaCfg(res, membros){
 }
 let corridaModo = "licao", corridaLicao = null, corridaVista = "pista";   // "salas": antes da pista, escolhe a sala (quando há mais de uma)
 async function telaRanking(){
-  if(corridaVista === "salas") return telaListaDeSalas("corrida");
+  if(corridaVista === "salas" || semSala()) return telaListaDeSalas("corrida");
   const sala = salaAtual(), variasSalas = SALAS.length + SALAS_OUTRAS.length > 1;
   const cfg = corridaCfg();
   if(!corridaLicao || !cfg.lics.find(l=>l.id===corridaLicao)) corridaLicao = cfg.atual ? cfg.atual.id : (cfg.lics[0] && cfg.lics[0].id);
@@ -4654,7 +4702,7 @@ function modalUsuario(u, depois){
     let salas = null;
     const DICAS = { usuario: "Joga, cria as próprias salas e participa das salas dos outros.", admin: "Administra só as salas marcadas abaixo: aprova pedidos, inclui qualquer pessoa, remove membros e vê os resultados delas.", master: "Vê e edita tudo: todos os usuários, todas as salas, lições, perguntas e ícone." };
     const listarSalas = () => { const el = m.querySelector("#uSalas"); if(!salas) return;
-      el.innerHTML = salas.length ? salas.map(x => `<label class="check"><input type="checkbox" value="${esc(x.id)}" ${(x.admins || []).includes(u.id) ? "checked" : ""}><span>${esc(x.nome)} <small>${x.publica ? "pública" : "privada"}${x.donoNome ? " · criada por " + esc(x.donoNome) : ""}</small></span></label>`).join("") : `<p class="vazio">Ainda não há salas além da 7world. Crie uma em Admin → Salas e depois volte aqui.</p>`; };
+      el.innerHTML = salas.length ? salas.map(x => `<label class="check"><input type="checkbox" value="${esc(x.id)}" ${(x.admins || []).includes(u.id) ? "checked" : ""}><span>${esc(x.nome)} <small>${x.publica ? "pública" : "privada"}${x.donoNome ? " · criada por " + esc(x.donoNome) : ""}</small></span></label>`).join("") : `<p class="vazio">Ainda não há salas criadas. Crie uma em Admin → Salas e depois volte aqui.</p>`; };
     const atualizarPapel = () => { dica.textContent = DICAS[sel.value]; box.hidden = sel.value !== "admin";
       if(sel.value === "admin" && !salas) DB.listarSalas().then(l => { salas = l.filter(x => x.id !== SALA_GLOBAL_ID).sort((a,b) => String(a.nome).localeCompare(String(b.nome), "pt-BR")); listarSalas(); }).catch(e => { m.querySelector("#uSalas").innerHTML = `<p class="erro">${esc(erroMsg(e))}</p>`; }); };
     sel.onchange = atualizarPapel; atualizarPapel();
@@ -4695,7 +4743,7 @@ async function admAprovar(){
     c.innerHTML = `<section class="panel"><div class="adm-cab"><h3 class="h3">Aguardando aprovação${pend.length ? " (" + pend.length + ")" : ""}</h3>${pend.length > 1 ? `<button class="btn btn-ok btn-sm" id="apTodos">Aprovar todos</button>` : ""}</div>${pend.length ? `<ul class="lista">${pend.map(u=>linhaUsuario(u,true)).join("")}</ul>` : `<p class="vazio">Nenhum usuário pendente. 🎉</p>`}</section>
       <section class="panel"><h3 class="h3">Novas contas</h3>
         <label class="check"><input type="checkbox" id="apAuto" ${CONFIG.aprovacaoAuto ? "checked" : ""}><span>Aprovar novas contas automaticamente</span></label>
-        <p class="note">Ligado: quem criar a conta já entra direto no jogo e na sala global 7world, sem esperar aprovação (bom quando há jovens de outras igrejas). Desligado: cada conta nova espera você aprovar aqui.</p></section>`;
+        <p class="note">Ligado: quem criar a conta já entra direto no jogo, sem esperar aprovação (bom quando há jovens de outras igrejas). Desligado: cada conta nova espera você aprovar aqui.</p></section>`;
     const auto = $("apAuto"); if(auto) auto.onchange = async ()=>{ const v = auto.checked; try{ await DB.salvarConfig({aprovacaoAuto: v}); CONFIG.aprovacaoAuto = v; aviso(v ? "Novas contas serão aprovadas automaticamente" : "Novas contas voltam a esperar aprovação"); }catch(e){ auto.checked = !v; aviso(erroMsg(e)); } };
     const todos = $("apTodos"); if(todos) todos.onclick = async ()=>{ if(!(await confirmar("Aprovar todos", "Aprovar as " + pend.length + " contas que estão aguardando?", "Aprovar todos", "btn-ok"))) return; ocupado(todos, true); try{ for(const u of pend) await DB.salvarUsuario(u.id, {aprovado:true}); aviso("Usuários aprovados"); admAprovar(); }catch(e){ aviso(erroMsg(e)); admAprovar(); } };
     c.querySelectorAll("[data-aprovar]").forEach(b=> b.onclick = async ()=>{ ocupado(b, true); try{ await DB.salvarUsuario(b.dataset.aprovar, {aprovado:true}); aviso("Usuário aprovado"); admAprovar(); }catch(e){ aviso(erroMsg(e)); ocupado(b,false); } });
@@ -5317,7 +5365,7 @@ async function painelResultados(c, opt){
   const rotuloDia = r => { const d = diaDe(r); const l = LICOES.find(x => x.id === r.licaoId); return (todas && l ? l.numero + " · " : "") + (d ? d.nome : r.data); };
 
   let h = `<section class="panel larga ar-filtro">
-    ${opt.admin || (opt.salas && salasTodas.length > 1) ? `<div class="field"><label for="arSala">Sala</label><select id="arSala">${opt.admin ? `<option value="*" ${admResSala==="*"?"selected":""}>Todas as salas (7world)</option>` : ""}${salasTodas.map(x => `<option value="${esc(x.id)}" ${x.id===admResSala?"selected":""}>${esc(x.nome)}</option>`).join("")}</select></div>` : ""}
+    ${opt.admin || (opt.salas && salasTodas.length > 1) ? `<div class="field"><label for="arSala">Sala</label><select id="arSala">${opt.admin ? `<option value="*" ${admResSala==="*"?"selected":""}>Todos os jogadores</option>` : ""}${salasTodas.map(x => `<option value="${esc(x.id)}" ${x.id===admResSala?"selected":""}>${esc(x.nome)}</option>`).join("")}</select></div>` : ""}
     <div class="field"><label for="arLic">Lição</label><select id="arLic">
       ${LICOES.map(l => `<option value="${esc(l.id)}" ${l.id===admResLic?"selected":""}>${esc(l.numero)}: ${esc(l.titulo)}${l===LICOES[indiceLicaoAtual()]?" (esta semana)":""}</option>`).join("")}
       <option value="*" ${todas?"selected":""}>Trimestre inteiro (todas as lições)</option></select></div></section>`;
@@ -5471,8 +5519,8 @@ function admExportar(){
 
 /* ============================================================
    SALAS (turmas)
-   - Sala global "7world": todo mundo entra automaticamente e não dá para sair.
-   - Cada pessoa cria até 3 salas e participa de até 5 (fora a global). Admin não tem limite.
+   - Não há mais sala global: cada pessoa joga e publica só nas salas em que entrou (a antiga "7world" saiu do jogo).
+   - Cada pessoa cria até 3 salas e participa de até 5. Admin não tem limite.
    - Sala pública: entra na hora. Sala privada: o dono aprova a solicitação.
    - Entrada por código, por link de convite (?sala=CODIGO) ou pela lista de salas públicas.
    Coleções: salas/{id} e membros/{salaId_uid} (status "ativo" | "pendente").
@@ -5489,7 +5537,16 @@ const MAX_SALAS_CRIADAS = 3, MAX_SALAS_PARTICIPA = 5;
   }catch(e){}
 })();
 function normalizarCodigo(c){ return String(c || "").toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 12); }
-function salaAtual(){ return SALA || SALA_GLOBAL; }
+const SEM_SALA = { id: "_nenhuma", nome: "Sem sala", vazia: true, publica: false };
+function salaAtual(){ return SALA || SEM_SALA; }
+const semSala = () => !SALAS.length && !SALAS_OUTRAS.length;
+/* Tela de quem ainda não está em nenhuma sala (Corrida e Mural) */
+function htmlSemSala(onde){
+  return `<div class="result-area"><section class="panel sem-sala"><div class="sem-sala-ic" aria-hidden="true">${onde === "corrida" ? "🏁" : "📌"}</div><h2>Entre na sala da sua turma</h2>
+    <p>${onde === "mural" ? "O mural é de cada sala: lá a turma publica e reage." : onde === "publicar" ? "As publicações vão para o mural da sua sala." : "A corrida é de cada sala: você corre com quem está na mesma sala."} Peça o código para quem cuida da sua classe, ou crie a sua sala.</p>
+    <div class="btn-row"><button class="btn btn-main" data-ir-salas>Entrar ou criar uma sala</button></div></section></div>`;
+}
+document.addEventListener("click", e => { const b = e.target.closest ? e.target.closest("[data-ir-salas]") : null; if(!b) return; document.querySelectorAll(".modal-bg").forEach(m => m.remove()); nav("salas"); });
 function novoMembro(salaId, status, papel){ return { salaId, uid: usuario.uid, nome: perfil.nome || "", profeta: meuBoneco(), pista: minhaPista(), mov: meuMovimento(), status, papel: papel || "membro", quando: Date.now() }; }
 function ehDonoSala(s){ return !!(s && !s.global && usuario && s.dono === usuario.uid); }
 function podeGerenciarSala(s){ return !!s && (ehMaster() || (!s.global && (ehDonoSala(s) || ehAdminSala(s)))); }
@@ -5515,14 +5572,8 @@ async function carregarSalas(doAparelho){
   const eu = usuario.uid, lerG = (k, f) => guardado("sl:" + k, 15 * MIN, f, !doAparelho);
   try{
     const mems = (await lerG("mems:" + eu, () => DB.membrosDoUsuario(eu))).slice();
-    // Sala global: o admin cria o documento na primeira vez; todo mundo entra sozinho
-    let global = null; try{ global = await lerG("sala:" + SALA_GLOBAL_ID, () => DB.getSala(SALA_GLOBAL_ID)); }catch(e){}
-    if(!global && ehMaster()){
-      const doc = { nome: SALA_GLOBAL.nome, codigo: SALA_GLOBAL.codigo, publica: true, global: true, dono: eu, donoNome: perfil.nome || "", descricao: SALA_GLOBAL.descricao, criadaEm: Date.now() };
-      try{ await DB.salvarSala(SALA_GLOBAL_ID, doc); global = Object.assign({ id: SALA_GLOBAL_ID }, doc); }catch(e){}
-    }
-    if(!mems.some(m => m.salaId === SALA_GLOBAL_ID)){ const m = novoMembro(SALA_GLOBAL_ID, "ativo", "membro"); await DB.salvarMembro(m); mems.push(m); }
-    const salaG = Object.assign({}, SALA_GLOBAL, global || {}, { id: SALA_GLOBAL_ID, global: true, publica: true, meu: mems.find(m => m.salaId === SALA_GLOBAL_ID) });
+    // A sala global 7world saiu do jogo: quem ainda estava nela sai sozinho (uma vez)
+    if(mems.some(m => m.salaId === SALA_GLOBAL_ID)){ DB.excluirMembro(SALA_GLOBAL_ID, eu).catch(()=>{}); }
     const outras = mems.filter(m => m.salaId !== SALA_GLOBAL_ID);
     const docs = await Promise.all(outras.map(m => lerG("sala:" + m.salaId, () => DB.getSala(m.salaId)).then(s => s ? Object.assign({}, s) : s).catch(() => undefined)));
     const ativas = [], pedidos = [];
@@ -5533,7 +5584,7 @@ async function carregarSalas(doAparelho){
       s.meu = m; (m.status === "ativo" ? ativas : pedidos).push(s);
     });
     ativas.sort((a,b) => String(a.nome).localeCompare(String(b.nome), "pt-BR"));
-    SALAS = [salaG].concat(ativas); SALAS_PEDIDOS = pedidos;
+    SALAS = ativas; SALAS_PEDIDOS = pedidos;
     // Master: enxerga também as salas de que não participa (criadas por qualquer pessoa)
     SALAS_OUTRAS = [];
     if(ehMaster()){
@@ -5543,17 +5594,16 @@ async function carregarSalas(doAparelho){
     }
     // Mantém meu nome/profeta atualizados nas salas
     const nv = typeof nivelAtual === "function" ? nivelAtual() : 0;
-    mems.forEach(m => { if(m.nome !== (perfil.nome || "") || m.profeta !== meuBoneco() || (m.nivel || 0) !== nv || (m.pista || "") !== minhaPista() || (m.mov || "") !== meuMovimento()) DB.salvarMembro({ salaId: m.salaId, uid: eu, nome: perfil.nome || "", profeta: meuBoneco(), nivel: nv, pista: minhaPista(), mov: meuMovimento() }).catch(()=>{}); });
+    mems.filter(m => m.salaId !== SALA_GLOBAL_ID).forEach(m => { if(m.nome !== (perfil.nome || "") || m.profeta !== meuBoneco() || (m.nivel || 0) !== nv || (m.pista || "") !== minhaPista() || (m.mov || "") !== meuMovimento()) DB.salvarMembro({ salaId: m.salaId, uid: eu, nome: perfil.nome || "", profeta: meuBoneco(), nivel: nv, pista: minhaPista(), mov: meuMovimento() }).catch(()=>{}); });
     // Solicitações esperando a minha aprovação (salas privadas que eu criei)
     const minhas = SALAS.filter(x => !x.global && !x.publica && podeGerenciarSala(x));
     const listas = await Promise.all(minhas.map(x => membrosDaSalaG(x.id).catch(() => [])));
     minhas.forEach((x, i) => { x.pendentes = listas[i].filter(m => m.status === "pendente").length; SALAS_PENDENTES += x.pendentes; });
   }catch(e){
     console.warn("salas", e); SALAS_ERRO = erroMsg(e);
-    if(!SALAS.length) SALAS = [Object.assign({}, SALA_GLOBAL, { meu: null })];
   }
-  const pref = lsGet(KEY + ":sala:" + eu, SALA_GLOBAL_ID);
-  SALA = SALAS.concat(SALAS_OUTRAS).find(x => x.id === pref) || SALAS[0];
+  const pref = lsGet(KEY + ":sala:" + eu, "");
+  SALA = SALAS.concat(SALAS_OUTRAS).find(x => x.id === pref) || SALAS[0] || SALAS_OUTRAS[0] || null;
   membrosCache = {}; resCache = {};
   atualizarCasca();
 }
@@ -5564,6 +5614,7 @@ function definirSala(id){
 /* UIDs dos membros ativos de uma sala (null = sala global, vale todo mundo). Guarda por 60 s. */
 async function membrosAtivos(s){
   s = s || salaAtual();
+  if(s && s.vazia) return new Set(usuario ? [usuario.uid] : []);           // sem sala: só eu
   if(!s || s.global) return null;
   const c = membrosCache[s.id];
   if(c && Date.now() - c.em < 60000) return c.set;
@@ -5641,9 +5692,9 @@ async function telaSalas(recarregar){
   };
   app.innerHTML = `<div class="result-area duas"><div class="lado">
     ${botaoVoltar("slVoltarConta", "Minha conta")}${cabPagina("Salas", ehMaster() ? "sem limite (master)" : `${part} de ${MAX_SALAS_PARTICIPA} · criadas ${criadas} de ${MAX_SALAS_CRIADAS}`, "Minhas salas", "A sala ativa é a que aparece na Corrida e no Início.")}
-    ${SALAS_ERRO ? `<section class="panel"><p class="erro" style="margin:0">Não deu para carregar as salas agora (${esc(SALAS_ERRO)}). Por enquanto você continua na sala global.</p></section>` : ""}
+    ${SALAS_ERRO ? `<section class="panel"><p class="erro" style="margin:0">Não deu para carregar as salas agora (${esc(SALAS_ERRO)}). Tente de novo daqui a pouco.</p></section>` : ""}
     <div class="sala-barra"><button class="btn btn-main" id="slCriar">+ Criar sala</button><button class="btn btn-ghost" id="slCodigo">Entrar com código</button><button class="btn btn-ghost" id="slPublicas">Salas públicas</button></div></div>
-    <div class="principal"><div class="salas-grid">${SALAS.map(cartao).join("")}</div>
+    <div class="principal">${SALAS.length ? `<div class="salas-grid">${SALAS.map(cartao).join("")}</div>` : `<section class="panel sem-sala"><div class="sem-sala-ic" aria-hidden="true">👥</div><h2>Você ainda não está em nenhuma sala</h2><p>Entre na sala da sua classe com o código, procure nas salas públicas ou crie a sua. A Corrida e o Mural são de cada sala.</p></section>`}
     ${SALAS_OUTRAS.length ? `<section class="panel" id="slOutras"><h3 class="h3">Outras salas do jogo <span class="badge adm">${SALAS_OUTRAS.length}</span></h3>
       <p class="muted small" style="margin-top:0">Salas criadas por outras pessoas, de que você não participa. Como master, você vê a corrida e o mural de cada uma e pode gerenciá-las.</p>
       <div class="salas-grid">${SALAS_OUTRAS.map(s => `<article class="sala ${s.id === ativa.id ? "ativa" : ""}" data-sala="${esc(s.id)}">
@@ -5677,7 +5728,7 @@ async function modalCriarSala(){
     let criadas = SALAS.filter(x => ehDonoSala(x)).length;
     try{ criadas = Math.max(criadas, (await DB.salasDoDono(usuario.uid)).filter(x => x.id !== SALA_GLOBAL_ID).length); }catch(e){}
     if(criadas >= MAX_SALAS_CRIADAS){ modal("Limite de salas", `<p>Você já criou ${MAX_SALAS_CRIADAS} salas, que é o máximo por pessoa. Para criar outra, exclua uma das suas salas em <b>Gerenciar</b>.</p>`); return; }
-    if(minhasParticipacoes() >= MAX_SALAS_PARTICIPA){ modal("Limite de salas", `<p>Você já participa de ${MAX_SALAS_PARTICIPA} salas (fora a global), que é o máximo. Saia de uma sala para poder criar outra.</p>`); return; }
+    if(minhasParticipacoes() >= MAX_SALAS_PARTICIPA){ modal("Limite de salas", `<p>Você já participa de ${MAX_SALAS_PARTICIPA} salas, que é o máximo. Saia de uma sala para poder criar outra.</p>`); return; }
   }
   let publica = true;
   modal("Criar sala", `<div class="field"><label for="csNome">Nome da sala</label><input type="text" id="csNome" maxlength="30" placeholder="Ex.: Jovens IASD Liberdade"></div>
@@ -5757,7 +5808,7 @@ function confirmarEntrada(s){
   });
 }
 async function entrarNaSala(s){
-  if(!ehMaster() && minhasParticipacoes() >= MAX_SALAS_PARTICIPA) throw new Error(`Você já participa de ${MAX_SALAS_PARTICIPA} salas (fora a global), que é o máximo. Saia de uma para entrar em outra.`);
+  if(!ehMaster() && minhasParticipacoes() >= MAX_SALAS_PARTICIPA) throw new Error(`Você já participa de ${MAX_SALAS_PARTICIPA} salas, que é o máximo. Saia de uma para entrar em outra.`);
   const direto = s.publica || ehMaster() || s.dono === usuario.uid || ehAdminSala(s);
   await DB.salvarMembro(novoMembro(s.id, direto ? "ativo" : "pendente", s.dono === usuario.uid ? "dono" : "membro"));
   await carregarSalas();
@@ -5920,7 +5971,7 @@ async function admSalas(){
   try{
     const [salas, usuarios] = await Promise.all([DB.listarSalas(), listarUsuariosAdm()]);
     const uMap = {}; usuarios.forEach(u => uMap[u.id] = u); marcarPendentes(usuarios);
-    const lista = salas.map(s => s.id === SALA_GLOBAL_ID ? Object.assign({}, SALA_GLOBAL, s, { global: true, publica: true }) : s)
+    const lista = salas.filter(s => s.id !== SALA_GLOBAL_ID)
       .sort((a,b) => (b.global ? 1 : 0) - (a.global ? 1 : 0) || String(a.nome).localeCompare(String(b.nome), "pt-BR"));
     const contagens = await Promise.all(lista.map(s => s.global ? Promise.resolve(null) : membrosDaSalaG(s.id).catch(() => [])));
     if(!$("admC")) return;
@@ -6217,7 +6268,7 @@ const MISSOES_BASE = [
   _ms("Aquecendo", "Faça mais um quiz.", "quizzes", 1),
   _ms("Mira afiada", "Acerte 4 perguntas.", "acertos", 4, { tipo: "meio", q: 1 }),
   _ms("Dois em dois", "Faça o quiz no prazo 2 dias seguidos.", "seq", 2, { tipo: "chance", q: 1 }),
-  _ms("Minha turma", "Faça um quiz participando de uma sala além da 7world. Entre em uma ou crie a sua.", "quizSala", 1, { tipo: "profeta", id: "adao" }),
+  _ms("Minha turma", "Faça um quiz participando de uma sala. Entre na sala da sua classe ou crie a sua.", "quizSala", 1, { tipo: "profeta", id: "adao" }),
   /* Nível 2 */
   _ms("Sete mil", "Some 7.000 pontos.", "pontos", 7000),
   _ms("Testemunho", "Publique algo no mural da sua sala.", "mural", 1),
@@ -6725,7 +6776,7 @@ function mostrarTutorial(aoFim){
     { arte: `<div class="tu-arte"><div class="tu-relogio">⏳</div><div class="tu-pilulas"><span class="pill ok">No prazo: 1 passo</span><span class="pill late">Atrasado: meio passo</span></div></div>`,
       t: "Fique de olho no prazo", d: "O quiz de cada dia vale até a meia-noite. Feito depois, vale metade dos pontos e meio passo. Cada resposta fica salva: se precisar sair, você continua de onde parou." },
     { arte: `<div class="tu-arte"><div class="tu-sala">${["daniel","miria","elias","debora"].map(p => avatarSVG(p)).join("")}</div><div class="convite" style="padding:8px 14px"><span>Código da sala</span><b style="font-size:34px;letter-spacing:5px">K7M2QX</b></div></div>`,
-      t: "Corra com a sua turma", d: "Todo mundo começa na sala 7world. Em Minha conta → Salas, entre na sala da sua classe com o código ou crie a sua. Cada sala tem a própria corrida e mural." }
+      t: "Corra com a sua turma", d: "Em Minha conta → Salas, entre na sala da sua classe com o código ou crie a sua. Cada sala tem a própria corrida e o próprio mural." }
   ];
   let k = 0;
   const el = document.createElement("div"); el.className = "tutorial"; el.setAttribute("role", "dialog"); el.setAttribute("aria-modal", "true"); el.setAttribute("aria-label", "Como funciona");
@@ -7219,7 +7270,8 @@ function resumoDaSala(s){ return s.global ? "Sala global: todos os jogadores" : 
 /* Em quais salas publicar: quem está numa sala só publica direto nela; quem está em mais de uma marca as salas */
 function escolherSalasParaPublicar(){
   /* só se publica em sala de que se participa (o master pode estar olhando uma sala que não é dele) */
-  if(SALAS.length <= 1) return Promise.resolve([SALAS[0] || salaAtual()]);
+  if(!SALAS.length){ modal("Publicar no mural", htmlSemSala("publicar").replace('<div class="result-area">', "<div>")); return Promise.resolve(null); }
+  if(SALAS.length === 1) return Promise.resolve([SALAS[0]]);
   return new Promise(res => {
     let feito = false; const atual = salaAtual().id;
     modal("Publicar no mural", `<p class="muted small" style="margin-top:0">Você está em ${SALAS.length} salas. Marque em quais quer publicar:</p>
@@ -7262,7 +7314,8 @@ async function publicarNoMural(post, btn){
 function telaMuralSalas(){ telaListaDeSalas("mural"); }
 function telaListaDeSalas(para){
   const corrida = para === "corrida", abrir = () => { if(corrida){ corridaVista = "pista"; telaRanking(); } else telaMural(); };
-  if(SALAS.length + SALAS_OUTRAS.length <= 1){ if(!souMembroDaSala(salaAtual())) definirSala(SALAS[0].id); abrir(); return; }
+  if(semSala()){ tabAtual = corrida ? "ranking" : "mural"; atualizarCasca(); pararTimer(); app.innerHTML = htmlSemSala(corrida ? "corrida" : "mural"); return; }
+  if(SALAS.length + SALAS_OUTRAS.length <= 1){ const unica = SALAS[0] || SALAS_OUTRAS[0]; if(salaAtual().id !== unica.id) definirSala(unica.id); abrir(); return; }
   tabAtual = corrida ? "ranking" : "mural"; atualizarCasca(); pararTimer();
   const atual = salaAtual().id;
   const item = (s, minha) => `<button type="button" class="sl-item" data-sala="${esc(s.id)}"><span class="sl-ic" aria-hidden="true">${corrida ? "🏁" : "📌"}</span><span class="sl-tx"><b>${esc(s.nome)}</b><small>${esc(minha ? resumoDaSala(s) : (s.publica ? "Sala pública" : "Sala privada") + (s.donoNome ? " · criada por " + s.donoNome : ""))}</small></span>${s.id === atual ? `<span class="badge sala-ativa">${minha ? "ativa" : "vendo"}</span>` : ""}<span class="seta" aria-hidden="true">›</span></button>`;
@@ -7944,7 +7997,10 @@ function comprado(id){ return !!(perfil && perfil.compras && perfil.compras[id] 
 /* De onde vêm as moedas (tudo calculado do que já existe; nada extra é gravado para ganhar):
    acertos nos quizzes (1 cada) + semanas completas no prazo (bônus) + casas das missões + desafios vencidos (menos os perdidos) */
 const MOEDAS_SEMANA = 10;
-function moedasDeAcertos(){ return Object.values(RES).reduce((s, r) => s + (r.acertos || 0), 0); }
+const DOBRO_CEDO_DESDE = "2026-11-16", DOBRO_CEDO_HORA = 8;          // quiz do dia feito no próprio dia antes das 8h: moedas em dobro (a partir desta data)
+function quizCedo(r){ if(!r || !r.noPrazo || !r.quando || String(r.data) < DOBRO_CEDO_DESDE) return false; const q = new Date(r.quando); return dataISO(q) === r.data && q.getHours() < DOBRO_CEDO_HORA; }
+const moedasDoResultado = r => (r.acertos || 0) * (quizCedo(r) ? 2 : 1);
+function moedasDeAcertos(){ return Object.values(RES).reduce((s, r) => s + moedasDoResultado(r), 0); }
 function semanasCompletas(){ const m = {}; Object.values(RES).forEach(r => { if(r.noPrazo && r.licaoId) m[r.licaoId] = (m[r.licaoId] || 0) + 1; }); return Object.keys(m).filter(k => m[k] >= 7).length; }
 function moedasDaCasa(n){ return n % 10 === 0 ? 10 : n % 5 === 0 ? 5 : 2; }          // n = número da casa na jornada inteira; fim de território vale mais
 function moedasDeMissoes(){ let f = 0; try{ f = Math.min(MISSOES.length, missoesFeitas()); }catch(e){} let s = 0; for(let n = 1; n <= f; n++) s += moedasDaCasa(n); return s; }
@@ -8585,6 +8641,165 @@ document.addEventListener("click", e => {
   if(d.desAceitar) responderDesafio(d.desAceitar, true); else if(d.desRecusar) responderDesafio(d.desRecusar, false);
   else if(d.desCancelar) cancelarDesafio(d.desCancelar); else if(d.desJogar) jogarDesafio(d.desJogar); else modalDesafios();
 });
+
+/* ============================================================
+   SUPER QUIZ DAS MISSÕES (sexta 18h → sábado 18h)
+   - 20 perguntas sorteadas da lição da semana que acabou (sorteio diferente para cada jogador).
+   - Sem tempo e sem pontos: a cada 2 acertos, avança 1 casa no mapa das missões, com as moedas e os prêmios da casa.
+   - Uma vez por semana. O andamento fica no perfil (superQuiz), então dá para sair e continuar dentro da janela.
+   ============================================================ */
+const SQ_PERGUNTAS = 20, SQ_HORA = 18, SQ_POR_CASA = 2;          // a cada 2 acertos, 1 casa
+const casasDoSuper = acertos => Math.floor((acertos || 0) / SQ_POR_CASA);
+/* janela desta semana (se aberta) ou da próxima: { aberto, id (data ISO da sexta), ini, fim } */
+function janelaSuper(agora){
+  agora = agora || new Date();
+  const dia = agora.getDay(), h = agora.getHours(); let sexta = null;
+  if(dia === 5 && h >= SQ_HORA) sexta = new Date(agora);
+  else if(dia === 6 && h < SQ_HORA){ sexta = new Date(agora); sexta.setDate(sexta.getDate() - 1); }
+  if(!sexta){ sexta = new Date(agora); sexta.setDate(sexta.getDate() + ((5 - dia + 7) % 7)); }
+  const ini = new Date(sexta); ini.setHours(SQ_HORA, 0, 0, 0);
+  if(ini <= agora && !(dia === 5 && h >= SQ_HORA) && !(dia === 6 && h < SQ_HORA)) ini.setDate(ini.getDate() + 7);   // sábado depois das 18h: a próxima
+  const fim = new Date(ini); fim.setDate(fim.getDate() + 1);
+  return { aberto: ini <= agora && agora < fim, id: dataISO(ini), ini, fim };
+}
+/* a lição da semana que termina naquela sexta */
+function licaoDoSuper(id){ return LICOES.find(L => L.dias[6] && L.dias[6].data === id) || LICOES.find(L => L.dias.some(d => d.data === id)) || null; }
+function perguntasDoSuper(L){
+  const vistas = new Set(), pool = [];
+  L.dias.forEach(d => d.perguntas.forEach(p => { if(p.reflexao || !p.o || vistas.has(p.p)) return; vistas.add(p.p); pool.push(Object.assign({}, p, { diaNome: d.nome })); }));
+  return embaralhar(pool, semente(usuario.uid + "|super|" + L.id)).slice(0, SQ_PERGUNTAS);
+}
+const meuSuper = id => perfil && perfil.superQuiz && perfil.superQuiz.id === id ? perfil.superQuiz : null;
+function tempoAte(ms){
+  ms = Math.max(0, ms); const d = Math.floor(ms / 864e5), h = Math.floor(ms % 864e5 / 36e5), m = Math.floor(ms % 36e5 / 6e4), s = Math.floor(ms % 6e4 / 1e3), z = n => String(n).padStart(2, "0");
+  return d ? `${d}d ${z(h)}h ${z(m)}m` : `${z(h)}:${z(m)}:${z(s)}`;
+}
+/* ---------- Cartão do Início, sempre no alto: fechado é uma faixa com o relógio; aberto é o cartão dourado com o botão ---------- */
+function htmlSuperQuizInicio(){
+  const j = janelaSuper(), L = licaoDoSuper(j.id), sq = meuSuper(j.id);
+  const faixa = (rot, ate, extra) => `<section class="panel hm-card sq-card sq-mini" id="sqCard"><span class="sq-ic" aria-hidden="true">🏁</span><div class="sq-mini-tx"><b>Super quiz das missões</b><small>${extra}</small></div><div class="sq-mini-rel"><small>${rot}</small><b id="sqRelogio" data-ate="${ate}">${tempoAte(ate - Date.now())}</b></div></section>`;
+  if(!j.aberto) return faixa("abre em", j.ini.getTime(), `Sexta às ${SQ_HORA}h · ${SQ_POR_CASA} acertos = 1 casa`);
+  const prox = j.ini.getTime() + 7 * 864e5;
+  if(!L) return faixa("próximo em", prox, "Sem lição cadastrada nesta semana");
+  if(sq && sq.fim) return faixa("próximo em", prox, `Feito: ${sq.acertos} ${sq.acertos === 1 ? "acerto" : "acertos"}, +${casasDoSuper(sq.acertos)} ${casasDoSuper(sq.acertos) === 1 ? "casa" : "casas"}`);
+  const corpo = `<p class="sq-tx"><b>Está aberto!</b> ${esc(L.numero)} · ${sq ? `você parou na pergunta ${sq.q + 1} de ${sq.n} e já avançou ${casasDoSuper(sq.acertos)} ${casasDoSuper(sq.acertos) === 1 ? "casa" : "casas"}.` : `${SQ_PERGUNTAS} perguntas da semana. A cada ${SQ_POR_CASA} acertos você avança 1 casa nas missões.`}</p><div class="sq-relogio"><small>Fecha em</small><b id="sqRelogio" data-ate="${j.fim.getTime()}">${tempoAte(j.fim - Date.now())}</b></div>`;
+  return `<section class="panel hm-card sq-card aberto" id="sqCard"><div class="hm-cab"><span><i class="sq-ic" aria-hidden="true">🏁</i> Super quiz das missões</span><span class="hm-meta">até sábado ${SQ_HORA}h</span></div>${corpo}<div class="hm-acoes uma"><button class="btn btn-main sq-btn" id="sqJogar">${sq ? "Continuar o super quiz" : "Jogar o super quiz"}</button></div></section>`;
+}
+let sqTimer = null;
+function ligarSuperQuizInicio(){
+  clearInterval(sqTimer);
+  const b = $("sqJogar"); if(b) b.onclick = () => abrirSuperQuiz();
+  if(!$("sqRelogio")) return;
+  sqTimer = setInterval(() => {
+    const el = $("sqRelogio"); if(!el){ clearInterval(sqTimer); return; }
+    const falta = +el.dataset.ate - Date.now();
+    if(falta <= 0){ clearInterval(sqTimer); const c = $("sqCard"); if(c){ c.outerHTML = htmlSuperQuizInicio(); ligarSuperQuizInicio(); } return; }
+    el.textContent = tempoAte(falta);
+  }, 1000);
+}
+/* ---------- O jogo ---------- */
+let SQ = null;      // { L, id, pergs, q, acertos, de }
+async function abrirSuperQuiz(){
+  const j = janelaSuper(); if(!j.aberto){ aviso("O super quiz abre na sexta às 18h."); return; }
+  let L = licaoDoSuper(j.id); if(!L){ aviso("Esta semana não tem lição para o super quiz."); return; }
+  try{ L = await garantirLicao(L); }catch(e){ aviso(erroMsg(e)); return; }
+  const pergs = perguntasDoSuper(L);
+  if(!pergs.length){ aviso("A lição desta semana ainda não tem perguntas cadastradas."); return; }
+  const sq = meuSuper(j.id);
+  if(sq && sq.fim){ fimSuperQuiz(true); return; }
+  const comecar = () => {
+    SQ = { L, id: j.id, pergs, q: sq ? sq.q : 0, acertos: sq ? sq.acertos : 0, de: sq ? sq.de : missoesFeitas(), fim: j.fim };
+    if(!sq) salvarSuper(false);
+    tabAtual = "missoes"; atualizarCasca(); window.scrollTo(0, 0); perguntaSuper();
+  };
+  if(sq){ comecar(); return; }
+  modal("Super quiz das missões", `<div class="aq"><div class="sq-regras">
+      <div><span aria-hidden="true">❓</span><p><b>${pergs.length} perguntas</b> sorteadas da ${esc(L.numero)}: ${esc(L.titulo)}.</p></div>
+      <div><span aria-hidden="true">🏁</span><p><b>A cada ${SQ_POR_CASA} acertos, você avança 1 casa</b> no mapa das missões, com as moedas e os prêmios da casa.</p></div>
+      <div><span aria-hidden="true">🧘</span><p><b>Sem tempo e sem pontos.</b> Pense com calma: o que vale é acertar.</p></div>
+      <div><span aria-hidden="true">1️⃣</span><p><b>Uma vez por semana.</b> Se sair, continua de onde parou até sábado às 18h.</p></div></div>
+      <div class="btn-row"><button type="button" class="btn btn-main" id="sqComecar">Começar</button><button type="button" class="btn btn-ghost" id="sqVoltar">Voltar</button></div></div>`, (m, fechar) => {
+    m.querySelector("#sqComecar").onclick = () => { fechar(); comecar(); };
+    m.querySelector("#sqVoltar").onclick = fechar;
+  });
+}
+function salvarSuper(fim){
+  const dados = { id: SQ.id, licaoId: SQ.L.id, q: SQ.q, n: SQ.pergs.length, acertos: SQ.acertos, de: SQ.de, fim: !!fim, quando: Date.now() };
+  perfil.superQuiz = dados; return DB.salvarUsuario(usuario.uid, { superQuiz: dados }).catch(e => console.warn("super quiz", e));
+}
+function perguntaSuper(){
+  if(!SQ) return nav("inicio");
+  if(Date.now() >= SQ.fim){ aviso("O super quiz desta semana fechou."); fimSuperQuiz(); return; }
+  if(SQ.q >= SQ.pergs.length){ fimSuperQuiz(); return; }
+  const p = SQ.pergs[SQ.q], n = SQ.pergs.length;
+  app.innerHTML = `<div class="quiz-area sq-area"><div class="qtop">
+      <div class="where"><b>Super quiz das missões</b><br>Pergunta ${SQ.q + 1} de ${n} · ${esc(p.diaNome || "")}</div>
+      <div class="sq-casas" aria-label="${casasDoSuper(SQ.acertos)} casas avançadas, ${SQ.acertos} acertos"><i aria-hidden="true">🏁</i><b>+${casasDoSuper(SQ.acertos)}</b><small>${casasDoSuper(SQ.acertos) === 1 ? "casa" : "casas"}</small><em>${SQ.acertos} ${SQ.acertos === 1 ? "acerto" : "acertos"}</em></div></div>
+    <div class="sq-barra" aria-hidden="true"><i style="width:${Math.round(SQ.q / n * 100)}%"></i></div>
+    <h2 class="qtext">${esc(p.p)}</h2>
+    <p class="qhint">${p.vf ? "Verdadeiro ou falso? " : ""}Sem pressa: a cada ${SQ_POR_CASA} acertos, uma casa.</p>
+    <div class="tiles ${p.vf ? "vf" : ""}" id="tiles">
+      ${p.vf ? ["Verdadeiro", "Falso"].map((op, k) => `<button class="tile t${k} ${k ? "tf" : "tv"}" data-k="${k}"><span class="letter" aria-hidden="true">${k ? "✕" : "✓"}</span><span>${op}</span></button>`).join("")
+        : p.o.map((op, k) => op ? `<button class="tile t${k}" data-k="${k}"><span class="letter">${LETRAS[k]}</span><span>${esc(op)}</span></button>` : "").join("")}
+    </div><div id="fb"></div></div>`;
+  window.scrollTo(0, 0);
+  app.querySelectorAll(".tile").forEach(t => t.onclick = () => responderSuper(+t.dataset.k));
+  if(typeof MUSICA !== "undefined") MUSICA.iniciar("quiz");
+}
+function responderSuper(k){
+  const tiles = $("tiles"); if(!tiles || tiles.classList.contains("done") || !SQ) return;
+  tiles.classList.add("done");
+  const p = SQ.pergs[SQ.q], certo = k === p.c, ultima = SQ.q === SQ.pergs.length - 1;
+  tiles.querySelectorAll(".tile").forEach(t => { const kk = +t.dataset.k; if(kk === p.c){ const m = document.createElement("span"); m.className = "mark"; m.textContent = "Resposta certa"; t.appendChild(m); } else t.classList.add("dim"); });
+  let titulo, texto = "";
+  if(certo){
+    SQ.acertos++;
+    const anda = SQ.acertos % SQ_POR_CASA === 0, casa = anda ? avancarCasa() : null;
+    tocar(anda ? "missao" : "certo");
+    titulo = casa ? "Certo! +1 casa" : "Certo!";
+    texto = casa ? `Casa ${casa.casa} do mapa ${MAPAS[casa.mapa].nome}: ${casa.t}.` : anda ? "Você já completou todas as missões." : `Mais ${SQ_POR_CASA - SQ.acertos % SQ_POR_CASA === 1 ? "um acerto" : (SQ_POR_CASA - SQ.acertos % SQ_POR_CASA) + " acertos"} e você avança uma casa.`;
+    const cc = app.querySelector(".sq-casas"); if(cc){ cc.querySelector("b").textContent = "+" + casasDoSuper(SQ.acertos); cc.querySelector("small").textContent = casasDoSuper(SQ.acertos) === 1 ? "casa" : "casas"; cc.querySelector("em").textContent = SQ.acertos + (SQ.acertos === 1 ? " acerto" : " acertos"); }
+  } else { tocar("errado"); titulo = "Não foi dessa vez"; texto = `A resposta certa era ${p.vf ? (p.c ? "Falso" : "Verdadeiro") : LETRAS[p.c] + ": " + p.o[p.c]}.`; }
+  SQ.q++; salvarSuper(false);
+  const prova = p.texto ? `<blockquote class="verso"><p><em>“${esc(p.texto)}”</em></p><cite>${esc(p.ref || "")}</cite></blockquote>` : "";
+  $("fb").innerHTML = `<div class="feedback ${certo ? "ok" : "bad"}"><h3>${esc(titulo)}</h3>${texto ? `<p>${esc(texto)}</p>` : ""}${prova}</div>
+    <div class="btn-row uma"><button class="btn btn-main" id="prox">${ultima ? "Ver o resultado" : "Próxima pergunta"}</button></div>`;
+  const prox = $("prox"); prox.focus({ preventScroll: true });
+  prox.scrollIntoView({ block: "nearest", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+  prox.onclick = () => ultima ? fimSuperQuiz() : perguntaSuper();
+}
+/* um acerto = a missão atual fica cumprida e a próxima começa do zero (as moedas e os prêmios vêm da contagem de casas) */
+function avancarCasa(){
+  const est = estadoMissoes(), n = est.n; if(n >= MISSOES.length) return null;
+  const muda = { missoes: n + 1, missaoIni: Date.now(), missaoMural: perfil.muralPosts || 0, missoesRegra: 2 };
+  Object.assign(perfil, muda); DB.salvarUsuario(usuario.uid, muda).catch(e => console.warn("casa do super quiz", e));
+  atualizarCasca();
+  return MISSOES[n];
+}
+function fimSuperQuiz(soVer){
+  if(typeof MUSICA !== "undefined") MUSICA.parar();
+  const sq = SQ ? null : meuSuper(janelaSuper().id);
+  if(SQ){ salvarSuper(true); }
+  const ac = SQ ? SQ.acertos : sq.acertos, n = SQ ? SQ.pergs.length : sq.n, de = SQ ? SQ.de : sq.de, nc = casasDoSuper(ac), ate = Math.min(MISSOES.length, de + nc);
+  const casas = MISSOES.slice(de, ate), moedasCasas = casas.reduce((t, m) => t + moedasDaCasa(m.n), 0), nvA = nivelDe(de), nvB = nivelDe(ate);
+  const premios = casas.filter(m => m.premio), pers = premios.filter(m => m.premio.tipo === "profeta").map(m => acharProfeta(m.premio.id)).filter(Boolean);
+  const outros = premios.filter(m => m.premio.tipo !== "profeta");
+  SQ = null; sincronizarPerfilPublico();
+  tabAtual = "missoes"; atualizarCasca(); window.scrollTo(0, 0);
+  app.innerHTML = `<div class="result-area"><section class="panel result sq-fim">
+      <p class="lbl">Super quiz das missões</p>
+      <div class="big">+${nc}</div><p class="lbl">${nc === 1 ? "casa avançada" : "casas avançadas"}</p>
+      <p class="sq-sub">${ac} de ${n} certas (${SQ_POR_CASA} acertos = 1 casa)${casas.length ? ` · da casa ${casas[0].casa} até a ${casas[casas.length - 1].casa} do mapa ${esc(MAPAS[casas[casas.length - 1].mapa].nome)}` : ""}</p>
+      ${moedasCasas ? `<p class="res-moedas"><i class="moeda" aria-hidden="true"></i><b>+${moedasCasas}</b> moedas das casas<span>você tem ${fmt(moedas())} para gastar na loja</span></p>` : ""}
+      ${nvB > nvA ? `<div class="nivel-selo"><span>Nível</span><b>${nvB}</b><em>${esc(nomeNivel(nvB))}</em></div>` : ""}
+      ${pers.length ? `<div class="novo-profeta">${pers.map(p => `<div>${avatarSVG(p.id)}<b>${esc(p.nome)}</b></div>`).join("")}<p>${pers.length === 1 ? "Novo personagem liberado!" : "Novos personagens liberados!"}</p></div>` : ""}
+      ${outros.length ? `<ul class="sq-premios">${outros.map(m => `<li>Casa ${m.casa}: ${esc(textoPremio(m.premio))}</li>`).join("")}</ul>` : ""}
+    </section>
+    <div class="res-acoes"><button class="btn btn-main" id="sqTrilha">Ver a trilha</button><button class="btn btn-ghost" id="sqInicio">Início</button></div></div>`;
+  if(nc && !soVer){ tocar(nvB > nvA ? "subiu" : "missao"); if(typeof confetes === "function") confetes(); }
+  $("sqTrilha").onclick = () => { missoesVista = "atual"; mapaAberto = -1; nav("missoes"); };
+  $("sqInicio").onclick = () => nav("inicio");
+}
 
 </script>
 </body>
