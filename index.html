@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="versao" content="20261116.020541">
+<meta name="versao" content="20261116.024807">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Corrida do Rolo · Quiz da Lição</title>
 <meta name="theme-color" content="#524F9C">
@@ -1785,6 +1785,21 @@ html{overscroll-behavior-y:contain}
 .qr-tit{display:flex;align-items:center;gap:8px;margin:12px 0 2px;font:800 13px/1.2 "Barlow",sans-serif;color:var(--soft)}
 .qr-tit span{font-size:20px}
 .qr-tit b{color:#fff}
+/* ---------- loja: tela das categorias ---------- */
+.lj-cats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.lj-cat{position:relative;display:grid;justify-items:center;align-content:start;gap:2px;padding:12px 8px 12px;border-radius:18px;border:1px solid var(--panel-line);background:var(--panel);color:#fff;text-align:center;cursor:pointer;min-width:0;transition:transform .12s ease,background .15s ease}
+.lj-cat:hover{background:rgba(255,255,255,.2)}
+.lj-cat:active{transform:scale(.97)}
+.lj-cat b{font:800 15px/1.2 "Barlow",sans-serif;margin-top:4px}
+.lj-cat small{font-size:12px;color:var(--soft)}
+.lj-cat em{font:700 11px/1.2 "Barlow",sans-serif;font-style:normal;color:#7DF0B8;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lj-cat-seta{position:absolute;right:10px;top:8px;font-size:18px;color:var(--soft)}
+.lj-cat .lj-pista{height:82px;display:grid;align-content:center;padding:0 6px}
+.lj-cat .lj-festa.parada{border-style:solid;cursor:inherit}
+.lj-cat .lj-festa.parada svg{width:40px;height:40px}
+.lj-topo.cat{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+.lj-topo.cat .pg-voltar{margin:0}
+@media (min-width:700px){.lj-cats{grid-template-columns:repeat(3,minmax(0,1fr))}}
 /* login */
 .logo-login{padding:18px 0 6px}
 .logo-login p{font-size:14px;margin-top:10px}
@@ -2995,13 +3010,14 @@ function nav(tab){
   if(typeof fecharAnotacoes === "function") fecharAnotacoes();          // anotações do Estudar ainda não enviadas seguem para a conta
   pararTimer(); if(typeof pararCamera === "function") pararCamera(); if(typeof MUSICA !== "undefined") MUSICA.parar();
   if(typeof antesDaConta !== "undefined" && antesDaConta && !AREA_DA_CONTA.includes(tab)) antesDaConta = null;      // saiu da conta por outro caminho: esquece para onde voltar
+  if(tab === "loja" && tabAtual !== "loja" && typeof lojaCat !== "undefined") lojaCat = "";          // vindo de outra tela, a loja abre nas categorias
   tabAtual = tab; atualizarCasca(); window.scrollTo(0,0);
   if(typeof carregarNotificacoes === "function") carregarNotificacoes();        // confere reações novas (no máximo a cada 90 s)
   if(typeof conferirDesafios === "function" && Date.now() - desafiosEm > 3 * MIN) conferirDesafios().catch(()=>{});      // e desafios (no máximo a cada 3 min)
   setTimeout(() => conferirVersao(false), 400);                                 // e se subiu versão nova do jogo (no máximo a cada 2 min)
   ({ inicio: telaInicio, estudar: telaEstudar, quiz: telaQuiz, ranking: telaRanking, missoes: () => telaMissoes(), salas: telaSalas, mural: telaMuralSalas, conta: telaConta, admin: telaAdmin, loja: telaLoja }[tab] || telaInicio)();
 }
-document.querySelectorAll("#nav button").forEach(b => b.onclick = ()=>{ const t = b.dataset.tab; if(t === "estudar") estudoVista = "livros"; if(t === "ranking") corridaVista = "salas"; if(t === "missoes") missoesVista = "mapas"; nav(t); });   // pelo menu, a Lição abre na estante de livros, e a Corrida na escolha da sala
+document.querySelectorAll("#nav button").forEach(b => b.onclick = ()=>{ const t = b.dataset.tab; if(t === "estudar") estudoVista = "livros"; if(t === "ranking") corridaVista = "salas"; if(t === "loja") lojaCat = ""; if(t === "missoes") missoesVista = "mapas"; nav(t); });   // pelo menu, a Lição abre na estante de livros, e a Corrida na escolha da sala
 /* Tocar no personagem abre a Minha conta; tocar de novo fecha e volta para a tela (e a altura) em que a pessoa estava */
 let antesDaConta = null;
 const AREA_DA_CONTA = ["conta", "admin", "salas"];
@@ -6130,7 +6146,7 @@ function avatarSVG(id, rotulo, nivel, nvAcess){
   const partes = String(id || "").split("~"), p0 = acharProfeta(partes[0]) || acharProfeta(PROFETA_PADRAO), nv = Math.floor(+nivel || 0);
   const acLoja = partes[1] && typeof LOJA_AC !== "undefined" ? LOJA_AC[partes[1]] : null;
   const ac = acessorioDe(p0.id, nvAcess != null ? nvAcess : nv), montado = !!(ac && ac.montaria);
-  const p = acLoja ? Object.assign({}, p0, { id: p0.id + "+" + acLoja.id, modelo: p0.modelo || p0.id, emb2: acLoja.emb, emb2o: acLoja.o, semGuardar: partes[2] === "v" }) : (ac && ac.variante ? ac.variante(p0) : p0);
+  const p = acLoja ? Object.assign({}, p0, { id: p0.id + "+" + acLoja.id, modelo: p0.modelo || p0.id, emb2: acLoja.emb, emb2o: acLoja.o, emb2atras: !!acLoja.atras, semGuardar: partes[2] === "v" }) : (ac && ac.variante ? ac.variante(p0) : p0);
   const lbl = String(rotulo || p.nome).replace(/[&<>"]/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch])) + (acLoja ? ", com " + acLoja.nome.toLowerCase() : ac ? ", " + ac.rotulo : "");
   const raro = !!p.nivel, lend = !!p.lendario;
   const mais = (cx, cy, t) => `<rect x="${cx - .5}" y="${cy - t}" width="1" height="${2 * t}"/><rect x="${cx - t}" y="${cy - .5}" width="${2 * t}" height="1"/>`;
@@ -7619,18 +7635,18 @@ function gerarSprite(p, W, H){
   }
   // emblema (escala com Scale2x + amostragem)
   const ic=ICONES[p.emb];
-  const emblema=(ic,o)=>{
+  const emblema=(ic,o,atras)=>{                       // atras: o desenho fica por trás do personagem (só aparece onde não há nada)
     let base = ic.m; for(let k=0; tier>0 && k<Math.min(3,Math.ceil(Math.log2(s))); k++) base = scale2x(base);
     const h=Math.round(ic.m.length*s), w=Math.round(ic.m[0].length*s);
     const r0=Y(o[0]), c0=X(o[1]), mask=new Set();
-    for(let i=0;i<h;i++) for(let j=0;j<w;j++){ const ch=base[Math.min(base.length-1,Math.floor((i+.5)/h*base.length))][Math.min(base[0].length-1,Math.floor((j+.5)/w*base[0].length))]; if(ch!=="."&&ic.p[ch]){ put(r0+i,c0+j,ic.p[ch],"emb"); mask.add((r0+i)*W+c0+j); } }
+    for(let i=0;i<h;i++) for(let j=0;j<w;j++){ const ch=base[Math.min(base.length-1,Math.floor((i+.5)/h*base.length))][Math.min(base[0].length-1,Math.floor((j+.5)/w*base[0].length))]; if(ch!=="."&&ic.p[ch]){ if(atras && G[r0+i] && G[r0+i][c0+j]) continue; put(r0+i,c0+j,ic.p[ch],"emb"); mask.add((r0+i)*W+c0+j); } }
     const le=mistura(Object.values(ic.p)[0],"#1A1030",.75);
     let frente=new Set(mask);
-    for(let pass=0;pass<ot;pass++){ const nova=new Set();
+    for(let pass=0;pass<(atras?0:ot);pass++){ const nova=new Set();
       frente.forEach(k=>{ const r=Math.floor(k/W),c=k%W; [[1,0],[-1,0],[0,1],[0,-1]].forEach(([a,b])=>{ const rr=r+a,cc=c+b; if(rr<0||rr>=H||cc<0||cc>=W) return; const kk=rr*W+cc; if(!mask.has(kk)&&G[rr][cc]&&G[rr][cc]!==le){ G[rr][cc]=le; nova.add(kk); } }); });
       frente=nova; }
   };
-  if(ICONES[p.emb2]) emblema(ICONES[p.emb2], p.emb2o || ICONES[p.emb2].o);   // segundo objeto (acessório), do outro lado
+  if(ICONES[p.emb2]) emblema(ICONES[p.emb2], p.emb2o || ICONES[p.emb2].o, p.emb2atras);   // segundo objeto (acessório), do outro lado
   if(ic) emblema(ic, ic.o);
   // mão direita
   if(tier<4){
@@ -7749,6 +7765,15 @@ Object.assign(MANTOS, { messias: MANTOS.jesus, abraao:"#E8D9B5", zacarias:"#F2E6
 Object.assign(CINTOS, { enoque:"#F2BE2E" });
 /* as três raras: Eva (nível 4), Ester (nível 6) e Sara (nível 8) */
 Object.assign(ICONES, {
+  /* acessórios da loja com lugar próprio: coroa na cabeça, ovelha no chão, pomba maior e asas nas costas */
+  coroa_cab:{"o": [0, 10.5], "p": {"y": "#F2BE2E", "Y": "#C98A12", "r": "#E0483C", "b": "#3B7BE0", "w": "#FFF3B0"}, "m": ["y....y....y", "yw..yyy..wy", "yyy.yyy.yyy", "yyyyyyyyyyy", "yryyybyyyry", "YYYYYYYYYYY"]},
+  ovelha_chao:{"o": [30, 0], "p": {"w": "#FFFFFF", "W": "#D9D4E8", "k": "#4A3A4A", "K": "#22183A", "p": "#F2A7B5"}, "m": [".....wwwwww..", "..kkwwwwwwww.", ".kKkpwwwwwwww", ".kkkwwwwwwwww", "..kwwwwwwwwww", "...wwwwwwwwWw", "...wWwwwwwWW.", "....WWWWWWW..", "....k.k..k.k.", "....k.k..k.k."]},
+  pomba_ramo:{"o": [20, 0], "p": {"w": "#FFFFFF", "W": "#C9D6EE", "k": "#22183A", "o": "#F08A4B", "g": "#2BA486", "G": "#1E7A62"}, "m": [".......ww.....", "......wwww....", ".....wwwwww...", "...wwwwWwwww.w", ".okwwwwwWwwwww", "oowwwwwwwWwww.", "g..wwwwwwWWw..", "gG..wwwwWW....", ".gG..WWWW.....", "gGg...........", ".g............"]},
+  asas:{"o": [8, 0], "p": {"w": "#AAB6DE", "W": "#FFFFFF", "s": "#DCE3F6"}, "m": [
+    "..ww........................ww..", ".wWWw......................wWWw.", ".wWWWw....................wWWWw.", "wWWWWWw..................wWWWWWw", "wWWsWWWw................wWWWsWWw", "wWWWsWWWw..............wWWWsWWWw",
+    "wWsWWsWWw..............wWWsWWsWw", "wWWsWWsWw..............wWsWWsWWw", ".wWWsWWWw..............wWWWsWWw.", ".wWsWWsWw..............wWsWWsWw.", ".wWWsWWWw..............wWWWsWWw.", "..wWWsWWw..............wWWsWWw..",
+    "..wWsWWWw..............wWWWsWw..", "..wWWsWWw..............wWWsWWw..", "...wWWsWw..............wWsWWw...", "...wWsWWw..............wWWsWw...", "...wWWWWw..............wWWWWw...", "....wWsWw..............wWsWw....",
+    "....wWWWw..............wWWWw....", ".....wWWw..............wWWw.....", ".....wWw................wWw.....", "......w..................w......"]},
   flor:{"o": [18, 21], "p": {"p": "#F48FB1", "P": "#E0608A", "y": "#F2BE2E", "g": "#3E9B4F"}, "m": ["..pp.pp..", ".pPPpPPp.", ".pPyyyPp.", "..pyyyp..", ".pPyyyPp.", ".pPPpPPp.", "..pp.pp..", "....g....", "...gg...."]},
   coroa:{"o": [18, 21], "p": {"y": "#F2BE2E", "Y": "#C98A12", "r": "#E0483C", "w": "#FFF3B0"}, "m": ["y...y...y", "yw.yyy.wy", "yyyyyyyyy", "yryywyyry", "yyyyyyyyy", "YYYYYYYYY"]},
   tenda:{"o": [18, 21], "p": {"w": "#F4ECDA", "s": "#D8CBA8", "r": "#C9473B", "b": "#5A3A22", "y": "#F2BE2E"}, "m": ["....y....", "....r....", "...wrw...", "..wwrww..", ".wwsrsww.", "wwssbssww", "wssbbbssw"]}
@@ -7788,7 +7813,7 @@ return gerarSprite;
 
 /* ---------- Do modelo para o jogo: cada personagem vira duas imagens PNG (olhos abertos e piscando) ---------- */
 const _hdCache = {};
-const SPRITE_VERSAO = "m4";            // mude quando o desenho dos personagens mudar, para descartar as imagens guardadas no aparelho
+const SPRITE_VERSAO = "m5";            // mude quando o desenho dos personagens mudar, para descartar as imagens guardadas no aparelho
 /* desenhos da versão anterior guardados no aparelho: saem, para não ocupar espaço à toa */
 try{ for(let i = localStorage.length - 1; i >= 0; i--){ const k = localStorage.key(i); if(k && k.indexOf(KEY + ":boneco:") === 0 && k.indexOf(KEY + ":boneco:" + SPRITE_VERSAO + ":") !== 0) localStorage.removeItem(k); } }catch(e){}
 function spriteHD(p){
@@ -7846,13 +7871,14 @@ const LOJA_ACESSORIOS = [
   { id: "coracao",    nome: "Coração Novo",            ref: "Ezequiel 36:26",   emb: "coracao",    preco: 30 },
   { id: "pao",        nome: "Pão do Céu",              ref: "João 6:35",        emb: "pao",        preco: 30, o: [22, 0] },
   { id: "lampada",    nome: "Lâmpada para os Pés",     ref: "Salmo 119:105",    emb: "lamparina",  preco: 35, o: [21, 0] },
-  { id: "pomba",      nome: "Pomba com o Ramo",        ref: "Gênesis 8:11",     emb: "pomba",      preco: 35, o: [21, 0] },
+  { id: "pomba",      nome: "Pomba com o Ramo",        ref: "Gênesis 8:11",     emb: "pomba_ramo", preco: 35, o: [20, 0] },
   { id: "trombeta",   nome: "Trombeta de Jericó",      ref: "Josué 6:20",       emb: "trombeta",   preco: 35, o: [18, 0] },
   { id: "estrela",    nome: "Estrela de Belém",        ref: "Mateus 2:9, 10",   emb: "estrela",    preco: 40 },
   { id: "harpa",      nome: "Harpa de Davi",           ref: "1 Samuel 16:23",   emb: "harpa",      preco: 45 },
-  { id: "ovelha",     nome: "Ovelha Encontrada",       ref: "Lucas 15:4-6",     emb: "ovelha",     preco: 50, o: [22, 0] },
+  { id: "ovelha",     nome: "Ovelha Encontrada",       ref: "Lucas 15:4-6",     emb: "ovelha_chao", preco: 50, o: [30, 0] },
   { id: "candelabro", nome: "Candelabro de Ouro",      ref: "Êxodo 25:31",      emb: "candelabro", preco: 55 },
-  { id: "coroa",      nome: "Coroa da Vida",           ref: "Apocalipse 2:10",  emb: "coroa",      preco: 60 }
+  { id: "coroa",      nome: "Coroa da Vida",           ref: "Apocalipse 2:10",  emb: "coroa_cab",  preco: 60, o: [0, 10.5] },
+  { id: "asas",       nome: "Par de Asas",             ref: "Salmo 91:4",       emb: "asas",       preco: 70, o: [8, 0], atras: true }
 ];
 /* Molduras do perfil, temas da pista e comemorações: comprados como os acessórios (compras "m:", "t:" e "c:"); o que está em uso fica em perfil.moldura, perfil.pista e perfil.festa */
 const LOJA_MOLDURAS = [
@@ -7929,39 +7955,67 @@ function moedas(){ return Math.max(0, moedasGanhas() - moedasGastas() - (typeof 
 const MOEDA = `<i class="moeda" aria-hidden="true"></i>`;
 
 /* ---------- Loja ---------- */
+/* A loja abre nas categorias; cada categoria tem a sua tela. */
+let lojaCat = "";
+const LOJA_CATS = [
+  { k: "a", nome: "Acessórios",        sub: "na mão, na cabeça ou nas costas",  lista: () => LOJA_ACESSORIOS },
+  { k: "p", nome: "Personagens",       sub: "só na loja",                       lista: () => PROFETAS.filter(p => p.preco) },
+  { k: "m", nome: "Molduras de perfil", sub: "em volta do seu personagem",      lista: () => LOJA_MOLDURAS },
+  { k: "t", nome: "Temas da pista",    sub: "a sua raia na Corrida",            lista: () => LOJA_PISTAS },
+  { k: "v", nome: "Movimentos",        sub: "o que o personagem faz na raia",   lista: () => LOJA_MOVIMENTOS },
+  { k: "c", nome: "Comemorações",      sub: "ao terminar o quiz",               lista: () => LOJA_FESTAS }
+];
 function telaLoja(){
   tabAtual = "loja"; atualizarCasca(); pararTimer(); if(typeof MUSICA !== "undefined") MUSICA.parar();
-  const saldo = moedas(), pers = PROFETAS.filter(p => p.preco);
+  const saldo = moedas(), eu = perfil.profeta || PROFETA_PADRAO;
+  const cat = LOJA_CATS.find(c => c.k === lojaCat);
+  const saldoHtml = `<div class="lj-saldo" aria-label="${saldo} moedas">${MOEDA}<b>${saldo}</b><small>${saldo === 1 ? "moeda" : "moedas"}</small></div>`;
+  const desenharAmostras = () => {      /* os bonecos de amostra são desenhados aos poucos, para a tela abrir na hora */
+    const prevs = [...app.querySelectorAll("[data-prev]")]; let k = 0;
+    const desenhar = () => { const fim = Math.min(prevs.length, k + 3); for(; k < fim; k++){ if(!prevs[k].isConnected) return; prevs[k].innerHTML = avatarSVG(prevs[k].dataset.prev, null, 0, 0); } if(k < prevs.length) setTimeout(desenhar, 30); };
+    desenhar();
+  };
+  /* ---------- 1ª tela: as categorias ---------- */
+  if(!cat){
+    const especial0 = personagemEspecial(meuBoneco(), meuNivel());
+    const amostra = { a: `<div class="lj-av" data-prev="${esc(eu + "~harpa~v")}"></div>`, p: `<div class="lj-av" data-prev="zaqueu"></div>`,
+      m: `<div class="lj-av lj-mold mold mold-ouro" data-prev="${esc(eu)}"></div>`,
+      t: `<div class="lj-pista"><div class="track pista-jardim" style="--seg:3"><div class="runner" style="--p:.4" data-prev="${esc(meuBoneco() || eu)}"></div></div></div>`,
+      v: `<div class="lj-av lj-mov"><div class="runner mov-salto" data-prev="${esc(especial0 ? meuBoneco() : "zaqueu")}"></div></div>`,
+      c: `<div class="lj-festa parada">${FESTA_ICONE.estrelas}</div>` };
+    const emUso = { a: perfil.acess && comprado("a:" + perfil.acess) && LOJA_AC[perfil.acess] ? LOJA_AC[perfil.acess].nome : "", p: (acharProfeta(perfil.profeta) || {}).preco ? acharProfeta(perfil.profeta).nome : "",
+      m: (extraDaLoja("m", minhaMoldura()) || {}).nome, t: (extraDaLoja("t", minhaPista()) || {}).nome, v: (extraDaLoja("v", meuMovimento()) || {}).nome, c: (extraDaLoja("c", minhaFesta()) || {}).nome };
+    app.innerHTML = `<div class="estudo-area">
+      <div class="lj-topo">${cabPagina("Loja", "", "Loja do Rolo", "Ganhe moedas nos acertos do quiz, nas missões, na semana completa no prazo e nos desafios.")}${saldoHtml}</div>
+      <div class="lj-cats">${LOJA_CATS.map(c => { const l = c.lista(), meus = l.filter(x => comprado(c.k + ":" + x.id)).length;
+        return `<button type="button" class="lj-cat" data-cat="${c.k}">${amostra[c.k]}<b>${c.nome}</b><small>${l.length} ${l.length === 1 ? "item" : "itens"}${meus ? ` · ${meus} ${meus === 1 ? "seu" : "seus"}` : ""}</small>${emUso[c.k] ? `<em>em uso: ${esc(emUso[c.k])}</em>` : ""}<span class="lj-cat-seta" aria-hidden="true">›</span></button>`; }).join("")}</div>
+      <p class="note center">Moedas ganhas até hoje: ${moedasGanhas()} · gastas: ${moedasGastas()}</p></div>`;
+    desenharAmostras();
+    app.querySelectorAll("[data-cat]").forEach(b => b.onclick = () => { lojaCat = b.dataset.cat; tocar("toque"); window.scrollTo(0, 0); telaLoja(); });
+    return;
+  }
+  /* ---------- 2ª tela: os itens de uma categoria ---------- */
   const botao = (id, preco, emUso, rotUsar) => comprado(id)
     ? `<button type="button" class="btn btn-sm ${emUso ? "btn-ok" : "btn-ghost"}" data-usar="${id}">${emUso ? "✓ Em uso" : rotUsar}</button>`
     : `<button type="button" class="btn btn-sm btn-main ${saldo < preco ? "caro" : ""}" data-comprar="${id}">${MOEDA}${preco}</button>`;
-  const cartaoAc = a => `<div class="lj-item ${comprado("a:" + a.id) ? "meu" : ""}"><div class="lj-av" data-prev="${esc((perfil.profeta || PROFETA_PADRAO) + "~" + a.id + "~v")}"></div><b>${esc(a.nome)}</b><small>${esc(a.ref)}</small>${botao("a:" + a.id, a.preco, perfil.acess === a.id, "Usar")}</div>`;
-  const cartaoP = p => `<div class="lj-item ${comprado("p:" + p.id) ? "meu" : ""}"><div class="lj-av" data-prev="${esc(p.id)}"></div><b>${esc(p.nome)}</b><small>${esc(p.ref || "")}</small>${botao("p:" + p.id, p.preco, perfil.profeta === p.id, "Usar")}</div>`;
-  const cartaoM = x => `<div class="lj-item ${comprado("m:" + x.id) ? "meu" : ""}"><div class="lj-av lj-mold${classeMoldura(x.id)}" data-prev="${esc(perfil.profeta || PROFETA_PADRAO)}"></div><b>${esc(x.nome)}</b><small>${esc(x.ref)}</small>${botao("m:" + x.id, x.preco, minhaMoldura() === x.id, "Usar")}</div>`;
-  const cartaoT = x => `<div class="lj-item larga ${comprado("t:" + x.id) ? "meu" : ""}"><div class="lj-pista"><div class="track${classePista(x.id)}" style="--seg:4"><span class="flag" aria-hidden="true">🏁</span><div class="runner" style="--p:.38" data-prev="${esc(meuBoneco() || PROFETA_PADRAO)}"></div></div></div><b>${esc(x.nome)}</b><small>${esc(x.ref)}</small>${botao("t:" + x.id, x.preco, minhaPista() === x.id, "Usar")}</div>`;
-  const cartaoC = x => `<div class="lj-item ${comprado("c:" + x.id) ? "meu" : ""}"><button type="button" class="lj-festa" data-festa="${x.id}" title="Ver a comemoração" aria-label="Ver a comemoração ${esc(x.nome)}">${FESTA_ICONE[x.id] || ""}<span>▶ ver</span></button><b>${esc(x.nome)}</b><small>${esc(x.ref)}</small>${botao("c:" + x.id, x.preco, minhaFesta() === x.id, "Usar")}</div>`;
-  const especial = personagemEspecial(meuBoneco(), meuNivel()), amostra = especial ? meuBoneco() : "zaqueu";
-  const cartaoV = x => `<div class="lj-item ${comprado("v:" + x.id) ? "meu" : ""}"><div class="lj-av lj-mov"><div class="runner mov-${x.id}" data-prev="${esc(amostra)}"></div></div><b>${esc(x.nome)}</b><small>${esc(x.ref)}</small>${botao("v:" + x.id, x.preco, meuMovimento() === x.id, "Usar")}</div>`;
+  const especial = personagemEspecial(meuBoneco(), meuNivel()), amostraMov = especial ? meuBoneco() : "zaqueu";
+  const cartao = {
+    a: a => `<div class="lj-item ${comprado("a:" + a.id) ? "meu" : ""}"><div class="lj-av" data-prev="${esc(eu + "~" + a.id + "~v")}"></div><b>${esc(a.nome)}</b><small>${esc(a.ref)}</small>${botao("a:" + a.id, a.preco, perfil.acess === a.id, "Usar")}</div>`,
+    p: p => `<div class="lj-item ${comprado("p:" + p.id) ? "meu" : ""}"><div class="lj-av" data-prev="${esc(p.id)}"></div><b>${esc(p.nome)}</b><small>${esc(p.ref || "")}</small>${botao("p:" + p.id, p.preco, perfil.profeta === p.id, "Usar")}</div>`,
+    m: x => `<div class="lj-item ${comprado("m:" + x.id) ? "meu" : ""}"><div class="lj-av lj-mold${classeMoldura(x.id)}" data-prev="${esc(eu)}"></div><b>${esc(x.nome)}</b><small>${esc(x.ref)}</small>${botao("m:" + x.id, x.preco, minhaMoldura() === x.id, "Usar")}</div>`,
+    t: x => `<div class="lj-item larga ${comprado("t:" + x.id) ? "meu" : ""}"><div class="lj-pista"><div class="track${classePista(x.id)}" style="--seg:4"><span class="flag" aria-hidden="true">🏁</span><div class="runner" style="--p:.38" data-prev="${esc(meuBoneco() || PROFETA_PADRAO)}"></div></div></div><b>${esc(x.nome)}</b><small>${esc(x.ref)}</small>${botao("t:" + x.id, x.preco, minhaPista() === x.id, "Usar")}</div>`,
+    v: x => `<div class="lj-item ${comprado("v:" + x.id) ? "meu" : ""}"><div class="lj-av lj-mov"><div class="runner mov-${x.id}" data-prev="${esc(amostraMov)}"></div></div><b>${esc(x.nome)}</b><small>${esc(x.ref)}</small>${botao("v:" + x.id, x.preco, meuMovimento() === x.id, "Usar")}</div>`,
+    c: x => `<div class="lj-item ${comprado("c:" + x.id) ? "meu" : ""}"><button type="button" class="lj-festa" data-festa="${x.id}" title="Ver a comemoração" aria-label="Ver a comemoração ${esc(x.nome)}">${FESTA_ICONE[x.id] || ""}<span>▶ ver</span></button><b>${esc(x.nome)}</b><small>${esc(x.ref)}</small>${botao("c:" + x.id, x.preco, minhaFesta() === x.id, "Usar")}</div>`
+  }[cat.k];
+  const itens = cat.lista(), meus = itens.filter(x => comprado(cat.k + ":" + x.id)).length;
+  const nota = cat.k === "v" ? `<p class="lj-nota ${especial ? "" : "alerta"}">${especial ? "Vale com personagem raro ou da loja, como o que você está usando." : "Só aparece com personagem <b>raro</b> (das missões) ou <b>da loja</b>. O seu personagem de agora é comum: você pode comprar, mas o movimento só aparece quando trocar. A amostra abaixo usa o Zaqueu."}</p>`
+    : cat.k === "a" ? `<p class="lj-nota">Um acessório por vez. A maioria fica na mão; a coroa vai na cabeça, as asas nas costas e a ovelha no chão.</p>` : "";
   app.innerHTML = `<div class="estudo-area">
-    <div class="lj-topo">${cabPagina("Loja", "", "Loja do Rolo", "Ganhe moedas nos acertos do quiz, nas missões, na semana completa no prazo e nos desafios.")}<div class="lj-saldo" aria-label="${saldo} moedas">${MOEDA}<b>${saldo}</b><small>${saldo === 1 ? "moeda" : "moedas"}</small></div></div>
-    <section class="panel pg-card"><div class="hm-cab"><span>Acessórios</span><span class="hm-meta">o personagem segura na outra mão</span></div>
-      <div class="lj-grade">${LOJA_ACESSORIOS.map(cartaoAc).join("")}</div></section>
-    <section class="panel pg-card"><div class="hm-cab"><span>Personagens</span><span class="hm-meta">só na loja</span></div>
-      <div class="lj-grade">${pers.map(cartaoP).join("")}</div></section>
-    <section class="panel pg-card"><div class="hm-cab"><span>Molduras de perfil</span><span class="hm-meta">em volta do seu personagem</span></div>
-      <div class="lj-grade">${LOJA_MOLDURAS.map(cartaoM).join("")}</div></section>
-    <section class="panel pg-card"><div class="hm-cab"><span>Temas da pista</span><span class="hm-meta">a sua raia na Corrida</span></div>
-      <div class="lj-grade pistas">${LOJA_PISTAS.map(cartaoT).join("")}</div></section>
-    <section class="panel pg-card"><div class="hm-cab"><span>Movimentos</span><span class="hm-meta">o que o personagem faz na raia</span></div>
-      <p class="lj-nota ${especial ? "" : "alerta"}">${especial ? "Vale com personagem raro ou da loja, como o que você está usando." : "Só aparece com personagem <b>raro</b> (das missões) ou <b>da loja</b>. O seu personagem de agora é comum: você pode comprar, mas o movimento só aparece quando trocar. A amostra abaixo usa o Zaqueu."}</p>
-      <div class="lj-grade">${LOJA_MOVIMENTOS.map(cartaoV).join("")}</div></section>
-    <section class="panel pg-card"><div class="hm-cab"><span>Comemorações</span><span class="hm-meta">ao terminar o quiz</span></div>
-      <div class="lj-grade">${LOJA_FESTAS.map(cartaoC).join("")}</div></section>
-    <p class="note center">Moedas ganhas até hoje: ${moedasGanhas()} · gastas: ${moedasGastas()}</p></div>`;
-  /* os bonecos de amostra são desenhados aos poucos, para a tela abrir na hora */
-  const prevs = [...app.querySelectorAll("[data-prev]")]; let k = 0;
-  const desenhar = () => { const fim = Math.min(prevs.length, k + 3); for(; k < fim; k++){ if(!prevs[k].isConnected) return; prevs[k].innerHTML = avatarSVG(prevs[k].dataset.prev, null, 0, 0); } if(k < prevs.length) setTimeout(desenhar, 30); };
-  desenhar();
+    <div class="lj-topo cat">${botaoVoltar("ljVoltar", "a loja")}${saldoHtml}</div>
+    ${cabPagina("Loja", `${itens.length} ${itens.length === 1 ? "item" : "itens"}${meus ? ` · ${meus} ${meus === 1 ? "seu" : "seus"}` : ""}`, cat.nome, cat.sub.charAt(0).toUpperCase() + cat.sub.slice(1) + ".")}
+    <section class="panel pg-card">${nota}<div class="lj-grade ${cat.k === "t" ? "pistas" : ""}">${itens.map(cartao).join("")}</div></section></div>`;
+  desenharAmostras();
+  $("ljVoltar").onclick = () => { lojaCat = ""; window.scrollTo(0, 0); telaLoja(); };
   app.querySelectorAll("[data-comprar]").forEach(b => b.onclick = () => comprarNaLoja(b.dataset.comprar));
   app.querySelectorAll("[data-usar]").forEach(b => b.onclick = () => usarDaLoja(b.dataset.usar));
   app.querySelectorAll("[data-festa]").forEach(b => b.onclick = () => { tocar("toque"); festejar(b.dataset.festa, 2600); });
