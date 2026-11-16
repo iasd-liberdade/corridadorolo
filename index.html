@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="versao" content="20261116.024807">
+<meta name="versao" content="20261116.111733">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Corrida do Rolo · Quiz da Lição</title>
 <meta name="theme-color" content="#524F9C">
@@ -6152,7 +6152,7 @@ function avatarSVG(id, rotulo, nivel, nvAcess){
   const mais = (cx, cy, t) => `<rect x="${cx - .5}" y="${cy - t}" width="1" height="${2 * t}"/><rect x="${cx - t}" y="${cy - .5}" width="${2 * t}" height="1"/>`;
   const aura = lend ? `<g class="av-aura" shape-rendering="geometricPrecision"><ellipse cx="10" cy="14.5" rx="11.6" ry="15.2" fill="#FFE27A" opacity=".2"/><ellipse cx="10" cy="8.5" rx="8.4" ry="8.4" fill="#FFF3B8" opacity=".34"/></g>` : "";
   const brilho = raro ? `<g class="av-raro" fill="${lend ? "#FFF3B8" : "#FFE27A"}">${mais(.6, 4, 1.5)}${mais(21.2, 2.6, 1.5)}${mais(.2, 17.5, 1)}${mais(21.6, 9.5, 1)}${lend ? mais(10, -.2, 1) + mais(-.2, 11, 1) + mais(21.4, 23, 1) + mais(1.2, 24.5, 1) : ""}</g>` : "";
-  /* o boneco vem dos modelos em pixel art (52×60 nos comuns, 92×100 nos raros), encaixado no mesmo espaço de antes; a segunda imagem é a piscada */
+  /* o boneco vem dos modelos em pixel art (52×60 nos comuns, 122×130 nos raros e nos da loja), encaixado no mesmo espaço de antes; a segunda imagem é a piscada */
   const sp = spriteHD(p), larg = (30 * sp.W / sp.H).toFixed(2), x0 = (11 - 15 * sp.W / sp.H).toFixed(2);
   const atraso = (p0.id.split("").reduce((t, ch) => t + ch.charCodeAt(0), 0) % 37) / 10;
   const img = (cls, href, extra) => `<image class="${cls}" href="${href}" x="${x0}" y="0" width="${larg}" height="30" preserveAspectRatio="none"${extra || ""}/>`;
@@ -7415,7 +7415,7 @@ document.addEventListener("visibilitychange", () => { if(!document.hidden && typ
    BONECOS: MODELOS EM PIXEL ART
    Motor de desenho dos arquivos de modelo "profetas-resolucoes" e "profetas-hd".
    - Personagens comuns: modelo de 52×60 pixels.
-   - Personagens raros: modelo de 92×100 pixels.
+   - Personagens raros e os da loja: modelo de 122×130 pixels.
    O motor fica isolado dentro de uma função para não misturar nomes com o resto do jogo.
    ============================================================ */
 const gerarSpriteModelo = (() => {
@@ -7813,12 +7813,12 @@ return gerarSprite;
 
 /* ---------- Do modelo para o jogo: cada personagem vira duas imagens PNG (olhos abertos e piscando) ---------- */
 const _hdCache = {};
-const SPRITE_VERSAO = "m5";            // mude quando o desenho dos personagens mudar, para descartar as imagens guardadas no aparelho
+const SPRITE_VERSAO = "m6";            // mude quando o desenho dos personagens mudar, para descartar as imagens guardadas no aparelho
 /* desenhos da versão anterior guardados no aparelho: saem, para não ocupar espaço à toa */
 try{ for(let i = localStorage.length - 1; i >= 0; i--){ const k = localStorage.key(i); if(k && k.indexOf(KEY + ":boneco:") === 0 && k.indexOf(KEY + ":boneco:" + SPRITE_VERSAO + ":") !== 0) localStorage.removeItem(k); } }catch(e){}
 function spriteHD(p){
   if(_hdCache[p.id]) return _hdCache[p.id];
-  const raro = !!p.nivel, W = raro ? 92 : 52, H = raro ? 100 : 60, k = raro ? 3 : 4;   // k: ampliação inteira, para o desenho continuar nítido em qualquer tamanho
+  const raro = !!p.nivel, alta = raro || !!p.preco, W = alta ? 122 : 52, H = alta ? 130 : 60, k = alta ? 3 : 4;   // raros e da loja: 122×130; comuns: 52×60   // k: ampliação inteira, para o desenho continuar nítido em qualquer tamanho
   const chave = KEY + ":boneco:" + SPRITE_VERSAO + ":" + p.id;
   try{ const g = JSON.parse(localStorage.getItem(chave) || "null"); if(g && g.u && g.f) return (_hdCache[p.id] = Object.assign({ url: g.u, fechado: g.f, W, H }, g.e ? { base: g.b, baseFechado: g.bf, emb: g.e, ex: g.ex, ey: g.ey, eb: g.eb } : {})); }catch(e){}
   const { G, O, F } = gerarSpriteModelo(p, W, H);
