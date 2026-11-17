@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="versao" content="20261116.200827">
+<meta name="versao" content="20261117.111026">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Corrida do Rolo · Quiz da Lição</title>
 <meta name="theme-color" content="#524F9C">
@@ -6266,7 +6266,7 @@ function avatarSVG(id, rotulo, nivel, nvAcess, mov){
     const href = { u: hd ? hd.u : sp.url, f: hd ? hd.f : sp.fechado, b: hd ? hd.b : sp.base, bf: hd ? hd.bf : sp.baseFechado, e: hd ? hd.e : sp.emb };
     return { sp, hd, larg, x0, ex: hd && hd.ex != null ? hd.ex : sp.ex, ey: hd && hd.ey != null ? hd.ey : sp.ey, eb: hd && hd.eb != null ? hd.eb : sp.eb,
       img: (cls, k, extra) => `<image class="${cls}" href="${href[k]}" x="${x0.toFixed(2)}" y="0" width="${larg.toFixed(2)}" height="30" preserveAspectRatio="none"${!hd && especialHD(q) ? ` data-hd="${esc(q.id)}" data-hk="${k}"` : ""}${extra || ""}/>` }; };
-  const quadros = mov && !montado && MOV_QUADROS[mov] && especialHD(p) ? MOV_QUADROS[mov] : null;
+  const quadros = mov && !montado && MOV_QUADROS[mov] ? MOV_QUADROS[mov] : null;     // qualquer personagem com movimento comprado (os quadros saem em 992×1000)
   let corpo, temGesto = false;
   if(quadros){
     /* movimento da loja: os quadros se alternam (só a pose muda; o resto da animação vem do movimento da raia) */
@@ -8215,7 +8215,7 @@ const LOJA_FESTAS = [
   { id: "pombas",    nome: "Revoada de Pombas",   ref: "Mateus 3:16",  preco: 40 },
   { id: "fogo",      nome: "Línguas de Fogo",     ref: "Atos 2:3",     preco: 45 }
 ];
-/* Movimentos: o que o personagem fica fazendo na raia da Corrida. Só valem para personagem raro (das missões) ou da loja. */
+/* Movimentos: o que o personagem fica fazendo na raia da Corrida. Valem para qualquer personagem (comum, raro ou da loja), desde que o movimento tenha sido comprado. */
 const LOJA_MOVIMENTOS = [
   { id: "marcha",  nome: "Marcha de Jericó",   ref: "Josué 6:3",       preco: 30 },
   { id: "salto",   nome: "Salto de Alegria",   ref: "Atos 3:8",        preco: 35 },
@@ -8241,7 +8241,7 @@ const classeMoldura = id => id && extraDaLoja("m", id) ? " mold mold-" + id : ""
 const meuMovimento = () => emUsoDaLoja("v");
 /* o movimento só aparece se o personagem daquele jogador for raro (prêmio das missões) ou da loja */
 function personagemEspecial(boneco, nivel){ const p = acharProfeta(idPuro(personagemDe(boneco, nivel))); return !!(p && (p.nivel || p.preco)); }
-const movDe = (id, boneco, nivel) => id && extraDaLoja("v", id) && personagemEspecial(boneco, nivel) ? id : "";
+const movDe = (id, boneco, nivel) => id && extraDaLoja("v", id) ? id : "";      // sem movimento comprado, o personagem fica parado
 const classeMovimento = (id, boneco, nivel) => movDe(id, boneco, nivel) ? " mov-" + id : "";
 const classePista = id => id && extraDaLoja("t", id) ? " pista-" + id : "";
 const FESTA_ICONE = {
@@ -8295,11 +8295,10 @@ function telaLoja(){
   };
   /* ---------- 1ª tela: as categorias ---------- */
   if(!cat){
-    const especial0 = personagemEspecial(meuBoneco(), meuNivel());
     const amostra = { a: `<div class="lj-av" data-prev="${esc(eu + "~harpa~v")}"></div>`, p: `<div class="lj-av" data-prev="zaqueu"></div>`,
       m: `<div class="lj-av lj-mold mold mold-ouro" data-prev="${esc(eu)}"></div>`,
       t: `<div class="lj-pista"><div class="track pista-jardim" style="--seg:3"><div class="runner" style="--p:.4" data-prev="${esc(meuBoneco() || eu)}"></div></div></div>`,
-      v: `<div class="lj-av lj-mov"><div class="runner mov-tchau" data-mov="tchau" data-prev="${esc(especial0 ? meuBoneco() : "zaqueu")}"></div></div>`,
+      v: `<div class="lj-av lj-mov"><div class="runner mov-tchau" data-mov="tchau" data-prev="${esc(meuBoneco() || eu)}"></div></div>`,
       c: `<div class="lj-festa parada">${FESTA_ICONE.estrelas}</div>` };
     const emUso = { a: perfil.acess && comprado("a:" + perfil.acess) && LOJA_AC[perfil.acess] ? LOJA_AC[perfil.acess].nome : "", p: (acharProfeta(perfil.profeta) || {}).preco ? acharProfeta(perfil.profeta).nome : "",
       m: (extraDaLoja("m", minhaMoldura()) || {}).nome, t: (extraDaLoja("t", minhaPista()) || {}).nome, v: (extraDaLoja("v", meuMovimento()) || {}).nome, c: (extraDaLoja("c", minhaFesta()) || {}).nome };
@@ -8316,7 +8315,7 @@ function telaLoja(){
   const botao = (id, preco, emUso, rotUsar) => comprado(id)
     ? `<button type="button" class="btn btn-sm ${emUso ? "btn-ok" : "btn-ghost"}" data-usar="${id}">${emUso ? "✓ Em uso" : rotUsar}</button>`
     : `<button type="button" class="btn btn-sm btn-main ${saldo < preco ? "caro" : ""}" data-comprar="${id}">${MOEDA}${preco}</button>`;
-  const especial = personagemEspecial(meuBoneco(), meuNivel()), amostraMov = especial ? meuBoneco() : "zaqueu";
+  const amostraMov = meuBoneco() || eu;
   const cartao = {
     a: a => `<div class="lj-item ${comprado("a:" + a.id) ? "meu" : ""}"><div class="lj-av" data-prev="${esc(eu + "~" + a.id + "~v")}"></div><b>${esc(a.nome)}</b><small>${esc(a.ref)}</small>${botao("a:" + a.id, a.preco, perfil.acess === a.id, "Usar")}</div>`,
     p: p => `<div class="lj-item ${comprado("p:" + p.id) ? "meu" : ""}"><div class="lj-av" data-prev="${esc(p.id)}"></div><b>${esc(p.nome)}</b><small>${esc(p.ref || "")}</small>${botao("p:" + p.id, p.preco, perfil.profeta === p.id, "Usar")}</div>`,
@@ -8326,7 +8325,7 @@ function telaLoja(){
     c: x => `<div class="lj-item ${comprado("c:" + x.id) ? "meu" : ""}"><button type="button" class="lj-festa" data-festa="${x.id}" title="Ver a comemoração" aria-label="Ver a comemoração ${esc(x.nome)}">${FESTA_ICONE[x.id] || ""}<span>▶ ver</span></button><b>${esc(x.nome)}</b><small>${esc(x.ref)}</small>${botao("c:" + x.id, x.preco, minhaFesta() === x.id, "Usar")}</div>`
   }[cat.k];
   const itens = cat.lista(), meus = itens.filter(x => comprado(cat.k + ":" + x.id)).length;
-  const nota = cat.k === "v" ? `<p class="lj-nota ${especial ? "" : "alerta"}">${especial ? "Vale com personagem raro ou da loja, como o que você está usando." : "Só aparece com personagem <b>raro</b> (das missões) ou <b>da loja</b>. O seu personagem de agora é comum: você pode comprar, mas o movimento só aparece quando trocar. A amostra abaixo usa o Zaqueu."}</p>`
+  const nota = cat.k === "v" ? `<p class="lj-nota">Vale para qualquer personagem, inclusive os comuns. Sem movimento comprado, o personagem fica parado na raia.</p>`
     : cat.k === "a" ? `<p class="lj-nota">Um acessório por vez. A maioria fica na mão; a coroa vai na cabeça, as asas nas costas e a ovelha no chão.</p>` : "";
   app.innerHTML = `<div class="estudo-area">
     <div class="lj-topo cat">${botaoVoltar("ljVoltar", "a loja")}${saldoHtml}</div>
@@ -8364,7 +8363,6 @@ async function usarDaLoja(id, semAviso){
   try{ await DB.salvarUsuario(usuario.uid, muda); }catch(e){ aviso(erroMsg(e)); }
   if(!semAviso) aviso(tipo === "a" ? (perfil.acess ? "Acessório em uso." : "Acessório guardado.") : g ? (perfil[g.campo] ? g.usar : g.tirar) : "Personagem trocado.");
   if((tipo === "t" || tipo === "v") && typeof carregarSalas === "function") carregarSalas().catch(()=>{});          // os outros veem a minha raia com o tema e o movimento
-  if(tipo === "v" && perfil.mov === k && !personagemEspecial(meuBoneco(), meuNivel())) aviso("Movimento guardado. Ele aparece quando você usar um personagem raro ou da loja.");
   if(tipo === "c" && perfil.festa === k) festejar(k, 2600);
   atualizarCasca(); sincronizarPerfilPublico();
   if(document.querySelector(".lj-grade")) telaLoja();
