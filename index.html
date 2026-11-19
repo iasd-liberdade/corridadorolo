@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="versao" content="20261119.021225">
+<meta name="versao" content="20261119.030151">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Corrida do Rolo · Quiz da Lição</title>
 <meta name="theme-color" content="#524F9C">
@@ -10000,6 +10000,8 @@ const ALBUM_MOEDAS_PAGINA = 20, ALBUM_MOEDAS_ALBUM = 50, ALBUM_POR_PACOTE = 3, A
    O que foi ganho nos testes ficou em campos antigos do perfil (albumAbertos, albumTrocas…) e não é lido: todo mundo começa do zero. */
 let ALBUM_INICIO = new Date(2026, 10, 20, 0, 0, 0).getTime();           // sexta-feira, 20/11/2026, 0h
 const ALBUM_ERA = "2026-11-20", ALBUM_QUANDO = "sexta-feira, 20/11, à 0h", ALBUM_QUANDO_CURTO = "sexta-feira, à 0h";
+const ALBUM_AVISO = "2026-11-20T00";          // marca do balão de novidade. Uma versão chegou a anunciar 10h (marca "2026-11-20T10"): quem viu aquela vê o balão de novo
+const albumAvisoVisto = v => v === ALBUM_AVISO || v === ALBUM_ERA;          // ALBUM_ERA era a marca do primeiro balão, que já dizia 0h
 const albumLiberado = () => Date.now() >= ALBUM_INICIO;
 const pacDaEra = k => k.indexOf("pac:") === 0 && new Date(k.slice(4, 14) + "T23:59:59").getTime() >= ALBUM_INICIO;          // pacote comprado depois da estreia (a chave leva o dia da compra)
 const ALBUM_OBJ = {
@@ -10103,7 +10105,7 @@ function modalAlbumTrancado(){
 /* balão no menu, uma vez por pessoa: apresenta o álbum e, antes da estreia, mostra quanto falta */
 let _dicaAlbum = false;
 function dicaDoAlbum(){
-  if(_dicaAlbum || !usuario || !perfil || perfil.viuAlbum === ALBUM_ERA || lsGet(KEY + ":viuAlbum:" + usuario.uid, "") === ALBUM_ERA) return;
+  if(_dicaAlbum || !usuario || !perfil || albumAvisoVisto(perfil.viuAlbum) || albumAvisoVisto(lsGet(KEY + ":viuAlbum:" + usuario.uid, ""))) return;
   _dicaAlbum = true;
   const tentar = n => {
     const alvo = document.querySelector('#nav [data-tab="album"]');
@@ -10120,7 +10122,7 @@ function dicaDoAlbum(){
     const fechar = () => { el.remove(); alvo.classList.remove("novidade"); document.removeEventListener("click", fora, true); };
     const fora = e => { if(!el.contains(e.target)) fechar(); };
     setTimeout(() => document.addEventListener("click", fora, true), 300);
-    lsSet(KEY + ":viuAlbum:" + usuario.uid, ALBUM_ERA); perfil.viuAlbum = ALBUM_ERA; DB.salvarUsuario(usuario.uid, { viuAlbum: ALBUM_ERA }).catch(()=>{});
+    lsSet(KEY + ":viuAlbum:" + usuario.uid, ALBUM_AVISO); perfil.viuAlbum = ALBUM_AVISO; DB.salvarUsuario(usuario.uid, { viuAlbum: ALBUM_AVISO }).catch(()=>{});
     el.querySelector("#daVer").onclick = () => { fechar(); nav("album"); };
     el.querySelector("#daDepois").onclick = fechar;
   };
