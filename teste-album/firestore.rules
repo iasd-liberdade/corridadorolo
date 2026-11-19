@@ -1,0 +1,183 @@
+rules_version = '2';
+// Regras do Firestore para o Quiz da Lição (Corrida do Rolo).
+// Cole este conteúdo em: Firebase Console > Firestore Database > Regras > Publicar.
+// IMPORTANTE: coloque abaixo os MESMOS e-mails que estão em ADMINS_INICIAIS no HTML.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function logado(){ return request.auth != null; }
+    function adminInicial(){
+      return logado() && request.auth.token.email in [
+        'brenno.liberty@gmail.com'
+      ];
+    }
+    function meuPerfil(){ return get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data; }
+    // MASTER: administra o jogo inteiro. Os e-mails acima são sempre master; outros viram master pelo campo "master" do perfil.
+    function ehMaster(){ return logado() && (adminInicial() || meuPerfil().get('master', false) == true); }
+    function aprovado(){ return logado() && (ehMaster() || meuPerfil().aprovado == true); }
+    // Opção do admin (Admin > Aprovar usuário): novas contas entram sem esperar aprovação
+    function aprovacaoAutomatica(){
+      return exists(/databases/$(database)/documents/config/geral)
+        && get(/databases/$(database)/documents/config/geral).data.get('aprovacaoAuto', false) == true;
+    }
+    function salaExiste(id){ return exists(/databases/$(database)/documents/salas/$(id)); }
+    function dadosSala(id){ return get(/databases/$(database)/documents/salas/$(id)).data; }
+    function donoDaSala(id){ return logado() && salaExiste(id) && dadosSala(id).dono == request.auth.uid; }
+    // ADMIN DE SALA: quem o master colocou no campo "admins" daquela sala
+    function adminAtribuido(id){ return logado() && salaExiste(id) && request.auth.uid in dadosSala(id).get('admins', []); }
+    // Quem pode gerenciar a sala: quem criou ou o administrador atribuído
+    function gerenteDaSala(id){ return donoDaSala(id) || adminAtribuido(id); }
+
+    // Perfis dos usuários
+    match /usuarios/{uid} {
+      allow read: if logado();
+      // Criar o próprio perfil: nunca como admin/aprovado, a não ser que seja admin inicial
+      allow create: if (
+        logado() && request.auth.uid == uid &&
+        request.resource.data.admin == adminInicial() &&
+        request.resource.data.get('master', false) == adminInicial() &&
+        (request.resource.data.aprovado == adminInicial()
+          || (request.resource.data.aprovado == true && aprovacaoAutomatica()))
+      ) || ehMaster();
+      // Editar: o master pode tudo; o próprio usuário muda nome, tema, profeta, progresso etc., mas nunca o seu nível de acesso
+      allow update: if (
+        logado() && request.auth.uid == uid &&
+        request.resource.data.admin == resource.data.admin &&
+        request.resource.data.get('master', false) == resource.data.get('master', false) &&
+        request.resource.data.aprovado == resource.data.aprovado &&
+        request.resource.data.liberarAnterior == resource.data.liberarAnterior
+      ) || ehMaster();
+      allow delete: if ehMaster();
+    }
+
+    // Lições (rascunhos e publicadas)
+    match /licoes/{id} {
+      allow read: if logado();
+      allow write: if ehMaster();
+    }
+
+    // Resultados dos quizzes: cada pessoa cria o seu, uma vez por dia; só admin altera/apaga
+    match /resultados/{id} {
+      allow read: if logado();
+      allow create: if aprovado() && request.resource.data.uid == request.auth.uid
+                    && id == request.auth.uid + '_' + request.resource.data.licaoId + '_' + request.resource.data.data;
+      allow update, delete: if ehMaster();
+    }
+
+    // Salas (turmas). Qualquer usuário aprovado cria a sua; só o dono (ou o admin) altera e exclui.
+    // A sala global "7world" só pode ser criada/alterada pelo master.
+    // Os limites (3 salas criadas, 5 participações) são conferidos pelo app.
+    match /salas/{id} {
+      allow read: if logado();
+      allow create: if ehMaster() || (aprovado() && id != '7world'
+                    && request.resource.data.dono == request.auth.uid
+                    && request.resource.data.get('global', false) == false
+                    && request.resource.data.get('admins', []).size() == 0);
+      // Quem criou a sala ou o administrador atribuído edita nome, descrição, tipo e meta, mas não troca dono, código nem administradores
+      allow update: if ehMaster() || (logado() && id != '7world'
+                    && (resource.data.dono == request.auth.uid || request.auth.uid in resource.data.get('admins', []))
+                    && request.resource.data.dono == resource.data.dono
+                    && request.resource.data.codigo == resource.data.codigo
+                    && request.resource.data.get('admins', []) == resource.data.get('admins', []));
+      allow delete: if ehMaster() || (logado() && id != '7world' && resource.data.dono == request.auth.uid);
+    }
+
+    // Participação nas salas: id = salaId_uid, status "ativo" ou "pendente".
+    // Entrar: na hora se a sala é pública (ou a global, ou a própria sala); em sala privada só como "pendente".
+    // Aprovar/recusar/remover: quem criou a sala, o administrador atribuído a ela ou o master. Sair: a própria pessoa.
+    // O master e o administrador atribuído também podem incluir qualquer usuário direto na sala.
+    match /membros/{id} {
+      allow read: if logado();
+      allow create: if ((ehMaster() || adminAtribuido(request.resource.data.salaId))
+                        && id == request.resource.data.salaId + '_' + request.resource.data.uid)   // master e admin da sala incluem qualquer usuário
+                    || ( aprovado()
+                    && request.resource.data.uid == request.auth.uid
+                    && id == request.resource.data.salaId + '_' + request.auth.uid
+                    && ( request.resource.data.status == 'pendente'
+                         || request.resource.data.salaId == '7world'
+                         || (salaExiste(request.resource.data.salaId)
+                             && (dadosSala(request.resource.data.salaId).publica == true
+                                 || dadosSala(request.resource.data.salaId).dono == request.auth.uid)) ) );
+      allow update: if ehMaster() || gerenteDaSala(resource.data.salaId)
+                    || (logado() && resource.data.uid == request.auth.uid
+                        && request.resource.data.uid == resource.data.uid
+                        && request.resource.data.salaId == resource.data.salaId
+                        && request.resource.data.status == resource.data.status
+                        && request.resource.data.papel == resource.data.papel);
+      allow delete: if ehMaster() || (logado() && resource.data.uid == request.auth.uid) || gerenteDaSala(resource.data.salaId);
+    }
+
+    // Mural das salas. Cada pessoa publica e apaga o seu; as outras só mexem nas reações.
+    // O dono da sala e o admin também podem apagar publicações.
+    match /mural/{id} {
+      allow read: if logado();
+      allow create: if aprovado() && request.resource.data.uid == request.auth.uid;
+      allow update: if ehMaster()
+                    || (logado() && resource.data.uid == request.auth.uid && request.resource.data.uid == resource.data.uid)
+                    || (aprovado() && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['reacoes']));
+      allow delete: if ehMaster() || (logado() && resource.data.uid == request.auth.uid) || gerenteDaSala(resource.data.salaId);
+    }
+
+    // Quiz em andamento: cada pessoa lê e grava só o seu
+    match /progresso/{id} {
+      allow read, delete: if ehMaster() || (logado() && resource.data.uid == request.auth.uid);
+      allow create, update: if logado() && request.resource.data.uid == request.auth.uid
+                            && id == request.auth.uid + '_' + request.resource.data.licaoId + '_' + request.resource.data.data;
+    }
+
+    // Páginas do PDF da lição guardadas como imagem (aba Estudar)
+    match /paginas/{id} {
+      allow read: if logado();
+      allow write: if ehMaster();
+    }
+
+    // Dados privados de cada conta (hoje, o e-mail). Saíram do perfil, que todos os jogadores leem:
+    // aqui só a própria pessoa e o master leem e gravam.
+    match /privado/{uid} {
+      allow read: if logado() && (request.auth.uid == uid || ehMaster());
+      allow create, update: if logado() && (request.auth.uid == uid || ehMaster());
+      allow delete: if ehMaster();
+    }
+
+    // Desafios entre amigos (valendo moedas). Quem desafia cria como "pendente" e pode cancelar enquanto não houver resposta;
+    // só o desafiado responde (aceito ou recusado), e só uma vez. O resultado é calculado dos resultados dos quizzes.
+    match /desafios/{id} {
+      allow read: if logado();
+      allow create: if aprovado()
+                    && request.resource.data.de == request.auth.uid
+                    && request.resource.data.para != request.auth.uid
+                    && request.resource.data.status == 'pendente'
+                    && request.resource.data.moedas is int
+                    && request.resource.data.moedas >= 1 && request.resource.data.moedas <= 100;
+      allow update: if ehMaster() || (logado()
+                    && resource.data.para == request.auth.uid
+                    && resource.data.status == 'pendente'
+                    && request.resource.data.status in ['aceito', 'recusado']
+                    && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'respondido']));
+      allow delete: if ehMaster() || (logado() && resource.data.de == request.auth.uid && resource.data.status == 'pendente');
+    }
+
+    // Trocas de figurinhas do álbum. Quem propõe cria como "pendente" e pode cancelar enquanto não houver resposta;
+    // só quem recebeu a proposta responde (aceito ou recusado), e só uma vez.
+    match /trocas/{id} {
+      allow read: if logado();
+      allow create: if aprovado()
+                    && request.resource.data.de == request.auth.uid
+                    && request.resource.data.para != request.auth.uid
+                    && request.resource.data.status == 'pendente';
+      allow update: if ehMaster() || (logado()
+                    && resource.data.para == request.auth.uid
+                    && resource.data.status == 'pendente'
+                    && request.resource.data.status in ['aceito', 'recusado']
+                    && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'respondido']));
+      allow delete: if ehMaster() || (logado() && resource.data.de == request.auth.uid && resource.data.status == 'pendente');
+    }
+
+    // Configurações gerais (ícone do site, liberar semanas anteriores etc.)
+    // Leitura pública para o ícone aparecer já na tela de login.
+    match /config/{id} {
+      allow read: if true;
+      allow write: if ehMaster();
+    }
+  }
+}
