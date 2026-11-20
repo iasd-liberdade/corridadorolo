@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="versao" content="20261119.030336">
+<meta name="versao" content="20261120.033352">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Corrida do Rolo · Quiz da Lição</title>
 <meta name="theme-color" content="#524F9C">
@@ -1214,6 +1214,35 @@ input[type=text],input[type=email],input[type=password],input[type=number],input
 @keyframes avsobe{0%,30%,100%{transform:none}8%{transform:translateY(-3.4px)}14%{transform:translateY(-2.6px)}20%{transform:translateY(-3.4px)}}
 @keyframes avbrilha{0%,24%,100%{transform:scale(1)}6%{transform:scale(1.4)}12%{transform:scale(1.05)}18%{transform:scale(1.32)}}
 @media (prefers-reduced-motion:reduce){.avatar .av-corpo,.avatar .av-emb{animation:none}}
+/* personagens da loja: contorno azul-violeta, base de luz, brilho holográfico e o efeito próprio de cada um */
+.avatar.loja{filter:drop-shadow(0 0 1.5px #A6ECFF) drop-shadow(0 0 5px rgba(170,125,255,.75));overflow:visible}
+.prof.bloq .avatar.loja{filter:grayscale(1) brightness(.75)}
+.avatar .av-ped-anel{transform-box:fill-box;transform-origin:center;animation:avped 2.6s ease-out infinite;animation-delay:var(--d,0s)}
+.avatar .av-holo{animation:avholo 4.6s ease-in-out infinite;animation-delay:var(--d,0s)}
+.avatar .avl{transform-box:fill-box;transform-origin:center;animation-duration:var(--du,4s);animation-delay:calc(var(--d,0s) + var(--dl,0s));animation-iteration-count:infinite;animation-timing-function:ease-in-out;animation-fill-mode:both}
+.avatar .avl-cai{animation-name:avlcai}
+.avatar .avl-sobe{animation-name:avlsobe;animation-timing-function:ease-out}
+.avatar .avl-cintila{animation-name:avlcintila}
+.avatar .avl-pulsa{animation-name:avlpulsa}
+.avatar .avl-gira{animation-name:avlgira;animation-timing-function:linear}
+.avatar .avl-voa{animation-name:avlvoa}
+.avatar .avl-tijolo{animation-name:avltijolo;animation-timing-function:ease-out}
+.avatar .avl-onda{animation-name:avlonda}
+.avatar .avl-fita{animation-name:avlfita;animation-timing-function:linear}
+@keyframes avped{0%{transform:scale(.8);opacity:.95}100%{transform:scale(1.2);opacity:0}}
+@keyframes avholo{0%,66%{transform:translateX(0);opacity:0}69%{opacity:1}94%{opacity:1}100%{transform:translateX(46px);opacity:0}}
+@keyframes avlcai{0%{transform:translate(.6px,-7px) rotate(-25deg);opacity:0}15%{opacity:var(--o,1)}50%{transform:translate(-1.2px,0) rotate(18deg)}85%{opacity:var(--o,1)}100%{transform:translate(.8px,7px) rotate(-20deg);opacity:0}}
+@keyframes avlsobe{0%{transform:translate(0,5px) scale(.6);opacity:0}20%{opacity:1}70%{opacity:.9}100%{transform:translate(var(--x,1px),-9px) scale(1.1);opacity:0}}
+@keyframes avlcintila{0%,100%{transform:scale(.35);opacity:.25}50%{transform:scale(1);opacity:1}}
+@keyframes avlpulsa{0%,100%{transform:scale(.94)}50%{transform:scale(1.06)}}
+@keyframes avlgira{to{transform:rotate(360deg)}}
+@keyframes avlvoa{0%{transform:translate(-4px,2.2px) rotate(-10deg);opacity:0}18%{opacity:1}50%{transform:translate(0,-.6px) rotate(4deg)}82%{opacity:1}100%{transform:translate(4px,2px) rotate(12deg);opacity:0}}
+@keyframes avltijolo{0%{transform:translateY(-6px);opacity:0}6%{transform:translateY(0);opacity:1}80%{transform:translateY(0);opacity:1}90%,100%{transform:translateY(0);opacity:0}}
+@keyframes avlonda{0%,100%{transform:translateY(0)}50%{transform:translateY(-.9px)}}
+@keyframes avlfita{to{stroke-dashoffset:-18}}
+@media (prefers-reduced-motion:reduce){.avatar .avl,.avatar .av-holo,.avatar .av-ped-anel{animation:none}}
+/* vitrine da loja: o nome do efeito do personagem */
+.lj-item .lj-ef{display:grid;align-items:center;min-height:30px;margin-top:3px;padding:3px 8px;border-radius:99px;background:linear-gradient(90deg,rgba(143,243,255,.22),rgba(199,125,255,.26));border:1px solid rgba(190,170,255,.5);font:800 10px/1.2 "Barlow",sans-serif;font-style:normal;letter-spacing:.02em;color:#F1E9FF}
 /* janela da missão: cartão de jogo (paisagem da etapa, moeda da casa, progresso, recompensa) */
 .modal.mj-janela{padding-top:12px}
 .mj{text-align:center}
@@ -2130,7 +2159,7 @@ button.fig:active{transform:scale(.97)}
 /* figurinha pequena (na escolha da troca) */
 .fig.mini.sel{outline:3px solid #fff;outline-offset:2px}
 .fig.mini.boa::before{content:"";position:absolute;left:50%;top:-3px;transform:translateX(-50%);z-index:3;width:9px;height:9px;border-radius:50%;background:#3EE0A0;box-shadow:0 0 0 1.5px #fff}
-.tr-grade{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:9px;max-height:250px;overflow-y:auto;padding:5px 4px 8px}
+.tr-grade{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:10px;max-height:268px;overflow-y:auto;padding:7px 5px 8px}
 .tr-tit{margin:12px 0 6px;font-size:13px}.tr-tit small{opacity:.7;font-size:11px}
 .tr-lista{display:grid;gap:6px}.tr-membro{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:12px;border:1px solid var(--panel-line);background:rgba(255,255,255,.1);color:#fff;font-family:inherit;text-align:left;cursor:pointer}
 .tr-membro b{flex:1;font-size:14px}.tr-membro i{font-style:normal;opacity:.6}.tr-av .avatar{width:28px;height:36px;display:block}
@@ -2363,6 +2392,50 @@ button.fig.vaga:hover{transform:translateY(-2px)}
 .hub-b.vazio{filter:saturate(.45);opacity:.72}.hub-b.vazio::after{display:none}
 .hub-todos{display:block;width:100%;margin:0 0 12px;padding:9px 12px;border-radius:99px;border:1px dashed rgba(255,226,122,.6);background:rgba(255,212,92,.12);color:#FFE27A;font:800 13px/1 "Barlow",sans-serif;cursor:pointer}
 @media (prefers-reduced-motion:reduce){.hub-b::after,.hub-b.tem .hub-arte{animation:none}}
+
+/* ---------- trocas: aviso na estante, tela das propostas e a escolha de várias figurinhas ---------- */
+.alb-aviso{display:flex;align-items:center;gap:12px;width:100%;margin:0 0 12px;padding:12px 14px;color:#fff;font-family:inherit;text-align:left;cursor:pointer}
+.alb-aviso.novo{border-color:rgba(143,230,255,.75);background:linear-gradient(150deg,rgba(232,82,138,.34),rgba(122,92,255,.3))}
+.alb-aviso-ic{position:relative;flex:none;display:grid;place-items:center;width:48px;height:48px}.alb-aviso-ic .ij{width:46px;height:46px}
+.alb-aviso.novo .alb-aviso-ic{animation:alb-bal 1.6s ease-in-out infinite}
+.alb-aviso-ic > b{position:absolute;right:-6px;top:-4px;min-width:20px;height:20px;padding:0 5px;border-radius:99px;background:#FF4D6D;color:#fff;font:800 12px/20px "Barlow",sans-serif;text-align:center;box-shadow:0 0 0 2px rgba(20,18,60,.55)}
+.alb-aviso-tx{flex:1;min-width:0}.alb-aviso-tx b{display:block;font:800 15px/1.2 "Barlow",sans-serif}.alb-aviso-tx small{display:block;margin-top:2px;font-size:12.5px;color:var(--soft)}
+.alb-aviso > i{flex:none;padding:7px 14px;border-radius:99px;background:#fff;color:#22183A;font:800 13px/1 "Barlow",sans-serif;font-style:normal}
+@media (prefers-reduced-motion:reduce){.alb-aviso.novo .alb-aviso-ic{animation:none}}
+.trp-dica{display:flex;align-items:center;gap:8px;margin:0 0 14px;font-size:13px;line-height:1.35;color:var(--soft)}.trp-dica .ij{flex:none;width:30px;height:30px}
+.trp-tit{margin:4px 0 10px;font:800 12px/1.2 "Barlow",sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#FFE27A}
+.trp{margin:0 0 14px;padding:14px}.trp.chegou{border-color:rgba(143,230,255,.6)}
+.trp-cab{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin:0 0 10px;font-size:15px}.trp-cab b{font-weight:800}.trp-cab small{flex:none;font-size:11.5px;color:var(--muted)}
+.trp-lados{display:grid;gap:8px}
+.trp-lado{min-width:0;padding:10px;border-radius:16px;background:rgba(10,8,40,.3);border:1px solid rgba(255,255,255,.12)}
+.trp-lado.recebe{background:rgba(46,211,183,.14);border-color:rgba(46,211,183,.4)}
+.trp-rot{display:flex;align-items:center;justify-content:space-between;margin:0 0 9px;font:800 11.5px/1 "Barlow",sans-serif;letter-spacing:.1em;text-transform:uppercase}
+.trp-rot em{font-style:normal;min-width:22px;padding:4px 7px;border-radius:99px;background:rgba(255,255,255,.18);text-align:center;letter-spacing:0}
+.trp-cartas{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:10px;padding-top:3px}
+.trp-seta{display:grid;place-items:center;height:30px}.trp-seta .ij{width:34px;height:34px}
+.trp-nota{margin:10px 0 0;padding:8px 10px;border-radius:12px;background:rgba(255,212,92,.16);border:1px solid rgba(255,212,92,.45);font-size:12.5px;line-height:1.35}
+.trp-nota.ruim{background:rgba(255,77,109,.16);border-color:rgba(255,122,143,.5)}
+.trp .btn-row{margin-top:12px}
+.trp-vazio{display:grid;justify-items:center;gap:6px;margin:0 0 14px;padding:22px 14px;text-align:center}.trp-vazio .ij{width:64px;height:64px}.trp-vazio p{margin:0;color:var(--soft)}
+.trp-nova{margin-top:4px}
+@media (min-width:760px){.trp-lados{grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:start}.trp-seta{height:auto;padding-top:46px}}
+.fig-det-rar{display:inline-block;margin:10px 0 0;padding:4px 12px;border-radius:99px;background:rgba(255,255,255,.14);font:800 11.5px/1.2 "Barlow",sans-serif;letter-spacing:.1em;text-transform:uppercase}
+.fig-det-rar.r-rara{background:rgba(242,190,46,.22);color:#FFE27A}.fig-det-rar.r-lendaria{background:linear-gradient(90deg,rgba(255,138,216,.3),rgba(143,230,255,.3));color:#fff}
+.tr-bloco{margin:10px 0 0;padding:10px 10px 6px;border-radius:16px;background:rgba(10,8,40,.28);border:1px solid rgba(255,255,255,.12)}
+.tr-bloco .tr-tit{display:flex;align-items:center;gap:8px;margin:0 0 3px;font-size:14px}.tr-bloco .tr-tit > span:nth-child(2){flex:1;min-width:0}
+.tr-n{flex:none;display:grid;place-items:center;width:22px;height:22px;border-radius:50%;background:#FFD45C;color:#3A2A00;font:800 12.5px/1 "Barlow",sans-serif}
+.tr-bloco .tr-tit em{flex:none;font-style:normal;min-width:24px;padding:3px 8px;border-radius:99px;background:rgba(255,255,255,.18);font:800 12.5px/1.2 "Barlow",sans-serif;text-align:center}
+.tr-dica{margin:0 0 4px;font-size:11.5px;line-height:1.3;color:var(--muted)}
+.tr-meio{display:grid;place-items:center;height:28px;margin-top:6px}.tr-meio .ij{width:32px;height:32px}
+.tr-cel{position:relative;min-width:0}.tr-cel > .fig{width:100%}
+.tr-cel .fig.mini.sel{outline:3px solid #FFD45C;outline-offset:2px}
+.tr-cel.sel::after{content:"✓";position:absolute;left:-4px;top:-4px;z-index:4;width:20px;height:20px;border-radius:50%;background:#FFD45C;color:#3A2A00;font:900 12px/20px system-ui,sans-serif;text-align:center;box-shadow:0 0 0 2px rgba(20,18,60,.7)}
+.tr-ver{position:absolute;right:2px;bottom:2px;z-index:4;display:grid;place-items:center;width:25px;height:25px;padding:0;border:0;border-radius:50%;background:rgba(10,8,40,.85);box-shadow:0 0 0 1.5px rgba(255,255,255,.55);cursor:pointer}
+.tr-ver::before{content:"";position:absolute;inset:-7px}
+.tr-ver .ij{width:17px;height:17px}
+.tr-rodape{position:sticky;bottom:-18px;z-index:5;display:flex;align-items:center;gap:10px;margin:12px -4px 0;padding:10px 12px;border-radius:16px;background:#2A2670;box-shadow:0 -6px 18px rgba(10,8,40,.45),inset 0 0 0 1px rgba(255,255,255,.18)}
+.tr-rodape p{flex:1;min-width:0;margin:0;font-size:13.5px;line-height:1.25}.tr-rodape p b{color:#FFE27A}
+.tr-rodape .btn{flex:none;width:auto;min-height:42px;padding:8px 16px}
 /* ---------- pacote ganho ou comprado: flutuando, à espera do toque ---------- */
 .pg{text-align:center}
 .pg-pacote{position:relative;display:grid;place-items:center;width:100%;height:262px;margin:0 0 4px;padding:0 0 36px;box-sizing:border-box;border:0;background:none;cursor:pointer;-webkit-tap-highlight-color:transparent;overflow:hidden;border-radius:18px}
@@ -2485,6 +2558,114 @@ button.fig.vaga:hover{transform:translateY(-2px)}
   .ar-stats{grid-template-columns:repeat(6,1fr)}
   .menu-conta{grid-template-columns:1fr}
 }
+/* ===================== LOJA NOVA ===================== */
+.ljn .pg-cab{padding-bottom:12px}
+.ljn-sec{margin:20px 2px 10px;font:800 12px/1.2 "Barlow",sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--soft)}
+/* a carteira: o saldo grande, o atalho de ganhar moedas e a próxima meta */
+.ljn-cart{position:relative;display:grid;grid-template-columns:1fr auto;align-items:center;gap:12px 12px;padding:16px;border-radius:24px;overflow:hidden;background:linear-gradient(140deg,#1B1750 0%,#34298A 52%,#5B4FC9 100%);border:1px solid rgba(255,226,122,.55);box-shadow:0 16px 32px rgba(20,10,70,.38),inset 0 1px 0 rgba(255,255,255,.22)}
+.ljn-cart-luz{position:absolute;right:-70px;top:-90px;width:260px;height:260px;border-radius:50%;background:radial-gradient(closest-side,rgba(255,215,90,.38),transparent);pointer-events:none}
+.ljn-cart-l{position:relative;min-width:0}
+.ljn-cart-l small{display:block;font:800 11px/1.2 "Barlow",sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#CFC8FF}
+.ljn-cart-n{display:flex;align-items:baseline;gap:8px;margin-top:4px;color:#FFE27A}
+.ljn-cart-n .moeda{width:30px;height:30px;align-self:center;filter:drop-shadow(0 3px 6px rgba(0,0,0,.35))}
+.ljn-cart-n b{font:400 56px/.9 "Bebas Neue","Arial Narrow",sans-serif;letter-spacing:.5px;text-shadow:0 3px 0 rgba(0,0,0,.25)}
+.ljn-cart-n span{font:800 12px/1 "Barlow",sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#CFC8FF}
+.ljn-cart-btn{position:relative;display:inline-flex;align-items:center;gap:8px;padding:9px 14px 9px 10px;border-radius:99px;border:1px solid rgba(255,226,122,.7);background:rgba(255,226,122,.14);color:#FFE9A8;font:800 13px/1 "Barlow",sans-serif;cursor:pointer}
+.ljn-cart-btn .cg-ic-mais{width:24px;height:24px}
+.ljn-cart-btn:hover{background:rgba(255,226,122,.24)}
+.ljn-cart-meta{position:relative;grid-column:1/-1;display:grid;gap:8px}
+.ljn-cart-meta:empty{display:none}
+.ljn-alc{justify-self:start;padding:5px 11px;border-radius:99px;background:rgba(125,240,184,.18);border:1px solid rgba(125,240,184,.55);color:#B9F7D8;font:800 12px/1.2 "Barlow",sans-serif}
+.ljn-meta{display:grid;gap:6px;font-size:13px;line-height:1.3;color:#E3DEFF}
+.ljn-meta b{color:#FFE27A}
+.ljn-barra,.ljn-prog{display:block;height:7px;border-radius:99px;background:rgba(10,8,50,.38);overflow:hidden}
+.ljn-barra i,.ljn-prog i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#F2A53A,#FFE27A)}
+/* o destaque de hoje: um palco com raios de luz, o item grande e o botão */
+.ljn-hero{position:relative;display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);align-items:end;gap:8px;min-height:250px;margin-top:12px;padding:18px 8px 16px 18px;border-radius:26px;overflow:hidden;background:radial-gradient(90% 80% at 76% 64%,color-mix(in srgb,var(--c) 62%,transparent),transparent 72%),linear-gradient(160deg,#17134A 0%,#2C2380 55%,#4B3FB0 100%);border:1px solid rgba(255,255,255,.22);box-shadow:0 18px 36px rgba(20,10,70,.42),inset 0 1px 0 rgba(255,255,255,.2)}
+.ljn-raios{position:absolute;left:76%;top:58%;width:620px;height:620px;margin:-310px 0 0 -310px;border-radius:50%;background:repeating-conic-gradient(from 0deg,rgba(255,255,255,.11) 0 9deg,transparent 9deg 22deg);-webkit-mask:radial-gradient(closest-side,#000 18%,transparent 78%);mask:radial-gradient(closest-side,#000 18%,transparent 78%);animation:ljngira 48s linear infinite;pointer-events:none}
+.ljn-pontos{position:absolute;inset:0;pointer-events:none}
+.ljn-pontos i{position:absolute;width:6px;height:6px;border-radius:50%;background:#fff;box-shadow:0 0 10px 2px rgba(255,255,255,.7);animation:ljnpisca 2.6s ease-in-out infinite}
+.ljn-pontos i:nth-child(1){left:52%;top:16%}.ljn-pontos i:nth-child(2){left:90%;top:22%;animation-delay:.7s;width:4px;height:4px}.ljn-pontos i:nth-child(3){left:60%;top:74%;animation-delay:1.3s;width:4px;height:4px}.ljn-pontos i:nth-child(4){left:94%;top:62%;animation-delay:.4s}.ljn-pontos i:nth-child(5){left:70%;top:8%;animation-delay:1.8s;width:4px;height:4px}.ljn-pontos i:nth-child(6){left:46%;top:46%;animation-delay:1.1s;width:3px;height:3px}
+.ljn-hero-tx{position:relative;display:grid;justify-items:start;gap:6px;min-width:0;z-index:1}
+.ljn-tag{padding:5px 11px;border-radius:99px;background:linear-gradient(90deg,#FFE27A,#F2A53A);color:#3A2A00;font:800 10.5px/1.2 "Barlow",sans-serif;letter-spacing:.12em;text-transform:uppercase;box-shadow:0 4px 10px rgba(242,165,58,.4)}
+.ljn-hero h2{margin:4px 0 0;font:400 46px/.92 "Bebas Neue","Arial Narrow",sans-serif;letter-spacing:.6px;color:#fff;text-shadow:0 3px 0 rgba(0,0,0,.28)}
+.ljn-ef{padding:4px 10px;border-radius:99px;background:linear-gradient(90deg,rgba(143,243,255,.26),rgba(199,125,255,.32));border:1px solid rgba(200,185,255,.6);font:800 11px/1.2 "Barlow",sans-serif;font-style:normal;color:#F1E9FF}
+.ljn-hero small{font-size:12px;color:#CFC8FF}
+.ljn-hero .ljn-btn{width:auto;min-width:138px;margin-top:8px;padding:8px 16px}
+.ljn-hero-arte{position:relative;display:grid;place-items:end center;align-self:stretch;min-height:200px}
+.ljn-hero-arte .lj-av{position:relative;width:150px;height:194px}
+.ljn-hero-arte .lj-av .avatar{width:150px;height:194px}
+.ljn-chao{position:absolute;left:50%;bottom:-2px;width:190px;height:44px;margin-left:-95px;border-radius:50%;background:radial-gradient(closest-side,color-mix(in srgb,var(--c) 70%,#fff),color-mix(in srgb,var(--c) 40%,transparent) 55%,transparent);opacity:.75;animation:ljnpulsa 3.2s ease-in-out infinite}
+/* o pacote de figurinhas vira uma faixa viva */
+.ljn .lj-pacote{position:relative;margin:12px 0 0;padding:14px 16px;border-radius:22px;overflow:hidden;background:linear-gradient(115deg,#2B1E7A 0%,#6A3FC8 55%,#C94FA8 100%);border:1px solid rgba(255,255,255,.3);box-shadow:0 12px 24px rgba(20,10,70,.3),inset 0 1px 0 rgba(255,255,255,.25)}
+.ljn .lj-pacote .pct{width:58px;transform:rotate(-8deg);filter:drop-shadow(0 8px 12px rgba(0,0,0,.4))}
+.ljn .lj-pacote b{font-size:17px;color:#fff}.ljn .lj-pacote small{color:#E7DCFF}
+.ljn .lj-pacote .btn.btn-main{background:linear-gradient(180deg,#FFE27A,#F2A53A);color:#3A2A00;border:0;box-shadow:0 4px 0 #A8650E;font-weight:800}
+/* as categorias: cartões coloridos, com a amostra no canto e o progresso da coleção */
+.ljn-cats{gap:10px}
+.ljn-tile{position:relative;overflow:hidden;justify-items:start;align-content:end;text-align:left;gap:3px;min-height:196px;padding:12px 14px 13px;border-radius:24px;border:1px solid rgba(255,255,255,.3);background:linear-gradient(150deg,color-mix(in srgb,var(--g1) 74%,#241C6B),color-mix(in srgb,var(--g2) 70%,#241C6B));box-shadow:0 14px 26px rgba(20,10,70,.32),inset 0 1px 0 rgba(255,255,255,.3)}
+.ljn-tile::before{content:"";position:absolute;right:-46px;top:-56px;width:190px;height:190px;border-radius:50%;background:radial-gradient(closest-side,rgba(255,255,255,.34),transparent);pointer-events:none}
+.ljn-tile:hover{background:linear-gradient(150deg,color-mix(in srgb,var(--g1) 82%,#241C6B),color-mix(in srgb,var(--g2) 78%,#241C6B))}
+.ljn-tile-arte{position:relative;justify-self:end;display:grid;place-items:end center;height:106px;margin-bottom:4px}
+.ljn-tile .lj-av{width:84px;height:104px}.ljn-tile .lj-av .avatar{width:80px;height:104px}
+.ljn-tile .lj-av.lj-mold{width:74px;height:92px}.ljn-tile .lj-av.lj-mold .avatar{width:62px;height:80px}
+.ljn-tile .lj-av.lj-mov{width:78px;height:86px}.ljn-tile .lj-av.lj-mov .avatar{width:44px;height:56px}
+.ljn-t-t .ljn-tile-arte{justify-self:stretch;place-items:end stretch}.ljn-t-t .lj-pista{width:100%;height:auto;padding:0}
+.ljn-tile .lj-festa.parada{width:72px;height:84px;background:rgba(20,18,60,.3);border-color:rgba(255,255,255,.4)}
+.ljn-tile b{position:relative;font:800 17px/1.15 "Barlow",sans-serif;margin:0;text-shadow:0 2px 0 rgba(0,0,0,.28)}
+.ljn-tile small{position:relative;font-size:12px;color:#fff;opacity:.92}
+.ljn-tile .ljn-prog{position:relative;width:100%;margin-top:5px}
+.ljn-tile .ljn-prog i{background:#fff}
+.ljn-tile em{position:relative;margin-top:3px;color:#fff}
+.ljn-tile .lj-cat-seta{right:auto;left:14px;top:12px;display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:rgba(20,18,60,.35);font-size:17px;line-height:1;color:#fff}
+/* dentro da categoria: os filtros e os itens, cada um no seu palco */
+.ljn-filtros{display:flex;gap:8px;margin:0 0 12px;overflow-x:auto;scrollbar-width:none}
+.ljn-filtros::-webkit-scrollbar{display:none}
+.ljn-filtros button{flex:none;display:inline-flex;align-items:center;gap:7px;padding:8px 13px;border-radius:99px;border:1px solid rgba(255,255,255,.28);background:rgba(20,18,60,.28);color:#E7E3FF;font:800 13px/1 "Barlow",sans-serif;cursor:pointer}
+.ljn-filtros button i{font-style:normal;min-width:20px;padding:3px 6px;border-radius:99px;background:rgba(255,255,255,.16);font-size:11px;text-align:center}
+.ljn-filtros button.on{background:#fff;border-color:#fff;color:#2E2B6E}
+.ljn-filtros button.on i{background:linear-gradient(90deg,var(--g1),var(--g2));color:#1B1750}
+.ljn-dentro .lj-nota{margin:0 2px 12px}
+.ljn-grade{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.ljn-grade.pistas{grid-template-columns:repeat(2,minmax(0,1fr))}
+.ljn-vazio{grid-column:1/-1;margin:0;padding:22px 16px;border-radius:20px;border:1px dashed rgba(255,255,255,.35);text-align:center;color:var(--soft);font-size:14px}
+.ljn-card{position:relative;align-content:start;gap:3px;padding:8px 8px 11px;border-radius:22px;background:linear-gradient(180deg,rgba(255,255,255,.17),rgba(255,255,255,.07));border:1px solid rgba(255,255,255,.22);box-shadow:0 12px 22px rgba(20,10,70,.24),inset 0 1px 0 rgba(255,255,255,.22);transition:transform .14s ease}
+.ljn-card:active{transform:scale(.985)}
+.ljn-card.meu{border-color:rgba(143,230,255,.7)}
+.ljn-card.uso{border-color:#7DF0B8;box-shadow:0 0 0 3px rgba(125,240,184,.28),0 12px 22px rgba(20,10,70,.24)}
+.ljn-palco{position:relative;width:100%;height:132px;border-radius:16px;overflow:hidden;display:grid;place-items:end center;padding-bottom:9px;background:radial-gradient(95% 70% at 50% 100%,color-mix(in srgb,var(--c) 62%,transparent),transparent 74%),linear-gradient(180deg,#1B1750,#352B8C)}
+.ljn-palco::after{content:"";position:absolute;left:50%;bottom:5px;width:104px;height:20px;margin-left:-52px;border-radius:50%;background:radial-gradient(closest-side,rgba(255,255,255,.38),transparent);pointer-events:none}
+.ljn-luz{position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.2),rgba(255,255,255,0) 82%);clip-path:polygon(40% 0,60% 0,96% 100%,4% 100%);pointer-events:none}
+.ljn-palco > .lj-av,.ljn-palco > .lj-pista,.ljn-palco > .lj-festa{position:relative;z-index:1}
+.ljn-palco .lj-av{width:92px;height:116px}.ljn-palco .lj-av .avatar{width:88px;height:114px}
+.ljn-palco .lj-av.lj-mold{width:84px;height:104px;margin:0 0 4px;background:rgba(255,255,255,.12)}.ljn-palco .lj-av.lj-mold .avatar{width:70px;height:90px}
+.ljn-palco .lj-av.lj-mov{width:96px;height:104px;margin:0 0 2px;background:rgba(255,255,255,.1)}
+.ljn-palco .lj-mov .runner{left:22px;bottom:12px;width:52px;height:66px}.ljn-palco .lj-mov .runner .avatar{width:52px;height:66px}
+.ljn-palco .lj-pista{align-self:center;padding:0 8px}
+.ljn-palco .lj-festa{align-self:center;width:88px;height:98px;margin-bottom:6px;background:rgba(20,18,60,.4)}
+.ljn-selo{position:absolute;left:8px;top:8px;z-index:2;padding:4px 9px;border-radius:99px;background:rgba(143,230,255,.92);color:#12305A;font:800 10px/1.2 "Barlow",sans-serif;letter-spacing:.08em;text-transform:uppercase}
+.ljn-card.uso .ljn-selo{background:#7DF0B8;color:#0E3B2A}
+.ljn-card b{font:800 14px/1.2 "Barlow",sans-serif;min-height:34px;margin-top:5px}
+.ljn-card small{font-size:11px}
+.ljn-card .lj-ef{margin-top:4px}
+/* o botão: dourado quando dá para comprar */
+.ljn-btn{position:relative;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;gap:6px;width:100%;min-height:40px;margin-top:8px;padding:7px 12px;border-radius:99px;border:0;font:800 14px/1 "Barlow",sans-serif;cursor:pointer;transition:transform .12s ease}
+.ljn-btn:active{transform:translateY(2px)}
+.ljn-btn .moeda{width:17px;height:17px;flex:none}
+.ljn-btn b{min-height:0;margin:0;font:800 15px/1 "Barlow",sans-serif}
+.ljn-btn span{font-weight:800}
+.ljn-btn.pode{background:linear-gradient(180deg,#FFE27A,#F2A53A);color:#3A2A00;box-shadow:0 4px 0 #A8650E,0 10px 18px rgba(242,165,58,.3)}
+.ljn-btn.pode::after{content:"";position:absolute;top:0;bottom:0;left:-60%;width:40%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.75),transparent);transform:skewX(-18deg);animation:ljnbrilho 3.8s ease-in-out infinite}
+.ljn-btn.caro{background:rgba(20,18,60,.42);color:#E7E3FF;box-shadow:inset 0 0 0 1px rgba(255,255,255,.26)}
+.ljn-btn.caro span{font-weight:700;color:#CFC8FF}
+.ljn-btn.usar{background:#fff;color:#2E2B6E;box-shadow:0 4px 0 rgba(20,18,60,.35)}
+.ljn-btn.uso{background:linear-gradient(180deg,#3FD3A0,#1E9E78);color:#fff;box-shadow:0 4px 0 #14694F}
+@keyframes ljngira{to{transform:rotate(360deg)}}
+@keyframes ljnpisca{0%,100%{opacity:.25;transform:scale(.6)}50%{opacity:1;transform:scale(1)}}
+@keyframes ljnpulsa{0%,100%{opacity:.55;transform:scale(.94)}50%{opacity:.9;transform:scale(1.04)}}
+@keyframes ljnbrilho{0%,62%{left:-60%}100%{left:130%}}
+@media (prefers-reduced-motion:reduce){.ljn-raios,.ljn-pontos i,.ljn-chao,.ljn-btn.pode::after{animation:none}}
+@media (min-width:700px){.ljn-cats{grid-template-columns:repeat(3,minmax(0,1fr))}.ljn-grade,.ljn-grade.pistas{grid-template-columns:repeat(auto-fill,minmax(176px,1fr))}.ljn-hero{min-height:290px;padding:26px 20px 22px 30px}.ljn-hero h2{font-size:64px}.ljn-hero-arte .lj-av,.ljn-hero-arte .lj-av .avatar{width:180px;height:232px}}
 </style>
 </head>
 <body class="sem-menu">
@@ -3962,7 +4143,7 @@ function conquistas(){
     { ic:"💎", id:"tesouro", t:"Tesouro", d:"20.000 pontos no trimestre", on: totalTrimestre() >= 20000 },
     { ic:"📖", id:"rolo", t:"Rolo inteiro", d:"Todos os dias do trimestre", on: LICOES.length > 0 && LICOES.every(L => L.dias.every(d => resDe(L,d))) },
     { ic:"💰", id:"rico", t:"Rico", d:"Ganhou 1.000 moedas no total", on: typeof moedasGanhas === "function" && moedasGanhas() >= 1000 },
-    { ic:"🎴", id:"colecionador", t:"Colecionador", d:"Completou o álbum de figurinhas", on: typeof albumCompleto === "function" && albumCompleto() }
+    { ic:"🎴", id:"colecionador", t:"Colecionador", d:"Completou um álbum de figurinhas", on: typeof temAlbumCompleto === "function" && temAlbumCompleto() }
   ];
 }
 /* ---------- Conquistas novas: aparecem uma única vez, com confetes ---------- */
@@ -6876,6 +7057,55 @@ const GESTOS = { nuvem: "sobe", pao: "sobe", coroa: "sobe", estrelas: "brilha", 
    as pernas e os objetos de verdade nas mãos. */
 const MOV_QUADROS = { marcha: ["passoA", "passoB"], salto: ["agacha", "salto"], danca: ["dancaA", "dancaB"], corrida: ["corridaA", "corridaB"], aguia: ["asasA", "asasB"],
   beijo: ["beijoA", "beijoB"], tchau: ["tchauA", "tchauB"], dormir: ["dormir"], biceps: ["bicepsA", "bicepsB"], orar: ["orar"] };
+/* ---------- Personagens da loja: o que só eles têm ----------
+   Brilho holográfico (uma faixa de luz que atravessa o boneco), base de luz no chão e um efeito próprio da história de cada um.
+   Tudo é desenhado por cima do boneco, em unidades do desenho (o boneco ocupa de 0 a 22 na largura e de 0 a 30 na altura).
+   "atras" fica atrás do boneco e "frente" passa na frente dele. Parado (sem animação), cada peça fica onde foi desenhada. */
+let _avMasc = 0;
+const EFEITOS_LOJA = (() => {
+  const n = v => +(+v).toFixed(2);
+  const st = (dl, du, x, o) => ` style="--dl:${dl}s;--du:${du}s${x != null ? ";--x:" + x + "px" : ""}${o != null ? ";--o:" + o : ""}"`;
+  const folha = (x, y, cor, dl, du) => `<path class="avl avl-cai" d="M${x} ${y}c1.1-1.1 2.5-.9 3 0-.5.9-1.9 1.1-3 0z" fill="${cor}"${st(dl, du)}/>`;
+  const brasa = (x, y, r, cor, dl, du, dx) => `<circle class="avl avl-sobe" cx="${x}" cy="${y}" r="${r}" fill="${cor}"${st(dl, du, dx)}/>`;
+  const estrela = (x, y, t, cor, dl, du) => `<path class="avl avl-cintila" d="M${x} ${n(y - t)}Q${x} ${y} ${n(x + t)} ${y}Q${x} ${y} ${x} ${n(y + t)}Q${x} ${y} ${n(x - t)} ${y}Q${x} ${y} ${x} ${n(y - t)}Z" fill="${cor}"${st(dl, du)}/>`;
+  const letra = (x, y, ch, dl) => `<text class="avl avl-sobe" x="${x}" y="${y}" text-anchor="middle" font-family="'Times New Roman',Times,serif" font-weight="700" font-size="4.2" fill="#FFE9A8" stroke="#5A3A00" stroke-width=".34" paint-order="stroke"${st(dl, 4.2, 0)}>${ch}</text>`;
+  const carta = (x, y, dl, du) => `<g class="avl avl-voa"${st(dl, du)}><rect x="${x}" y="${y}" width="3.2" height="2.1" rx=".3" fill="#FFFFFF" stroke="#8C7B5A" stroke-width=".22"/><path d="M${x} ${y}l1.6 1.15 1.6-1.15" fill="none" stroke="#8C7B5A" stroke-width=".22"/><circle cx="${n(x + 1.6)}" cy="${n(y + 1.2)}" r=".36" fill="#E0483C"/></g>`;
+  const tijolo = (x, y, i) => `<rect class="avl avl-tijolo" x="${x}" y="${y}" width="2.6" height="1.25" rx=".15" fill="${i % 2 ? "#D2B27C" : "#E8CFA2"}" stroke="#7A5A2E" stroke-width=".18"${st(n(i * .32), 8.5)}/>`;
+  const pena = (x, y, dl, du) => `<g class="avl avl-cai"${st(dl, du, null, .95)}><path d="M${x} ${y}c.6-1.6 2.5-2 3.6-1.1-.8 1.2-2.5 1.7-3.6 1.1z" fill="#FFFFFF"/><path d="M${x} ${y}l3.2-1" fill="none" stroke="#B9C7DC" stroke-width=".18"/></g>`;
+  const fita = (d, cor, larg, luz) => `<path class="avl avl-onda" d="${d}" fill="none" stroke="${cor}" stroke-width="${larg}" stroke-linecap="round" opacity=".9"${st(0, 3.4)}/><path class="avl avl-fita" d="${d}" fill="none" stroke="${luz}" stroke-width="${n(larg / 3)}" stroke-linecap="round" stroke-dasharray="5 4" opacity=".9"${st(0, 2.2)}/>`;
+  const raios = (cx, cy, r0, r1, q) => { let d = ""; for(let i = 0; i < q; i++){ const a = Math.PI * 2 * i / q, c = Math.cos(a), sn = Math.sin(a); d += `M${n(cx + r0 * c)} ${n(cy + r0 * sn)}L${n(cx + r1 * c)} ${n(cy + r1 * sn)}`; } return d; };
+  const muro = [[-1.8, 26.7], [1, 26.7], [3.8, 26.7], [15.4, 26.7], [18.2, 26.7], [21, 26.7], [-.4, 25.35], [2.4, 25.35], [16.8, 25.35], [19.6, 25.35], [1, 24], [18.2, 24]];
+  return {
+    zaqueu:   { nome: "Folhas do sicômoro", ref: "Lucas 19:4", cor: "#9BE58A",
+      atras: folha(-1.6, 6, "#3E9B4F", 0, 4.2) + folha(19.6, 12, "#5DBB63", 1.4, 4.6),
+      frente: folha(1.2, 15, "#9BE58A", 2.3, 4) + folha(18.4, 21, "#3E9B4F", .7, 4.4) + folha(-.8, 23, "#5DBB63", 3.1, 4.8) },
+    gideao:   { nome: "Faíscas das tochas", ref: "Juízes 7:20", cor: "#FFB347",
+      atras: brasa(-.5, 16, .4, "#FF7A3D", 2.6, 2.8, .8) + brasa(22, 13, .42, "#FFB347", .7, 3, -1),
+      frente: brasa(1, 22, .55, "#FFE27A", 0, 2.6, -1.2) + brasa(3.5, 25, .45, "#FF7A3D", .9, 3, 1) + brasa(19, 23, .55, "#FFB347", .4, 2.8, 1.4) + brasa(21, 19, .45, "#FFE27A", 1.6, 2.4, -.8) + brasa(16.5, 26, .5, "#FF7A3D", 2.1, 3.2, .6) + brasa(6, 18, .4, "#FFB347", 1.2, 2.6, -.5) },
+    jo:       { nome: "Estrelas da manhã", ref: "Jó 38:7", cor: "#BFEFFF",
+      atras: estrela(11, -1.6, 1.2, "#FFFFFF", 1.9, 3),
+      frente: estrela(0, 5, 2, "#FFFFFF", 0, 2.6) + estrela(21.6, 3.5, 1.6, "#FFE27A", .9, 3) + estrela(22.2, 14, 1.3, "#DFF6FF", 1.7, 2.4) + estrela(-.6, 15.5, 1.5, "#FFE27A", .5, 3.2) + estrela(4.2, -.6, 1.2, "#DFF6FF", 2.2, 2.8) + estrela(17.6, -.9, 1.3, "#FFFFFF", 1.3, 2.6) + estrela(21, 23.5, 1.1, "#FFFFFF", 2.6, 2.6) },
+    esdras:   { nome: "Letras da Lei", ref: "Esdras 7:10", cor: "#FFE27A",
+      atras: "",
+      frente: letra(.2, 24, "ת", 0) + letra(21.8, 26, "ו", 1.05) + letra(.8, 14, "ר", 2.1) + letra(21.2, 15.5, "ה", 3.15) },      /* as letras da palavra "Torá" */
+    timoteo:  { nome: "Cartas de Paulo", ref: "1 Timóteo 1:2", cor: "#BFF3E6",
+      atras: carta(18.8, 9, 1.5, 4.6),
+      frente: carta(-1.8, 5.5, 0, 4.4) + carta(-1.2, 18, 2.9, 4.8) },
+    neemias:  { nome: "Muro em construção", ref: "Neemias 6:15", cor: "#F0D9A8",
+      atras: muro.map((m, i) => tijolo(m[0], m[1], i)).join(""), frente: "" },
+    lidia:    { nome: "Púrpura de Tiatira", ref: "Atos 16:14", cor: "#D9A6FF",
+      atras: fita("M-2 9.5C3 6 7 12.5 11 9S19.5 5.5 24 8.5", "#C77DFF", 1.1, "#F3DCFF") + fita("M-2.5 21C2 16.5 6.5 24.5 11 19.5S20 15 24.5 18.5", "#9B4FD6", 1.5, "#E9C4FF"),
+      frente: estrela(.5, 14, .9, "#F3DCFF", .4, 2.6) + estrela(21.5, 24, 1, "#E9C4FF", 1.3, 3) + estrela(20.5, 3.5, .8, "#FFFFFF", 2, 2.4) },
+    barnabe:  { nome: "Penas da pomba", ref: "Atos 11:24", cor: "#EAF4FF",
+      atras: pena(19.2, 8, 1.6, 6.2),
+      frente: pena(-1.2, 4.5, 0, 5.6) + pena(1.4, 17, 3, 6) + pena(18.8, 20.5, 4.3, 5.8) },
+    madalena: { nome: "Manhã da ressurreição", ref: "João 20:1", cor: "#FFD9A0",
+      atras: `<path class="avl avl-gira" d="${raios(11, 12, 11.3, 13.5, 12)}" fill="none" stroke="#FFEFC9" stroke-width=".55" stroke-linecap="round" opacity=".8"${st(0, 28)}/>`,
+      frente: folha(0, 19, "#F7A8C4", .6, 5.2) + folha(19.4, 24, "#FFC6DA", 2.4, 5.6) + folha(19.8, 9, "#F7A8C4", 3.9, 5) }
+  };
+})();
+/* o efeito de um personagem da loja (null para os outros) */
+const efeitoDaLoja = p => (p && p.preco && EFEITOS_LOJA[p.modelo || p.id]) || null;
 function avatarSVG(id, rotulo, nivel, nvAcess, mov){
   /* id pode vir como "personagem~acessório" (acessório da loja em uso); um terceiro pedaço "~v" marca amostra da vitrine */
   const partes = String(id || "").split("~"), p0 = acharProfeta(partes[0]) || acharProfeta(PROFETA_PADRAO), nv = Math.floor(+nivel || 0);
@@ -6884,10 +7114,13 @@ function avatarSVG(id, rotulo, nivel, nvAcess, mov){
   const p = acLoja ? Object.assign({}, p0, { id: p0.id + "+" + acLoja.id, modelo: p0.modelo || p0.id, emb2: acLoja.emb, emb2o: acLoja.o, emb2atras: !!acLoja.atras, semGuardar: partes[2] === "v" }) : (ac && ac.variante ? ac.variante(p0) : p0);
   const lbl = String(rotulo || p.nome).replace(/[&<>"]/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch])) + (acLoja ? ", com " + acLoja.nome.toLowerCase() : ac ? ", " + ac.rotulo : "");
   const raro = !!p.nivel, lend = !!p.lendario;
+  const efeito = mov === "dormir" ? null : efeitoDaLoja(p0);      // personagem da loja: brilho holográfico, base de luz e o efeito próprio dele
+  const uid = efeito ? ++_avMasc : 0;                             // um número por boneco desenhado, para o recorte e os degradês não se misturarem
+  let holo = "";
   const mais = (cx, cy, t) => `<rect x="${cx - .5}" y="${cy - t}" width="1" height="${2 * t}"/><rect x="${cx - t}" y="${cy - .5}" width="${2 * t}" height="1"/>`;
   const aura = lend && !(mov === "dormir" && !montado) ? `<g class="av-aura" shape-rendering="geometricPrecision"><ellipse cx="10" cy="14.5" rx="11.6" ry="15.2" fill="#FFE27A" opacity=".2"/><ellipse cx="10" cy="8.5" rx="8.4" ry="8.4" fill="#FFF3B8" opacity=".34"/></g>` : "";
   const brilho = raro ? `<g class="av-raro" fill="${lend ? "#FFF3B8" : "#FFE27A"}">${mais(.6, 4, 1.5)}${mais(21.2, 2.6, 1.5)}${mais(.2, 17.5, 1)}${mais(21.6, 9.5, 1)}${lend ? mais(10, -.2, 1) + mais(-.2, 11, 1) + mais(21.4, 23, 1) + mais(1.2, 24.5, 1) : ""}</g>` : "";
-  /* o boneco vem dos modelos em pixel art (52×60 nos comuns; os conquistados e comprados aparecem em 122×130 e trocam sozinhos
+  /* o boneco vem dos modelos em pixel art (desenho imediato: 52×60 nos comuns, 122×130 nos conquistados e comprados; todos trocam sozinhos
      para 992×1000 quando o desenho grande fica pronto), encaixado no mesmo espaço de antes; a segunda imagem é a piscada */
   const atraso = (p0.id.split("").reduce((t, ch) => t + ch.charCodeAt(0), 0) % 37) / 10;
   /* imagem de um desenho: usa o de 992×1000 se já estiver pronto; senão o pequeno, marcado para a troca */
@@ -6895,7 +7128,7 @@ function avatarSVG(id, rotulo, nivel, nvAcess, mov){
     const W = hd ? hd.W : sp.W, H = hd ? hd.H : sp.H, larg = 30 * W / H, x0 = 11 - larg / 2;
     const href = { u: hd ? hd.u : sp.url, f: hd ? hd.f : sp.fechado, b: hd ? hd.b : sp.base, bf: hd ? hd.bf : sp.baseFechado, e: hd ? hd.e : sp.emb };
     return { sp, hd, larg, x0, ex: hd && hd.ex != null ? hd.ex : sp.ex, ey: hd && hd.ey != null ? hd.ey : sp.ey, eb: hd && hd.eb != null ? hd.eb : sp.eb,
-      img: (cls, k, extra) => `<image class="${cls}" href="${href[k]}" x="${x0.toFixed(2)}" y="0" width="${larg.toFixed(2)}" height="30" preserveAspectRatio="none"${!hd && especialHD(q) ? ` data-hd="${esc(q.id)}" data-hk="${k}"` : ""}${extra || ""}/>` }; };
+      img: (cls, k, extra) => `<image class="${cls}" href="${href[k]}" x="${x0.toFixed(2)}" y="0" width="${larg.toFixed(2)}" height="30" preserveAspectRatio="none"${!hd && temHD(q) ? ` data-hd="${esc(q.id)}" data-hk="${k}"` : ""}${extra || ""}/>` }; };
   const quadros = mov && !montado && MOV_QUADROS[mov] ? MOV_QUADROS[mov] : null;     // qualquer personagem com movimento comprado (os quadros saem em 992×1000)
   let corpo, temGesto = false;
   if(quadros){
@@ -6918,15 +7151,21 @@ function avatarSVG(id, rotulo, nivel, nvAcess, mov){
     const gesto = d.sp.emb ? (GESTOS[p.emb] || "acena") : "";
     const ox = d.sp.emb ? (d.x0 + d.ex * d.larg).toFixed(2) : 0, oy = d.sp.emb ? ((gesto === "brilha" ? d.ey : d.eb) * 30).toFixed(2) : 0;
     temGesto = !!d.sp.emb;
+    if(efeito) holo = `<mask id="avm${uid}" maskUnits="userSpaceOnUse" x="-6" y="-4" width="34" height="38" style="mask-type:alpha">${d.img("av-masc", "u")}</mask>`
+      + `<g mask="url(#avm${uid})" shape-rendering="geometricPrecision"><path class="av-holo" d="M-14 -3h9l-8 35h-9z" fill="url(#avh${uid})" opacity="0"/></g>`;
     corpo = d.sp.emb ? d.img("av-olho", "b") + d.img("av-pisca", "bf") + d.img("av-emb av-g-" + gesto, "e", ` data-g="${gesto}" style="transform-origin:${ox}px ${oy}px"`) : d.img("av-olho", "u") + d.img("av-pisca", "f");
   }
   /* montado: o personagem fica menor e mais alto, e o jumentinho é desenhado na frente das pernas dele */
   const sombra = mov === "dormir" && quadros ? `<ellipse cx="11" cy="28.2" rx="11" ry="1.05" fill="rgba(20,18,60,.32)" shape-rendering="geometricPrecision"/>` : `<ellipse cx="11" cy="28.2" rx="6.75" ry="1.05" fill="rgba(20,18,60,.32)" shape-rendering="geometricPrecision"/>`;
+  const base = efeito ? `<defs><radialGradient id="avg${uid}"><stop offset="0" stop-color="${efeito.cor}" stop-opacity=".5"/><stop offset=".55" stop-color="${efeito.cor}" stop-opacity=".2"/><stop offset="1" stop-color="${efeito.cor}" stop-opacity="0"/></radialGradient>`
+    + `<linearGradient id="avh${uid}" gradientUnits="userSpaceOnUse" x1="-14" y1="-3" x2="-5.4" y2="-1.03"><stop offset="0" stop-color="#FF9BE8" stop-opacity="0"/><stop offset=".22" stop-color="#FF9BE8" stop-opacity=".55"/><stop offset=".5" stop-color="#FFFFFF" stop-opacity=".8"/><stop offset=".78" stop-color="#8FF3FF" stop-opacity=".6"/><stop offset="1" stop-color="#8FF3FF" stop-opacity="0"/></linearGradient></defs>`
+    + `<ellipse class="avl avl-pulsa" cx="11" cy="13.5" rx="13" ry="14.5" fill="url(#avg${uid})" style="--dl:0s;--du:4.2s" shape-rendering="geometricPrecision"/><g class="av-ped" shape-rendering="geometricPrecision"><ellipse cx="11" cy="28.2" rx="9.6" ry="2" fill="${efeito.cor}" opacity=".3"/><ellipse class="av-ped-anel" cx="11" cy="28.2" rx="8.8" ry="1.7" fill="none" stroke="${efeito.cor}" stroke-width=".45" opacity=".85"/></g>` : "";
   const boneco = montado
     ? `<ellipse cx="11" cy="28.4" rx="9.4" ry="1.1" fill="rgba(20,18,60,.32)" shape-rendering="geometricPrecision"/><g class="av-corpo"><g transform="translate(1.3 2.4) scale(.7)">${corpo}</g><image class="av-montaria" href="${JUMENTO_PNG}" x="-.5" y="11.5" width="23" height="17" preserveAspectRatio="none"/></g>`
-    : sombra + (temGesto ? `<g class="av-corpo">${corpo}</g>` : corpo);
+    : base + sombra + (efeito ? `<g class="av-loja-atras" shape-rendering="geometricPrecision">${efeito.atras}</g>` : "") + (temGesto ? `<g class="av-corpo">${corpo}</g>` : corpo)
+      + (efeito ? holo + `<g class="av-loja-frente" shape-rendering="geometricPrecision">${efeito.frente}</g>` : "");
   const selo = nv > 0 ? `<g class="av-nivel" shape-rendering="geometricPrecision"><circle cx="19.3" cy="26" r="3.7" fill="#F2BE2E" stroke="#3A2A00" stroke-width=".7"/><text x="19.3" y="27.8" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="5.2" fill="#3A2A00">${nv}</text></g>` : "";
-  return `<svg viewBox="-1 -1 24 31" class="avatar${raro ? " raro" : ""}${lend ? " lendario" : ""}" role="img" aria-label="${lbl}${nv > 0 ? ", nível " + nv : ""}${lend ? ", personagem lendário" : raro ? ", personagem raro" : ""}" style="overflow:visible;--d:-${atraso}s">${aura}${brilho}${boneco}${selo}</svg>`;
+  return `<svg viewBox="-1 -1 24 31" class="avatar${raro ? " raro" : ""}${lend ? " lendario" : ""}${efeito ? " loja" : ""}" role="img" aria-label="${lbl}${nv > 0 ? ", nível " + nv : ""}${lend ? ", personagem lendário" : raro ? ", personagem raro" : efeito ? ", personagem da loja, com o efeito " + efeito.nome : ""}" style="overflow:visible;--d:-${atraso}s">${aura}${brilho}${boneco}${selo}</svg>`;
 }
 let _nvMemo = { k: "", v: 0 };
 function meuNivel(){
@@ -8259,8 +8498,8 @@ document.addEventListener("visibilitychange", () => { if(!document.hidden && typ
 /* ============================================================
    BONECOS: MODELOS EM PIXEL ART
    Motor de desenho dos arquivos de modelo "profetas-resolucoes" e "profetas-hd".
-   - Personagens comuns: modelo de 52×60 pixels.
-   - Personagens raros e os da loja: modelo de 122×130 pixels.
+   - Todos os personagens aparecem na qualidade 992×1000 (desenhada em segundo plano e guardada no aparelho).
+   - Enquanto ela não fica pronta, aparece o desenho imediato: 52×60 nos comuns, 122×130 nos raros e nos da loja.
    O motor fica isolado dentro de uma função para não misturar nomes com o resto do jogo.
    ============================================================ */
 function _fabricaSprites(){      /* a fábrica inteira também vai para o ajudante em segundo plano (Worker) que desenha na qualidade 992×1000 */
@@ -8757,12 +8996,14 @@ const _hdCache = {};
 const SPRITE_VERSAO = "m7";            // mude quando o desenho dos personagens mudar, para descartar as imagens guardadas no aparelho
 /* desenhos da versão anterior guardados no aparelho: saem, para não ocupar espaço à toa */
 try{ for(let i = localStorage.length - 1; i >= 0; i--){ const k = localStorage.key(i); if(k && k.indexOf(KEY + ":boneco:") === 0 && k.indexOf(KEY + ":boneco:" + SPRITE_VERSAO + ":") !== 0) localStorage.removeItem(k); } }catch(e){}
-/* Tudo o que foi conquistado ou comprado (personagem raro, personagem da loja, acessório, quadros dos movimentos) ganha a qualidade 992×1000 */
+/* O desenho imediato: tudo o que foi conquistado ou comprado (personagem raro, personagem da loja, acessório, quadros dos movimentos) sai em 122×130; os comuns, em 52×60 */
 const especialHD = p => !!(p && (p.nivel || p.preco || p.emb2 || p.pose || /[+#@]/.test(p.id)));
+/* A qualidade 992×1000 vale para todos os personagens, os comuns também */
+const temHD = p => !!(p && p.id);
 const olhosDaPose = pose => { const P = gerarSpriteModelo.POSES[pose]; return P && P.olhos === "f" ? "F" : "O"; };
 function spriteHD(p){
   if(_hdCache[p.id]) return _hdCache[p.id];
-  const raro = !!p.nivel, alta = especialHD(p), W = alta ? 122 : 52, H = alta ? 130 : 60, k = alta ? 3 : 4;   // especiais: 122×130 na hora (e 992×1000 em segundo plano); comuns: 52×60   // k: ampliação inteira, para o desenho continuar nítido em qualquer tamanho
+  const raro = !!p.nivel, alta = especialHD(p), W = alta ? 122 : 52, H = alta ? 130 : 60, k = alta ? 3 : 4;   // desenho imediato: 122×130 nos especiais, 52×60 nos comuns (o de 992×1000 vem em segundo plano para todos)   // k: ampliação inteira, para o desenho continuar nítido em qualquer tamanho
   const chave = KEY + ":boneco:" + SPRITE_VERSAO + ":" + p.id;
   try{ const g = JSON.parse(localStorage.getItem(chave) || "null"); if(g && g.u && (g.f || p.pose)) return (_hdCache[p.id] = Object.assign({ url: g.u, fechado: g.f, W, H }, g.e ? { base: g.b, baseFechado: g.bf, emb: g.e, ex: g.ex, ey: g.ey, eb: g.eb } : {})); }catch(e){}
   const res = gerarSpriteModelo(p, W, H), G = res.G;
@@ -8799,11 +9040,12 @@ function spriteHD(p){
 /* ---------- Qualidade 992×1000 ----------
    Desenhar um boneco em 992×1000 leva quase 1 segundo. Para o jogo não travar:
    - o desenho é feito por um ajudante em segundo plano (Web Worker), um de cada vez;
-   - enquanto ele não fica pronto, aparece o desenho de 122×130, que é trocado sozinho quando o grande chega;
+   - enquanto ele não fica pronto, aparece o desenho imediato (122×130, ou 52×60 nos comuns), que é trocado sozinho quando o grande chega;
    - o desenho pronto fica guardado no aparelho (IndexedDB), então cada boneco só é desenhado uma vez.
-   Aparelho sem esse recurso (navegador antigo): continua com o desenho de 122×130. */
+   Aparelho sem esse recurso (navegador antigo): continua com o desenho imediato. */
 const HD = (() => {
   const VER = "sp992:" + SPRITE_VERSAO + ":", HW = 992, HH = 1000, prontos = {}, pedidos = {}, esperas = {};
+  let lote = 0, loteAberto = false, ordem = 0;      // lote: os pedidos feitos de uma vez só (a mesma tela)
   let semApoio = typeof Worker === "undefined" || typeof OffscreenCanvas === "undefined" || !OffscreenCanvas.prototype.convertToBlob, fila = [], sq = 0, url = null;
   const NW = Math.max(1, Math.min(2, ((typeof navigator !== "undefined" && navigator.hardwareConcurrency) || 2) - 1)), ajudantes = [];   // até 2 ajudantes ao mesmo tempo
   /* versão nova dos desenhos: os guardados da versão anterior saem */
@@ -8831,7 +9073,9 @@ onmessage=async e=>{ const {n,p,W,H}=e.data; try{
   const proximo = () => {
     while(fila.length && !semApoio){
       const a = ajudantes.find(x => !x.ocupado) || (ajudantes.length < NW ? novoAjudante() : null); if(!a) return;
-      a.ocupado = fila.pop();   // o pedido mais recente primeiro: é o que está na tela agora
+      /* a tela mais recente primeiro (é a que está aberta agora) e, dentro dela, na ordem em que os bonecos aparecem */
+      let i = 0; for(let j = 1; j < fila.length; j++){ const x = fila[j], y = fila[i]; if(x.lote > y.lote || (x.lote === y.lote && x.n < y.n)) i = j; }
+      a.ocupado = fila.splice(i, 1)[0];
       a.w.postMessage({ n: ++sq, p: a.ocupado.p, W: HW, H: HH });
     }
   };
@@ -8854,22 +9098,24 @@ onmessage=async e=>{ const {n,p,W,H}=e.data; try{
   function pedir(p){
     const chave = p.id; if(prontos[chave] || pedidos[chave] || semApoio) return;
     pedidos[chave] = 1;
+    if(!loteAberto){ loteAberto = true; lote++; setTimeout(() => { loteAberto = false; }, 0); }
+    const meuLote = lote, n = ++ordem;
     const dados = JSON.parse(JSON.stringify(p)); delete dados.semGuardar;
     limpo.then(() => typeof GUARDA === "undefined" ? null : GUARDA.get(VER + chave)).catch(() => null).then(g => {
       if(g && g.u){ chegou(chave, g, false); return; }
       if(semApoio){ delete pedidos[chave]; avisar(chave, null); return; }
-      fila.push({ chave, p: dados }); proximo();
+      fila.push({ chave, p: dados, lote: meuLote, n }); proximo();
     });
   }
   return {
-    pronto(p){ if(!especialHD(p)) return null; const r = prontos[p.id]; if(!r) pedir(p); return r || null; },
+    pronto(p){ if(!temHD(p)) return null; const r = prontos[p.id]; if(!r) pedir(p); return r || null; },
     /* para as imagens de compartilhar: espera o desenho grande (até 20 s) */
-    esperar(p){ if(!especialHD(p) || semApoio) return Promise.resolve(null); if(prontos[p.id]) return Promise.resolve(prontos[p.id]);
+    esperar(p){ if(!temHD(p) || semApoio) return Promise.resolve(null); if(prontos[p.id]) return Promise.resolve(prontos[p.id]);
       return new Promise(ok => { (esperas[p.id] = esperas[p.id] || []).push(ok); setTimeout(() => ok(null), 20000); pedir(p); }); },
     get ativo(){ return !semApoio; }
   };
 })();
-/* o melhor desenho disponível de um personagem (para as imagens de compartilhar): o de 992×1000 se der, senão o de 122×130 */
+/* o melhor desenho disponível de um personagem (para as imagens de compartilhar): o de 992×1000 se der, senão o desenho imediato */
 async function spriteMelhor(p){ const r = await HD.esperar(p); return r ? { url: r.u, fechado: r.f, W: r.W, H: r.H } : spriteHD(p); }
 
 /* ============================================================
@@ -9019,23 +9265,33 @@ const MOEDA = `<i class="moeda" aria-hidden="true"></i>`;
 let lojaCat = "";
 const LOJA_CATS = [
   { k: "a", nome: "Acessórios",        sub: "na mão, na cabeça ou nas costas",  lista: () => LOJA_ACESSORIOS },
-  { k: "p", nome: "Personagens",       sub: "só na loja",                       lista: () => PROFETAS.filter(p => p.preco) },
+  { k: "p", nome: "Personagens",       sub: "só na loja, com brilho e efeito próprio",                       lista: () => PROFETAS.filter(p => p.preco) },
   { k: "m", nome: "Molduras de perfil", sub: "em volta do seu personagem",      lista: () => LOJA_MOLDURAS },
   { k: "t", nome: "Temas da pista",    sub: "a sua raia na Corrida",            lista: () => LOJA_PISTAS },
   { k: "v", nome: "Movimentos",        sub: "o que o personagem faz na raia",   lista: () => LOJA_MOVIMENTOS },
   { k: "c", nome: "Comemorações",      sub: "ao terminar o quiz",               lista: () => LOJA_FESTAS }
 ];
+/* cores de cada categoria (o degradê do cartão e a luz do palco) e o filtro da tela da categoria */
+const LOJA_CORES = { a: ["#FFB347", "#F0668A"], p: ["#8FE6FF", "#B48CF0"], m: ["#FFE27A", "#F2A53A"], t: ["#7DF0B8", "#2BA4C9"], v: ["#FF8AD8", "#8F6BF0"], c: ["#8FB8FF", "#6F62E0"] };
+let lojaFiltro = "";
 function telaLoja(){
   tabAtual = "loja"; atualizarCasca(); pararTimer(); if(typeof MUSICA !== "undefined") MUSICA.parar();
   const saldo = moedas(), eu = perfil.profeta || PROFETA_PADRAO;
   const cat = LOJA_CATS.find(c => c.k === lojaCat);
-  const saldoHtml = `<div class="lj-saldo" aria-label="${saldo} moedas">${MOEDA}<b>${saldo}</b><small>${saldo === 1 ? "moeda" : "moedas"}</small></div>`;
   const desenharAmostras = () => {      /* os bonecos de amostra são desenhados aos poucos, para a tela abrir na hora */
     const prevs = [...app.querySelectorAll("[data-prev]")]; let k = 0;
     const desenhar = () => { const fim = Math.min(prevs.length, k + 3); for(; k < fim; k++){ if(!prevs[k].isConnected) return; prevs[k].innerHTML = avatarSVG(prevs[k].dataset.prev, null, 0, 0, prevs[k].dataset.mov || ""); } if(k < prevs.length) setTimeout(desenhar, 30); };
     desenhar();
   };
-  /* ---------- 1ª tela: as categorias ---------- */
+  /* o botão de cada item: dourado quando dá para comprar, "faltam N" quando não dá, e Usar / Em uso no que já é meu */
+  const botao = (id, preco, emUso, rotUsar) => comprado(id)
+    ? `<button type="button" class="ljn-btn ${emUso ? "uso" : "usar"}" data-usar="${id}">${emUso ? "✓ Em uso" : rotUsar}</button>`
+    : `<button type="button" class="ljn-btn ${saldo < preco ? "caro" : "pode"}" data-comprar="${id}">${MOEDA}<b>${preco}</b><span>${saldo < preco ? `faltam ${preco - saldo}` : "Comprar"}</span></button>`;
+  const ligarCompras = () => {
+    app.querySelectorAll("[data-comprar]").forEach(b => b.onclick = async () => { await comprarNaLoja(b.dataset.comprar, b.closest(".lj-item, .ljn-hero")); if(tabAtual === "loja" && !document.querySelector(".lj-grade") && app.querySelector(".ljn")) telaLoja(); });
+    app.querySelectorAll("[data-usar]").forEach(b => b.onclick = () => usarDaLoja(b.dataset.usar));
+  };
+  /* ---------- 1ª tela: a carteira, o destaque de hoje, o pacote de figurinhas e as categorias ---------- */
   if(!cat){
     const amostra = { a: `<div class="lj-av" data-prev="${esc(eu + "~harpa~v")}"></div>`, p: `<div class="lj-av" data-prev="zaqueu"></div>`,
       m: `<div class="lj-av lj-mold mold mold-ouro" data-prev="${esc(eu)}"></div>`,
@@ -9044,43 +9300,64 @@ function telaLoja(){
       c: `<div class="lj-festa parada">${FESTA_ICONE.estrelas}</div>` };
     const emUso = { a: perfil.acess && comprado("a:" + perfil.acess) && LOJA_AC[perfil.acess] ? LOJA_AC[perfil.acess].nome : "", p: (acharProfeta(perfil.profeta) || {}).preco ? acharProfeta(perfil.profeta).nome : "",
       m: (extraDaLoja("m", minhaMoldura()) || {}).nome, t: (extraDaLoja("t", minhaPista()) || {}).nome, v: (extraDaLoja("v", meuMovimento()) || {}).nome, c: (extraDaLoja("c", minhaFesta()) || {}).nome };
-    app.innerHTML = `<div class="estudo-area">
-      <div class="lj-topo">${cabPagina("Loja", "", "Loja do Rolo", "Ganhe moedas nos acertos do quiz, nas missões, na semana completa no prazo e nos desafios.")}${htmlMoedasInicio(true)}</div>
+    /* o que ainda não é meu, do mais barato ao mais caro: dá a meta da carteira ("faltam N para ...") */
+    const faltam = LOJA_CATS.flatMap(c => c.lista().map(x => ({ id: c.k + ":" + x.id, nome: x.nome, preco: x.preco }))).filter(x => !comprado(x.id)).sort((a, b) => a.preco - b.preco);
+    const posso = faltam.filter(x => x.preco <= saldo).length, prox = faltam.find(x => x.preco > saldo);
+    const carteira = `<section class="ljn-cart"><span class="ljn-cart-luz" aria-hidden="true"></span>
+        <div class="ljn-cart-l"><small>Seu saldo</small><div class="ljn-cart-n">${MOEDA}<b>${fmt(saldo)}</b><span>${saldo === 1 ? "moeda" : "moedas"}</span></div></div>
+        <button type="button" class="ljn-cart-btn" id="inMoedas">${MOEDA_MAIS}<span>Ganhar moedas</span></button>
+        <div class="ljn-cart-meta">${!faltam.length ? `<span class="ljn-alc">Você já tem tudo o que a loja vende!</span>`
+          : `${posso ? `<span class="ljn-alc">${posso} ${posso === 1 ? "item" : "itens"} ao seu alcance</span>` : ""}${prox ? `<span class="ljn-meta"><span>Faltam <b>${prox.preco - saldo}</b> para <b>${esc(prox.nome)}</b></span><span class="ljn-barra"><i style="width:${Math.max(4, Math.round(100 * saldo / prox.preco))}%"></i></span></span>` : ""}`}</div></section>`;
+    /* o destaque muda todo dia: um personagem da loja que ainda não é meu (ou, sem eles, um acessório) */
+    const dia = Math.floor((Date.now() - new Date().getTimezoneOffset() * 60000) / 86400000);
+    const pers = PROFETAS.filter(p => p.preco && !comprado("p:" + p.id)), acs = LOJA_ACESSORIOS.filter(a => !comprado("a:" + a.id));
+    const dp = pers.length ? pers[dia % pers.length] : null, da = !dp && acs.length ? acs[dia % acs.length] : null, ef = dp ? efeitoDaLoja(dp) : null;
+    const destaque = dp || da ? `<section class="ljn-hero" style="--c:${dp ? dp.bg : LOJA_CORES.a[0]}"><span class="ljn-raios" aria-hidden="true"></span><span class="ljn-pontos" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></span>
+        <div class="ljn-hero-tx"><span class="ljn-tag">Destaque de hoje</span><h2>${esc((dp || da).nome)}</h2>${ef ? `<em class="ljn-ef">${esc(ef.nome)}</em>` : ""}<small>${esc((dp || da).ref || "")}</small>
+          ${botao((dp ? "p:" : "a:") + (dp || da).id, (dp || da).preco, false, "Usar")}</div>
+        <div class="ljn-hero-arte"><span class="ljn-chao" aria-hidden="true"></span><div class="lj-av" data-prev="${esc(dp ? dp.id : eu + "~" + da.id + "~v")}"></div></div></section>` : "";
+    app.innerHTML = `<div class="estudo-area ljn">
+      ${cabPagina("Loja", "", "Loja do Rolo", "Gaste as suas moedas e deixe o seu personagem com a sua cara.")}
+      ${carteira}
+      ${destaque}
       ${typeof htmlPacoteLoja === "function" ? htmlPacoteLoja() : ""}
-      <div class="lj-cats">${LOJA_CATS.map(c => { const l = c.lista(), meus = l.filter(x => comprado(c.k + ":" + x.id)).length;
-        return `<button type="button" class="lj-cat" data-cat="${c.k}">${amostra[c.k]}<b>${c.nome}</b><small>${l.length} ${l.length === 1 ? "item" : "itens"}${meus ? ` · ${meus} ${meus === 1 ? "seu" : "seus"}` : ""}</small>${emUso[c.k] ? `<em>em uso: ${esc(emUso[c.k])}</em>` : ""}<span class="lj-cat-seta" aria-hidden="true">›</span></button>`; }).join("")}</div>
+      <h2 class="ljn-sec">Categorias</h2>
+      <div class="lj-cats ljn-cats">${LOJA_CATS.map(c => { const l = c.lista(), meus = l.filter(x => comprado(c.k + ":" + x.id)).length, cor = LOJA_CORES[c.k];
+        return `<button type="button" class="lj-cat ljn-tile ljn-t-${c.k}" data-cat="${c.k}" style="--g1:${cor[0]};--g2:${cor[1]}"><span class="ljn-tile-arte">${amostra[c.k]}</span><b>${c.nome}</b><small>${l.length} ${l.length === 1 ? "item" : "itens"}${meus ? ` · ${meus} ${meus === 1 ? "seu" : "seus"}` : ""}</small><span class="ljn-prog" aria-hidden="true"><i style="width:${Math.round(100 * meus / l.length)}%"></i></span>${emUso[c.k] ? `<em>em uso: ${esc(emUso[c.k])}</em>` : ""}<span class="lj-cat-seta" aria-hidden="true">›</span></button>`; }).join("")}</div>
       <p class="note center">Moedas ganhas até hoje: ${moedasGanhas()} · gastas: ${moedasGastas()}</p></div>`;
     desenharAmostras();
-    app.querySelectorAll("[data-cat]").forEach(b => b.onclick = () => { lojaCat = b.dataset.cat; tocar("toque"); window.scrollTo(0, 0); telaLoja(); });
+    app.querySelectorAll("[data-cat]").forEach(b => b.onclick = () => { lojaCat = b.dataset.cat; lojaFiltro = ""; tocar("toque"); window.scrollTo(0, 0); telaLoja(); });
     const ljp = $("ljPacote"); if(ljp) ljp.onclick = comprarPacote;
-    ligarMoedasInicio(); conferirReacoesAntigas();
+    ligarCompras(); ligarMoedasInicio(); conferirReacoesAntigas();
     return;
   }
-  /* ---------- 2ª tela: os itens de uma categoria ---------- */
-  const botao = (id, preco, emUso, rotUsar) => comprado(id)
-    ? `<button type="button" class="btn btn-sm ${emUso ? "btn-ok" : "btn-ghost"}" data-usar="${id}">${emUso ? "✓ Em uso" : rotUsar}</button>`
-    : `<button type="button" class="btn btn-sm btn-main ${saldo < preco ? "caro" : ""}" data-comprar="${id}">${MOEDA}${preco}</button>`;
-  const amostraMov = meuBoneco() || eu;
+  /* ---------- 2ª tela: os itens de uma categoria, cada um no seu palco ---------- */
+  const amostraMov = meuBoneco() || eu, cor = LOJA_CORES[cat.k];
+  const carta = (id, c, arte, nome, ref, extra, emUso, rotulo, preco, larga) => `<div class="lj-item ljn-card ${larga ? "larga" : ""} ${comprado(id) ? "meu" : ""} ${emUso ? "uso" : ""}" style="--c:${c}"><div class="ljn-palco"><span class="ljn-luz" aria-hidden="true"></span>${arte}${comprado(id) ? `<span class="ljn-selo">${emUso ? "Em uso" : "Seu"}</span>` : ""}</div><b>${esc(nome)}</b><small>${esc(ref || "")}</small>${extra || ""}${botao(id, preco, emUso, rotulo)}</div>`;
   const cartao = {
-    a: a => `<div class="lj-item ${comprado("a:" + a.id) ? "meu" : ""}"><div class="lj-av" data-prev="${esc(eu + "~" + a.id + "~v")}"></div><b>${esc(a.nome)}</b><small>${esc(a.ref)}</small>${botao("a:" + a.id, a.preco, perfil.acess === a.id, "Usar")}</div>`,
-    p: p => `<div class="lj-item ${comprado("p:" + p.id) ? "meu" : ""}"><div class="lj-av" data-prev="${esc(p.id)}"></div><b>${esc(p.nome)}</b><small>${esc(p.ref || "")}</small>${botao("p:" + p.id, p.preco, perfil.profeta === p.id, "Usar")}</div>`,
-    m: x => `<div class="lj-item ${comprado("m:" + x.id) ? "meu" : ""}"><div class="lj-av lj-mold${classeMoldura(x.id)}" data-prev="${esc(eu)}"></div><b>${esc(x.nome)}</b><small>${esc(x.ref)}</small>${botao("m:" + x.id, x.preco, minhaMoldura() === x.id, "Usar")}</div>`,
-    t: x => `<div class="lj-item larga ${comprado("t:" + x.id) ? "meu" : ""}"><div class="lj-pista"><div class="track${classePista(x.id)}" style="--seg:4"><span class="flag" aria-hidden="true">🏁</span><div class="runner" style="--p:.38" data-prev="${esc(meuBoneco() || PROFETA_PADRAO)}"></div></div></div><b>${esc(x.nome)}</b><small>${esc(x.ref)}</small>${botao("t:" + x.id, x.preco, minhaPista() === x.id, "Usar")}</div>`,
-    v: x => `<div class="lj-item ${comprado("v:" + x.id) ? "meu" : ""}"><div class="lj-av lj-mov"><div class="runner mov-${x.id}" data-mov="${x.id}" data-prev="${esc(amostraMov)}"></div></div><b>${esc(x.nome)}</b><small>${esc(x.ref)}</small>${botao("v:" + x.id, x.preco, meuMovimento() === x.id, "Usar")}</div>`,
-    c: x => `<div class="lj-item ${comprado("c:" + x.id) ? "meu" : ""}"><button type="button" class="lj-festa" data-festa="${x.id}" title="Ver a comemoração" aria-label="Ver a comemoração ${esc(x.nome)}">${FESTA_ICONE[x.id] || ""}<span>▶ ver</span></button><b>${esc(x.nome)}</b><small>${esc(x.ref)}</small>${botao("c:" + x.id, x.preco, minhaFesta() === x.id, "Usar")}</div>`
+    a: a => carta("a:" + a.id, cor[0], `<div class="lj-av" data-prev="${esc(eu + "~" + a.id + "~v")}"></div>`, a.nome, a.ref, "", perfil.acess === a.id, "Usar", a.preco),
+    p: p => carta("p:" + p.id, p.bg || cor[0], `<div class="lj-av" data-prev="${esc(p.id)}"></div>`, p.nome, p.ref, efeitoDaLoja(p) ? `<em class="lj-ef" title="Efeito que só este personagem tem (${esc(efeitoDaLoja(p).ref)})">${esc(efeitoDaLoja(p).nome)}</em>` : "", perfil.profeta === p.id, "Usar", p.preco),
+    m: x => carta("m:" + x.id, cor[0], `<div class="lj-av lj-mold${classeMoldura(x.id)}" data-prev="${esc(eu)}"></div>`, x.nome, x.ref, "", minhaMoldura() === x.id, "Usar", x.preco),
+    t: x => carta("t:" + x.id, cor[0], `<div class="lj-pista"><div class="track${classePista(x.id)}" style="--seg:4"><span class="flag" aria-hidden="true">🏁</span><div class="runner" style="--p:.38" data-prev="${esc(meuBoneco() || PROFETA_PADRAO)}"></div></div></div>`, x.nome, x.ref, "", minhaPista() === x.id, "Usar", x.preco, true),
+    v: x => carta("v:" + x.id, cor[0], `<div class="lj-av lj-mov"><div class="runner mov-${x.id}" data-mov="${x.id}" data-prev="${esc(amostraMov)}"></div></div>`, x.nome, x.ref, "", meuMovimento() === x.id, "Usar", x.preco),
+    c: x => carta("c:" + x.id, cor[0], `<button type="button" class="lj-festa" data-festa="${x.id}" title="Ver a comemoração" aria-label="Ver a comemoração ${esc(x.nome)}">${FESTA_ICONE[x.id] || ""}<span>▶ ver</span></button>`, x.nome, x.ref, "", minhaFesta() === x.id, "Usar", x.preco)
   }[cat.k];
-  const itens = cat.lista(), meus = itens.filter(x => comprado(cat.k + ":" + x.id)).length;
+  const todos = cat.lista(), meu = x => comprado(cat.k + ":" + x.id), nMeus = todos.filter(meu).length, nPode = todos.filter(x => !meu(x) && x.preco <= saldo).length;
+  const itens = todos.filter(lojaFiltro === "meus" ? meu : lojaFiltro === "pode" ? (x => !meu(x) && x.preco <= saldo) : (() => true));
   const nota = cat.k === "v" ? `<p class="lj-nota">Vale para qualquer personagem, inclusive os comuns. Sem movimento comprado, o personagem fica parado na raia.</p>`
+    : cat.k === "p" ? `<p class="lj-nota"><b>Só os personagens da loja</b> têm brilho holográfico, base de luz e um efeito próprio, tirado da história de cada um.</p>`
     : cat.k === "a" ? `<p class="lj-nota">Um acessório por vez. A maioria fica na mão; a coroa vai na cabeça, as asas nas costas e a ovelha no chão.</p>` : "";
-  app.innerHTML = `<div class="estudo-area">
+  const fbt = (k, rot, n) => `<button type="button" class="${lojaFiltro === k ? "on" : ""}" data-f="${k}" aria-pressed="${lojaFiltro === k}">${rot}<i>${n}</i></button>`;
+  app.innerHTML = `<div class="estudo-area ljn ljn-dentro" style="--g1:${cor[0]};--g2:${cor[1]}">
     <div class="lj-topo cat">${botaoVoltar("ljVoltar", "a loja")}${htmlMoedasInicio(true)}</div>
-    ${cabPagina("Loja", `${itens.length} ${itens.length === 1 ? "item" : "itens"}${meus ? ` · ${meus} ${meus === 1 ? "seu" : "seus"}` : ""}`, cat.nome, cat.sub.charAt(0).toUpperCase() + cat.sub.slice(1) + ".")}
-    <section class="panel pg-card">${nota}<div class="lj-grade ${cat.k === "t" ? "pistas" : ""}">${itens.map(cartao).join("")}</div></section></div>`;
+    ${cabPagina("Loja", `${todos.length} ${todos.length === 1 ? "item" : "itens"}${nMeus ? ` · ${nMeus} ${nMeus === 1 ? "seu" : "seus"}` : ""}`, cat.nome, cat.sub.charAt(0).toUpperCase() + cat.sub.slice(1) + ".")}
+    <div class="ljn-filtros" role="group" aria-label="Mostrar">${fbt("", "Todos", todos.length)}${fbt("meus", "Meus", nMeus)}${fbt("pode", "Dá para comprar", nPode)}</div>
+    ${nota}
+    <div class="lj-grade ljn-grade ${cat.k === "t" ? "pistas" : ""}">${itens.map(cartao).join("") || `<p class="ljn-vazio">${lojaFiltro === "meus" ? "Você ainda não tem nada desta categoria." : "Com o saldo de agora, nada desta categoria. Ganhe mais moedas no quiz!"}</p>`}</div></div>`;
   desenharAmostras();
-  $("ljVoltar").onclick = () => { lojaCat = ""; window.scrollTo(0, 0); telaLoja(); };
-  ligarMoedasInicio();
-  app.querySelectorAll("[data-comprar]").forEach(b => b.onclick = () => comprarNaLoja(b.dataset.comprar, b.closest(".lj-item")));
-  app.querySelectorAll("[data-usar]").forEach(b => b.onclick = () => usarDaLoja(b.dataset.usar));
+  $("ljVoltar").onclick = () => { lojaCat = ""; lojaFiltro = ""; window.scrollTo(0, 0); telaLoja(); };
+  ligarMoedasInicio(); ligarCompras();
+  app.querySelectorAll("[data-f]").forEach(b => b.onclick = () => { lojaFiltro = b.dataset.f; tocar("toque"); telaLoja(); });
   app.querySelectorAll("[data-festa]").forEach(b => b.onclick = () => { tocar("toque"); festejar(b.dataset.festa, 2600); });
 }
 function itemDaLoja(id){
@@ -9118,7 +9395,8 @@ const LOJA_TIPO_NOME = { a: "Acessório", p: "Personagem", m: "Moldura de perfil
 async function comprarNaLoja(id, cartao){
   const it = itemDaLoja(id); if(!it || comprado(id)) return;
   const tipo = id.split(":")[0], arteEl = cartao && cartao.querySelector(".lj-av, .lj-pista, .lj-festa");
-  if(!(await modalCompra({ nome: it.nome, tipo: LOJA_TIPO_NOME[tipo] || "Loja", preco: it.preco, arteEl, chips: ["Fica com você para sempre", tipo === "p" ? "Troque quando quiser" : "Use quando quiser"] }))) return;
+  const efLoja = tipo === "p" ? efeitoDaLoja(acharProfeta(id.split(":")[1])) : null;
+  if(!(await modalCompra({ nome: it.nome, tipo: LOJA_TIPO_NOME[tipo] || "Loja", preco: it.preco, arteEl, chips: ["Fica com você para sempre"].concat(efLoja ? ["Efeito: " + efLoja.nome] : [], [tipo === "p" ? "Troque quando quiser" : "Use quando quiser"]) }))) return;
   const compras = Object.assign({}, perfil.compras || {}, { [id]: it.preco });
   try{ await DB.salvarUsuario(usuario.uid, { compras }); }catch(e){ aviso("Não deu para comprar: " + erroMsg(e)); return; }
   perfil.compras = compras; tocar("missao"); atualizarCasca();
@@ -9330,7 +9608,7 @@ function modalComoGanhar(){
   try{
     const inv = albumInventario(), pagas = albumPagas().length, f = pacotesFechados().length;
     itens.push(linha("album", "🎴", "Completar páginas do álbum", val("+" + ALBUM_MOEDAS_PAGINA),
-      `${albumColadas(inv)} de ${ALBUM_CARTAS.length} figurinhas · ${pagas} de ${ALBUM_FOLHAS.length} páginas${f ? ` · ${f} ${f === 1 ? "pacote para abrir" : "pacotes para abrir"}` : ""} · álbum completo: +${ALBUM_MOEDAS_ALBUM}`, barra(100 * albumColadas(inv) / ALBUM_CARTAS.length)));
+      `${albumColadas(inv)} de ${ALBUM_CARTAS.length} figurinhas · ${pagas} de ${ALBUM_FOLHAS.length} páginas${f ? ` · ${f} ${f === 1 ? "pacote para abrir" : "pacotes para abrir"}` : ""} · álbum completo: ${ALBUNS.map(a => "+" + a.premio).join(" e ")}`, barra(100 * albumColadas(inv) / ALBUM_CARTAS.length)));
   }catch(e){}
   modal("Ganhar moedas", `<div class="cg">
       <p class="cg-saldo">${MOEDA}<b>${moedas()}</b> para gastar · ${moedasGanhas()} ganhas até hoje</p>
@@ -9992,9 +10270,9 @@ function fimSuperQuiz(soVer){
      albumPag (páginas já premiadas) e albumFim (álbum completo premiado).
    - Trocas: só com quem é da mesma sala. Quem propõe oferece uma repetida e pede uma figurinha; o outro aceita ou recusa.
      Coleção "trocas" (regras novas no firestore.rules). Cada jogador anota o seu lado da troca no próprio perfil.
-   - Prêmios: moedas por página completa e um prêmio maior pelo álbum inteiro (mais a conquista Colecionador).
+   - Prêmios: moedas por página completa e um prêmio maior pelo álbum inteiro (mais a conquista Colecionador, que sai com qualquer álbum completo).
    ============================================================ */
-const ALBUM_MOEDAS_PAGINA = 20, ALBUM_MOEDAS_ALBUM = 50, ALBUM_POR_PACOTE = 3, ALBUM_POR_PAGINA = 9, ALBUM_MAX_PROPOSTAS = 5, ALBUM_PRECO_PACOTE = 10, ALBUM_PACOTES_DIA = 1;
+const ALBUM_MOEDAS_PAGINA = 20, ALBUM_MOEDAS_ALBUM = 50, ALBUM_POR_PACOTE = 3, ALBUM_POR_PAGINA = 9, ALBUM_MAX_PROPOSTAS = 5, ALBUM_MAX_TROCA = 6, ALBUM_PRECO_PACOTE = 10, ALBUM_PACOTES_DIA = 1;
 /* ESTREIA DO ÁLBUM. Antes desta hora o álbum aparece trancado, com contagem regressiva: não dá para ganhar, comprar nem trocar.
    Só os quizzes FEITOS a partir dela dão pacote (os antigos não contam). É a hora do aparelho de cada jogador.
    O que foi ganho nos testes ficou em campos antigos do perfil (albumAbertos, albumTrocas…) e não é lido: todo mundo começa do zero. */
@@ -10028,8 +10306,9 @@ const ALBUM_PAGINAS = [
   { id: "jesus", nome: "Jesus e os Evangelhos", ref: "Mateus a João", cor: "#E8505D", p: ["isabel", "ana", "joao", "maria", "josenazare", "messias", "pedro", "madalena", "zaqueu"], o: ["onda", "manjedoura", "estrela", "martelo", "pao", "rede", "pomba", "ovelha_chao", "tumulo"] },
   { id: "igreja", nome: "Igreja e Missão", ref: "Atos ao Apocalipse", cor: "#2BA486", p: ["filha", "lidia", "timoteo", "barnabe", "paulo", "joaoap", "ellen"], o: ["carta", "asas", "pena", "coracao", "barco", "escudo", "espada", "sandalias", "ancora", "calice", "coroa_vida"] }
 ];
-const ALBUM_LENDARIAS = new Set(["p:messias", "o:arca", "o:tabuas"]);
-const ALBUM_RARAS_OBJ = new Set(["candelabro", "coroa", "harpa", "estrela", "manjedoura", "asas", "pao", "trombeta", "estrelas", "leao", "arca_alianca", "coroa_vida"]);
+/* RARIDADES: 8 lendárias, 15 raras e o resto comuns (85). No máximo uma lendária por página, para nenhuma página ficar muito mais difícil que as outras. */
+const ALBUM_LENDARIAS = new Set(["p:messias", "o:tumulo", "p:abraao", "o:arca", "p:moises", "p:davi", "p:daniel", "p:paulo"]);
+const ALBUM_RARAS = new Set(["p:adao", "p:jose", "p:josue", "o:tabuas", "o:arca_alianca", "p:salomao", "p:elias", "o:harpa", "p:ester", "p:jonas", "p:maria", "p:pedro", "o:manjedoura", "p:joaoap", "o:coroa_vida"]);
 const ALBUM_PESO = { comum: 10, rara: 5, lendaria: 2.5 }, ALBUM_ROT = { comum: "Comum", rara: "Rara", lendaria: "Lendária" };
 /* lista numerada de todas as figurinhas */
 const ALBUM_CARTAS = []; const ALBUM_IDX = {};
@@ -10037,7 +10316,7 @@ ALBUM_PAGINAS.forEach((pg, pi) => { pg.cartas = [];
   pg.p.map(x => "p:" + x).concat(pg.o.map(x => "o:" + x)).forEach(id => {
     const [t, k] = id.split(":"), pr = t === "p" ? acharProfeta(k) : null; if(t === "p" && !pr) return; if(t === "o" && !ALBUM_OBJ[k]) return;
     const c = { id, t, k, n: ALBUM_CARTAS.length + 1, pg: pi, nome: pr ? pr.nome : ALBUM_OBJ[k][0], ref: pr ? (pr.ref || "") : ALBUM_OBJ[k][1],
-      rar: ALBUM_LENDARIAS.has(id) ? "lendaria" : (pr ? (pr.nivel || pr.preco ? "rara" : "comum") : (ALBUM_RARAS_OBJ.has(k) ? "rara" : "comum")) };
+      rar: ALBUM_LENDARIAS.has(id) ? "lendaria" : ALBUM_RARAS.has(id) ? "rara" : "comum" };
     ALBUM_CARTAS.push(c); ALBUM_IDX[id] = c; pg.cartas.push(c); }); });
 /* páginas do álbum: cada página é uma grade 3×3. As figurinhas do tema seguem na ordem (personagens e depois objetos), 9 por página.
    Se o tema não fecha a última página, os espaços que sobram ficam como "Em breve" (breve), à espera de figurinhas novas.
@@ -10129,16 +10408,23 @@ function dicaDoAlbum(){
   setTimeout(() => tentar(0), 1700);
 }
 /* quantas de cada figurinha eu tenho: pacotes abertos, mais o que entrou e menos o que saiu nas trocas */
+/* as figurinhas de um lado da troca: lista de ids (as primeiras propostas guardavam um id só) */
+const trLista = v => (Array.isArray(v) ? v : v ? [v] : []).filter(id => ALBUM_IDX[id]);
+/* a anotação de uma troca feita, no perfil: { m: [saíram], r: [entraram] } (o formato antigo era [saiu, entrou]) */
+const notaLados = n => Array.isArray(n) ? [trLista(n[0]), trLista(n[1])] : [trLista(n && n.m), trLista(n && n.r)];
+const trNomes = l => l.length === 1 ? ALBUM_IDX[l[0]].nome : l.length + " figurinhas";
 function albumInventario(){
   const inv = {}; albumAbertos().forEach(k => pacoteDe(k).forEach(c => { inv[c] = (inv[c] || 0) + 1; }));
-  const t = (perfil && perfil.figTrocas) || {}; Object.keys(t).forEach(id => { const [menos, mais] = t[id]; inv[menos] = (inv[menos] || 0) - 1; inv[mais] = (inv[mais] || 0) + 1; });
+  const t = (perfil && perfil.figTrocas) || {}; Object.keys(t).forEach(id => { const [menos, mais] = notaLados(t[id]); menos.forEach(c => { inv[c] = (inv[c] || 0) - 1; }); mais.forEach(c => { inv[c] = (inv[c] || 0) + 1; }); });
   return inv;
 }
 const albumColadas = inv => ALBUM_CARTAS.filter(c => (inv[c.id] || 0) > 0).length;
 const albumRepetidas = inv => ALBUM_CARTAS.reduce((s, c) => s + Math.max(0, (inv[c.id] || 0) - 1), 0);
 /* álbuns já completos e premiados */
 const albumFeitos = () => ((perfil && perfil.figFeitos) || []).filter(id => ALBUNS.some(a => a.id === id));
-function albumCompleto(){ try{ return ALBUNS.every(a => albumFeitos().includes(a.id)); }catch(e){ return false; } }
+function albumCompleto(){ try{ return ALBUNS.every(a => albumFeitos().includes(a.id)); }catch(e){ return false; } }          // todos os álbuns completos
+/* a conquista Colecionador: basta um álbum completo, qualquer um */
+function temAlbumCompleto(){ try{ return albumFeitos().length > 0; }catch(e){ return false; } }
 function moedasDeAlbum(){ return albumPagas().length * ALBUM_MOEDAS_PAGINA + ALBUNS.reduce((t, a) => t + (albumFeitos().includes(a.id) ? a.premio : 0), 0); }
 /* o que os outros veem para propor trocas: uma letra por figurinha (quantas eu tenho, até 9) */
 function albumPublico(){ const inv = albumInventario(); return ALBUM_CARTAS.map(c => Math.max(0, Math.min(9, inv[c.id] || 0))).join(""); }
@@ -10184,7 +10470,8 @@ const FIG_FOTOS_OBJ = new Set(("folha flor nuvem arca pomba_ramo estrelas tenda 
 const figTemFoto = c => c.t === "p" ? FIG_FOTOS.has(c.k) : FIG_FOTOS_OBJ.has(c.k);
 /* imagens refeitas depois de publicadas: o endereço muda (?v=) para o navegador buscar de novo em vez de usar a guardada */
 const FIG_VERSAO = { "o:arca": 2, "o:pomba_ramo": 2, "o:estrelas": 2, "o:tabuas": 2, "o:cajado": 3, "o:candelabro": 2, "o:trombeta": 2, "o:livro": 2, "o:lamparina": 2, "o:coracao": 2, "o:nuvem": 2, "o:tenda": 2 };
-const figArquivo = c => (c.t === "p" ? "" : "o_") + c.k + ".webp" + (FIG_VERSAO[c.id] ? "?v=" + FIG_VERSAO[c.id] : "");
+const FIG_VERSAO_P = 2;          /* personagens: 2 = pés e barra da túnica refeitos, olhos sem a marca branca (20/11/2026) */
+const figArquivo = c => (c.t === "p" ? "" : "o_") + c.k + ".webp" + (FIG_VERSAO[c.id] ? "?v=" + FIG_VERSAO[c.id] : c.t === "p" ? "?v=" + FIG_VERSAO_P : "");
 /* titulo curto e objeto de cada personagem */
 const FIG_EXTRA = {
   adao: ["O primeiro homem", "Folha de figueira"], eva: ["Mãe de todos os viventes", "Flor do Éden"], enoque: ["Andou com Deus", "Nuvem"], noe: ["Construtor da arca", "Arca"],
@@ -10322,10 +10609,11 @@ async function figEmAlta(img, c){
   const q = figPersonagem(c);
   for(let i = 0; i < 10 && img.isConnected; i++){ const r = await HD.esperar(q); if(r && r.u){ if(img.isConnected){ img.src = r.u; img.classList.add("hd"); } return; } if(!HD.ativo) return; }
 }
-function modalFigurinha(id){
-  const c = ALBUM_IDX[id], n = albumInventario()[id] || 0, pg = ALBUM_PAGINAS[c.pg], pr = c.t === "p" ? acharProfeta(c.k) : null;
-  modal("Figurinha " + c.n, `<div class="fig-det"><div class="fig-palco">${htmlFigurinha(c, n, { botao: false, cls: "grande", semConta: true })}</div>
-      ${pr && pr.fala && n > 0 ? `<p class="fig-det-fala">“${esc(pr.fala)}”</p>` : ""}
+function modalFigurinha(id, opts){
+  const c = ALBUM_IDX[id], n = albumInventario()[id] || 0, pg = ALBUM_PAGINAS[c.pg], pr = c.t === "p" ? acharProfeta(c.k) : null, ver = !!(opts && opts.ver);      // ver: numa troca, mostra a carta inteira mesmo para quem não tem
+  modal("Figurinha " + c.n, `<div class="fig-det"><div class="fig-palco">${htmlFigurinha(c, ver ? Math.max(n, 1) : n, { botao: false, cls: "grande", semConta: true })}</div>
+      ${pr && pr.fala && (n > 0 || ver) ? `<p class="fig-det-fala">“${esc(pr.fala)}”</p>` : ""}
+      <p class="fig-det-rar r-${c.rar}">${ALBUM_ROT[c.rar]}</p>
       <p class="muted small">${n > 1 ? `Você tem ${n}: ${n - 1} ${n - 1 === 1 ? "repetida" : "repetidas"} para trocar.` : n === 1 ? "Você tem esta figurinha." : "Você ainda não tem. Ela pode sair num pacote ou vir numa troca."}</p></div>`, m => {
     desenharFigurinhas(m);
     /* a figurinha grande inclina com o dedo (ou o mouse), como uma carta de verdade */
@@ -10415,8 +10703,8 @@ async function carregarTrocas(forcar){
   catch(e){ if(/permission|insufficient/i.test(String(e && (e.code || e.message)))) trocasOk = false; return TROCAS; }
   /* trocas que eu propus e foram aceitas: anoto o meu lado (sai a que ofereci, entra a que pedi) */
   const notas = Object.assign({}, trocaNotas()); let mudou = 0;
-  TROCAS.forEach(t => { if(t.status === "aceito" && t.de === usuario.uid && !notas[t.id]){ notas[t.id] = [t.dou, t.quero]; mudou++;
-    const c = ALBUM_IDX[t.quero]; aviso(`${t.paraNome || "Seu amigo"} aceitou a troca: você recebeu ${c ? c.nome : "a figurinha"}!`); } });
+  TROCAS.forEach(t => { if(t.status === "aceito" && t.de === usuario.uid && !notas[t.id]){ const dei = trLista(t.dou), veio = trLista(t.quero); notas[t.id] = { m: dei, r: veio }; mudou++;
+    aviso(`${t.paraNome || "Seu amigo"} aceitou a troca: você recebeu ${veio.length ? trNomes(veio) : "as figurinhas"}!`); } });
   if(mudou){ perfil.figTrocas = notas; DB.salvarUsuario(usuario.uid, { figTrocas: notas }).catch(()=>{}); conferirPaginasDoAlbum(); if(typeof sincronizarPerfilPublico === "function") sincronizarPerfilPublico(); }
   return TROCAS;
 }
@@ -10430,11 +10718,11 @@ function avisarTrocasNovas(){
   lsSet(chave, vistas.concat(novas.map(t => t.id)).slice(-120));
   if(tabAtual === "album") return;                                    // já está olhando as propostas
   document.querySelectorAll(".tr-chegou").forEach(e => e.remove());
-  const t = novas[0], dou = ALBUM_IDX[t.dou], quero = ALBUM_IDX[t.quero], quem = String(t.deNome || "Alguém").split(" ")[0];
+  const t = novas[0], dou = trLista(t.dou), quero = trLista(t.quero), quem = String(t.deNome || "Alguém").split(" ")[0];
   const cx = document.createElement("button"); cx.type = "button"; cx.className = "tr-chegou"; cx.setAttribute("role", "status");
-  cx.innerHTML = `<span class="pct">${FIG_PACOTE}</span><span><b>${novas.length > 1 ? `${novas.length} propostas de troca` : `${esc(quem)} quer trocar figurinha`}</b><small>${novas.length > 1 || !dou || !quero ? "Veja no álbum e responda." : `Dá ${esc(dou.nome)} e pede ${esc(quero.nome)}`}</small></span><i>Ver</i>`;
+  cx.innerHTML = `<span class="pct">${FIG_PACOTE}</span><span><b>${novas.length > 1 ? `${novas.length} propostas de troca` : `${esc(quem)} quer trocar figurinha`}</b><small>${novas.length > 1 || !dou.length || !quero.length ? "Veja no álbum e responda." : `Dá ${esc(trNomes(dou))} e pede ${esc(trNomes(quero))}`}</small></span><i>Ver</i>`;
   const sair = () => { if(!cx.isConnected) return; cx.classList.add("sai"); setTimeout(() => cx.remove(), 320); };
-  cx.onclick = () => { cx.remove(); document.querySelectorAll(".modal-bg").forEach(m => { const f = m.querySelector(".fechar"); if(f) f.click(); }); nav("album"); };
+  cx.onclick = () => { cx.remove(); document.querySelectorAll(".modal-bg").forEach(m => { const f = m.querySelector(".fechar"); if(f) f.click(); }); nav("album"); if(albumLiberado()){ window.scrollTo(0, 0); telaTrocas(); } };
   document.body.appendChild(cx); tocar("ajuda"); setTimeout(sair, 9000);
 }
 /* confere de tempos em tempos (no máximo a cada 3 min) se chegou proposta, mesmo com o jogo aberto em outra tela.
@@ -10454,28 +10742,66 @@ setInterval(conferirTrocas, 180000);
 document.addEventListener("visibilitychange", () => { if(!document.hidden) conferirTrocas(); });
 const trocasMinhasAbertas = () => TROCAS.filter(t => t.de === usuario.uid && t.status === "pendente");
 /* repetidas livres: não conta a que já está oferecida numa proposta aberta */
-function repetidasLivres(inv){ const r = {}; ALBUM_CARTAS.forEach(c => { const n = (inv[c.id] || 0) - 1; if(n > 0) r[c.id] = n; }); trocasMinhasAbertas().forEach(t => { if(r[t.dou]) r[t.dou]--; }); return r; }
+function repetidasLivres(inv){ const r = {}; ALBUM_CARTAS.forEach(c => { const n = (inv[c.id] || 0) - 1; if(n > 0) r[c.id] = n; }); trocasMinhasAbertas().forEach(t => trLista(t.dou).forEach(id => { if(r[id]) r[id]--; })); return r; }
+/* quantas de cada figurinha eu ainda posso dar: o que tenho menos o que já ofereci nas minhas propostas abertas */
+function trDisponivel(inv){ const r = {}; Object.keys(inv).forEach(id => { r[id] = inv[id] || 0; }); trocasMinhasAbertas().forEach(t => trLista(t.dou).forEach(id => { r[id] = (r[id] || 0) - 1; })); return r; }
 async function responderTroca(id, aceitar){
   const t = TROCAS.find(x => x.id === id); if(!t || t.status !== "pendente") return;
-  const inv = albumInventario();
-  if(aceitar && !((inv[t.quero] || 0) > 0)){ aviso("Você não tem mais a figurinha pedida nesta troca."); return; }
-  if(aceitar && (inv[t.quero] || 0) === 1 && !(await confirmar("Aceitar a troca", `Você só tem uma ${ALBUM_IDX[t.quero].nome}. Se trocar, ela sai do seu álbum. Trocar mesmo assim?`, "Trocar"))) return;
+  const inv = albumInventario(), dou = trLista(t.dou), quero = trLista(t.quero), nomes = l => l.map(i => ALBUM_IDX[i].nome).join(", ");
+  if(aceitar){
+    const livre = trDisponivel(inv), falta = quero.filter(i => !((inv[i] || 0) > 0)), presas = quero.filter(i => (inv[i] || 0) > 0 && livre[i] <= 0);
+    if(falta.length){ aviso(`Você não tem mais ${nomes(falta)}. Não dá para aceitar esta troca.`); return; }
+    if(presas.length){ aviso(`Você já ofereceu ${nomes(presas)} em outra proposta sua. Cancele aquela antes de aceitar esta.`); return; }
+    const unicas = quero.filter(i => livre[i] === 1);
+    if(unicas.length && !(await confirmar("Aceitar a troca", `Você só tem uma de: ${nomes(unicas)}. Se trocar, ${unicas.length === 1 ? "ela sai" : "elas saem"} do seu álbum. Trocar mesmo assim?`, "Trocar"))) return;
+  }
   try{ await DB.responderTroca(id, aceitar ? "aceito" : "recusado"); }catch(e){ aviso(erroMsg(e)); return; }
   t.status = aceitar ? "aceito" : "recusado";
-  if(aceitar){ const notas = Object.assign({}, trocaNotas(), { [id]: [t.quero, t.dou] }); perfil.figTrocas = notas; DB.salvarUsuario(usuario.uid, { figTrocas: notas }).catch(()=>{});
-    tocar("ajuda"); aviso(`Troca feita: você recebeu ${ALBUM_IDX[t.dou].nome}!`); conferirPaginasDoAlbum(); if(typeof sincronizarPerfilPublico === "function") sincronizarPerfilPublico(); }
+  if(aceitar){ const notas = Object.assign({}, trocaNotas(), { [id]: { m: quero, r: dou } }); perfil.figTrocas = notas; DB.salvarUsuario(usuario.uid, { figTrocas: notas }).catch(()=>{});
+    tocar("ajuda"); aviso(`Troca feita: você recebeu ${trNomes(dou)}!`); conferirPaginasDoAlbum(); if(typeof sincronizarPerfilPublico === "function") sincronizarPerfilPublico(); }
   else aviso("Troca recusada.");
   if(tabAtual === "album") telaAlbum();
 }
 async function cancelarTroca(id){ try{ await DB.cancelarTroca(id); TROCAS = TROCAS.filter(t => t.id !== id); aviso("Proposta cancelada."); }catch(e){ aviso(erroMsg(e)); } if(tabAtual === "album") telaAlbum(); }
-function linhaTroca(t){
-  const minha = t.de === usuario.uid, dou = ALBUM_IDX[t.dou], quero = ALBUM_IDX[t.quero]; if(!dou || !quero) return "";
-  const mini = c => `<span class="tr-fig r-${c.rar}" data-figimg="${c.id}"></span><b>${esc(c.nome)}</b>`;
-  return `<li class="tr-item"><div class="tr-tx"><small>${minha ? `Você propôs para ${esc(t.paraNome || "?")}` : `${esc(t.deNome || "?")} propõe`}</small>
-      <div class="tr-par"><span class="tr-lado"><em>${minha ? "você dá" : "você recebe"}</em>${mini(dou)}</span><i aria-hidden="true">⇄</i><span class="tr-lado"><em>${minha ? "você recebe" : "você dá"}</em>${mini(quero)}</span></div></div>
-    <div class="tr-acoes">${minha ? `<button type="button" class="btn btn-sm btn-ghost" data-tr-cancelar="${esc(t.id)}">Cancelar</button>` : `<button type="button" class="btn btn-sm btn-main" data-tr-aceitar="${esc(t.id)}">Aceitar</button><button type="button" class="btn btn-sm btn-ghost" data-tr-recusar="${esc(t.id)}">Recusar</button>`}</div></li>`;
+/* ---------- a tela das propostas: cada proposta num cartão, com as figurinhas maiores; tocar numa abre a carta inteira ---------- */
+let albumTrocasAberta = false;
+function htmlProposta(t){
+  const minha = t.de === usuario.uid, dou = trLista(t.dou).map(id => ALBUM_IDX[id]), quero = trLista(t.quero).map(id => ALBUM_IDX[id]); if(!dou.length || !quero.length) return "";
+  const inv = albumInventario(), recebo = minha ? quero : dou, dando = minha ? dou : quero;
+  const cartas = (l, boa) => `<div class="trp-cartas">${l.map(c => htmlFigurinha(c, 1, { cls: "mini" + (boa(c) ? " boa" : ""), attr: `data-ver="${c.id}"`, semConta: true })).join("")}</div>`;
+  const livre = trDisponivel(inv), sem = minha ? [] : dando.filter(c => !(livre[c.id] > 0)), unicas = minha ? [] : dando.filter(c => livre[c.id] === 1), lista = l => l.map(c => esc(c.nome)).join(", ");
+  return `<section class="panel trp ${minha ? "minha" : "chegou"}">
+      <header class="trp-cab"><span>${minha ? `Você propôs para <b>${esc(t.paraNome || "?")}</b>` : `<b>${esc(t.deNome || "?")}</b> propõe`}</span><small>${t.criado && typeof haQuanto === "function" ? haQuanto(t.criado) : ""}</small></header>
+      <div class="trp-lados">
+        <div class="trp-lado recebe"><p class="trp-rot"><span>Você recebe</span><em>${recebo.length}</em></p>${cartas(recebo, c => !((inv[c.id] || 0) > 0))}</div>
+        <span class="trp-seta" aria-hidden="true">${iconeSVG("troca")}</span>
+        <div class="trp-lado da"><p class="trp-rot"><span>Você dá</span><em>${dando.length}</em></p>${cartas(dando, () => false)}</div>
+      </div>
+      ${sem.length ? `<p class="trp-nota ruim">Você não tem livre: ${lista(sem)}. Não dá para aceitar agora.</p>` : unicas.length ? `<p class="trp-nota">Atenção: você só tem uma de ${lista(unicas)}. Se aceitar, ${unicas.length === 1 ? "ela sai" : "elas saem"} do seu álbum.</p>` : ""}
+      <div class="btn-row ${minha ? "uma" : ""}">${minha ? `<button type="button" class="btn btn-ghost" data-tr-cancelar="${esc(t.id)}">Cancelar a proposta</button>`
+        : `<button type="button" class="btn btn-main" data-tr-aceitar="${esc(t.id)}" ${sem.length ? "disabled" : ""}>Aceitar</button><button type="button" class="btn btn-ghost" data-tr-recusar="${esc(t.id)}">Recusar</button>`}</div></section>`;
 }
-/* propor uma troca: 1) escolhe o amigo da sala; 2) escolhe a figurinha dele e a repetida que oferece */
+function telaTrocas(){
+  tabAtual = "album"; albumTrocasAberta = true; albumAberto = ""; atualizarCasca(); pararTimer();
+  const paraMim = trocasParaMim(), minhas = trocasMinhasAbertas();
+  app.innerHTML = `<div class="estudo-area alb trp-tela">
+      <div class="lv-topo"><button type="button" class="pg-voltar" id="trpVoltar"><span aria-hidden="true">‹</span>Álbuns</button><div><b>Propostas de troca</b><small>${paraMim.length} para responder · ${minhas.length} ${minhas.length === 1 ? "enviada" : "enviadas"}</small></div></div>
+      ${paraMim.length || minhas.length ? `<p class="trp-dica">${iconeSVG("lupa")}<span>Toque numa figurinha para ver a carta inteira antes de decidir. O ponto verde marca as que faltam no seu álbum.</span></p>` : ""}
+      ${paraMim.length ? `<h2 class="trp-tit">Para você responder</h2>${paraMim.map(htmlProposta).join("")}` : ""}
+      ${minhas.length ? `<h2 class="trp-tit">Enviadas por você</h2>${minhas.map(htmlProposta).join("")}` : ""}
+      ${!paraMim.length && !minhas.length ? `<section class="panel trp-vazio">${iconeSVG("troca")}<p>Nenhuma proposta aberta agora.</p></section>` : ""}
+      <div class="btn-row uma trp-nova"><button type="button" class="btn btn-main" id="trpNova">Propor uma troca</button></div></div>`;
+  figEscala(app); desenharFigurinhas(app);
+  $("trpVoltar").onclick = () => { albumTrocasAberta = false; tocar("toque"); window.scrollTo(0, 0); telaAlbum(); };
+  $("trpNova").onclick = modalTrocar;
+  app.querySelectorAll("[data-ver]").forEach(b => b.onclick = () => modalFigurinha(b.dataset.ver, { ver: true }));
+  app.querySelectorAll("[data-tr-aceitar]").forEach(b => b.onclick = () => responderTroca(b.dataset.trAceitar, true));
+  app.querySelectorAll("[data-tr-recusar]").forEach(b => b.onclick = () => responderTroca(b.dataset.trRecusar, false));
+  app.querySelectorAll("[data-tr-cancelar]").forEach(b => b.onclick = () => cancelarTroca(b.dataset.trCancelar));
+  if(Date.now() - trocasEm > 60000){ const a = trocasParaMim().length + "|" + trocasMinhasAbertas().length;
+    carregarTrocas(true).then(() => { if(tabAtual === "album" && albumTrocasAberta && a !== trocasParaMim().length + "|" + trocasMinhasAbertas().length && !document.querySelector(".modal-bg")) telaTrocas(); }); }
+}
+/* propor uma troca: 1) escolhe o amigo da sala; 2) escolhe uma ou mais figurinhas dele e uma ou mais repetidas suas */
 async function modalTrocar(){
   if(!albumLiberado()){ modalAlbumTrancado(); return; }
   if(semSala()){ modal("Trocar figurinhas", `<p>Para trocar figurinhas você precisa estar numa sala. Entre na sala da sua turma em Minha conta → Salas.</p>`); return; }
@@ -10508,25 +10834,37 @@ async function modalTrocar(){
       const voltar = `<button type="button" class="pg-voltar" id="trVoltar"><span aria-hidden="true">‹</span>Escolher outra pessoa</button>`;
       if(!txt){ el.innerHTML = voltar + `<p class="vazio">${esc(outro.nome || "Essa pessoa")} ainda não abriu o álbum nesta versão do jogo.</p>`; el.querySelector("#trVoltar").onclick = passo1; return; }
       if(!pedir.length || !dar.length){ el.innerHTML = voltar + `<p class="vazio">${!pedir.length ? `${esc(outro.nome || "Essa pessoa")} não tem figurinhas repetidas agora.` : "Você não tem figurinhas repetidas livres para oferecer."}</p>`; el.querySelector("#trVoltar").onclick = passo1; return; }
-      let quero = "", dou = "";
-      const grade = (lista, sel, attr, marca) => `<div class="tr-grade">${lista.map(c => htmlFigurinha(c, 1, { cls: "mini" + (c.id === sel ? " sel" : "") + (marca(c) ? " boa" : ""), attr: `${attr}="${c.id}"`, semConta: true })).join("")}</div>`;
-      const pintar = () => {
-        el.innerHTML = voltar + `<p class="tr-tit">1. Escolha uma repetida de <b>${esc(outro.nome || "?")}</b> <small>(com ponto verde: falta no seu álbum)</small></p>${grade(pedir, quero, "data-quero", c => !((inv[c.id] || 0) > 0))}
-          <p class="tr-tit">2. Escolha uma repetida sua para dar <small>(com ponto verde: falta no álbum dele)</small></p>${grade(dar, dou, "data-dou", c => !(dele[c.id] > 0))}
-          <p class="erro" id="trErro"></p><div class="btn-row uma"><button type="button" class="btn btn-main" id="trPropor" ${quero && dou ? "" : "disabled"}>Propor a troca</button></div>`;
-        desenharFigurinhas(el);
-        el.querySelector("#trVoltar").onclick = passo1;
-        el.querySelectorAll("[data-quero]").forEach(b => b.onclick = () => { quero = b.dataset.quero; pintar(); });
-        el.querySelectorAll("[data-dou]").forEach(b => b.onclick = () => { dou = b.dataset.dou; pintar(); });
-        el.querySelector("#trPropor").onclick = async () => {
-          if(quero === dou){ el.querySelector("#trErro").textContent = "Escolha figurinhas diferentes."; return; }
-          const b = el.querySelector("#trPropor"); ocupado(b, true);
-          try{ const d = { de: usuario.uid, deNome: perfil.nome || "", para: outro.uid, paraNome: outro.nome || "", dou, quero, status: "pendente", salaId: sala.id, criado: Date.now() };
-            d.id = await DB.criarTroca(d); TROCAS.unshift(d); tocar("ajuda"); fechar(); aviso(`Proposta enviada para ${outro.nome || "seu amigo"}.`); if(tabAtual === "album") telaAlbum(); }
-          catch(e){ ocupado(b, false); if(/permission|insufficient/i.test(String(e && (e.code || e.message)))){ trocasOk = false; el.querySelector("#trErro").textContent = "As trocas ainda não foram liberadas: falta publicar as regras novas do Firestore."; } else el.querySelector("#trErro").textContent = erroMsg(e); }
-        };
+      const quero = [], dou = [], primeiro = esc(String(outro.nome || "essa pessoa").split(" ")[0]);
+      const grade = (lista, attr, marca) => `<div class="tr-grade">${lista.map(c => `<div class="tr-cel">${htmlFigurinha(c, 1, { cls: "mini" + (marca(c) ? " boa" : ""), attr: `${attr}="${c.id}" aria-pressed="false"`, semConta: true })}<button type="button" class="tr-ver" data-ver="${c.id}" aria-label="Ver a carta: ${esc(c.nome)}">${iconeSVG("lupa")}</button></div>`).join("")}</div>`;
+      el.innerHTML = voltar + `
+        <section class="tr-bloco"><p class="tr-tit"><span class="tr-n">1</span><span>Você recebe de <b>${esc(outro.nome || "?")}</b></span><em id="trQn">0</em></p>
+          <p class="tr-dica">Toque para escolher uma ou mais. Ponto verde: falta no seu álbum.</p>${grade(pedir, "data-quero", c => !((inv[c.id] || 0) > 0))}</section>
+        <div class="tr-meio" aria-hidden="true">${iconeSVG("troca")}</div>
+        <section class="tr-bloco"><p class="tr-tit"><span class="tr-n">2</span><span>Você dá em troca</span><em id="trDn">0</em></p>
+          <p class="tr-dica">São as suas repetidas livres. Ponto verde: falta no álbum de ${primeiro}.</p>${grade(dar, "data-dou", c => !(dele[c.id] > 0))}</section>
+        <p class="erro" id="trErro"></p>
+        <div class="tr-rodape"><p id="trResumo">Escolha as figurinhas dos dois lados.</p><button type="button" class="btn btn-main" id="trPropor" disabled>Propor a troca</button></div>`;
+      desenharFigurinhas(el);
+      el.querySelector("#trVoltar").onclick = passo1;
+      const erro = el.querySelector("#trErro"), bt = el.querySelector("#trPropor");
+      const resumo = () => { el.querySelector("#trQn").textContent = quero.length; el.querySelector("#trDn").textContent = dou.length; bt.disabled = !(quero.length && dou.length);
+        el.querySelector("#trResumo").innerHTML = quero.length || dou.length ? `Você dá <b>${dou.length}</b> e recebe <b>${quero.length}</b>` : "Escolha as figurinhas dos dois lados."; };
+      const marcar = (lista, outra, b, id) => { erro.textContent = "";
+        const i = lista.indexOf(id);
+        if(i >= 0) lista.splice(i, 1);
+        else { if(outra.includes(id)){ erro.textContent = "Essa figurinha já está do outro lado da troca."; return; }
+          if(lista.length >= ALBUM_MAX_TROCA){ erro.textContent = `No máximo ${ALBUM_MAX_TROCA} figurinhas de cada lado.`; return; } lista.push(id); }
+        const on = lista.includes(id); b.classList.toggle("sel", on); b.setAttribute("aria-pressed", on ? "true" : "false"); b.parentNode.classList.toggle("sel", on); tocar("toque"); resumo(); };
+      el.querySelectorAll("[data-quero]").forEach(b => b.onclick = () => marcar(quero, dou, b, b.dataset.quero));
+      el.querySelectorAll("[data-dou]").forEach(b => b.onclick = () => marcar(dou, quero, b, b.dataset.dou));
+      el.querySelectorAll("[data-ver]").forEach(b => b.onclick = () => modalFigurinha(b.dataset.ver, { ver: true }));
+      bt.onclick = async () => {
+        if(!quero.length || !dou.length) return;
+        ocupado(bt, true);
+        try{ const d = { de: usuario.uid, deNome: perfil.nome || "", para: outro.uid, paraNome: outro.nome || "", dou: dou.slice(), quero: quero.slice(), status: "pendente", salaId: sala.id, criado: Date.now() };
+          d.id = await DB.criarTroca(d); TROCAS.unshift(d); tocar("ajuda"); fechar(); aviso(`Proposta enviada para ${outro.nome || "seu amigo"}.`); if(tabAtual === "album") telaAlbum(); }
+        catch(e){ ocupado(bt, false); if(/permission|insufficient/i.test(String(e && (e.code || e.message)))){ trocasOk = false; erro.textContent = "As trocas ainda não foram liberadas: falta publicar as regras novas do Firestore."; } else erro.textContent = erroMsg(e); }
       };
-      pintar();
     };
     passo1();
   });
@@ -10536,7 +10874,7 @@ async function modalTrocar(){
    Cada álbum junta alguns temas. Para criar um álbum novo, acrescente os temas dele em ALBUM_PAGINAS (com os personagens e objetos)
    e uma linha aqui, com os temas, as cores da capa, os três personagens da capa e o prêmio. As páginas (até 9 figurinhas) saem sozinhas. */
 const ALBUNS = [
-  { id: "at", nome: "Antigo Testamento", sub: "Da criação ao retorno do exílio", pgs: ["eden", "exodo", "reis", "exilio"], cor: "#2F56B8", cor2: "#0C1648", capa: ["davi", "moises", "ester"], premio: ALBUM_MOEDAS_ALBUM },
+  { id: "at", nome: "Antigo Testamento", sub: "Da criação ao retorno do exílio", pgs: ["eden", "exodo", "reis", "exilio"], cor: "#2F56B8", cor2: "#0C1648", capa: ["davi", "moises", "ester"], premio: 80 },
   { id: "nt", nome: "Novo Testamento", sub: "De Belém à igreja que espera", pgs: ["jesus", "igreja"], cor: "#C2405A", cor2: "#460C22", capa: ["maria", "messias", "pedro"], premio: ALBUM_MOEDAS_ALBUM }
 ];
 ALBUNS.forEach(a => { a.paginas = [].concat(...a.pgs.map(id => ((ALBUM_PAGINAS.find(p => p.id === id) || {}).folhas || []).map(fo => fo.i))); a.cartas = [].concat(...a.paginas.map(i => ALBUM_FOLHAS[i].cartas)); });
@@ -10544,14 +10882,14 @@ const albumDe = i => ALBUNS.find(a => a.paginas.includes(i)) || ALBUNS[0];
 /* albumAberto: "" = estante com as capas; senão, o álbum aberto. albumPagina é a página (posição em ALBUM_FOLHAS). */
 let albumAberto = "", albumManter = false, albumPagina = 0, albumVirando = false, albumAbrindo = false;
 /* pelo menu (e pelos avisos) o Álbum abre na estante; só o "Ver o álbum" do pacote abre direto na página da figurinha nova */
-function abrirAlbuns(){ if(!albumManter) albumAberto = ""; albumManter = false; telaAlbum(); }
+function abrirAlbuns(){ if(!albumManter) albumAberto = ""; albumManter = false; albumTrocasAberta = false; telaAlbum(); }
 function htmlCapa(a, k, inv, trancada){
   const tenho = a.cartas.filter(c => (inv[c.id] || 0) > 0).length, feito = albumFeitos().includes(a.id);
   const tit = a.nome.split(" "), meio = Math.ceil(tit.length / 2);
   return `<button type="button" class="cp${trancada ? " trancada" : ""}" data-album="${a.id}" style="--c:${a.cor};--c2:${a.cor2}" aria-label="Álbum ${esc(a.nome)}: ${tenho} de ${a.cartas.length} figurinhas">
     <span class="cp-in"><span class="cp-couro"></span><span class="cp-raios"></span><span class="cp-luz"></span><span class="cp-lomb"></span><span class="cp-mold"></span>
       <span class="cp-n">Álbum ${k + 1}</span><span class="cp-tit">${esc(tit.slice(0, meio).join(" "))}<br>${esc(tit.slice(meio).join(" "))}</span><span class="cp-sub">${esc(a.sub)}</span>
-      <span class="cp-chao"></span><span class="cp-arte">${a.capa.map((p, i) => `<img class="${"abc"[i]}" src="${FIG_DIR}p/${p}.webp" alt="" decoding="async" onerror="this.remove()">`).join("")}</span>
+      <span class="cp-chao"></span><span class="cp-arte">${a.capa.map((p, i) => `<img class="${"abc"[i]}" src="${FIG_DIR}p/${p}.webp?v=${FIG_VERSAO_P}" alt="" decoding="async" onerror="this.remove()">`).join("")}</span>
       <span class="cp-pe"><span class="cp-barra"><i style="width:${Math.round(100 * tenho / a.cartas.length)}%"></i></span><span class="cp-conta"><span>${tenho} de ${a.cartas.length}</span><em class="${feito ? "ok" : ""}">${feito ? "✓ completo" : `+${a.premio}${MOEDA}`}</em></span></span>
       <span class="cp-brilho"></span>${trancada ? `<span class="cp-cadeado">${iconeSVG("cadeado")}</span>` : ""}</span></button>`;
 }
@@ -10589,6 +10927,7 @@ function virarPagina(nova){
   (frente ? velha : folha).addEventListener("animationend", e => { if(e.target === e.currentTarget) fim(); }); setTimeout(fim, 950);
 }
 function telaAlbum(){
+  if(albumTrocasAberta && albumLiberado()) return telaTrocas();
   tabAtual = "album"; atualizarCasca(); pararTimer(); albumVirando = false;
   const inv = albumInventario(), tenho = albumColadas(inv), rep = albumRepetidas(inv), fechados = pacotesFechados(), pagas = albumPagas();
   if(!albumLiberado()) albumAberto = "";          // antes da estreia dá para ver as capas, mas não abrir
@@ -10625,7 +10964,10 @@ function telaAlbum(){
   }
   /* ---------- a estante: a central de ações (abrir, comprar, trocar), as propostas e as capas dos álbuns ---------- */
   const paraMim = trocasParaMim(), minhas = trocasMinhasAbertas(), nf = fechados.length, hj = pacotesCompradosHoje(), fimCompra = hj >= ALBUM_PACOTES_DIA, caro = !fimCompra && moedas() < ALBUM_PRECO_PACOTE;
-  const propostas = paraMim.length || minhas.length ? `<section class="panel alb-trocas" id="albTrocas"><div class="hm-cab"><span>Propostas de troca${paraMim.length ? ` <em>${paraMim.length} para responder</em>` : ""}</span></div><ul class="lista tr-ul">${paraMim.map(linhaTroca).join("")}${minhas.map(linhaTroca).join("")}</ul></section>` : "";
+  const quem = [...new Set(paraMim.map(t => String(t.deNome || "Alguém").split(" ")[0]))];
+  const propostas = paraMim.length || minhas.length ? `<button type="button" class="panel alb-aviso ${paraMim.length ? "novo" : ""}" id="albTrocas"><span class="alb-aviso-ic">${iconeSVG("troca")}${paraMim.length ? `<b>${paraMim.length}</b>` : ""}</span>
+      <span class="alb-aviso-tx"><b>${paraMim.length ? (paraMim.length === 1 ? `${esc(quem[0])} propôs uma troca` : `Você recebeu ${paraMim.length} propostas de troca`) : (minhas.length === 1 ? "1 proposta sua espera resposta" : `${minhas.length} propostas suas esperam resposta`)}</b>
+      <small>${paraMim.length ? (minhas.length ? `E ${minhas.length} ${minhas.length === 1 ? "sua espera" : "suas esperam"} resposta` : "Veja as figurinhas e responda") : "Você pode ver ou cancelar"}</small></span><i>Ver</i></button>` : "";
   app.innerHTML = `<div class="estudo-area alb">
     ${cabPagina("Álbum", `${tenho} de ${ALBUM_CARTAS.length}`, "Álbuns de figurinhas", `Cada quiz do dia dá um pacote com ${ALBUM_POR_PACOTE} figurinhas. Troque as repetidas com a sua sala.`)}
     <div class="alb-prog"><span class="hm-barra"><i style="width:${Math.round(100 * tenho / ALBUM_CARTAS.length)}%"></i></span><small>${rep} ${rep === 1 ? "repetida" : "repetidas"} · ${pagas.length} de ${ALBUM_FOLHAS.length} páginas completas${albumCompleto() ? " · álbuns completos ✓" : ""}</small></div>
@@ -10644,9 +10986,7 @@ function telaAlbum(){
   const td = $("albTodos"); if(td) td.onclick = () => abrirPacotes(fechados.slice(0, 10));
   $("albComprar").onclick = comprarPacote;
   $("albTrocar").onclick = modalTrocar;
-  app.querySelectorAll("[data-tr-aceitar]").forEach(b => b.onclick = () => responderTroca(b.dataset.trAceitar, true));
-  app.querySelectorAll("[data-tr-recusar]").forEach(b => b.onclick = () => responderTroca(b.dataset.trRecusar, false));
-  app.querySelectorAll("[data-tr-cancelar]").forEach(b => b.onclick = () => cancelarTroca(b.dataset.trCancelar));
+  const pr = $("albTrocas"); if(pr && pr.tagName === "BUTTON") pr.onclick = () => { tocar("toque"); window.scrollTo(0, 0); telaTrocas(); };
   /* confere as trocas (propostas novas e respostas) sem travar a tela */
   if(Date.now() - trocasEm > 60000){ const a = trocasParaMim().length + "|" + trocasMinhasAbertas().length + "|" + Object.keys(trocaNotas()).length;
     carregarTrocas(true).then(() => { const d = trocasParaMim().length + "|" + trocasMinhasAbertas().length + "|" + Object.keys(trocaNotas()).length; if(tabAtual === "album" && !albumAberto && a !== d && !document.querySelector(".modal-bg")) telaAlbum(); }); }
@@ -10794,6 +11134,7 @@ const ICJ = (() => {
       [OURO, "M25 11Q34 4 43 10", { s: 4.2, p: 1 }], [OURO, "M40 3.5L48.5 11.5L38 14.5Z", { round: 2, p: 1 }], [OURO, "M39 54Q30 61 21 55", { s: 4.2, p: 1 }], [OURO, "M24 61.5L15.5 53.5L26 50.5Z", { round: 2, p: 1 }]]],
     carrinho: ["vai", [[CINZA, "M5 12H12.5L19.5 41H49", { s: 4.6 }], [OURO, "M15 18H56L51.5 36Q51 38.5 48.5 38.5H20Z", { round: 2 }], ["#000", "M24.5 18L27 38.5M34.5 18V38.5M44.5 18L42.5 38.5", { sh: 1 }],
       ["#C77B00", "M25 19L27 37", { s: 2, det: 1 }], ["#C77B00", "M34.5 19V37", { s: 2, det: 1 }], ["#C77B00", "M44.5 19L42.5 37", { s: 2, det: 1 }], [AZUL, C(24, 51, 5)], [AZUL, C(45, 51, 5)], ["#fff", "M19 22H30", { s: 2.2, hl: 1 }]]],
+    lupa: ["pulo", [[OURO, "M39 39L55 55", { s: 8.5 }], [AZUL, C(26, 26, 18)], ["#DDF4FF", C(26, 26, 11.5), { semContorno: 1 }], ["#fff", "M19 21Q22 16 28 16", { s: 3, hl: 1 }]]],
     rosto: ["pulo", [...rosto, [TINTA, C(23.5, 27, 3.2), { semContorno: 1 }], [TINTA, C(40.5, 27, 3.2), { semContorno: 1 }], [TINTA, "M21.5 38Q32 48 42.5 38", { s: 3.6, det: 1 }]]]
   };
   /* qual emoji vira qual ícone (sem o seletor de variação) */
@@ -10802,7 +11143,7 @@ const ICJ = (() => {
     "🔊": "som", "📳": "vibrar", "⚔": "espadas", "💬": "balao", "💭": "pensamento", "🎭": "personagem", "👥": "pessoas", "➕": "mais", "✅": "certo", "❌": "erro", "⚠": "aviso", "❓": "pergunta", "🖍": "marcador", "✏": "lapis", "🧽": "borracha", "✋": "mao",
     "🧘": "calma", "🕊": "pomba", "🏹": "arco", "☀": "sol", "🌙": "lua", "🌗": "tema", "🌅": "nascer", "💎": "diamante", "👣": "pegadas", "📥": "baixar", "⬇": "baixar", "📊": "grafico", "📈": "subida", "🏫": "salas", "🎉": "festa", "💰": "saco", "📸": "camera",
     "🛠": "ferramentas", "💡": "lampada", "🔄": "atualizar", "🔁": "repetir", "⏭": "pular", "🚪": "porta", "📝": "notas", "📚": "livros", "🖼": "imagem", "💾": "salvar", "🗑": "lixeira", "✂": "tesoura", "🙏": "amem", "👏": "palmas", "💪": "forca", "🙌": "gloria",
-    "😮": "uau", "😂": "riso", "🙂": "rosto", "🛒": "carrinho", "🔀": "troca" };
+    "😮": "uau", "😂": "riso", "🙂": "rosto", "🛒": "carrinho", "🔀": "troca", "🔍": "lupa" };
   return { F, E };
 })();
 
