@@ -2,9 +2,9 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="versao" content="20261122.035503">
+<meta name="versao" content="20261123.122607">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Corrida do Rolo · Quiz da Lição</title>
+<title>[TESTE] Corrida do Rolo · Quiz da Lição</title>
 <meta name="theme-color" content="#524F9C">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -1297,6 +1297,11 @@ input[type=text],input[type=email],input[type=password],input[type=number],input
 @keyframes avlonda{0%,100%{transform:translateY(0)}50%{transform:translateY(-.9px)}}
 @keyframes avlfita{to{stroke-dashoffset:-18}}
 @media (prefers-reduced-motion:reduce){.avatar .avl,.avatar .av-holo,.avatar .av-ped-anel{animation:none}}
+/* VERSÃO DE TESTE: a faixa no alto e o aviso na tela do Álbum */
+.faixa-teste{position:fixed;left:50%;top:0;transform:translateX(-50%);z-index:99999;padding:2px 12px 3px;border-radius:0 0 9px 9px;background:#E0483C;color:#fff;font:800 10px/1.2 "Barlow",sans-serif;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;pointer-events:none}
+.alb-teste{margin-top:16px;display:grid;justify-items:center;gap:8px;text-align:center;border:1.5px dashed rgba(255,150,140,.75)}
+.alb-teste b{font:800 12px/1.2 "Barlow",sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#FFB4AB}
+.alb-teste p{margin:0;font-size:13px;line-height:1.4;color:var(--soft)}
 /* vitrine da loja: o nome do efeito do personagem */
 .lj-item .lj-ef{display:grid;align-items:center;min-height:30px;margin-top:3px;padding:3px 8px;border-radius:99px;background:linear-gradient(90deg,rgba(143,243,255,.22),rgba(199,125,255,.26));border:1px solid rgba(190,170,255,.5);font:800 10px/1.2 "Barlow",sans-serif;font-style:normal;letter-spacing:.02em;color:#F1E9FF}
 /* janela da missão: cartão de jogo (paisagem da etapa, moeda da casa, progresso, recompensa) */
@@ -2764,6 +2769,181 @@ button.fig.vaga:hover{transform:translateY(-2px)}
 @keyframes ljnbrilho{0%,62%{left:-60%}100%{left:130%}}
 @media (prefers-reduced-motion:reduce){.ljn-raios,.ljn-pontos i,.ljn-chao,.ljn-btn.pode::after{animation:none}}
 @media (min-width:700px){.ljn-cats{grid-template-columns:repeat(3,minmax(0,1fr))}.ljn-grade,.ljn-grade.pistas{grid-template-columns:repeat(auto-fill,minmax(176px,1fr))}.ljn-hero{min-height:290px;padding:26px 20px 22px 30px}.ljn-hero h2{font-size:64px}.ljn-hero-arte .lj-av,.ljn-hero-arte .lj-av .avatar{width:180px;height:232px}}
+/* p65: as duas abas do alto da loja */
+.ljn-abas{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:5px;margin:0 0 12px;border-radius:18px;background:rgba(10,8,40,.38);border:1px solid rgba(255,255,255,.16);box-shadow:inset 0 1px 0 rgba(255,255,255,.08)}
+.ljn-abas button{display:flex;align-items:center;justify-content:center;gap:8px;min-height:42px;padding:8px 10px;border:0;border-radius:14px;background:transparent;color:#D9D3FF;font:800 14.5px/1 "Barlow",sans-serif;cursor:pointer;transition:background .2s,color .2s,box-shadow .2s}
+.ljn-abas button svg{width:20px;height:20px;flex:none}
+.ljn-abas button:hover{background:rgba(255,255,255,.08)}
+.ljn-abas button.on{background:linear-gradient(180deg,#FFE27A,#F2A53A);color:#3A2A00;box-shadow:0 4px 12px rgba(242,165,58,.35)}
+/* p65: cartões da loja mais compactos */
+.ljn-cart{padding:12px 14px;gap:8px 10px;border-radius:20px}
+.ljn-cart-luz{right:-50px;top:-90px;width:180px;height:180px}
+.ljn-cart-n{margin-top:2px}
+.ljn-cart-n .moeda{width:24px;height:24px}
+.ljn-cart-n b{font-size:40px}
+.ljn-cart-btn{padding:7px 12px 7px 8px;font-size:12.5px}
+.ljn-cart-btn .cg-ic-mais{width:20px;height:20px}
+.ljn-cart-meta{gap:6px}
+.ljn-meta{font-size:12.5px;gap:5px}
+.ljn-hero{min-height:0;margin-top:10px;padding:12px 6px 10px 14px;border-radius:22px}
+.ljn-hero-tx{gap:4px}
+.ljn-hero h2{margin-top:2px;font-size:34px}
+.ljn-hero .ljn-btn{min-width:118px;margin-top:4px;padding:7px 12px}
+.ljn-hero-arte{min-height:136px}
+.ljn-hero-arte .lj-av,.ljn-hero-arte .lj-av .avatar{width:106px;height:137px}
+.ljn-chao{width:140px;height:32px;margin-left:-70px}
+.ljn .lj-pacote{margin-top:10px;padding:10px 12px;gap:10px;border-radius:18px}
+.ljn .lj-pacote .pct{width:44px}
+.ljn .lj-pacote b{font-size:15px}.ljn .lj-pacote small{font-size:11.5px}
+.ljn-sec{margin:16px 2px 8px}
+.ljn-tile{min-height:146px;padding:10px 12px 11px;border-radius:20px;gap:2px}
+.ljn-tile-arte{height:76px;margin-bottom:2px}
+.ljn-tile .lj-av{width:60px;height:76px}.ljn-tile .lj-av .avatar{width:58px;height:76px}
+.ljn-tile .lj-av.lj-mold{width:54px;height:68px}.ljn-tile .lj-av.lj-mold .avatar{width:44px;height:58px}
+.ljn-tile .lj-av.lj-mov{width:62px;height:70px}
+.ljn-tile .lj-festa.parada{width:56px;height:66px}
+.ljn-tile .lj-festa.parada svg{width:32px;height:32px}
+.ljn-tile b{font-size:15px}
+.ljn-tile small{font-size:11.5px}
+.ljn-tile .lj-cat-seta{width:24px;height:24px;top:10px;left:12px}
+.ljn-palco{height:116px}
+.ljn-palco .lj-av{width:80px;height:102px}.ljn-palco .lj-av .avatar{width:78px;height:100px}
+.ljn-palco .lj-av.lj-mold{width:74px;height:92px}.ljn-palco .lj-av.lj-mold .avatar{width:60px;height:78px}
+@media (min-width:700px){
+  .ljn-hero{min-height:0;padding:16px 16px 12px 22px}.ljn-hero h2{font-size:46px}
+  .ljn-hero-arte .lj-av,.ljn-hero-arte .lj-av .avatar{width:128px;height:166px}
+}
+/* p65: Personalizar — a sala */
+.pz-topo{display:grid;grid-template-columns:minmax(0,1fr) 86px;gap:10px;align-items:stretch}
+.pz-sala{--rx:0;--ry:0;--ceu:linear-gradient(180deg,#7EC8FF,#CBEBFF);--luzj:rgba(190,230,255,.45);--raio:rgba(220,240,255,.2);position:relative;height:396px;border-radius:24px;overflow:hidden;isolation:isolate;background:#130F38;border:1px solid rgba(255,255,255,.18);box-shadow:0 18px 36px rgba(10,6,40,.45);touch-action:pan-y}
+.pz-tarde{--ceu:linear-gradient(180deg,#FF8E6B,#FFD28A);--luzj:rgba(255,170,110,.5);--raio:rgba(255,196,140,.24)}
+.pz-noite{--ceu:linear-gradient(180deg,#0B0A2A,#2C2672);--luzj:rgba(140,150,255,.32);--raio:rgba(160,170,255,.13)}
+.pz-mundo{position:absolute;inset:0;transform:perspective(900px) rotateY(calc(var(--rx) * 3deg)) rotateX(calc(var(--ry) * -2deg));transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+.pz-cena{position:absolute;inset:0;z-index:0;pointer-events:none}
+.pz-cena > span{position:absolute;display:block}
+.pz-cena i,.pz-cena b{position:absolute;display:block}
+.pz-teto,.pz-parede,.pz-chao,.pz-raio,.pz-holofote,.pz-poeira{inset:0}
+.pz-teto{clip-path:polygon(0 0,100% 0,80% 18%,20% 18%);background:linear-gradient(180deg,#0C0A26,#251D5E)}
+.pz-teto::after{content:"";position:absolute;inset:0;background:repeating-conic-gradient(from 0deg at 50% 45%,rgba(255,255,255,.05) 0 .3deg,transparent .3deg 9deg)}
+.pz-lustre{left:50%;top:13.5%;width:38px;height:9px;margin-left:-19px;border-radius:50%;background:radial-gradient(closest-side,#FFFBE8,#FFD27A 60%,#B8862E);box-shadow:0 0 26px 10px rgba(255,220,140,.4)}
+.pz-parede.e{clip-path:polygon(0 0,20% 18%,20% 78%,0 100%);background:linear-gradient(90deg,#16113F,#2E2576)}
+.pz-parede.d{clip-path:polygon(100% 0,80% 18%,80% 78%,100% 100%);background:linear-gradient(270deg,#16113F,#2E2576)}
+.pz-parede i{inset:0}
+.pz-parede.e i{clip-path:polygon(0 65%,20% 57%,20% 78%,0 100%);background:linear-gradient(90deg,#0F0B30,#221B5E);box-shadow:inset 0 0 0 1px rgba(255,226,122,.2)}
+.pz-parede.d i{clip-path:polygon(100% 65%,80% 57%,80% 78%,100% 100%);background:linear-gradient(270deg,#0F0B30,#221B5E)}
+.pz-fundo{left:20%;right:20%;top:18%;bottom:22%;background:repeating-linear-gradient(90deg,rgba(255,255,255,.04) 0 2px,transparent 2px 12px),radial-gradient(70% 60% at 50% 40%,color-mix(in srgb,var(--c) 30%,#3D3194),#2A226E 72%,#211A58);box-shadow:inset 0 3px 0 rgba(255,226,122,.3),inset 0 -2px 0 rgba(0,0,0,.35)}
+.pz-lambri{left:0;right:0;bottom:0;height:37%;background:linear-gradient(180deg,#251D63,#1A1450);border-top:3px solid #6E5EC8;box-shadow:0 -1px 0 rgba(0,0,0,.35)}
+.pz-lambri::before{content:"";position:absolute;inset:16% 3% 14%;background:repeating-linear-gradient(90deg,rgba(255,255,255,.1) 0 1.5px,transparent 1.5px calc(25% - 2px),rgba(0,0,0,.28) calc(25% - 2px) 25%);box-shadow:inset 0 1px 0 rgba(255,255,255,.1),inset 0 -1px 0 rgba(0,0,0,.3)}
+.pz-janela{left:50%;top:8%;width:36%;height:42%;margin-left:-18%;border-radius:999px 999px 5px 5px;border:4px solid #5A4BB4;background:var(--ceu);box-shadow:0 0 0 2px #17123F,0 0 36px 8px var(--luzj),inset 0 0 16px rgba(0,0,0,.25);overflow:hidden}
+.pz-janela::before,.pz-janela::after{content:"";position:absolute;background:#5A4BB4;z-index:1}
+.pz-janela::before{left:50%;top:0;bottom:0;width:3px;margin-left:-1.5px}
+.pz-janela::after{left:0;right:0;top:52%;height:3px}
+.pz-janela b{inset:0}
+.pz-dia .pz-janela b{background:radial-gradient(circle at 72% 28%,#FFFBE0 0 9%,rgba(255,248,200,.55) 10%,transparent 24%),radial-gradient(28% 11% at 30% 72%,rgba(255,255,255,.95),transparent),radial-gradient(18% 8% at 42% 66%,rgba(255,255,255,.85),transparent);animation:pznuvem 18s ease-in-out infinite alternate}
+.pz-tarde .pz-janela b{background:radial-gradient(circle at 50% 86%,#FFF3C2 0 14%,rgba(255,220,150,.6) 15%,transparent 34%),radial-gradient(30% 7% at 30% 50%,rgba(255,220,200,.7),transparent)}
+.pz-noite .pz-janela b{background:radial-gradient(circle at 74% 26%,transparent 0 7%,transparent 7%),radial-gradient(circle at 66% 30%,#FFF6D8 0 11%,transparent 12%),radial-gradient(1.4px 1.4px at 20% 24%,#fff,transparent),radial-gradient(1.2px 1.2px at 36% 56%,#fff,transparent),radial-gradient(1.6px 1.6px at 80% 66%,#fff,transparent),radial-gradient(1.2px 1.2px at 52% 16%,#fff,transparent),radial-gradient(1.2px 1.2px at 24% 78%,#fff,transparent)}
+.pz-noite .pz-janela b::after{content:"";position:absolute;left:66%;top:30%;width:22%;height:0;padding-bottom:22%;margin:-11% 0 0 -6%;border-radius:50%;background:#1A1650}
+.pz-arandela{left:6%;top:24%;width:10px;height:16px;border-radius:5px 5px 2px 2px;background:linear-gradient(180deg,#FFF3C8,#F2B75A);box-shadow:0 0 22px 9px rgba(255,200,110,.38),0 0 2px 1px rgba(255,255,255,.6)}
+.pz-arandela::after{content:"";position:absolute;left:-3px;right:-3px;top:100%;height:4px;border-radius:2px;background:#B8862E}
+.pz-quadro{right:5%;top:22%;width:20%;height:34%;padding:3px;border-radius:5px;background:linear-gradient(135deg,#E2B44E,#8E6420);box-shadow:0 4px 10px rgba(0,0,0,.4)}
+.pz-quadro .lj-av{width:100%;height:100%;margin:0;border-radius:3px;place-items:end center;background:linear-gradient(180deg,#3C328F,#231C5E)}
+.pz-quadro .lj-av .avatar{width:86%;height:auto;aspect-ratio:22/30}
+.pz-quadro .lj-av.mold::before{padding:2px}
+.pz-chao{clip-path:polygon(20% 78%,80% 78%,100% 100%,0 100%);background:repeating-conic-gradient(from 0deg at 50% 45%,rgba(40,18,8,.5) 0 .28deg,transparent .28deg 3.4deg),radial-gradient(46% 22% at 50% 94%,rgba(255,230,190,.3),transparent),linear-gradient(180deg,#3E2519,#7A4D33 55%,#9A6542)}
+.pz-tapete{left:50%;bottom:1%;width:84%;height:17%;margin-left:-42%;border-radius:50%;background:repeating-radial-gradient(closest-side,transparent 0 62%,rgba(255,226,122,.55) 62% 64%,transparent 64% 70%),radial-gradient(closest-side,color-mix(in srgb,var(--c) 45%,#3B2A8F),color-mix(in srgb,var(--c) 30%,#2A1F6B) 80%,transparent 82%);opacity:.9}
+.pz-raio{clip-path:polygon(41% 22%,59% 22%,76% 97%,24% 97%);background:linear-gradient(180deg,var(--raio),transparent 88%);mix-blend-mode:screen}
+.pz-holofote{clip-path:polygon(47% 14%,53% 14%,74% 96%,26% 96%);background:linear-gradient(180deg,rgba(255,240,200,.34),rgba(255,240,200,.07) 78%,transparent);mix-blend-mode:screen;animation:pzluz 6s ease-in-out infinite}
+.pz-poeira i{width:3px;height:3px;border-radius:50%;background:#FFF6D8;box-shadow:0 0 6px 1px rgba(255,240,200,.8);opacity:0;animation:pzpo 7s linear infinite}
+.pz-poeira i:nth-child(1){left:44%;top:70%}.pz-poeira i:nth-child(2){left:56%;top:62%;animation-delay:-1.2s}.pz-poeira i:nth-child(3){left:50%;top:80%;animation-delay:-2.6s;width:2px;height:2px}.pz-poeira i:nth-child(4){left:39%;top:56%;animation-delay:-3.4s}
+.pz-poeira i:nth-child(5){left:61%;top:76%;animation-delay:-4.1s;width:2px;height:2px}.pz-poeira i:nth-child(6){left:47%;top:48%;animation-delay:-5s}.pz-poeira i:nth-child(7){left:58%;top:40%;animation-delay:-5.8s;width:2px;height:2px}.pz-poeira i:nth-child(8){left:42%;top:36%;animation-delay:-6.5s}
+.pz-pedestal{left:50%;bottom:6%;width:58%;height:12.5%;margin-left:-29%}
+.pz-pedestal::after{content:"";position:absolute;left:0;right:0;top:32%;bottom:0;border-radius:0 0 50% 50%/0 0 58% 58%;background:linear-gradient(90deg,#211A55,#5A4BB8 46%,#2A2166);box-shadow:0 10px 18px rgba(0,0,0,.45)}
+.pz-pedestal::before{content:"";position:absolute;left:0;right:0;top:0;height:64%;z-index:1;border-radius:50%;background:radial-gradient(closest-side,#9A8CF6,#6252C8 68%,#43369E);box-shadow:inset 0 2px 0 rgba(255,255,255,.4),0 0 26px color-mix(in srgb,var(--c) 70%,transparent)}
+.pz-anel{left:7%;right:7%;top:6%;height:52%;z-index:2;border-radius:50%;border:2px solid color-mix(in srgb,var(--c) 70%,#fff);box-shadow:0 0 12px color-mix(in srgb,var(--c) 80%,transparent),inset 0 0 10px color-mix(in srgb,var(--c) 60%,transparent);animation:pzanel 3.2s ease-in-out infinite}
+/* o personagem no pedestal */
+.pz-ator{position:absolute;z-index:1;left:0;right:0;bottom:calc(6% + 22px);display:grid;justify-items:center;pointer-events:none;transform-origin:50% 100%}
+.pz-boneco{position:relative;animation:pzflutua 3.8s ease-in-out infinite}
+.pz-boneco.com-mov{animation:none}
+.pz-boneco .runner{position:relative;left:auto;top:auto;transition:none;zoom:2.7}
+.pz-boneco::after{content:"";position:absolute;left:50%;bottom:-2px;width:96px;height:16px;margin-left:-48px;border-radius:50%;background:radial-gradient(closest-side,rgba(10,6,40,.55),transparent);z-index:-1}
+.pz-ator.troca{animation:pztroca .62s cubic-bezier(.2,.9,.3,1.25)}
+.pz-ator.troca::before{content:"";position:absolute;left:50%;bottom:-10px;width:150px;height:36px;margin-left:-75px;border-radius:50%;border:3px solid #FFF3C8;box-shadow:0 0 16px #FFE27A;opacity:0;animation:pzonda .7s ease-out}
+.pz-placa{position:absolute;left:12px;right:12px;top:10px;z-index:2;display:grid;gap:2px;padding:8px 12px;border-radius:14px;background:rgba(10,8,40,.5);border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);text-align:center}
+.pz-placa b,.pz-placa small{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pz-placa b{font:800 15px/1.15 "Barlow",sans-serif;color:#fff}
+.pz-placa small{font-size:11.5px;line-height:1.3;color:#D9D3FF}
+@keyframes pzflutua{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@keyframes pztroca{0%{transform:scale(.82);filter:brightness(2.4) drop-shadow(0 0 18px #fff)}60%{transform:scale(1.04);filter:brightness(1.2)}100%{transform:none;filter:none}}
+@keyframes pzonda{0%{opacity:1;transform:scale(.4)}100%{opacity:0;transform:scale(1.5)}}
+@keyframes pzanel{0%,100%{opacity:.65;transform:scale(.96)}50%{opacity:1;transform:scale(1.02)}}
+@keyframes pzluz{0%,100%{opacity:.85}50%{opacity:1}}
+@keyframes pzpo{0%{opacity:0;transform:translate(0,0)}15%{opacity:.9}85%{opacity:.6}100%{opacity:0;transform:translate(10px,-60px)}}
+@keyframes pznuvem{0%{background-position:0 0}100%{background-position:14px 0}}
+/* as categorias, ao lado */
+.pz-abas{display:grid;grid-auto-rows:1fr;gap:6px}
+.pz-abas button{display:grid;justify-items:center;align-content:center;gap:4px;min-height:0;padding:5px 3px;border-radius:16px;border:1px solid rgba(255,255,255,.16);background:linear-gradient(180deg,rgba(255,255,255,.11),rgba(255,255,255,.04));color:#D9D3FF;font:800 10.5px/1.1 "Barlow",sans-serif;text-align:center;cursor:pointer;transition:background .2s,color .2s,box-shadow .2s,transform .14s}
+.pz-abas button svg{width:22px;height:22px}
+.pz-abas button:active{transform:scale(.96)}
+.pz-abas button.on{background:linear-gradient(160deg,#FFE27A,#F2A53A);color:#3A2A00;border-color:transparent;box-shadow:0 6px 14px rgba(242,165,58,.35)}
+/* as opções, embaixo */
+.pz-painel{margin-top:12px;padding:14px;border-radius:22px;background:linear-gradient(180deg,rgba(255,255,255,.1),rgba(255,255,255,.04));border:1px solid rgba(255,255,255,.16);box-shadow:0 12px 24px rgba(20,10,70,.25)}
+.pz-painel-cab{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.pz-painel-ic{flex:none;display:grid;place-items:center;width:40px;height:40px;border-radius:12px;background:linear-gradient(160deg,#FFE27A,#F2A53A);color:#3A2A00;box-shadow:0 4px 10px rgba(242,165,58,.3)}
+.pz-painel-ic svg{width:22px;height:22px}
+.pz-painel-cab > div{flex:1;min-width:0}
+.pz-painel-cab h2{margin:0;font:800 18px/1.15 "Barlow",sans-serif}
+.pz-painel-cab p{margin:2px 0 0;font-size:12.5px;line-height:1.35;color:var(--soft)}
+.pz-painel-cab em{flex:none;padding:5px 10px;border-radius:99px;background:rgba(125,240,184,.16);border:1px solid rgba(125,240,184,.5);color:#B9F7D8;font:800 11.5px/1 "Barlow",sans-serif;font-style:normal}
+.pz-nota{margin:-4px 0 12px;font-size:12.5px;line-height:1.4;color:var(--muted)}
+.pz-ops{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.pz-ops.pistas{grid-template-columns:repeat(2,minmax(0,1fr))}
+.pz-grupo{grid-column:1/-1;margin:8px 2px 0;font:800 11px/1.2 "Barlow",sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.pz-grupo:first-child{margin-top:0}
+.pz-op{position:relative;display:grid;justify-items:center;align-content:start;gap:4px;padding:6px 6px 8px;border-radius:16px;border:1px solid rgba(255,255,255,.16);background:rgba(10,8,40,.3);color:#fff;text-align:center;cursor:pointer;transition:transform .14s,border-color .2s,box-shadow .2s,background .2s}
+.pz-op:hover{border-color:rgba(255,255,255,.34)}
+.pz-op:active{transform:scale(.97)}
+.pz-op-arte{position:relative;display:grid;place-items:end center;width:100%;height:92px;border-radius:12px;overflow:hidden;background:radial-gradient(80% 70% at 50% 100%,rgba(143,132,240,.5),transparent 75%),linear-gradient(180deg,#1B1750,#2E2580)}
+.pz-op-arte .lj-av{width:66px;height:86px}.pz-op-arte .lj-av .avatar{width:64px;height:84px}
+.pz-op-arte .lj-av.lj-mold{width:60px;height:78px;margin-bottom:6px}.pz-op-arte .lj-av.lj-mold .avatar{width:48px;height:64px}
+.pz-op-arte .lj-av.lj-mov{width:74px;height:84px;margin-bottom:4px;background:rgba(255,255,255,.06)}
+.pz-op-arte .lj-pista{width:100%;padding:0 6px 10px}
+.pz-op-arte .lj-festa.parada{width:62px;height:70px;margin-bottom:10px;border-style:solid;cursor:inherit}
+.pz-op-arte .lj-festa.parada svg{width:36px;height:36px}
+.pz-nenhuma span{font:800 26px/1 "Barlow",sans-serif;color:var(--muted)}
+.pz-op > b{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.4em;font:800 12px/1.2 "Barlow",sans-serif}
+.pz-st{display:inline-flex;align-items:center;gap:4px;font:800 11px/1.2 "Barlow",sans-serif;color:var(--muted)}
+.pz-st .moeda{width:13px;height:13px;margin:0;vertical-align:0}
+.pz-st b{font:inherit;color:inherit}
+.pz-st.preco,.pz-st.raro{color:#FFE27A}.pz-st.uso{color:#7DF0B8}.pz-st.trava{color:#CFC8FF}
+.pz-op.on{border-color:#7DF0B8;background:rgba(125,240,184,.1);box-shadow:0 0 0 3px rgba(125,240,184,.28),0 8px 18px rgba(20,10,70,.3)}
+.pz-op.loja .pz-op-arte > *,.pz-op.nivel .pz-op-arte > *{opacity:.6;filter:saturate(.55)}
+.pz-mais{display:flex;justify-content:center;margin-top:12px}
+.pz-raia{padding:10px 14px 12px;border-radius:20px;background:rgba(10,8,40,.3);border:1px solid rgba(255,255,255,.14)}
+@media (max-width:359px){.pz-topo{grid-template-columns:minmax(0,1fr) 74px;gap:8px}.pz-abas button{font-size:9.5px}.pz-abas button svg{width:20px;height:20px}.pz-boneco .runner{zoom:2.4}}
+@media (min-width:700px){
+  .pz-topo{grid-template-columns:minmax(0,1fr) 172px;gap:12px}
+  .pz-sala{height:470px}
+  .pz-boneco .runner{zoom:3.7}
+  .pz-boneco::after{width:130px;margin-left:-65px}
+  .pz-ator{bottom:calc(6% + 28px)}
+  .pz-abas button{grid-auto-flow:column;justify-content:start;align-items:center;gap:10px;padding:8px 14px;font-size:13.5px;text-align:left}
+  .pz-ops{grid-template-columns:repeat(auto-fill,minmax(118px,1fr))}
+  .pz-ops.pistas{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
+  .pz-op-arte{height:108px}
+  .pz-op-arte .lj-av{width:78px;height:100px}.pz-op-arte .lj-av .avatar{width:76px;height:98px}
+}
+@media (prefers-reduced-motion: reduce){.pz-mundo{transition:none;transform:none}.pz-boneco,.pz-holofote,.pz-anel,.pz-poeira i,.pz-ator.troca,.pz-ator.troca::before,.pz-dia .pz-janela b{animation:none}}
+/* p65: zoom com pinça na página da lição */
+.an-area,.lb{touch-action:pan-x pan-y}
+.zoom-pill{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:84;transform:translateX(-50%);display:inline-flex;align-items:center;gap:8px;padding:9px 16px 9px 12px;border:1px solid rgba(255,255,255,.25);border-radius:99px;background:rgba(20,18,60,.88);color:#fff;font:800 13px/1 "Barlow",sans-serif;box-shadow:0 8px 22px rgba(0,0,0,.4);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);cursor:pointer}
+.zoom-pill[hidden]{display:none}
+.zoom-pill svg{width:18px;height:18px}
+.zoom-pill span{color:#FFE27A}
+.zoom-dica{position:fixed;left:50%;top:50%;z-index:84;transform:translate(-50%,-50%);display:grid;justify-items:center;gap:8px;padding:16px 20px;border-radius:20px;background:rgba(20,18,60,.84);color:#fff;font:800 14px/1.2 "Barlow",sans-serif;text-align:center;pointer-events:none;box-shadow:0 10px 30px rgba(0,0,0,.4);animation:zdica .35s ease-out;transition:opacity .5s}
+.zoom-dica svg{width:44px;height:44px;animation:zpinca 1.4s ease-in-out infinite}
+.zoom-dica.sai{opacity:0}
+@keyframes zdica{from{opacity:0;transform:translate(-50%,-44%)}}
+@keyframes zpinca{0%,100%{transform:scale(.9)}50%{transform:scale(1.1)}}
 </style>
 </head>
 <body class="sem-menu">
@@ -3998,7 +4178,7 @@ function nav(tab){
   if(typeof fecharAnotacoes === "function") fecharAnotacoes();          // anotações do Estudar ainda não enviadas seguem para a conta
   pararTimer(); if(typeof pararCamera === "function") pararCamera(); if(typeof MUSICA !== "undefined") MUSICA.parar();
   if(typeof antesDaConta !== "undefined" && antesDaConta && !AREA_DA_CONTA.includes(tab)) antesDaConta = null;      // saiu da conta por outro caminho: esquece para onde voltar
-  if(tab === "loja" && tabAtual !== "loja" && typeof lojaCat !== "undefined") lojaCat = "";          // vindo de outra tela, a loja abre nas categorias
+  if(tab === "loja" && tabAtual !== "loja" && typeof lojaCat !== "undefined"){ lojaCat = ""; lojaAba = "loja"; }          // vindo de outra tela, a loja abre nas categorias
   tabAtual = tab; atualizarCasca(); window.scrollTo(0,0);
   if(typeof carregarNotificacoes === "function") carregarNotificacoes();        // confere reações novas (no máximo a cada 90 s)
   if(typeof conferirDesafios === "function" && Date.now() - desafiosEm > 3 * MIN) conferirDesafios().catch(()=>{});      // e desafios (no máximo a cada 3 min)
@@ -4006,7 +4186,7 @@ function nav(tab){
   setTimeout(() => conferirVersao(false), 400);                                 // e se subiu versão nova do jogo (no máximo a cada 2 min)
   ({ inicio: telaInicio, estudar: telaEstudar, quiz: telaQuiz, ranking: telaRanking, missoes: () => telaMissoes(), salas: telaSalas, mural: telaMuralSalas, conta: telaConta, admin: telaAdmin, loja: telaLoja, album: () => abrirAlbuns() }[tab] || telaInicio)();
 }
-document.querySelectorAll("#nav button").forEach(b => b.onclick = ()=>{ const t = b.dataset.tab; if(t === "estudar") estudoVista = "livros"; if(t === "ranking") corridaVista = "salas"; if(t === "loja") lojaCat = ""; if(t === "missoes") missoesVista = "mapas"; nav(t); });   // pelo menu, a Lição abre na estante de livros, e a Corrida na escolha da sala
+document.querySelectorAll("#nav button").forEach(b => b.onclick = ()=>{ const t = b.dataset.tab; if(t === "estudar") estudoVista = "livros"; if(t === "ranking") corridaVista = "salas"; if(t === "loja"){ lojaCat = ""; lojaAba = "loja"; } if(t === "missoes") missoesVista = "mapas"; nav(t); });   // pelo menu, a Lição abre na estante de livros, e a Corrida na escolha da sala
 /* Tocar no personagem abre a Minha conta; tocar de novo fecha e volta para a tela (e a altura) em que a pessoa estava */
 let antesDaConta = null;
 const AREA_DA_CONTA = ["conta", "admin", "salas"];
@@ -5018,15 +5198,14 @@ async function mostrarPaginas(L, k, htmlTexto){
 }
 function abrirPagina(pags, i){
   if(typeof anEditor === "function" && anEditor(pags, i)) return;      // no Estudar, a página abre com as ferramentas de anotação
-  const lb = document.createElement("div"); lb.className = "lb"; let zoom = 1;
-  lb.innerHTML = `<button class="fechar" type="button" aria-label="Fechar">✕</button><button class="zoom" type="button">Ampliar</button><img src="${pags[i].img}" alt="Página ${i+1}" style="width:100%">`;
+  const lb = document.createElement("div"); lb.className = "lb";
+  lb.innerHTML = `<button class="fechar" type="button" aria-label="Fechar">✕</button><img src="${pags[i].img}" alt="Página ${i+1}" style="width:100%">`;
   document.body.appendChild(lb); document.body.style.overflow = "hidden";
   const fechar = ()=>{ lb.remove(); document.body.style.overflow = ""; document.removeEventListener("keydown", k_); };
   const k_ = e => { if(e.key === "Escape") fechar(); };
   document.addEventListener("keydown", k_);
   lb.querySelector(".fechar").onclick = fechar;
-  const img = lb.querySelector("img"), zb = lb.querySelector(".zoom");
-  zb.onclick = ()=>{ zoom = zoom === 1 ? 2 : 1; img.style.width = (zoom*100) + "%"; zb.textContent = zoom === 1 ? "Ampliar" : "Reduzir"; };
+  ligarPinca(lb, lb.querySelector("img"), { larg0: "100%", pillEm: lb, dica: true });          // zoom com dois dedos, Ctrl + roda ou toque duplo
 }
 
 /* ============================================================
@@ -7530,10 +7709,15 @@ const efeitoDaLoja = p => (p && p.preco && EFEITOS_LOJA[p.modelo || p.id]) || nu
 function avatarSVG(id, rotulo, nivel, nvAcess, mov){
   /* id pode vir como "personagem~acessório" (acessório da loja em uso); um terceiro pedaço "~v" marca amostra da vitrine */
   const partes = String(id || "").split("~"), p0 = acharProfeta(partes[0]) || acharProfeta(PROFETA_PADRAO), nv = Math.floor(+nivel || 0);
-  const acLoja = partes[1] && typeof LOJA_AC !== "undefined" ? LOJA_AC[partes[1]] : null;
+  /* pedaços depois do personagem: o acessório da loja, "v" (amostra da vitrine) e "m:<id>" (o que vai na outra mão: "-" deixa a mão vazia) */
+  let acTok = "", maoTok = null, amostra = false;
+  partes.slice(1).forEach(t => { if(t === "v") amostra = true; else if(t.indexOf("m:") === 0) maoTok = t.slice(2); else if(t && !acTok) acTok = t; });
+  const acLoja = acTok && typeof LOJA_AC !== "undefined" ? LOJA_AC[acTok] : null;
   const ac = acessorioDe(p0.id, nvAcess != null ? nvAcess : nv), montado = !!(ac && ac.montaria);
-  const p = acLoja ? Object.assign({}, p0, { id: p0.id + "+" + acLoja.id, modelo: p0.modelo || p0.id, emb2: acLoja.emb, emb2o: acLoja.o, emb2atras: !!acLoja.atras, semGuardar: partes[2] === "v" }) : (ac && ac.variante ? ac.variante(p0) : p0);
-  const lbl = String(rotulo || p.nome).replace(/[&<>"]/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch])) + (acLoja ? ", com " + acLoja.nome.toLowerCase() : ac ? ", " + ac.rotulo : "");
+  const p1 = acLoja ? Object.assign({}, p0, { id: p0.id + "+" + acLoja.id, modelo: p0.modelo || p0.id, emb2: acLoja.emb, emb2o: acLoja.o, emb2atras: !!acLoja.atras, semGuardar: amostra }) : (ac && ac.variante ? ac.variante(p0) : p0);
+  const maoAc = maoTok && maoTok !== "-" && typeof LOJA_AC !== "undefined" && naMao(maoTok) ? LOJA_AC[maoTok] : null, maoVazia = maoTok === "-";
+  const p = (maoAc || maoVazia) && !montado ? Object.assign({}, p1, { id: p1.id + "+m" + (maoAc ? maoAc.id : "0"), modelo: p1.modelo || p0.modelo || p0.id, emb: maoAc ? maoAc.emb : null, embMao: !!maoAc, semGuardar: !!p1.semGuardar || amostra }) : p1;
+  const lbl = String(rotulo || p.nome).replace(/[&<>"]/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch])) + (acLoja ? ", com " + acLoja.nome.toLowerCase() : ac ? ", " + ac.rotulo : "") + (maoAc ? ", e " + maoAc.nome.toLowerCase() + " na outra mão" : "");
   const raro = !!p.nivel, lend = !!p.lendario;
   const efeito = mov === "dormir" ? null : efeitoDaLoja(p0);      // personagem da loja: brilho holográfico, base de luz e o efeito próprio dele
   const uid = efeito ? ++_avMasc : 0;                             // um número por boneco desenhado, para o recorte e os degradês não se misturarem
@@ -9196,7 +9380,7 @@ function gerarSprite(p, W, H){
   if(!PO){
   /* segundo objeto (acessório): na mão esquerda, que é desenhada de novo por cima para segurar de verdade */
   if(ic2) emblema(ic2, naMao2 ? pegar(p.emb2, 9, 30.1) : (p.emb2o || ic2.o), p.emb2atras);
-  if(ic) emblema(ic, ic.o);
+  if(ic) emblema(ic, p.embMao ? pegar(p.emb, 25.3, 26.2) : ic.o);
   if(naMao2){ camada(E(9,30.1,1.55,1.25),mistura(pele.d,"#1A1030",.45),"",{plano:1}); camada(E(9,30.1,1.4,1.1),pele,"pele",{dx:.8,dy:.6}); }
   // mão direita
   if(tier<4){
@@ -9634,7 +9818,13 @@ const FESTA_ICONE = {
 const LOJA_AC = {}; LOJA_ACESSORIOS.forEach(a => { a.o = a.o || [19, 2]; LOJA_AC[a.id] = a; });
 const idPuro = v => String(v || "").split("~")[0];
 /* como o meu boneco é guardado para os outros verem: personagem + acessório da loja em uso */
-function meuBoneco(){ const p = (perfil && perfil.profeta) || ""; return p && perfil.acess && LOJA_AC[perfil.acess] && comprado("a:" + perfil.acess) ? p + "~" + perfil.acess : p; }
+function meuBoneco(){ const p = (perfil && perfil.profeta) || ""; if(!p) return p;
+  const ac = meuAcessorio(), m = minhaMaoEsq(); return p + (ac || m ? "~" + ac : "") + (m ? "~m:" + m : ""); }
+const meuAcessorio = () => perfil && perfil.acess && LOJA_AC[perfil.acess] && comprado("a:" + perfil.acess) ? perfil.acess : "";
+/* a outra mão (a do objeto do personagem): "" o objeto dele, "-" mão vazia, ou um acessório de mão comprado (diferente do que já está em uso) */
+const AC_FIXOS = new Set(["coroa_cab", "ovelha_chao", "asas"]);      // os mesmos FIXOS do desenho: cabeça, chão e costas não vão na mão
+const naMao = id => !!(LOJA_AC[id] && !AC_FIXOS.has(LOJA_AC[id].emb));
+function minhaMaoEsq(){ const m = perfil && perfil.maoEsq; if(m === "-") return "-"; return m && naMao(m) && comprado("a:" + m) && m !== meuAcessorio() ? m : ""; }
 function comprado(id){ return !!(perfil && perfil.compras && perfil.compras[id] != null); }
 /* De onde vêm as moedas (quase tudo calculado do que já existe):
    acertos nos quizzes (1 cada) + semanas completas no prazo (bônus) + casas das missões + desafios vencidos (menos os perdidos)
@@ -9698,6 +9888,7 @@ const LOJA_CORES = { a: ["#FFB347", "#F0668A"], p: ["#8FE6FF", "#B48CF0"], m: ["
 let lojaFiltro = "";
 function telaLoja(){
   tabAtual = "loja"; atualizarCasca(); pararTimer(); if(typeof MUSICA !== "undefined") MUSICA.parar();
+  if(lojaAba === "pers" && !lojaCat){ telaPersonalizar(); return; }          // a segunda aba: Personalizar
   const saldo = moedas(), eu = perfil.profeta || PROFETA_PADRAO;
   const cat = LOJA_CATS.find(c => c.k === lojaCat);
   const desenharAmostras = () => {      /* os bonecos de amostra são desenhados aos poucos, para a tela abrir na hora */
@@ -9739,6 +9930,7 @@ function telaLoja(){
           ${botao((dp ? "p:" : "a:") + (dp || da).id, (dp || da).preco, false, "Usar")}</div>
         <div class="ljn-hero-arte" data-ver="${dp ? "p:" + dp.id : "a:" + da.id}" role="button" tabindex="0" aria-label="Ver ${esc((dp || da).nome)} de perto"><span class="ljn-chao" aria-hidden="true"></span><span class="ljn-lupa" aria-hidden="true">🔍</span><div class="lj-av" data-prev="${esc(dp ? dp.id : eu + "~" + da.id + "~v")}"></div></div></section>` : "";
     app.innerHTML = `<div class="estudo-area ljn">
+      ${htmlAbasLoja()}
       ${cabPagina("Loja", "", "Loja do Rolo", "Gaste as suas moedas e deixe o seu personagem com a sua cara.")}
       ${carteira}
       ${destaque}
@@ -9750,7 +9942,7 @@ function telaLoja(){
     desenharAmostras();
     app.querySelectorAll("[data-cat]").forEach(b => b.onclick = () => { lojaCat = b.dataset.cat; lojaFiltro = ""; tocar("toque"); window.scrollTo(0, 0); telaLoja(); });
     const ljp = $("ljPacote"); if(ljp) ljp.onclick = comprarPacote;
-    ligarCompras(); ligarVitrine(); ligarMoedasInicio(); conferirReacoesAntigas();
+    ligarCompras(); ligarVitrine(); ligarAbasLoja(); ligarMoedasInicio(); conferirReacoesAntigas();
     return;
   }
   /* ---------- 2ª tela: os itens de uma categoria, cada um no seu palco ---------- */
@@ -10189,6 +10381,202 @@ function ligarVitrine(){
 }
 
 /* ============================================================
+   PERSONALIZAR: a segunda aba da loja.
+   Uma sala com profundidade (teto, paredes, janela com a luz da hora do dia, piso de tábuas, holofote e pedestal),
+   o personagem grande no meio, as categorias numa coluna ao lado e as opções da categoria embaixo.
+   O que já é seu aplica na hora; o que ainda não é abre a vitrine para comprar.
+   ============================================================ */
+let lojaAba = "loja", pzAba = "p", pzDepois = null;
+const PZ_IC = {
+  p: `<path d="M12 12.2a4.1 4.1 0 1 0 0-8.2 4.1 4.1 0 0 0 0 8.2zM4.5 20.5c.8-4 3.8-6.3 7.5-6.3s6.7 2.3 7.5 6.3"/>`,
+  a: `<path d="M8 3.5h8l-1 5.5a3 3 0 0 1-6 0zM12 12v4.5M8.5 20.5h7M10 16.5h4"/>`,
+  mao: `<path d="M8.5 12V6.2a1.4 1.4 0 0 1 2.8 0V11M11.3 10.6V4.9a1.4 1.4 0 0 1 2.8 0v5.7M14.1 10.8V6.4a1.4 1.4 0 0 1 2.8 0v7.1c0 3.9-2.4 6.9-5.9 6.9-2.3 0-3.7-1-5-3l-2.2-3.6a1.3 1.3 0 0 1 2.1-1.6l1.7 2"/>`,
+  m: `<rect x="4" y="3.5" width="16" height="17" rx="2.5"/><rect x="7.5" y="7" width="9" height="10" rx="1.2"/>`,
+  v: `<path d="M13.5 5.2a1.9 1.9 0 1 0 0-3.8 1.9 1.9 0 0 0 0 3.8zM9 21l2.6-5.4 2.6 2.2V22M7 11.5l3-3.3 4.2.6 2.3 3.2 3 .5M10 8.2l-1.6 7.4M3 9h3M2 13h3"/>`,
+  t: `<path d="M5 21l3.5-18M19 21L15.5 3M12 5v2.5M12 10.5v3M12 16.5v3.5"/>`,
+  c: `<path d="M4 20l4.8-11.5 6.7 6.7zM14 4.5c.6 1.2.4 2.4-.6 3.3M18.5 9.5c-1.2-.4-2.4 0-3.2 1M17 3.5v1.8M20.5 6.2h-1.8M20 13.5l-1 .8"/>`
+};
+const PZ_ABAS = [
+  { k: "p",   nome: "Personagem",   sub: "Quem corre com você no rolo." },
+  { k: "a",   nome: "Acessório",    sub: "Na mão direita, na cabeça ou nas costas." },
+  { k: "mao", nome: "Mão esquerda", sub: "O objeto do personagem, a mão vazia ou outro acessório seu." },
+  { k: "m",   nome: "Moldura",      sub: "Em volta do seu personagem no perfil." },
+  { k: "v",   nome: "Movimento",    sub: "O que o personagem faz na raia da Corrida." },
+  { k: "t",   nome: "Pista",        sub: "A sua raia na Corrida." },
+  { k: "c",   nome: "Comemoração",  sub: "Ao terminar o quiz." }
+];
+const pzIcone = k => `<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${PZ_IC[k]}</svg>`;
+/* as duas abas do alto da loja */
+function htmlAbasLoja(){
+  const b = (k, ic, rot) => `<button type="button" role="tab" data-aba="${k}" aria-selected="${lojaAba === k}" class="${lojaAba === k ? "on" : ""}">${ic}<span>${rot}</span></button>`;
+  return `<div class="ljn-abas" role="tablist" aria-label="Loja">${b("loja", `<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14l-1.2 11.5a1.6 1.6 0 0 1-1.6 1.5H7.8a1.6 1.6 0 0 1-1.6-1.5zM9 10V6.5a3 3 0 0 1 6 0V10"/></svg>`, "Loja")}${b("pers", `<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 4.6L18.5 9l-4.6 1.9L12 15.5l-1.9-4.6L5.5 9l4.6-1.4zM18.5 15l.9 2.1 2.1.9-2.1.9-.9 2.1-.9-2.1-2.1-.9 2.1-.9zM5.5 15.5l.7 1.6 1.6.7-1.6.7-.7 1.6-.7-1.6L3.2 17.8l1.6-.7z"/></svg>`, "Personalizar")}</div>`;
+}
+function ligarAbasLoja(){
+  app.querySelectorAll(".ljn-abas [data-aba]").forEach(b => b.onclick = () => { if(lojaAba === b.dataset.aba) return; lojaAba = b.dataset.aba; lojaCat = ""; lojaFiltro = ""; tocar("toque"); telaLoja(); });
+}
+/* ---------- as opções de cada categoria ---------- */
+function pzOpcoes(k){
+  const eu = perfil.profeta || PROFETA_PADRAO, ac = meuAcessorio(), m = minhaMaoEsq(), bon = meuBoneco() || eu;
+  const montar = (a, mm) => eu + (a || mm ? "~" + (a || "") : "") + (mm ? "~m:" + mm : "") + "~v";
+  const loja = (tipo, x, on, arte) => ({ key: x.id, nome: x.nome, on, arte, estado: comprado(tipo + ":" + x.id) ? "meu" : "loja", preco: x.preco, id: tipo + ":" + x.id });
+  const nada = (nome, on, arte) => ({ key: "", nome, on, arte, estado: "meu" });
+  const av = (v, cls, mov) => `<div class="lj-av${cls || ""}" data-prev="${esc(v)}"${mov ? ` data-mov="${mov}"` : ""}></div>`;
+  if(k === "p"){
+    const g = (tit, l) => l.length ? [{ grupo: tit }].concat(l.map(p => { const livre = profetaLiberado(p);
+      return { key: p.id, nome: p.nome, on: perfil.profeta === p.id, arte: av(p.id), estado: livre ? "meu" : p.preco ? "loja" : "nivel", preco: p.preco, nivel: p.nivel, id: "p:" + p.id, raro: !!p.nivel, lend: !!p.lendario }; })) : [];
+    return g("Personagens", PROFETAS.filter(p => !p.nivel && !p.preco)).concat(g("Da loja", PROFETAS.filter(p => p.preco)), g("Raros das missões", PROFETAS.filter(p => p.nivel)));
+  }
+  if(k === "a") return [nada("Nenhum", !ac, av(montar("", m)))].concat(LOJA_ACESSORIOS.map(x => loja("a", x, ac === x.id, av(montar(x.id, m === x.id ? "" : m)))));
+  if(k === "mao"){
+    const p = acharProfeta(eu) || {};
+    return [Object.assign(nada("Objeto de " + (p.nome || "seu personagem"), !m, av(montar(ac, ""))), { key: "" }),
+            Object.assign(nada("Mão vazia", m === "-", av(montar(ac, "-"))), { key: "-" })]
+      .concat(LOJA_ACESSORIOS.filter(x => naMao(x.id)).map(x => Object.assign(loja("a", x, m === x.id, av(montar(ac === x.id ? "" : ac, x.id))), { troca: ac === x.id })));
+  }
+  if(k === "m") return [nada("Sem moldura", !minhaMoldura(), av(bon, " lj-mold"))].concat(LOJA_MOLDURAS.map(x => loja("m", x, minhaMoldura() === x.id, av(bon, " lj-mold" + classeMoldura(x.id)))));
+  if(k === "v"){ const mv = id => `<div class="lj-av lj-mov"><div class="runner${id ? " mov-" + id : ""}" data-prev="${esc(bon)}"${id ? ` data-mov="${id}"` : ""}></div></div>`;
+    return [nada("Parado", !meuMovimento(), mv(""))].concat(LOJA_MOVIMENTOS.map(x => loja("v", x, meuMovimento() === x.id, mv(x.id)))); }
+  if(k === "t"){ const pt = id => `<div class="lj-pista"><div class="track${classePista(id)}" style="--seg:3"><div class="runner" style="--p:.42" data-prev="${esc(bon)}"></div></div></div>`;
+    return [nada("Rolo (padrão)", !minhaPista(), pt(""))].concat(LOJA_PISTAS.map(x => loja("t", x, minhaPista() === x.id, pt(x.id)))); }
+  return [nada("Nenhuma", !minhaFesta(), `<div class="lj-festa parada pz-nenhuma"><span aria-hidden="true">—</span></div>`)]
+    .concat(LOJA_FESTAS.map(x => loja("c", x, minhaFesta() === x.id, `<div class="lj-festa parada">${FESTA_ICONE[x.id] || ""}</div>`)));
+}
+function pzCartao(o){
+  if(o.grupo) return `<h3 class="pz-grupo">${esc(o.grupo)}</h3>`;
+  const st = o.on ? `<small class="pz-st uso">✓ Em uso</small>` : o.estado === "loja" ? `<small class="pz-st preco">${MOEDA}<b>${o.preco}</b></small>`
+    : o.estado === "nivel" ? `<small class="pz-st trava">🔒 ${esc(ondeLibera(o.nivel, true))}</small>` : o.troca ? `<small class="pz-st">↔ trocar de mão</small>` : o.raro ? `<small class="pz-st raro">${o.lend ? "★ Lendário" : "★ Raro"}</small>` : `<small class="pz-st">Seu</small>`;
+  return `<button type="button" class="pz-op ${o.on ? "on" : ""} ${o.estado}" data-op="${esc(o.key)}" aria-pressed="${!!o.on}"><span class="pz-op-arte">${o.arte}</span><b>${esc(o.nome)}</b>${st}</button>`;
+}
+/* ---------- o palco: o personagem grande na sala ---------- */
+function pzPalco(){
+  const bon = meuBoneco() || perfil.profeta || PROFETA_PADRAO, nv = meuNivel(), mov = meuMovimento(), p = acharProfeta(idPuro(bon)) || acharProfeta(PROFETA_PADRAO);
+  const ac = meuAcessorio(), m = minhaMaoEsq(), partes = [];
+  if(ac) partes.push(LOJA_AC[ac].nome);
+  if(m === "-") partes.push("mão esquerda vazia"); else if(m) partes.push(LOJA_AC[m].nome + " na mão esquerda");
+  const corpo = `<div class="runner${mov ? " mov-" + mov : ""}">${avatarSVG(bon, null, nv, nv, movDe(mov))}</div>`;
+  return { html: `<div class="pz-boneco ${mov ? "com-mov" : ""}">${corpo}</div>`,
+    placa: `<b>${esc(p.nome)}</b><small title="${esc(partes.join(" · "))}">${partes.length ? esc(partes.join(" · ")) : "Toque nas categorias ao lado"}</small>`,
+    quadro: `<div class="lj-av lj-mold${classeMoldura(minhaMoldura())}" data-prev="${esc(bon)}"></div>`, cor: p.bg || "#8F84F0" };
+}
+function telaPersonalizar(){
+  /* comprou na vitrine um acessório escolhido para a mão esquerda: ele vai para essa mão e a direita volta ao que era */
+  if(pzDepois && Date.now() - pzDepois.em < 10 * 60000 && comprado("a:" + pzDepois.mao)){ const d = pzDepois; pzDepois = null; pzSalvar({ maoEsq: d.mao, acess: d.acess !== d.mao ? d.acess : "" }); }
+  pzDepois = null;
+  const hora = new Date().getHours(), ceu = hora >= 6 && hora < 17 ? "dia" : hora >= 17 && hora < 19 ? "tarde" : "noite";
+  const pc = pzPalco(), aba = PZ_ABAS.find(a => a.k === pzAba) || PZ_ABAS[0];
+  app.innerHTML = `<div class="estudo-area ljn pz">
+    ${htmlAbasLoja()}
+    ${cabPagina("Loja", "", "Personalizar", "Vista o seu personagem com o que é seu. Muda na hora, para todo mundo ver na Corrida.")}
+    <section class="pz-topo">
+      <div class="pz-sala pz-${ceu}" id="pzSala" style="--c:${pc.cor}">
+        <div class="pz-mundo"><div class="pz-cena" aria-hidden="true">
+          <span class="pz-teto"><i class="pz-lustre"></i></span>
+          <span class="pz-parede e"><i></i></span><span class="pz-parede d"><i></i></span>
+          <span class="pz-fundo"><i class="pz-lambri"></i><i class="pz-janela"><b></b></i><i class="pz-arandela"></i><i class="pz-quadro" id="pzQuadro">${pc.quadro}</i></span>
+          <span class="pz-chao"><i class="pz-tapete"></i></span>
+          <span class="pz-raio"></span><span class="pz-holofote"></span>
+          <span class="pz-poeira"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+          <span class="pz-pedestal"><i class="pz-anel"></i></span>
+        </div>
+        <div class="pz-ator" id="pzAtor">${pc.html}</div></div>
+        <div class="pz-placa" id="pzPlaca">${pc.placa}</div>
+      </div>
+      <div class="pz-abas" role="tablist" aria-orientation="vertical" aria-label="Categorias">${PZ_ABAS.map(a => `<button type="button" role="tab" data-pz="${a.k}" aria-selected="${a.k === aba.k}" class="${a.k === aba.k ? "on" : ""}">${pzIcone(a.k)}<span>${a.nome}</span></button>`).join("")}</div>
+    </section>
+    <section class="pz-painel" id="pzPainel"></section>
+    <div class="pz-mais"><button type="button" class="btn btn-ghost" id="pzSorte">🎲 Surpreenda-me</button></div>
+    <h2 class="ljn-sec">Como os outros veem na Corrida</h2>
+    <div class="pz-raia" id="pzRaia">${raiaDeAmostra({ rotulo: "a sua raia" })}</div></div>`;
+  pzDesenharPainel(true);
+  pzDesenharAmostras(app.querySelector("#pzQuadro"));
+  app.querySelectorAll("[data-pz]").forEach(b => b.onclick = () => { pzAba = b.dataset.pz; tocar("toque");
+    app.querySelectorAll("[data-pz]").forEach(x => { const on = x === b; x.classList.toggle("on", on); x.setAttribute("aria-selected", String(on)); });
+    pzDesenharPainel(true); });
+  $("pzSorte").onclick = pzSorte;
+  ligarAbasLoja(); pzLigarSala();
+}
+/* desenha os bonecos de amostra aos poucos (os que já estavam desenhados ficam) */
+function pzDesenharAmostras(raiz){
+  const prevs = [...(raiz || app).querySelectorAll("[data-prev]:not([data-ok])")]; let k = 0;
+  const desenhar = () => { const fim = Math.min(prevs.length, k + 4); for(; k < fim; k++){ const el = prevs[k]; if(!el.isConnected) continue; el.innerHTML = avatarSVG(el.dataset.prev, null, 0, 0, el.dataset.mov || ""); el.dataset.ok = "1"; } if(k < prevs.length) setTimeout(desenhar, 24); };
+  desenhar();
+}
+function pzDesenharPainel(novo){
+  const el = $("pzPainel"); if(!el) return;
+  const aba = PZ_ABAS.find(a => a.k === pzAba) || PZ_ABAS[0], ops = pzOpcoes(aba.k), meus = ops.filter(o => !o.grupo && o.estado === "meu" && o.key).length;
+  /* o que já estava desenhado e não mudou fica no lugar (sem piscar) */
+  const velhos = {}; if(!novo) el.querySelectorAll(".pz-op").forEach(b => { const a = b.querySelector(".pz-op-arte"); velhos[b.dataset.op] = a; });
+  el.innerHTML = `<div class="pz-painel-cab"><span class="pz-painel-ic">${pzIcone(aba.k)}</span><div><h2>${aba.nome}</h2><p>${aba.sub}</p></div>${aba.k !== "p" ? `<em>${meus} ${meus === 1 ? "seu" : "seus"}</em>` : ""}</div>
+    ${aba.k === "mao" ? `<p class="pz-nota">A mão esquerda é a do objeto que o personagem já segura. Os acessórios de cabeça, costas e chão ficam só na aba Acessório.</p>` : ""}
+    <div class="pz-ops ${aba.k === "t" ? "pistas" : ""}" role="group" aria-label="${aba.nome}">${ops.map(pzCartao).join("")}</div>`;
+  const sig = a => [...a.querySelectorAll("[data-prev]")].map(x => x.dataset.prev + "|" + (x.dataset.mov || "") + "|" + x.className).join() || a.innerHTML;
+  el.querySelectorAll(".pz-op").forEach(b => { const v = velhos[b.dataset.op], a = b.querySelector(".pz-op-arte");
+    if(v && sig(v) === sig(a)) b.replaceChild(v, a);
+    b.onclick = () => pzEscolher(aba.k, b.dataset.op, b); });
+  pzDesenharAmostras(el);
+}
+async function pzSalvar(muda){
+  Object.assign(perfil, muda);
+  try{ await DB.salvarUsuario(usuario.uid, muda); }catch(e){ aviso(erroMsg(e)); }
+  atualizarCasca(); sincronizarPerfilPublico();
+  if(typeof carregarSalas === "function") carregarSalas().catch(()=>{});          // a raia, o personagem e o movimento chegam aos outros
+}
+async function pzEscolher(k, key, botao){
+  pzDepois = null;
+  const LJ = { m: "moldura", t: "pista", v: "mov", c: "festa" };
+  let muda = null;
+  if(k === "p"){
+    const p = acharProfeta(key); if(!p) return;
+    if(!profetaLiberado(p)){ tocar("toque"); if(p.preco) abrirVitrine("p:" + p.id, botao); else aviso(`${p.nome} fica disponível na ${ondeLibera(p.nivel)} (nível ${p.nivel}). Cumpra as missões para chegar lá!`); return; }
+    if(perfil.profeta !== key) muda = { profeta: key };
+  } else if(k === "a"){
+    if(key && !comprado("a:" + key)){ tocar("toque"); abrirVitrine("a:" + key, botao); return; }
+    if(meuAcessorio() !== key){ muda = { acess: key }; if(key && minhaMaoEsq() === key) muda.maoEsq = ""; }
+  } else if(k === "mao"){
+    if(key && key !== "-" && !comprado("a:" + key)){ tocar("toque"); pzDepois = { mao: key, acess: perfil.acess || "", em: Date.now() }; abrirVitrine("a:" + key, botao); return; }
+    if(minhaMaoEsq() !== key){ muda = { maoEsq: key }; if(key && meuAcessorio() === key) muda.acess = ""; }
+  } else if(LJ[k]){
+    if(key && !comprado(k + ":" + key)){ tocar("toque"); abrirVitrine(k + ":" + key, botao); return; }
+    if(k === "c" && key) festejar(key, 2600);
+    if((perfil[LJ[k]] || "") !== key || (key && emUsoDaLoja(k) !== key)) muda = { [LJ[k]]: key };
+  }
+  if(!muda){ tocar("toque"); return; }
+  tocar("missao");
+  await pzSalvar(muda);
+  pzAtualizar();
+}
+/* troca só o que mudou: o personagem (com um brilho), a placa, o quadro, as opções e a raia */
+function pzAtualizar(){
+  const ator = $("pzAtor"); if(!ator) return;
+  const pc = pzPalco();
+  ator.innerHTML = pc.html; ator.classList.remove("troca"); void ator.offsetWidth; ator.classList.add("troca");
+  $("pzPlaca").innerHTML = pc.placa; $("pzSala").style.setProperty("--c", pc.cor);
+  const q = $("pzQuadro"); q.innerHTML = pc.quadro; pzDesenharAmostras(q);
+  $("pzRaia").innerHTML = raiaDeAmostra({ rotulo: "a sua raia" });
+  pzDesenharPainel(false);
+}
+/* sorteia um visual com o que já é seu */
+async function pzSorte(){
+  const um = l => l[Math.floor(Math.random() * l.length)];
+  const meusP = PROFETAS.filter(profetaLiberado), meus = t => LOJA_EXTRAS[t].lista.filter(x => comprado(t + ":" + x.id)).map(x => x.id);
+  const acs = LOJA_ACESSORIOS.filter(x => comprado("a:" + x.id)).map(x => x.id), ac = acs.length && Math.random() < .8 ? um(acs) : "";
+  const maos = acs.filter(x => naMao(x) && x !== ac), mao = Math.random() < .35 ? (maos.length && Math.random() < .7 ? um(maos) : "-") : "";
+  const muda = { profeta: um(meusP).id, acess: ac, maoEsq: mao };
+  [["m", "moldura"], ["t", "pista"], ["v", "mov"]].forEach(([t, c]) => { const l = meus(t); muda[c] = l.length && Math.random() < .85 ? um(l) : ""; });
+  tocar("missao");
+  await pzSalvar(muda);
+  pzAtualizar();
+}
+/* a sala acompanha o dedo (ou o mouse) com um pouco de profundidade */
+function pzLigarSala(){
+  const sala = $("pzSala"); if(!sala || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  let raf = 0, alvo = [0, 0];
+  const mexer = (x, y) => { alvo = [x, y]; if(raf) return; raf = requestAnimationFrame(() => { raf = 0; sala.style.setProperty("--rx", alvo[0].toFixed(3)); sala.style.setProperty("--ry", alvo[1].toFixed(3)); }); };
+  sala.addEventListener("pointermove", e => { const r = sala.getBoundingClientRect(); mexer(((e.clientX - r.left) / r.width - .5) * 2, ((e.clientY - r.top) / r.height - .5) * 2); });
+  sala.addEventListener("pointerleave", () => mexer(0, 0));
+}
+
+/* ============================================================
    ESTUDAR: MINHAS ANOTAÇÕES (só a própria pessoa vê)
    Em cada dia da lição: um campo de observações e, ao tocar numa página (ela abre grande), marca-texto, pincel, notas
    (viram um ícone pequeno no lugar marcado) e borracha, com cores. Tudo fica guardado no aparelho na hora; o botão Salvar envia
@@ -10297,13 +10685,14 @@ function anEditor(pags, i){
   lb.innerHTML = `<div class="an-barra" id="anBarra">
       <div class="an-topo"><button type="button" class="an-acao" id="anFechar" aria-label="Fechar">✕</button>
         ${pags.length > 1 ? `<button type="button" class="an-acao" id="anAnt" aria-label="Página anterior">‹</button><span id="anPgN"></span><button type="button" class="an-acao" id="anProx" aria-label="Próxima página">›</button>` : `<span id="anPgN"></span>`}
-        <button type="button" class="an-acao" id="anZoom">Ampliar</button><button type="button" class="an-acao" id="anDesfazer" title="Desfazer" aria-label="Desfazer">↩︎</button><button type="button" class="an-acao salvar" id="anSalvar2">Salvar</button></div>
+        <button type="button" class="an-acao" id="anDesfazer" title="Desfazer" aria-label="Desfazer">↩︎</button><button type="button" class="an-acao salvar" id="anSalvar2">Salvar</button></div>
       <div class="an-ferr" role="group" aria-label="Ferramentas de anotação">${f("mover", "✋", "Rolar")}${f("m", "🖍️", "Marcador")}${f("p", "✏️", "Pincel")}${f("nota", "💬", "Nota")}${f("borracha", "🧽", "Borracha")}</div>
       <div class="an-cores" role="group" aria-label="Cor">${AN_CORES.map((c, k) => `<button type="button" data-an-c="${k}" aria-pressed="${k === a.cor}" style="--c:${c}" aria-label="Cor ${k + 1}"></button>`).join("")}</div></div>
     <div class="an-area" id="anArea"><div class="an-folha" id="anFolha"></div></div>`;
   document.body.appendChild(lb); document.body.style.overflow = "hidden";
   const area = lb.querySelector("#anArea"), folha = lb.querySelector("#anFolha"), q = sel => lb.querySelector(sel);
-  const largura = () => { folha.style.width = zoom === 1 ? "" : Math.min(area.clientWidth * 2, 1900) + "px"; q("#anZoom").textContent = zoom === 1 ? "Ampliar" : "Reduzir"; };
+  /* zoom com dois dedos (sem botão): no modo Rolar o toque duplo também amplia; ao pinçar, o traço que começou é desfeito */
+  ligarPinca(area, folha, { pillEm: lb, dica: true, podeToqueDuplo: () => a.ferramenta === "mover", aoPincar: () => folha.querySelectorAll(".an-svg").forEach(sv => sv._cancelar && sv._cancelar()) });
   const montar = () => {
     folha.innerHTML = `<img src="${pags[pg].img}" alt="Página ${pg + 1}" data-i="${pg}">`;
     cx = anCamada(folha.querySelector("img"), pg, true); area.scrollTop = 0;
@@ -10314,14 +10703,13 @@ function anEditor(pags, i){
   const tecla = e => { if(e.key === "Escape" && !document.querySelector(".modal-bg")) fechar(); };
   document.addEventListener("keydown", tecla);
   q("#anFechar").onclick = fechar;
-  q("#anZoom").onclick = () => { zoom = zoom === 1 ? 2 : 1; largura(); };
   const an = q("#anAnt"), pr = q("#anProx"); if(an) an.onclick = () => { if(pg > 0){ pg--; montar(); } }; if(pr) pr.onclick = () => { if(pg < pags.length - 1){ pg++; montar(); } };
   lb.querySelectorAll("[data-an-f]").forEach(b => b.onclick = () => { a.ferramenta = b.dataset.anF; lb.querySelectorAll("[data-an-f]").forEach(x => x.setAttribute("aria-pressed", String(x === b))); area.classList.toggle("desenhando", a.ferramenta !== "mover"); area.dataset.f = a.ferramenta;
     if(a.ferramenta !== "mover" && !lsGet(KEY + ":anDica", 0)){ lsSet(KEY + ":anDica", 1); aviso("Com uma ferramenta ligada, o dedo desenha na página. Para mover a página, toque em ✋ Rolar."); } });
   lb.querySelectorAll("[data-an-c]").forEach(b => b.onclick = () => { a.cor = +b.dataset.anC; lb.querySelectorAll("[data-an-c]").forEach(x => x.setAttribute("aria-pressed", String(x === b))); });
   q("#anDesfazer").onclick = () => { const s = a.desfazer.pop(); if(!s){ aviso("Nada para desfazer."); return; } a.dados.pags = JSON.parse(s); anGuardarLocal(); if(cx) anDesenhar(cx); };
   q("#anSalvar2").onclick = () => anSalvar();
-  montar(); largura(); anEstado();
+  montar(); anEstado();
   return true;
 }
 const anPag = i => { const p = AN.dados.pags; return p[i] || (p[i] = { t: [], n: [] }); };
@@ -10347,23 +10735,26 @@ function anLigarDesenho(cx, svg){
     if(!pg.t.some(perto) && !pg.n.some(n => Math.abs(n.x - x) <= 30 && Math.abs(n.y - y) <= 30)) return;
     if(!apagou){ anMudar(fazer); apagou = true; } else { fazer(); anGuardarLocal(); }
     if(pg.t.length + pg.n.length !== antes) anDesenhar(cx); };
+  svg._cancelar = () => { if(vivo){ vivo.remove(); vivo = null; } traco = null; };          // o segundo dedo chegou: é pinça, não desenho
   svg.addEventListener("pointerdown", e => {
     if(!AN || AN.ferramenta === "mover" || (e.pointerType === "mouse" && e.button !== 0)) return;
+    if(traco){ svg._cancelar(); return; }
     e.preventDefault(); try{ svg.setPointerCapture(e.pointerId); }catch(x){}
     const [x, y] = ponto(e), f = AN.ferramenta;
-    if(f === "borracha"){ apagou = false; traco = { apagando: true }; apagar(x, y); return; }
-    if(f === "nota"){ traco = { nota: [x, y] }; return; }
-    traco = { f, c: AN_CORES[AN.cor], p: [x, y] };
+    if(f === "borracha"){ apagou = false; traco = { apagando: true, id: e.pointerId }; apagar(x, y); return; }
+    if(f === "nota"){ traco = { nota: [x, y], id: e.pointerId }; return; }
+    traco = { f, c: AN_CORES[AN.cor], p: [x, y], id: e.pointerId };
     vivo = document.createElementNS("http://www.w3.org/2000/svg", "g"); vivo.innerHTML = anTraco(traco); svg.appendChild(vivo);
   });
   svg.addEventListener("pointermove", e => {
-    if(!traco) return; const [x, y] = ponto(e);
+    if(!traco || traco.id !== e.pointerId) return; const [x, y] = ponto(e);
     if(traco.apagando){ apagar(x, y); return; }
     if(traco.nota) return;
     const p = traco.p, n = p.length; if(Math.abs(p[n - 2] - x) + Math.abs(p[n - 1] - y) < 6 || n > 1200) return;
     p.push(x, y); vivo.innerHTML = anTraco(traco);
   });
   const fim = e => {
+    if(traco && traco.id !== e.pointerId) return;
     const t = traco; traco = null; if(!t || !AN) return;
     if(t.apagando) return;
     if(t.nota){ if(e.type === "pointerup") anNota(cx, -1, t.nota); return; }
@@ -10409,6 +10800,83 @@ function dicaDaLoja(){
     el.querySelector("#dlDepois").onclick = fechar;
   };
   setTimeout(() => tentar(0), 1500);
+}
+
+/* ============================================================
+   ZOOM COM PINÇA na página da lição (anotações e página ampliada):
+   dois dedos aproximam ou afastam, o ponto entre os dedos fica no lugar e os dedos arrastam a página;
+   no computador, Ctrl + roda do mouse (ou a pinça do touchpad); toque duplo (ou clique duplo) amplia e volta.
+   A plaquinha "200% · Voltar" aparece só com a página ampliada.
+   ============================================================ */
+function ligarPinca(area, folha, op){
+  op = op || {};
+  const MAX = 4, larg0 = op.larg0 || "";
+  let z = 1, base = 0, pin = null, anim = 0, calmo = 0, tq = null, ult = null;
+  const pill = document.createElement("button");
+  pill.type = "button"; pill.className = "zoom-pill"; pill.hidden = true;
+  pill.innerHTML = `<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5 5M8 10.5h5"/></svg><b>100%</b><span>Voltar</span>`;
+  pill.setAttribute("aria-label", "Voltar ao tamanho normal");
+  (op.pillEm || area.parentNode).appendChild(pill);
+  /* muda o zoom mantendo parado o ponto (mx, my) da tela */
+  const aplicar = (nz, mx, my) => {
+    nz = Math.max(1, Math.min(MAX, nz)); if(nz < 1.03) nz = 1;
+    const r0 = folha.getBoundingClientRect(); if(!r0.width) return;
+    const fx = (mx - r0.left) / r0.width, fy = (my - r0.top) / r0.height;
+    if(z === 1) base = r0.width;
+    z = nz; folha.style.width = z === 1 ? larg0 : Math.round(base * z) + "px";
+    const r1 = folha.getBoundingClientRect();
+    area.scrollLeft += r1.left + fx * r1.width - mx; area.scrollTop += r1.top + fy * r1.height - my;
+    pill.hidden = z === 1; pill.querySelector("b").textContent = Math.round(z * 100) + "%";
+    area.classList.toggle("ampliada", z > 1);
+    if(op.aoMudar) op.aoMudar(z);
+  };
+  /* zoom animado (toque duplo e plaquinha) */
+  const animar = (alvo, mx, my) => {
+    cancelAnimationFrame(anim);
+    if(matchMedia("(prefers-reduced-motion: reduce)").matches){ aplicar(alvo, mx, my); return; }
+    const z0 = z, t0 = performance.now(), dur = 220;
+    const passo = t => { const f = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - f, 3); aplicar(z0 + (alvo - z0) * e, mx, my); if(f < 1) anim = requestAnimationFrame(passo); };
+    anim = requestAnimationFrame(passo);
+  };
+  const centro = () => { const r = area.getBoundingClientRect(); return [r.left + r.width / 2, r.top + r.height / 2]; };
+  pill.onclick = () => { const [x, y] = centro(); animar(1, x, y); };
+  /* dois dedos */
+  const dist = t => Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY);
+  const meio = t => [(t[0].clientX + t[1].clientX) / 2, (t[0].clientY + t[1].clientY) / 2];
+  area.addEventListener("touchstart", e => {
+    if(e.touches.length !== 2) return;
+    e.preventDefault(); cancelAnimationFrame(anim);
+    const [mx, my] = meio(e.touches); pin = { d0: dist(e.touches) || 1, z0: z, mx, my }; tq = null;
+    if(op.aoPincar) op.aoPincar();
+  }, { passive: false });
+  area.addEventListener("touchmove", e => {
+    if(!pin || e.touches.length !== 2) return;
+    e.preventDefault();
+    const [mx, my] = meio(e.touches);
+    area.scrollLeft -= mx - pin.mx; area.scrollTop -= my - pin.my; pin.mx = mx; pin.my = my;      // os dedos arrastam a página
+    aplicar(pin.z0 * dist(e.touches) / pin.d0, mx, my);
+  }, { passive: false });
+  const soltar = e => { if(pin && e.touches.length < 2){ pin = null; calmo = Date.now() + 350; } };
+  area.addEventListener("touchend", soltar); area.addEventListener("touchcancel", soltar);
+  area.addEventListener("gesturestart", e => e.preventDefault());          // Safari: a pinça não amplia a tela inteira
+  /* computador: Ctrl + roda (o touchpad manda a pinça assim) */
+  area.addEventListener("wheel", e => { if(!e.ctrlKey) return; e.preventDefault(); cancelAnimationFrame(anim); aplicar(z * Math.exp(-e.deltaY * .01), e.clientX, e.clientY); }, { passive: false });
+  /* toque duplo / clique duplo: amplia no ponto tocado; ampliada, volta */
+  area.addEventListener("pointerdown", e => { tq = e.isPrimary ? { x: e.clientX, y: e.clientY, t: Date.now() } : null; });
+  area.addEventListener("pointerup", e => {
+    const t = tq; tq = null;
+    if(!t || pin || Date.now() < calmo || e.target.closest("button, a, input, textarea") || (op.podeToqueDuplo && !op.podeToqueDuplo())) { ult = null; return; }
+    if(Math.abs(e.clientX - t.x) > 10 || Math.abs(e.clientY - t.y) > 10 || Date.now() - t.t > 350){ ult = null; return; }
+    if(ult && Date.now() - ult.t < 330 && Math.abs(e.clientX - ult.x) < 34 && Math.abs(e.clientY - ult.y) < 34){ ult = null; animar(z > 1.05 ? 1 : 2.2, e.clientX, e.clientY); return; }
+    ult = { x: e.clientX, y: e.clientY, t: Date.now() };
+  });
+  area.addEventListener("dblclick", e => { if(e.target.closest("button, a")) return; e.preventDefault(); });
+  /* aviso na primeira vez */
+  if(op.dica){ const n = +lsGet(KEY + ":dicaPinca", 0) || 0;
+    if(n < 3){ lsSet(KEY + ":dicaPinca", n + 1); const d = document.createElement("div"); d.className = "zoom-dica"; d.setAttribute("aria-hidden", "true");
+      d.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4l3 3M17 4l-3 3M4 7l3 3M20 7l-3 3M9.5 12.5V9.8a1.3 1.3 0 0 1 2.6 0v2.4M12.1 12V9.3a1.3 1.3 0 0 1 2.6 0V13M14.7 12.4v-1.2a1.3 1.3 0 0 1 2.6 0v3.4c0 3.4-2.1 5.9-5.2 5.9-2 0-3.3-.9-4.4-2.6L6 15.1a1.2 1.2 0 0 1 1.9-1.4l1.6 1.7v-2.9"/></svg><span>Use dois dedos para ampliar</span>`;
+      (op.pillEm || area.parentNode).appendChild(d); setTimeout(() => d.classList.add("sai"), 3200); setTimeout(() => d.remove(), 3800); } }
+  return { zoom: () => z, voltar: () => { cancelAnimationFrame(anim); if(z !== 1){ z = 1; folha.style.width = larg0; pill.hidden = true; area.classList.remove("ampliada"); } } };
 }
 
 /* ============================================================
@@ -10788,7 +11256,19 @@ const ALBUM_MOEDAS_PAGINA = 20, ALBUM_MOEDAS_ALBUM = 50, ALBUM_POR_PACOTE = 3, A
 /* ESTREIA DO ÁLBUM. Antes desta hora o álbum aparece trancado, com contagem regressiva: não dá para ganhar, comprar nem trocar.
    Só os quizzes FEITOS a partir dela dão pacote (os antigos não contam). É a hora do aparelho de cada jogador.
    O que foi ganho nos testes ficou em campos antigos do perfil (albumAbertos, albumTrocas…) e não é lido: todo mundo começa do zero. */
-let ALBUM_INICIO = new Date(2026, 10, 20, 5, 0, 0).getTime();           // sexta-feira, 20/11/2026, 5h da manhã
+let ALBUM_INICIO = 0;           // VERSÃO DE TESTE: álbum liberado desde sempre. No oficial: new Date(2026, 10, 20, 5, 0, 0).getTime(), sexta-feira, 20/11/2026, 5h da manhã
+const ALBUM_TESTE = true;
+/* a faixa vermelha no alto da tela, para ninguém confundir esta versão com a oficial */
+(() => { try{ const fx = document.createElement("div"); fx.className = "faixa-teste"; fx.textContent = "Versão de teste · álbum liberado"; document.body.appendChild(fx); }catch(e){} })();
+/* apaga as figurinhas desta conta (pacotes abertos, trocas anotadas, prêmios de página e de álbum), para ela chegar limpa à estreia */
+async function zerarAlbumDeTeste(){
+  if(!(await confirmar("Zerar o meu álbum", "Apaga todas as figurinhas desta conta e os prêmios de página e de álbum (as moedas desses prêmios também saem). Não dá para desfazer.", "Zerar"))) return;
+  const vazio = { figAbertos: [], figPag: [], figFeitos: [], figFim: 0, viuAlbum: "" };
+  const semTrocas = FB_OK && typeof firebase !== "undefined" ? firebase.firestore.FieldValue.delete() : {};
+  try{ await DB.salvarUsuario(usuario.uid, Object.assign({ figTrocas: semTrocas }, vazio)); }catch(e){ aviso("Não deu para zerar: " + erroMsg(e)); return; }
+  Object.assign(perfil, vazio, { figTrocas: {} });
+  albumAberto = ""; atualizarCasca(); if(typeof sincronizarPerfilPublico === "function") sincronizarPerfilPublico(); telaAlbum(); aviso("Álbum zerado.");
+}
 const ALBUM_ERA = "2026-11-20", ALBUM_QUANDO = "sexta-feira, 20/11, às 5h da manhã", ALBUM_QUANDO_CURTO = "sexta-feira, às 5h";
 const ALBUM_AVISO = "2026-11-20T05";          // marca do balão de novidade. Versões anteriores anunciaram 0h (marca "2026-11-20") e 10h ("2026-11-20T10"): quem viu aquelas vê o balão de novo, com o horário certo
 const albumAvisoVisto = v => v === ALBUM_AVISO;
@@ -11491,11 +11971,13 @@ function telaAlbum(){
     ${nf > 1 ? `<button type="button" class="hub-todos" id="albTodos">Abrir ${nf > 10 ? "10 pacotes de uma vez" : `os ${nf} pacotes de uma vez`}</button>` : ""}
     ${!trocasOk ? `<section class="panel alb-trocas"><p class="hm-sub" style="margin:0">As trocas ainda não foram liberadas: falta publicar as regras novas do Firestore.</p></section>` : propostas}
     <div class="est">${ALBUNS.map((a, k) => htmlCapa(a, k, inv)).join("")}</div>
-    <p class="est-nota">Toque numa capa para abrir o álbum. Novos álbuns chegam com o tempo.</p></div>`;
+    <p class="est-nota">Toque numa capa para abrir o álbum. Novos álbuns chegam com o tempo.</p>
+    <section class="panel alb-teste"><b>Versão de teste</b><p>Aqui o álbum já está liberado. O que for feito com uma conta de verdade fica salvo nela e aparece também no jogo oficial.</p><button type="button" class="btn btn-ghost btn-sm" id="albZerar">Zerar o meu álbum</button></section></div>`;
   figEscala(app); desenharFigurinhas(app);
   app.querySelectorAll("[data-album]").forEach(b => b.onclick = () => { albumAberto = b.dataset.album; albumAbrindo = true; tocar("toque"); window.scrollTo(0, 0); telaAlbum(); });
   $("albAbrir").onclick = () => { if(nf) abrirPacotes(fechados.slice(0, 1)); else aviso("Nenhum pacote para abrir. Faça o quiz do dia para ganhar um, ou compre com moedas."); };
   const td = $("albTodos"); if(td) td.onclick = () => abrirPacotes(fechados.slice(0, 10));
+  const zr = $("albZerar"); if(zr) zr.onclick = zerarAlbumDeTeste;
   $("albComprar").onclick = comprarPacote;
   $("albTrocar").onclick = modalTrocar;
   const pr = $("albTrocas"); if(pr && pr.tagName === "BUTTON") pr.onclick = () => { tocar("toque"); window.scrollTo(0, 0); telaTrocas(); };
