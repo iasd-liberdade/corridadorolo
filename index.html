@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="versao" content="20261122.032845">
+<meta name="versao" content="20261122.035503">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Corrida do Rolo · Quiz da Lição</title>
 <meta name="theme-color" content="#524F9C">
@@ -901,6 +901,36 @@ ol.passos li{margin-bottom:8px}
 .aud-itens{margin:0;padding-left:18px;display:grid;gap:4px;font-size:13.5px;line-height:1.4;color:var(--soft)}
 .aud-mais{list-style:none;margin-left:-18px;color:var(--muted)}
 .aud-pe{display:flex;justify-content:flex-end;margin-top:12px}
+/* Loja: vitrine (o item de perto) */
+.ljn-palco[data-ver],.ljn-hero-arte[data-ver]{cursor:zoom-in}
+.ljn-palco[data-ver]:focus-visible,.ljn-hero-arte[data-ver]:focus-visible{outline:3px solid #fff;outline-offset:2px}
+.ljn-lupa{position:absolute;right:8px;top:8px;z-index:3;width:30px;height:30px;display:grid;place-items:center;border-radius:50%;background:rgba(10,8,40,.5);box-shadow:0 0 0 1px rgba(255,255,255,.22);font-size:15px;pointer-events:none}
+.ljn-lupa svg,.ljn-lupa img{width:18px;height:18px}
+.ljn-hero-arte .ljn-lupa{right:4px;top:4px}
+.vt{display:grid;gap:14px}
+.vt-palco{position:relative;height:250px;border-radius:18px;overflow:hidden;display:grid;place-items:end center;padding-bottom:14px;background:radial-gradient(90% 70% at 50% 100%,color-mix(in srgb,var(--c) 62%,transparent),transparent 74%),linear-gradient(180deg,#1B1750,#352B8C)}
+.vt-palco::after{content:"";position:absolute;left:50%;bottom:8px;width:190px;height:30px;margin-left:-95px;border-radius:50%;background:radial-gradient(closest-side,rgba(255,255,255,.38),transparent);pointer-events:none}
+.vt-palco > .lj-av,.vt-palco > .vt-festa{position:relative;z-index:1}
+.vt-palco .lj-av{width:172px;height:220px}.vt-palco .lj-av .avatar{width:168px;height:218px}
+.vt-palco .lj-av.lj-mold{width:158px;height:196px;margin-bottom:6px;border-radius:26px;background:rgba(255,255,255,.12)}.vt-palco .lj-av.lj-mold .avatar{width:134px;height:174px}
+.vt-palco .lj-av.lj-mold.mold::before{padding:5px}
+.vt-palco .lj-av.lj-mov{width:190px;height:214px;border-radius:22px;background:rgba(255,255,255,.1)}
+.vt-palco .lj-mov .runner{left:39px;bottom:18px;width:112px;height:144px}.vt-palco .lj-mov .runner .avatar{width:112px;height:144px}
+.vt-festa{width:130px;height:130px;margin-bottom:40px;display:grid;place-items:center}.vt-festa svg{width:130px;height:130px}
+.vt-zoom{overflow-x:auto;overflow-y:hidden;border-radius:18px;padding:10px 0;background:rgba(10,8,40,.35);scrollbar-width:thin;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
+.vt-zoom .track{width:430px;zoom:2.3;margin:0 6px}
+.vt-dica{margin:-6px 0 0;font-size:12.5px;color:var(--muted);text-align:center}
+.vt-info h4{margin:0;font-size:22px}
+.vt-info small{display:block;margin-top:2px;color:var(--muted);font-weight:700}
+.vt-info p{margin:8px 0 0;font-size:14px;line-height:1.45}
+.vt-ef b{color:#FFE27A}.vt-ef span{color:var(--muted)}
+.vt-hist{color:var(--soft)}
+.vt-sub{margin:0 0 -6px;font:800 11px/1 "Barlow",sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.vt-raia{padding:0;border-top:0}
+.vt-acoes{margin-top:2px}
+.vt-comprar{display:inline-flex;align-items:center;justify-content:center;gap:6px}.vt-comprar .moeda{width:20px;height:20px}
+.vt-uso{margin:0;align-self:center;font-weight:800;color:#7DF0B8}
+@media (min-width:600px){.vt-palco{height:270px}.vt-zoom .track{width:520px;zoom:2.5}}
 .ar-filtro{padding:12px 14px;display:grid;gap:10px}
 .ar-filtro .field{margin:0}
 .qgrade{display:grid;gap:12px;margin-bottom:12px}
@@ -9707,7 +9737,7 @@ function telaLoja(){
     const destaque = dp || da ? `<section class="ljn-hero" style="--c:${dp ? dp.bg : LOJA_CORES.a[0]}"><span class="ljn-raios" aria-hidden="true"></span><span class="ljn-pontos" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></span>
         <div class="ljn-hero-tx"><span class="ljn-tag">Destaque de hoje</span><h2>${esc((dp || da).nome)}</h2>${ef ? `<em class="ljn-ef">${esc(ef.nome)}</em>` : ""}<small>${esc((dp || da).ref || "")}</small>
           ${botao((dp ? "p:" : "a:") + (dp || da).id, (dp || da).preco, false, "Usar")}</div>
-        <div class="ljn-hero-arte"><span class="ljn-chao" aria-hidden="true"></span><div class="lj-av" data-prev="${esc(dp ? dp.id : eu + "~" + da.id + "~v")}"></div></div></section>` : "";
+        <div class="ljn-hero-arte" data-ver="${dp ? "p:" + dp.id : "a:" + da.id}" role="button" tabindex="0" aria-label="Ver ${esc((dp || da).nome)} de perto"><span class="ljn-chao" aria-hidden="true"></span><span class="ljn-lupa" aria-hidden="true">🔍</span><div class="lj-av" data-prev="${esc(dp ? dp.id : eu + "~" + da.id + "~v")}"></div></div></section>` : "";
     app.innerHTML = `<div class="estudo-area ljn">
       ${cabPagina("Loja", "", "Loja do Rolo", "Gaste as suas moedas e deixe o seu personagem com a sua cara.")}
       ${carteira}
@@ -9720,12 +9750,12 @@ function telaLoja(){
     desenharAmostras();
     app.querySelectorAll("[data-cat]").forEach(b => b.onclick = () => { lojaCat = b.dataset.cat; lojaFiltro = ""; tocar("toque"); window.scrollTo(0, 0); telaLoja(); });
     const ljp = $("ljPacote"); if(ljp) ljp.onclick = comprarPacote;
-    ligarCompras(); ligarMoedasInicio(); conferirReacoesAntigas();
+    ligarCompras(); ligarVitrine(); ligarMoedasInicio(); conferirReacoesAntigas();
     return;
   }
   /* ---------- 2ª tela: os itens de uma categoria, cada um no seu palco ---------- */
   const amostraMov = meuBoneco() || eu, cor = LOJA_CORES[cat.k];
-  const carta = (id, c, arte, nome, ref, extra, emUso, rotulo, preco, larga) => `<div class="lj-item ljn-card ${larga ? "larga" : ""} ${comprado(id) ? "meu" : ""} ${emUso ? "uso" : ""}" style="--c:${c}"><div class="ljn-palco"><span class="ljn-luz" aria-hidden="true"></span>${arte}${comprado(id) ? `<span class="ljn-selo">${emUso ? "Em uso" : "Seu"}</span>` : ""}</div><b>${esc(nome)}</b><small>${esc(ref || "")}</small>${extra || ""}${botao(id, preco, emUso, rotulo)}</div>`;
+  const carta = (id, c, arte, nome, ref, extra, emUso, rotulo, preco, larga) => `<div class="lj-item ljn-card ${larga ? "larga" : ""} ${comprado(id) ? "meu" : ""} ${emUso ? "uso" : ""}" style="--c:${c}"><div class="ljn-palco" data-ver="${id}" role="button" tabindex="0" aria-label="Ver ${esc(nome)} de perto"><span class="ljn-luz" aria-hidden="true"></span><span class="ljn-lupa" aria-hidden="true">🔍</span>${arte}${comprado(id) ? `<span class="ljn-selo">${emUso ? "Em uso" : "Seu"}</span>` : ""}</div><b>${esc(nome)}</b><small>${esc(ref || "")}</small>${extra || ""}${botao(id, preco, emUso, rotulo)}</div>`;
   const cartao = {
     a: a => carta("a:" + a.id, cor[0], `<div class="lj-av" data-prev="${esc(eu + "~" + a.id + "~v")}"></div>`, a.nome, a.ref, "", perfil.acess === a.id, "Usar", a.preco),
     p: p => carta("p:" + p.id, p.bg || cor[0], `<div class="lj-av" data-prev="${esc(p.id)}"></div>`, p.nome, p.ref, efeitoDaLoja(p) ? `<em class="lj-ef" title="Efeito que só este personagem tem (${esc(efeitoDaLoja(p).ref)})">${esc(efeitoDaLoja(p).nome)}</em>` : "", perfil.profeta === p.id, "Usar", p.preco),
@@ -9748,7 +9778,7 @@ function telaLoja(){
     <div class="lj-grade ljn-grade ${cat.k === "t" ? "pistas" : ""}">${itens.map(cartao).join("") || `<p class="ljn-vazio">${lojaFiltro === "meus" ? "Você ainda não tem nada desta categoria." : "Com o saldo de agora, nada desta categoria. Ganhe mais moedas no quiz!"}</p>`}</div></div>`;
   desenharAmostras();
   $("ljVoltar").onclick = () => { lojaCat = ""; lojaFiltro = ""; window.scrollTo(0, 0); telaLoja(); };
-  ligarMoedasInicio(); ligarCompras();
+  ligarMoedasInicio(); ligarCompras(); ligarVitrine();
   app.querySelectorAll("[data-f]").forEach(b => b.onclick = () => { lojaFiltro = b.dataset.f; tocar("toque"); telaLoja(); });
   app.querySelectorAll("[data-festa]").forEach(b => b.onclick = () => { tocar("toque"); festejar(b.dataset.festa, 2600); });
 }
@@ -10066,6 +10096,96 @@ function ganhouMoedas(n, motivo){
       }, k * 120);
     }, 450);
   })).catch(() => {});
+}
+
+/* ============================================================
+   VITRINE: tocar num item da loja abre o item de perto, para avaliar antes de comprar.
+   - Tema da pista: a raia como fica na Corrida e a pista ampliada, que passeia sozinha de ponta a ponta (dá para arrastar).
+   - Personagem, acessório e movimento: o personagem grande e a raia como os outros vão ver.
+   - Moldura: o personagem grande com a moldura. Comemoração: o botão para ver a comemoração.
+   ============================================================ */
+const PISTA_HISTORIA = {
+  deserto: "Das pirâmides do Egito, pela caravana no deserto, até a coluna de nuvem que vai à frente do povo.",
+  jardim: "Da nascente do rio, pelo pomar cheio de frutos, até a árvore da vida.",
+  mar: "Da margem do Egito, com a coluna de fogo, pelo fundo do mar entre as águas em pé, até a outra margem.",
+  estreito: "Da porta larga e da estrada espaçosa, subindo a serra, até a porta estreita, pequena e cheia de luz.",
+  noite: "Dos pastores com a fogueira, sob o céu estrelado, até a estrela parada sobre a estrebaria.",
+  ossos: "Do vale cheio de ossos secos, com o vento soprando, até o vale verde e o povo de pé.",
+  aguas: "Da tempestade, com o barco dos discípulos, até o mar calmo e a luz sobre as águas.",
+  ouro: "Das portas de pérola, pela rua de ouro e a muralha de pedras preciosas, até o rio e a árvore da vida."
+};
+function dadosDoItem(id){
+  const [tipo, k] = id.split(":"), it = itemDaLoja(id); if(!it) return null;
+  const x = tipo === "a" ? LOJA_AC[k] : tipo === "p" ? acharProfeta(k) : extraDaLoja(tipo, k);
+  const emUso = tipo === "a" ? perfil.acess === k && comprado(id) : tipo === "p" ? perfil.profeta === k : emUsoDaLoja(tipo) === k;
+  return { id, tipo, k, nome: it.nome, preco: it.preco, ref: (x && x.ref) || "", x, emUso, meu: comprado(id) };
+}
+/* a raia de amostra, do tamanho da Corrida */
+function raiaDeAmostra(o){
+  const boneco = o.boneco || meuBoneco() || PROFETA_PADRAO, mov = o.mov !== undefined ? o.mov : meuMovimento(), nv = typeof meuNivel === "function" ? meuNivel() : 0;
+  return `<div class="lane vt-raia"><div class="lane-top"><strong>${esc(perfil.nome || "Você")}</strong><span>${o.rotulo || "como os outros vão ver"}</span></div>
+    <div class="track${classePista(o.pista !== undefined ? o.pista : minhaPista())}" style="--seg:7"><span class="flag" aria-hidden="true">🏁</span><div class="runner${classeMovimento(mov, boneco, nv)}" style="--p:${o.p != null ? o.p : .42}">${avatarSVG(personagemDe(boneco, nv), null, nv, null, movDe(mov, boneco, nv))}</div></div></div>`;
+}
+function abrirVitrine(id, cartao){
+  const d = dadosDoItem(id); if(!d) return;
+  const saldo = moedas(), eu = perfil.profeta || PROFETA_PADRAO, cor = (cartao && getComputedStyle(cartao).getPropertyValue("--c").trim()) || LOJA_CORES[d.tipo][0];
+  const ef = d.tipo === "p" ? efeitoDaLoja(d.x) : null;
+  let palco = "", extra = "";
+  if(d.tipo === "t"){
+    palco = `<div class="vt-zoom" tabindex="0" aria-label="Pista ${esc(d.nome)} ampliada: arraste para os lados"><div class="track${classePista(d.k)}" style="--seg:7"><span class="flag" aria-hidden="true">🏁</span><div class="runner${classeMovimento(meuMovimento(), meuBoneco() || eu, meuNivel())}" style="--p:.18">${avatarSVG(meuBoneco() || eu, null, meuNivel(), null, movDe(meuMovimento(), meuBoneco() || eu, meuNivel()))}</div></div></div>
+      <p class="vt-dica">Ampliada. Arraste para os lados para ver a pista inteira.</p>`;
+    extra = `<h5 class="vt-sub">Na Corrida</h5>${raiaDeAmostra({ pista: d.k, rotulo: "do tamanho que aparece na Corrida" })}`;
+  } else if(d.tipo === "c"){
+    palco = `<div class="vt-palco" style="--c:${cor}"><span class="ljn-luz" aria-hidden="true"></span><div class="vt-festa">${FESTA_ICONE[d.k] || ""}</div></div>`;
+    extra = `<div class="btn-row uma"><button type="button" class="btn btn-ghost" id="vtFesta">▶ Ver a comemoração</button></div>`;
+  } else {
+    const arte = d.tipo === "p" ? `<div class="lj-av" data-v="${esc(d.k)}"></div>`
+      : d.tipo === "a" ? `<div class="lj-av" data-v="${esc(eu + "~" + d.k + "~v")}"></div>`
+      : d.tipo === "m" ? `<div class="lj-av lj-mold${classeMoldura(d.k)}" data-v="${esc(eu)}"></div>`
+      : `<div class="lj-av lj-mov"><div class="runner mov-${d.k}" data-v="${esc(meuBoneco() || eu)}" data-mov="${d.k}"></div></div>`;
+    palco = `<div class="vt-palco vt-${d.tipo}" style="--c:${cor}"><span class="ljn-luz" aria-hidden="true"></span>${arte}</div>`;
+    if(d.tipo === "p") extra = `<h5 class="vt-sub">Na Corrida</h5>${raiaDeAmostra({ boneco: d.k + (perfil.acess && comprado("a:" + perfil.acess) ? "~" + perfil.acess : "") })}`;
+    if(d.tipo === "a") extra = `<h5 class="vt-sub">Na Corrida</h5>${raiaDeAmostra({ boneco: eu + "~" + d.k })}`;
+    if(d.tipo === "v") extra = `<h5 class="vt-sub">Na Corrida</h5>${raiaDeAmostra({ mov: d.k })}`;
+  }
+  const info = `<div class="vt-info"><h4>${esc(d.nome)}</h4>${d.ref ? `<small>${esc(d.ref)}</small>` : ""}
+    ${ef ? `<p class="vt-ef"><b>Efeito: ${esc(ef.nome)}</b> <span>(${esc(ef.ref)})</span></p>` : ""}
+    ${d.tipo === "t" && PISTA_HISTORIA[d.k] ? `<p class="vt-hist">${esc(PISTA_HISTORIA[d.k])}</p>` : ""}
+    ${d.tipo === "p" && d.x && d.x.fala ? `<p class="vt-hist">“${esc(d.x.fala)}”</p>` : ""}</div>`;
+  const acao = d.meu
+    ? (d.emUso ? (d.tipo === "p" ? `<p class="vt-uso">✓ Em uso</p>` : `<button type="button" class="btn btn-ghost" id="vtAcao">✓ Em uso · guardar</button>`) : `<button type="button" class="btn btn-main" id="vtAcao">Usar</button>`)
+    : `<button type="button" class="btn ${saldo < d.preco ? "btn-ghost" : "btn-main"} vt-comprar" id="vtAcao">${saldo < d.preco ? `${MOEDA}<b>${d.preco}</b><span>· faltam ${d.preco - saldo}</span>` : `<span>Comprar por</span>${MOEDA}<b>${d.preco}</b>`}</button>`;
+  modal(LOJA_TIPO_NOME[d.tipo] || "Loja", `<div class="vt vt-t-${d.tipo}">${palco}${info}${extra}<div class="btn-row vt-acoes">${acao}<button type="button" class="btn btn-ghost" id="vtFechar">Fechar</button></div></div>`, (m, fechar) => {
+    m.classList.add("vt-modal");
+    m.querySelectorAll("[data-v]").forEach(el => { el.innerHTML = avatarSVG(el.dataset.v, null, 0, 0, el.dataset.mov || ""); });
+    m.querySelector("#vtFechar").onclick = fechar;
+    const fs = m.querySelector("#vtFesta"); if(fs) fs.onclick = () => { tocar("toque"); festejar(d.k, 2600); };
+    const ac = m.querySelector("#vtAcao");
+    if(ac) ac.onclick = async () => {
+      fechar();
+      if(d.meu){ await usarDaLoja(id); return; }
+      await comprarNaLoja(id, cartao);
+      if(tabAtual === "loja" && app.querySelector(".ljn")) telaLoja();
+    };
+    /* a pista ampliada passeia sozinha de ponta a ponta, devagar, até a pessoa tocar nela */
+    const z = m.querySelector(".vt-zoom");
+    if(z && !matchMedia("(prefers-reduced-motion: reduce)").matches){
+      let x = 0, dir = 1, t0 = 0, parar = false;
+      const passo = t => { if(parar || !z.isConnected) return; const dt = t0 ? Math.min(60, t - t0) : 0; t0 = t;
+        const max = z.scrollWidth - z.clientWidth; x += dir * dt * .045;
+        if(x >= max){ x = max; dir = -1; } else if(x <= 0){ x = 0; dir = 1; }
+        z.scrollLeft = x; requestAnimationFrame(passo); };
+      ["pointerdown", "touchstart", "wheel", "keydown"].forEach(ev => z.addEventListener(ev, () => { parar = true; }, { passive: true }));
+      setTimeout(() => requestAnimationFrame(passo), 700);
+    }
+  });
+}
+function ligarVitrine(){
+  app.querySelectorAll("[data-ver]").forEach(el => {
+    const abrir = e => { if(e.target.closest("button, a")) return; tocar("toque"); abrirVitrine(el.dataset.ver, el.closest(".lj-item, .ljn-hero")); };
+    el.onclick = abrir;
+    el.onkeydown = e => { if(e.target === el && (e.key === "Enter" || e.key === " ")){ e.preventDefault(); abrir(e); } };
+  });
 }
 
 /* ============================================================
