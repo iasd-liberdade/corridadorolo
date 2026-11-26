@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="versao" content="20261126.150316">
+<meta name="versao" content="20261126.154118">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Corrida do Rolo · Quiz da Lição</title>
 <meta name="theme-color" content="#524F9C">
@@ -3257,6 +3257,151 @@ button.mo-item{cursor:pointer}
 .mo-adm li{flex-wrap:wrap;align-items:flex-start;gap:12px}
 .mo-adm .info{flex:1 1 240px;min-width:0}
 .mo-adm .info span{display:block}
+/* ============================================================
+   p86: PAINEL DO ADMIN — layout novo, mais compacto
+   ============================================================ */
+.adm2{--g:18px;display:grid;grid-template-columns:minmax(0,1fr);gap:12px;min-width:0}
+.adm2 > *{min-width:0}
+/* topo: voltar + nome + selo */
+.adm2 .adm-marca{display:flex;align-items:center;gap:10px;min-width:0}
+.adm-voltar{flex:none;width:36px;height:36px;padding:0 0 3px;border-radius:12px;border:1px solid var(--panel-line);background:rgba(255,255,255,.12);color:#fff;font:800 24px/1 "Barlow",sans-serif;display:grid;place-items:center;cursor:pointer;transition:background .15s}
+.adm-voltar:hover{background:rgba(255,255,255,.24)}
+.adm-marca-tx{display:grid;min-width:0;line-height:1.15}
+.adm-marca-tx b{font:800 17px/1.15 "Barlow",sans-serif;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.adm-marca-tx small{font-size:11.5px;font-weight:600;color:var(--muted)}
+.adm2 .adm-marca .badge{margin:0 0 0 auto;flex:none}
+/* menu no celular: faixa de abas que rola de lado e fica presa embaixo da barra do jogo */
+.adm2 .adm-menu{position:sticky;top:var(--topo,56px);z-index:20;margin:0 calc(-1 * var(--g));padding:0;background:rgba(22,18,70,.55);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--panel-line);border-bottom:1px solid var(--panel-line);border-radius:0}
+.adm2 .adm-nav,.adm2 .adm-nav.poucas{position:relative;display:flex;gap:6px;overflow-x:auto;padding:8px var(--g);scrollbar-width:none;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
+.adm2 .adm-nav::-webkit-scrollbar{display:none}
+.adm2 .adm-grp{display:none}
+.adm2 .adm-sep{flex:none;width:1px;margin:7px 3px;background:var(--panel-line)}
+.adm2 .adm-nav button{flex:none;position:relative;display:inline-flex;align-items:center;justify-content:flex-start;gap:6px;min-height:34px;padding:0 12px;border-radius:999px;border:1px solid var(--panel-line);background:rgba(255,255,255,.08);color:var(--muted);font:700 13px/1 "Barlow",sans-serif;white-space:nowrap;text-align:left;scroll-snap-align:center;cursor:pointer;transition:background .15s,color .15s}
+.adm2 .adm-nav button .ic{font-size:15px;line-height:1;width:auto}
+.adm2 .adm-nav button:hover{color:#fff;background:rgba(255,255,255,.16)}
+.adm2 .adm-nav button[aria-selected="true"],.adm2 .adm-nav button[aria-selected="true"]:hover{background:#fff;color:var(--deep);border-color:#fff;box-shadow:0 4px 14px rgba(0,0,0,.2)}
+.adm2 .adm-n{position:static;min-width:18px;height:18px;padding:0 5px;margin-left:2px;border-radius:99px;background:var(--warn);color:#2A2000;font-size:10.5px;font-weight:800;display:inline-grid;place-items:center}
+.adm2 .adm-sub{margin:0;padding:0 var(--g) 8px;font-size:12px;line-height:1.35;color:var(--muted)}
+/* cabeçalho da seção */
+.adm-main{display:grid;gap:12px;min-width:0;align-content:start}
+.adm-pag{display:flex;align-items:center;gap:12px;min-width:0;padding:2px 0}
+.adm-pag-ic{flex:none;width:42px;height:42px;border-radius:14px;display:grid;place-items:center;font-size:21px;background:linear-gradient(135deg,rgba(255,255,255,.3),rgba(255,255,255,.07));border:1px solid var(--panel-line);box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 6px 18px rgba(0,0,0,.12)}
+.adm-pag-tx{min-width:0}
+.adm-pag-tx small{display:block;font:800 10.5px/1.2 "Barlow",sans-serif;letter-spacing:1px;text-transform:uppercase;color:var(--soft)}
+.adm-pag-tx h2{margin:2px 0 0;font:800 20px/1.15 "Barlow",sans-serif;color:#fff;letter-spacing:0}
+.adm-pag-tx p{margin:3px 0 0;font-size:12.5px;line-height:1.35;color:var(--muted)}
+/* conteúdo mais compacto */
+.adm2 .adm-c{gap:12px}
+.adm2 .adm-c > .larga{grid-column:1/-1}
+.adm2 .adm-c .panel{padding:14px 16px;border-radius:16px}
+.adm2 .adm-c .h3{font-size:10.5px;letter-spacing:1px;margin-bottom:10px}
+.adm2 .adm-c .adm-cab{margin-bottom:10px}
+.adm2 .adm-c .adm-cab .h3{margin:0}
+.adm2 .adm-c .panel p{font-size:13px;line-height:1.45}
+.adm2 .adm-c .note,.adm2 .adm-c .hint,.adm2 .adm-c .muted.small{font-size:12px;line-height:1.4}
+.adm2 .adm-c .lista li{padding:8px 0;gap:10px}
+.adm2 .adm-c .lista .info strong{font-size:14px}
+.adm2 .adm-c .lista .info span{font-size:12px}
+.adm2 .adm-c .btn{min-height:40px;padding:8px 14px;font-size:14px;border-radius:12px}
+.adm2 .adm-c .btn-sm{min-height:32px;padding:5px 11px;font-size:12.5px;border-radius:10px}
+.adm2 .adm-c .field label{font-size:12px}
+.adm2 .adm-c input[type=text],.adm2 .adm-c input[type=email],.adm2 .adm-c input[type=password],.adm2 .adm-c input[type=number],.adm2 .adm-c input[type=date],.adm2 .adm-c select,.adm2 .adm-c textarea{padding:9px 11px;border-radius:11px}
+.adm2 .adm-c .badge{font-size:10px}
+.adm2 .adm-c .vazio{font-size:13px}
+/* ---------- aba Painel ---------- */
+.pn-esqueleto{display:grid;gap:10px}
+.pn-esqueleto span{display:block;height:14px;border-radius:8px;background:linear-gradient(90deg,rgba(255,255,255,.08),rgba(255,255,255,.2),rgba(255,255,255,.08));background-size:200% 100%;animation:pnBrilho 1.2s linear infinite}
+.pn-esqueleto span:nth-child(1){width:40%}.pn-esqueleto span:nth-child(2){width:75%}.pn-esqueleto span:nth-child(3){width:60%}
+@keyframes pnBrilho{to{background-position:-200% 0}}
+.adm2 .adm-c .pn-hero{position:relative;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px 16px;align-items:center;padding:16px 18px;background:linear-gradient(135deg,rgba(255,255,255,.26),rgba(255,255,255,.06) 60%);border-color:rgba(255,255,255,.4)}
+.pn-hero::after{content:"";position:absolute;right:-70px;top:-80px;width:230px;height:230px;border-radius:50%;background:radial-gradient(circle,rgba(255,226,122,.32),transparent 68%);pointer-events:none}
+.pn-hero > *{position:relative;z-index:1}
+.pn-hero-tx{min-width:0}
+.pn-hero-tx small{display:block;font:800 10.5px/1.2 "Barlow",sans-serif;letter-spacing:1px;text-transform:uppercase;color:var(--soft)}
+.adm2 .adm-c .pn-hero-tx h3{margin:4px 0 6px;font:800 22px/1.15 "Barlow",sans-serif;letter-spacing:0;text-transform:none;color:#fff}
+.adm2 .adm-c .pn-hero-tx p{margin:0;font-size:13.5px;color:var(--muted)}
+.pn-hero-tx p b{color:#fff}
+.pn-licao{display:block;font-size:12px;color:var(--soft);margin-top:2px}
+.pn-anel{--p:0;position:relative;flex:none;width:90px;height:90px;display:grid;place-content:center;justify-items:center;text-align:center}
+.pn-anel::before{content:"";position:absolute;inset:0;border-radius:50%;background:conic-gradient(var(--ok) calc(var(--p) * 1%),rgba(255,255,255,.18) 0);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 9px),#000 calc(100% - 8px));mask:radial-gradient(farthest-side,transparent calc(100% - 9px),#000 calc(100% - 8px))}
+.pn-anel b{font:800 22px/1 "Barlow",sans-serif;color:#fff;font-variant-numeric:tabular-nums}
+.pn-anel small{max-width:58px;margin-top:3px;font-size:10px;font-weight:700;line-height:1.1;color:var(--muted)}
+.pn-hero-acoes{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:8px}
+.adm2 .adm-c .pn-hero-acoes .btn{flex:1 1 auto}
+.pn-kpis{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.pn-kpi{display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-areas:"ic num" "ic rot" "sub sub";column-gap:10px;row-gap:2px;align-items:center;min-width:0;padding:12px;border-radius:16px;border:1px solid var(--panel-line);background:var(--panel);color:#fff;font:inherit;text-align:left;transition:transform .15s,background .15s,border-color .15s}
+button.pn-kpi{cursor:pointer}
+button.pn-kpi:hover{transform:translateY(-2px);background:rgba(255,255,255,.22);border-color:rgba(255,255,255,.5)}
+.pn-kpi .pn-ic{grid-area:ic;width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font-size:19px;background:rgba(255,255,255,.14)}
+.pn-kpi b{grid-area:num;font:800 22px/1 "Barlow",sans-serif;letter-spacing:-.2px;font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pn-kpi b em{font-style:normal;font-size:14px;color:var(--soft);font-weight:700}
+.pn-kpi .pn-rot{grid-area:rot;font-size:12px;font-weight:700;line-height:1.2;color:var(--muted)}
+.pn-kpi small{grid-area:sub;display:block;margin-top:8px;font-size:11.5px;line-height:1.3;color:var(--soft)}
+.pn-barra{display:block;height:5px;margin-bottom:6px;border-radius:9px;background:rgba(255,255,255,.16);overflow:hidden}
+.pn-barra i{display:block;height:100%;border-radius:9px;background:var(--ok)}
+.pn-kpi.bom b{color:var(--ok)}
+.pn-kpi.alerta{border-color:rgba(242,190,46,.8);background:rgba(242,190,46,.16)}
+.pn-kpi.alerta b{color:#FFE27A}
+.pn-kpi.alerta .pn-ic{background:rgba(242,190,46,.3)}
+.pn-atencao{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.pn-atencao li{display:flex;align-items:center;gap:10px;padding:9px 10px 9px 12px;border-radius:14px;background:rgba(255,255,255,.08);border:1px solid var(--panel-line)}
+.pn-at-ic{flex:none;font-size:18px;line-height:1}
+.pn-atencao .tx{flex:1;min-width:0;font-size:13px;line-height:1.35}
+.pn-atencao .btn{flex:none}
+.pn-tudo{display:grid;justify-items:center;gap:3px;padding:16px 8px;text-align:center;border-radius:14px;background:rgba(255,255,255,.06);border:1px dashed var(--panel-line)}
+.pn-tudo span{font-size:26px;line-height:1.1}
+.pn-tudo b{font-size:14px}
+.pn-tudo small{font-size:12px;color:var(--muted)}
+.pn-rank li{gap:8px}
+.pn-pos{flex:none;width:28px;text-align:center;font:800 15px/1 "Barlow",sans-serif;color:var(--soft)}
+.pn-pos .ij,.pn-pos img{width:24px;height:24px}
+.pn-pos{font-size:21px}
+.adm2 .adm-c .pn-rank .pts{font:800 15px "Barlow",sans-serif;font-variant-numeric:tabular-nums}
+.pn-agenda li{gap:12px}
+.pn-quando{flex:none;display:grid;justify-items:center;align-content:center;width:52px;height:48px;border-radius:12px;background:rgba(255,255,255,.12);border:1px solid var(--panel-line);line-height:1}
+.pn-quando small{font-size:10px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--soft)}
+.pn-quando b{margin-top:3px;font:800 17px/1 "Barlow",sans-serif}
+.pn-atalhos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.pn-atalhos button{display:flex;align-items:center;gap:8px;min-height:44px;padding:8px 12px;border-radius:13px;border:1px solid var(--panel-line);background:rgba(255,255,255,.08);color:#fff;font:700 13px/1.2 "Barlow",sans-serif;text-align:left;cursor:pointer;transition:background .15s}
+.pn-atalhos button:hover{background:rgba(255,255,255,.2)}
+.pn-atalhos button span{font-size:17px;line-height:1}
+@media (min-width:700px){
+  .pn-kpis{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .pn-atalhos{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .adm2 .adm-c .pn-hero{grid-template-columns:minmax(0,1fr) auto;padding:20px 22px}
+  .pn-hero-acoes{grid-column:1}
+  .adm2 .adm-c .pn-hero-acoes .btn{flex:0 0 auto}
+  .pn-anel{grid-column:2;grid-row:1/span 2;width:112px;height:112px}
+  .pn-anel b{font-size:28px}
+  .adm2 .adm-c .pn-hero-tx h3{font-size:26px}
+}
+/* ---------- PC: barra lateral fixa com grupos ---------- */
+@media (min-width:900px){
+  .adm2{--g:28px;max-width:1480px;margin:0 auto;grid-template-columns:224px minmax(0,1fr);grid-template-rows:auto 1fr;column-gap:22px;row-gap:14px;align-items:start}
+  .adm2 .adm-marca{grid-column:1;grid-row:1;padding:2px 2px 0}
+  .adm2 .adm-menu{grid-column:1;grid-row:2;position:sticky;top:calc(var(--topo,62px) + 14px);margin:0;padding:6px;border:1px solid var(--panel-line);border-radius:18px;background:var(--panel);max-height:calc(100vh - var(--topo,62px) - 28px);overflow:auto;scrollbar-width:thin}
+  .adm2 .adm-main{grid-column:2;grid-row:1 / span 2}
+  .adm2 .adm-nav,.adm2 .adm-nav.poucas{display:grid;grid-template-columns:1fr;gap:1px;padding:0;overflow:visible}
+  .adm2 .adm-sep{display:none}
+  .adm2 .adm-grp{display:block;padding:12px 10px 5px;font:800 10px/1 "Barlow",sans-serif;letter-spacing:1.1px;text-transform:uppercase;color:var(--soft)}
+  .adm2 .adm-nav > .adm-grp:first-child{padding-top:7px}
+  .adm2 .adm-nav button{display:flex;width:100%;min-height:36px;padding:0 10px;gap:9px;border-radius:11px;border-color:transparent;background:transparent;font-size:13.5px}
+  .adm2 .adm-nav button .ic{width:20px;text-align:center;font-size:15px}
+  .adm2 .adm-n{margin-left:auto}
+  .adm2 .adm-sub{padding:8px 10px 4px}
+  .adm-pag{padding:4px 0 2px}
+  .adm-pag-ic{width:50px;height:50px;font-size:25px;border-radius:16px}
+  .adm-pag-tx h2{font-size:25px}
+  .adm-pag-tx p{font-size:13px}
+  .adm2 .adm-c{gap:14px}
+}
+@media (min-width:1100px){ .adm2 .adm-c{grid-template-columns:repeat(2,minmax(0,1fr))} }
+@media (min-width:1500px){ .adm2{grid-template-columns:236px minmax(0,1fr);column-gap:26px} }
+@media (max-width:559px){
+  .adm2 .vr-resumo{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .adm2 .vr-resumo button{display:flex;align-items:center;justify-content:center;gap:6px;padding:9px 6px;font-size:12px}
+  .adm2 .vr-resumo button b{font-size:18px}
+}
 </style>
 </head>
 <body class="sem-menu">
@@ -7196,12 +7341,30 @@ function compartilharConquista(c, btn){ return gerarCartao(x => desenharConquist
 /* ============================================================
    ADMIN
    ============================================================ */
-let admTab = "usuarios", admUFiltro = "todos";
+let admTab = "painel", admUFiltro = "todos";
 const ADM_TABS = [
+  ["painel", "🏠", "Painel", "Visão geral"],
   ["resultados", "📊", "Resultados", "Acompanhar"], ["salas", "🏫", "Salas", "Acompanhar"], ["versoes", "🔄", "Versões", "Acompanhar"],
   ["usuarios", "👥", "Usuários", "Pessoas"], ["aprovar", "✅", "Aprovar", "Pessoas"], ["cadastrar", "➕", "Novo usuário", "Pessoas"],
   ["licao", "📥", "Importar lição", "Conteúdo"], ["perguntas", "📝", "Perguntas", "Conteúdo"], ["livros", "📚", "Livros (capas)", "Conteúdo"],
-  ["avisos", "📣", "Avisos no celular", "Comunicação"], ["icone", "🖼️", "Ícone do site", "Aparência"], ["auditoria", "🔍", "Auditoria", "Segurança"], ["exportar", "💾", "Exportar dados", "Segurança"]];
+  ["avisos", "📣", "Avisos no celular", "Comunicação"],
+  ["icone", "🖼️", "Ícone do site", "Sistema"], ["auditoria", "🔍", "Auditoria", "Sistema"], ["exportar", "💾", "Exportar dados", "Sistema"]];
+const ADM_DESC = {
+  painel: "O resumo do dia e o que precisa da sua atenção.",
+  resultados: "Pontos e acertos por lição, dia, sala e jogador.",
+  salas: "Crie salas, acompanhe e escolha quem administra cada uma.",
+  versoes: "Quem já está com a versão mais nova do jogo.",
+  usuarios: "Todas as contas: busque, edite e dê permissões.",
+  aprovar: "Contas novas esperando liberação.",
+  cadastrar: "Crie uma conta para alguém entrar no jogo.",
+  licao: "Cadastre as lições pelo PDF ou pela internet.",
+  perguntas: "Planilha de perguntas e lições cadastradas.",
+  livros: "As capas dos livros de cada trimestre.",
+  avisos: "Mande, agende e organize os avisos no celular.",
+  icone: "O ícone do jogo no navegador e na tela inicial.",
+  auditoria: "Confira pontuações fora do normal e corrija.",
+  exportar: "Baixe uma cópia dos dados do jogo."
+};
 let admPend = null;                      // contas aguardando aprovação (preenchido quando a lista de usuários é carregada)
 function marcarPendentes(usuarios){
   admPend = usuarios.filter(u => !u.aprovado && !u.admin && !u.master).length;
@@ -7222,21 +7385,27 @@ function ajustarGradeAdmin(c){
 function telaAdmin(){
   const master = ehMaster();
   if(!master && !souAdminDeSala()){ nav("inicio"); return; }
-  const abas = master ? ADM_TABS : [["resultados", "📊", "Resultados", ""], ["salas", "🏫", "Minhas salas", ""], ["avisos", "📣", "Avisos", ""]];
+  const abas = master ? ADM_TABS : [["resultados", "📊", "Resultados", "Acompanhar"], ["salas", "🏫", "Minhas salas", "Acompanhar"], ["avisos", "📣", "Avisos", "Comunicação"]];
   if(!abas.some(([k]) => k === admTab)) admTab = abas[0][0];
+  const atual = abas.find(([k]) => k === admTab), topo = (document.querySelector(".topbar") || {}).offsetHeight || 56;
   let grupo = "";
-  app.innerHTML = `<div class="admin-area">${botaoVoltar("admVoltar", "Minha conta")}
-    <aside class="adm-menu">
-      <h2 class="h2">Área do administrador <span class="badge ${master ? "adm" : ""}">${master ? "master" : "sala"}</span></h2>
-      ${master ? "" : `<p class="muted small adm-sub">Você administra: <b>${SALAS.filter(ehAdminSala).map(x => esc(x.nome)).join(", ")}</b>.</p>`}
-      <div class="adm-nav ${abas.length <= 2 ? "poucas" : ""}" role="tablist" aria-label="Seções do admin">${abas.map(([k, ic, t, g]) => {
-        const cab = g && g !== grupo ? `<span class="adm-grp">${g}</span>` : ""; grupo = g || grupo;
-        return `${cab}<button role="tab" aria-selected="${admTab === k}" data-t="${k}"><span class="ic" aria-hidden="true">${ic}</span><span class="tx">${t}</span>${k === "aprovar" && admPend ? `<span class="adm-n" aria-label="${admPend} aguardando">${admPend}</span>` : ""}</button>`; }).join("")}</div>
-    </aside>
-    <div id="admC" class="adm-c adm-${admTab}"></div></div>`;
+  const itens = abas.map(([k, ic, t, g]) => {
+    const cab = g !== grupo ? `${grupo ? `<span class="adm-sep" aria-hidden="true"></span>` : ""}<span class="adm-grp">${esc(g)}</span>` : ""; grupo = g;
+    return `${cab}<button type="button" role="tab" aria-selected="${admTab === k}" data-t="${k}"><span class="ic" aria-hidden="true">${ic}</span><span class="tx">${esc(t)}</span>${k === "aprovar" && admPend ? `<span class="adm-n" aria-label="${admPend} aguardando">${admPend}</span>` : ""}</button>`; }).join("");
+  app.innerHTML = `<div class="admin-area adm2" style="--topo:${topo}px">
+    <div class="adm-marca"><button type="button" class="adm-voltar" id="admVoltar" aria-label="Voltar para Minha conta" title="Voltar para Minha conta">‹</button>
+      <div class="adm-marca-tx"><b>Admin</b><small>${master ? "Master · o jogo inteiro" : "Admin de sala"}</small></div><span class="badge ${master ? "adm" : ""}">${master ? "master" : "sala"}</span></div>
+    <aside class="adm-menu"><nav class="adm-nav ${abas.length <= 3 ? "poucas" : ""}" role="tablist" aria-label="Seções do admin">${itens}</nav>
+      ${master ? "" : `<p class="adm-sub">Você administra: <b>${SALAS.filter(ehAdminSala).map(x => esc(x.nome)).join(", ")}</b>.</p>`}</aside>
+    <main class="adm-main">
+      <header class="adm-pag"><span class="adm-pag-ic" aria-hidden="true">${atual[1]}</span><div class="adm-pag-tx"><small>${esc(atual[3] || "Admin")}</small><h2>${esc(atual[2])}</h2>${ADM_DESC[admTab] ? `<p>${esc(ADM_DESC[admTab])}</p>` : ""}</div></header>
+      <div id="admC" class="adm-c adm-${admTab}"></div>
+    </main></div>`;
   $("admVoltar").onclick = ()=> nav("conta");
-  app.querySelectorAll(".adm-nav [data-t]").forEach(b=> b.onclick = ()=>{ admTab = b.dataset.t; telaAdmin(); });
-  ({resultados:admResultados, salas:admSalas, usuarios:admUsuarios, aprovar:admAprovar, cadastrar:admCadastrar, licao:admLicao, perguntas:admPerguntas, livros:admLivros, icone:admIcone, avisos:admAvisos, versoes:admVersoes, auditoria:admAuditoria, exportar:admExportar}[admTab])();
+  const navEl = app.querySelector(".adm-nav"), sel = navEl.querySelector('[aria-selected="true"]');
+  if(sel && navEl.scrollWidth > navEl.clientWidth + 4) navEl.scrollLeft = Math.max(0, sel.offsetLeft - (navEl.clientWidth - sel.offsetWidth) / 2);
+  navEl.querySelectorAll("[data-t]").forEach(b=> b.onclick = ()=>{ if(b.dataset.t === admTab) return; const y = window.scrollY; admTab = b.dataset.t; telaAdmin(); if(y > 0) window.scrollTo({ top: 0 }); });
+  ({painel:admPainel, resultados:admResultados, salas:admSalas, usuarios:admUsuarios, aprovar:admAprovar, cadastrar:admCadastrar, licao:admLicao, perguntas:admPerguntas, livros:admLivros, icone:admIcone, avisos:admAvisos, versoes:admVersoes, auditoria:admAuditoria, exportar:admExportar}[admTab])();
 }
 function linhaUsuario(u, pendente){
   const eu = u.id === usuario.uid;
@@ -8422,6 +8591,131 @@ async function corrigirAuditoria(tipo, uid, botao){
   const i = AUD.contas.indexOf(c), nova = auditarConta(u, AUD.ctx);
   if(nova.qtd) AUD.contas[i] = nova; else AUD.contas.splice(i, 1);
   desenharAuditoria();
+}
+
+/* ============================================================
+   PAINEL DO ADMIN (p86): visão geral do dia para o master
+   - Saudação com o quiz de hoje e quantos já fizeram (anel de progresso)
+   - Números principais (clicáveis: levam para a aba certa)
+   - "Precisa da sua atenção", ranking de hoje, próximos avisos agendados e atalhos
+   ============================================================ */
+function irAdm(t){ admTab = t; telaAdmin(); window.scrollTo({ top: 0 }); }
+function esperarEl(sel, ms){
+  return new Promise(res => { const ini = Date.now(); (function olha(){ const e = document.querySelector(sel); if(e) return res(e); if(Date.now() - ini > (ms || 3000)) return res(null); setTimeout(olha, 80); })(); });
+}
+/* abre Avisos já com "só quem não fez o quiz de hoje" e os modelos do quiz */
+async function lembrarQuemNaoFez(){
+  irAdm("avisos");
+  const sel = await esperarEl("#avPub"); if(!sel) return;
+  sel.value = "quiz"; sel.dispatchEvent(new Event("change"));
+  const pronto = await esperarEl('.av-form .mo-modo [data-modo="pronto"]'); if(pronto) pronto.click();
+  const cat = await esperarEl('.av-form .mo-cats [data-cat="quiz"]'); if(cat) cat.click();
+  const f = document.querySelector(".av-form"); if(f) f.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+/* próximas saídas dos avisos agendados (até 7 dias) */
+function proximasSaidas(ags){
+  const agora = new Date(), out = [];
+  Object.values(ags || {}).forEach(a => {
+    if(!a || !a.ativo) return;
+    for(let k = 0; k < 8; k++){
+      const d = new Date(agora); d.setDate(d.getDate() + k); d.setHours(Number(a.hora) || 0, 0, 0, 0);
+      if(d <= agora) continue;
+      const iso = dataISO(d), dow = d.getDay();
+      const sai = a.quando === "dia" || (a.quando === "semana" && (a.dias || []).includes(dow)) || (a.quando === "data" && a.data === iso);
+      if(sai && a.ultimoDia !== iso){ out.push({ a, d, k }); break; }
+    }
+  });
+  return out.sort((x, y) => x.d - y.d).slice(0, 4);
+}
+async function admPainel(){
+  const c = $("admC");
+  c.innerHTML = `<section class="panel larga pn-esqueleto" aria-busy="true"><span></span><span></span><span></span></section>`;
+  const h = hoje(), q = typeof quizDoDia === "function" ? quizDoDia() : null, j = typeof janelaSuper === "function" ? janelaSuper() : null;
+  let us = [], rs = [], ps = [], salas = [], ags = {}, vPub = "";
+  try{
+    [us, rs, ps, salas, ags, vPub] = await Promise.all([listarUsuariosAdm(), DB.resultadosDoDia(h).catch(() => []), DB.listarPrivados().catch(() => []),
+      DB.listarSalas().catch(() => []), (DB.getAgendados ? DB.getAgendados() : Promise.resolve({})).catch(() => ({})), versaoPublicada().catch(() => "")]);
+  }catch(e){ c.innerHTML = `<section class="panel larga"><p class="erro">${esc(erroMsg(e))}</p></section>`; return; }
+  if(!$("admC") || admTab !== "painel") return;
+  if(typeof marcarPendentes === "function") marcarPendentes(us);
+  if(typeof AGENDADOS !== "undefined") AGENDADOS = ags;
+  if(typeof carregarModelos === "function") carregarModelos().catch(() => {});
+  const ativos = us.filter(u => u.aprovado || u.admin || u.master), pend = us.filter(u => !u.aprovado && !u.admin && !u.master);
+  const novos = ativos.filter(u => (u.criadoEm || 0) > Date.now() - 7 * 864e5).length;
+  const fez = new Set(rs.map(r => r.uid)), feitos = ativos.filter(u => fez.has(u.id)).length, faltam = ativos.length - feitos;
+  const pct = ativos.length ? Math.round(feitos * 100 / ativos.length) : 0;
+  const pMap = {}; ps.forEach(p => pMap[p.id] = p);
+  const comAviso = ativos.filter(u => Object.keys((pMap[u.id] && pMap[u.id].avisoTokens) || {}).length).length;
+  /* versões: mesma regra da aba Versões */
+  let ref = VERSAO; if(vPub && vPub > ref) ref = vPub;
+  const canal = typeof canalJogo === "function" ? canalJogo() : "oficial";
+  let vOk = 0, vVelho = 0, vSem = 0;
+  ativos.forEach(u => { const aps = Object.values((pMap[u.id] && pMap[u.id].aparelhos) || {}).filter(a => a && a.v && (a.canal || "oficial") === canal).sort((a, b) => (b.em || 0) - (a.em || 0));
+    if(!aps.length) vSem++; else if(aps[0].v >= ref) vOk++; else vVelho++; });
+  const nSalas = salas.filter(s => !s.global && s.id !== SALA_GLOBAL_ID).length;
+  const agsLig = Object.values(ags || {}).filter(a => a && a.ativo).length;
+  const nome1 = String((perfil && perfil.nome) || "").trim().split(/\s+/)[0] || "admin";
+  const diaSem = ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"][new Date().getDay()];
+  const temQuiz = !!(q && q.q);
+  const kpi = (ir, ic, num, rot, sub, tom) => `<${ir ? `button type="button" data-ir="${ir}"` : "div"} class="pn-kpi ${tom || ""}"><span class="pn-ic" aria-hidden="true">${ic}</span><b>${num}</b><span class="pn-rot">${rot}</span><small>${sub}</small></${ir ? "button" : "div"}>`;
+  const barra = p => `<i class="pn-barra" aria-hidden="true"><i style="width:${Math.max(0, Math.min(100, p))}%"></i></i>`;
+  const superTx = !j ? "" : j.aberto ? `Aberto · fecha sáb ${SQ_HORA}h` : `Abre sexta às ${SQ_HORA}h`;
+  /* precisa da sua atenção */
+  const at = [];
+  if(pend.length) at.push(["⏳", `<b>${pend.length}</b> ${pend.length === 1 ? "conta esperando" : "contas esperando"} aprovação`, "aprovar", "Aprovar"]);
+  if(vVelho) at.push(["🔄", `<b>${vVelho}</b> ${vVelho === 1 ? "jogador está" : "jogadores estão"} com a versão antiga`, "versoes", "Ver quem"]);
+  if(!CONFIG.vapid) at.push(["📣", "Os avisos no celular ainda não foram configurados", "avisos", "Configurar"]);
+  else if(!agsLig) at.push(["🗓️", "Nenhum aviso agendado está ligado", "avisos", "Agendar"]);
+  if(typeof quizDoDia === "function"){
+    const q7 = quizDoDia(somarDias(h, 7));
+    if(!q7) at.push(["📥", "A lição da próxima semana ainda não foi cadastrada", "licao", "Importar"]);
+    else if(!q7.q) at.push(["📝", "A lição da próxima semana ainda está sem perguntas", "perguntas", "Perguntas"]);
+  }
+  if(temQuiz && faltam > 0 && CONFIG.vapid) at.push(["👀", `<b>${faltam}</b> ${faltam === 1 ? "jogador ainda não fez" : "jogadores ainda não fizeram"} o quiz de hoje`, "@lembrar", "Lembrar"]);
+  /* ranking de hoje */
+  const top = rs.slice().sort((a, b) => (b.pts || 0) - (a.pts || 0)).slice(0, 5);
+  const medalha = i => ["🥇", "🥈", "🥉"][i] || `${i + 1}º`;
+  /* próximos agendados */
+  const prox = proximasSaidas(ags);
+  const quandoCurto = s => s.k === 0 ? "Hoje" : s.k === 1 ? "Amanhã" : ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"][s.d.getDay()];
+  const tituloAg = a => a.modo === "variar" && typeof proximoModelo === "function" ? (() => { const m = proximoModelo(a); return m ? comTema(m.titulo) : "🔀 " + catAviso(a.cat)[2]; })() : comTema(a.titulo || "");
+  c.innerHTML = `
+    <section class="panel larga pn-hero">
+      <div class="pn-hero-tx"><small>${esc(diaSem)}, ${esc(dataLonga(h))}</small><h3>Olá, ${esc(nome1)}! 👋</h3>
+        <p>${temQuiz ? `Quiz de hoje: <b>${esc(q.tema)}</b><span class="pn-licao">${esc(q.licao)}</span>` : "Hoje não tem quiz no calendário."}</p></div>
+      <div class="pn-anel" style="--p:${pct}" role="img" aria-label="${pct}% fizeram o quiz de hoje"><b>${pct}%</b><small>fizeram hoje</small></div>
+      <div class="pn-hero-acoes">${temQuiz && CONFIG.vapid ? `<button type="button" class="btn btn-main btn-sm" id="pnLembrar">📣 Lembrar quem não fez</button>` : ""}<button type="button" class="btn btn-ghost btn-sm" data-ir="resultados">📊 Ver resultados</button></div>
+    </section>
+    <div class="pn-kpis larga">
+      ${kpi("usuarios", "👥", fmt(ativos.length), "Jogadores", novos ? `+${novos} ${novos === 1 ? "novo" : "novos"} nesta semana` : "nenhum novo nesta semana")}
+      ${kpi("resultados", "🎯", `${feitos}<em>/${ativos.length}</em>`, "Fizeram o quiz hoje", temQuiz ? `${barra(pct)}${faltam} ${faltam === 1 ? "falta" : "faltam"}` : "sem quiz hoje", pct >= 60 ? "bom" : "")}
+      ${kpi("aprovar", "⏳", pend.length, "Esperando aprovação", pend.length ? "toque para aprovar" : "nada pendente", pend.length ? "alerta" : "")}
+      ${kpi("avisos", "🔔", comAviso, "Com avisos ligados", `${barra(ativos.length ? comAviso * 100 / ativos.length : 0)}${ativos.length ? Math.round(comAviso * 100 / ativos.length) : 0}% dos jogadores`)}
+      ${kpi("versoes", "🔄", vOk, "Na versão nova", `${vVelho} ${vVelho === 1 ? "desatualizado" : "desatualizados"} · ${vSem} sem registro`, vVelho ? "alerta" : "")}
+      ${kpi("salas", "🏫", nSalas, nSalas === 1 ? "Sala" : "Salas", "ver e gerenciar")}
+      ${kpi("avisos", "🗓️", agsLig, agsLig === 1 ? "Aviso agendado" : "Avisos agendados", agsLig ? (prox[0] ? `próximo: ${quandoCurto(prox[0]).toLowerCase()} ${prox[0].a.hora}h` : "ligados") : "nenhum ligado")}
+      ${kpi("", "🏁", j && j.aberto ? "Aberto" : "Fechado", "Super quiz", superTx, j && j.aberto ? "bom" : "")}
+    </div>
+    <section class="panel pn-atencao-p"><h3 class="h3">Precisa da sua atenção</h3>
+      ${at.length ? `<ul class="pn-atencao">${at.map(([ic, tx, ir, rot]) => `<li><span class="pn-at-ic" aria-hidden="true">${ic}</span><span class="tx">${tx}</span><button type="button" class="btn btn-ghost btn-sm" ${ir === "@lembrar" ? `data-lembrar="1"` : `data-ir="${ir}"`}>${rot}</button></li>`).join("")}</ul>`
+        : `<div class="pn-tudo"><span aria-hidden="true">✨</span><b>Tudo em dia por aqui.</b><small>Nada pendente agora.</small></div>`}
+    </section>
+    <section class="panel pn-rank-p"><div class="adm-cab"><h3 class="h3">Ranking de hoje</h3><button type="button" class="btn btn-ghost btn-sm" data-ir="resultados">Ver tudo</button></div>
+      ${top.length ? `<ol class="lista pn-rank">${top.map((r, i) => `<li${r.uid === usuario.uid ? ` class="eu"` : ""}><span class="pn-pos">${medalha(i)}</span><div class="em">${r.profeta ? avatarSVG(personagemDe(r.profeta, r.nivel || 0), null, r.nivel || 0) : "🙂"}</div>
+          <div class="info"><strong>${esc(r.nome || "Jogador")}</strong><span>${r.acertos || 0} de ${r.total || 0} certas${r.noPrazo === false ? " · atrasado" : ""}</span></div><span class="pts">${fmt(r.pts || 0)}</span></li>`).join("")}</ol>`
+        : `<div class="pn-tudo"><span aria-hidden="true">🏁</span><b>Ninguém jogou hoje ainda.</b><small>${temQuiz && CONFIG.vapid ? "Que tal mandar um lembrete?" : "O ranking aparece quando alguém fizer o quiz."}</small></div>`}
+    </section>
+    <section class="panel pn-agenda-p"><div class="adm-cab"><h3 class="h3">Próximos avisos</h3><button type="button" class="btn btn-ghost btn-sm" data-ir="avisos">Agendar</button></div>
+      ${prox.length ? `<ul class="lista pn-agenda">${prox.map(s => `<li><span class="pn-quando"><small>${quandoCurto(s)}</small><b>${s.a.hora}h</b></span><div class="info"><strong>${esc(tituloAg(s.a))}</strong><span>${esc((typeof PUBLICO_CURTO !== "undefined" && PUBLICO_CURTO[s.a.publico]) || "para todos")}${s.a.modo === "variar" ? " · variando" : ""}</span></div></li>`).join("")}</ul>`
+        : `<div class="pn-tudo"><span aria-hidden="true">🗓️</span><b>Nenhum aviso agendado.</b><small>Agende o lembrete do quiz e o do super quiz em Avisos.</small></div>`}
+    </section>
+    <section class="panel pn-atalhos-p"><h3 class="h3">Atalhos</h3>
+      <div class="pn-atalhos">${[["avisos", "📣", "Mandar aviso"], ["licao", "📥", "Importar lição"], ["perguntas", "📝", "Perguntas"], ["cadastrar", "➕", "Novo usuário"], ["salas", "🏫", "Salas"], ["exportar", "💾", "Exportar dados"]]
+        .map(([ir, ic, t]) => `<button type="button" data-ir="${ir}"><span aria-hidden="true">${ic}</span>${t}</button>`).join("")}</div>
+    </section>`;
+  if(typeof ajustarGradeAdmin === "function") ajustarGradeAdmin(c);
+  c.querySelectorAll("[data-ir]").forEach(b => b.onclick = () => irAdm(b.dataset.ir));
+  c.querySelectorAll("[data-lembrar], #pnLembrar").forEach(b => b.onclick = lembrarQuemNaoFez);
 }
 
 /* ============================================================
