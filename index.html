@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="versao" content="20261126.130546">
+<meta name="versao" content="20261126.134445">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Corrida do Rolo · Quiz da Lição</title>
 <meta name="theme-color" content="#524F9C">
@@ -3215,11 +3215,27 @@ button.fig.vaga:hover{transform:translateY(-2px)}
 .av-falta{align-items:flex-start;font-weight:600;line-height:1.35}
 .av-falta input{margin-top:1px}
 .av-falta-info{margin:0;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.10)}
-.lb-campos{display:grid;gap:12px;margin-bottom:14px}
-.lb-campos .field{margin:0}
-#lbTex{width:100%;resize:vertical;min-height:84px;font:inherit;font-size:16px;line-height:1.4}
-#lbHoje{margin-top:14px}
-.lb-ult{margin:10px 0 0}
+/* p84: avisos agendados */
+.ag-lista li{flex-wrap:wrap;align-items:flex-start;gap:12px}
+.ag-lista .info{flex:1 1 240px;min-width:0}
+.ag-lista .info span{display:block}
+.ag-item.off .info{opacity:.6}
+.ag-acoes{display:flex;flex-wrap:wrap;align-items:center;gap:8px;width:100%}
+.ag-lig{margin-right:4px}
+.ag-del{color:#ffd0d0}
+.ag-mod-rot{margin-top:16px}
+.ag-modelos{display:flex;flex-wrap:wrap;gap:8px}
+.ag-ed{display:grid;gap:12px}
+.ag-ed .field{margin:0}
+.ag-ed textarea{width:100%;resize:vertical;min-height:84px;font:inherit;font-size:16px;line-height:1.4}
+.ag-linha{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+.ag-dias{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.ag-dias[hidden],#agDataF[hidden]{display:none}
+.ag-dias button{padding:9px 0;border-radius:12px;border:2px solid var(--panel-line);background:var(--panel);color:#fff;font:700 13px/1 "Barlow",sans-serif;cursor:pointer}
+.ag-dias button[aria-pressed="true"]{border-color:#fff;background:rgba(255,255,255,.28)}
+.ag-dica{margin:0}
+.ag-ed .av-auto{margin:0}
+.ag-ed .av-rot{margin:2px 0 0}
 </style>
 </head>
 <body class="sem-menu">
@@ -3774,6 +3790,9 @@ function dbFirebase(){
     async criarAviso(d){ const r = await col("avisos").add(d); return r.id; },
     async resultadosDoDia(data){ return lista(col("resultados").where("data", "==", data)); },
     async salvarCalendario(o){ await col("config").doc("calendario").set(o); },
+    async getAgendados(){ const d = await col("config").doc("agendados").get(); return d.exists ? Object.assign({}, d.data().lista || {}) : {}; },
+    async salvarAgendado(id, a){ await col("config").doc("agendados").set({ lista: { [id]: a } }, { merge: true }); },
+    async excluirAgendado(id){ await col("config").doc("agendados").set({ lista: { [id]: firebase.firestore.FieldValue.delete() } }, { merge: true }); },
     async getAviso(id){ const d = await col("avisos").doc(id).get(); return d.exists ? Object.assign({ id: d.id }, d.data()) : null; },
     async listarAvisos(autor){ return autor ? lista(col("avisos").where("autor", "==", autor)) : lista(col("avisos").orderBy("criadoEm", "desc").limit(15)); },
     async salvarAparelho(uid, id, info){ await col("privado").doc(uid).set({ aparelhos: { [id]: info } }, { merge: true }); },
@@ -3903,6 +3922,9 @@ function dbLocal(){
     async excluirLogin(){ const d = ler(); delete d.senhas[usuario.uid]; if(d.sessao === usuario.uid) d.sessao = ""; gravar(d); avisar(); },
     async resultadosDoDia(data){ const d = ler(); return Object.values(d.resultados || {}).filter(r => r.data === data); },
     async salvarCalendario(o){ const d = ler(); d.calendario = o; gravar(d); },
+    async getAgendados(){ return JSON.parse(JSON.stringify(ler().agendados || {})); },
+    async salvarAgendado(id, a){ const d = ler(); d.agendados = d.agendados || {}; d.agendados[id] = Object.assign({}, d.agendados[id] || {}, a); gravar(d); },
+    async excluirAgendado(id){ const d = ler(); if(d.agendados) delete d.agendados[id]; gravar(d); },
     async criarAviso(x){ const d = ler(), id = "av" + Date.now().toString(36) + Math.floor(Math.random() * 1e4); (d.avisos = d.avisos || {})[id] = x; gravar(d); return id; },
     async getAviso(id){ const a = (ler().avisos || {})[id]; return a ? Object.assign({ id }, a) : null; },
     async listarAvisos(autor){ const m = ler().avisos || {}; return Object.keys(m).map(k => Object.assign({ id: k }, m[k])).filter(a => !autor || a.autor === autor); },
@@ -6179,7 +6201,8 @@ document.addEventListener("click", e => {
 /* ---------- Admin: avisos no celular (mandar pelo próprio jogo) ----------
    O aviso vira um documento em "avisos"; a função enviarAviso (Firebase Functions) manda para os aparelhos
    e anota quantos receberam. O master manda para todos ou para uma sala; quem cuida de uma sala, só para ela. */
-const avisoAlvoNome = a => (a.auto ? "Lembrete automático" : a.alvo === "todos" ? "Todos os jogadores" : "Sala " + (a.alvoNome || "")) + (a.soFaltando ? " · só quem não fez o quiz" : "");
+const avisoAlvoNome = a => { const p = a.publico || (a.soFaltando ? "quiz" : "todos");
+  return (a.auto ? "Agendado" : a.alvo === "todos" ? "Todos os jogadores" : "Sala " + (a.alvoNome || "")) + (p === "quiz" ? " · só quem não fez o quiz" : p === "super" ? " · só quem não fez o super quiz" : ""); };
 function htmlHistoricoAvisos(l){
   if(!l.length) return `<p class="vazio">Nenhum aviso mandado ainda.</p>`;
   const st = a => a.status === "enviado" ? `<span class="badge ok">${a.enviados || 0} ${(a.enviados || 0) === 1 ? "aparelho" : "aparelhos"}</span>`
@@ -6210,16 +6233,16 @@ async function admAvisos(){
         <div class="field"><label for="avTit">Título</label><input type="text" id="avTit" maxlength="60" placeholder="Ex.: Lição 10 no ar!"></div>
         <div class="field"><label for="avTex">Texto</label><textarea id="avTex" maxlength="180" rows="3" placeholder="Ex.: Bora fazer o quiz de hoje? Vale moedas!"></textarea><span class="hint"><span id="avQtd">0</span> de 180 letras. Escreva <b>{tema}</b> para pôr o tema do quiz de hoje.</span></div>
         <div class="field"><label for="avPara">Para quem</label><select id="avPara">${opcoes}</select></div>
-        <label class="check av-falta"><input type="checkbox" id="avFalta"><span>Só para quem ainda não fez o quiz de hoje</span></label>
+        <div class="field"><label for="avPub">Quem recebe</label><select id="avPub"><option value="todos">Todos com os avisos ligados</option><option value="quiz">Só quem ainda não fez o quiz de hoje</option><option value="super">Só quem ainda não fez o super quiz</option></select></div>
         <p class="muted small av-falta-info" id="avFaltaInfo" hidden></p></div>
         <div class="av-lado"><span class="rot">Como chega no celular</span><div class="av-previa" aria-hidden="true"><img src="app-icone-192.png" alt="" onerror="this.remove()"><div><b id="avPrevT">Corrida do Rolo</b><span id="avPrevX">O texto do aviso aparece aqui.</span></div></div></div></div>
         <p class="erro" id="avErro2"></p>
         <div class="btn-row uma"><button class="btn btn-main" id="avEnviar" style="width:100%" ${CONFIG.vapid ? "" : "disabled"}>Enviar aviso</button></div>
         <p class="note">Chega em quem ligou os avisos em Minha conta. No iPhone, só para quem instalou o jogo na tela inicial.</p>`
       : `<p class="vazio">Você ainda não administra nenhuma sala.</p>`}</section>
+    ${master ? htmlAgendados() : ""}
     <section class="panel"><h3 class="h3">Últimos avisos</h3><div id="avHist"><p class="vazio">Carregando…</p></div></section>
-    ${master ? htmlLembrete() : ""}
-    ${master ? `<section class="panel"><h3 class="h3">Avisos automáticos</h3>
+    ${master ? `<section class="panel"><h3 class="h3">Avisos de desafios e trocas</h3>
       <label class="check av-auto"><input type="checkbox" id="avAuto" ${CONFIG.avisosAuto === false ? "" : "checked"}><span>Avisar sozinho quando alguém recebe um desafio ou uma proposta de troca, e quando eles são aceitos.</span></label>
       <p class="av-status" id="avConta">Contando aparelhos…</p></section>
     <section class="panel"><h3 class="h3">Chave dos avisos (uma vez só)</h3>
@@ -6238,30 +6261,32 @@ async function admAvisos(){
   if(tit){
     const prev = () => { $("avPrevT").textContent = comTema(tit.value.trim()) || "Corrida do Rolo"; $("avPrevX").textContent = comTema(tex.value.trim()) || "O texto do aviso aparece aqui."; $("avQtd").textContent = tex.value.length; };
     tit.addEventListener("input", prev); tex.addEventListener("input", prev);
-    const falta = $("avFalta"), info = $("avFaltaInfo");
+    const pubSel = $("avPub"), info = $("avFaltaInfo");
+    const naoPode = p => { if(p === "quiz"){ const q = quizDoDia(); return q && q.q ? "" : "Hoje não tem quiz: este aviso não teria para quem ir."; }
+      if(p === "super") return janelaSuper().aberto ? "" : `O super quiz não está aberto agora (abre sexta às ${SQ_HORA}h e fecha sábado às ${SQ_HORA}h).`; return ""; };
     const verFalta = () => {
-      info.hidden = !falta.checked; if(!falta.checked) return;
-      const q = quizDoDia();
-      if(!q || !q.q){ info.textContent = "Hoje não tem quiz: este aviso não teria para quem ir."; return; }
-      if(para.value !== "todos"){ info.textContent = "Vai só para os membros da sala que ainda não fizeram o quiz de hoje."; return; }
+      const p = pubSel.value; info.hidden = p === "todos"; if(p === "todos") return;
+      const np = naoPode(p); if(np){ info.textContent = np; return; }
+      const oque = p === "quiz" ? "o quiz de hoje" : "o super quiz";
+      if(para.value !== "todos"){ info.textContent = `Vai só para os membros da sala que ainda não fizeram ${oque}.`; return; }
       info.textContent = "Contando quem ainda não fez…";
-      faltandoHoje().then(f => { info.innerHTML = `<b>${f.falta}</b> de ${f.total} jogadores ainda não fizeram o quiz de hoje (${esc(q.tema)}).`; }).catch(() => { info.textContent = "Vai só para quem ainda não fez o quiz de hoje."; });
+      faltandoHoje(p).then(f => { info.innerHTML = `<b>${f.falta}</b> de ${f.total} jogadores ainda não fizeram ${oque}${p === "quiz" ? ` (${esc(quizDoDia().tema)})` : ""}.`; }).catch(() => { info.textContent = `Vai só para quem ainda não fez ${oque}.`; });
     };
-    falta.onchange = verFalta; para.addEventListener("change", verFalta);
+    pubSel.onchange = verFalta; para.addEventListener("change", verFalta);
     env.onclick = async () => {
       const t = tit.value.trim().replace(/\s+/g, " "), x = tex.value.trim(), alvo = para.value, er = $("avErro2"); er.textContent = "";
       if(t.length < 3){ er.textContent = "Escreva um título (pelo menos 3 letras)."; return; }
       if(x.length < 3){ er.textContent = "Escreva o texto do aviso."; return; }
-      const soFalta = falta.checked, qh = quizDoDia();
-      if(soFalta && !(qh && qh.q)){ er.textContent = "Hoje não tem quiz. Desmarque a opção “Só para quem ainda não fez o quiz de hoje”."; return; }
-      const sala = salas.find(s => s.id === alvo), nome = (soFalta ? "quem ainda não fez o quiz de hoje em " : "") + (alvo === "todos" ? "todos os jogadores" : `a sala ${sala ? sala.nome : ""}`);
+      const pub = pubSel.value, soFalta = pub !== "todos", np = naoPode(pub);
+      if(np){ er.textContent = np; return; }
+      const sala = salas.find(s => s.id === alvo), nome = (pub === "quiz" ? "quem ainda não fez o quiz de hoje em " : pub === "super" ? "quem ainda não fez o super quiz em " : "") + (alvo === "todos" ? "todos os jogadores" : `a sala ${sala ? sala.nome : ""}`);
       if(!(await confirmar("Enviar aviso", `Mandar “${comTema(t)}” para ${nome}? Depois de enviado, não dá para desfazer.`, "Enviar", "btn-main"))) return;
       ocupado(env, true);
       try{
-        const id = await DB.criarAviso({ titulo: t, texto: x, alvo, alvoNome: alvo === "todos" ? "" : (sala ? sala.nome : ""), soFaltando: soFalta, data: hoje(), autor: usuario.uid, autorNome: perfil.nome || "", status: "pendente", criadoEm: Date.now() });
+        const id = await DB.criarAviso({ titulo: t, texto: x, alvo, alvoNome: alvo === "todos" ? "" : (sala ? sala.nome : ""), publico: pub, soFaltando: pub === "quiz", data: hoje(), autor: usuario.uid, autorNome: perfil.nome || "", status: "pendente", criadoEm: Date.now() });
         env.textContent = "Enviando…";
         const r = await esperarAviso(id);
-        if(r.status === "enviado") aviso(r.enviados ? `Aviso enviado para ${r.enviados} ${r.enviados === 1 ? "aparelho" : "aparelhos"}!` : soFalta ? "Ninguém para avisar: quem ligou os avisos já fez o quiz de hoje." : "Aviso registrado, mas ninguém dessa turma ligou os avisos ainda.");
+        if(r.status === "enviado") aviso(r.enviados ? `Aviso enviado para ${r.enviados} ${r.enviados === 1 ? "aparelho" : "aparelhos"}!` : soFalta ? "Ninguém para avisar: quem ligou os avisos já fez." : "Aviso registrado, mas ninguém dessa turma ligou os avisos ainda.");
         else if(r.status === "erro") aviso("O aviso não saiu: " + (r.erro || "erro desconhecido"));
         else aviso("O aviso ficou na fila. Se não sair em alguns minutos, confira se as funções dos avisos foram publicadas no Firebase.");
         admAvisos();
@@ -6272,7 +6297,7 @@ async function admAvisos(){
   DB.listarAvisos(master ? null : usuario.uid).then(l => { const h = $("avHist"); if(h) h.innerHTML = htmlHistoricoAvisos(l.sort((a, b) => (b.criadoEm || 0) - (a.criadoEm || 0)).slice(0, 10)); })
     .catch(e => { const h = $("avHist"); if(h) h.innerHTML = `<p class="erro">${esc(erroMsg(e))}</p>`; });
   if(!master) return;
-  sincronizarCalendario(); ligarLembrete(c, salas);
+  sincronizarCalendario(); carregarAgendados();
   $("avAuto").onchange = async e => { const v = e.target.checked; try{ await DB.salvarConfig({ avisosAuto: v }); CONFIG.avisosAuto = v; aviso(v ? "Avisos automáticos ligados." : "Avisos automáticos desligados."); }catch(er){ e.target.checked = !v; aviso(erroMsg(er)); } };
   $("avSalvar").onclick = async () => {
     const v = $("avChave").value.trim().replace(/\s+/g, "");
@@ -6315,7 +6340,7 @@ function modalAvisoSala(s){
       if(soFalta && !(qh && qh.q)){ er.textContent = "Hoje não tem quiz. Desmarque a opção “Só para quem ainda não fez o quiz de hoje”."; return; }
       ocupado(env, true);
       try{
-        const id = await DB.criarAviso({ titulo: t, texto: x, alvo: s.id, alvoNome: s.nome || "", soFaltando: soFalta, data: hoje(), autor: usuario.uid, autorNome: perfil.nome || "", status: "pendente", criadoEm: Date.now() });
+        const id = await DB.criarAviso({ titulo: t, texto: x, alvo: s.id, alvoNome: s.nome || "", publico: soFalta ? "quiz" : "todos", soFaltando: soFalta, data: hoje(), autor: usuario.uid, autorNome: perfil.nome || "", status: "pendente", criadoEm: Date.now() });
         env.textContent = "Enviando…";
         const r = await esperarAviso(id);
         fechar();
@@ -6398,15 +6423,21 @@ async function admVersoes(){
 }
 
 /* ============================================================
-   LEMBRETE DO QUIZ DO DIA (p83)
-   - O aviso pode ir só para quem ainda não fez o quiz de hoje (manual, pelo Admin ou pela sala).
-   - Lembrete automático: todo dia, no horário escolhido, a função lembreteQuiz (Firebase) avisa quem
-     ainda não respondeu o quiz do dia. Fica em config/geral.lembrete.
+   AVISOS AGENDADOS (p84)
+   - O master deixa quantos avisos quiser agendados: todo dia, em dias da semana ou uma vez só, no horário escolhido.
+   - Cada um escolhe quem recebe: todos, só quem ainda não fez o quiz do dia, ou só quem ainda não fez o super quiz.
+   - Ficam em config/agendados (lista); a função avisosAgendados (Firebase) roda de hora em hora e manda.
    - {tema} no título ou no texto vira o tema do quiz do dia; {licao} vira "Lição N – título".
-   - O jogo do master grava em config/calendario o tema de cada dia (as lições do arquivo e as do banco),
-     para a função saber se hoje tem quiz e qual é o tema.
+   - O jogo do master grava em config/calendario o tema de cada dia, para a função saber se tem quiz e qual o tema.
    ============================================================ */
-const LEMBRETE_PADRAO = { ligado: false, hora: 19, titulo: "👀 Ei, cadê você?", texto: "O quiz de hoje já tá te esperando! Tema: {tema}. Prometo que é mais rápido que escolher o que assistir 😅" };
+const SEMANA_NOMES = ["domingo", "segunda", "terça", "quarta", "quinta", "sexta", "sábado"], SEMANA_CURTO = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
+const PUBLICOS = { todos: "Todos com os avisos ligados", quiz: "Só quem ainda não fez o quiz do dia", super: "Só quem ainda não fez o super quiz" };
+const PUBLICO_CURTO = { todos: "para todos", quiz: "só quem não fez o quiz do dia", super: "só quem não fez o super quiz" };
+const MODELOS_AGENDADOS = {
+  quiz: { titulo: "👀 Ei, cadê você?", texto: "O quiz de hoje já tá te esperando! Tema: {tema}. Prometo que é mais rápido que escolher o que assistir 😅", quando: "dia", dias: [], hora: 19, publico: "quiz", ativo: true },
+  super: { titulo: "🏁 Corre que o super quiz fecha às 18h!", texto: "Ainda dá tempo: 20 perguntas da semana e cada 2 acertos te levam 1 casa nas missões. Bora avançar no mapa! 🗺️", quando: "semana", dias: [6], hora: 14, publico: "super", ativo: true },
+  livre: { titulo: "", texto: "", quando: "semana", dias: [], hora: 19, publico: "todos", ativo: true }
+};
 function quizDoDia(data){
   const h = data || hoje();
   for(const L of (LICOES || [])){
@@ -6420,7 +6451,6 @@ function comTema(s, data){
   const q = quizDoDia(data);
   return String(s || "").replace(/\{tema\}/gi, q && q.tema ? q.tema : "o quiz de hoje").replace(/\{licao\}/gi, q ? q.licao : "a lição da semana");
 }
-const lembreteConfig = () => Object.assign({}, LEMBRETE_PADRAO, CONFIG.lembrete || {});
 let _calSync = "";
 async function sincronizarCalendario(){
   try{
@@ -6433,68 +6463,156 @@ async function sincronizarCalendario(){
     _calSync = js; lsSet(KEY + ":calSync", js);
   }catch(e){ console.warn("calendário", e && e.code); }
 }
-/* quantos ainda não fizeram o quiz de hoje (master: todos os jogadores aprovados) */
-async function faltandoHoje(){
-  const [us, rs] = await Promise.all([listarUsuariosAdm(), DB.resultadosDoDia(hoje())]);
-  const fez = new Set(rs.map(r => r.uid)), ativos = us.filter(u => u.aprovado || u.admin || u.master);
+/* quantos ainda não fizeram (master: todos os jogadores aprovados) */
+async function faltandoHoje(publico){
+  const ativos = (await listarUsuariosAdm()).filter(u => u.aprovado || u.admin || u.master);
+  let fez;
+  if(publico === "super"){ const j = janelaSuper(); fez = new Set(ativos.filter(u => u.superQuiz && u.superQuiz.id === j.id && u.superQuiz.fim).map(u => u.id)); }
+  else fez = new Set((await DB.resultadosDoDia(hoje())).map(r => r.uid));
   return { total: ativos.length, falta: ativos.filter(u => !fez.has(u.id)).length };
 }
-function htmlLembrete(){
-  const lb = lembreteConfig(), q = quizDoDia(), res = lb.res;
-  const horas = Array.from({ length: 16 }, (_, k) => k + 7).map(h => `<option value="${h}" ${Number(lb.hora) === h ? "selected" : ""}>${h}h</option>`).join("");
-  const ult = res && res.dia ? (res.motivo ? `Último dia conferido: ${esc(dataCurta(res.dia))}. Não saiu porque ${esc(res.motivo)}.`
-    : `Último lembrete: ${esc(dataCurta(res.dia))}, para ${res.enviados || 0} ${(res.enviados || 0) === 1 ? "aparelho" : "aparelhos"}${res.pessoas ? ` (${res.pessoas} ${res.pessoas === 1 ? "jogador" : "jogadores"})` : ""}.`) : "";
-  return `<section class="panel"><h3 class="h3">Lembrete do quiz do dia</h3>
-    <label class="check av-auto"><input type="checkbox" id="lbLig" ${lb.ligado ? "checked" : ""}><span>Todo dia, lembrar sozinho quem ainda não fez o quiz do dia.</span></label>
-    <div class="lb-campos">
-      <div class="field"><label for="lbHora">Horário</label><select id="lbHora">${horas}</select></div>
-      <div class="field"><label for="lbTit">Título</label><input type="text" id="lbTit" maxlength="60" value="${esc(lb.titulo)}"></div>
-      <div class="field"><label for="lbTex">Texto</label><textarea id="lbTex" maxlength="180" rows="3">${esc(lb.texto)}</textarea><span class="hint">Escreva <b>{tema}</b> onde quer o tema do quiz do dia.</span></div>
-    </div>
-    <span class="av-rot">Como chega hoje</span>
-    <div class="av-previa" aria-hidden="true"><img src="app-icone-192.png" alt="" onerror="this.remove()"><div><b id="lbPrevT"></b><span id="lbPrevX"></span></div></div>
-    <p class="av-status" id="lbHoje">${q ? `Hoje (${esc(q.d.nome.toLowerCase())}, ${esc(dataCurta(q.d.data))}): <b>${esc(q.tema)}</b>.` : "Hoje não tem quiz no calendário: o lembrete não sai."} <span id="lbFalta"></span></p>
-    ${ult ? `<p class="muted small lb-ult">${ult}</p>` : ""}
-    <p class="erro" id="lbErro"></p>
-    <div class="btn-row"><button class="btn btn-main" id="lbSalvar">Salvar lembrete</button><button class="btn btn-ghost" id="lbAgora" ${CONFIG.vapid && q && q.q ? "" : "disabled"}>Mandar agora</button></div>
-    <p class="note">Só sai nos dias que têm quiz, para quem ligou os avisos e ainda não respondeu o quiz daquele dia. Se ligar depois do horário, começa amanhã.</p></section>`;
+/* o super quiz está aberto naquele dia da semana e hora? (sexta 18h → sábado 18h) */
+const superAbertoEm = (dow, h) => (dow === 5 && h >= SQ_HORA) || (dow === 6 && h < SQ_HORA);
+const diaDaSemana = iso => new Date(iso + "T12:00:00Z").getUTCDay();
+function quandoTexto(a){
+  const h = `às ${a.hora}h`;
+  if(a.quando === "dia") return "Todo dia " + h;
+  if(a.quando === "data") return a.data ? `Só no dia ${dataCurta(a.data)} ${h}` : "Uma vez (sem data)";
+  const PL = ["domingos", "segundas", "terças", "quartas", "quintas", "sextas", "sábados"];
+  const ds = (a.dias || []).slice().sort((x, y) => x - y).map(d => PL[d]);
+  if(!ds.length) return "Toda semana (sem dia escolhido)";
+  if(ds.length === 7) return "Todo dia " + h;
+  const t = ds.length === 1 ? ds[0] : ds.slice(0, -1).join(", ") + " e " + ds.at(-1);
+  return t[0].toUpperCase() + t.slice(1) + " " + h;
 }
-function ligarLembrete(c, salas){
-  const tit = $("lbTit"), tex = $("lbTex");
-  if(!tit) return;
-  const prev = () => { $("lbPrevT").textContent = comTema(tit.value.trim()) || "Corrida do Rolo"; $("lbPrevX").textContent = comTema(tex.value.trim()) || "O texto do lembrete aparece aqui."; };
-  tit.addEventListener("input", prev); tex.addEventListener("input", prev); prev();
-  $("lbSalvar").onclick = async () => {
-    const er = $("lbErro"), t = tit.value.trim().replace(/\s+/g, " "), x = tex.value.trim(); er.textContent = "";
-    if(t.length < 3){ er.textContent = "Escreva um título (pelo menos 3 letras)."; return; }
-    if(x.length < 3){ er.textContent = "Escreva o texto do lembrete."; return; }
-    const novo = Object.assign({}, CONFIG.lembrete || {}, { ligado: $("lbLig").checked, hora: Number($("lbHora").value), titulo: t, texto: x });
-    ocupado($("lbSalvar"), true);
-    try{
-      await DB.salvarConfig({ lembrete: novo }); CONFIG.lembrete = novo; sincronizarCalendario();
-      aviso(novo.ligado ? `Lembrete ligado: todo dia às ${novo.hora}h, para quem ainda não fez o quiz.` : "Lembrete salvo (desligado).");
-    }catch(e){ er.textContent = erroMsg(e); }
-    ocupado($("lbSalvar"), false);
-  };
-  $("lbAgora").onclick = async () => {
-    const t = tit.value.trim().replace(/\s+/g, " "), x = tex.value.trim(), b = $("lbAgora");
-    if(t.length < 3 || x.length < 3){ $("lbErro").textContent = "Escreva o título e o texto do lembrete."; return; }
-    if(!(await confirmar("Mandar o lembrete agora", `Mandar “${comTema(t)}” para quem ainda não fez o quiz de hoje? Não dá para desfazer.`, "Mandar", "btn-main"))) return;
-    ocupado(b, true);
-    try{
-      const id = await DB.criarAviso({ titulo: t, texto: x, alvo: "todos", alvoNome: "", soFaltando: true, data: hoje(), autor: usuario.uid, autorNome: perfil.nome || "", status: "pendente", criadoEm: Date.now() });
-      b.textContent = "Enviando…";
-      const r = await esperarAviso(id);
-      if(r.status === "enviado") aviso(r.enviados ? `Lembrete enviado para ${r.enviados} ${r.enviados === 1 ? "aparelho" : "aparelhos"}!` : "Ninguém para lembrar: quem ligou os avisos já fez o quiz de hoje.");
-      else if(r.status === "erro") aviso("O lembrete não saiu: " + (r.erro || "erro desconhecido"));
-      else aviso("O lembrete ficou na fila. Se não sair em alguns minutos, confira se as funções dos avisos foram publicadas.");
-      admAvisos();
-    }catch(e){ $("lbErro").textContent = erroMsg(e); ocupado(b, false); b.textContent = "Mandar agora"; }
-  };
-  if(quizDoDia()) faltandoHoje().then(f => { const el = $("lbFalta"); if(el) el.innerHTML = `<b>${f.falta}</b> de ${f.total} jogadores ainda não fizeram.`; }).catch(() => {});
+/* confere um agendado antes de salvar; devolve o erro ou "" */
+function erroAgendado(a){
+  if(String(a.titulo || "").trim().length < 3) return "Escreva um título (pelo menos 3 letras).";
+  if(String(a.texto || "").trim().length < 3) return "Escreva o texto do aviso.";
+  if(a.quando === "semana" && !(a.dias || []).length) return "Escolha pelo menos um dia da semana.";
+  if(a.quando === "data" && !/^\d{4}-\d{2}-\d{2}$/.test(a.data || "")) return "Escolha o dia do aviso.";
+  if(a.quando === "data" && a.data < hoje()) return "Esse dia já passou.";
+  if(a.publico === "super"){
+    const dias = a.quando === "dia" ? [0, 1, 2, 3, 4, 5, 6] : a.quando === "data" ? [diaDaSemana(a.data)] : a.dias;
+    if(!dias.every(d => superAbertoEm(d, a.hora))) return `O super quiz só fica aberto de sexta às ${SQ_HORA}h até sábado às ${SQ_HORA}h. Para "só quem não fez o super quiz", escolha sexta (${SQ_HORA}h ou mais tarde) ou sábado (até ${SQ_HORA - 1}h).`;
+  }
+  return "";
+}
+let AGENDADOS = {};
+function htmlAgendados(){
+  const ids = Object.keys(AGENDADOS).sort((x, y) => (AGENDADOS[x].hora - AGENDADOS[y].hora) || String(AGENDADOS[x].titulo).localeCompare(String(AGENDADOS[y].titulo), "pt-BR"));
+  const ult = r => !r || !r.dia ? "" : r.motivo ? `Último: ${dataCurta(r.dia)}, não saiu porque ${esc(r.motivo)}.`
+    : `Último: ${dataCurta(r.dia)}, ${r.enviados || 0} ${(r.enviados || 0) === 1 ? "aparelho" : "aparelhos"}${r.pessoas ? ` (${r.pessoas} ${r.pessoas === 1 ? "jogador" : "jogadores"})` : ""}.`;
+  const itens = ids.map(id => { const a = AGENDADOS[id]; return `<li class="ag-item${a.ativo ? "" : " off"}"><div class="info"><strong>${esc(a.titulo)}</strong><span>${esc(a.texto)}</span>
+      <span class="av-quem">${esc(quandoTexto(a))} · ${esc(PUBLICO_CURTO[a.publico] || PUBLICO_CURTO.todos)}${a.ativo ? "" : " · desligado"}</span>${ult(a.res) ? `<span class="av-quem">${ult(a.res)}</span>` : ""}</div>
+      <div class="ag-acoes"><label class="check ag-lig"><input type="checkbox" data-lig="${esc(id)}" ${a.ativo ? "checked" : ""}><span>Ligado</span></label>
+      <button type="button" class="btn btn-ghost btn-sm" data-ed="${esc(id)}">Editar</button><button type="button" class="btn btn-ghost btn-sm" data-env="${esc(id)}" ${CONFIG.vapid ? "" : "disabled"}>Mandar agora</button><button type="button" class="btn btn-ghost btn-sm ag-del" data-del="${esc(id)}">Apagar</button></div></li>`; }).join("");
+  return `<section class="panel larga" id="agPainel"><div class="adm-cab"><h3 class="h3">Avisos agendados</h3><button type="button" class="btn btn-ghost btn-sm" id="agNovo">+ Novo agendado</button></div>
+    ${ids.length ? `<ul class="lista ag-lista">${itens}</ul>` : `<p class="vazio">Nenhum aviso agendado ainda. Comece por um dos modelos abaixo.</p>`}
+    <span class="av-rot ag-mod-rot">Modelos prontos</span>
+    <div class="ag-modelos"><button type="button" class="btn btn-ghost btn-sm" data-mod="quiz">📖 Lembrete do quiz do dia</button><button type="button" class="btn btn-ghost btn-sm" data-mod="super">🏁 Lembrete do super quiz</button><button type="button" class="btn btn-ghost btn-sm" data-mod="livre">✏️ Personalizado</button></div>
+    <p class="note">Saem sozinhos no horário de Brasília, para quem ligou os avisos. Os de "só quem não fez" não saem em dia sem quiz nem com o super quiz fechado. Escreva <b>{tema}</b> no texto para pôr o tema do quiz do dia.</p></section>`;
+}
+function modalAgendado(id, base){
+  const a = Object.assign({}, MODELOS_AGENDADOS.livre, base || (id && AGENDADOS[id]) || {}), novo = !id || !AGENDADOS[id];
+  const horas = Array.from({ length: 18 }, (_, k) => k + 6).map(h => `<option value="${h}" ${Number(a.hora) === h ? "selected" : ""}>${h}h</option>`).join("");
+  const opt = (v, t, s) => `<option value="${v}" ${s === v ? "selected" : ""}>${t}</option>`;
+  modal(novo ? "Novo aviso agendado" : "Editar aviso agendado", `<div class="ag-ed">
+    <div class="field"><label for="agTit">Título</label><input type="text" id="agTit" maxlength="60" value="${esc(a.titulo)}" placeholder="Ex.: Bora pro quiz!"></div>
+    <div class="field"><label for="agTex">Texto</label><textarea id="agTex" maxlength="180" rows="3" placeholder="Ex.: O tema de hoje é {tema}.">${esc(a.texto)}</textarea><span class="hint">Escreva <b>{tema}</b> para pôr o tema do quiz do dia.</span></div>
+    <div class="ag-linha"><div class="field"><label for="agQuando">Quando</label><select id="agQuando">${opt("dia", "Todo dia", a.quando)}${opt("semana", "Toda semana", a.quando)}${opt("data", "Uma vez só", a.quando)}</select></div>
+      <div class="field"><label for="agHora">Horário</label><select id="agHora">${horas}</select></div></div>
+    <div class="ag-dias" id="agDias" role="group" aria-label="Dias da semana">${SEMANA_CURTO.map((d, k) => `<button type="button" data-dia="${k}" aria-pressed="${(a.dias || []).includes(k)}">${d}</button>`).join("")}</div>
+    <div class="field" id="agDataF"><label for="agData">Dia</label><input type="date" id="agData" min="${hoje()}" value="${esc(a.data || "")}"></div>
+    <div class="field"><label for="agPub">Quem recebe</label><select id="agPub">${Object.keys(PUBLICOS).map(k => opt(k, PUBLICOS[k], a.publico)).join("")}</select></div>
+    <p class="muted small ag-dica" id="agDica"></p>
+    <label class="check av-auto"><input type="checkbox" id="agAtivo" ${a.ativo !== false ? "checked" : ""}><span>Ligado</span></label>
+    <span class="av-rot">Como chega (com o tema de hoje)</span>
+    <div class="av-previa" aria-hidden="true"><img src="app-icone-192.png" alt="" onerror="this.remove()"><div><b id="agPrevT"></b><span id="agPrevX"></span></div></div>
+    <p class="erro" id="agErro"></p>
+    <div class="btn-row"><button type="button" class="btn btn-main" id="agOk">Salvar</button><button type="button" class="btn btn-ghost" id="agNao">Cancelar</button></div></div>`, (m, fechar) => {
+    const q = s => m.querySelector(s), tit = q("#agTit"), tex = q("#agTex"), qd = q("#agQuando"), pub = q("#agPub");
+    const ler = () => ({ titulo: tit.value.trim().replace(/\s+/g, " "), texto: tex.value.trim(), quando: qd.value, hora: Number(q("#agHora").value),
+      dias: [...m.querySelectorAll("#agDias [aria-pressed=true]")].map(b => Number(b.dataset.dia)), data: q("#agData").value || "", publico: pub.value, ativo: q("#agAtivo").checked });
+    const atualizar = () => {
+      const x = ler();
+      q("#agDias").hidden = x.quando !== "semana"; q("#agDataF").hidden = x.quando !== "data";
+      q("#agPrevT").textContent = comTema(x.titulo) || "Corrida do Rolo"; q("#agPrevX").textContent = comTema(x.texto) || "O texto do aviso aparece aqui.";
+      q("#agDica").textContent = x.publico === "super" ? `O super quiz fica aberto de sexta às ${SQ_HORA}h até sábado às ${SQ_HORA}h: escolha um dia e horário dentro desse período.`
+        : x.publico === "quiz" ? "Não sai em dia sem quiz. Quem já respondeu o quiz do dia não recebe." : "Vai para todos que ligaram os avisos.";
+    };
+    [tit, tex].forEach(e => e.addEventListener("input", atualizar));
+    [qd, pub, q("#agHora"), q("#agData")].forEach(e => e.addEventListener("change", atualizar));
+    m.querySelectorAll("#agDias button").forEach(b => b.onclick = () => { b.setAttribute("aria-pressed", String(b.getAttribute("aria-pressed") !== "true")); atualizar(); });
+    atualizar();
+    q("#agNao").onclick = fechar;
+    q("#agOk").onclick = async () => {
+      const x = ler(), er = erroAgendado(x); q("#agErro").textContent = er;
+      if(er) return;
+      const nid = id || ("ag" + Date.now().toString(36) + Math.floor(Math.random() * 1e3));
+      const dados = { titulo: x.titulo, texto: x.texto, quando: x.quando, hora: x.hora, dias: x.quando === "semana" ? x.dias : [], data: x.quando === "data" ? x.data : "", publico: x.publico, ativo: x.ativo, editadoEm: Date.now() };
+      if(novo) dados.criadoEm = Date.now();
+      ocupado(q("#agOk"), true);
+      try{
+        await DB.salvarAgendado(nid, dados); AGENDADOS[nid] = Object.assign({}, AGENDADOS[nid] || {}, dados);
+        sincronizarCalendario(); fechar(); desenharAgendados();
+        aviso(dados.ativo ? `Agendado: ${quandoTexto(dados).toLowerCase()}.` : "Aviso agendado salvo (desligado).");
+      }catch(e){ q("#agErro").textContent = erroMsg(e); ocupado(q("#agOk"), false); }
+    };
+  });
+}
+async function mandarAgendadoAgora(a, botao){
+  if(a.publico === "quiz"){ const qh = quizDoDia(); if(!(qh && qh.q)){ aviso("Hoje não tem quiz: esse aviso não teria para quem ir."); return; } }
+  if(a.publico === "super" && !janelaSuper().aberto){ aviso(`O super quiz não está aberto agora (abre sexta às ${SQ_HORA}h).`); return; }
+  if(!(await confirmar("Mandar agora", `Mandar “${comTema(a.titulo)}” agora, ${PUBLICO_CURTO[a.publico] || "para todos"}? Não dá para desfazer. O agendamento continua igual.`, "Mandar", "btn-main"))) return;
+  ocupado(botao, true);
+  try{
+    const id = await DB.criarAviso({ titulo: a.titulo, texto: a.texto, alvo: "todos", alvoNome: "", publico: a.publico || "todos", soFaltando: a.publico === "quiz", data: hoje(), autor: usuario.uid, autorNome: perfil.nome || "", status: "pendente", criadoEm: Date.now() });
+    botao.textContent = "Enviando…";
+    const r = await esperarAviso(id);
+    if(r.status === "enviado") aviso(r.enviados ? `Enviado para ${r.enviados} ${r.enviados === 1 ? "aparelho" : "aparelhos"}!` : "Ninguém para avisar agora.");
+    else if(r.status === "erro") aviso("Não saiu: " + (r.erro || "erro desconhecido"));
+    else aviso("Ficou na fila. Se não sair em alguns minutos, confira se as funções dos avisos foram publicadas.");
+    admAvisos();
+  }catch(e){ aviso(erroMsg(e)); ocupado(botao, false); botao.textContent = "Mandar agora"; }
+}
+function desenharAgendados(){
+  const p = $("agPainel"); if(!p) return;
+  p.outerHTML = htmlAgendados(); ligarAgendados();
+}
+function ligarAgendados(){
+  const p = $("agPainel"); if(!p) return;
+  $("agNovo").onclick = () => modalAgendado(null, MODELOS_AGENDADOS.livre);
+  p.querySelectorAll("[data-mod]").forEach(b => b.onclick = () => modalAgendado(null, MODELOS_AGENDADOS[b.dataset.mod]));
+  p.querySelectorAll("[data-ed]").forEach(b => b.onclick = () => modalAgendado(b.dataset.ed));
+  p.querySelectorAll("[data-env]").forEach(b => b.onclick = () => mandarAgendadoAgora(AGENDADOS[b.dataset.env], b));
+  p.querySelectorAll("[data-lig]").forEach(c => c.onchange = async () => {
+    const id = c.dataset.lig, v = c.checked, a = AGENDADOS[id];
+    if(v){ const er = erroAgendado(Object.assign({}, a, { ativo: true })); if(er){ c.checked = false; aviso(er); return; } }
+    try{ await DB.salvarAgendado(id, { ativo: v, editadoEm: Date.now() }); a.ativo = v; desenharAgendados(); aviso(v ? "Aviso agendado ligado." : "Aviso agendado desligado."); }
+    catch(e){ c.checked = !v; aviso(erroMsg(e)); }
+  });
+  p.querySelectorAll("[data-del]").forEach(b => b.onclick = async () => {
+    const id = b.dataset.del, a = AGENDADOS[id];
+    if(!(await confirmar("Apagar aviso agendado", `Apagar “${a.titulo}”? Ele para de sair.`, "Apagar"))) return;
+    try{ await DB.excluirAgendado(id); delete AGENDADOS[id]; desenharAgendados(); aviso("Aviso agendado apagado."); }catch(e){ aviso(erroMsg(e)); }
+  });
+}
+async function carregarAgendados(){
+  try{
+    AGENDADOS = await DB.getAgendados();
+    /* o lembrete único da versão anterior vira um agendado */
+    const lb = CONFIG.lembrete;
+    if(lb && !lb.migrado && lb.titulo){
+      const a = { titulo: lb.titulo, texto: lb.texto, quando: "dia", dias: [], data: "", hora: Number(lb.hora) || 19, publico: "quiz", ativo: !!lb.ligado, criadoEm: Date.now(), editadoEm: Date.now() };
+      await DB.salvarAgendado("lembrete", a); AGENDADOS.lembrete = a;
+      CONFIG.lembrete = Object.assign({}, lb, { ligado: false, migrado: true }); await DB.salvarConfig({ lembrete: CONFIG.lembrete });
+    }
+  }catch(e){ console.warn("agendados", e && e.code); }
+  desenharAgendados();
 }
 
-/* lição salva no Admin: atualiza o calendário do lembrete */
+/* lição salva no Admin: atualiza o calendário dos avisos agendados */
 (function(){ const salvar = DB.salvarLicao.bind(DB); DB.salvarLicao = async (id, dados) => { await salvar(id, dados); setTimeout(() => { _calSync = ""; sincronizarCalendario(); }, 3000); }; })();
 
 /* Livro do trimestre que já vem neste arquivo: nome e capa (primeira página do PDF da lição, reduzida). O que o master gravar em Admin → Livros ou ao importar a lição passa na frente. */
