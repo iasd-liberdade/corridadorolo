@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="versao" content="20261126.014458">
+<meta name="versao" content="20261126.122047">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Corrida do Rolo · Quiz da Lição</title>
 <meta name="theme-color" content="#524F9C">
@@ -3180,6 +3180,37 @@ button.fig.vaga:hover{transform:translateY(-2px)}
 .ajudas-wrap .ajuda-btn.off,.ajudas-wrap .ajuda-btn.usada{opacity:.4;filter:grayscale(.85);box-shadow:none;cursor:default;font-size:13.5px}
 .ajudas-wrap .ajuda-btn.off b{background:rgba(255,255,255,.5)}
 @media (min-width:700px){.ajudas-wrap .ajuda-btn{min-height:74px;font-size:14.5px}.ajudas-wrap .ajuda-btn .ic{font-size:24px}}
+/* p80: avisos no celular */
+.hm-avisos .hi-ic{font-size:26px}
+.av-status{margin:4px 0 0;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.10);border:1px solid var(--panel-line)}
+.adm-avisos .ip-passos a{color:var(--accent);font-weight:700}
+/* p81: mandar avisos pelo jogo */
+.av-form{display:grid;gap:14px}
+@media (min-width:760px){.av-form{grid-template-columns:minmax(0,1fr) 300px;align-items:start}}
+.av-lado .rot{display:block;margin:0 0 8px;font-size:13px;font-weight:700;color:var(--soft)}
+.av-previa{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border-radius:18px;background:rgba(250,250,255,.94);color:#1d1b3a;box-shadow:0 8px 20px rgba(0,0,0,.25)}
+.av-previa img{width:38px;height:38px;border-radius:10px;flex:0 0 auto}
+.av-previa div{display:grid;gap:2px;min-width:0}
+.av-previa b{font-size:15px;line-height:1.25;word-break:break-word}
+.av-previa span{font-size:14px;line-height:1.3;color:#3d3a63;word-break:break-word}
+.av-form textarea,#asTex{width:100%;resize:vertical;min-height:84px;font:inherit;font-size:16px;line-height:1.4}
+.av-hist li{align-items:flex-start;gap:12px}
+.av-hist .info span{display:block}
+.av-hist .av-quem{font-size:12.5px;color:var(--soft);margin-top:2px}
+.av-auto{align-items:flex-start;font-weight:600;line-height:1.35;margin-bottom:12px}
+.av-auto input{margin-top:1px}
+.av-outro{margin-top:14px}
+.av-outro summary{cursor:pointer;font-weight:700;margin-bottom:10px}
+.av-rot{display:block;margin:2px 0 8px;font-size:13px;font-weight:700;color:var(--soft)}
+/* p82: versões dos jogadores */
+.vr-resumo{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:4px 0 16px}
+.vr-resumo button{display:grid;justify-items:center;gap:2px;padding:10px 4px;border-radius:14px;border:2px solid var(--panel-line);background:var(--panel);color:#fff;font:700 12.5px/1.2 "Barlow",sans-serif}
+.vr-resumo button b{font-size:22px;line-height:1}
+.vr-resumo button.ok b{color:var(--ok)}.vr-resumo button.velho b{color:var(--warn)}.vr-resumo button.sem b{color:var(--soft)}
+.vr-resumo button[aria-pressed="true"]{border-color:#fff;background:rgba(255,255,255,.24)}
+.vr-lista li{align-items:flex-start;gap:12px}
+.vr-lista .info span{display:block;font-size:13px;line-height:1.35}
+.vr-lista .vr-outro{color:var(--soft);font-style:italic}
 </style>
 </head>
 <body class="sem-menu">
@@ -3730,7 +3761,12 @@ function dbFirebase(){
       // trocas que eu aceitei ficam (quem propôs ainda anota as figurinhas que recebeu), só sem o meu nome
       for(const d of await docs(col("trocas").where("para","==",uid))){ if(d.data().status === "aceito") await d.ref.update({ paraNome: "Jogador removido" }); else await d.ref.delete(); }
     },
-    async excluirLogin(){ await auth.currentUser.delete(); }
+    async excluirLogin(){ await auth.currentUser.delete(); },
+    async criarAviso(d){ const r = await col("avisos").add(d); return r.id; },
+    async getAviso(id){ const d = await col("avisos").doc(id).get(); return d.exists ? Object.assign({ id: d.id }, d.data()) : null; },
+    async listarAvisos(autor){ return autor ? lista(col("avisos").where("autor", "==", autor)) : lista(col("avisos").orderBy("criadoEm", "desc").limit(15)); },
+    async salvarAparelho(uid, id, info){ await col("privado").doc(uid).set({ aparelhos: { [id]: info } }, { merge: true }); },
+    async salvarAvisoToken(uid, k, v){ await col("privado").doc(uid).set({ avisoTokens: { [k]: v === null ? firebase.firestore.FieldValue.delete() : v } }, { merge: true }); }
   };
 }
 /* IndexedDB (modo demonstração) para as páginas do PDF, que não cabem no localStorage */
@@ -3853,7 +3889,12 @@ function dbLocal(){
       delete d.usuarios[uid];
       gravar(d);
     },
-    async excluirLogin(){ const d = ler(); delete d.senhas[usuario.uid]; if(d.sessao === usuario.uid) d.sessao = ""; gravar(d); avisar(); }
+    async excluirLogin(){ const d = ler(); delete d.senhas[usuario.uid]; if(d.sessao === usuario.uid) d.sessao = ""; gravar(d); avisar(); },
+    async criarAviso(x){ const d = ler(), id = "av" + Date.now().toString(36) + Math.floor(Math.random() * 1e4); (d.avisos = d.avisos || {})[id] = x; gravar(d); return id; },
+    async getAviso(id){ const a = (ler().avisos || {})[id]; return a ? Object.assign({ id }, a) : null; },
+    async listarAvisos(autor){ const m = ler().avisos || {}; return Object.keys(m).map(k => Object.assign({ id: k }, m[k])).filter(a => !autor || a.autor === autor); },
+    async salvarAparelho(uid, id, info){ const d = ler(); d.privado = d.privado || {}; const p = d.privado[uid] = d.privado[uid] || {}; p.aparelhos = Object.assign(p.aparelhos || {}, { [id]: info }); gravar(d); },
+    async salvarAvisoToken(uid, k, v){ const d = ler(); d.privado = d.privado || {}; const p = d.privado[uid] = d.privado[uid] || {}; p.avisoTokens = p.avisoTokens || {}; if(v === null) delete p.avisoTokens[k]; else p.avisoTokens[k] = v; gravar(d); }
   };
 }
 const DB = FB_OK ? dbFirebase() : dbLocal();
@@ -4548,6 +4589,7 @@ DB.onAuth(async u => {
     }
     if(!perfil.aprovado && !perfil.admin && !ehMaster()){ fecharBarra(); atualizarCasca(); telaPendente(); return; }
     aplicarTema(perfil.tema || "auto");
+    if(typeof registrarAparelho === "function") setTimeout(registrarAparelho, 4000);          // Admin › Versões: qual versão este aparelho abriu
     await carregarTudo(passo);
     passo(72, "Entrando nas salas");
     await carregarSalas(true);
@@ -4791,6 +4833,7 @@ function telaInicio(){
   /* linha fina: ganhar moedas à esquerda; sequência e nível à direita */
   html += `<div class="hm-linha">${typeof htmlMoedasInicio === "function" ? htmlMoedasInicio() : ""}<div class="hm-chips"><span class="hm-chip" title="Sequência no prazo">${st >= 5 ? "🔥" : "⚡"} ${st}</span><span class="hm-chip ouro" title="Nível ${nv}: ${esc(nomeNivel(nv))}">Nv ${nv}</span></div></div>`;
   html += typeof htmlInstalarInicio === "function" ? htmlInstalarInicio() : "";
+  html += typeof htmlAvisosInicio === "function" ? htmlAvisosInicio() : "";
   html += typeof htmlDesafiosInicio === "function" ? htmlDesafiosInicio() : "";
   if(typeof htmlSuperQuizInicio === "function") html += htmlSuperQuizInicio();         // super quiz: o relógio fica sempre no alto
   /* hoje */
@@ -5595,6 +5638,7 @@ function telaConta(){
       <button id="mSom" role="switch" aria-checked="${SOM.on}"><span class="ic">🔊</span>Sons do jogo<span class="switch" aria-hidden="true" aria-checked="${SOM.on}"></span></button>
       <button id="mMus" role="switch" aria-checked="${SOM.mus}"><span class="ic">🎵</span>Música (quiz e missões)<span class="switch" aria-hidden="true" aria-checked="${SOM.mus}"></span></button>
       <button id="mVib" role="switch" aria-checked="${SOM.vib}"><span class="ic">📳</span>Vibração<span class="switch" aria-hidden="true" aria-checked="${SOM.vib}"></span></button>
+      <button id="mAvisos" role="switch" aria-checked="${avisosLigados()}"><span class="ic">📣</span><span class="mc-2">Avisos no celular<small>${avisosLigados() ? "Ligados neste aparelho" : "Lição nova, Super Quiz e recados no seu celular"}</small></span><span class="switch" aria-hidden="true" aria-checked="${avisosLigados()}"></span></button>
       <button id="mNotif"><span class="ic">🔔</span>Notificações${NOTIF.total > 0 ? `<span class="nt-n">${NOTIF.total}</span>` : ""}<span class="seta">›</span></button>
       <button id="mDesempenho"><span class="ic">📈</span>Meu desempenho<span class="seta">›</span></button>
       <button id="mRetro"><span class="ic">📜</span>Retrospectiva do trimestre<span class="seta">›</span></button>
@@ -5628,6 +5672,7 @@ function telaConta(){
   $("mRetro").onclick = modalRetrospectiva;
   $("mTutorial").onclick = ()=> mostrarTutorial();
   $("mExcluir").onclick = ()=> modalExcluirConta();
+  $("mAvisos").onclick = ()=> alternarAvisos($("mAvisos"));
   $("mSair").onclick = async ()=>{ if(await confirmar("Sair da conta", "Quer mesmo sair? Seus pontos continuam salvos.", "Sair")) DB.sair(); };
 }
 
@@ -6018,6 +6063,305 @@ function modalTemas(){
       try{ await DB.salvarUsuario(usuario.uid, { tema: b.dataset.t }); }catch(e){}
     });
   });
+}
+
+/* ============================================================
+   AVISOS NO CELULAR (notificações), pelo Firebase Cloud Messaging.
+   - O jogador liga em Minha conta › Avisos no celular (ou no cartão do Início). No iPhone, só com o jogo instalado.
+   - O master cola uma vez a "chave pública" (Admin › Avisos no celular) e manda os avisos pelo painel do Firebase.
+   - O sw.js mostra o aviso e, ao tocar, abre o jogo.
+   ============================================================ */
+const AVISO_SDK = "https://www.gstatic.com/firebasejs/10.14.1/firebase-messaging-compat.js";
+const avisoChave = () => usuario ? lsGet(KEY + ":aviso:" + usuario.uid, "") : "";
+function avisosSuportados(){ return "serviceWorker" in navigator && "PushManager" in window && "Notification" in window; }
+function avisosLigados(){ return avisosSuportados() && Notification.permission === "granted" && !!avisoChave(); }
+function avisosNoJogo(){ return !!String(CONFIG.vapid || "").trim(); }
+function carregarScriptAvisos(){
+  if(typeof firebase !== "undefined" && typeof firebase.messaging === "function") return Promise.resolve();
+  return new Promise((res, rej) => { const s = document.createElement("script"); s.src = AVISO_SDK; s.onload = () => res(); s.onerror = () => rej(new Error("não deu para carregar o serviço de avisos")); document.head.appendChild(s); });
+}
+async function registroDoJogo(){
+  let r = await navigator.serviceWorker.getRegistration();
+  if(!r) r = await navigator.serviceWorker.register("sw.js");
+  await navigator.serviceWorker.ready;
+  return r;
+}
+async function mostrarAvisoLocal(titulo, corpo){
+  const r = await registroDoJogo();
+  await r.showNotification(titulo, { body: corpo, icon: "app-icone-192.png", badge: "app-icone-192.png", tag: "corrida-teste" });
+}
+/* explica por que não dá para ligar agora; devolve true se dá para seguir */
+function avisoPodeLigar(){
+  const ok = (t, h) => modal(t, `${h}<div class="btn-row uma"><button class="btn btn-main" id="avOk" style="width:100%">Entendi</button></div>`, (m, f) => { m.querySelector("#avOk").onclick = f; });
+  if(!avisosNoJogo()){ ok("Avisos no celular", `<p>Os avisos ainda não foram ligados pelo administrador do jogo. Assim que forem, é só voltar aqui.</p>`); return false; }
+  if(ehIOS() && !appInstalado()){
+    modal("Avisos no iPhone", `<p>No iPhone, os avisos só chegam com o jogo <b>instalado na tela inicial</b>.</p><ol class="ip-passos"><li><span class="ip-n">1</span><span>Instale o jogo (botão abaixo).</span></li><li><span class="ip-n">2</span><span>Abra o jogo pelo ícone novo, na tela do iPhone.</span></li><li><span class="ip-n">3</span><span>Volte em <b>Minha conta › Avisos no celular</b> e ligue.</span></li></ol><div class="btn-row"><button class="btn btn-main" id="avInst">Instalar o jogo</button><button class="btn btn-ghost" id="avNao">Agora não</button></div>`,
+      (m, f) => { m.querySelector("#avInst").onclick = () => { f(); instalarApp(); }; m.querySelector("#avNao").onclick = f; });
+    return false;
+  }
+  if(navegadorDeApp()){ ok("Avisos no celular", `<p>Você abriu o jogo por dentro de outro aplicativo (WhatsApp, Instagram…). Daqui não dá para ligar os avisos. Abra o jogo no ${ehIOS() ? "Safari" : "Chrome"} ou pelo ícone instalado.</p>`); return false; }
+  if(!avisosSuportados()){ ok("Avisos no celular", `<p>Este navegador não recebe avisos. No Android, use o <b>Chrome</b>; no iPhone, instale o jogo na tela inicial.</p>`); return false; }
+  if(Notification.permission === "denied"){
+    ok("Avisos bloqueados", `<p>Os avisos estão bloqueados para o jogo neste aparelho. Para liberar:</p><ol class="ip-passos">${ehIOS()
+      ? `<li><span class="ip-n">1</span><span>Abra os <b>Ajustes</b> do iPhone › <b>Notificações</b>.</span></li><li><span class="ip-n">2</span><span>Toque em <b>Corrida do Rolo</b> e ligue <b>Permitir Notificações</b>.</span></li>`
+      : `<li><span class="ip-n">1</span><span>Toque no cadeado (ou nos três pontinhos) ao lado do endereço, ou segure o ícone do jogo › <b>Informações do app</b>.</span></li><li><span class="ip-n">2</span><span>Em <b>Notificações</b>, escolha <b>Permitir</b>.</span></li>`}<li><span class="ip-n">3</span><span>Volte aqui e ligue de novo.</span></li></ol>`);
+    return false;
+  }
+  return true;
+}
+async function ligarAvisos(){
+  if(!avisoPodeLigar()) return false;
+  const perm = await Notification.requestPermission();
+  if(perm !== "granted"){ aviso("Tudo bem! Dá para ligar os avisos depois em Minha conta."); return false; }
+  if(typeof firebase === "undefined") throw new Error("os avisos só funcionam no jogo publicado");
+  const reg = await registroDoJogo();
+  await carregarScriptAvisos();
+  const token = await firebase.messaging().getToken({ vapidKey: String(CONFIG.vapid).trim(), serviceWorkerRegistration: reg });
+  if(!token) throw new Error("o aparelho não liberou os avisos");
+  const k = token.slice(-20).replace(/[^A-Za-z0-9_-]/g, "_");
+  await DB.salvarAvisoToken(usuario.uid, k, { t: token, em: Date.now(), ap: navigator.userAgent.slice(0, 120) });
+  lsSet(KEY + ":aviso:" + usuario.uid, k);
+  try{ await mostrarAvisoLocal("Avisos ligados!", "Você vai receber aqui os avisos da Corrida do Rolo."); }catch(e){}
+  return true;
+}
+async function desligarAvisos(){
+  const k = avisoChave();
+  try{ if(typeof firebase !== "undefined" && avisosSuportados()){ await carregarScriptAvisos(); await firebase.messaging().deleteToken(); } }catch(e){}
+  if(k && usuario) try{ await DB.salvarAvisoToken(usuario.uid, k, null); }catch(e){}
+  if(usuario) lsSet(KEY + ":aviso:" + usuario.uid, "");
+}
+async function alternarAvisos(b){
+  const ligado = avisosLigados();
+  ocupado(b, true);
+  try{
+    if(ligado){ await desligarAvisos(); aviso("Avisos desligados neste aparelho."); }
+    else if(await ligarAvisos()) aviso("Pronto! Os avisos do jogo vão chegar neste aparelho.");
+  }catch(e){ aviso("Não deu para ligar os avisos: " + erroMsg(e)); }
+  ocupado(b, false);
+  if(tabAtual === "conta") telaConta();
+  const c = $("hmAvisos"); if(c && (avisosLigados() || (typeof Notification !== "undefined" && Notification.permission === "denied"))) c.remove();
+}
+/* quem exclui a conta para de receber os avisos neste aparelho */
+excluirMinhaConta = (f => async (...a) => { try{ await desligarAvisos(); }catch(e){} return f(...a); })(excluirMinhaConta);
+
+/* cartão do Início: só depois que o jogo está instalado (ou já dispensaram o de instalar), até ligar ou dispensar */
+function htmlAvisosInicio(){
+  try{
+    if(!avisosNoJogo() || !avisosSuportados() || Notification.permission !== "default" || navegadorDeApp()) return "";
+    if(podeOferecerInstalar() && !lsGet(KEY + ":instalarDispensado", 0)) return "";
+    if(lsGet(KEY + ":avisosDispensado", 0)) return "";
+  }catch(e){ return ""; }
+  return `<section class="panel hm-instalar hm-avisos" id="hmAvisos"><div class="hi-ic" aria-hidden="true">🔔</div>
+    <div class="hi-tx"><b>Ligue os avisos do jogo</b><span>Lição nova, Super Quiz e recados da sua turma chegam no seu celular.</span></div>
+    <div class="hi-bt"><button type="button" class="btn btn-main btn-sm" data-ligar-avisos>Ligar</button><button type="button" class="hi-x" id="avFechar" aria-label="Dispensar">✕</button></div></section>`;
+}
+document.addEventListener("click", e => {
+  const b = e.target.closest ? e.target.closest("[data-ligar-avisos]") : null;
+  if(b){ e.preventDefault(); alternarAvisos(b); return; }
+  const x = e.target.closest ? e.target.closest("#avFechar") : null;
+  if(x){ lsSet(KEY + ":avisosDispensado", 1); const c = $("hmAvisos"); if(c) c.remove(); aviso("Tudo bem! Dá para ligar depois em Minha conta."); }
+});
+
+/* ---------- Admin: avisos no celular (mandar pelo próprio jogo) ----------
+   O aviso vira um documento em "avisos"; a função enviarAviso (Firebase Functions) manda para os aparelhos
+   e anota quantos receberam. O master manda para todos ou para uma sala; quem cuida de uma sala, só para ela. */
+const avisoAlvoNome = a => a.alvo === "todos" ? "Todos os jogadores" : "Sala " + (a.alvoNome || "");
+function htmlHistoricoAvisos(l){
+  if(!l.length) return `<p class="vazio">Nenhum aviso mandado ainda.</p>`;
+  const st = a => a.status === "enviado" ? `<span class="badge ok">${a.enviados || 0} ${(a.enviados || 0) === 1 ? "aparelho" : "aparelhos"}</span>`
+    : a.status === "erro" ? `<span class="badge warn" title="${esc(a.erro || "")}">não saiu</span>` : `<span class="badge">na fila</span>`;
+  return `<ul class="lista av-hist">${l.map(a => `<li><div class="info"><strong>${esc(a.titulo || "")}</strong><span>${esc(a.texto || "")}</span><span class="av-quem">${esc(avisoAlvoNome(a))} · ${haQuanto(a.criadoEm || 0)}${a.autorNome && a.autor !== usuario.uid ? " · por " + esc(a.autorNome) : ""}</span></div>${st(a)}</li>`).join("")}</ul>`;
+}
+async function esperarAviso(id){
+  for(let i = 0; i < 16; i++){
+    await new Promise(r => setTimeout(r, 1500));
+    const a = await DB.getAviso(id).catch(() => null);
+    if(a && a.status !== "pendente") return a;
+  }
+  return { status: "pendente" };
+}
+async function admAvisos(){
+  const c = $("admC"), master = ehMaster(), proj = (FIREBASE_CONFIG && FIREBASE_CONFIG.projectId) || "";
+  const painel = proj ? `https://console.firebase.google.com/project/${encodeURIComponent(proj)}/messaging` : "https://console.firebase.google.com/";
+  const config = proj ? `https://console.firebase.google.com/project/${encodeURIComponent(proj)}/settings/cloudmessaging` : "https://console.firebase.google.com/";
+  const passo = (n, t) => `<li><span class="ip-n">${n}</span><span>${t}</span></li>`;
+  let salas = master ? await DB.listarSalas().catch(() => SALAS.concat(SALAS_OUTRAS)) : SALAS.filter(x => ehDonoSala(x) || ehAdminSala(x));
+  salas = salas.filter(x => !x.global && x.id !== SALA_GLOBAL_ID).sort((a, b) => String(a.nome).localeCompare(String(b.nome), "pt-BR"));
+  if(!$("admC")) return;
+  const opcoes = (master ? `<option value="todos">Todos os jogadores</option>` : "") + salas.map(s => `<option value="${esc(s.id)}">Sala: ${esc(s.nome)}</option>`).join("");
+  const meu = avisoChave();
+  c.innerHTML = `<section class="panel larga"><h3 class="h3">Mandar um aviso</h3>
+      ${!CONFIG.vapid ? `<p class="note" style="margin-top:0">${master ? "Antes do primeiro aviso, salve a chave dos avisos (mais abaixo)." : "Os avisos ainda não foram ligados pelo master do jogo."}</p>` : ""}
+      ${opcoes ? `<div class="av-form"><div class="av-campos">
+        <div class="field"><label for="avTit">Título</label><input type="text" id="avTit" maxlength="60" placeholder="Ex.: Lição 10 no ar!"></div>
+        <div class="field"><label for="avTex">Texto</label><textarea id="avTex" maxlength="180" rows="3" placeholder="Ex.: Bora fazer o quiz de hoje? Vale moedas!"></textarea><span class="hint"><span id="avQtd">0</span> de 180 letras</span></div>
+        <div class="field"><label for="avPara">Para quem</label><select id="avPara">${opcoes}</select></div></div>
+        <div class="av-lado"><span class="rot">Como chega no celular</span><div class="av-previa" aria-hidden="true"><img src="app-icone-192.png" alt="" onerror="this.remove()"><div><b id="avPrevT">Corrida do Rolo</b><span id="avPrevX">O texto do aviso aparece aqui.</span></div></div></div></div>
+        <p class="erro" id="avErro2"></p>
+        <div class="btn-row uma"><button class="btn btn-main" id="avEnviar" style="width:100%" ${CONFIG.vapid ? "" : "disabled"}>Enviar aviso</button></div>
+        <p class="note">Chega em quem ligou os avisos em Minha conta. No iPhone, só para quem instalou o jogo na tela inicial.</p>`
+      : `<p class="vazio">Você ainda não administra nenhuma sala.</p>`}</section>
+    <section class="panel"><h3 class="h3">Últimos avisos</h3><div id="avHist"><p class="vazio">Carregando…</p></div></section>
+    ${master ? `<section class="panel"><h3 class="h3">Avisos automáticos</h3>
+      <label class="check av-auto"><input type="checkbox" id="avAuto" ${CONFIG.avisosAuto === false ? "" : "checked"}><span>Avisar sozinho quando alguém recebe um desafio ou uma proposta de troca, e quando eles são aceitos.</span></label>
+      <p class="av-status" id="avConta">Contando aparelhos…</p></section>
+    <section class="panel"><h3 class="h3">Chave dos avisos (uma vez só)</h3>
+      <ol class="ip-passos">${passo(1, `Abra <a href="${config}" target="_blank" rel="noopener">Configurações do projeto › Cloud Messaging</a> no Firebase.`)}${passo(2, "Em <b>Configuração da Web › Certificados push da Web</b>, toque em <b>Gerar par de chaves</b>.")}${passo(3, "Copie a chave que aparece e cole aqui embaixo.")}</ol>
+      <div class="field"><label for="avChave">Chave pública (par de chaves)</label><input type="text" id="avChave" autocomplete="off" spellcheck="false" placeholder="Começa com B…" value="${esc(CONFIG.vapid || "")}"></div>
+      <p class="erro" id="avErro"></p>
+      <div class="btn-row uma"><button class="btn btn-main" id="avSalvar" style="width:100%">${CONFIG.vapid ? "Trocar a chave" : "Salvar a chave"}</button></div></section>
+    <section class="panel"><h3 class="h3">Testar neste aparelho</h3>
+      <p class="muted small" style="margin-top:0">${meu ? "Os avisos estão ligados neste aparelho." : "Ligue os avisos neste aparelho em Minha conta para testar."}</p>
+      <div class="btn-row"><button class="btn btn-ghost" id="avVer" ${avisosLigados() ? "" : "disabled"}>Ver como o aviso aparece</button><button class="btn btn-ghost" id="avCopiar" ${meu ? "" : "disabled"}>Copiar o código deste aparelho</button></div>
+      <details class="av-outro"><summary>Outro jeito: mandar pelo painel do Firebase</summary>
+        <ol class="ip-passos">${passo(1, `Abra o <a href="${painel}" target="_blank" rel="noopener">Messaging no Firebase</a> › <b>Nova campanha › Notificações</b>.`)}${passo(2, "Escreva o título e o texto; em <b>Segmentação</b>, escolha o app da Web do jogo.")}${passo(3, "Para testar só no seu celular, use <b>Enviar mensagem de teste</b> com o código deste aparelho.")}</ol></details></section>` : ""}`;
+  if(typeof ajustarGradeAdmin === "function") ajustarGradeAdmin(c);
+  /* formulário */
+  const tit = $("avTit"), tex = $("avTex"), para = $("avPara"), env = $("avEnviar");
+  if(tit){
+    const prev = () => { $("avPrevT").textContent = tit.value.trim() || "Corrida do Rolo"; $("avPrevX").textContent = tex.value.trim() || "O texto do aviso aparece aqui."; $("avQtd").textContent = tex.value.length; };
+    tit.addEventListener("input", prev); tex.addEventListener("input", prev);
+    env.onclick = async () => {
+      const t = tit.value.trim().replace(/\s+/g, " "), x = tex.value.trim(), alvo = para.value, er = $("avErro2"); er.textContent = "";
+      if(t.length < 3){ er.textContent = "Escreva um título (pelo menos 3 letras)."; return; }
+      if(x.length < 3){ er.textContent = "Escreva o texto do aviso."; return; }
+      const sala = salas.find(s => s.id === alvo), nome = alvo === "todos" ? "todos os jogadores" : `a sala ${sala ? sala.nome : ""}`;
+      if(!(await confirmar("Enviar aviso", `Mandar “${t}” para ${nome}? Depois de enviado, não dá para desfazer.`, "Enviar", "btn-main"))) return;
+      ocupado(env, true);
+      try{
+        const id = await DB.criarAviso({ titulo: t, texto: x, alvo, alvoNome: alvo === "todos" ? "" : (sala ? sala.nome : ""), autor: usuario.uid, autorNome: perfil.nome || "", status: "pendente", criadoEm: Date.now() });
+        env.textContent = "Enviando…";
+        const r = await esperarAviso(id);
+        if(r.status === "enviado") aviso(r.enviados ? `Aviso enviado para ${r.enviados} ${r.enviados === 1 ? "aparelho" : "aparelhos"}!` : "Aviso registrado, mas ninguém dessa turma ligou os avisos ainda.");
+        else if(r.status === "erro") aviso("O aviso não saiu: " + (r.erro || "erro desconhecido"));
+        else aviso("O aviso ficou na fila. Se não sair em alguns minutos, confira se as funções dos avisos foram publicadas no Firebase.");
+        admAvisos();
+      }catch(e){ er.textContent = erroMsg(e); ocupado(env, false); env.textContent = "Enviar aviso"; }
+    };
+  }
+  /* histórico */
+  DB.listarAvisos(master ? null : usuario.uid).then(l => { const h = $("avHist"); if(h) h.innerHTML = htmlHistoricoAvisos(l.sort((a, b) => (b.criadoEm || 0) - (a.criadoEm || 0)).slice(0, 10)); })
+    .catch(e => { const h = $("avHist"); if(h) h.innerHTML = `<p class="erro">${esc(erroMsg(e))}</p>`; });
+  if(!master) return;
+  $("avAuto").onchange = async e => { const v = e.target.checked; try{ await DB.salvarConfig({ avisosAuto: v }); CONFIG.avisosAuto = v; aviso(v ? "Avisos automáticos ligados." : "Avisos automáticos desligados."); }catch(er){ e.target.checked = !v; aviso(erroMsg(er)); } };
+  $("avSalvar").onclick = async () => {
+    const v = $("avChave").value.trim().replace(/\s+/g, "");
+    if(v && !/^[A-Za-z0-9_-]{80,100}$/.test(v)){ $("avErro").textContent = "Essa não parece a chave pública. Ela tem cerca de 88 letras e números e começa com B."; return; }
+    ocupado($("avSalvar"), true);
+    try{ await DB.salvarConfig({ vapid: v }); CONFIG.vapid = v; aviso(v ? "Chave salva! Os jogadores já podem ligar os avisos." : "Chave apagada: os avisos ficam desligados."); admAvisos(); }
+    catch(e){ $("avErro").textContent = erroMsg(e); ocupado($("avSalvar"), false); }
+  };
+  $("avVer").onclick = async () => { try{ await mostrarAvisoLocal("Corrida do Rolo", "Assim o aviso aparece no celular. Toque para abrir o jogo."); }catch(e){ aviso(erroMsg(e)); } };
+  $("avCopiar").onclick = async () => {
+    try{ const p = (await DB.listarPrivados()).find(x => x.id === usuario.uid); const t = p && p.avisoTokens && p.avisoTokens[meu] && p.avisoTokens[meu].t; if(t) copiarTexto(t, "Código copiado! Cole no Firebase, em Enviar mensagem de teste."); else aviso("Este aparelho ainda não tem código. Ligue os avisos de novo."); }
+    catch(e){ aviso(erroMsg(e)); }
+  };
+  try{
+    const ps = await DB.listarPrivados();
+    let ap = 0, pes = 0; ps.forEach(p => { const n = Object.keys(p.avisoTokens || {}).length; ap += n; if(n) pes++; });
+    const el = $("avConta"); if(el) el.innerHTML = `<b>${pes}</b> ${pes === 1 ? "jogador" : "jogadores"} com avisos ligados (${ap} ${ap === 1 ? "aparelho" : "aparelhos"}).`;
+  }catch(e){ const el = $("avConta"); if(el) el.textContent = ""; }
+}
+
+/* ---------- Mandar aviso para a sala (Salas › Gerenciar), para quem criou ou administra ---------- */
+function modalAvisoSala(s){
+  modal("Aviso para " + s.nome, `<div class="field"><label for="asTit">Título</label><input type="text" id="asTit" maxlength="60" placeholder="Ex.: Ensaio no sábado"></div>
+    <div class="field"><label for="asTex">Texto</label><textarea id="asTex" maxlength="180" rows="3" placeholder="Ex.: Chegar às 15h na igreja."></textarea></div>
+    <span class="rot av-rot">Como chega no celular</span>
+    <div class="av-previa" aria-hidden="true"><img src="app-icone-192.png" alt="" onerror="this.remove()"><div><b id="asPrevT">Corrida do Rolo</b><span id="asPrevX">O texto do aviso aparece aqui.</span></div></div>
+    <p class="note">Vai para quem está na sala e ligou os avisos em Minha conta.</p>
+    <p class="erro" id="asErro"></p>
+    <div class="btn-row"><button class="btn btn-main" id="asEnviar">Enviar aviso</button><button class="btn btn-ghost" id="asNao">Cancelar</button></div>`, (m, fechar) => {
+    const tit = m.querySelector("#asTit"), tex = m.querySelector("#asTex"), env = m.querySelector("#asEnviar"), er = m.querySelector("#asErro");
+    const prev = () => { m.querySelector("#asPrevT").textContent = tit.value.trim() || "Corrida do Rolo"; m.querySelector("#asPrevX").textContent = tex.value.trim() || "O texto do aviso aparece aqui."; };
+    tit.addEventListener("input", prev); tex.addEventListener("input", prev);
+    m.querySelector("#asNao").onclick = fechar;
+    env.onclick = async () => {
+      const t = tit.value.trim().replace(/\s+/g, " "), x = tex.value.trim(); er.textContent = "";
+      if(t.length < 3){ er.textContent = "Escreva um título (pelo menos 3 letras)."; return; }
+      if(x.length < 3){ er.textContent = "Escreva o texto do aviso."; return; }
+      ocupado(env, true);
+      try{
+        const id = await DB.criarAviso({ titulo: t, texto: x, alvo: s.id, alvoNome: s.nome || "", autor: usuario.uid, autorNome: perfil.nome || "", status: "pendente", criadoEm: Date.now() });
+        env.textContent = "Enviando…";
+        const r = await esperarAviso(id);
+        fechar();
+        if(r.status === "enviado") aviso(r.enviados ? `Aviso enviado para ${r.enviados} ${r.enviados === 1 ? "aparelho" : "aparelhos"} da sala!` : "Aviso registrado, mas ninguém da sala ligou os avisos ainda.");
+        else if(r.status === "erro") aviso("O aviso não saiu: " + (r.erro || "erro desconhecido"));
+        else aviso("O aviso ficou na fila e deve sair em instantes.");
+      }catch(e){ er.textContent = erroMsg(e); ocupado(env, false); env.textContent = "Enviar aviso"; }
+    };
+  });
+}
+
+/* ============================================================
+   VERSÕES DOS JOGADORES: cada aparelho anota (em privado/{uid}.aparelhos, que só a pessoa e o master leem)
+   qual versão do jogo abriu, quando, se está instalado e se os avisos estão ligados.
+   O master vê em Admin › Versões quem está atualizado e quem não está.
+   ============================================================ */
+const canalJogo = () => { try{ return typeof ALBUM_TESTE !== "undefined" && ALBUM_TESTE ? "teste" : "oficial"; }catch(e){ return "oficial"; } };
+function idDoAparelho(){
+  let id = lsGet(KEY + ":aparelhoId", "");
+  if(!/^[a-z0-9]{10,}$/.test(id)){ id = (Date.now().toString(36) + Math.random().toString(36).slice(2, 10)).replace(/[^a-z0-9]/g, ""); lsSet(KEY + ":aparelhoId", id); }
+  return id;
+}
+function tipoDoAparelho(){
+  const ua = navigator.userAgent;
+  if(ehIOS()) return /iPad|Macintosh/.test(ua) ? "iPad" : "iPhone";
+  if(/Android/i.test(ua)) return "Android";
+  return "Computador";
+}
+async function registrarAparelho(){
+  try{
+    if(!usuario || !perfil || CONTA_EXCLUINDO || !VERSAO) return;
+    const id = idDoAparelho(), info = { v: VERSAO, canal: canalJogo(), em: Date.now(), so: tipoDoAparelho(), inst: appInstalado(), av: avisosLigados() };
+    const ant = lsGet(KEY + ":aparelhoInfo:" + usuario.uid, null);
+    if(ant && ant.v === info.v && ant.inst === info.inst && ant.av === info.av && Date.now() - (ant.em || 0) < 6 * 3600000) return;
+    await DB.salvarAparelho(usuario.uid, id, info);
+    lsSet(KEY + ":aparelhoInfo:" + usuario.uid, info);
+  }catch(e){ console.warn("aparelho", e && e.code); }
+}
+document.addEventListener("visibilitychange", () => { if(!document.hidden) registrarAparelho(); });
+
+/* ---------- Admin › Versões ---------- */
+let admVerFiltro = "todos";
+async function admVersoes(){
+  const c = $("admC"), CANAL_JOGO = canalJogo();
+  c.innerHTML = `<section class="panel larga"><p class="vazio">Conferindo as versões…</p></section>`;
+  let ref = VERSAO;
+  try{ const v = await versaoPublicada(); if(v && v > ref) ref = v; }catch(e){}
+  let usuarios = [], privados = [];
+  try{ [usuarios, privados] = await Promise.all([listarUsuariosAdm(), DB.listarPrivados()]); }
+  catch(e){ c.innerHTML = `<section class="panel"><p class="erro">${esc(erroMsg(e))}</p></section>`; return; }
+  if(!$("admC")) return;
+  const pMap = {}; privados.forEach(p => pMap[p.id] = p);
+  const linhas = usuarios.filter(u => u.aprovado || u.admin || u.master).map(u => {
+    const aps = Object.values((pMap[u.id] && pMap[u.id].aparelhos) || {}).filter(a => a && a.v).sort((a, b) => (b.em || 0) - (a.em || 0));
+    const deste = aps.filter(a => (a.canal || "oficial") === CANAL_JOGO);
+    const ult = deste[0] || null;
+    const st = !ult ? "sem" : ult.v >= ref ? "ok" : "velho";
+    return { u, aps, deste, ult, st };
+  });
+  const ordem = { velho: 0, sem: 1, ok: 2 };
+  linhas.sort((a, b) => ordem[a.st] - ordem[b.st] || String(a.u.nome).localeCompare(String(b.u.nome), "pt-BR"));
+  const n = k => linhas.filter(l => l.st === k).length;
+  const quando = ts => ts ? haQuanto(ts) : "";
+  const desc = a => [esc(versaoLegivel(a.v)), a.so ? esc(a.so) : "", a.inst ? "instalado" : "no navegador", a.av ? "avisos ligados" : "", "aberto " + quando(a.em)].filter(Boolean).join(" · ");
+  const badge = st => st === "ok" ? `<span class="badge ok">atualizado</span>` : st === "velho" ? `<span class="badge warn">desatualizado</span>` : `<span class="badge">sem registro</span>`;
+  const desenhar = () => {
+    const mostra = linhas.filter(l => admVerFiltro === "todos" || l.st === admVerFiltro);
+    c.innerHTML = `<section class="panel larga"><div class="adm-cab"><h3 class="h3">Versões dos jogadores</h3><button class="btn btn-ghost btn-sm" id="vrAtualizar">Atualizar lista</button></div>
+      <p class="muted small" style="margin-top:0">Versão publicada agora${CANAL_JOGO === "teste" ? " (teste)" : ""}: <b>${esc(versaoLegivel(ref))}</b>. Cada aparelho anota a versão quando o jogo é aberto. Quem aparece "sem registro" ainda não abriu o jogo desde que esta tela existe (provavelmente está com uma versão antiga).</p>
+      <div class="vr-resumo"><button type="button" data-f="todos" aria-pressed="${admVerFiltro === "todos"}"><b>${linhas.length}</b>todos</button><button type="button" class="ok" data-f="ok" aria-pressed="${admVerFiltro === "ok"}"><b>${n("ok")}</b>atualizados</button><button type="button" class="velho" data-f="velho" aria-pressed="${admVerFiltro === "velho"}"><b>${n("velho")}</b>desatualizados</button><button type="button" class="sem" data-f="sem" aria-pressed="${admVerFiltro === "sem"}"><b>${n("sem")}</b>sem registro</button></div>
+      ${mostra.length ? `<ul class="lista cols vr-lista">${mostra.map(l => `<li class="vr-${l.st}"><div class="em">${l.u.profeta ? avatarSVG(personagemDe(l.u.profeta, l.u.nivel || 0), null, l.u.nivel || 0) : "🙂"}</div><div class="info"><strong>${esc(l.u.nome || "(sem nome)")}${l.u.id === usuario.uid ? " (você)" : ""}</strong>
+        ${l.deste.length ? l.deste.slice(0, 3).map(a => `<span>${desc(a)}</span>`).join("") : `<span>Ainda não abriu esta versão do jogo.</span>`}
+        ${l.aps.length > l.deste.length ? `<span class="vr-outro">Também abriu a versão ${CANAL_JOGO === "teste" ? "oficial" : "de teste"}.</span>` : ""}</div>${badge(l.st)}</li>`).join("")}</ul>`
+        : `<p class="vazio">Ninguém nesta lista.</p>`}
+      <p class="note">Para quem está desatualizado: o jogo se atualiza sozinho quando é aberto com internet. Se não atualizar, peça para tocar em <b>Minha conta › Atualizar o jogo</b>.</p></section>`;
+    c.querySelectorAll("[data-f]").forEach(b => b.onclick = () => { admVerFiltro = b.dataset.f; desenhar(); });
+    $("vrAtualizar").onclick = () => admVersoes();
+  };
+  desenhar();
 }
 
 /* Livro do trimestre que já vem neste arquivo: nome e capa (primeira página do PDF da lição, reduzida). O que o master gravar em Admin → Livros ou ao importar a lição passa na frente. */
@@ -6422,10 +6766,10 @@ function compartilharConquista(c, btn){ return gerarCartao(x => desenharConquist
    ============================================================ */
 let admTab = "usuarios", admUFiltro = "todos";
 const ADM_TABS = [
-  ["resultados", "📊", "Resultados", "Acompanhar"], ["salas", "🏫", "Salas", "Acompanhar"],
+  ["resultados", "📊", "Resultados", "Acompanhar"], ["salas", "🏫", "Salas", "Acompanhar"], ["versoes", "🔄", "Versões", "Acompanhar"],
   ["usuarios", "👥", "Usuários", "Pessoas"], ["aprovar", "✅", "Aprovar", "Pessoas"], ["cadastrar", "➕", "Novo usuário", "Pessoas"],
   ["licao", "📥", "Importar lição", "Conteúdo"], ["perguntas", "📝", "Perguntas", "Conteúdo"], ["livros", "📚", "Livros (capas)", "Conteúdo"],
-  ["icone", "🖼️", "Ícone do site", "Aparência"], ["auditoria", "🔍", "Auditoria", "Segurança"], ["exportar", "💾", "Exportar dados", "Segurança"]];
+  ["avisos", "📣", "Avisos no celular", "Comunicação"], ["icone", "🖼️", "Ícone do site", "Aparência"], ["auditoria", "🔍", "Auditoria", "Segurança"], ["exportar", "💾", "Exportar dados", "Segurança"]];
 let admPend = null;                      // contas aguardando aprovação (preenchido quando a lista de usuários é carregada)
 function marcarPendentes(usuarios){
   admPend = usuarios.filter(u => !u.aprovado && !u.admin && !u.master).length;
@@ -6446,7 +6790,7 @@ function ajustarGradeAdmin(c){
 function telaAdmin(){
   const master = ehMaster();
   if(!master && !souAdminDeSala()){ nav("inicio"); return; }
-  const abas = master ? ADM_TABS : [["resultados", "📊", "Resultados", ""], ["salas", "🏫", "Minhas salas", ""]];
+  const abas = master ? ADM_TABS : [["resultados", "📊", "Resultados", ""], ["salas", "🏫", "Minhas salas", ""], ["avisos", "📣", "Avisos", ""]];
   if(!abas.some(([k]) => k === admTab)) admTab = abas[0][0];
   let grupo = "";
   app.innerHTML = `<div class="admin-area">${botaoVoltar("admVoltar", "Minha conta")}
@@ -6460,7 +6804,7 @@ function telaAdmin(){
     <div id="admC" class="adm-c adm-${admTab}"></div></div>`;
   $("admVoltar").onclick = ()=> nav("conta");
   app.querySelectorAll(".adm-nav [data-t]").forEach(b=> b.onclick = ()=>{ admTab = b.dataset.t; telaAdmin(); });
-  ({resultados:admResultados, salas:admSalas, usuarios:admUsuarios, aprovar:admAprovar, cadastrar:admCadastrar, licao:admLicao, perguntas:admPerguntas, livros:admLivros, icone:admIcone, auditoria:admAuditoria, exportar:admExportar}[admTab])();
+  ({resultados:admResultados, salas:admSalas, usuarios:admUsuarios, aprovar:admAprovar, cadastrar:admCadastrar, licao:admLicao, perguntas:admPerguntas, livros:admLivros, icone:admIcone, avisos:admAvisos, versoes:admVersoes, auditoria:admAuditoria, exportar:admExportar}[admTab])();
 }
 function linhaUsuario(u, pendente){
   const eu = u.id === usuario.uid;
@@ -8071,7 +8415,7 @@ function modalGerenciarSala(s){
           <p class="muted small" style="margin:0 0 8px">Como ${ehMaster() ? "master" : "administrador desta sala"}, você coloca qualquer pessoa com conta aprovada direto na sala, sem ela precisar do código nem de aprovação.</p>
           <div class="field" style="margin-bottom:8px"><input type="search" id="gsBusca" placeholder="Buscar pelo nome ou e-mail" aria-label="Buscar usuário" value="${esc(busca)}"></div>
           <div id="gsAdd"><p class="vazio">Carregando usuários…</p></div>` : ""}
-        <div class="btn-row" style="margin-top:14px"><button class="btn btn-ghost" id="gsRes">Ver resultados da sala</button>${s.global || !(ehMaster() || ehDonoSala(s)) ? "" : `<button class="btn btn-danger" id="gsExcluir">Excluir sala</button>`}</div>`;
+        <div class="btn-row" style="margin-top:14px"><button class="btn btn-ghost" id="gsRes">Ver resultados da sala</button>${!s.global && CONFIG.vapid ? `<button class="btn btn-ghost" id="gsAviso">📣 Mandar aviso</button>` : ""}${s.global || !(ehMaster() || ehDonoSala(s)) ? "" : `<button class="btn btn-danger" id="gsExcluir">Excluir sala</button>`}</div>`;
       let publica = !!s.publica;
       c.querySelectorAll("[data-tipo]").forEach(b => b.onclick = () => { publica = b.dataset.tipo === "1"; c.querySelectorAll("[data-tipo]").forEach(x => x.setAttribute("aria-selected", String(x === b))); });
       const sv = c.querySelector("#gsSalvar");
@@ -8141,6 +8485,7 @@ function modalGerenciarSala(s){
       }
       const td = c.querySelector("#gsTodos"); if(td) td.onclick = async () => { ocupado(td, true); try{ for(const x of pend) await DB.salvarMembro({ salaId: s.id, uid: x.uid, status: "ativo" }); mudou = true; aviso("Todos aprovados"); }catch(e){ aviso(erroMsg(e)); } render(); };
       c.querySelector("#gsRes").onclick = () => { mudou = false; fechar(); telaResultadosSala(s); };
+      const ga = c.querySelector("#gsAviso"); if(ga) ga.onclick = () => { mudou = false; fechar(); modalAvisoSala(s); };
       const ex = c.querySelector("#gsExcluir"); if(ex) ex.onclick = async () => {
         if(!(await confirmar("Excluir sala", `Excluir a sala "${s.nome}" para todos os ${ativos.length} membros? Os pontos de cada um continuam guardados, mas a sala e a corrida dela deixam de existir. Não dá para desfazer.`, "Excluir sala", "btn-danger"))) return;
         try{ await DB.excluirSala(s.id); mudou = true; aviso("Sala excluída"); fechar(); }catch(e){ aviso(erroMsg(e)); }
