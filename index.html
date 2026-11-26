@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="versao" content="20261126.134445">
+<meta name="versao" content="20261126.150316">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Corrida do Rolo · Quiz da Lição</title>
 <meta name="theme-color" content="#524F9C">
@@ -3236,6 +3236,27 @@ button.fig.vaga:hover{transform:translateY(-2px)}
 .ag-dica{margin:0}
 .ag-ed .av-auto{margin:0}
 .ag-ed .av-rot{margin:2px 0 0}
+/* p85: modelos de avisos */
+.field[hidden],.mo-area[hidden],.mo-var[hidden]{display:none}
+.mo-box{display:grid;gap:10px;margin-bottom:12px}
+.ag-ed .mo-box{margin-bottom:0}
+.mo-modo{display:grid;grid-template-columns:repeat(auto-fit,minmax(0,1fr));gap:6px}
+.mo-modo button,.mo-cats button{padding:9px 8px;border-radius:12px;border:2px solid var(--panel-line);background:var(--panel);color:#fff;font:700 13px/1.15 "Barlow",sans-serif;cursor:pointer}
+.mo-modo button[aria-pressed="true"],.mo-cats button[aria-pressed="true"]{border-color:#fff;background:rgba(255,255,255,.28)}
+.mo-area{display:grid;gap:10px}
+.mo-cats{display:flex;flex-wrap:wrap;gap:6px}
+.mo-cats button{display:inline-flex;align-items:center;gap:6px;padding:7px 10px}
+.mo-cats small{min-width:20px;padding:1px 6px;border-radius:999px;background:rgba(255,255,255,.18);font-size:11px;text-align:center}
+.mo-lista{display:grid;gap:8px;max-height:300px;overflow:auto;padding:2px}
+.mo-item{display:grid;gap:2px;text-align:left;padding:10px 12px;border-radius:14px;border:2px solid var(--panel-line);background:rgba(255,255,255,.08);color:#fff;font:inherit;font-size:14px;line-height:1.3}
+button.mo-item{cursor:pointer}
+.mo-item[aria-pressed="true"]{border-color:#fff;background:rgba(255,255,255,.22)}
+.mo-item span{font-size:13px;opacity:.9}
+.mo-var{margin:0}
+#moPainel .mo-cats{margin-bottom:14px}
+.mo-adm li{flex-wrap:wrap;align-items:flex-start;gap:12px}
+.mo-adm .info{flex:1 1 240px;min-width:0}
+.mo-adm .info span{display:block}
 </style>
 </head>
 <body class="sem-menu">
@@ -3790,6 +3811,10 @@ function dbFirebase(){
     async criarAviso(d){ const r = await col("avisos").add(d); return r.id; },
     async resultadosDoDia(data){ return lista(col("resultados").where("data", "==", data)); },
     async salvarCalendario(o){ await col("config").doc("calendario").set(o); },
+    async getModelos(){ const d = await col("config").doc("modelos").get(); return d.exists ? Object.assign({}, d.data().lista || {}) : null; },
+    async semearModelos(l){ await col("config").doc("modelos").set({ lista: l, semeado: Date.now() }); },
+    async salvarModelo(id, m){ await col("config").doc("modelos").set({ lista: { [id]: m } }, { merge: true }); },
+    async excluirModelo(id){ await col("config").doc("modelos").set({ lista: { [id]: firebase.firestore.FieldValue.delete() } }, { merge: true }); },
     async getAgendados(){ const d = await col("config").doc("agendados").get(); return d.exists ? Object.assign({}, d.data().lista || {}) : {}; },
     async salvarAgendado(id, a){ await col("config").doc("agendados").set({ lista: { [id]: a } }, { merge: true }); },
     async excluirAgendado(id){ await col("config").doc("agendados").set({ lista: { [id]: firebase.firestore.FieldValue.delete() } }, { merge: true }); },
@@ -3922,6 +3947,10 @@ function dbLocal(){
     async excluirLogin(){ const d = ler(); delete d.senhas[usuario.uid]; if(d.sessao === usuario.uid) d.sessao = ""; gravar(d); avisar(); },
     async resultadosDoDia(data){ const d = ler(); return Object.values(d.resultados || {}).filter(r => r.data === data); },
     async salvarCalendario(o){ const d = ler(); d.calendario = o; gravar(d); },
+    async getModelos(){ const m = ler().modelos; return m ? JSON.parse(JSON.stringify(m)) : null; },
+    async semearModelos(l){ const d = ler(); d.modelos = JSON.parse(JSON.stringify(l)); gravar(d); },
+    async salvarModelo(id, m){ const d = ler(); d.modelos = d.modelos || {}; d.modelos[id] = Object.assign({}, d.modelos[id] || {}, m); gravar(d); },
+    async excluirModelo(id){ const d = ler(); if(d.modelos) delete d.modelos[id]; gravar(d); },
     async getAgendados(){ return JSON.parse(JSON.stringify(ler().agendados || {})); },
     async salvarAgendado(id, a){ const d = ler(); d.agendados = d.agendados || {}; d.agendados[id] = Object.assign({}, d.agendados[id] || {}, a); gravar(d); },
     async excluirAgendado(id){ const d = ler(); if(d.agendados) delete d.agendados[id]; gravar(d); },
@@ -6230,6 +6259,7 @@ async function admAvisos(){
   c.innerHTML = `<section class="panel larga"><h3 class="h3">Mandar um aviso</h3>
       ${!CONFIG.vapid ? `<p class="note" style="margin-top:0">${master ? "Antes do primeiro aviso, salve a chave dos avisos (mais abaixo)." : "Os avisos ainda não foram ligados pelo master do jogo."}</p>` : ""}
       ${opcoes ? `<div class="av-form"><div class="av-campos">
+        ${htmlEscolhaModelo(false)}
         <div class="field"><label for="avTit">Título</label><input type="text" id="avTit" maxlength="60" placeholder="Ex.: Lição 10 no ar!"></div>
         <div class="field"><label for="avTex">Texto</label><textarea id="avTex" maxlength="180" rows="3" placeholder="Ex.: Bora fazer o quiz de hoje? Vale moedas!"></textarea><span class="hint"><span id="avQtd">0</span> de 180 letras. Escreva <b>{tema}</b> para pôr o tema do quiz de hoje.</span></div>
         <div class="field"><label for="avPara">Para quem</label><select id="avPara">${opcoes}</select></div>
@@ -6241,6 +6271,7 @@ async function admAvisos(){
         <p class="note">Chega em quem ligou os avisos em Minha conta. No iPhone, só para quem instalou o jogo na tela inicial.</p>`
       : `<p class="vazio">Você ainda não administra nenhuma sala.</p>`}</section>
     ${master ? htmlAgendados() : ""}
+    ${master ? htmlModelosAdm() : ""}
     <section class="panel"><h3 class="h3">Últimos avisos</h3><div id="avHist"><p class="vazio">Carregando…</p></div></section>
     ${master ? `<section class="panel"><h3 class="h3">Avisos de desafios e trocas</h3>
       <label class="check av-auto"><input type="checkbox" id="avAuto" ${CONFIG.avisosAuto === false ? "" : "checked"}><span>Avisar sozinho quando alguém recebe um desafio ou uma proposta de troca, e quando eles são aceitos.</span></label>
@@ -6261,6 +6292,7 @@ async function admAvisos(){
   if(tit){
     const prev = () => { $("avPrevT").textContent = comTema(tit.value.trim()) || "Corrida do Rolo"; $("avPrevX").textContent = comTema(tex.value.trim()) || "O texto do aviso aparece aqui."; $("avQtd").textContent = tex.value.length; };
     tit.addEventListener("input", prev); tex.addEventListener("input", prev);
+    ligarEscolhaModelo(c.querySelector(".av-form"), { tit, tex });
     const pubSel = $("avPub"), info = $("avFaltaInfo");
     const naoPode = p => { if(p === "quiz"){ const q = quizDoDia(); return q && q.q ? "" : "Hoje não tem quiz: este aviso não teria para quem ir."; }
       if(p === "super") return janelaSuper().aberto ? "" : `O super quiz não está aberto agora (abre sexta às ${SQ_HORA}h e fecha sábado às ${SQ_HORA}h).`; return ""; };
@@ -6320,7 +6352,7 @@ async function admAvisos(){
 
 /* ---------- Mandar aviso para a sala (Salas › Gerenciar), para quem criou ou administra ---------- */
 function modalAvisoSala(s){
-  modal("Aviso para " + s.nome, `<div class="field"><label for="asTit">Título</label><input type="text" id="asTit" maxlength="60" placeholder="Ex.: Ensaio no sábado"></div>
+  modal("Aviso para " + s.nome, `${htmlEscolhaModelo(false)}<div class="field"><label for="asTit">Título</label><input type="text" id="asTit" maxlength="60" placeholder="Ex.: Ensaio no sábado"></div>
     <div class="field"><label for="asTex">Texto</label><textarea id="asTex" maxlength="180" rows="3" placeholder="Ex.: Chegar às 15h na igreja."></textarea><span class="hint">Escreva <b>{tema}</b> para pôr o tema do quiz de hoje.</span></div>
     <label class="check av-falta"><input type="checkbox" id="asFalta"><span>Só para quem ainda não fez o quiz de hoje</span></label>
     <span class="rot av-rot">Como chega no celular</span>
@@ -6331,6 +6363,7 @@ function modalAvisoSala(s){
     const tit = m.querySelector("#asTit"), tex = m.querySelector("#asTex"), env = m.querySelector("#asEnviar"), er = m.querySelector("#asErro");
     const prev = () => { m.querySelector("#asPrevT").textContent = comTema(tit.value.trim()) || "Corrida do Rolo"; m.querySelector("#asPrevX").textContent = comTema(tex.value.trim()) || "O texto do aviso aparece aqui."; };
     tit.addEventListener("input", prev); tex.addEventListener("input", prev);
+    ligarEscolhaModelo(m, { tit, tex });
     m.querySelector("#asNao").onclick = fechar;
     env.onclick = async () => {
       const t = tit.value.trim().replace(/\s+/g, " "), x = tex.value.trim(); er.textContent = "";
@@ -6434,9 +6467,9 @@ const SEMANA_NOMES = ["domingo", "segunda", "terça", "quarta", "quinta", "sexta
 const PUBLICOS = { todos: "Todos com os avisos ligados", quiz: "Só quem ainda não fez o quiz do dia", super: "Só quem ainda não fez o super quiz" };
 const PUBLICO_CURTO = { todos: "para todos", quiz: "só quem não fez o quiz do dia", super: "só quem não fez o super quiz" };
 const MODELOS_AGENDADOS = {
-  quiz: { titulo: "👀 Ei, cadê você?", texto: "O quiz de hoje já tá te esperando! Tema: {tema}. Prometo que é mais rápido que escolher o que assistir 😅", quando: "dia", dias: [], hora: 19, publico: "quiz", ativo: true },
-  super: { titulo: "🏁 Corre que o super quiz fecha às 18h!", texto: "Ainda dá tempo: 20 perguntas da semana e cada 2 acertos te levam 1 casa nas missões. Bora avançar no mapa! 🗺️", quando: "semana", dias: [6], hora: 14, publico: "super", ativo: true },
-  livre: { titulo: "", texto: "", quando: "semana", dias: [], hora: 19, publico: "todos", ativo: true }
+  quiz: { modo: "variar", cat: "quiz", titulo: "👀 Ei, cadê você?", texto: "O quiz de hoje já tá te esperando! Tema: {tema}. Prometo que é mais rápido que escolher o que assistir 😅", quando: "dia", dias: [], hora: 19, publico: "quiz", ativo: true },
+  super: { modo: "variar", cat: "super", titulo: "🏁 Corre que o super quiz fecha às 18h!", texto: "Ainda dá tempo: 20 perguntas da semana e cada 2 acertos te levam 1 casa nas missões. Bora avançar no mapa! 🗺️", quando: "semana", dias: [6], hora: 14, publico: "super", ativo: true },
+  livre: { modo: "novo", cat: "quiz", titulo: "", texto: "", quando: "semana", dias: [], hora: 19, publico: "todos", ativo: true }
 };
 function quizDoDia(data){
   const h = data || hoje();
@@ -6487,8 +6520,11 @@ function quandoTexto(a){
 }
 /* confere um agendado antes de salvar; devolve o erro ou "" */
 function erroAgendado(a){
-  if(String(a.titulo || "").trim().length < 3) return "Escreva um título (pelo menos 3 letras).";
-  if(String(a.texto || "").trim().length < 3) return "Escreva o texto do aviso.";
+  if(a.modo === "variar"){ if(!modelosDa(a.cat).length) return "Essa categoria ainda não tem modelos para variar."; }
+  else {
+    if(String(a.titulo || "").trim().length < 3) return "Escreva um título (pelo menos 3 letras).";
+    if(String(a.texto || "").trim().length < 3) return "Escreva o texto do aviso.";
+  }
   if(a.quando === "semana" && !(a.dias || []).length) return "Escolha pelo menos um dia da semana.";
   if(a.quando === "data" && !/^\d{4}-\d{2}-\d{2}$/.test(a.data || "")) return "Escolha o dia do aviso.";
   if(a.quando === "data" && a.data < hoje()) return "Esse dia já passou.";
@@ -6503,7 +6539,7 @@ function htmlAgendados(){
   const ids = Object.keys(AGENDADOS).sort((x, y) => (AGENDADOS[x].hora - AGENDADOS[y].hora) || String(AGENDADOS[x].titulo).localeCompare(String(AGENDADOS[y].titulo), "pt-BR"));
   const ult = r => !r || !r.dia ? "" : r.motivo ? `Último: ${dataCurta(r.dia)}, não saiu porque ${esc(r.motivo)}.`
     : `Último: ${dataCurta(r.dia)}, ${r.enviados || 0} ${(r.enviados || 0) === 1 ? "aparelho" : "aparelhos"}${r.pessoas ? ` (${r.pessoas} ${r.pessoas === 1 ? "jogador" : "jogadores"})` : ""}.`;
-  const itens = ids.map(id => { const a = AGENDADOS[id]; return `<li class="ag-item${a.ativo ? "" : " off"}"><div class="info"><strong>${esc(a.titulo)}</strong><span>${esc(a.texto)}</span>
+  const itens = ids.map(id => { const a = AGENDADOS[id]; return `<li class="ag-item${a.ativo ? "" : " off"}"><div class="info">${a.modo === "variar" ? (() => { const n = proximoModelo(a), k = modelosDa(a.cat).length; return `<strong>🔀 Varia: ${esc(catAviso(a.cat)[2])} (${k} ${k === 1 ? "modelo" : "modelos"})</strong><span>${n ? "Próximo: " + esc(n.titulo) : "Essa categoria não tem modelos."}</span>`; })() : `<strong>${esc(a.titulo)}</strong><span>${esc(a.texto)}</span>`}
       <span class="av-quem">${esc(quandoTexto(a))} · ${esc(PUBLICO_CURTO[a.publico] || PUBLICO_CURTO.todos)}${a.ativo ? "" : " · desligado"}</span>${ult(a.res) ? `<span class="av-quem">${ult(a.res)}</span>` : ""}</div>
       <div class="ag-acoes"><label class="check ag-lig"><input type="checkbox" data-lig="${esc(id)}" ${a.ativo ? "checked" : ""}><span>Ligado</span></label>
       <button type="button" class="btn btn-ghost btn-sm" data-ed="${esc(id)}">Editar</button><button type="button" class="btn btn-ghost btn-sm" data-env="${esc(id)}" ${CONFIG.vapid ? "" : "disabled"}>Mandar agora</button><button type="button" class="btn btn-ghost btn-sm ag-del" data-del="${esc(id)}">Apagar</button></div></li>`; }).join("");
@@ -6518,6 +6554,7 @@ function modalAgendado(id, base){
   const horas = Array.from({ length: 18 }, (_, k) => k + 6).map(h => `<option value="${h}" ${Number(a.hora) === h ? "selected" : ""}>${h}h</option>`).join("");
   const opt = (v, t, s) => `<option value="${v}" ${s === v ? "selected" : ""}>${t}</option>`;
   modal(novo ? "Novo aviso agendado" : "Editar aviso agendado", `<div class="ag-ed">
+    ${htmlEscolhaModelo(true)}
     <div class="field"><label for="agTit">Título</label><input type="text" id="agTit" maxlength="60" value="${esc(a.titulo)}" placeholder="Ex.: Bora pro quiz!"></div>
     <div class="field"><label for="agTex">Texto</label><textarea id="agTex" maxlength="180" rows="3" placeholder="Ex.: O tema de hoje é {tema}.">${esc(a.texto)}</textarea><span class="hint">Escreva <b>{tema}</b> para pôr o tema do quiz do dia.</span></div>
     <div class="ag-linha"><div class="field"><label for="agQuando">Quando</label><select id="agQuando">${opt("dia", "Todo dia", a.quando)}${opt("semana", "Toda semana", a.quando)}${opt("data", "Uma vez só", a.quando)}</select></div>
@@ -6532,12 +6569,15 @@ function modalAgendado(id, base){
     <p class="erro" id="agErro"></p>
     <div class="btn-row"><button type="button" class="btn btn-main" id="agOk">Salvar</button><button type="button" class="btn btn-ghost" id="agNao">Cancelar</button></div></div>`, (m, fechar) => {
     const q = s => m.querySelector(s), tit = q("#agTit"), tex = q("#agTex"), qd = q("#agQuando"), pub = q("#agPub");
+    const ctl = ligarEscolhaModelo(m, { tit, tex, modo: a.modo === "variar" ? "variar" : "novo", cat: a.cat || "quiz", aoMudar: () => atualizar() });
     const ler = () => ({ titulo: tit.value.trim().replace(/\s+/g, " "), texto: tex.value.trim(), quando: qd.value, hora: Number(q("#agHora").value),
-      dias: [...m.querySelectorAll("#agDias [aria-pressed=true]")].map(b => Number(b.dataset.dia)), data: q("#agData").value || "", publico: pub.value, ativo: q("#agAtivo").checked });
+      dias: [...m.querySelectorAll("#agDias [aria-pressed=true]")].map(b => Number(b.dataset.dia)), data: q("#agData").value || "", publico: pub.value, ativo: q("#agAtivo").checked, modo: ctl.get().modo, cat: ctl.get().cat });
     const atualizar = () => {
       const x = ler();
       q("#agDias").hidden = x.quando !== "semana"; q("#agDataF").hidden = x.quando !== "data";
-      q("#agPrevT").textContent = comTema(x.titulo) || "Corrida do Rolo"; q("#agPrevX").textContent = comTema(x.texto) || "O texto do aviso aparece aqui.";
+      const pm = x.modo === "variar" ? proximoModelo({ cat: x.cat, giro: a.giro }) : null;
+      q("#agPrevT").textContent = comTema(pm ? pm.titulo : x.titulo) || "Corrida do Rolo";
+      q("#agPrevX").textContent = comTema(pm ? pm.texto : x.texto) || (x.modo === "variar" ? "Essa categoria ainda não tem modelos." : "O texto do aviso aparece aqui.");
       q("#agDica").textContent = x.publico === "super" ? `O super quiz fica aberto de sexta às ${SQ_HORA}h até sábado às ${SQ_HORA}h: escolha um dia e horário dentro desse período.`
         : x.publico === "quiz" ? "Não sai em dia sem quiz. Quem já respondeu o quiz do dia não recebe." : "Vai para todos que ligaram os avisos.";
     };
@@ -6550,7 +6590,7 @@ function modalAgendado(id, base){
       const x = ler(), er = erroAgendado(x); q("#agErro").textContent = er;
       if(er) return;
       const nid = id || ("ag" + Date.now().toString(36) + Math.floor(Math.random() * 1e3));
-      const dados = { titulo: x.titulo, texto: x.texto, quando: x.quando, hora: x.hora, dias: x.quando === "semana" ? x.dias : [], data: x.quando === "data" ? x.data : "", publico: x.publico, ativo: x.ativo, editadoEm: Date.now() };
+      const dados = { modo: x.modo === "variar" ? "variar" : "escrito", cat: x.cat, titulo: x.titulo, texto: x.texto, quando: x.quando, hora: x.hora, dias: x.quando === "semana" ? x.dias : [], data: x.quando === "data" ? x.data : "", publico: x.publico, ativo: x.ativo, editadoEm: Date.now() };
       if(novo) dados.criadoEm = Date.now();
       ocupado(q("#agOk"), true);
       try{
@@ -6562,12 +6602,15 @@ function modalAgendado(id, base){
   });
 }
 async function mandarAgendadoAgora(a, botao){
+  const pm = a.modo === "variar" ? proximoModelo(a) : null;
+  if(a.modo === "variar" && !pm){ aviso("Essa categoria não tem modelos."); return; }
+  const titulo = pm ? pm.titulo : a.titulo, texto = pm ? pm.texto : a.texto;
   if(a.publico === "quiz"){ const qh = quizDoDia(); if(!(qh && qh.q)){ aviso("Hoje não tem quiz: esse aviso não teria para quem ir."); return; } }
   if(a.publico === "super" && !janelaSuper().aberto){ aviso(`O super quiz não está aberto agora (abre sexta às ${SQ_HORA}h).`); return; }
-  if(!(await confirmar("Mandar agora", `Mandar “${comTema(a.titulo)}” agora, ${PUBLICO_CURTO[a.publico] || "para todos"}? Não dá para desfazer. O agendamento continua igual.`, "Mandar", "btn-main"))) return;
+  if(!(await confirmar("Mandar agora", `Mandar “${comTema(titulo)}” agora, ${PUBLICO_CURTO[a.publico] || "para todos"}? Não dá para desfazer. O agendamento continua igual.`, "Mandar", "btn-main"))) return;
   ocupado(botao, true);
   try{
-    const id = await DB.criarAviso({ titulo: a.titulo, texto: a.texto, alvo: "todos", alvoNome: "", publico: a.publico || "todos", soFaltando: a.publico === "quiz", data: hoje(), autor: usuario.uid, autorNome: perfil.nome || "", status: "pendente", criadoEm: Date.now() });
+    const id = await DB.criarAviso({ titulo, texto, alvo: "todos", alvoNome: "", publico: a.publico || "todos", soFaltando: a.publico === "quiz", data: hoje(), autor: usuario.uid, autorNome: perfil.nome || "", status: "pendente", criadoEm: Date.now() });
     botao.textContent = "Enviando…";
     const r = await esperarAviso(id);
     if(r.status === "enviado") aviso(r.enviados ? `Enviado para ${r.enviados} ${r.enviados === 1 ? "aparelho" : "aparelhos"}!` : "Ninguém para avisar agora.");
@@ -6600,7 +6643,7 @@ function ligarAgendados(){
 }
 async function carregarAgendados(){
   try{
-    AGENDADOS = await DB.getAgendados();
+    [AGENDADOS] = await Promise.all([DB.getAgendados(), carregarModelos()]);
     /* o lembrete único da versão anterior vira um agendado */
     const lb = CONFIG.lembrete;
     if(lb && !lb.migrado && lb.titulo){
@@ -6609,7 +6652,145 @@ async function carregarAgendados(){
       CONFIG.lembrete = Object.assign({}, lb, { ligado: false, migrado: true }); await DB.salvarConfig({ lembrete: CONFIG.lembrete });
     }
   }catch(e){ console.warn("agendados", e && e.code); }
-  desenharAgendados();
+  desenharAgendados(); desenharModelosAdm();
+}
+
+/* ============================================================
+   MODELOS DE AVISOS POR CATEGORIA (p85)
+   - O master cadastra modelos (título + texto) em categorias: quiz do dia, super quiz, álbum, mural, geral.
+   - Ao mandar ou agendar um aviso: escrever um novo, usar um pronto ou (nos agendados) variar,
+     que usa um modelo diferente da categoria a cada envio.
+   - Ficam em config/modelos (lista). Na primeira vez, o jogo do master grava os modelos prontos abaixo.
+   ============================================================ */
+const CATS_AVISO = [["quiz", "📖", "Quiz do dia"], ["super", "🏁", "Super quiz"], ["album", "🎴", "Álbum e trocas"], ["mural", "💬", "Mural"], ["geral", "📣", "Geral"]];
+const catAviso = k => CATS_AVISO.find(c => c[0] === k) || CATS_AVISO[4];
+const MODELOS_PADRAO = (() => {
+  const l = {}, add = (cat, n, titulo, texto) => { l[cat[0] + n] = { cat, titulo, texto, ordem: n }; };
+  [["👀 Ei, cadê você?", "O quiz de hoje já tá te esperando! Tema: {tema}. Prometo que é mais rápido que escolher o que assistir 😅"],
+   ["⏰ Já fez o quiz de hoje?", "Hoje o assunto é {tema}. São 2 minutinhos e ainda vale um pacote de figurinhas 🎴"],
+   ["🏁 A galera tá correndo sem você!", "O quiz de hoje ({tema}) tá no ar. Responde rapidinho e não deixa ninguém te passar na Corrida 🏃"],
+   ["🤔 Duvido você gabaritar hoje", "Tema do dia: {tema}. Quem acertar tudo pode se gabar no grupo. Quem errar… a gente finge que não viu 🤫"],
+   ["🌙 Antes de dormir…", "Ainda dá tempo de fazer o quiz de hoje! Tema: {tema}. Fecha o dia com chave de ouro ✨"],
+   ["📚 Leu a lição hoje?", "Então o quiz é moleza! Tema: {tema}. Bora provar que tá afiado 💪"]].forEach((m, i) => add("quiz", i + 1, m[0], m[1]));
+  [["🏁 O super quiz abriu!", "20 perguntas da semana e cada 2 acertos = 1 casa nas missões. Fica aberto até amanhã às 18h. Partiu? 🗺️"],
+   ["🏁 Corre que o super quiz fecha às 18h!", "Ainda dá tempo: 20 perguntas da semana e cada 2 acertos te levam 1 casa nas missões. Bora avançar no mapa! 🗺️"],
+   ["🗺️ Seu boneco tá parado no mapa…", "O super quiz é o jeito mais rápido de andar nas missões. Só até as 18h de hoje!"],
+   ["🔥 Última chamada do super quiz!", "Fecha às 18h. Quem fizer agora ainda pega moedas e prêmios das casas. Não fica de fora 😉"],
+   ["🧠 Revisão da semana valendo prêmio", "O super quiz junta as perguntas da semana: ótimo pra fixar a lição e ainda subir no mapa. Até 18h!"]].forEach((m, i) => add("super", i + 1, m[0], m[1]));
+  [["🎴 Tem figurinha repetida aí?", "Alguém da sua sala pode ter justo a que falta no seu álbum. Abre o Álbum e propõe uma troca! 🔁"],
+   ["🔁 Dia de troca!", "Confere suas repetidas e manda proposta pros amigos. Álbum completo não se faz sozinho 😄"],
+   ["📖 Quantas páginas você já fechou?", "Troca as repetidas com a galera e completa mais uma página do álbum. Bora!"],
+   ["🤝 Troca justa, amizade garantida", "Tem gente procurando figurinha que você tem sobrando. Dá uma olhada nas trocas no Álbum 🎴"],
+   ["✨ Falta só uma pra fechar a página?", "Pergunta pros amigos: às vezes a figurinha que você quer tá parada no álbum de alguém 👀"]].forEach((m, i) => add("album", i + 1, m[0], m[1]));
+  [["💬 O que mais te marcou na lição?", "Conta no Mural! Uma frase já ajuda alguém a pensar diferente hoje 🙌"],
+   ["🙏 Bora compartilhar?", "Escreve no Mural um versículo ou algo que Deus falou com você essa semana 💛"],
+   ["📌 O Mural tá esperando você", "Passa lá, lê o que a galera escreveu e deixa sua reação ou comentário 😊"],
+   ["🧩 Pergunta da semana", "Como o tema de hoje ({tema}) se aplica na sua vida? Responde no Mural!"],
+   ["👋 Dá um oi pra galera", "Deixa um recado no Mural: um pedido de oração, uma conquista ou só um \"bora pro quiz\" 😄"]].forEach((m, i) => add("mural", i + 1, m[0], m[1]));
+  [["🎉 Novidade no jogo!", "Tem coisa nova na Corrida do Rolo. Abre o jogo e descobre! 👀"],
+   ["🙏 Feliz sábado!", "Que Deus abençoe o seu dia! Hoje começa uma lição nova: {licao} 📖"]].forEach((m, i) => add("geral", i + 1, m[0], m[1]));
+  return l;
+})();
+let MODELOS = null;
+async function carregarModelos(forcar){
+  if(MODELOS && !forcar) return MODELOS;
+  try{
+    const l = await DB.getModelos();
+    if(l === null){
+      MODELOS = JSON.parse(JSON.stringify(MODELOS_PADRAO));
+      if(usuario && ehMaster()){ try{ await DB.semearModelos(MODELOS); }catch(e){ console.warn("modelos", e && e.code); } }
+    } else MODELOS = l;
+  }catch(e){ MODELOS = MODELOS || JSON.parse(JSON.stringify(MODELOS_PADRAO)); }
+  return MODELOS;
+}
+/* modelos de uma categoria, na ordem (a mesma que a função usa para variar) */
+const modelosDa = cat => Object.keys(MODELOS || {}).filter(id => MODELOS[id] && MODELOS[id].cat === cat)
+  .sort((a, b) => ((MODELOS[a].ordem || 0) - (MODELOS[b].ordem || 0)) || (a < b ? -1 : a > b ? 1 : 0)).map(id => Object.assign({ id }, MODELOS[id]));
+function proximoModelo(a){ const ms = modelosDa(a.cat); return ms.length ? ms[(Number(a.giro) || 0) % ms.length] : null; }
+
+/* ---------- escolha do texto: escrever novo, usar um pronto ou variar ---------- */
+function htmlEscolhaModelo(variar){
+  return `<div class="mo-box"><div class="mo-modo" role="group" aria-label="Texto do aviso"><button type="button" data-modo="novo" aria-pressed="true">✏️ Escrever novo</button><button type="button" data-modo="pronto" aria-pressed="false">📚 Usar um pronto</button>${variar ? `<button type="button" data-modo="variar" aria-pressed="false">🔀 Variar</button>` : ""}</div>
+    <div class="mo-area" hidden><div class="mo-cats" role="group" aria-label="Categoria"></div><p class="muted small mo-var" hidden></p><div class="mo-lista"></div></div></div>`;
+}
+function ligarEscolhaModelo(root, op){
+  const box = root.querySelector(".mo-box"), area = box.querySelector(".mo-area"), cats = box.querySelector(".mo-cats"), lista = box.querySelector(".mo-lista"), nota = box.querySelector(".mo-var");
+  let modo = op.modo || "novo", cat = op.cat || "quiz", sel = "";
+  const campos = [op.tit, op.tex].map(e => e.closest(".field"));
+  const render = () => {
+    box.querySelectorAll("[data-modo]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.modo === modo)));
+    area.hidden = modo === "novo";
+    campos.forEach(f => { if(f) f.hidden = modo === "variar"; });
+    cats.innerHTML = CATS_AVISO.map(([k, ic, nome]) => `<button type="button" data-cat="${k}" aria-pressed="${k === cat}">${ic} ${esc(nome)}<small>${MODELOS ? modelosDa(k).length : ""}</small></button>`).join("");
+    const ms = MODELOS ? modelosDa(cat) : [];
+    nota.hidden = modo !== "variar" || !ms.length;
+    nota.textContent = `A cada envio, usa o próximo destes ${ms.length} ${ms.length === 1 ? "modelo" : "modelos"}, um de cada vez.`;
+    const item = m => modo === "variar" ? `<div class="mo-item"><b>${esc(comTema(m.titulo))}</b><span>${esc(comTema(m.texto))}</span></div>`
+      : `<button type="button" class="mo-item" data-mo="${esc(m.id)}" aria-pressed="${m.id === sel}"><b>${esc(comTema(m.titulo))}</b><span>${esc(comTema(m.texto))}</span></button>`;
+    lista.innerHTML = !MODELOS ? `<p class="vazio">Carregando os modelos…</p>` : ms.length ? ms.map(item).join("")
+      : `<p class="vazio">Nenhum modelo nesta categoria.${ehMaster() ? " Cadastre em Modelos de avisos." : ""}</p>`;
+    cats.querySelectorAll("[data-cat]").forEach(b => b.onclick = () => { cat = b.dataset.cat; sel = ""; render(); if(op.aoMudar) op.aoMudar(); });
+    lista.querySelectorAll("[data-mo]").forEach(b => b.onclick = () => {
+      const m = MODELOS[b.dataset.mo]; if(!m) return;
+      sel = b.dataset.mo; op.tit.value = m.titulo; op.tex.value = m.texto;
+      [op.tit, op.tex].forEach(e => e.dispatchEvent(new Event("input"))); render(); if(op.aoMudar) op.aoMudar();
+    });
+  };
+  box.querySelectorAll("[data-modo]").forEach(b => b.onclick = () => { modo = b.dataset.modo; render(); if(op.aoMudar) op.aoMudar(); });
+  render();
+  if(!MODELOS) carregarModelos().then(() => { if(box.isConnected){ render(); if(op.aoMudar) op.aoMudar(); } });
+  return { get: () => ({ modo, cat }) };
+}
+
+/* ---------- Admin: cadastro dos modelos ---------- */
+let moCatAdm = "quiz";
+function htmlModelosAdm(){
+  const ms = MODELOS ? modelosDa(moCatAdm) : [];
+  return `<section class="panel larga" id="moPainel"><div class="adm-cab"><h3 class="h3">Modelos de avisos</h3><button type="button" class="btn btn-ghost btn-sm" id="moNovo">+ Novo modelo</button></div>
+    <div class="mo-cats" role="group" aria-label="Categoria">${CATS_AVISO.map(([k, ic, nome]) => `<button type="button" data-catadm="${k}" aria-pressed="${k === moCatAdm}">${ic} ${esc(nome)}<small>${MODELOS ? modelosDa(k).length : ""}</small></button>`).join("")}</div>
+    ${!MODELOS ? `<p class="vazio">Carregando…</p>` : ms.length ? `<ul class="lista mo-adm">${ms.map(m => `<li><div class="info"><strong>${esc(m.titulo)}</strong><span>${esc(m.texto)}</span></div>
+      <div class="ag-acoes"><button type="button" class="btn btn-ghost btn-sm" data-moed="${esc(m.id)}">Editar</button><button type="button" class="btn btn-ghost btn-sm ag-del" data-model="${esc(m.id)}">Apagar</button></div></li>`).join("")}</ul>`
+      : `<p class="vazio">Nenhum modelo em ${esc(catAviso(moCatAdm)[2])} ainda.</p>`}
+    <p class="note">Os modelos aparecem para escolher em Mandar um aviso, nos avisos agendados (inclusive para variar) e no aviso da sala. Escreva <b>{tema}</b> para o tema do quiz do dia e <b>{licao}</b> para a lição da semana.</p></section>`;
+}
+function desenharModelosAdm(){ const p = $("moPainel"); if(!p) return; p.outerHTML = htmlModelosAdm(); ligarModelosAdm(); }
+function ligarModelosAdm(){
+  const p = $("moPainel"); if(!p) return;
+  $("moNovo").onclick = () => modalModelo(null);
+  p.querySelectorAll("[data-catadm]").forEach(b => b.onclick = () => { moCatAdm = b.dataset.catadm; desenharModelosAdm(); });
+  p.querySelectorAll("[data-moed]").forEach(b => b.onclick = () => modalModelo(b.dataset.moed));
+  p.querySelectorAll("[data-model]").forEach(b => b.onclick = async () => {
+    const id = b.dataset.model, m = MODELOS[id], restam = modelosDa(m.cat).length - 1;
+    const usam = Object.values(AGENDADOS || {}).filter(a => a.modo === "variar" && a.cat === m.cat && a.ativo).length;
+    if(!(await confirmar("Apagar modelo", `Apagar “${m.titulo}”?${usam && !restam ? " Os agendados que variam nesta categoria vão ficar sem modelo." : ""}`, "Apagar"))) return;
+    try{ await DB.excluirModelo(id); delete MODELOS[id]; desenharModelosAdm(); desenharAgendados(); aviso("Modelo apagado."); }catch(e){ aviso(erroMsg(e)); }
+  });
+}
+function modalModelo(id){
+  const m = Object.assign({ cat: moCatAdm, titulo: "", texto: "" }, id ? MODELOS[id] : {});
+  modal(id ? "Editar modelo" : "Novo modelo", `<div class="ag-ed">
+    <div class="field"><label for="moCat">Categoria</label><select id="moCat">${CATS_AVISO.map(([k, ic, nome]) => `<option value="${k}" ${k === m.cat ? "selected" : ""}>${ic} ${esc(nome)}</option>`).join("")}</select></div>
+    <div class="field"><label for="moTit">Título</label><input type="text" id="moTit" maxlength="60" value="${esc(m.titulo)}" placeholder="Ex.: 👀 Ei, cadê você?"></div>
+    <div class="field"><label for="moTex">Texto</label><textarea id="moTex" maxlength="180" rows="3" placeholder="Ex.: O quiz de hoje é sobre {tema}!">${esc(m.texto)}</textarea><span class="hint"><b>{tema}</b> vira o tema do quiz do dia; <b>{licao}</b>, a lição da semana.</span></div>
+    <span class="av-rot">Como chega (com o tema de hoje)</span>
+    <div class="av-previa" aria-hidden="true"><img src="app-icone-192.png" alt="" onerror="this.remove()"><div><b id="moPrevT"></b><span id="moPrevX"></span></div></div>
+    <p class="erro" id="moErro"></p>
+    <div class="btn-row"><button type="button" class="btn btn-main" id="moOk">Salvar</button><button type="button" class="btn btn-ghost" id="moNao">Cancelar</button></div></div>`, (el, fechar) => {
+    const q = s => el.querySelector(s), tit = q("#moTit"), tex = q("#moTex");
+    const prev = () => { q("#moPrevT").textContent = comTema(tit.value.trim()) || "Corrida do Rolo"; q("#moPrevX").textContent = comTema(tex.value.trim()) || "O texto do aviso aparece aqui."; };
+    tit.addEventListener("input", prev); tex.addEventListener("input", prev); prev();
+    q("#moNao").onclick = fechar;
+    q("#moOk").onclick = async () => {
+      const t = tit.value.trim().replace(/\s+/g, " "), x = tex.value.trim();
+      if(t.length < 3){ q("#moErro").textContent = "Escreva um título (pelo menos 3 letras)."; return; }
+      if(x.length < 3){ q("#moErro").textContent = "Escreva o texto."; return; }
+      const nid = id || ("mo" + Date.now().toString(36) + Math.floor(Math.random() * 1e3));
+      const dados = { cat: q("#moCat").value, titulo: t, texto: x, ordem: id ? (MODELOS[id].ordem || 0) : Date.now() };
+      ocupado(q("#moOk"), true);
+      try{ await DB.salvarModelo(nid, dados); MODELOS[nid] = dados; moCatAdm = dados.cat; fechar(); desenharModelosAdm(); desenharAgendados(); aviso("Modelo salvo."); }
+      catch(e){ q("#moErro").textContent = erroMsg(e); ocupado(q("#moOk"), false); }
+    };
+  });
 }
 
 /* lição salva no Admin: atualiza o calendário dos avisos agendados */
