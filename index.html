@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="versao" content="20261126.154118">
+<meta name="versao" content="20261126.210445">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Corrida do Rolo · Quiz da Lição</title>
 <meta name="theme-color" content="#524F9C">
@@ -3397,6 +3397,200 @@ button.pn-kpi:hover{transform:translateY(-2px);background:rgba(255,255,255,.22);
 }
 @media (min-width:1100px){ .adm2 .adm-c{grid-template-columns:repeat(2,minmax(0,1fr))} }
 @media (min-width:1500px){ .adm2{grid-template-columns:236px minmax(0,1fr);column-gap:26px} }
+.pn-rank-li{cursor:pointer;border-radius:12px}
+.pn-rank-li:hover{background:rgba(255,255,255,.08)}
+/* ============================================================
+   p87: JOGADORES (ficha completa) e TROCAS no admin
+   ============================================================ */
+.jg-barra{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:14px}
+.adm2 .adm-c .jg-barra input[type=text]{flex:1 1 240px;min-width:0}
+.jg-ordem,.jg-filtro{display:flex;flex-wrap:wrap;gap:6px}
+.jg-ordem button,.jg-filtro button{display:inline-flex;align-items:center;gap:6px;min-height:32px;padding:0 11px;border-radius:999px;border:1px solid var(--panel-line);background:rgba(255,255,255,.08);color:var(--muted);font:700 12.5px/1 "Barlow",sans-serif;cursor:pointer}
+.jg-ordem button small,.jg-filtro button small{font-size:11px;opacity:.8}
+.jg-ordem button[aria-pressed="true"],.jg-filtro button[aria-pressed="true"]{background:#fff;color:var(--deep);border-color:#fff}
+/* cartões dos jogadores */
+.jg-grade{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr));gap:10px}
+.jg-card{display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-areas:"av tx" "mini mini" "alb alb" "ult ult";gap:8px 12px;align-items:center;padding:12px;border-radius:16px;border:1px solid var(--panel-line);background:rgba(255,255,255,.08);color:#fff;font:inherit;text-align:left;cursor:pointer;transition:transform .15s,background .15s,border-color .15s;min-width:0}
+.jg-card:hover{transform:translateY(-2px);background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.5)}
+.jg-card .jg-av{grid-area:av}
+.jg-card-tx{grid-area:tx;display:grid;gap:2px;min-width:0}
+.jg-card-tx b{font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.jg-card-tx b i{font-style:normal;font-weight:600;color:var(--soft);font-size:12px}
+.jg-nv{font-size:12px;font-weight:700;color:#FFE27A}
+.jg-casa{font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.jg-mini{grid-area:mini;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.jg-mini > span{display:flex;align-items:baseline;justify-content:center;gap:3px;padding:6px 4px;border-radius:10px;background:rgba(0,0,0,.14);font-size:12px;min-width:0}
+.jg-mini i{font-style:normal;font-size:12px}
+.jg-mini b{font:800 14px/1 "Barlow",sans-serif;font-variant-numeric:tabular-nums}
+.jg-mini small{font-size:10px;color:var(--soft)}
+.jg-alb{display:block;height:6px;border-radius:9px;background:rgba(255,255,255,.16);overflow:hidden}
+.jg-card .jg-alb{grid-area:alb}
+.jg-alb i{display:block;height:100%;border-radius:9px;background:linear-gradient(90deg,#8FE6FF,#5FE0B0)}
+.jg-ult{grid-area:ult;font-size:11px;color:var(--soft)}
+/* avatar com moldura */
+.pf-av.jg-av{width:58px;height:72px;border-radius:16px}
+.pf-av.jg-av .avatar{width:50px;height:64px;margin-bottom:3px}
+.pf-av.jg-av.grande{width:96px;height:120px;border-radius:22px}
+.pf-av.jg-av.grande .avatar{width:84px;height:108px;margin-bottom:5px}
+.pf-av.jg-av.mini{width:46px;height:58px;border-radius:12px}
+.pf-av.jg-av.mini .avatar{width:40px;height:52px;margin-bottom:2px}
+/* ficha */
+.jg-nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+.jg-setas{display:inline-flex;align-items:center;gap:6px}
+.jg-setas small{font-size:11.5px;color:var(--soft);min-width:50px;text-align:center}
+.jg-hero{display:flex;align-items:center;gap:16px;min-width:0}
+.jg-hero-tx{display:grid;gap:4px;min-width:0}
+.adm2 .adm-c .jg-hero-tx h3{margin:0;font:800 24px/1.1 "Barlow",sans-serif;letter-spacing:0;text-transform:none;color:#fff}
+.jg-mail{font-size:12.5px;color:var(--muted);overflow-wrap:anywhere}
+.jg-badges{display:flex;flex-wrap:wrap;gap:5px}
+.jg-sub{font-size:11.5px;color:var(--soft)}
+.jg-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,128px),1fr));gap:8px;margin-top:14px}
+.jg-st{display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-areas:"ic num" "ic rot" "sub sub";column-gap:8px;align-items:center;padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.1);border:1px solid var(--panel-line);min-width:0}
+.jg-st i{grid-area:ic;font-style:normal;font-size:20px}
+.jg-st b{grid-area:num;font:800 20px/1 "Barlow",sans-serif;font-variant-numeric:tabular-nums}
+.jg-st b em{font-style:normal;font-size:12px;color:var(--soft)}
+.jg-st span{grid-area:rot;font-size:11.5px;font-weight:700;color:var(--muted)}
+.jg-st small{grid-area:sub;margin-top:5px;font-size:11px;color:var(--soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.jg-st.ouro{border-color:rgba(242,190,46,.7);background:rgba(242,190,46,.14)}
+.jg-st.ouro b{color:#FFE27A}
+.jg-abas{display:flex;gap:6px;overflow-x:auto;margin:14px -4px 0;padding:2px 4px;scrollbar-width:none}
+.jg-abas::-webkit-scrollbar{display:none}
+.jg-abas button{flex:none;display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:0 13px;border-radius:12px;border:1px solid var(--panel-line);background:rgba(255,255,255,.08);color:var(--muted);font:700 13px/1 "Barlow",sans-serif;cursor:pointer}
+.jg-abas button[aria-selected="true"]{background:#fff;color:var(--deep);border-color:#fff;box-shadow:0 4px 14px rgba(0,0,0,.18)}
+.jg-corpo{display:grid;gap:12px;min-width:0}
+.jg-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,330px),1fr));gap:12px;min-width:0;align-items:start}
+.jg-cols > .panel{margin:0;min-width:0}
+.jg-corpo > .panel{margin:0}
+.adm2 .adm-c .jg-h3b{margin-top:16px}
+.jg-qd{display:block;font-size:11px;font-weight:600;color:var(--soft);text-transform:none;letter-spacing:0}
+.h3 .jg-qd{display:inline;margin-left:6px}
+.jg-lista{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.jg-lista li{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:12px;background:rgba(255,255,255,.07);min-width:0}
+.jg-li-ic{flex:none;width:22px;text-align:center;font-size:15px;font-weight:800;font-family:"Barlow",sans-serif}
+.jg-li-rot{flex:1;min-width:0;font-size:12.5px;color:var(--muted)}
+.jg-lista li > b{font-size:13px;text-align:right;min-width:0;overflow-wrap:anywhere}
+.jg-nada{color:var(--soft);font-weight:600;font-style:italic;font-size:12.5px;margin:0}
+.jg-raia{margin:0 0 12px}
+.jg-ajudas{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,118px),1fr));gap:8px}
+.jg-aj{display:grid;grid-template-columns:auto 1fr;grid-template-areas:"ic n" "ic t" "e e";column-gap:8px;align-items:center;padding:10px;border-radius:14px;background:rgba(255,255,255,.08);border:1px solid var(--panel-line)}
+.jg-aj span{grid-area:ic;font-size:22px}
+.jg-aj b{grid-area:n;font:800 20px/1 "Barlow",sans-serif}
+.jg-aj small{grid-area:t;font-size:11.5px;font-weight:700;color:var(--muted)}
+.jg-aj em{grid-area:e;margin-top:5px;font-style:normal;font-size:10.5px;color:var(--soft)}
+/* moedas */
+.jg-conta{display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:8px}
+.jg-conta > div{display:grid;gap:3px;padding:10px;border-radius:12px;background:rgba(255,255,255,.08)}
+.jg-conta small{font-size:11px;font-weight:700;color:var(--soft)}
+.jg-conta b{font:800 18px/1 "Barlow",sans-serif;font-variant-numeric:tabular-nums}
+.jg-conta .tot{background:rgba(242,190,46,.18);border:1px solid rgba(242,190,46,.6)}
+.jg-conta .tot b{color:#FFE27A}
+b.ok{color:var(--ok)} b.menos{color:#FF9DA6}
+.jg-barras{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.jg-barras li{display:grid;grid-template-columns:22px minmax(0,1.2fr) minmax(0,1fr) auto;align-items:center;gap:8px}
+.jg-bar{display:block;height:8px;border-radius:9px;background:rgba(255,255,255,.12);overflow:hidden}
+.jg-bar i{display:block;height:100%;border-radius:9px;background:linear-gradient(90deg,#FFE27A,#F2BE2E)}
+.jg-bar i.neg{background:#FF9DA6}
+.jg-barras b{font:800 13px/1 "Barlow",sans-serif;font-variant-numeric:tabular-nums;text-align:right;min-width:42px}
+.jg-mapas .jg-bar i{background:linear-gradient(90deg,#8FE6FF,#5FE0B0)}
+.jg-barras.jg-mapas li{grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) auto}
+/* álbum */
+.jg-albuns{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:10px;margin-bottom:14px}
+.jg-albcap{display:grid;gap:5px;padding:12px 14px;border-radius:16px;background:linear-gradient(135deg,var(--c1,#3b4cca),var(--c2,#1b1f5e));border:1px solid rgba(255,255,255,.25);box-shadow:inset 0 1px 0 rgba(255,255,255,.2)}
+.jg-albcap.info{background:rgba(255,255,255,.08);border-color:var(--panel-line)}
+.jg-albcap b{font-size:15px}
+.jg-albcap span{font-size:12px;color:rgba(255,255,255,.85)}
+.jg-albcap small{font-size:11px;color:rgba(255,255,255,.7)}
+.jg-rars{display:flex;flex-wrap:wrap;gap:7px;margin-top:2px}
+.jg-rar{display:inline-flex;gap:5px;align-items:center;padding:3px 8px;border-radius:999px;font-size:11px;font-weight:700;background:rgba(255,255,255,.12)}
+.jg-rar.r-rara{background:rgba(143,230,255,.2)} .jg-rar.r-lendaria{background:rgba(255,226,122,.25)}
+.jg-filtro{margin-bottom:12px}
+.jg-pg{margin-top:12px}
+.jg-pg h4{margin:0 0 8px;font:800 12px/1.2 "Barlow",sans-serif;letter-spacing:.6px;text-transform:uppercase;color:var(--soft)}
+.jg-pg h4 small{color:var(--muted);margin-left:4px}
+.jg-figs{display:grid;grid-template-columns:repeat(auto-fill,minmax(74px,1fr));gap:8px}
+.jg-figb{padding:0;border:0;background:none;color:inherit;font:inherit;cursor:pointer;min-width:0}
+.jg-fig{position:relative;display:grid;justify-items:center;gap:3px;padding:6px 4px 5px;border-radius:12px;background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.22);min-width:0}
+.jg-fig img{width:100%;max-width:62px;aspect-ratio:1;object-fit:contain;filter:drop-shadow(0 3px 4px rgba(0,0,0,.25))}
+.jg-fig small{display:block;max-width:100%;font-size:10.5px;font-weight:700;line-height:1.15;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.jg-fig em{position:absolute;top:3px;right:3px;padding:1px 5px;border-radius:999px;background:#F2BE2E;color:#2A2000;font:800 10.5px/1.3 "Barlow",sans-serif;font-style:normal}
+.jg-fig.r-rara{border-color:rgba(143,230,255,.75);background:rgba(143,230,255,.14)}
+.jg-fig.r-lendaria{border-color:rgba(255,226,122,.85);background:rgba(255,226,122,.16);box-shadow:0 0 12px rgba(255,226,122,.25)}
+.jg-fig.falta{opacity:.42;border-style:dashed;background:rgba(0,0,0,.12)}
+.jg-fig.falta img{filter:grayscale(1) brightness(.6)}
+.jg-figb:hover .jg-fig{background:rgba(255,255,255,.2)}
+/* coleção */
+.jg-col-bl{margin-top:14px}
+.jg-col-bl:first-of-type{margin-top:4px}
+.jg-col-bl h4{margin:0 0 8px;font:800 12px/1.2 "Barlow",sans-serif;letter-spacing:.6px;text-transform:uppercase;color:var(--soft)}
+.jg-col-bl h4 small{color:var(--muted);margin-left:4px}
+.jg-itens{display:grid;grid-template-columns:repeat(auto-fill,minmax(98px,1fr));gap:8px}
+.jg-item{display:grid;justify-items:center;align-content:start;gap:4px;padding:10px 6px 9px;border-radius:14px;background:rgba(255,255,255,.08);border:1px solid var(--panel-line);text-align:center;min-width:0}
+.jg-item b{font-size:12px;line-height:1.2}
+.jg-item small{font-size:10.5px;color:var(--soft)}
+.jg-item.uso{border-color:#5FE0B0;background:rgba(95,224,176,.16);box-shadow:0 0 0 1px rgba(95,224,176,.4) inset}
+.jg-item.uso small{color:#7DF0B8;font-weight:700}
+.jg-item.falta{opacity:.45;filter:grayscale(.7)}
+.jg-item-arte{height:64px;width:100%;display:grid;place-items:center}
+.jg-item-arte > .avatar{width:46px;height:60px}
+.jg-item-arte .track.jg-pista{width:100%;height:40px;min-height:0;border-radius:10px}
+.jg-item-arte .runner.jg-mov{position:relative;left:auto;transform:none;width:46px;height:60px}
+.jg-item-arte .runner.jg-mov .avatar{width:46px;height:60px}
+.jg-festa{display:grid;place-items:center;width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.12)}
+.jg-festa svg{width:30px;height:30px}
+/* missões */
+.jg-casa-g{display:flex;gap:12px;align-items:flex-start;margin-bottom:14px}
+.jg-casa-g > div:last-child{display:grid;gap:4px;min-width:0;flex:1}
+.jg-casa-g small{font-size:11px;color:var(--soft)}
+.jg-casa-g b{font-size:15px}
+.jg-casa-g span{font-size:12.5px;color:var(--muted)}
+.jg-casa-g .jg-alb{margin-top:4px}
+.jg-casa-n{flex:none;display:grid;justify-items:center;align-content:center;width:62px;height:62px;border-radius:18px;background:linear-gradient(135deg,#FFE27A,#F2A53A);color:#2A2000;box-shadow:0 6px 16px rgba(242,165,58,.35)}
+.jg-casa-g .jg-casa-n small{font-size:10px;font-weight:800;color:#5A3D00;text-transform:uppercase}
+.jg-casa-n b{font:800 26px/1 "Barlow",sans-serif}
+.jg-tl{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.jg-tl li{display:flex;gap:10px;align-items:flex-start;padding:8px 10px;border-radius:12px;background:rgba(255,255,255,.07)}
+.jg-tl-n{flex:none;display:grid;place-items:center;width:30px;height:30px;border-radius:10px;background:rgba(95,224,176,.25);font:800 13px/1 "Barlow",sans-serif}
+.jg-tl.prox .jg-tl-n{background:rgba(255,255,255,.12);color:var(--soft)}
+.jg-tl b{display:block;font-size:13px}
+.jg-tl small{font-size:11.5px;color:var(--muted)}
+/* quizzes */
+.jg-tab{overflow-x:auto;border-radius:12px;border:1px solid var(--panel-line)}
+.jg-tab table{width:100%;border-collapse:collapse;font-size:12.5px;min-width:420px}
+.jg-tab thead{background:rgba(20,18,60,.35)}
+.jg-tab th{text-align:left;padding:8px 10px;font:800 10.5px/1.2 "Barlow",sans-serif;letter-spacing:.6px;text-transform:uppercase;color:var(--soft)}
+.jg-tab td{padding:7px 10px;border-top:1px solid rgba(255,255,255,.1);font-variant-numeric:tabular-nums}
+.jg-tab tr:nth-child(even) td{background:rgba(255,255,255,.04)}
+.jg-atr{color:#FFE27A}
+/* trocas */
+.tra-top{margin-bottom:12px}
+.tra-top > div{display:flex;flex-wrap:wrap;gap:6px}
+.tra-chip{display:inline-flex;align-items:center;gap:6px;min-height:30px;padding:0 10px;border-radius:999px;border:1px solid var(--panel-line);background:rgba(255,255,255,.08);color:#fff;font:700 12.5px/1 "Barlow",sans-serif;cursor:pointer}
+.tra-chip b{color:#FFE27A}
+.tra-lista{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.tra{padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.07);border:1px solid var(--panel-line)}
+.tra.s-aceito{border-color:rgba(95,224,176,.55)}
+.tra.s-pendente{border-color:rgba(242,190,46,.6)}
+.tra.s-recusado{opacity:.75}
+.tra-topo{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
+.tra-topo small{font-size:11px;color:var(--soft)}
+.tra-corpo{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:8px;align-items:start}
+.tra-lado{display:grid;gap:6px;min-width:0}
+.tra-quem{display:flex;align-items:baseline;gap:6px;min-width:0}
+.tra-quem b{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tra-quem small{font-size:11px;color:var(--soft)}
+.tra-quem.eu b{color:#FFE27A}
+.tra-figs{display:grid;grid-template-columns:repeat(auto-fill,minmax(58px,1fr));gap:6px}
+.tra-figs .jg-fig img{max-width:46px}
+.tra-figs > i{font-size:12px;color:var(--soft)}
+.tra-seta{align-self:center;font-size:20px;color:var(--soft)}
+@media (min-width:700px){
+  .jg-hero .jg-av.grande{width:110px;height:136px}
+  .jg-hero .jg-av.grande .avatar{width:96px;height:122px}
+}
+@media (min-width:1100px){ .jg-figs{grid-template-columns:repeat(auto-fill,minmax(84px,1fr))} }
+@media (max-width:1099px){ .adm2 .adm-c{grid-template-columns:minmax(0,1fr)} }
+.jg-corpo > .panel,.jg-cols > .panel{min-width:0}
+.jg-tab{max-width:100%}
 @media (max-width:559px){
   .adm2 .vr-resumo{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
   .adm2 .vr-resumo button{display:flex;align-items:center;justify-content:center;gap:6px;padding:9px 6px;font-size:12px}
@@ -3869,6 +4063,9 @@ function dbFirebase(){
     async resultadosDesde(t){ return lista(col("resultados").where("quando",">",t)); },
     async resultadosLicao(licaoId){ return lista(col("resultados").where("licaoId","==",licaoId)); },
     async todosResultados(){ return lista(col("resultados")); },
+    async todosMembros(){ return lista(col("membros")); },
+    async todasTrocas(){ return lista(col("trocas")); },
+    async todosDesafios(){ return lista(col("desafios")); },
     async resultadosTrimestre(tri){ return lista(col("resultados").where("trimestre","==",tri)); },
     // Resultados só de algumas pessoas (membros de uma sala), em blocos de 30 uids; com licaoId, só daquela lição
     async resultadosDeUsuarios(uids, licaoId){
@@ -4033,6 +4230,9 @@ function dbLocal(){
     async resultadosDesde(t){ const d = ler(); return Object.values(d.resultados).filter(r=>(r.quando||0) > t); },
     async resultadosLicao(licaoId){ const d = ler(); return Object.values(d.resultados).filter(r=>r.licaoId===licaoId); },
     async todosResultados(){ const d = ler(); return Object.values(d.resultados); },
+    async todosMembros(){ const d = ler(); return Object.keys(d.membros || {}).map(k => Object.assign({ id: k }, d.membros[k])); },
+    async todasTrocas(){ const d = ler(); return Object.keys(d.trocas || {}).map(k => Object.assign({ id: k }, d.trocas[k])); },
+    async todosDesafios(){ const d = ler(); return Object.keys(d.desafios || {}).map(k => Object.assign({ id: k }, d.desafios[k])); },
     async resultadosTrimestre(tri){ const d = ler(); return Object.values(d.resultados).filter(r=>r.trimestre===tri); },
     async resultadosDeUsuarios(uids, licaoId){ const d = ler(), set = new Set(uids); return Object.values(d.resultados).filter(r=>set.has(r.uid) && (!licaoId || r.licaoId===licaoId)); },
     async salvarResultado(r){ const d = ler(); d.resultados[r.uid+"_"+r.licaoId+"_"+r.data] = r; gravar(d); },
@@ -7344,8 +7544,8 @@ function compartilharConquista(c, btn){ return gerarCartao(x => desenharConquist
 let admTab = "painel", admUFiltro = "todos";
 const ADM_TABS = [
   ["painel", "🏠", "Painel", "Visão geral"],
-  ["resultados", "📊", "Resultados", "Acompanhar"], ["salas", "🏫", "Salas", "Acompanhar"], ["versoes", "🔄", "Versões", "Acompanhar"],
-  ["usuarios", "👥", "Usuários", "Pessoas"], ["aprovar", "✅", "Aprovar", "Pessoas"], ["cadastrar", "➕", "Novo usuário", "Pessoas"],
+  ["resultados", "📊", "Resultados", "Acompanhar"], ["salas", "🏫", "Salas", "Acompanhar"], ["trocas", "🔁", "Trocas", "Acompanhar"], ["versoes", "🔄", "Versões", "Acompanhar"],
+  ["jogadores", "🎮", "Jogadores", "Pessoas"], ["usuarios", "👥", "Usuários", "Pessoas"], ["aprovar", "✅", "Aprovar", "Pessoas"], ["cadastrar", "➕", "Novo usuário", "Pessoas"],
   ["licao", "📥", "Importar lição", "Conteúdo"], ["perguntas", "📝", "Perguntas", "Conteúdo"], ["livros", "📚", "Livros (capas)", "Conteúdo"],
   ["avisos", "📣", "Avisos no celular", "Comunicação"],
   ["icone", "🖼️", "Ícone do site", "Sistema"], ["auditoria", "🔍", "Auditoria", "Sistema"], ["exportar", "💾", "Exportar dados", "Sistema"]];
@@ -7354,6 +7554,8 @@ const ADM_DESC = {
   resultados: "Pontos e acertos por lição, dia, sala e jogador.",
   salas: "Crie salas, acompanhe e escolha quem administra cada uma.",
   versoes: "Quem já está com a versão mais nova do jogo.",
+  jogadores: "Tudo de cada jogador: moedas, álbum, coleção, missões, ajudas e trocas.",
+  trocas: "Todas as trocas de figurinhas entre os jogadores.",
   usuarios: "Todas as contas: busque, edite e dê permissões.",
   aprovar: "Contas novas esperando liberação.",
   cadastrar: "Crie uma conta para alguém entrar no jogo.",
@@ -7405,7 +7607,7 @@ function telaAdmin(){
   const navEl = app.querySelector(".adm-nav"), sel = navEl.querySelector('[aria-selected="true"]');
   if(sel && navEl.scrollWidth > navEl.clientWidth + 4) navEl.scrollLeft = Math.max(0, sel.offsetLeft - (navEl.clientWidth - sel.offsetWidth) / 2);
   navEl.querySelectorAll("[data-t]").forEach(b=> b.onclick = ()=>{ if(b.dataset.t === admTab) return; const y = window.scrollY; admTab = b.dataset.t; telaAdmin(); if(y > 0) window.scrollTo({ top: 0 }); });
-  ({painel:admPainel, resultados:admResultados, salas:admSalas, usuarios:admUsuarios, aprovar:admAprovar, cadastrar:admCadastrar, licao:admLicao, perguntas:admPerguntas, livros:admLivros, icone:admIcone, avisos:admAvisos, versoes:admVersoes, auditoria:admAuditoria, exportar:admExportar}[admTab])();
+  ({painel:admPainel, jogadores:admJogadores, trocas:admTrocas, resultados:admResultados, salas:admSalas, usuarios:admUsuarios, aprovar:admAprovar, cadastrar:admCadastrar, licao:admLicao, perguntas:admPerguntas, livros:admLivros, icone:admIcone, avisos:admAvisos, versoes:admVersoes, auditoria:admAuditoria, exportar:admExportar}[admTab])();
 }
 function linhaUsuario(u, pendente){
   const eu = u.id === usuario.uid;
@@ -8687,7 +8889,7 @@ async function admPainel(){
       <div class="pn-hero-acoes">${temQuiz && CONFIG.vapid ? `<button type="button" class="btn btn-main btn-sm" id="pnLembrar">📣 Lembrar quem não fez</button>` : ""}<button type="button" class="btn btn-ghost btn-sm" data-ir="resultados">📊 Ver resultados</button></div>
     </section>
     <div class="pn-kpis larga">
-      ${kpi("usuarios", "👥", fmt(ativos.length), "Jogadores", novos ? `+${novos} ${novos === 1 ? "novo" : "novos"} nesta semana` : "nenhum novo nesta semana")}
+      ${kpi("jogadores", "👥", fmt(ativos.length), "Jogadores", novos ? `+${novos} ${novos === 1 ? "novo" : "novos"} nesta semana` : "nenhum novo nesta semana")}
       ${kpi("resultados", "🎯", `${feitos}<em>/${ativos.length}</em>`, "Fizeram o quiz hoje", temQuiz ? `${barra(pct)}${faltam} ${faltam === 1 ? "falta" : "faltam"}` : "sem quiz hoje", pct >= 60 ? "bom" : "")}
       ${kpi("aprovar", "⏳", pend.length, "Esperando aprovação", pend.length ? "toque para aprovar" : "nada pendente", pend.length ? "alerta" : "")}
       ${kpi("avisos", "🔔", comAviso, "Com avisos ligados", `${barra(ativos.length ? comAviso * 100 / ativos.length : 0)}${ativos.length ? Math.round(comAviso * 100 / ativos.length) : 0}% dos jogadores`)}
@@ -8701,7 +8903,7 @@ async function admPainel(){
         : `<div class="pn-tudo"><span aria-hidden="true">✨</span><b>Tudo em dia por aqui.</b><small>Nada pendente agora.</small></div>`}
     </section>
     <section class="panel pn-rank-p"><div class="adm-cab"><h3 class="h3">Ranking de hoje</h3><button type="button" class="btn btn-ghost btn-sm" data-ir="resultados">Ver tudo</button></div>
-      ${top.length ? `<ol class="lista pn-rank">${top.map((r, i) => `<li${r.uid === usuario.uid ? ` class="eu"` : ""}><span class="pn-pos">${medalha(i)}</span><div class="em">${r.profeta ? avatarSVG(personagemDe(r.profeta, r.nivel || 0), null, r.nivel || 0) : "🙂"}</div>
+      ${top.length ? `<ol class="lista pn-rank">${top.map((r, i) => `<li class="pn-rank-li${r.uid === usuario.uid ? " eu" : ""}" data-jgv="${esc(r.uid)}" role="button" tabindex="0" title="Ver a ficha"><span class="pn-pos">${medalha(i)}</span><div class="em">${r.profeta ? avatarSVG(personagemDe(r.profeta, r.nivel || 0), null, r.nivel || 0) : "🙂"}</div>
           <div class="info"><strong>${esc(r.nome || "Jogador")}</strong><span>${r.acertos || 0} de ${r.total || 0} certas${r.noPrazo === false ? " · atrasado" : ""}</span></div><span class="pts">${fmt(r.pts || 0)}</span></li>`).join("")}</ol>`
         : `<div class="pn-tudo"><span aria-hidden="true">🏁</span><b>Ninguém jogou hoje ainda.</b><small>${temQuiz && CONFIG.vapid ? "Que tal mandar um lembrete?" : "O ranking aparece quando alguém fizer o quiz."}</small></div>`}
     </section>
@@ -8710,12 +8912,301 @@ async function admPainel(){
         : `<div class="pn-tudo"><span aria-hidden="true">🗓️</span><b>Nenhum aviso agendado.</b><small>Agende o lembrete do quiz e o do super quiz em Avisos.</small></div>`}
     </section>
     <section class="panel pn-atalhos-p"><h3 class="h3">Atalhos</h3>
-      <div class="pn-atalhos">${[["avisos", "📣", "Mandar aviso"], ["licao", "📥", "Importar lição"], ["perguntas", "📝", "Perguntas"], ["cadastrar", "➕", "Novo usuário"], ["salas", "🏫", "Salas"], ["exportar", "💾", "Exportar dados"]]
+      <div class="pn-atalhos">${[["jogadores", "🎮", "Ver jogadores"], ["trocas", "🔁", "Trocas"], ["avisos", "📣", "Mandar aviso"], ["licao", "📥", "Importar lição"], ["perguntas", "📝", "Perguntas"], ["cadastrar", "➕", "Novo usuário"]]
         .map(([ir, ic, t]) => `<button type="button" data-ir="${ir}"><span aria-hidden="true">${ic}</span>${t}</button>`).join("")}</div>
     </section>`;
   if(typeof ajustarGradeAdmin === "function") ajustarGradeAdmin(c);
   c.querySelectorAll("[data-ir]").forEach(b => b.onclick = () => irAdm(b.dataset.ir));
   c.querySelectorAll("[data-lembrar], #pnLembrar").forEach(b => b.onclick = lembrarQuemNaoFez);
+  c.querySelectorAll("[data-jgv]").forEach(b => b.onclick = () => { if(typeof jgSel === "undefined") return; jgSel = b.dataset.jgv; jgAba = "resumo"; irAdm("jogadores"); });
+}
+
+/* ============================================================
+   JOGADORES E TROCAS (p87): o master vê tudo de cada jogador
+   - Lista com busca e ordem (moedas, nível, álbum, último quiz, nome)
+   - Ficha: visual (personagem, acessórios, moldura, pista, movimento, comemoração), moedas (de onde vieram
+     e onde gastou), álbum (cada figurinha, repetidas, pacotes), coleção da loja e das missões,
+     casa no mapa e missões, ajudas, trocas, desafios, quizzes, salas e aparelhos
+   - Aba Trocas: todas as movimentações de figurinhas
+   As contas usam as mesmas funções do jogo, "como se fosse" aquele jogador (perfil e resultados dele).
+   ============================================================ */
+let JG = null, jgSel = "", jgAba = "resumo", jgBusca = "", jgOrdem = "moedas", jgAlbFiltro = "todas", trFiltro = "todas", trBusca = "";
+async function carregarJG(forcar){
+  if(JG && !forcar && Date.now() - JG.em < 120000) return JG;
+  const [us, rs, ms, salas, trs, des, ps] = await Promise.all([listarUsuariosAdm(), DB.todosResultados(), DB.todosMembros().catch(() => []), DB.listarSalas().catch(() => []),
+    DB.todasTrocas().catch(() => []), DB.todosDesafios().catch(() => []), DB.listarPrivados().catch(() => [])]);
+  const res = {}, mem = {}, priv = {}, salaMap = {};
+  rs.forEach(r => { (res[r.uid] = res[r.uid] || []).push(r); });
+  ms.forEach(m => { (mem[m.uid] = mem[m.uid] || []).push(m); });
+  ps.forEach(p => { priv[p.id] = p; });
+  salas.forEach(s => { salaMap[s.id] = s; });
+  JG = { em: Date.now(), us: us.filter(u => u && u.id), res, mem, priv, salaMap, trocas: trs.filter(t => (t.criado || 0) >= ALBUM_INICIO).sort((a, b) => (b.criado || 0) - (a.criado || 0)), des, calc: {} };
+  return JG;
+}
+/* roda as funções do jogo como se fosse o jogador u (nada assíncrono no meio) */
+function comoJogador(u, fn){
+  const salasU = ((JG.mem[u.id] || []).filter(m => m.status === "ativo")).map(m => JG.salaMap[m.salaId] || { id: m.salaId, global: m.salaId === SALA_GLOBAL_ID });
+  const des = JG.des.filter(d => d.de === u.id || d.para === u.id);
+  const sv = { perfil, RES, usuario, DESAFIOS, SALAS, ms: _msMemo, nv: _nvMemo };
+  try{
+    perfil = Object.assign({}, u); RES = {}; (JG.res[u.id] || []).forEach(r => { RES[r.licaoId + "|" + r.data] = r; });
+    usuario = { uid: u.id, email: u.email || "" }; DESAFIOS = des; SALAS = salasU; _msMemo = { k: "", v: null }; _nvMemo = { k: "", v: 0 };
+    return fn();
+  } finally {
+    perfil = sv.perfil; RES = sv.RES; usuario = sv.usuario; DESAFIOS = sv.DESAFIOS; SALAS = sv.SALAS; _msMemo = { k: "", v: null }; _nvMemo = { k: "", v: 0 };
+  }
+}
+function calcJogador(u){
+  if(JG.calc[u.id]) return JG.calc[u.id];
+  const c = comoJogador(u, () => {
+    const est = estadoMissoes(), n = est.n, inv = albumInventario(), compras = perfil.compras || {};
+    const prox = MISSOES[Math.min(n, MISSOES.length - 1)];
+    return {
+      moedas: moedas(), gastas: moedasGastas(), emJogo: typeof moedasEmJogo === "function" ? moedasEmJogo() : 0,
+      ganhas: { acertos: moedasDeAcertos(), semanas: semanasCompletas() * MOEDAS_SEMANA, missoes: moedasDeMissoes(), desafios: moedasDeDesafios(), reacoes: moedasDeReacoes(), reflexoes: moedasDeReflexoes(), album: typeof moedasDeAlbum === "function" ? moedasDeAlbum() : 0 },
+      semanas: semanasCompletas(), n, prog: est.prog, nivel: nivelDe(n), prox, fim: n >= MISSOES.length,
+      ajudas: ajudasDisponiveis(), ajudasG: ajudasGanhas(), ajudasU: Object.assign({ meio: 0, dobro: 0, chance: 0, pular: 0 }, perfil.ajudasUsadas || {}),
+      inv, coladas: albumColadas(inv), repetidas: albumRepetidas(inv), abertos: albumAbertos().length, fechados: albumLiberado() ? pacotesFechados().length : 0,
+      feitos: albumFeitos(), pagas: albumPagas(), comprasPac: Object.keys(compras).filter(k => k.indexOf("pac:") === 0).length,
+      boneco: meuBoneco() || perfil.profeta || "", acess: meuAcessorio(), mao: minhaMaoEsq(), moldura: minhaMoldura(), pista: minhaPista(), festa: minhaFesta(), mov: meuMovimento(),
+      liberados: PROFETAS.filter(p => !p.preco && p.nivel && profetaLiberado(p)).map(p => p.id),
+      compras: Object.keys(compras).filter(k => k.indexOf("pac:") !== 0).map(k => ({ id: k, preco: +compras[k] || 0 })),
+      quizzes: Object.keys(RES).length, pts: Object.values(RES).reduce((s, r) => s + (r.pts || 0), 0), ultimo: Object.values(RES).reduce((m, r) => Math.max(m, r.quando || 0), 0)
+    };
+  });
+  return (JG.calc[u.id] = c);
+}
+const jgNome = uid => { const u = JG && JG.us.find(x => x.id === uid); return u ? (u.nome || "(sem nome)") : "(conta apagada)"; };
+function jgAvatar(c, cls){ const nv = c.nivel || 0, b = c.boneco || PROFETA_PADRAO; return `<div class="pf-av jg-av ${cls || ""}${classeMoldura(c.moldura)}">${avatarSVG(personagemDe(b, nv), null, nv, null, movDe(c.mov, b, nv))}</div>`; }
+function jgFigThumb(id, n, extra){
+  const c = ALBUM_IDX[id]; if(!c) return "";
+  const src = figTemFoto(c) ? FIG_DIR + "p/" + figArquivo(c) : figImagem(c);
+  return `<span class="jg-fig r-${c.rar}${n > 0 ? "" : " falta"}" title="${esc(c.nome)} · ${ALBUM_ROT[c.rar]}${n > 1 ? " · ×" + n : ""}"><img src="${src}" alt="" loading="lazy" decoding="async" onerror="this.onerror=null;this.src=figImagem(ALBUM_IDX['${c.id}'])">${n > 1 ? `<em>×${n}</em>` : ""}${extra || ""}<small>${esc(c.nome)}</small></span>`;
+}
+const jgQuando = ts => ts ? haQuanto(ts) : "nunca";
+function jgCasaTexto(c){ if(c.fim) return "Chegou ao fim do mapa"; const m = c.prox; return m ? `Casa ${m.casa} · ${MAPAS[m.mapa].nome}` : ""; }
+
+/* ---------- aba Jogadores ---------- */
+async function admJogadores(){
+  const c = $("admC");
+  c.innerHTML = `<section class="panel larga pn-esqueleto" aria-busy="true"><span></span><span></span><span></span></section>`;
+  try{ await carregarJG(); }catch(e){ c.innerHTML = `<section class="panel larga"><p class="erro">${esc(erroMsg(e))}</p></section>`; return; }
+  if(!$("admC") || admTab !== "jogadores") return;
+  if(jgSel && JG.us.some(u => u.id === jgSel)) return fichaJogador(jgSel);
+  jgSel = "";
+  const lista = JG.us.filter(u => u.aprovado || u.admin || u.master).map(u => ({ u, c: calcJogador(u) }));
+  const tot = { moedas: lista.reduce((s, x) => s + x.c.moedas, 0), coladas: lista.reduce((s, x) => s + x.c.coladas, 0), trocas: JG.trocas.filter(t => t.status === "aceito").length, missoes: lista.reduce((s, x) => s + x.c.n, 0) };
+  const desenhar = () => {
+    const q = jgBusca.trim().toLowerCase();
+    const ordem = { moedas: (a, b) => b.c.moedas - a.c.moedas, nivel: (a, b) => b.c.n - a.c.n, album: (a, b) => b.c.coladas - a.c.coladas, ultimo: (a, b) => b.c.ultimo - a.c.ultimo, nome: (a, b) => String(a.u.nome).localeCompare(String(b.u.nome), "pt-BR") }[jgOrdem];
+    const vis = lista.filter(x => !q || String(x.u.nome || "").toLowerCase().includes(q) || String(x.u.email || "").toLowerCase().includes(q)).sort(ordem);
+    const total = ALBUM_CARTAS.length;
+    c.innerHTML = `<div class="pn-kpis larga jg-tot">
+        <div class="pn-kpi"><span class="pn-ic" aria-hidden="true">👥</span><b>${lista.length}</b><span class="pn-rot">Jogadores</span><small>com conta liberada</small></div>
+        <div class="pn-kpi"><span class="pn-ic" aria-hidden="true">🪙</span><b>${fmt(tot.moedas)}</b><span class="pn-rot">Moedas em caixa</span><small>somando todos</small></div>
+        <div class="pn-kpi"><span class="pn-ic" aria-hidden="true">🎴</span><b>${fmt(tot.coladas)}</b><span class="pn-rot">Figurinhas coladas</span><small>média de ${lista.length ? Math.round(tot.coladas / lista.length) : 0} de ${total} por jogador</small></div>
+        <button type="button" class="pn-kpi" data-ir="trocas"><span class="pn-ic" aria-hidden="true">🔁</span><b>${tot.trocas}</b><span class="pn-rot">Trocas feitas</span><small>ver todas as movimentações</small></button>
+      </div>
+      <section class="panel larga"><div class="jg-barra"><input type="text" id="jgBusca" placeholder="Buscar jogador por nome ou e-mail" value="${esc(jgBusca)}" autocomplete="off">
+        <div class="jg-ordem" role="group" aria-label="Ordenar por">${[["moedas", "🪙 Moedas"], ["nivel", "⭐ Nível"], ["album", "🎴 Álbum"], ["ultimo", "🕒 Último quiz"], ["nome", "🔤 Nome"]].map(([k, t]) => `<button type="button" data-ord="${k}" aria-pressed="${jgOrdem === k}">${t}</button>`).join("")}</div></div>
+        ${vis.length ? `<div class="jg-grade">${vis.map((x, i) => { const k = x.c, pct = Math.round(k.coladas * 100 / total);
+          return `<button type="button" class="jg-card" data-jg="${esc(x.u.id)}">${jgAvatar(k)}
+            <span class="jg-card-tx"><b>${esc(x.u.nome || "(sem nome)")}${x.u.id === usuario.uid ? " <i>(você)</i>" : ""}</b><span class="jg-nv">Nível ${k.nivel} · ${esc(nomeNivel(k.nivel))}</span><span class="jg-casa">📍 ${esc(jgCasaTexto(k))}</span></span>
+            <span class="jg-mini"><span title="Moedas"><i aria-hidden="true">🪙</i><b>${fmt(k.moedas)}</b></span><span title="Missões cumpridas"><i aria-hidden="true">🎯</i><b>${k.n}</b></span><span title="Figurinhas coladas"><i aria-hidden="true">🎴</i><b>${k.coladas}</b><small>/${total}</small></span><span title="Itens da loja"><i aria-hidden="true">🛍️</i><b>${k.compras.length}</b></span></span>
+            <span class="jg-alb"><i style="width:${pct}%"></i></span><span class="jg-ult">${k.ultimo ? "Último quiz " + jgQuando(k.ultimo) : "Ainda não fez quiz"}</span></button>`; }).join("")}</div>`
+          : `<p class="vazio">Ninguém encontrado.</p>`}
+      </section>`;
+    if(typeof ajustarGradeAdmin === "function") ajustarGradeAdmin(c);
+    const b = $("jgBusca"); b.oninput = () => { jgBusca = b.value; const pos = b.selectionStart; desenhar(); const nb = $("jgBusca"); nb.focus(); try{ nb.setSelectionRange(pos, pos); }catch(e){} };
+    c.querySelectorAll("[data-ord]").forEach(x => x.onclick = () => { jgOrdem = x.dataset.ord; desenhar(); });
+    c.querySelectorAll("[data-jg]").forEach(x => x.onclick = () => { jgSel = x.dataset.jg; jgAba = "resumo"; fichaJogador(jgSel); window.scrollTo({ top: 0 }); });
+    c.querySelectorAll("[data-ir]").forEach(x => x.onclick = () => irAdm(x.dataset.ir));
+  };
+  desenhar();
+}
+
+/* ---------- ficha de um jogador ---------- */
+const JG_ABAS = [["resumo", "🧾", "Resumo"], ["moedas", "🪙", "Moedas"], ["album", "🎴", "Álbum"], ["colecao", "🛍️", "Coleção"], ["missoes", "🗺️", "Missões"], ["trocas", "🔁", "Trocas"], ["quizzes", "📝", "Quizzes"]];
+function fichaJogador(uid){
+  const c = $("admC"), u = JG.us.find(x => x.id === uid); if(!u){ jgSel = ""; return admJogadores(); }
+  const k = calcJogador(u), total = ALBUM_CARTAS.length, priv = JG.priv[uid] || {};
+  const ordem = JG.us.filter(x => x.aprovado || x.admin || x.master).sort((a, b) => String(a.nome).localeCompare(String(b.nome), "pt-BR")), pos = ordem.findIndex(x => x.id === uid);
+  const ant = ordem[(pos - 1 + ordem.length) % ordem.length], prox = ordem[(pos + 1) % ordem.length];
+  const minhasTr = JG.trocas.filter(t => t.de === uid || t.para === uid);
+  const stat = (ic, num, rot, sub, cls) => `<div class="jg-st ${cls || ""}"><i aria-hidden="true">${ic}</i><b>${num}</b><span>${rot}</span>${sub ? `<small>${sub}</small>` : ""}</div>`;
+  c.innerHTML = `<section class="panel larga jg-ficha">
+      <div class="jg-nav"><button type="button" class="btn btn-ghost btn-sm" id="jgVolta">‹ Todos os jogadores</button>
+        ${ordem.length > 1 ? `<span class="jg-setas"><button type="button" class="btn btn-ghost btn-sm" data-vai="${esc(ant.id)}" aria-label="Jogador anterior: ${esc(ant.nome || "")}">‹</button><small>${pos + 1} de ${ordem.length}</small><button type="button" class="btn btn-ghost btn-sm" data-vai="${esc(prox.id)}" aria-label="Próximo jogador: ${esc(prox.nome || "")}">›</button></span>` : ""}</div>
+      <div class="jg-hero">${jgAvatar(k, "grande")}
+        <div class="jg-hero-tx"><h3>${esc(u.nome || "(sem nome)")}</h3><span class="jg-mail">${esc(u.email || "")}</span>
+          <span class="jg-badges">${u.master ? '<span class="badge adm">master</span>' : u.admin ? '<span class="badge">admin de sala</span>' : ""}${u.aprovado ? '<span class="badge ok">aprovado</span>' : '<span class="badge warn">pendente</span>'}<span class="badge">nível ${k.nivel} · ${esc(nomeNivel(k.nivel))}</span></span>
+          <span class="jg-sub">Conta criada ${jgQuando(u.criadoEm)} · último quiz ${jgQuando(k.ultimo)}</span></div></div>
+      <div class="jg-stats">${stat("🪙", fmt(k.moedas), "Moedas", k.emJogo ? `+${k.emJogo} em desafios` : "saldo agora", "ouro")}${stat("🎯", k.n, "Missões", esc(jgCasaTexto(k)))}${stat("🎴", `${k.coladas}<em>/${total}</em>`, "Figurinhas", `${k.repetidas} repetidas`)}${stat("📦", k.fechados, "Pacotes fechados", `${k.abertos} abertos`)}${stat("📝", k.quizzes, "Quizzes", fmt(k.pts) + " pontos")}${stat("🔁", minhasTr.filter(t => t.status === "aceito").length, "Trocas feitas", `${minhasTr.filter(t => t.status === "pendente").length} pendentes`)}</div>
+      <div class="jg-abas" role="tablist" aria-label="Detalhes do jogador">${JG_ABAS.map(([a, ic, t]) => `<button type="button" role="tab" aria-selected="${jgAba === a}" data-jab="${a}"><span aria-hidden="true">${ic}</span>${t}</button>`).join("")}</div>
+    </section>
+    <div class="jg-corpo larga" id="jgCorpo"></div>`;
+  if(typeof ajustarGradeAdmin === "function") ajustarGradeAdmin(c);
+  $("jgVolta").onclick = () => { jgSel = ""; admJogadores(); };
+  c.querySelectorAll("[data-vai]").forEach(b => b.onclick = () => { jgSel = b.dataset.vai; fichaJogador(jgSel); });
+  c.querySelectorAll("[data-jab]").forEach(b => b.onclick = () => { jgAba = b.dataset.jab; c.querySelectorAll("[data-jab]").forEach(x => x.setAttribute("aria-selected", String(x === b))); corpoFicha(u, k, priv, minhasTr); });
+  corpoFicha(u, k, priv, minhasTr);
+}
+function corpoFicha(u, k, priv, minhasTr){
+  const el = $("jgCorpo"); if(!el) return;
+  const f = { resumo: fichaResumo, moedas: fichaMoedas, album: fichaAlbum, colecao: fichaColecao, missoes: fichaMissoes, trocas: fichaTrocas, quizzes: fichaQuizzes }[jgAba] || fichaResumo;
+  el.innerHTML = f(u, k, priv, minhasTr);
+  el.querySelectorAll("[data-jgalb]").forEach(b => b.onclick = () => { jgAlbFiltro = b.dataset.jgalb; corpoFicha(u, k, priv, minhasTr); });
+  el.querySelectorAll("[data-jgfig]").forEach(b => b.onclick = () => modalFigJogador(b.dataset.jgfig, k.inv[b.dataset.jgfig] || 0, u.nome || "O jogador"));
+  el.querySelectorAll("[data-jgir]").forEach(b => b.onclick = () => { jgAba = b.dataset.jgir; document.querySelectorAll("#admC [data-jab]").forEach(x => x.setAttribute("aria-selected", String(x.dataset.jab === jgAba))); corpoFicha(u, k, priv, minhasTr); });
+}
+function modalFigJogador(id, n, nome){
+  const c = ALBUM_IDX[id]; if(!c) return;
+  modal("Figurinha " + c.n, `<div class="fig-det"><div class="fig-palco">${htmlFigurinha(c, Math.max(n, 1), { botao: false, cls: "grande", semConta: true })}</div>
+    <p class="fig-det-rar r-${c.rar}">${ALBUM_ROT[c.rar]}</p>
+    <p class="muted small">${n > 1 ? `${esc(nome)} tem ${n}: ${n - 1} ${n - 1 === 1 ? "repetida" : "repetidas"}.` : n === 1 ? `${esc(nome)} tem esta figurinha.` : `${esc(nome)} ainda não tem esta figurinha.`}</p></div>`, m => { desenharFigurinhas(m); if(typeof figEscala === "function") figEscala(m); });
+}
+function jgItemVisual(tipo, id, k){
+  const nv = k.nivel || 0, base = String(k.boneco || PROFETA_PADRAO).split("~")[0];
+  if(tipo === "p") return avatarSVG(id, null, nv);
+  if(tipo === "a") return avatarSVG(base + "~" + id, null, nv);
+  if(tipo === "m") return `<div class="pf-av jg-av mini${classeMoldura(id)}">${avatarSVG(personagemDe(base, nv), null, nv)}</div>`;
+  if(tipo === "t") return `<div class="track jg-pista${classePista(id)}" style="--seg:7"><span class="flag" aria-hidden="true">🏁</span></div>`;
+  if(tipo === "v") return `<div class="runner jg-mov${classeMovimento(id, base, nv)}">${avatarSVG(personagemDe(base, nv), null, nv, null, id)}</div>`;
+  if(tipo === "c") return `<span class="jg-festa">${(typeof FESTA_ICONE !== "undefined" && FESTA_ICONE[id]) || "🎉"}</span>`;
+  return "";
+}
+function fichaResumo(u, k, priv){
+  const nv = k.nivel, b = k.boneco || PROFETA_PADRAO, pr = acharProfeta(String(b).split("~")[0]);
+  const nomeLoja = (t, id) => { if(!id) return ""; const it = itemDaLoja(t + ":" + id); return it ? it.nome : id; };
+  const linha = (ic, rot, val) => `<li><span class="jg-li-ic" aria-hidden="true">${ic}</span><span class="jg-li-rot">${rot}</span><b>${val || '<span class="jg-nada">nenhum</span>'}</b></li>`;
+  const aps = Object.values(priv.aparelhos || {}).sort((a, x) => (x.em || 0) - (a.em || 0));
+  const salas = (JG.mem[u.id] || []).filter(m => m.status === "ativo" && m.salaId !== SALA_GLOBAL_ID).map(m => JG.salaMap[m.salaId]).filter(Boolean);
+  const j = typeof janelaSuper === "function" ? janelaSuper() : null, sq = u.superQuiz && j && u.superQuiz.id === j.id ? u.superQuiz : null;
+  const duelos = u.duelos || {}, dGanhos = Object.values(duelos).filter(v => +v > 0).length, dPerdidos = Object.values(duelos).filter(v => +v < 0).length;
+  return `<div class="jg-cols">
+    <section class="panel"><h3 class="h3">Visual de agora</h3>
+      <div class="lane jg-raia"><div class="track${classePista(k.pista)}" style="--seg:7"><span class="flag" aria-hidden="true">🏁</span><div class="runner${classeMovimento(k.mov, b, nv)}" style="--p:.55">${avatarSVG(personagemDe(b, nv), null, nv, null, movDe(k.mov, b, nv))}</div></div></div>
+      <ul class="jg-lista">${linha("🧑", "Personagem", pr ? esc(pr.nome) : "")}${linha("🎒", "Acessório", esc(nomeLoja("a", k.acess)))}${linha("✋", "Na outra mão", k.mao === "-" ? "mão vazia" : esc(nomeLoja("a", k.mao)))}${linha("🖼️", "Moldura", esc(nomeLoja("m", k.moldura)))}${linha("🛣️", "Tema da pista", esc(nomeLoja("t", k.pista)))}${linha("💃", "Movimento", esc(nomeLoja("v", k.mov)))}${linha("🎉", "Comemoração", esc(nomeLoja("c", k.festa)))}${linha("🎨", "Tema do app", esc({ auto: "Automático", claro: "Claro", escuro: "Escuro", sol: "Pôr do sol", classico: "Clássico" }[u.tema || "auto"] || u.tema))}</ul>
+    </section>
+    <section class="panel"><h3 class="h3">Ajudas para o quiz</h3>
+      <div class="jg-ajudas">${Object.keys(AJUDAS).map(t => `<div class="jg-aj"><span aria-hidden="true">${AJUDAS[t].ic}</span><b>${k.ajudas[t]}</b><small>${esc(AJUDAS[t].nome)}</small><em>ganhou ${k.ajudasG[t]} · usou ${k.ajudasU[t] || 0}</em></div>`).join("")}</div>
+      <p class="muted small">As ajudas são prêmios das missões. ${nv >= NIVEL_PULAR ? "" : `"Pular" só vale a partir do nível ${NIVEL_PULAR}.`}</p>
+      <h3 class="h3 jg-h3b">Desafios e super quiz</h3>
+      <ul class="jg-lista">${linha("⚔️", "Desafios ganhos", String(dGanhos))}${linha("🏳️", "Desafios perdidos", String(dPerdidos))}${linha("🪙", "Moedas presas em desafios", String(k.emJogo))}${linha("🏁", "Super quiz desta semana", sq ? (sq.fim ? `feito: ${sq.acertos} acertos` : `parou na ${sq.q + 1}ª de ${sq.n}`) : (j && j.aberto ? "ainda não fez" : "fechado agora"))}</ul>
+    </section>
+    <section class="panel"><h3 class="h3">Salas</h3>
+      ${salas.length ? `<ul class="jg-lista">${salas.map(s => linha("🏫", esc(s.nome), s.dono === u.id ? "criou" : (s.admins || []).includes(u.id) ? "admin" : "membro")).join("")}</ul>` : `<p class="vazio">Não está em nenhuma sala (só na global).</p>`}
+      <h3 class="h3 jg-h3b">Aparelhos</h3>
+      ${aps.length ? `<ul class="jg-lista">${aps.map(a => linha(a.so === "iPhone" || a.so === "Android" || a.so === "iPad" ? "📱" : "💻", esc(a.so || "Aparelho"), `${esc(versaoLegivel(a.v))}${a.inst ? " · instalado" : ""}${a.av ? " · 🔔" : ""}<small class="jg-qd">${jgQuando(a.em)}</small>`)).join("")}</ul>` : `<p class="vazio">Ainda não abriu a versão nova do jogo.</p>`}
+      <p class="muted small">${Object.keys(priv.avisoTokens || {}).length ? `🔔 Avisos ligados em ${Object.keys(priv.avisoTokens).length} ${Object.keys(priv.avisoTokens).length === 1 ? "aparelho" : "aparelhos"}.` : "🔕 Avisos no celular desligados."}</p>
+    </section></div>`;
+}
+function fichaMoedas(u, k){
+  const g = k.ganhas, fontes = [["acertos", "✅", "Acertos nos quizzes"], ["semanas", "📅", `Semanas completas (${k.semanas})`], ["missoes", "🎯", "Casas das missões"], ["album", "🎴", "Páginas e álbuns completos"], ["desafios", "⚔️", "Desafios"], ["reacoes", "❤️", "Reações no mural"], ["reflexoes", "💭", "Reflexões"]];
+  const totalG = Object.values(g).reduce((s, v) => s + v, 0), maxG = Math.max(1, ...Object.values(g).map(v => Math.abs(v)));
+  const compras = k.compras.slice().sort((a, b) => b.preco - a.preco), pacs = Object.keys(u.compras || {}).filter(x => x.indexOf("pac:") === 0), gastoPac = pacs.reduce((s, x) => s + (+u.compras[x] || 0), 0);
+  return `<div class="jg-cols">
+    <section class="panel jg-saldo"><h3 class="h3">Saldo</h3>
+      <div class="jg-conta"><div><small>Ganhou</small><b class="ok">+${fmt(totalG)}</b></div><div><small>Gastou</small><b class="menos">−${fmt(k.gastas)}</b></div>${k.emJogo ? `<div><small>Em desafios</small><b class="menos">−${fmt(k.emJogo)}</b></div>` : ""}<div class="tot"><small>Tem agora</small><b>🪙 ${fmt(k.moedas)}</b></div></div>
+      <h3 class="h3 jg-h3b">De onde vieram</h3>
+      <ul class="jg-barras">${fontes.map(([f, ic, t]) => `<li><span class="jg-li-ic" aria-hidden="true">${ic}</span><span class="jg-li-rot">${t}</span><span class="jg-bar"><i style="width:${Math.round(Math.abs(g[f]) * 100 / maxG)}%"${g[f] < 0 ? ' class="neg"' : ""}></i></span><b>${g[f] >= 0 ? "+" : ""}${fmt(g[f])}</b></li>`).join("")}</ul>
+    </section>
+    <section class="panel"><h3 class="h3">Onde gastou</h3>
+      ${compras.length || pacs.length ? `<ul class="jg-lista">${compras.map(x => { const it = itemDaLoja(x.id), t = x.id.split(":")[0]; return `<li><span class="jg-li-ic" aria-hidden="true">${{ a: "🎒", p: "🧑", m: "🖼️", t: "🛣️", v: "💃", c: "🎉" }[t] || "🛍️"}</span><span class="jg-li-rot">${esc(it ? it.nome : x.id)}<small class="jg-qd">${esc(LOJA_TIPO_NOME[t] || "Loja")}</small></span><b class="menos">−${fmt(x.preco)}</b></li>`; }).join("")}
+        ${pacs.length ? `<li><span class="jg-li-ic" aria-hidden="true">📦</span><span class="jg-li-rot">${pacs.length} ${pacs.length === 1 ? "pacote de figurinhas" : "pacotes de figurinhas"}<small class="jg-qd">Álbum</small></span><b class="menos">−${fmt(gastoPac)}</b></li>` : ""}</ul>`
+        : `<p class="vazio">Ainda não comprou nada na loja.</p>`}
+    </section></div>`;
+}
+function fichaAlbum(u, k){
+  const inv = k.inv, total = ALBUM_CARTAS.length;
+  const filtro = { todas: () => true, tem: c => (inv[c.id] || 0) > 0, faltam: c => !((inv[c.id] || 0) > 0), repetidas: c => (inv[c.id] || 0) > 1 }[jgAlbFiltro] || (() => true);
+  const cont = { todas: total, tem: k.coladas, faltam: total - k.coladas, repetidas: ALBUM_CARTAS.filter(c => (inv[c.id] || 0) > 1).length };
+  const rar = r => { const l = ALBUM_CARTAS.filter(c => c.rar === r); return `<span class="jg-rar r-${r}">${ALBUM_ROT[r]}<b>${l.filter(c => (inv[c.id] || 0) > 0).length}/${l.length}</b></span>`; };
+  return `<section class="panel larga"><div class="jg-albuns">${ALBUNS.map(a => { const tem = a.cartas.filter(c => (inv[c.id] || 0) > 0).length, pct = Math.round(tem * 100 / a.cartas.length), feito = k.feitos.includes(a.id);
+      return `<div class="jg-albcap" style="--c1:${a.cor};--c2:${a.cor2}"><b>${esc(a.nome)}</b><span>${tem} de ${a.cartas.length} figurinhas${feito ? " · ✅ completo" : ""}</span><span class="jg-alb"><i style="width:${pct}%"></i></span><small>${pct}% · ${a.paginas.filter(i => k.pagas.includes(ALBUM_FOLHAS[i].id)).length} de ${a.paginas.length} páginas completas</small></div>`; }).join("")}
+      <div class="jg-albcap info"><b>📦 Pacotes</b><span>${k.abertos} abertos · ${k.fechados} fechados</span><small>${k.comprasPac} comprados na loja · ${k.repetidas} repetidas</small><span class="jg-rars">${rar("comum")}${rar("rara")}${rar("lendaria")}</span></div></div>
+    <div class="jg-filtro" role="group" aria-label="Mostrar">${[["todas", "Todas"], ["tem", "Tem"], ["faltam", "Faltam"], ["repetidas", "Repetidas"]].map(([f, t]) => `<button type="button" data-jgalb="${f}" aria-pressed="${jgAlbFiltro === f}">${t}<small>${cont[f]}</small></button>`).join("")}</div>
+    ${ALBUM_PAGINAS.map(pg => { const cs = pg.cartas.filter(filtro); if(!cs.length) return "";
+      return `<div class="jg-pg"><h4>${esc(pg.nome)} <small>${pg.cartas.filter(c => (inv[c.id] || 0) > 0).length}/${pg.cartas.length}</small></h4><div class="jg-figs">${cs.map(c => `<button type="button" class="jg-figb" data-jgfig="${esc(c.id)}">${jgFigThumb(c.id, inv[c.id] || 0)}</button>`).join("")}</div></div>`; }).join("") || `<p class="vazio">Nenhuma figurinha neste filtro.</p>`}
+  </section>`;
+}
+function fichaColecao(u, k){
+  const compradas = new Set(k.compras.map(x => x.id)), uso = { a: k.acess, m: k.moldura, t: k.pista, v: k.mov, c: k.festa, p: String(k.boneco || "").split("~")[0] };
+  const bloco = (t, titulo, itens) => { const tem = itens.filter(it => compradas.has(t + ":" + it.id));
+    return `<div class="jg-col-bl"><h4>${titulo} <small>${tem.length}/${itens.length}</small></h4>${tem.length ? `<div class="jg-itens">${tem.map(it => `<div class="jg-item${uso[t] === it.id || (t === "a" && k.mao === it.id) ? " uso" : ""}"><div class="jg-item-arte">${jgItemVisual(t, it.id, k)}</div><b>${esc(it.nome)}</b><small>🪙 ${fmt((u.compras || {})[t + ":" + it.id] || it.preco || 0)}${uso[t] === it.id ? " · em uso" : t === "a" && k.mao === it.id ? " · na outra mão" : ""}</small></div>`).join("")}</div>` : `<p class="jg-nada">Nada comprado aqui.</p>`}</div>`; };
+  const conquist = PROFETAS.filter(p => !p.preco && p.nivel).map(p => ({ p, tem: k.liberados.includes(p.id) }));
+  return `<section class="panel larga"><h3 class="h3">Conquistados nas missões <small class="jg-qd">${conquist.filter(x => x.tem).length} de ${conquist.length} personagens raros</small></h3>
+      <div class="jg-itens">${conquist.map(x => `<div class="jg-item${x.tem ? "" : " falta"}${uso.p === x.p.id ? " uso" : ""}"><div class="jg-item-arte">${avatarSVG(x.p.id, null, k.nivel)}</div><b>${esc(x.p.nome)}</b><small>${x.tem ? (uso.p === x.p.id ? "em uso" : "liberado") : "nível " + x.p.nivel}</small></div>`).join("")}</div>
+    </section>
+    <section class="panel larga"><h3 class="h3">Comprados na loja <small class="jg-qd">${k.compras.length} ${k.compras.length === 1 ? "item" : "itens"} · 🪙 ${fmt(k.compras.reduce((s, x) => s + x.preco, 0))}</small></h3>
+      ${bloco("p", "Personagens", PROFETAS.filter(p => p.preco))}${bloco("a", "Acessórios", LOJA_ACESSORIOS)}${bloco("m", "Molduras", LOJA_MOLDURAS)}${bloco("t", "Temas da pista", LOJA_PISTAS)}${bloco("v", "Movimentos", LOJA_MOVIMENTOS)}${bloco("c", "Comemorações", LOJA_FESTAS)}
+    </section>`;
+}
+function fichaMissoes(u, k){
+  const n = k.n, m = k.prox, alvo = m && m.meta ? m.meta[1] : 1, pct = k.fim ? 100 : Math.min(100, Math.round((k.prog || 0) * 100 / Math.max(1, alvo)));
+  const feitas = MISSOES.slice(Math.max(0, n - 8), n).reverse(), proximas = k.fim ? [] : MISSOES.slice(n + 1, n + 4);
+  const mapaPct = mp => { const ms = MISSOES.filter(x => x.mapa === mp.i); const f = ms.filter(x => x.n <= n).length; return [f, ms.length]; };
+  return `<div class="jg-cols">
+    <section class="panel"><h3 class="h3">Onde está no mapa</h3>
+      ${k.fim ? `<div class="pn-tudo"><span aria-hidden="true">🏆</span><b>Chegou ao fim de todos os mapas!</b></div>` : `<div class="jg-casa-g"><div class="jg-casa-n"><small>Casa</small><b>${m.casa}</b></div><div><small>${esc(MAPAS[m.mapa].nome)} · ${esc(MAPAS[m.mapa].terr[m.terr].nome)}</small><b>${esc(m.t)}</b><span>${esc(m.d)}</span>
+        <span class="jg-alb"><i style="width:${pct}%"></i></span><small>${k.prog || 0} de ${alvo} · ${m.premio ? "prêmio: " + esc(textoPremio(m.premio)) : "sem prêmio extra"}</small></div></div>`}
+      <ul class="jg-barras jg-mapas">${MAPAS.map(mp => { const [f, t] = mapaPct(mp); return `<li><span class="jg-li-rot">${esc(mp.nome)}</span><span class="jg-bar"><i style="width:${Math.round(f * 100 / Math.max(1, t))}%"></i></span><b>${f}/${t}</b></li>`; }).join("")}</ul>
+      <p class="muted small">${n} de ${MISSOES.length} missões cumpridas · nível ${k.nivel} (${esc(nomeNivel(k.nivel))}).</p>
+    </section>
+    <section class="panel"><h3 class="h3">Últimas casas conquistadas</h3>
+      ${feitas.length ? `<ol class="jg-tl">${feitas.map(x => `<li><span class="jg-tl-n">${x.casa}</span><div><b>${esc(x.t)}</b><small>${esc(MAPAS[x.mapa].nome)}${x.premio ? " · 🎁 " + esc(textoPremio(x.premio)) : ""}</small></div></li>`).join("")}</ol>` : `<p class="vazio">Ainda não cumpriu nenhuma missão.</p>`}
+      ${proximas.length ? `<h3 class="h3 jg-h3b">Próximas</h3><ol class="jg-tl prox">${proximas.map(x => `<li><span class="jg-tl-n">${x.casa}</span><div><b>${esc(x.t)}</b><small>${esc(x.d)}${x.premio ? " · 🎁 " + esc(textoPremio(x.premio)) : ""}</small></div></li>`).join("")}</ol>` : ""}
+    </section></div>`;
+}
+const TR_STATUS = { pendente: ["⏳", "pendente", "warn"], aceito: ["✅", "aceita", "ok"], recusado: ["✖️", "recusada", "bad"], cancelado: ["🚫", "cancelada", ""] };
+function htmlTrocaAdm(t, foco){
+  const st = TR_STATUS[t.status] || ["•", t.status || "", ""], dou = trLista(t.dou), quero = trLista(t.quero);
+  const lado = (uid, nome, figs, rot) => `<div class="tra-lado"><span class="tra-quem${uid === foco ? " eu" : ""}"><b>${esc(nome || jgNome(uid))}</b><small>${rot}</small></span><div class="tra-figs">${figs.map(id => jgFigThumb(id, 1)).join("") || "<i>nada</i>"}</div></div>`;
+  return `<li class="tra s-${esc(t.status || "")}"><div class="tra-topo"><span class="badge ${st[2]}">${st[0]} ${st[1]}</span><small>${new Date(t.criado || 0).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })}${t.respondido ? " · respondida " + jgQuando(t.respondido) : ""}</small></div>
+    <div class="tra-corpo">${lado(t.de, t.deNome, dou, "dá")}<span class="tra-seta" aria-hidden="true">⇄</span>${lado(t.para, t.paraNome, quero, "dá")}</div></li>`;
+}
+function fichaTrocas(u, k, priv, minhasTr){
+  return `<section class="panel larga"><h3 class="h3">Trocas de ${esc(u.nome || "")} <small class="jg-qd">${minhasTr.length} no total</small></h3>
+    ${minhasTr.length ? `<ul class="tra-lista">${minhasTr.map(t => htmlTrocaAdm(t, u.id)).join("")}</ul>` : `<p class="vazio">Nenhuma troca ainda.</p>`}</section>`;
+}
+function fichaQuizzes(u, k){
+  const rs = (JG.res[u.id] || []).slice().sort((a, b) => String(b.data).localeCompare(String(a.data)) || (b.quando || 0) - (a.quando || 0));
+  const nomeL = id => { const L = (LICOES || []).find(x => x.id === id); return L ? L.numero : id; };
+  return `<section class="panel larga"><h3 class="h3">Quizzes <small class="jg-qd">${rs.length} feitos · ${fmt(k.pts)} pontos · ${rs.filter(r => r.noPrazo).length} no dia certo</small></h3>
+    ${rs.length ? `<div class="jg-tab"><table><thead><tr><th>Dia</th><th>Lição</th><th>Acertos</th><th>Pontos</th><th>Quando</th></tr></thead><tbody>${rs.map(r => `<tr><td>${esc(dataCurta(r.data))}</td><td>${esc(nomeL(r.licaoId))}</td><td>${r.acertos || 0}/${r.total || 0}${r.total && r.acertos === r.total ? " 🏅" : ""}</td><td><b>${fmt(r.pts || 0)}</b></td><td>${r.noPrazo ? "no dia" : '<span class="jg-atr">atrasado</span>'}${r.auditado ? " · auditado" : ""}</td></tr>`).join("")}</tbody></table></div>` : `<p class="vazio">Ainda não fez nenhum quiz.</p>`}
+  </section>`;
+}
+
+/* ---------- aba Trocas: todas as movimentações ---------- */
+async function admTrocas(){
+  const c = $("admC");
+  c.innerHTML = `<section class="panel larga pn-esqueleto" aria-busy="true"><span></span><span></span><span></span></section>`;
+  try{ await carregarJG(); }catch(e){ c.innerHTML = `<section class="panel larga"><p class="erro">${esc(erroMsg(e))}</p></section>`; return; }
+  if(!$("admC") || admTab !== "trocas") return;
+  const T = JG.trocas, n = s => T.filter(t => t.status === s).length;
+  const figsTrocadas = T.filter(t => t.status === "aceito").reduce((s, t) => s + trLista(t.dou).length + trLista(t.quero).length, 0);
+  const ranking = {}; T.filter(t => t.status === "aceito").forEach(t => { ranking[t.de] = (ranking[t.de] || 0) + 1; ranking[t.para] = (ranking[t.para] || 0) + 1; });
+  const top = Object.keys(ranking).sort((a, b) => ranking[b] - ranking[a]).slice(0, 5);
+  const desenhar = () => {
+    const q = trBusca.trim().toLowerCase();
+    const vis = T.filter(t => (trFiltro === "todas" || t.status === trFiltro) && (!q || [t.deNome, t.paraNome, jgNome(t.de), jgNome(t.para)].some(x => String(x || "").toLowerCase().includes(q))));
+    c.innerHTML = `<div class="pn-kpis larga">
+        <div class="pn-kpi"><span class="pn-ic" aria-hidden="true">🔁</span><b>${T.length}</b><span class="pn-rot">Propostas</span><small>desde a estreia do álbum</small></div>
+        <div class="pn-kpi bom"><span class="pn-ic" aria-hidden="true">✅</span><b>${n("aceito")}</b><span class="pn-rot">Trocas feitas</span><small>${figsTrocadas} figurinhas mudaram de dono</small></div>
+        <div class="pn-kpi ${n("pendente") ? "alerta" : ""}"><span class="pn-ic" aria-hidden="true">⏳</span><b>${n("pendente")}</b><span class="pn-rot">Esperando resposta</span><small>propostas abertas</small></div>
+        <div class="pn-kpi"><span class="pn-ic" aria-hidden="true">✖️</span><b>${n("recusado")}</b><span class="pn-rot">Recusadas</span><small>propostas canceladas somem da lista</small></div>
+      </div>
+      <section class="panel larga"><div class="jg-barra"><input type="text" id="trBusca" placeholder="Buscar por jogador" value="${esc(trBusca)}" autocomplete="off">
+        <div class="jg-ordem" role="group" aria-label="Mostrar">${[["todas", "Todas", T.length], ["pendente", "Pendentes", n("pendente")], ["aceito", "Feitas", n("aceito")], ["recusado", "Recusadas", n("recusado")]].map(([k, t, q]) => `<button type="button" data-trf="${k}" aria-pressed="${trFiltro === k}">${t} <small>${q}</small></button>`).join("")}</div></div>
+        ${top.length ? `<div class="tra-top"><span class="av-rot">Quem mais troca</span><div>${top.map((uid, i) => `<button type="button" class="tra-chip" data-jgv="${esc(uid)}">${["🥇", "🥈", "🥉"][i] || "•"} ${esc(jgNome(uid))} <b>${ranking[uid]}</b></button>`).join("")}</div></div>` : ""}
+        ${vis.length ? `<ul class="tra-lista">${vis.slice(0, 200).map(t => htmlTrocaAdm(t)).join("")}</ul>` : `<p class="vazio">Nenhuma troca ${trFiltro === "todas" ? "ainda" : "neste filtro"}.</p>`}
+      </section>`;
+    if(typeof ajustarGradeAdmin === "function") ajustarGradeAdmin(c);
+    const b = $("trBusca"); b.oninput = () => { trBusca = b.value; const p = b.selectionStart; desenhar(); const nb = $("trBusca"); nb.focus(); try{ nb.setSelectionRange(p, p); }catch(e){} };
+    c.querySelectorAll("[data-trf]").forEach(x => x.onclick = () => { trFiltro = x.dataset.trf; desenhar(); });
+    c.querySelectorAll("[data-jgv]").forEach(x => x.onclick = () => { jgSel = x.dataset.jgv; jgAba = "trocas"; irAdm("jogadores"); });
+  };
+  desenhar();
 }
 
 /* ============================================================
