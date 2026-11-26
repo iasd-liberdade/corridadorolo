@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="versao" content="20261123.185716">
+<meta name="versao" content="20261126.014458">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Corrida do Rolo · Quiz da Lição</title>
 <meta name="theme-color" content="#524F9C">
@@ -10,8 +10,8 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Quiz da Lição">
 <link rel="icon" id="favicon" href="">
-<link rel="apple-touch-icon" id="touchicon" href="">
-<link rel="manifest" id="manifest" href="">
+<link rel="apple-touch-icon" id="touchicon" href="app-icone-180.png">
+<link rel="manifest" id="manifest" href="manifest.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,400;0,600;0,700;0,800;1,500;1,600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -1882,6 +1882,93 @@ body:has(.an-lb):not(:has(.modal-bg)) .toast{top:auto;bottom:calc(24px + env(saf
 .lj-nota{margin:0 0 10px;font-size:12.5px;line-height:1.4;color:var(--soft)}
 .lj-nota.alerta{padding:8px 10px;border-radius:10px;background:rgba(242,190,46,.14);border:1px solid rgba(242,190,46,.4);color:#FFE9A8}
 .lj-nota b{color:#fff}
+/* p66: movimentos novos */
+.fx-pisca,.fx-sai,.fx-onda,.fx-halo,.fx-raios,.fx-parede,.fx-asa,.fx-faisca,.fx-nota{transform-box:fill-box;transform-origin:50% 50%}
+.fx-pisca{animation:fx-pisca 1.6s ease-in-out infinite}.fx-pisca.p2{animation-delay:-.8s}.fx-pisca.p3{animation-delay:-.4s}
+@keyframes fx-pisca{0%,100%{opacity:.15;transform:scale(.35)}50%{opacity:1;transform:scale(1)}}
+/* Palmas de Louvor */
+.av-mv-palmas .av-q{animation-duration:.56s}
+.runner.mov-palmas .avatar{animation:mov-palmas .56s ease-in-out infinite}
+@keyframes mov-palmas{0%,100%{transform:translateY(0)}50%{transform:translateY(-1.5px) scale(1.02,.98)}}
+.fx-palmas > g{transform-box:fill-box;transform-origin:50% 100%;animation:fx-palmas .56s ease-out infinite}
+@keyframes fx-palmas{0%,49%{opacity:0;transform:scale(.5)}53%{opacity:1;transform:scale(.9)}90%,100%{opacity:0;transform:scale(1.3)}}
+/* Cântico Novo */
+.av-mv-canto .av-q{animation-duration:1.6s}
+.runner.mov-canto .avatar{animation:mov-canto 1.6s ease-in-out infinite}
+@keyframes mov-canto{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg) translateY(-1px)}}
+.fx-nota{opacity:0;animation:fx-nota1 2.4s ease-out infinite}
+.fx-nota.n2{animation-name:fx-nota2;animation-delay:.8s}.fx-nota.n3{animation-name:fx-nota3;animation-delay:1.6s}
+@keyframes fx-nota1{0%{opacity:0;transform:translate(0,0) scale(.4) rotate(-10deg)}15%{opacity:1}100%{opacity:0;transform:translate(7px,-12px) scale(1.15) rotate(14deg)}}
+@keyframes fx-nota2{0%{opacity:0;transform:translate(0,0) scale(.4) rotate(10deg)}15%{opacity:1}100%{opacity:0;transform:translate(-9px,-11px) scale(1.1) rotate(-16deg)}}
+@keyframes fx-nota3{0%{opacity:0;transform:translate(0,0) scale(.4)}15%{opacity:1}100%{opacity:0;transform:translate(2px,-15px) scale(1.2) rotate(8deg)}}
+/* Escada de Jacó */
+.runner.mov-escada .avatar{animation:mov-escada 3s ease-in-out infinite}
+@keyframes mov-escada{0%,100%{transform:translateY(0)}50%{transform:translateY(-1.6px)}}
+.fx-esc-ceu{transform-box:fill-box;transform-origin:50% 50%;animation:fx-halo 3s ease-in-out infinite}
+.fx-escada > g:first-of-type{animation:fx-coluna 2.6s ease-in-out infinite}
+.fx-anjo{transform-box:fill-box;transform-origin:50% 50%;opacity:0;animation:fx-anjo-sobe 3.6s ease-in-out infinite}
+.fx-anjo.a2{animation-name:fx-anjo-desce;animation-delay:-1.2s}.fx-anjo.a3{animation-delay:-2.4s}
+@keyframes fx-anjo-sobe{0%{opacity:0;transform:translate(0,0) scale(.9)}15%{opacity:1}75%{opacity:.8}100%{opacity:0;transform:translate(0,-36px) scale(.4)}}
+@keyframes fx-anjo-desce{0%{opacity:0;transform:translate(0,-36px) scale(.4)}25%{opacity:.8}85%{opacity:1}100%{opacity:0;transform:translate(0,0) scale(.9)}}
+/* Andar sobre as Águas */
+.runner.mov-aguas .avatar{animation:mov-aguas 1.4s ease-in-out infinite}
+@keyframes mov-aguas{0%,100%{transform:translateY(0) rotate(-1.5deg)}50%{transform:translateY(-1px) rotate(1.5deg)}}
+.fx-onda{opacity:0;animation:fx-onda 2.1s ease-out infinite}.fx-onda.o2{animation-delay:.7s}.fx-onda.o3{animation-delay:1.4s}
+@keyframes fx-onda{0%{opacity:.95;transform:scale(.35)}100%{opacity:0;transform:scale(2.1)}}
+.fx-marola{animation:fx-marola 1.2s linear infinite}
+@keyframes fx-marola{to{transform:translateX(-3px)}}
+/* Funda de Davi */
+.av-mv-funda .av-q{animation-duration:.36s}
+.runner.mov-funda .avatar{animation:mov-funda .72s ease-in-out infinite}
+@keyframes mov-funda{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(2deg)}}
+.fx-funda-gira{transform-box:fill-box;transform-origin:50% 50%;animation:fx-funda .42s linear infinite}
+@keyframes fx-funda{to{transform:rotate(-360deg)}}
+.fx-funda-rastro{animation:fx-funda-r .42s linear infinite}
+@keyframes fx-funda-r{to{stroke-dashoffset:4.2}}
+.fx-pedra{opacity:0;animation:fx-pedra 2.4s ease-in infinite}
+@keyframes fx-pedra{0%,72%{opacity:0;transform:translate(0,0)}75%{opacity:1;transform:translate(1px,0)}100%{opacity:0;transform:translate(17px,-5px)}}
+/* Pomba do Espírito */
+.av-mv-pomba .av-q{animation-duration:2s}
+.runner.mov-pomba .avatar{animation:mov-pomba 2s ease-in-out infinite}
+@keyframes mov-pomba{0%,100%{transform:translateY(0)}50%{transform:translateY(-1.2px)}}
+.fx-coluna{animation:fx-coluna 2.6s ease-in-out infinite}
+@keyframes fx-coluna{0%,100%{opacity:.7}50%{opacity:1}}
+.fx-pomba-voo{transform-box:fill-box;transform-origin:50% 50%;animation:fx-pomba 4.2s linear infinite}
+@keyframes fx-pomba{0%{transform:translate(22.5px,6px) scale(-.95,.95);opacity:.95}12.5%{transform:translate(18px,.5px) scale(-.8,.8);opacity:.7}25%{transform:translate(11px,-1px) scale(-.7,.7);opacity:.55}37.5%{transform:translate(4px,.5px) scale(-.8,.8);opacity:.7}49.9%{transform:translate(-.5px,6px) scale(-.95,.95);opacity:.95}50%{transform:translate(-.5px,6px) scale(.95,.95)}62.5%{transform:translate(3.5px,12.5px) scale(1.1,1.1);opacity:1}75%{transform:translate(11px,15px) scale(1.25,1.25);opacity:1}87.5%{transform:translate(18.5px,12.5px) scale(1.1,1.1);opacity:1}99.9%{transform:translate(22.5px,6px) scale(.95,.95)}100%{transform:translate(22.5px,6px) scale(-.95,.95);opacity:.95}}
+.fx-asa{transform-origin:50% 100%;animation:fx-asa .32s ease-in-out infinite alternate}
+.fx-pa-asa{animation:fx-pa-bate .62s cubic-bezier(.45,0,.35,1) infinite}
+.fx-pa-asa2{animation:fx-pa-bate2 .62s cubic-bezier(.45,0,.35,1) infinite}
+@keyframes fx-pa-bate{0%,100%{transform:rotate(-4deg) scaleY(1)}42%{transform:rotate(16deg) scaleY(-.7)}}
+@keyframes fx-pa-bate2{0%,100%{transform:rotate(-12deg) scaleY(.92)}42%{transform:rotate(10deg) scaleY(-.55)}}
+.fx-pa-corpo{animation:fx-pa-sobe .62s cubic-bezier(.45,0,.35,1) infinite}
+@keyframes fx-pa-sobe{0%,100%{transform:translateY(2px)}42%{transform:translateY(-2.5px)}}.fx-asa2{animation-delay:-.16s}
+@keyframes fx-asa{to{transform:scaleY(-.35)}}
+/* Rosto Resplandecente */
+.runner.mov-brilho .avatar{animation:mov-brilho 2.6s ease-in-out infinite}
+@keyframes mov-brilho{0%,100%{filter:drop-shadow(0 0 1.5px rgba(255,233,160,.7))}50%{filter:drop-shadow(0 0 5px rgba(255,243,184,1))}}
+.fx-raios{animation:fx-raios 14s linear infinite}
+@keyframes fx-raios{to{transform:rotate(360deg)}}
+.fx-halo{animation:fx-halo 2.6s ease-in-out infinite}.fx-halo.h2{animation-delay:-1.3s}
+@keyframes fx-halo{0%,100%{opacity:.5;transform:scale(.92)}50%{opacity:1;transform:scale(1.06)}}
+/* Mar se Abrindo */
+.runner.mov-mar .avatar{animation:mov-mar 2.2s ease-in-out infinite}
+@keyframes mov-mar{0%,100%{transform:translateY(0)}50%{transform:translateY(-1px)}}
+.fx-parede{transform-origin:50% 100%;animation:fx-parede 2.2s ease-in-out infinite alternate}
+.fx-mar > g .fx-parede{animation-delay:-1.1s}
+@keyframes fx-parede{0%{transform:scale(1,.93)}100%{transform:scale(1.03,1.03)}}
+.fx-gota{animation:fx-gota 1.4s ease-out infinite}
+.fx-peixe{animation:fx-peixe 3.2s ease-in-out infinite}
+@keyframes fx-peixe{0%{transform:translate(-1px,3px)}50%{transform:translate(4px,-6px)}100%{transform:translate(-1px,3px)}}.fx-gota.g2{animation-delay:.45s}.fx-gota.g3{animation-delay:.9s}
+@keyframes fx-gota{0%{opacity:0;transform:translate(0,0)}20%{opacity:1}100%{opacity:0;transform:translate(1.6px,-2.4px)}}
+/* Redemoinho de Elias */
+.runner.mov-redemoinho .avatar{animation:mov-redemoinho 2.6s ease-in-out infinite}
+@keyframes mov-redemoinho{0%,100%{transform:translateY(-2px) rotate(-3deg)}50%{transform:translateY(-8px) rotate(3deg)}}
+.fx-v{animation:fx-vento .7s linear infinite}.fx-v.v2{animation-duration:.85s}.fx-v.v3{animation-duration:1s}.fx-v.v4{animation-duration:1.15s}.fx-v.v5{animation-duration:1.3s}
+@keyframes fx-vento{to{stroke-dashoffset:-10.8}}
+.fx-faisca{opacity:0;animation:fx-faisca 1.8s ease-out infinite}
+.fx-faisca.f1{--dx:4px}.fx-faisca.f2{--dx:-5px;animation-delay:.45s}.fx-faisca.f3{--dx:6px;animation-delay:.9s}.fx-faisca.f4{--dx:-3px;animation-delay:1.35s}
+@keyframes fx-faisca{0%{opacity:0;transform:translate(0,0)}15%{opacity:1}100%{opacity:0;transform:translate(var(--dx),-16px) scale(.5)}}
+@media (prefers-reduced-motion:reduce){.fx-pisca,.fx-palmas > g,.fx-nota,.fx-esc-ceu,.fx-anjo,.fx-sai,.fx-onda,.fx-marola,.fx-funda-gira,.fx-funda-rastro,.fx-pedra,.fx-coluna,.fx-pomba-voo,.fx-asa,.fx-pa-asa,.fx-pa-asa2,.fx-pa-corpo,.fx-raios,.fx-halo,.fx-parede,.fx-gota,.fx-v,.fx-faisca{animation:none}}
 .ar-bi{transform-box:fill-box;transform-origin:50% 50%}
 @media (prefers-reduced-motion:reduce){.runner[class*="mov-"] .avatar{animation:none}}
 /* ---------- temas da pista com cenário em pixel art: uma cena presa em cima (--t), o chão embaixo (--c), um piso opcional (--x) e o fundo (--b) ---------- */
@@ -2940,6 +3027,159 @@ button.fig.vaga:hover{transform:translateY(-2px)}
 .zoom-dica.sai{opacity:0}
 @keyframes zdica{from{opacity:0;transform:translate(-50%,-44%)}}
 @keyframes zpinca{0%,100%{transform:scale(.9)}50%{transform:scale(1.1)}}
+/* p71: pódio da Corrida */
+.pod{position:relative;overflow:hidden;isolation:isolate;margin:0 0 14px;padding:16px 12px 0;border-radius:26px;background:radial-gradient(70% 60% at 50% 38%,rgba(255,215,110,.32),transparent 70%),linear-gradient(170deg,#17134A 0%,#2B2280 52%,#4637A8 100%);border:1px solid rgba(255,226,122,.45);box-shadow:0 18px 36px rgba(15,8,60,.4),inset 0 1px 0 rgba(255,255,255,.18);color:#fff}
+.pod-raios{position:absolute;left:50%;top:44%;width:760px;height:760px;margin:-380px 0 0 -380px;z-index:-1;border-radius:50%;background:repeating-conic-gradient(from 0deg,rgba(255,236,170,.13) 0 7deg,transparent 7deg 18deg);-webkit-mask:radial-gradient(closest-side,#000 10%,transparent 72%);mask:radial-gradient(closest-side,#000 10%,transparent 72%);animation:ljngira 60s linear infinite;pointer-events:none}
+.pod-luz{position:absolute;left:50%;top:-10px;width:220px;height:100%;margin-left:-110px;z-index:-1;clip-path:polygon(38% 0,62% 0,100% 100%,0 100%);background:linear-gradient(180deg,rgba(255,244,200,.34),rgba(255,244,200,0) 78%);pointer-events:none}
+.pod-pontos{position:absolute;inset:0;z-index:-1;pointer-events:none}
+.pod-pontos i{position:absolute;width:5px;height:5px;border-radius:50%;background:#FFF3C8;box-shadow:0 0 8px 2px rgba(255,236,170,.75);animation:ljnpisca 2.8s ease-in-out infinite}
+.pod-pontos i:nth-child(1){left:9%;top:22%}.pod-pontos i:nth-child(2){left:88%;top:18%;animation-delay:.6s}.pod-pontos i:nth-child(3){left:22%;top:52%;animation-delay:1.2s;width:3px;height:3px}.pod-pontos i:nth-child(4){left:78%;top:48%;animation-delay:.3s;width:3px;height:3px}
+.pod-pontos i:nth-child(5){left:36%;top:14%;animation-delay:1.8s;width:3px;height:3px}.pod-pontos i:nth-child(6){left:64%;top:10%;animation-delay:2.2s}.pod-pontos i:nth-child(7){left:5%;top:70%;animation-delay:1s;width:3px;height:3px}.pod-pontos i:nth-child(8){left:94%;top:66%;animation-delay:1.5s;width:3px;height:3px}
+.pod-cab{display:grid;justify-items:center;gap:6px;text-align:center}
+.pod-tag{display:inline-flex;align-items:center;gap:6px;padding:5px 12px 5px 9px;border-radius:99px;background:linear-gradient(90deg,#FFE27A,#F2A53A);color:#3A2A00;font:800 11px/1.2 "Barlow",sans-serif;letter-spacing:.14em;text-transform:uppercase;box-shadow:0 4px 12px rgba(242,165,58,.4)}
+.pod-tag svg{width:15px;height:15px}
+.pod-cab h2{margin:0;font:400 30px/1 "Bebas Neue","Arial Narrow",sans-serif;letter-spacing:.6px;color:#fff;text-shadow:0 3px 0 rgba(0,0,0,.28)}
+.pod-degraus{list-style:none;margin:12px 0 0;padding:0;display:grid;grid-template-columns:1fr 1.12fr 1fr;align-items:end;gap:8px}
+.pod-l{display:grid;justify-items:center;gap:6px;min-width:0}
+.pod-l .pod-nome{margin-bottom:12px}
+.pod-l.p1{order:2}.pod-l.p2{order:1}.pod-l.p3{order:3}
+.pod-boneco{position:relative;display:grid;justify-items:center;align-items:end;width:100%;cursor:pointer;animation:pod-entra .7s cubic-bezier(.2,.9,.3,1.25) both}
+.pod-l.p2 .pod-boneco{animation-delay:.35s}.pod-l.p1 .pod-boneco{animation-delay:.55s}.pod-l.p3 .pod-boneco{animation-delay:.2s}
+.pod-boneco:focus-visible{outline:3px solid #fff;outline-offset:3px;border-radius:14px}
+.pod-boneco .runner{position:relative;left:auto;top:auto;width:44px;height:56px;transition:none;zoom:1.55}
+.pod-boneco .runner .avatar{width:44px;height:56px}
+.pod-l.p1 .pod-boneco .runner{zoom:1.95}
+.pod-chao{position:absolute;left:50%;bottom:-6px;width:84%;height:16px;transform:translateX(-50%);border-radius:50%;background:radial-gradient(closest-side,rgba(10,6,40,.55),transparent)}
+.pod-coroa{position:absolute;left:50%;top:-30px;z-index:2;width:46px;height:32px;margin-left:-23px;filter:drop-shadow(0 4px 8px rgba(0,0,0,.4)) drop-shadow(0 0 10px rgba(255,226,122,.55));animation:pod-coroa 2.8s ease-in-out infinite}
+.pod-coroa svg{width:100%;height:100%}
+.pod-l.p1{padding-top:30px}
+.pod-nome{display:grid;justify-items:center;gap:2px;max-width:100%;text-align:center}
+.pod-nome b{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font:800 14px/1.15 "Barlow",sans-serif}
+.pod-l.p1 .pod-nome b{font-size:16px;color:#FFE27A}
+.pod-nome em{font-style:normal;padding:2px 8px;border-radius:99px;background:rgba(125,240,184,.2);border:1px solid rgba(125,240,184,.6);color:#B9F7D8;font:800 10px/1.2 "Barlow",sans-serif;letter-spacing:.08em;text-transform:uppercase}
+.pod-nome small{font:700 11.5px/1.2 "Barlow",sans-serif;color:#D9D3FF;white-space:nowrap}
+.pod-bloco{position:relative;width:100%;display:grid;justify-items:center;align-content:start;gap:2px;padding-top:12px;border-radius:14px 14px 0 0;transform-origin:50% 100%;animation:pod-sobe .8s cubic-bezier(.2,.9,.25,1) both;box-shadow:inset 0 2px 0 rgba(255,255,255,.65),inset 0 -14px 24px rgba(0,0,0,.18),0 -2px 18px rgba(0,0,0,.25)}
+.pod-bloco::before{content:"";position:absolute;left:0;right:0;top:-9px;height:12px;border-radius:12px 12px 4px 4px;background:inherit;filter:brightness(1.18);box-shadow:inset 0 2px 0 rgba(255,255,255,.7)}
+.pod-l.p1 .pod-bloco{height:132px;background:linear-gradient(180deg,#FFE88F 0%,#F6C342 38%,#E0A12A 70%,#B9761B 100%)}
+.pod-l.p2 .pod-bloco{height:106px;background:linear-gradient(180deg,#FFFFFF 0%,#DDE2EE 38%,#B9C1D6 72%,#8E97AE 100%);animation-delay:.15s}
+.pod-l.p3 .pod-bloco{height:92px;background:linear-gradient(180deg,#FFD9BA 0%,#EBA06D 40%,#C9733F 72%,#8E4A22 100%);animation-delay:0s}
+.pod-l.p1 .pod-bloco{animation-delay:.3s}
+.pod-bloco b{position:relative;font:400 50px/.9 "Bebas Neue","Arial Narrow",sans-serif;letter-spacing:1px;color:rgba(0,0,0,.2);text-shadow:0 1px 0 rgba(255,255,255,.55),0 -1px 0 rgba(0,0,0,.15)}
+.pod-l.p2 .pod-bloco b,.pod-l.p3 .pod-bloco b{font-size:40px}
+.pod-med{position:relative;z-index:1;width:26px;height:34px;filter:drop-shadow(0 3px 5px rgba(0,0,0,.3))}
+.pod-l.p1 .pod-med{width:32px;height:42px}
+.pod-med svg{width:100%;height:100%}
+.pod-brilho{position:absolute;inset:0;overflow:hidden;border-radius:inherit;pointer-events:none}
+.pod-brilho::after{content:"";position:absolute;top:-20%;bottom:-20%;left:-60%;width:40%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-18deg);animation:pod-brilho 4.5s ease-in-out infinite}
+.pod-l.p2 .pod-brilho::after{animation-delay:1.4s}.pod-l.p3 .pod-brilho::after{animation-delay:2.6s}
+.pod-l.eu .pod-bloco{box-shadow:inset 0 2px 0 rgba(255,255,255,.65),inset 0 -14px 24px rgba(0,0,0,.18),0 0 0 3px rgba(125,240,184,.75),0 -2px 18px rgba(0,0,0,.25)}
+.pod-l.vago .pod-boneco{cursor:default;animation:none}
+.pod-vago{display:grid;place-items:center;width:58px;height:72px;margin-bottom:4px;border-radius:18px;border:2px dashed rgba(255,255,255,.35);color:rgba(255,255,255,.55);font:400 36px/1 "Bebas Neue",sans-serif}
+.pod-l.vago .pod-bloco{opacity:.55;filter:saturate(.4)}
+.pod-l.vago .pod-nome b{color:#D9D3FF}
+.pod-share{position:absolute;right:12px;top:12px;z-index:3;display:inline-flex;align-items:center;gap:6px;height:38px;padding:0 13px 0 11px;border-radius:99px;border:1px solid rgba(255,255,255,.3);background:rgba(10,8,40,.42);color:#fff;font:800 12.5px/1 "Barlow",sans-serif;cursor:pointer;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);box-shadow:0 4px 12px rgba(0,0,0,.25);transition:background .2s,transform .14s}
+.pod-share svg{width:18px;height:18px}.pod-share:hover{background:rgba(255,255,255,.18)}.pod-share:active{transform:scale(.95)}
+@media (max-width:420px){.pod-share{width:38px;padding:0;justify-content:center}.pod-share span{display:none}}
+@keyframes pod-sobe{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+@keyframes pod-entra{0%{opacity:0;transform:translateY(-26px) scale(.85)}100%{opacity:1;transform:none}}
+@keyframes pod-coroa{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-4px) rotate(4deg)}}
+@keyframes pod-brilho{0%,55%{left:-60%}85%,100%{left:130%}}
+@media (min-width:700px){
+  .pod{padding:22px 26px 0}.pod-cab h2{font-size:38px}
+  .pod-degraus{gap:16px;max-width:560px;margin:16px auto 0}
+  .pod-boneco .runner{zoom:2}.pod-l.p1 .pod-boneco .runner{zoom:2.5}
+  .pod-l.p1 .pod-bloco{height:158px}.pod-l.p2 .pod-bloco{height:122px}.pod-l.p3 .pod-bloco{height:98px}.pod-med{width:30px;height:39px}.pod-l.p1 .pod-med{width:38px;height:50px}
+  .pod-nome b{font-size:16px}.pod-l.p1 .pod-nome b{font-size:19px}.pod-nome small{font-size:12.5px}
+  .pod-coroa{width:58px;height:40px;margin-left:-29px;top:-40px}.pod-l.p1{padding-top:40px}
+}
+@media (prefers-reduced-motion:reduce){.pod-raios,.pod-pontos i,.pod-coroa,.pod-brilho::after,.pod-boneco,.pod-bloco{animation:none}}
+/* p73: quiz — pergunta maior e ajudas grandes embaixo das alternativas */
+.quiz-area .qtext{font-size:clamp(23px,6.6vw,29px);line-height:1.2;letter-spacing:-.2px;margin:2px 0 6px;text-wrap:balance}
+.quiz-area .qhint{font-size:13px;margin-bottom:14px}
+/* p74: a dica do tempo fica em cima da pergunta */
+.quiz-area .qhint{display:inline-flex;align-items:center;gap:6px;margin:4px 0 10px;padding:4px 12px;border-radius:999px;background:rgba(255,255,255,.12);font-weight:700;letter-spacing:.02em}
+.quiz-area .qtext{margin-top:0}
+.ajudas-wrap{margin-top:16px;padding:12px 12px 14px;border-radius:20px;background:rgba(10,8,40,.2);border:1px solid var(--panel-line)}
+.ajudas-tit{display:block;margin:0 2px 12px;font:800 11px/1.2 "Barlow",sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--soft)}
+.ajudas-wrap .ajudas-bar{display:grid;grid-template-columns:repeat(auto-fit,minmax(92px,1fr));gap:12px;margin:0}
+.ajudas-wrap .ajuda-btn{position:relative;display:grid;justify-items:center;align-content:center;gap:6px;min-height:86px;padding:12px 8px 10px;border-radius:18px;border:2px solid rgba(255,255,255,.3);background:linear-gradient(180deg,rgba(255,255,255,.22),rgba(255,255,255,.08));color:#fff;font:800 14.5px/1.15 "Barlow",sans-serif;text-align:center;box-shadow:0 4px 0 rgba(10,8,40,.35);cursor:pointer;transition:transform .12s,box-shadow .12s,background .2s}
+.ajudas-wrap .ajuda-btn .ic{font-size:30px;line-height:1}
+.ajudas-wrap .ajuda-btn .ic .ij{width:32px;height:32px;vertical-align:0}
+.ajudas-wrap .ajuda-btn b{position:absolute;top:-9px;right:-7px;min-width:27px;height:27px;padding:0 6px;font-size:13.5px;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.3)}
+.ajudas-wrap .ajuda-btn:not(:disabled):hover{background:linear-gradient(180deg,rgba(255,255,255,.3),rgba(255,255,255,.12))}
+.ajudas-wrap .ajuda-btn:not(:disabled):active{transform:translateY(3px);box-shadow:0 1px 0 rgba(10,8,40,.35)}
+.ajudas-wrap .ajuda-btn.ativa,.ajudas-wrap .ajuda-btn.ativa:not(:disabled):hover{background:linear-gradient(180deg,#FFE27A,#F2A53A);border-color:#fff;color:#3A2A00;box-shadow:0 4px 0 #A8650E,0 0 18px rgba(255,226,122,.5)}
+.ajudas-wrap .ajuda-btn.usada{opacity:.5;box-shadow:none;cursor:default;font-size:13px}
+.ajudas-wrap .ajuda-dica{margin:12px 2px 0;font-size:13.5px;text-align:center}
+.quiz-area:has(#tiles.done) .ajudas-wrap{display:none}
+@media (min-width:700px){.quiz-area .qtext{font-size:34px}.ajudas-wrap .ajuda-btn{min-height:92px;font-size:15.5px}.ajudas-wrap .ajuda-btn .ic{font-size:34px}}
+/* p76: conta (instalar, privacidade, excluir) */
+.menu-conta button.perigo,.menu-conta button.perigo .ic{color:var(--bad)}
+.menu-conta button[hidden]{display:none}
+.ex-lista,.ex-salas{margin:0 0 12px;padding-left:20px;display:grid;gap:4px}
+.ex-aviso{margin:0 0 14px;padding:10px 12px;border-radius:12px;background:rgba(255,154,162,.16);border:1px solid rgba(255,154,162,.45);font-weight:700}
+.ex-check{display:flex;gap:10px;align-items:flex-start;margin:4px 0 10px;font-size:15px;line-height:1.35;cursor:pointer}
+.ex-check input{width:20px;height:20px;margin:1px 0 0;flex:0 0 auto;accent-color:var(--bad)}
+.modal.modal-priv{max-width:620px}
+.priv{font-size:15.5px;line-height:1.5}
+.priv h4{margin:18px 0 6px;font:800 13px/1.2 "Barlow",sans-serif;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
+.priv p{margin:0 0 10px}.priv ul{margin:0 0 10px;padding-left:20px;display:grid;gap:6px}
+.priv a{color:var(--accent);font-weight:700}
+.priv-data{color:var(--soft);font-size:13.5px}
+.priv-nota a{color:var(--accent);font-weight:700}
+.hm-instalar{display:flex;align-items:center;gap:12px;padding:12px 14px}
+.hm-instalar .hi-ic{flex:0 0 auto;width:48px;height:48px;border-radius:14px;overflow:hidden;display:grid;place-items:center;font-size:30px;background:rgba(255,255,255,.14);box-shadow:0 4px 10px rgba(0,0,0,.2)}
+.hm-instalar .hi-ic img{width:100%;height:100%;display:block}
+.hm-instalar .hi-tx{flex:1 1 auto;min-width:0;display:grid;gap:2px}
+.hm-instalar .hi-tx b{font-size:16px;line-height:1.2}
+.hm-instalar .hi-tx span{font-size:13.5px;line-height:1.3;color:var(--muted)}
+.hm-instalar .hi-bt{flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+.hm-instalar .hi-x{border:0;background:none;color:var(--soft);font-size:15px;padding:2px 6px;line-height:1}
+.ip-passos{list-style:none;margin:0 0 12px;padding:0;display:grid;gap:10px}
+.ip-passos li{display:flex;gap:12px;align-items:flex-start;padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.10);border:1px solid var(--panel-line);line-height:1.4}
+.ip-n{flex:0 0 auto;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--accent);color:var(--deep);font-weight:800}
+.ip-ic{width:22px;height:22px;vertical-align:-5px;color:var(--accent)}
+.ip-link{margin:0 0 12px;padding:10px 12px;border-radius:12px;background:rgba(0,0,0,.18);word-break:break-all}
+.ip-link code{font-size:13.5px}
+/* p77: temas. Claro = céu da manhã; Pôr do sol e Clássico para escolher. (o Escuro continua o de antes) */
+:root[data-theme="light"]{--g1:#5B4FE0;--g2:#3F86E6;--g3:#1FA7BD;--panel:rgba(255,255,255,.15);--panel-line:rgba(255,255,255,.32);--field:rgba(255,255,255,.17);--deep:#2B2580}
+@media (prefers-color-scheme:light){:root:not([data-theme]){--g1:#5B4FE0;--g2:#3F86E6;--g3:#1FA7BD;--panel:rgba(255,255,255,.15);--panel-line:rgba(255,255,255,.32);--field:rgba(255,255,255,.17);--deep:#2B2580}}
+:root[data-theme="sol"]{--g1:#5E45D6;--g2:#B4519F;--g3:#E9785A;--panel:rgba(255,255,255,.15);--panel-line:rgba(255,255,255,.32);--field:rgba(255,255,255,.17);--deep:#3A1F78}
+:root[data-theme="classico"]{--g1:#524F9C;--g2:#6889AE;--g3:#83C6BD;--panel:rgba(255,255,255,.14);--panel-line:rgba(255,255,255,.30);--field:rgba(255,255,255,.16);--deep:#2E2B6E}
+.temas{display:grid;gap:10px}
+.tema-op{display:flex;align-items:center;gap:14px;width:100%;padding:10px 14px 10px 10px;border-radius:18px;border:2px solid var(--panel-line);background:var(--panel);color:#fff;text-align:left;transition:border-color .15s,background .15s,transform .1s}
+.tema-op:active{transform:scale(.985)}
+.tema-op[aria-checked="true"]{border-color:#fff;background:rgba(255,255,255,.24);box-shadow:0 0 0 3px rgba(255,255,255,.18)}
+.tema-am{position:relative;flex:0 0 auto;width:64px;height:64px;border-radius:14px;overflow:hidden;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.35),0 4px 10px rgba(0,0,0,.22)}
+.tema-am i{position:absolute;left:9px;right:9px;height:9px;border-radius:5px;background:rgba(255,255,255,.28)}
+.tema-am i:nth-child(1){top:10px;right:26px;background:rgba(255,255,255,.85)}
+.tema-am i:nth-child(2){top:25px}.tema-am i:nth-child(3){top:39px;right:20px}
+.tema-am b{position:absolute;right:8px;bottom:8px;width:14px;height:14px;border-radius:50%;background:#FFD866;box-shadow:0 0 8px rgba(255,216,102,.8)}
+.tema-am-claro{background:linear-gradient(160deg,#5B4FE0,#3F86E6 55%,#1FA7BD)}
+.tema-am-escuro{background:linear-gradient(160deg,#2B2966,#344D78 55%,#2F6E6C)}
+.tema-am-escuro b{background:#F4F1DE;box-shadow:-4px -3px 0 0 #344D78 inset,0 0 8px rgba(244,241,222,.5)}
+.tema-am-sol{background:linear-gradient(160deg,#5E45D6,#B4519F 55%,#E9785A)}
+.tema-am-sol b{background:#FFB45C}
+.tema-am-classico{background:linear-gradient(160deg,#524F9C,#6889AE 55%,#83C6BD)}
+.tema-am-auto{background:linear-gradient(160deg,#5B4FE0,#3F86E6 49.5%,#2B2966 50.5%,#2F6E6C)}
+.tema-tx{flex:1 1 auto;min-width:0;display:grid;gap:3px}
+.tema-tx b{font-size:16.5px;line-height:1.2}
+.tema-tx small{font-size:13.5px;line-height:1.3;color:var(--muted)}
+.tema-ok{flex:0 0 auto;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-weight:900;font-size:15px;color:transparent;border:2px solid var(--panel-line)}
+.tema-op[aria-checked="true"] .tema-ok{background:#fff;border-color:#fff;color:var(--deep)}
+/* p78: as 3 ajudas lado a lado, menores; as que não dá para usar ficam apagadas */
+.ajudas-wrap{padding:10px 10px 12px}
+.ajudas-tit{margin:0 2px 10px}
+.ajudas-wrap .ajudas-bar{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.ajudas-wrap .ajuda-btn{min-height:68px;padding:9px 4px 8px;gap:2px;border-radius:14px;font-size:13.5px;box-shadow:0 3px 0 rgba(10,8,40,.35)}
+.ajudas-wrap .ajuda-btn .ic{font-size:22px}
+.ajudas-wrap .ajuda-btn .ic .ij{width:24px;height:24px}
+.ajudas-wrap .ajuda-btn .aj-nome{white-space:nowrap}
+.ajudas-wrap .ajuda-btn small{display:block;font-size:10.5px;font-weight:700;line-height:1.15;opacity:.9}
+.ajudas-wrap .ajuda-btn b{top:-8px;right:-6px;min-width:23px;height:23px;padding:0 5px;font-size:12px}
+.ajudas-wrap .ajuda-btn.off,.ajudas-wrap .ajuda-btn.usada{opacity:.4;filter:grayscale(.85);box-shadow:none;cursor:default;font-size:13.5px}
+.ajudas-wrap .ajuda-btn.off b{background:rgba(255,255,255,.5)}
+@media (min-width:700px){.ajudas-wrap .ajuda-btn{min-height:74px;font-size:14.5px}.ajudas-wrap .ajuda-btn .ic{font-size:24px}}
 </style>
 </head>
 <body class="sem-menu">
@@ -3324,13 +3564,6 @@ function aplicarIcone(url){
   url = url || ICONE_PADRAO;
   const padrao = url === ICONE_PADRAO, urlPng = padrao ? ICONE_PADRAO_PNG : url;
   $("favicon").href = url; $("touchicon").href = urlPng;
-  try{
-    const man = { name:"Corrida do Rolo – Quiz da Lição", short_name:"Corrida do Rolo", start_url: location.href.split("#")[0], display:"standalone", background_color:"#524F9C", theme_color:"#524F9C",
-      icons:[{ src:urlPng, sizes:"180x180 192x192 512x512", type:"image/png", purpose:"any" }] };
-    if(manifestUrl) URL.revokeObjectURL(manifestUrl);
-    manifestUrl = URL.createObjectURL(new Blob([JSON.stringify(man)], {type:"application/manifest+json"}));
-    $("manifest").href = manifestUrl;
-  }catch(e){}
   if(url === ICONE_PADRAO) localStorage.removeItem(KEY + ":icone"); else lsSet(KEY + ":icone", url);
 }
 aplicarIcone(lsGet(KEY + ":icone", ""));
@@ -3476,7 +3709,28 @@ function dbFirebase(){
     // Páginas do PDF como imagem (uma por documento, campo "chave" = licaoId|dia)
     async salvarPagina(p){ await col("paginas").doc(p.id).set(p); },
     async listarPaginas(licaoId, dia){ return (await lista(col("paginas").where("chave","==",licaoId+"|"+dia))).sort((a,b)=>a.seq-b.seq); },
-    async excluirPaginas(licaoId){ const s = await col("paginas").where("licaoId","==",licaoId).get(); for(const d of s.docs) await d.ref.delete(); }
+    async excluirPaginas(licaoId){ const s = await col("paginas").where("licaoId","==",licaoId).get(); for(const d of s.docs) await d.ref.delete(); },
+    /* excluir a própria conta */
+    async reautenticar(senha){ const u = auth.currentUser; await u.reauthenticateWithCredential(firebase.auth.EmailAuthProvider.credential(u.email, senha)); },
+    async apagarMeusDados(uid, tiposReacao){
+      const FV = firebase.firestore.FieldValue, docs = async q => (await q.get()).docs;
+      const apagar = async q => { const ds = await docs(q); await Promise.all(ds.map(d => d.ref.delete())); };
+      // reações nas publicações dos outros (precisa do perfil ainda existir)
+      for(const t of tiposReacao){ for(const d of await docs(col("mural").where("reacoes." + t, "array-contains", uid))){ if(d.data().uid !== uid) await d.ref.update({ ["reacoes." + t]: FV.arrayRemove(uid) }).catch(()=>{}); } }
+      await apagar(col("mural").where("uid","==",uid));
+      await apagar(col("progresso").where("uid","==",uid));
+      await apagar(col("membros").where("uid","==",uid));
+      await col("privado").doc(uid).delete().catch(()=>{});
+      await col("usuarios").doc(uid).delete();
+      // resultados, desafios e trocas só podem ser apagados depois do perfil
+      // (assim ninguém apaga um quiz para jogar de novo, nem um desafio que ia perder)
+      await apagar(col("resultados").where("uid","==",uid));
+      await apagar(col("desafios").where("de","==",uid)); await apagar(col("desafios").where("para","==",uid));
+      await apagar(col("trocas").where("de","==",uid));
+      // trocas que eu aceitei ficam (quem propôs ainda anota as figurinhas que recebeu), só sem o meu nome
+      for(const d of await docs(col("trocas").where("para","==",uid))){ if(d.data().status === "aceito") await d.ref.update({ paraNome: "Jogador removido" }); else await d.ref.delete(); }
+    },
+    async excluirLogin(){ await auth.currentUser.delete(); }
   };
 }
 /* IndexedDB (modo demonstração) para as páginas do PDF, que não cabem no localStorage */
@@ -3585,7 +3839,21 @@ function dbLocal(){
     async excluirProgresso(id){ const d = ler(); if(d.progresso) delete d.progresso[id]; gravar(d); },
     async salvarPagina(p){ await idbTx("readwrite", st => st.put(p)); },
     async listarPaginas(licaoId, dia){ const todas = await idbTx("readonly", st => st.getAll()); return (todas||[]).filter(p=>p.chave===licaoId+"|"+dia).sort((a,b)=>a.seq-b.seq); },
-    async excluirPaginas(licaoId){ const todas = await idbTx("readonly", st => st.getAll()); for(const p of (todas||[]).filter(p=>p.licaoId===licaoId)) await idbTx("readwrite", st => st.delete(p.id)); }
+    async excluirPaginas(licaoId){ const todas = await idbTx("readonly", st => st.getAll()); for(const p of (todas||[]).filter(p=>p.licaoId===licaoId)) await idbTx("readwrite", st => st.delete(p.id)); },
+    async reautenticar(senha){ const d = ler(); if(d.senhas[usuario.uid] !== senha) throw err("auth/wrong-password"); },
+    async apagarMeusDados(uid, tiposReacao){
+      const d = ler(), tira = (nome, f) => { const m = d[nome] || {}; Object.keys(m).forEach(k => { if(f(m[k])) delete m[k]; }); };
+      Object.values(d.mural || {}).forEach(p => { if(p.uid !== uid && p.reacoes) tiposReacao.forEach(t => { if(Array.isArray(p.reacoes[t])) p.reacoes[t] = p.reacoes[t].filter(x => x !== uid); }); });
+      tira("mural", p => p.uid === uid); tira("progresso", p => p.uid === uid); tira("membros", m => m.uid === uid);
+      tira("desafios", x => x.de === uid || x.para === uid);
+      Object.values(d.trocas || {}).forEach(x => { if(x.para === uid && x.status === "aceito") x.paraNome = "Jogador removido"; });
+      tira("trocas", x => x.de === uid || (x.para === uid && x.status !== "aceito"));
+      tira("resultados", r => r.uid === uid);
+      if(d.privado) delete d.privado[uid];
+      delete d.usuarios[uid];
+      gravar(d);
+    },
+    async excluirLogin(){ const d = ler(); delete d.senhas[usuario.uid]; if(d.sessao === usuario.uid) d.sessao = ""; gravar(d); avisar(); }
   };
 }
 const DB = FB_OK ? dbFirebase() : dbLocal();
@@ -3928,7 +4196,8 @@ function nomeProfeta(){ const p = acharProfeta(perfil && perfil.profeta); return
 function quem(){ return (perfil ? perfil.nome : ""); }
 function aplicarTema(t){
   const r = document.documentElement;
-  if(t === "claro") r.setAttribute("data-theme","light"); else if(t === "escuro") r.setAttribute("data-theme","dark"); else r.removeAttribute("data-theme");
+  const attr = { claro: "light", escuro: "dark", sol: "sol", classico: "classico" }[t];
+  if(attr) r.setAttribute("data-theme", attr); else r.removeAttribute("data-theme");
   lsSet(KEY + ":tema", t || "auto");
 }
 aplicarTema(lsGet(KEY + ":tema", "auto"));
@@ -4329,6 +4598,7 @@ function telaCadastro(){
     <div class="field"><label for="cSenha">Senha (mínimo 6 caracteres)</label><input type="password" id="cSenha" autocomplete="new-password"></div>
     <div class="field"><label for="cSenha2">Repita a senha</label><input type="password" id="cSenha2" autocomplete="new-password"></div>
     <p class="note">Depois de criar a conta, um administrador precisa aprovar seu acesso antes de você jogar.</p>
+    <p class="note priv-nota">Ao criar a conta, você concorda com a <a href="privacidade.html" data-privacidade>Política de privacidade</a>.</p>
     <p class="erro" id="cErro"></p>
     <div class="btn-row"><button class="btn btn-main" id="cOk">Criar conta</button><button class="btn btn-ghost" id="cVoltar">Já tenho conta</button></div></section>`;
   $("cVoltar").onclick = telaLogin;
@@ -4520,6 +4790,7 @@ function telaInicio(){
   html += `<header class="hm-ola"><div class="hm-av${classeMoldura(minhaMoldura())}">${meuAvatar()}</div><div class="hm-ola-tx"><small>${saudacao()}</small><h2>${esc(String(perfil.nome || "").split(" ")[0])}</h2>${fala ? `<p>“${esc(fala)}”</p>` : ""}</div></header>`;
   /* linha fina: ganhar moedas à esquerda; sequência e nível à direita */
   html += `<div class="hm-linha">${typeof htmlMoedasInicio === "function" ? htmlMoedasInicio() : ""}<div class="hm-chips"><span class="hm-chip" title="Sequência no prazo">${st >= 5 ? "🔥" : "⚡"} ${st}</span><span class="hm-chip ouro" title="Nível ${nv}: ${esc(nomeNivel(nv))}">Nv ${nv}</span></div></div>`;
+  html += typeof htmlInstalarInicio === "function" ? htmlInstalarInicio() : "";
   html += typeof htmlDesafiosInicio === "function" ? htmlDesafiosInicio() : "";
   if(typeof htmlSuperQuizInicio === "function") html += htmlSuperQuizInicio();         // super quiz: o relógio fica sempre no alto
   /* hoje */
@@ -4818,13 +5089,12 @@ function telaPergunta(){
       <div class="num" id="num">${TEMPO}</div></div>`;
   }
   h += `</div>
-    <h2 class="qtext">${esc(p.p)}</h2>
     <p class="qhint">${p.reflexao ? "Reflexão: qualquer resposta vale ponto" : p.vf ? "Verdadeiro ou falso? Quanto mais rápido, mais pontos" : "Quanto mais rápido, mais pontos"}</p>
-    ${p.reflexao ? "" : barraAjudas(p)}
+    <h2 class="qtext">${esc(p.p)}</h2>
     <div class="tiles ${p.vf ? "vf" : ""}" id="tiles">
       ${p.vf ? ["Verdadeiro", "Falso"].map((op,k)=>`<button class="tile t${k} ${k ? "tf" : "tv"}" data-k="${k}"><span class="letter" aria-hidden="true">${k ? "✕" : "✓"}</span><span>${op}</span></button>`).join("")
         : p.o.map((op,k)=>`<button class="tile t${k}" data-k="${k}"><span class="letter">${LETRAS[k]}</span><span>${esc(op)}</span></button>`).join("")}
-    </div><div id="fb"></div></div>`;
+    </div><div id="fb"></div>${(() => { return p.reflexao ? "" : `<section class="ajudas-wrap" aria-label="Ajudas"><span class="ajudas-tit">Ajudas</span>${barraAjudas(p)}</section>`; })()}</div>`;
   app.innerHTML = h;
   window.scrollTo(0,0);
   app.querySelectorAll(".tile").forEach(t=> t.onclick = ()=> responder(+t.dataset.k));
@@ -4856,16 +5126,26 @@ function pararTimer(){ if(timer){ cancelAnimationFrame(timer); timer = null; } }
 
 /* ---------- Ajudas durante a pergunta ---------- */
 /* Cada tipo de ajuda só pode ser usado uma vez em cada quiz (jogo.usadas), mesmo que a pessoa tenha várias guardadas. */
+/* o miolo de um botão de ajuda: ícone, nome, motivo (quando apagado) e quantas a pessoa tem */
+function miolosAjuda(k, nome, sub, n){
+  return `<span class="ic">${AJUDAS[k].ic}</span><span class="aj-nome">${nome}</span>${sub ? `<small>${sub}</small>` : ""}${n === null ? "" : `<b>${n}</b>`}`;
+}
 function barraAjudas(p){
   const d = ajudasDisponiveis(), u = jogo.usadas || (jogo.usadas = {}), meioAqui = jogo.meio && jogo.meio.q === jogo.q;
-  const podePular = d.pular > 0 && nivelAtual() >= NIVEL_PULAR;
-  if(!d.meio && !d.dobro && !jogo.dobro && !meioAqui && !podePular && !u.meio && !u.dobro && !u.pular) return "";
-  const usada = (id, nome, ic) => `<button type="button" class="ajuda-btn usada" id="${id}" disabled title="Só uma vez por quiz"><span class="ic">${ic}</span>${nome}</button>`;
-  return `<div class="ajudas-bar" id="ajBar">
-    ${meioAqui || u.meio ? usada("ajMeio", "Meio a meio usado", AJUDAS.meio.ic) : d.meio && p.vf ? `<button type="button" class="ajuda-btn usada" id="ajMeio" disabled title="O meio a meio não vale em pergunta de verdadeiro ou falso"><span class="ic">${AJUDAS.meio.ic}</span>Meio a meio não vale aqui</button>` : d.meio ? `<button type="button" class="ajuda-btn" id="ajMeio"><span class="ic">${AJUDAS.meio.ic}</span>Meio a meio<b>${d.meio}</b></button>` : ""}
-    ${u.dobro ? usada("ajDobro", "Dobro usado", AJUDAS.dobro.ic) : d.dobro || jogo.dobro ? `<button type="button" class="ajuda-btn ${jogo.dobro ? "ativa" : ""}" id="ajDobro" aria-pressed="${!!jogo.dobro}"><span class="ic">${AJUDAS.dobro.ic}</span>${jogo.dobro ? "Dobro ativado" : "Pontos em dobro"}<b>${d.dobro}</b></button>` : ""}
-    ${u.pular ? usada("ajPular", "Pular usado", AJUDAS.pular.ic) : podePular ? `<button type="button" class="ajuda-btn" id="ajPular"><span class="ic">${AJUDAS.pular.ic}</span>Pular<b>${d.pular}</b></button>` : ""}
-  </div>${jogo.dobro ? `<p class="ajuda-dica" id="ajDica">Sua próxima resposta certa vale o dobro.</p>` : `<p class="ajuda-dica" id="ajDica" hidden></p>`}`;
+  const nivelOk = nivelAtual() >= NIVEL_PULAR;
+  const apagado = (id, k, nome, sub, titulo, n, cls) => `<button type="button" class="ajuda-btn off ${cls || ""}" id="${id}" disabled title="${titulo}">${miolosAjuda(k, nome, sub, n)}</button>`;
+  const meio = meioAqui || u.meio ? apagado("ajMeio", "meio", "Meio a meio", "Usado", "Só uma vez por quiz", null, "usada")
+    : !d.meio ? apagado("ajMeio", "meio", "Meio a meio", "Você não tem", "Ganhe nas missões", 0)
+    : p.vf ? apagado("ajMeio", "meio", "Meio a meio", "Não vale em V ou F", "O meio a meio não vale em pergunta de verdadeiro ou falso", d.meio)
+    : `<button type="button" class="ajuda-btn" id="ajMeio" title="${esc(AJUDAS.meio.d)}">${miolosAjuda("meio", "Meio a meio", "", d.meio)}</button>`;
+  const dobro = u.dobro ? apagado("ajDobro", "dobro", "Dobro", "Usado", "Só uma vez por quiz", null, "usada")
+    : !d.dobro && !jogo.dobro ? apagado("ajDobro", "dobro", "Dobro", "Você não tem", "Ganhe nas missões", 0)
+    : `<button type="button" class="ajuda-btn ${jogo.dobro ? "ativa" : ""}" id="ajDobro" aria-pressed="${!!jogo.dobro}" title="${esc(AJUDAS.dobro.d)}">${miolosAjuda("dobro", "Dobro", jogo.dobro ? "Ativado" : "", d.dobro)}</button>`;
+  const pular = u.pular ? apagado("ajPular", "pular", "Pular", "Usado", "Só uma vez por quiz", null, "usada")
+    : !nivelOk ? apagado("ajPular", "pular", "Pular", `Nível ${NIVEL_PULAR}`, `Libera no nível ${NIVEL_PULAR}`, d.pular)
+    : !d.pular ? apagado("ajPular", "pular", "Pular", "Você não tem", "Ganhe nas missões", 0)
+    : `<button type="button" class="ajuda-btn" id="ajPular" title="${esc(AJUDAS.pular.d)}">${miolosAjuda("pular", "Pular", "", d.pular)}</button>`;
+  return `<div class="ajudas-bar" id="ajBar">${meio}${dobro}${pular}</div>${jogo.dobro ? `<p class="ajuda-dica" id="ajDica">Sua próxima resposta certa vale o dobro.</p>` : `<p class="ajuda-dica" id="ajDica" hidden></p>`}`;
 }
 /* Pular: a pergunta sai e entra outra do mesmo dia no lugar. O quiz continua com o mesmo número de perguntas
    (e a mesma chance de pontos). Precisa haver uma pergunta de reserva naquele dia, como na Segunda chance. */
@@ -4897,7 +5177,7 @@ function ligarAjudas(p){
     if($("tiles").classList.contains("done") || ajudasDisponiveis().meio < 1) return;
     const erradas = embaralhar(p.o.map((_, k) => k).filter(k => k !== p.c), semente(p.p + "|" + usuario.uid)).slice(0, Math.max(0, p.o.length - 2));
     jogo.meio = { q: jogo.q, fora: erradas }; jogo.usadas = Object.assign(jogo.usadas || {}, { meio: true }); gastarAjuda("meio"); tocar("ajuda"); salvarProgresso(); aplicarMeio();
-    bm.disabled = true; bm.classList.add("usada"); bm.innerHTML = `<span class="ic">${AJUDAS.meio.ic}</span>Meio a meio usado`;
+    bm.disabled = true; bm.classList.add("usada", "off"); bm.innerHTML = miolosAjuda("meio", "Meio a meio", "Usado", null);
   };
   const bp = $("ajPular"); if(bp && !bp.disabled) bp.onclick = pularPergunta;
   const bd = $("ajDobro");
@@ -4906,7 +5186,7 @@ function ligarAjudas(p){
     if(!jogo.dobro && ajudasDisponiveis().dobro < 1) return;
     jogo.dobro = !jogo.dobro; tocar("ajuda"); salvarProgresso();
     bd.classList.toggle("ativa", jogo.dobro); bd.setAttribute("aria-pressed", String(jogo.dobro));
-    bd.innerHTML = `<span class="ic">${AJUDAS.dobro.ic}</span>${jogo.dobro ? "Dobro ativado" : "Pontos em dobro"}<b>${ajudasDisponiveis().dobro}</b>`;
+    bd.innerHTML = miolosAjuda("dobro", "Dobro", jogo.dobro ? "Ativado" : "", ajudasDisponiveis().dobro);
     const dica = $("ajDica"); if(dica){ dica.hidden = !jogo.dobro; dica.textContent = "Sua próxima resposta certa vale o dobro."; }
   };
 }
@@ -5152,10 +5432,10 @@ function telaEstudarDias(){
   const d = L.dias[estudoDia] || L.dias[0];
   const texto = (L.textos && L.textos[estudoDia]) || "", resumo = (L.resumos && L.resumos[estudoDia]) || "";
   let corpo = `<div class="paginas" id="pgs"><p class="vazio">Carregando páginas…</p></div>`;
-  /* o texto por escrito só aparece se o dia não tiver as páginas da lição (mostrarPaginas tira quando elas existem) */
+  /* o texto por escrito nasce escondido e só aparece se o dia não tiver as páginas da lição (mostrarPaginas decide) */
   const htmlTexto = texto ? `<div class="estudo">${texto.split(/\n{2,}/).map(p=>`<p>${esc(p.trim().replace(/\n(?![•\-–\d(])/g, " "))}</p>`).join("")}</div>` : "";
-  corpo += `<div id="txtDia">${resumo ? `<div class="resumo">${esc(resumo)}</div>` : ""}${htmlTexto}</div>`;
-  if(!texto && !resumo) corpo += `<p class="vazio" id="semTexto">O texto desta lição não foi importado. Leia o dia <b>${esc(d.nome)}</b> na sua lição impressa ou no app e depois faça o quiz.</p>`;
+  corpo += `<div id="txtDia" style="display:none">${resumo ? `<div class="resumo">${esc(resumo)}</div>` : ""}${htmlTexto}</div>`;
+  if(!texto && !resumo) corpo += `<p class="vazio" id="semTexto" style="display:none">O texto desta lição não foi importado. Leia o dia <b>${esc(d.nome)}</b> na sua lição impressa ou no app e depois faça o quiz.</p>`;
   corpo += htmlObservacoes(d);
   const s = status(L, d);
   app.innerHTML = `<div class="estudo-area lic-tela">${topoDaLicao(L, "edVoltar")}${abasDaLicao("licao", L)}<section class="panel pg-card aba-corpo" role="tabpanel" aria-labelledby="abaLicao">
@@ -5185,7 +5465,7 @@ async function mostrarPaginas(L, k, htmlTexto){
   }catch(e){ PAG_CACHE[chave] = []; }
   const pags = PAG_CACHE[chave];
   if(!$("pgs") || $("pgs") !== el) return;   // mudou de tela enquanto carregava
-  if(!pags.length){ el.remove(); return; }
+  if(!pags.length){ el.remove(); ["txtDia", "semTexto"].forEach(id => { const e = $(id); if(e) e.style.display = ""; }); return; }      // sem páginas: aí sim mostra a lição por escrito
   el.innerHTML = pags.map((p,i)=>`<img src="${p.img}" alt="Página ${i+1} de ${esc(L.dias[k].nome)}" loading="${i?"lazy":"eager"}" data-i="${i}">`).join("");
   const st = $("semTexto"); if(st) st.remove();
   const tx = $("txtDia"); if(tx) tx.remove();          // com as páginas na tela, a lição por escrito não aparece mais
@@ -5264,6 +5544,8 @@ function renderCorrida(cfg, res, pessoas, licSel, membros){
   const ids = Object.keys(jov).sort((a,b)=> jov[b].passos - jov[a].passos || jov[b].pts - jov[a].pts || jov[a].nome.localeCompare(jov[b].nome,"pt-BR"));
   const fmt1 = n => (Math.round(n*10)/10).toLocaleString("pt-BR");
   let h = "";
+  /* o pódio: os três primeiros (só quem já deu algum passo) */
+  if(ids.length) h += htmlPodio(ids.filter(id => jov[id].passos > 0).slice(0, 3).map(id => jov[id]), licSel ? `Lição ${licSel.n}` : "Trimestre");
   h += `<section class="panel pg-card"><div class="hm-cab"><span>A pista</span><span class="hm-meta">${ids.length} ${ids.length === 1 ? "corredor" : "corredores"}</span></div>`;
   if(!ids.length) h += `<p class="vazio">${licSel ? "Ninguém fez o quiz desta lição ainda." : "A corrida desta sala começa quando chegarem os primeiros resultados do quiz."}</p>`;
   else {
@@ -5289,6 +5571,7 @@ function renderCorrida(cfg, res, pessoas, licSel, membros){
   }
   h += `<p class="rodape">Atualizado em ${new Date().toLocaleDateString("pt-BR")} às ${new Date().toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"})}</p>`;
   $("rkCorpo").innerHTML = h;
+  const ps = $("podShare"); if(ps) ps.onclick = () => { tocar("toque"); compartilharPodio(ps); };
   requestAnimationFrame(()=> $("rkCorpo") && $("rkCorpo").querySelectorAll(".runner").forEach(r => r.style.left = ""));
 }
 
@@ -5301,6 +5584,7 @@ function telaConta(){
     <div class="pf ct-pf" id="ctPerfil"></div>
     <div class="menu-conta">
       ${ehMaster() || souAdminDeSala() ? `<button id="mAdmin" class="adm"><span class="ic">🛠️</span>Área do administrador${typeof admPend === "number" && admPend > 0 ? `<span class="nt-n">${admPend}</span>` : ""}<span class="seta">›</span></button>` : ""}
+      <button id="mInstalar" data-instalar ${podeOferecerInstalar() ? "" : "hidden"}><span class="ic">📲</span><span class="mc-2">Instalar o app<small>Ícone na tela do celular, em tela cheia</small></span><span class="seta">›</span></button>
       <button id="mNome"><span class="ic">✏️</span>Alterar nome<span class="seta">›</span></button>
       <button id="mSenha"><span class="ic">🔑</span>Alterar senha<span class="seta">›</span></button>
       <button id="mTema"><span class="ic">🌗</span>Alterar tema<span class="seta">›</span></button>
@@ -5317,7 +5601,9 @@ function telaConta(){
       <button id="mTutorial"><span class="ic">💡</span>Como funciona<span class="seta">›</span></button>
       ${VERSAO ? `<button id="mVersao"><span class="ic">🔄</span><span class="mc-2">Atualizar o jogo<small>Versão em uso: ${esc(versaoLegivel(VERSAO))}</small></span><span class="seta">›</span></button>` : ""}
       <button id="mBaixar"><span class="ic">📥</span><span class="mc-2">Baixar os dados de novo<small>Apaga o que está guardado neste aparelho e busca tudo outra vez</small></span><span class="seta">›</span></button>
+      <button id="mPriv" data-privacidade><span class="ic">🔒</span>Política de privacidade<span class="seta">›</span></button>
       <button id="mSair"><span class="ic">🚪</span>Sair da conta<span class="seta">›</span></button>
+      <button id="mExcluir" class="perigo"><span class="ic">🗑️</span><span class="mc-2">Excluir minha conta<small>Apaga a conta e todos os seus dados</small></span><span class="seta">›</span></button>
     </div></section></div>`;
   const mAdm = $("mAdmin"); if(mAdm) mAdm.onclick = ()=> nav("admin");
   const mVer = $("mVersao"); if(mVer) mVer.onclick = ()=> recarregarJogo();
@@ -5333,9 +5619,7 @@ function telaConta(){
       if(!a || !n1){ er.textContent = "Preencha os campos."; return; } if(n1 !== n2){ er.textContent = "As senhas novas não são iguais."; return; }
       ocupado(m.querySelector("#sOk"), true); try{ await DB.alterarSenha(a, n1); fechar(); aviso("Senha alterada"); }catch(e){ er.textContent = erroMsg(e); ocupado(m.querySelector("#sOk"), false); } };
   });
-  $("mTema").onclick = ()=> modal("Alterar tema", `<div class="opcoes">${[["auto","🌗","Automático (segue o celular)"],["claro","☀️","Claro"],["escuro","🌙","Escuro"]].map(([v,ic,t])=>`<button type="button" data-t="${v}" aria-pressed="${(perfil.tema||"auto")===v}"><span style="font-size:22px">${ic}</span>${t}</button>`).join("")}</div>`, (m, fechar)=>{
-    m.querySelectorAll("[data-t]").forEach(b=> b.onclick = async ()=>{ aplicarTema(b.dataset.t); perfil.tema = b.dataset.t; m.querySelectorAll("[data-t]").forEach(x=> x.setAttribute("aria-pressed", String(x===b))); try{ await DB.salvarUsuario(usuario.uid, {tema:b.dataset.t}); }catch(e){} setTimeout(fechar, 250); });
-  });
+  $("mTema").onclick = ()=> modalTemas();
   $("mProfeta").onclick = ()=> telaProfeta();
   const alternar = (id, chave) => { const b = $(id); b.onclick = ()=>{ const v = !SOM[chave]; definirSom(chave, v); b.setAttribute("aria-checked", String(v)); b.querySelector(".switch").setAttribute("aria-checked", String(v)); aviso({ on: ["Sons ligados", "Sons desligados"], vib: ["Vibração ligada", "Vibração desligada"], mus: ["Música ligada", "Música desligada"] }[chave][v ? 0 : 1]); }; };
   alternar("mSom", "on"); alternar("mVib", "vib"); alternar("mMus", "mus");
@@ -5343,7 +5627,397 @@ function telaConta(){
   $("mDesempenho").onclick = modalDesempenho;
   $("mRetro").onclick = modalRetrospectiva;
   $("mTutorial").onclick = ()=> mostrarTutorial();
+  $("mExcluir").onclick = ()=> modalExcluirConta();
   $("mSair").onclick = async ()=>{ if(await confirmar("Sair da conta", "Quer mesmo sair? Seus pontos continuam salvos.", "Sair")) DB.sair(); };
+}
+
+/* ============================================================
+   PÓDIO DA CORRIDA: os três primeiros da pista, num palco com luz, degraus de ouro, prata e bronze,
+   medalhas e a coroa do primeiro. Mesma ordem da pista (passos, depois pontos). Tocar no personagem abre o perfil.
+   ============================================================ */
+function medalhaSVG(k){
+  const c = [["#FFF3B0", "#F2BE2E", "#B9761B"], ["#FFFFFF", "#C9CFDF", "#7F889F"], ["#FFD3B0", "#D9844E", "#8E4A22"]][k];
+  return `<svg viewBox="0 0 40 52" aria-hidden="true"><path d="M8 0h9l5 16-7 4zM32 0h-9l-5 16 7 4z" fill="${["#E0483C", "#3B7BE0", "#2BA486"][k]}"/><path d="M8 0h3l6 18-2 1zM32 0h-3l-6 18 2 1z" fill="#000" opacity=".18"/>`
+    + `<circle cx="20" cy="33" r="16" fill="${c[2]}"/><circle cx="20" cy="32" r="15" fill="${c[1]}"/><circle cx="20" cy="32" r="11.5" fill="none" stroke="${c[0]}" stroke-width="1.6" opacity=".9"/>`
+    + `<path d="M11 24a13 13 0 0 1 16-5" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" opacity=".55"/>`
+    + `<text x="20" y="38.5" text-anchor="middle" font-family="'Bebas Neue','Arial Narrow',sans-serif" font-size="17" fill="${c[2]}">${k + 1}</text></svg>`;
+}
+const COROA_PODIO = `<svg viewBox="0 0 64 44" aria-hidden="true"><path d="M6 14l12 12 14-22 14 22 12-12-5 26H11z" fill="#C9952B"/><path d="M6 12l12 12 14-22 14 22 12-12-5 26H11z" fill="#FFD866"/>`
+  + `<path d="M11 38h42v5H11z" fill="#C9952B"/><path d="M11 36h42v4H11z" fill="#FFE58A"/><circle cx="32" cy="27" r="4" fill="#E0483C"/><circle cx="19" cy="30" r="2.6" fill="#3B7BE0"/><circle cx="45" cy="30" r="2.6" fill="#2BA486"/>`
+  + `<circle cx="6" cy="12" r="3" fill="#FFF3B0"/><circle cx="32" cy="2.6" r="3" fill="#FFF3B0"/><circle cx="58" cy="12" r="3" fill="#FFF3B0"/><path d="M14 22l4 4M26 12l3-4" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".6"/></svg>`;
+function htmlPodio(top, titulo){
+  if(!top.length) return "";
+  PODIO_ATUAL = { top, titulo, sala: (typeof salaAtual === "function" && salaAtual() || {}).nome || "" };
+  top.forEach(j => { try{ HD.pronto(personagemDoBoneco(j.profeta, j.nivel)); }catch(e){} });          // já pede os desenhos grandes, para a imagem de compartilhar sair na hora
+  const f1 = n => (Math.round(n * 10) / 10).toLocaleString("pt-BR"), NOMES = ["Ouro", "Prata", "Bronze"];
+  const lugar = k => { const j = top[k];
+    if(!j) return `<li class="pod-l p${k + 1} vago"><div class="pod-boneco"><span class="pod-vago">?</span></div><div class="pod-nome"><b>Ainda livre</b><small>Faça o quiz e suba</small></div><div class="pod-bloco"><b>${k + 1}</b></div></li>`;
+    const eu = j.uid === usuario.uid;
+    return `<li class="pod-l p${k + 1} ${eu ? "eu" : ""}"><div class="pod-boneco" role="button" tabindex="0" data-perfil="${esc(j.uid)}" data-nome="${esc(j.nome)}" data-boneco="${esc(j.profeta || "")}" data-nivel="${j.nivel || 0}" aria-label="${k + 1}º lugar, ${esc(j.nome)}: ver o perfil">
+        ${k === 0 ? `<span class="pod-coroa">${COROA_PODIO}</span>` : ""}<span class="pod-chao" aria-hidden="true"></span>
+        <div class="runner${classeMovimento(j.mov, j.profeta, j.nivel)}">${avatarSVG(personagemDe(j.profeta, j.nivel), j.nome, 0, j.nivel, movDe(j.mov, j.profeta, j.nivel))}</div></div>
+      <div class="pod-nome"><b>${esc(j.nome)}</b>${eu ? `<em>você</em>` : ""}<small>${f1(j.passos)} ${j.passos === 1 ? "passo" : "passos"} · ${fmt(j.pts)} pts</small></div>
+      <div class="pod-bloco" title="${NOMES[k]}"><span class="pod-med">${medalhaSVG(k)}</span><b>${k + 1}</b><i class="pod-brilho" aria-hidden="true"></i></div></li>`; };
+  return `<section class="pod" aria-label="Pódio da corrida: os três primeiros">
+    <span class="pod-raios" aria-hidden="true"></span><span class="pod-luz" aria-hidden="true"></span>
+    <span class="pod-pontos" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+    <div class="pod-cab"><span class="pod-tag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10v3a5 5 0 0 1-10 0zM7 5H4v2a3 3 0 0 0 3 3M17 5h3v2a3 3 0 0 1-3 3M12 12v4M8.5 20h7M9.5 16h5v4h-5z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>Pódio</span><h2>${titulo}</h2></div>
+    <button type="button" class="pod-share" id="podShare" aria-label="Compartilhar o pódio" title="Compartilhar o pódio"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3.5M7.5 8L12 3.5 16.5 8"/><path d="M8 11H6.5A2.5 2.5 0 0 0 4 13.5v5A2.5 2.5 0 0 0 6.5 21h11a2.5 2.5 0 0 0 2.5-2.5v-5a2.5 2.5 0 0 0-2.5-2.5H16"/></svg><span>Compartilhar</span></button>
+    <ol class="pod-degraus">${lugar(0)}${lugar(1)}${lugar(2)}</ol></section>`;
+}
+
+/* ============================================================
+   COMPARTILHAR O PÓDIO: uma imagem 1080×1350 (o tamanho do feed e do status) com o palco, os três degraus,
+   os personagens de cada um (com o acessório da loja), a coroa, as medalhas, os nomes e os passos.
+   No celular abre a janela de compartilhar (WhatsApp, Instagram...); no computador, baixa a imagem.
+   ============================================================ */
+let PODIO_ATUAL = null;
+/* o personagem como no jogo (acessório da loja e a outra mão), para desenhar em 992×1000 */
+function personagemDoBoneco(id, nivel){
+  const partes = String(personagemDe(id, nivel) || "").split("~"), p0 = acharProfeta(partes[0]) || acharProfeta(PROFETA_PADRAO);
+  let ac = "", mao = null; partes.slice(1).forEach(t => { if(t.indexOf("m:") === 0) mao = t.slice(2); else if(t && t !== "v" && !ac) ac = t; });
+  const a = ac && LOJA_AC[ac], m = mao && mao !== "-" && naMao(mao) ? LOJA_AC[mao] : null;
+  let p = a ? Object.assign({}, p0, { id: p0.id + "+" + a.id, modelo: p0.modelo || p0.id, emb2: a.emb, emb2o: a.o, emb2atras: !!a.atras }) : p0;
+  if(m || mao === "-") p = Object.assign({}, p, { id: p.id + "+m" + (m ? m.id : "0"), modelo: p.modelo || p0.modelo || p0.id, emb: m ? m.emb : null, embMao: !!m });
+  return p;
+}
+function desenharPodio(x, top, imgs, titulo, sala){
+  const W = 1080, H = 1350, BB = FONTES, BR = '"Barlow",system-ui,sans-serif', cx = W / 2;
+  if(!x.roundRect) x.roundRect = function(a, b, w, h, r){ const q = Array.isArray(r) ? r[0] : r; this.moveTo(a + q, b); this.arcTo(a + w, b, a + w, b + h, q); this.lineTo(a + w, b + h); this.lineTo(a, b + h); this.arcTo(a, b, a + w, b, q); this.closePath(); };
+  x.save();
+  /* o palco: roxo profundo, luz dourada no meio, raios e um holofote */
+  let g = x.createLinearGradient(0, 0, W * .3, H); g.addColorStop(0, "#120E3A"); g.addColorStop(.5, "#2B2280"); g.addColorStop(1, "#4637A8");
+  x.fillStyle = g; x.fillRect(0, 0, W, H);
+  g = x.createRadialGradient(cx, 560, 30, cx, 560, 620); g.addColorStop(0, "rgba(255,215,110,.42)"); g.addColorStop(1, "rgba(255,215,110,0)");
+  x.fillStyle = g; x.fillRect(0, 0, W, H);
+  x.save(); x.translate(cx, 600); x.fillStyle = "rgba(255,236,170,.075)";
+  for(let i = 0; i < 20; i++){ const a = i * Math.PI / 10; x.beginPath(); x.moveTo(0, 0); x.arc(0, 0, 900, a, a + Math.PI / 26); x.closePath(); x.fill(); }
+  x.restore();
+  g = x.createLinearGradient(0, 120, 0, 1100); g.addColorStop(0, "rgba(255,244,200,.38)"); g.addColorStop(1, "rgba(255,244,200,0)");
+  x.fillStyle = g; x.beginPath(); x.moveTo(cx - 70, 120); x.lineTo(cx + 70, 120); x.lineTo(cx + 260, 1100); x.lineTo(cx - 260, 1100); x.closePath(); x.fill();
+  x.fillStyle = "#FFF3C8";
+  [[110, 300, 5], [960, 260, 6], [210, 640, 4], [880, 620, 4], [330, 200, 3], [760, 170, 5]].forEach(([a, b, r]) => { x.globalAlpha = .85; x.beginPath(); x.arc(a, b, r, 0, Math.PI * 2); x.fill(); });
+  x.globalAlpha = 1;
+  /* o alto: a etiqueta Pódio, o título e a sala */
+  x.textAlign = "center"; x.textBaseline = "alphabetic";
+  x.font = "800 30px " + BR; const et = "PÓDIO DA CORRIDA", ew = x.measureText(et).width + 64;
+  g = x.createLinearGradient(cx - ew / 2, 0, cx + ew / 2, 0); g.addColorStop(0, "#FFE27A"); g.addColorStop(1, "#F2A53A");
+  x.fillStyle = g; x.beginPath(); x.roundRect(cx - ew / 2, 70, ew, 58, 29); x.fill();
+  x.fillStyle = "#3A2A00"; x.fillText(et, cx, 110);
+  x.font = "112px " + BB; x.fillStyle = "#fff"; x.shadowColor = "rgba(0,0,0,.3)"; x.shadowOffsetY = 6; x.fillText(titulo.toUpperCase(), cx, 238); x.shadowColor = "transparent"; x.shadowOffsetY = 0;
+  if(sala){ x.font = "700 36px " + BR; x.fillStyle = "#D9D3FF"; x.fillText(sala, cx, 290); }
+  /* os degraus: 2º à esquerda, 1º no meio, 3º à direita */
+  const base = 1190, col = [{ k: 1, x: 205, w: 270, h: 250 }, { k: 0, x: cx, w: 310, h: 330 }, { k: 2, x: 875, w: 270, h: 225 }];
+  const cores = [["#FFE88F", "#F6C342", "#E0A12A", "#B9761B"], ["#FFFFFF", "#DDE2EE", "#B9C1D6", "#8E97AE"], ["#FFD9BA", "#EBA06D", "#C9733F", "#8E4A22"]];
+  const fita = ["#E0483C", "#3B7BE0", "#2BA486"];
+  col.forEach(c => {
+    const j = top[c.k], top0 = base - c.h, x0 = c.x - c.w / 2, cs = cores[c.k];
+    /* o bloco, com a tampa clara e o número gravado */
+    g = x.createLinearGradient(0, top0, 0, base); g.addColorStop(0, cs[0]); g.addColorStop(.35, cs[1]); g.addColorStop(.7, cs[2]); g.addColorStop(1, cs[3]);
+    x.fillStyle = g; x.beginPath(); x.roundRect(x0, top0, c.w, c.h, [22, 22, 0, 0]); x.fill();
+    x.fillStyle = "rgba(255,255,255,.55)"; x.fillRect(x0 + 14, top0 + 6, c.w - 28, 5);
+    x.fillStyle = "rgba(255,255,255,.22)"; x.beginPath(); x.moveTo(x0 + c.w * .62, top0); x.lineTo(x0 + c.w * .82, top0); x.lineTo(x0 + c.w * .52, base); x.lineTo(x0 + c.w * .32, base); x.closePath(); x.fill();
+    /* a medalha */
+    const my = top0 + 78;
+    x.fillStyle = fita[c.k]; x.beginPath(); x.moveTo(c.x - 26, top0 + 18); x.lineTo(c.x - 8, top0 + 18); x.lineTo(c.x + 4, my - 20); x.lineTo(c.x - 12, my - 14); x.closePath(); x.fill();
+    x.beginPath(); x.moveTo(c.x + 26, top0 + 18); x.lineTo(c.x + 8, top0 + 18); x.lineTo(c.x - 4, my - 20); x.lineTo(c.x + 12, my - 14); x.closePath(); x.fill();
+    x.fillStyle = cs[3]; x.beginPath(); x.arc(c.x, my + 3, 34, 0, Math.PI * 2); x.fill();
+    x.fillStyle = cs[1]; x.beginPath(); x.arc(c.x, my, 32, 0, Math.PI * 2); x.fill();
+    x.strokeStyle = cs[0]; x.lineWidth = 3; x.beginPath(); x.arc(c.x, my, 24, 0, Math.PI * 2); x.stroke();
+    x.font = "40px " + BB; x.fillStyle = cs[3]; x.fillText(String(c.k + 1), c.x, my + 14);
+    x.font = (c.k ? 120 : 150) + "px " + BB; x.fillStyle = "rgba(0,0,0,.18)"; x.fillText(String(c.k + 1), c.x, my + (c.k ? 142 : 190));
+    x.fillStyle = "rgba(255,255,255,.35)"; x.fillText(String(c.k + 1), c.x, my + (c.k ? 144 : 192) - 4);
+    /* o nome e os passos, logo acima do degrau */
+    const ny = top0 - 30;
+    if(!j){ x.font = "700 34px " + BR; x.fillStyle = "rgba(217,211,255,.8)"; x.fillText("Ainda livre", c.x, ny - 40); return; }
+    x.font = "700 " + (c.k ? 38 : 46) + "px " + BR; x.fillStyle = c.k ? "#fff" : "#FFE27A";
+    let nome = j.nome; while(x.measureText(nome).width > c.w + 40 && nome.length > 3) nome = nome.slice(0, -2).trim() + "…";
+    x.fillText(nome, c.x, ny - 40);
+    x.font = "600 28px " + BR; x.fillStyle = "#D9D3FF";
+    x.fillText(`${(Math.round(j.passos * 10) / 10).toLocaleString("pt-BR")} ${j.passos === 1 ? "passo" : "passos"} · ${fmt(j.pts)} pts`, c.x, ny);
+    /* o personagem em pé sobre o nome */
+    const img = imgs[c.k];
+    if(img){ const ih = c.k ? 260 : 330, iw = ih * img.width / img.height, py = ny - 86 - ih;
+      x.fillStyle = "rgba(10,6,40,.45)"; x.beginPath(); x.ellipse(c.x, py + ih - 6, iw * .3, 16, 0, 0, Math.PI * 2); x.fill();
+      x.imageSmoothingEnabled = img.height > 700; x.imageSmoothingQuality = "high"; x.drawImage(img, c.x - iw / 2, py, iw, ih); x.imageSmoothingEnabled = true;   // o de 992×1000 reduz com suavidade; o pequeno fica nítido
+      if(c.k === 0){ /* a coroa flutuando */
+        const kx = c.x, ky = py - 14, s = 1.6;
+        x.save(); x.translate(kx - 32 * s, ky - 22 * s); x.scale(s, s);
+        x.shadowColor = "rgba(255,226,122,.7)"; x.shadowBlur = 18;
+        x.fillStyle = "#FFD866"; x.beginPath(); x.moveTo(6, 12); x.lineTo(18, 24); x.lineTo(32, 2); x.lineTo(46, 24); x.lineTo(58, 12); x.lineTo(53, 38); x.lineTo(11, 38); x.closePath(); x.fill();
+        x.shadowBlur = 0; x.fillStyle = "#FFE58A"; x.fillRect(11, 36, 42, 5);
+        x.fillStyle = "#E0483C"; x.beginPath(); x.arc(32, 27, 4, 0, Math.PI * 2); x.fill();
+        x.fillStyle = "#3B7BE0"; x.beginPath(); x.arc(19, 30, 2.6, 0, Math.PI * 2); x.fill();
+        x.fillStyle = "#2BA486"; x.beginPath(); x.arc(45, 30, 2.6, 0, Math.PI * 2); x.fill();
+        x.fillStyle = "#FFF3B0"; [[6, 12], [32, 2.6], [58, 12]].forEach(([a, b]) => { x.beginPath(); x.arc(a, b, 3, 0, Math.PI * 2); x.fill(); });
+        x.restore(); }
+    }
+  });
+  /* o chão do palco e o rodapé */
+  g = x.createLinearGradient(0, base, 0, H); g.addColorStop(0, "#1C1656"); g.addColorStop(1, "#120E3A");
+  x.fillStyle = g; x.fillRect(0, base, W, H - base);
+  g = x.createLinearGradient(0, 0, W, 0); g.addColorStop(0, "rgba(255,226,122,0)"); g.addColorStop(.5, "rgba(255,226,122,.9)"); g.addColorStop(1, "rgba(255,226,122,0)");
+  x.fillStyle = g; x.fillRect(0, base, W, 4);
+  x.font = "48px " + BB; x.fillStyle = "#fff"; x.textAlign = "left"; x.fillText("CORRIDA DO ROLO", 72, H - 62);
+  x.textAlign = "right"; x.font = "38px " + BB; x.fillStyle = "#FFE27A"; x.fillText("#EUESTUDOMINHALIÇÃO", W - 72, H - 62);
+  x.restore();
+}
+async function compartilharPodio(btn){
+  const d = PODIO_ATUAL; if(!d || !d.top.length) return;
+  if(btn) ocupado(btn, true);
+  try{
+    d.top.forEach(j => { try{ HD.priorizar(personagemDoBoneco(j.profeta, j.nivel)); }catch(e){} });
+    const imgs = await Promise.all([0, 1, 2].map(k => { const j = d.top[k]; if(!j) return null;
+      return spriteMelhor(personagemDoBoneco(j.profeta, j.nivel)).then(sp => new Promise(ok => { const i = new Image(); i.onload = () => ok(i); i.onerror = () => ok(null); i.src = sp.url; })).catch(() => null); }));
+    await carregarFontes();
+    const c = document.createElement("canvas"); c.width = 1080; c.height = 1350;
+    desenharPodio(c.getContext("2d"), d.top, imgs, d.titulo, d.sala);
+    const blob = await new Promise(r => c.toBlob(r, "image/jpeg", .92));
+    await compartilharImagem(blob, "podio-" + slug(d.titulo) + ".jpg");
+  }catch(e){ aviso("Não deu para montar a imagem: " + erroMsg(e)); }
+  finally{ if(btn) ocupado(btn, false); }
+}
+
+/* ============================================================
+   EXCLUIR A PRÓPRIA CONTA, POLÍTICA DE PRIVACIDADE E INSTALAR O APP
+   ============================================================ */
+/* Enquanto a conta está sendo apagada, nada do jogo grava de novo os dados dela (o perfil, o perfil público, as salas etc.) */
+let CONTA_EXCLUINDO = false;
+(() => {
+  const minha = uid => CONTA_EXCLUINDO && usuario && uid === usuario.uid;
+  const embrulhar = (nome, uidDe) => { const f = DB[nome]; if(typeof f !== "function") return; DB[nome] = function(...a){ return minha(uidDe(a)) ? Promise.resolve() : f.apply(this, a); }; };
+  embrulhar("salvarUsuario", a => a[0]); embrulhar("salvarPrivado", a => a[0]); embrulhar("salvarPerfilPublico", a => a[0]);
+  embrulhar("salvarMembro", a => a[0] && a[0].uid); embrulhar("salvarResultado", a => a[0] && a[0].uid); embrulhar("salvarProgresso", a => a[0] && a[0].uid);
+})();
+
+/* Salas que impedem a exclusão: as que eu crio ou administro, com mais gente dentro e mais ninguém para cuidar */
+async function salasQuePrendemAConta(){
+  const eu = usuario.uid, presas = [];
+  for(const s of SALAS.filter(x => !x.global && (ehDonoSala(x) || ehAdminSala(x)))){
+    let ativos = [];
+    try{ ativos = (await DB.membrosDaSala(s.id)).filter(x => x.status === "ativo" && x.uid !== eu); }catch(e){ continue; }
+    const adms = new Set(s.admins || []);
+    if(ativos.length && !ativos.some(x => adms.has(x.uid) || x.uid === s.dono)) presas.push(s);
+  }
+  return presas;
+}
+/* Tira a pessoa das salas: sai de todas, deixa de ser admin, apaga as salas em que estava sozinha e tira o nome das que criou */
+async function sairDasSalasParaExcluir(){
+  const eu = usuario.uid;
+  let salas = [];
+  try{ salas = await DB.listarSalas(); }catch(e){ salas = SALAS.slice(); }
+  for(const s of salas){
+    if(s.global) continue;
+    const dono = s.dono === eu, adm = (s.admins || []).includes(eu);
+    let membros = null;
+    if(dono || adm || SALAS.some(x => x.id === s.id) || SALAS_PEDIDOS.some(x => x.id === s.id)){
+      try{ membros = await DB.membrosDaSala(s.id); }catch(e){ membros = []; }
+    }
+    if(!membros) continue;
+    const outros = membros.filter(x => x.uid !== eu);
+    if(dono && !outros.length){ await DB.excluirSala(s.id); continue; }                 // sala só minha: some com ela
+    if(dono || adm){
+      const dados = {};
+      if(adm) dados.admins = (s.admins || []).filter(id => id !== eu);
+      if(dono) dados.donoNome = "";
+      await DB.salvarSala(s.id, dados);
+    }
+    if(membros.some(x => x.uid === eu)) await DB.excluirMembro(s.id, eu);
+  }
+}
+async function excluirMinhaConta(senha, progresso){
+  const eu = usuario.uid;
+  progresso("Conferindo a senha");
+  await DB.reautenticar(senha);
+  CONTA_EXCLUINDO = true;
+  try{
+    progresso("Saindo das salas");
+    await sairDasSalasParaExcluir();
+    progresso("Apagando pontos, publicações, desafios e trocas");
+    await DB.apagarMeusDados(eu, REACOES.map(r => r[0]));
+    progresso("Apagando o login");
+    await DB.excluirLogin();
+  }catch(e){ CONTA_EXCLUINDO = false; throw e; }
+  /* o que estava guardado neste aparelho sobre a conta */
+  try{ Object.keys(localStorage).filter(k => k.indexOf(eu) >= 0).forEach(k => localStorage.removeItem(k)); }catch(e){}
+}
+function modalExcluirConta(){
+  if(ehMaster()){
+    modal("Excluir minha conta", `<p>Esta é uma conta <b>master</b>. Ela não pode ser excluída por aqui, para o jogo não ficar sem ninguém para administrar.</p><p class="muted small">Se precisar mesmo, outra pessoa master tira o seu nível de acesso em Admin › Usuários e depois você exclui a conta.</p><div class="btn-row uma"><button class="btn btn-ghost" id="exOk" style="width:100%">Entendi</button></div>`, (m, fechar) => { m.querySelector("#exOk").onclick = fechar; });
+    return;
+  }
+  modal("Excluir minha conta", `<div id="exC"><p class="vazio">Conferindo as suas salas…</p></div>`, async (m, fechar) => {
+    const c = m.querySelector("#exC");
+    let presas = [];
+    try{ await carregarSalas(); presas = await salasQuePrendemAConta(); }catch(e){}
+    if(!c.isConnected) return;
+    if(presas.length){
+      c.innerHTML = `<p>Antes de excluir a conta, passe a administração ${presas.length === 1 ? "desta sala" : "destas salas"} para alguém. Senão a turma fica sem ninguém para cuidar:</p>
+        <ul class="ex-salas">${presas.map(s => `<li><b>${esc(s.nome)}</b></li>`).join("")}</ul>
+        <p class="muted small">Em <b>Salas</b>, toque em <b>Sair</b> na sala e escolha quem vai administrar. Depois volte aqui.</p>
+        <div class="btn-row"><button class="btn btn-main" id="exSalas">Ir para Salas</button><button class="btn btn-ghost" id="exNao">Agora não</button></div>`;
+      c.querySelector("#exSalas").onclick = () => { fechar(); nav("salas"); };
+      c.querySelector("#exNao").onclick = fechar;
+      return;
+    }
+    c.innerHTML = `<p>Excluir a conta apaga <b>de vez</b>:</p>
+      <ul class="ex-lista"><li>seu perfil, personagem, moedas, compras e figurinhas;</li><li>seus pontos e resultados dos quizzes (você sai da corrida);</li><li>suas anotações, publicações e reações no mural;</li><li>sua participação nas salas, desafios e trocas;</li><li>seu login (e-mail e senha).</li></ul>
+      <p class="ex-aviso">Não dá para desfazer. Se quiser jogar de novo depois, vai ter que criar uma conta nova e começar do zero.</p>
+      <div class="field"><label for="exSenha">Digite a sua senha para confirmar</label><input type="password" id="exSenha" autocomplete="current-password"></div>
+      <label class="check ex-check"><input type="checkbox" id="exCerto"><span>Entendi que tudo será apagado e não volta.</span></label>
+      <p class="erro" id="exErro"></p>
+      <div class="btn-row"><button class="btn btn-danger" id="exOk" disabled>Excluir minha conta</button><button class="btn btn-ghost" id="exNao">Cancelar</button></div>`;
+    const ok = c.querySelector("#exOk"), senha = c.querySelector("#exSenha"), certo = c.querySelector("#exCerto"), erro = c.querySelector("#exErro");
+    const pode = () => { ok.disabled = !(certo.checked && senha.value.length >= 1); };
+    senha.addEventListener("input", pode); certo.addEventListener("change", pode);
+    c.querySelector("#exNao").onclick = fechar;
+    ok.onclick = async () => {
+      erro.textContent = ""; ok.disabled = true; c.querySelector("#exNao").disabled = true;
+      try{
+        await excluirMinhaConta(senha.value, t => { ok.textContent = t + "…"; });
+        fechar();
+        modal("Conta excluída", `<p>Sua conta e os seus dados foram apagados. Obrigado por ter jogado!</p><div class="btn-row uma"><button class="btn btn-main" id="exFim" style="width:100%">Fechar</button></div>`, (m2, f2) => { m2.querySelector("#exFim").onclick = f2; }, () => { location.reload(); });
+      }catch(e){
+        ok.textContent = "Excluir minha conta"; c.querySelector("#exNao").disabled = false; pode();
+        erro.textContent = e && /wrong-password|invalid-credential|invalid-login/.test(e.code || "") ? "Senha errada. Confira e tente de novo." : "Não deu para excluir agora: " + erroMsg(e) + ". Tente de novo.";
+      }
+    };
+    setTimeout(() => senha.focus(), 60);
+  });
+}
+
+/* ---------- Política de privacidade ---------- */
+const PRIVACIDADE_ATUALIZADA = "25 de novembro de 2026";
+const PRIVACIDADE_HTML = `<p class="priv-data">Atualizada em 25 de novembro de 2026</p>
+<p>O <b>Corrida do Rolo · Quiz da Lição</b> é um jogo gratuito para estudar a Lição da Escola Sabatina com o seu grupo de jovens. Aqui explicamos, de um jeito simples, quais dados o jogo guarda, para que servem e como você pode apagá-los.</p>
+<h4>Quem cuida do jogo</h4>
+<p>Responsável: Brenno. Contato para qualquer dúvida ou pedido sobre os seus dados: <a href="mailto:brenno.liberty@gmail.com">brenno.liberty@gmail.com</a>.</p>
+<h4>O que o jogo guarda</h4>
+<ul>
+<li><b>Conta:</b> seu nome, e-mail e senha. A senha fica protegida no serviço de login do Google (Firebase); ninguém do jogo consegue vê-la.</li>
+<li><b>Jogo:</b> personagem e itens escolhidos, moedas, compras da loja, figurinhas do álbum, conquistas, missões e nível.</li>
+<li><b>Quizzes:</b> suas respostas, pontos, acertos e datas, o andamento de um quiz e as anotações que você faz na lição.</li>
+<li><b>Convivência:</b> as salas de que você participa, suas publicações e reações no mural, seus desafios e trocas de figurinhas.</li>
+<li><b>No seu aparelho:</b> preferências (tema, sons, música) e uma cópia temporária dos dados, para o jogo abrir mais rápido.</li>
+</ul>
+<p>O jogo <b>não</b> coleta sua localização, seus contatos nem dados de pagamento. Não tem anúncios e não vende nada com dinheiro de verdade: as moedas existem só dentro do jogo. A câmera só é usada se você quiser tirar a selfie com o resultado; a foto fica no seu aparelho e não é enviada para o jogo.</p>
+<h4>Para que usamos</h4>
+<p>Só para o jogo funcionar: entrar na conta, contar os pontos e montar a corrida, as salas, o mural, os desafios e as trocas. Não vendemos nem passamos os seus dados para ninguém, nem para propaganda.</p>
+<h4>Quem vê o quê</h4>
+<ul>
+<li>Os outros jogadores das suas salas veem seu nome, personagem, nível, pontos e o que você publica no mural.</li>
+<li>Seu e-mail só você e os administradores gerais do jogo veem.</li>
+<li>Quem administra uma sala vê os membros e os resultados daquela sala.</li>
+</ul>
+<h4>Onde os dados ficam</h4>
+<p>No Google Firebase (login e banco de dados), em servidores do Google que podem ficar fora do Brasil. O site é hospedado no GitHub Pages e as letras vêm do Google Fonts; ao abrir o jogo, esses serviços recebem dados técnicos, como o endereço de internet do aparelho.</p>
+<h4>Por quanto tempo</h4>
+<p>Enquanto a sua conta existir. Quando você exclui a conta, os dados são apagados.</p>
+<h4>Como excluir a sua conta</h4>
+<p>No jogo, vá em <b>Minha conta › <a href="#" data-priv-excluir>Excluir minha conta</a></b>. Isso apaga o seu perfil, pontos, resultados, anotações, publicações, reações, participação nas salas, desafios, trocas e o seu login. Não dá para desfazer. Se não conseguir entrar na conta, peça a exclusão pelo e-mail acima.</p>
+<h4>Seus direitos</h4>
+<p>Pela Lei Geral de Proteção de Dados (LGPD), você pode pedir para ver, corrigir ou apagar os seus dados e tirar qualquer dúvida pelo e-mail acima. O nome você mesmo muda em Minha conta.</p>
+<h4>Menores de idade</h4>
+<p>O jogo é feito para jovens de grupos de igreja. Quem tem menos de 18 anos deve jogar com o conhecimento dos pais ou responsáveis, e crianças com menos de 12 anos só devem criar uma conta com a autorização deles.</p>
+<h4>Mudanças nesta política</h4>
+<p>Se esta política mudar, a nova versão aparece aqui, com a data atualizada.</p>`;
+function modalPrivacidade(){
+  modal("Política de privacidade", `<div class="priv">${PRIVACIDADE_HTML}</div><div class="btn-row uma"><button class="btn btn-ghost" id="pvOk" style="width:100%">Fechar</button></div>`, (m, fechar) => {
+    m.classList.add("modal-priv"); m.querySelector("#pvOk").onclick = fechar;
+    const ex = m.querySelector("[data-priv-excluir]"); if(ex) ex.onclick = e => { e.preventDefault(); fechar(); if(usuario && perfil) modalExcluirConta(); else aviso("Entre na sua conta e vá em Minha conta › Excluir minha conta."); };
+  });
+}
+document.addEventListener("click", e => { const a = e.target.closest ? e.target.closest("[data-privacidade]") : null; if(!a) return; e.preventDefault(); modalPrivacidade(); });
+
+/* ---------- Instalar o app ---------- */
+let INSTALAR_EVT = null;
+const appInstalado = () => { try{ return matchMedia("(display-mode: standalone)").matches || matchMedia("(display-mode: fullscreen)").matches || navigator.standalone === true; }catch(e){ return false; } };
+const ehIOS = () => /iPhone|iPad|iPod/i.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+const navegadorDeApp = () => /FBAN|FBAV|FB_IAB|Instagram|WhatsApp|Line\/|TikTok|musical_ly|Snapchat|; wv\)/i.test(navigator.userAgent);
+window.addEventListener("beforeinstallprompt", e => { e.preventDefault(); INSTALAR_EVT = e; atualizarBotoesInstalar(); });
+window.addEventListener("appinstalled", () => { INSTALAR_EVT = null; lsSet(KEY + ":instalado", 1); atualizarBotoesInstalar(); aviso("Pronto! O jogo foi instalado. Procure o ícone na tela do celular."); });
+function podeOferecerInstalar(){ return !appInstalado(); }
+function atualizarBotoesInstalar(){
+  const mi = $("mInstalar"); if(mi) mi.hidden = !podeOferecerInstalar();
+  const bi = $("hmInstalar"); if(bi && !podeOferecerInstalar()) bi.remove();
+}
+/* o cartão do Início aparece até a pessoa instalar ou dispensar */
+function htmlInstalarInicio(){
+  if(!podeOferecerInstalar() || lsGet(KEY + ":instalarDispensado", 0)) return "";
+  return `<section class="panel hm-instalar" id="hmInstalar"><div class="hi-ic" aria-hidden="true"><img src="app-icone-192.png" alt="" onerror="this.replaceWith(document.createTextNode('📲'))"></div>
+    <div class="hi-tx"><b>Instale o jogo no celular</b><span>Ícone na tela inicial e o jogo abre em tela cheia, como um aplicativo.</span></div>
+    <div class="hi-bt"><button type="button" class="btn btn-main btn-sm" data-instalar>Instalar</button><button type="button" class="hi-x" id="hiFechar" aria-label="Dispensar">✕</button></div></section>`;
+}
+document.addEventListener("click", e => {
+  const b = e.target.closest ? e.target.closest("[data-instalar]") : null;
+  if(b){ e.preventDefault(); instalarApp(); return; }
+  const x = e.target.closest ? e.target.closest("#hiFechar") : null;
+  if(x){ lsSet(KEY + ":instalarDispensado", 1); const c = $("hmInstalar"); if(c) c.remove(); aviso("Tudo bem! Dá para instalar depois em Minha conta."); }
+});
+async function instalarApp(){
+  if(appInstalado()){ aviso("O jogo já está instalado neste aparelho."); return; }
+  if(INSTALAR_EVT){
+    const ev = INSTALAR_EVT;
+    try{ ev.prompt(); const r = await ev.userChoice; if(r && r.outcome === "accepted"){ INSTALAR_EVT = null; lsSet(KEY + ":instalado", 1); atualizarBotoesInstalar(); } }catch(e){ modalPassosInstalar(); }
+    return;
+  }
+  modalPassosInstalar();
+}
+function modalPassosInstalar(){
+  const link = location.href.split("#")[0].split("?")[0];
+  const passo = (n, t) => `<li><span class="ip-n">${n}</span><span>${t}</span></li>`;
+  const ic = {
+    compartilhar: `<svg class="ip-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M8 7l4-4 4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 10H5v10h14V10h-2" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>`,
+    mais: `<svg class="ip-ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 8v8M8 12h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`,
+    menu: `<svg class="ip-ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="2" fill="currentColor"/><circle cx="12" cy="12" r="2" fill="currentColor"/><circle cx="12" cy="19" r="2" fill="currentColor"/></svg>`
+  };
+  let corpo;
+  if(navegadorDeApp()){
+    corpo = `<p>Você abriu o jogo por dentro de outro aplicativo (WhatsApp, Instagram…). Daqui não dá para instalar.</p>
+      <ol class="ip-passos">${passo(1, "Copie o link do jogo no botão abaixo.")}${passo(2, ehIOS() ? "Abra o <b>Safari</b> e cole o link na barra de endereço." : "Abra o <b>Chrome</b> e cole o link na barra de endereço.")}${passo(3, "No jogo, vá em <b>Minha conta › Instalar o app</b>.")}</ol>
+      <div class="ip-link"><code>${esc(link)}</code></div>
+      <div class="btn-row"><button class="btn btn-main" id="ipCopiar">Copiar o link</button><button class="btn btn-ghost" id="ipOk">Fechar</button></div>`;
+  } else if(ehIOS()){
+    corpo = `<p>No iPhone a instalação é feita pelo menu do navegador. São 3 toques:</p>
+      <ol class="ip-passos">${passo(1, `Toque em <b>Compartilhar</b> ${ic.compartilhar} (na barra de baixo do Safari, ou no alto, no iPad).`)}${passo(2, `Role a lista e toque em <b>Adicionar à Tela de Início</b> ${ic.mais}.`)}${passo(3, "Toque em <b>Adicionar</b>, no canto de cima. O ícone aparece na tela do iPhone.")}</ol>
+      <p class="muted small">Não achou a opção? Abra o jogo no <b>Safari</b> (em outros navegadores ela pode não aparecer).</p>
+      <div class="btn-row uma"><button class="btn btn-main" id="ipOk" style="width:100%">Entendi</button></div>`;
+  } else {
+    corpo = `<p>Use o menu do navegador para instalar:</p>
+      <ol class="ip-passos">${passo(1, `Toque no menu ${ic.menu} (os três pontinhos, no alto à direita).`)}${passo(2, "Toque em <b>Instalar app</b> ou <b>Adicionar à tela inicial</b>.")}${passo(3, "Confirme em <b>Instalar</b>. O ícone aparece na tela do celular.")}</ol>
+      <p class="muted small">Não achou a opção? Abra o jogo no <b>Chrome</b>.</p>
+      <div class="btn-row uma"><button class="btn btn-main" id="ipOk" style="width:100%">Entendi</button></div>`;
+  }
+  modal("Instalar o app", `<div class="ip">${corpo}</div>`, (m, fechar) => {
+    m.querySelector("#ipOk").onclick = fechar;
+    const cp = m.querySelector("#ipCopiar"); if(cp) cp.onclick = () => copiarTexto(link, "Link copiado! Agora abra no navegador.");
+  });
+}
+/* o service worker: guarda as imagens no aparelho e deixa o jogo abrir mesmo com a internet fraca */
+(() => {
+  if(!("serviceWorker" in navigator) || !/^https:$|^http:$/.test(location.protocol)) return;
+  if(location.protocol === "http:" && !/^(localhost|127\.0\.0\.1)$/.test(location.hostname)) return;
+  window.addEventListener("load", () => { navigator.serviceWorker.register("sw.js").catch(() => {}); });
+})();
+
+/* ---------- Temas: uma amostra de cada um ---------- */
+const TEMAS_JOGO = [
+  ["auto", "Automático", "Segue o celular: claro de dia, escuro no modo escuro"],
+  ["claro", "Claro", "Céu da manhã: anil, azul e turquesa"],
+  ["escuro", "Escuro", "Noite: descansa a vista"],
+  ["sol", "Pôr do sol", "Roxo, rosa e laranja"],
+  ["classico", "Clássico", "As cores de antes"]
+];
+function modalTemas(){
+  const atual = perfil.tema || "auto";
+  modal("Alterar tema", `<div class="temas" role="radiogroup" aria-label="Tema">${TEMAS_JOGO.map(([v, nome, sub]) => `<button type="button" class="tema-op" role="radio" data-t="${v}" aria-checked="${atual === v}">
+      <span class="tema-am tema-am-${v}" aria-hidden="true"><i></i><i></i><i></i><b></b></span><span class="tema-tx"><b>${nome}</b><small>${sub}</small></span><span class="tema-ok" aria-hidden="true">✓</span></button>`).join("")}</div>`, (m, fechar) => {
+    m.querySelectorAll("[data-t]").forEach(b => b.onclick = async () => {
+      aplicarTema(b.dataset.t); perfil.tema = b.dataset.t;
+      m.querySelectorAll("[data-t]").forEach(x => x.setAttribute("aria-checked", String(x === b)));
+      try{ await DB.salvarUsuario(usuario.uid, { tema: b.dataset.t }); }catch(e){}
+    });
+  });
 }
 
 /* Livro do trimestre que já vem neste arquivo: nome e capa (primeira página do PDF da lição, reduzida). O que o master gravar em Admin → Livros ou ao importar a lição passa na frente. */
@@ -7008,6 +7682,8 @@ function novoMembro(salaId, status, papel){ return { salaId, uid: usuario.uid, n
 function ehDonoSala(s){ return !!(s && !s.global && usuario && s.dono === usuario.uid); }
 function podeGerenciarSala(s){ return !!s && (ehMaster() || (!s.global && (ehDonoSala(s) || ehAdminSala(s)))); }
 /* Incluir qualquer usuário direto na sala: só o master e o administrador atribuído àquela sala */
+/* Pôr e tirar administradores da sala: quem criou a sala e o master */
+function podeNomearAdmin(s){ return !!s && !s.global && (ehMaster() || ehDonoSala(s)); }
 function podeIncluirNaSala(s){ return !!s && !s.global && (ehMaster() || ehAdminSala(s)); }
 /* Participo desta sala? (o master também enxerga salas de que não participa) */
 function souMembroDaSala(s){ return !!s && SALAS.some(x => x.id === s.id); }
@@ -7144,7 +7820,7 @@ async function telaSalas(recarregar){
         <button class="btn btn-ghost btn-sm" data-mural="${esc(s.id)}">Mural</button>
         <button class="btn btn-ghost btn-sm" data-convidar="${esc(s.id)}">Convidar</button>
         ${podeGerenciarSala(s) ? `<button class="btn btn-ghost btn-sm" data-gerenciar="${esc(s.id)}">Gerenciar${s.pendentes ? ` <span class="nav-n fixo">${s.pendentes}</span>` : ""}</button>` : ""}
-        ${!s.global && !ehDonoSala(s) ? `<button class="btn btn-ghost btn-sm" data-sair="${esc(s.id)}">Sair</button>` : ""}
+        ${!s.global ? `<button class="btn btn-ghost btn-sm" data-sair="${esc(s.id)}">Sair</button>` : ""}
       </div></article>`;
   };
   app.innerHTML = `<div class="result-area duas"><div class="lado">
@@ -7153,12 +7829,12 @@ async function telaSalas(recarregar){
     <div class="sala-barra"><button class="btn btn-main" id="slCriar">+ Criar sala</button><button class="btn btn-ghost" id="slCodigo">Entrar com código</button><button class="btn btn-ghost" id="slPublicas">Salas públicas</button></div></div>
     <div class="principal">${SALAS.length ? `<div class="salas-grid">${SALAS.map(cartao).join("")}</div>` : `<section class="panel sem-sala"><div class="sem-sala-ic" aria-hidden="true">👥</div><h2>Você ainda não está em nenhuma sala</h2><p>Entre na sala da sua classe com o código, procure nas salas públicas ou crie a sua. A Corrida e o Mural são de cada sala.</p></section>`}
     ${SALAS_OUTRAS.length ? `<section class="panel" id="slOutras"><h3 class="h3">Outras salas do jogo <span class="badge adm">${SALAS_OUTRAS.length}</span></h3>
-      <p class="muted small" style="margin-top:0">Salas criadas por outras pessoas, de que você não participa. Como master, você vê a corrida e o mural de cada uma e pode gerenciá-las.</p>
+      <p class="muted small" style="margin-top:0">Salas de que você não participa. Os jogadores não veem você nelas, mas como master você vê a corrida e o mural de cada uma e pode gerenciá-las.</p>
       <div class="salas-grid">${SALAS_OUTRAS.map(s => `<article class="sala ${s.id === ativa.id ? "ativa" : ""}" data-sala="${esc(s.id)}">
         <div class="sala-top"><div class="sala-nome"><h3>${esc(s.nome)}</h3><div>${badgesSala(s)}${s.id === ativa.id ? '<span class="badge sala-ativa">Você está vendo</span>' : ""}</div></div>
           <div class="sala-cod"><span>Código</span><b>${esc(s.codigo || "")}</b></div></div>
         <p class="muted small sala-info">${s.descricao ? esc(s.descricao) + "<br>" : ""}<span data-conta="${esc(s.id)}">Contando membros…</span>${s.donoNome ? " · criada por " + esc(s.donoNome) : ""}</p>
-        <div class="sala-acoes"><button class="btn btn-ghost btn-sm" data-ver="${esc(s.id)}">Ver a corrida</button><button class="btn btn-ghost btn-sm" data-mural="${esc(s.id)}">Mural</button><button class="btn btn-ghost btn-sm" data-gerenciar="${esc(s.id)}">Gerenciar</button></div></article>`).join("")}</div></section>` : ""}
+        <div class="sala-acoes"><button class="btn btn-ghost btn-sm" data-ver="${esc(s.id)}">Ver a corrida</button><button class="btn btn-ghost btn-sm" data-mural="${esc(s.id)}">Mural</button><button class="btn btn-ghost btn-sm" data-gerenciar="${esc(s.id)}">Gerenciar</button><button class="btn btn-ghost btn-sm" data-voltar="${esc(s.id)}">Entrar na sala</button></div></article>`).join("")}</div></section>` : ""}
     ${SALAS_PEDIDOS.length ? `<section class="panel"><h3 class="h3">Aguardando aprovação</h3><ul class="lista">${SALAS_PEDIDOS.map(s => `<li><div class="info"><strong>${esc(s.nome)}</strong><span>Sala privada${s.donoNome ? " de " + esc(s.donoNome) : ""}. O dono precisa aprovar a sua entrada.</span></div><button class="btn btn-ghost btn-sm" data-cancelar="${esc(s.id)}">Cancelar</button></li>`).join("")}</ul></section>` : ""}
   </div></div>`;
   const achar = id => SALAS.find(x => x.id === id) || SALAS_PEDIDOS.find(x => x.id === id) || SALAS_OUTRAS.find(x => x.id === id);
@@ -7171,6 +7847,7 @@ async function telaSalas(recarregar){
   app.querySelectorAll("[data-convidar]").forEach(b => b.onclick = () => convidarSala(achar(b.dataset.convidar)));
   app.querySelectorAll("[data-gerenciar]").forEach(b => b.onclick = () => modalGerenciarSala(achar(b.dataset.gerenciar)));
   app.querySelectorAll("[data-sair]").forEach(b => b.onclick = () => sairDaSala(achar(b.dataset.sair)));
+  app.querySelectorAll("[data-voltar]").forEach(b => b.onclick = async () => { ocupado(b, true); try{ await entrarNaSala(achar(b.dataset.voltar)); }catch(e){ aviso(erroMsg(e)); ocupado(b, false); } });
   app.querySelectorAll("[data-cancelar]").forEach(b => b.onclick = async () => { ocupado(b, true); try{ await DB.excluirMembro(b.dataset.cancelar, eu); aviso("Solicitação cancelada"); }catch(e){ aviso(erroMsg(e)); } telaSalas(); });
   // Quantidade de membros (carrega depois, sem travar a tela)
   SALAS.filter(x => !x.global).concat(SALAS_OUTRAS).forEach(async s => {
@@ -7273,11 +7950,65 @@ async function entrarNaSala(s){
   else aviso("Pedido enviado! Você entra assim que o dono da sala aprovar.");
   if(tabAtual === "salas") telaSalas(false); else if(tabAtual === "ranking" || tabAtual === "inicio") nav(tabAtual);
 }
+/* Sair da sala.
+   - Master: sai quando quiser; deixa de aparecer para os jogadores, mas continua vendo e administrando a sala.
+   - Quem criou ou administra: só sai se a sala continuar com outra pessoa administrando; se não houver, escolhe alguém. */
 async function sairDaSala(s){
   if(!s || s.global) return;
-  if(!(await confirmar("Sair da sala", `Sair da sala "${s.nome}"? Seus pontos continuam guardados; você só deixa de aparecer na corrida dela.`, "Sair da sala", "btn-warn"))) return;
-  try{ await DB.excluirMembro(s.id, usuario.uid); aviso("Você saiu da sala"); }catch(e){ aviso(erroMsg(e)); }
+  const eu = usuario.uid, gerente = ehDonoSala(s) || ehAdminSala(s);
+  if(ehMaster()){
+    if(!(await confirmar("Sair da sala", `Sair da sala "${s.nome}"? Você deixa de aparecer na corrida e na lista de membros para os outros jogadores. Como master, continua vendo e administrando a sala em "Outras salas do jogo" e pode entrar de novo quando quiser.`, "Sair da sala", "btn-warn"))) return;
+    return efetivarSaida(s, "", "Você saiu da sala. Ela continua em Outras salas do jogo.");
+  }
+  if(!gerente){
+    if(!(await confirmar("Sair da sala", `Sair da sala "${s.nome}"? Seus pontos continuam guardados; você só deixa de aparecer na corrida dela.`, "Sair da sala", "btn-warn"))) return;
+    return efetivarSaida(s, "", "Você saiu da sala");
+  }
+  // Quem criou ou administra: confere quem mais administra a sala
+  let ativos;
+  try{ ativos = (await DB.membrosDaSala(s.id)).filter(x => x.status === "ativo" && x.uid !== eu); }catch(e){ aviso(erroMsg(e)); return; }
+  const adms = new Set(s.admins || []);
+  const outros = ativos.filter(x => adms.has(x.uid) || x.uid === s.dono);
+  if(outros.length){
+    const nomes = outros.map(x => x.nome || "?"), lista = nomes.length > 1 ? nomes.slice(0, -1).join(", ") + " e " + nomes[nomes.length - 1] : nomes[0];
+    if(!(await confirmar("Sair da sala", `Sair da sala "${s.nome}"? ${lista} ${outros.length > 1 ? "continuam" : "continua"} administrando a sala. Seus pontos continuam guardados.`, "Sair da sala", "btn-warn"))) return;
+    return efetivarSaida(s, "", "Você saiu da sala");
+  }
+  if(!ativos.length){
+    modal("Sair da sala", `<p>Você é a única pessoa na sala "${esc(s.nome)}". Uma sala não fica sem ninguém para cuidar dela: para sair, exclua a sala em <b>Gerenciar</b>.</p><div class="btn-row uma"><button class="btn btn-ghost" id="ssOk" style="width:100%">Entendi</button></div>`, (m, fechar) => { m.querySelector("#ssOk").onclick = fechar; });
+    return;
+  }
+  const novo = await escolherAdminSala(s, ativos);
+  if(!novo) return;
+  if(!(await confirmar("Sair da sala", `${novo.nome || "Esta pessoa"} passa a administrar a sala "${s.nome}" e você sai. Seus pontos continuam guardados.`, "Confirmar e sair", "btn-warn"))) return;
+  return efetivarSaida(s, novo.uid, `Você saiu da sala. ${novo.nome || "A pessoa escolhida"} agora administra a sala.`);
+}
+/* Grava a saída: passa a administração (se for o caso), deixa de ser admin e sai da lista de membros */
+async function efetivarSaida(s, novoAdmin, msg){
+  const eu = usuario.uid;
+  try{
+    const era = (s.admins || []).includes(eu);
+    if(era || novoAdmin){
+      let adms = (s.admins || []).filter(id => id !== eu);
+      if(novoAdmin && !adms.includes(novoAdmin)) adms = adms.concat(novoAdmin);
+      await DB.salvarSala(s.id, { admins: adms }); s.admins = adms;
+    }
+    await DB.excluirMembro(s.id, eu);
+    GUARDA.del("sl:sala:" + s.id); delete membrosCache[s.id];
+    aviso(msg);
+  }catch(e){ aviso(erroMsg(e)); }
   telaSalas();
+}
+/* Escolher quem vai administrar a sala (entre os membros). Devolve o membro escolhido ou null. */
+function escolherAdminSala(s, ativos){
+  return new Promise(res => {
+    let escolhido = null;
+    const lista = ativos.slice().sort((a,b) => String(a.nome).localeCompare(String(b.nome), "pt-BR"));
+    modal("Quem vai administrar a sala?", `<p class="muted small" style="margin-top:0">Ninguém mais administra a sala "${esc(s.nome)}". Antes de sair, escolha quem vai cuidar dela: aprovar pedidos, remover membros e mudar o nome.</p>
+      <ul class="lista gs-membros">${lista.map(x => `<li><div class="em">${avatarSVG(personagemDe(x.profeta, x.nivel), null, x.nivel)}</div><div class="info"><strong>${esc(x.nome || "(sem nome)")}</strong><span>Membro</span></div><button class="btn btn-main btn-sm" data-escolher="${esc(x.uid)}">Escolher</button></li>`).join("")}</ul>`,
+      (m, fechar) => { m.querySelectorAll("[data-escolher]").forEach(b => b.onclick = () => { escolhido = lista.find(x => x.uid === b.dataset.escolher) || null; fechar(); }); },
+      () => res(escolhido));
+  });
 }
 async function modalSalasPublicas(){
   modal("Salas públicas", `<div class="field"><input type="search" id="spBusca" placeholder="Buscar pelo nome da sala" aria-label="Buscar sala"></div><div id="spLista"><p class="vazio">Carregando…</p></div>`, async (m, fechar) => {
@@ -7321,7 +8052,9 @@ function modalGerenciarSala(s){
       const pend = membros.filter(x => x.status === "pendente").sort((a,b) => (a.quando||0) - (b.quando||0));
       const ativos = membros.filter(x => x.status === "ativo").sort((a,b) => String(a.nome).localeCompare(String(b.nome), "pt-BR"));
       const linha = (x, tipo) => `<li><div class="em">${avatarSVG(personagemDe(x.profeta, x.nivel), null, x.nivel)}</div><div class="info"><strong>${esc(x.nome || "(sem nome)")}${x.uid === usuario.uid ? " (você)" : ""}</strong><span>${x.uid === s.dono ? "Criou a sala" : tipo === "p" ? "Pediu para entrar" : (s.admins || []).includes(x.uid) ? "Administrador da sala" : "Membro"}</span></div>
-        ${tipo === "p" ? `<button class="btn btn-ok btn-sm" data-aprovar="${esc(x.uid)}">Aprovar</button><button class="btn btn-ghost btn-sm" data-recusar="${esc(x.uid)}">Recusar</button>` : (!s.global && x.uid !== s.dono ? `<button class="btn btn-ghost btn-sm" data-remover="${esc(x.uid)}">Remover</button>` : "")}</li>`;
+        ${tipo === "p" ? `<button class="btn btn-ok btn-sm" data-aprovar="${esc(x.uid)}">Aprovar</button><button class="btn btn-ghost btn-sm" data-recusar="${esc(x.uid)}">Recusar</button>`
+          : s.global || x.uid === s.dono || x.uid === usuario.uid ? ""
+          : `${podeNomearAdmin(s) ? `<button class="btn ${(s.admins || []).includes(x.uid) ? "btn-ghost" : "btn-ok"} btn-sm" data-adm="${esc(x.uid)}">${(s.admins || []).includes(x.uid) ? "Tirar admin" : "Tornar admin"}</button>` : ""}${(s.admins || []).includes(x.uid) && !podeNomearAdmin(s) ? "" : `<button class="btn btn-ghost btn-sm" data-remover="${esc(x.uid)}">Remover</button>`}`}</li>`;
       c.innerHTML = `
         ${pend.length ? `<h3 class="h3">Pedidos de entrada (${pend.length})</h3><ul class="lista">${pend.map(x => linha(x, "p")).join("")}</ul>${pend.length > 1 ? `<div class="btn-row uma" style="margin-bottom:14px"><button class="btn btn-ok btn-sm" id="gsTodos" style="width:100%">Aprovar todos</button></div>` : `<div style="height:10px"></div>`}` : (!s.global && !s.publica ? `<p class="note" style="margin:0 0 12px">Nenhum pedido de entrada no momento.</p>` : "")}
         ${s.global ? `<p class="muted small" style="margin-top:0">Sala global: todo mundo entra automaticamente ao criar a conta. Ela não pode ser renomeada, fechada nem excluída.</p>` : `
@@ -7332,6 +8065,7 @@ function modalGerenciarSala(s){
         <p class="erro" id="gsErro"></p>
         <div class="btn-row"><button class="btn btn-main" id="gsSalvar">Salvar</button><button class="btn btn-ghost" id="gsConvidar">Convidar (código ${esc(s.codigo)})</button></div>`}
         <h3 class="h3" style="margin-top:16px">Membros (${ativos.length})</h3>
+        ${podeNomearAdmin(s) && ativos.some(x => x.uid !== s.dono && x.uid !== usuario.uid) ? `<p class="muted small" style="margin:0 0 8px">Quem é admin da sala aprova pedidos, inclui e remove membros e muda o nome e o tipo da sala. ${ehDonoSala(s) ? "Para você sair da sala, ela precisa ter outro admin." : ""}</p>` : ""}
         ${ativos.length ? `<ul class="lista gs-membros">${ativos.map(x => linha(x, "a")).join("")}</ul>` : `<p class="vazio">Ninguém na sala ainda.</p>`}
         ${podeIncluirNaSala(s) ? `<h3 class="h3" style="margin-top:16px">Incluir usuários</h3>
           <p class="muted small" style="margin:0 0 8px">Como ${ehMaster() ? "master" : "administrador desta sala"}, você coloca qualquer pessoa com conta aprovada direto na sala, sem ela precisar do código nem de aprovação.</p>
@@ -7359,7 +8093,23 @@ function modalGerenciarSala(s){
       c.querySelectorAll("[data-remover]").forEach(b => b.onclick = async () => {
         const x = ativos.find(y => y.uid === b.dataset.remover);
         if(!(await confirmar("Remover da sala", `Remover ${x ? x.nome : "esta pessoa"} da sala "${s.nome}"?`, "Remover", "btn-warn"))) return;
-        try{ await DB.excluirMembro(s.id, b.dataset.remover); mudou = true; aviso("Removido da sala"); }catch(e){ aviso(erroMsg(e)); } render();
+        try{
+          await DB.excluirMembro(s.id, b.dataset.remover);
+          if((s.admins || []).includes(b.dataset.remover) && podeNomearAdmin(s)){ const adms = s.admins.filter(id => id !== b.dataset.remover); await DB.salvarSala(s.id, { admins: adms }); s.admins = adms; }
+          mudou = true; aviso("Removido da sala");
+        }catch(e){ aviso(erroMsg(e)); } render();
+      });
+      // Pôr e tirar administradores da sala
+      c.querySelectorAll("[data-adm]").forEach(b => b.onclick = async () => {
+        const uid = b.dataset.adm, x = ativos.find(y => y.uid === uid), era = (s.admins || []).includes(uid);
+        if(era && !(await confirmar("Tirar admin", `${x ? x.nome : "Esta pessoa"} deixa de administrar a sala "${s.nome}" e continua como membro.`, "Tirar admin", "btn-warn"))) return;
+        ocupado(b, true);
+        try{
+          const adms = era ? (s.admins || []).filter(id => id !== uid) : (s.admins || []).concat(uid);
+          await DB.salvarSala(s.id, { admins: adms }); s.admins = adms; GUARDA.del("sl:sala:" + s.id);
+          mudou = true; aviso(era ? `${x ? x.nome : "A pessoa"} não é mais admin da sala` : `${x ? x.nome : "A pessoa"} agora é admin da sala`);
+        }catch(e){ aviso(erroMsg(e)); }
+        render();
       });
       // Admin: incluir usuários direto na sala
       const add = c.querySelector("#gsAdd");
@@ -7652,7 +8402,9 @@ const GESTOS = { nuvem: "sobe", pao: "sobe", coroa: "sobe", estrelas: "brilha", 
 /* Movimentos da loja: os quadros (poses) que o personagem alterna na raia. Cada quadro é um desenho próprio, com os braços,
    as pernas e os objetos de verdade nas mãos. */
 const MOV_QUADROS = { marcha: ["passoA", "passoB"], salto: ["agacha", "salto"], danca: ["dancaA", "dancaB"], corrida: ["corridaA", "corridaB"], aguia: ["asasA", "asasB"],
-  beijo: ["beijoA", "beijoB"], tchau: ["tchauA", "tchauB"], dormir: ["dormir"], biceps: ["bicepsA", "bicepsB"], orar: ["orar"] };
+  beijo: ["beijoA", "beijoB"], tchau: ["tchauA", "tchauB"], dormir: ["dormir"], biceps: ["bicepsA", "bicepsB"], orar: ["orar"],
+  palmas: ["palmasA", "palmasB"], canto: ["cantoA", "cantoB"], escada: ["escada"], aguas: ["passoA", "passoB"], funda: ["fundaA", "fundaB"],
+  pomba: ["louvorA", "louvorB"], brilho: ["louvorB"], mar: ["salto"], redemoinho: ["asasA"] };
 /* ---------- Personagens da loja: o que só eles têm ----------
    Brilho holográfico (uma faixa de luz que atravessa o boneco), base de luz no chão e um efeito próprio da história de cada um.
    Tudo é desenhado por cima do boneco, em unidades do desenho (o boneco ocupa de 0 a 22 na largura e de 0 a 30 na altura).
@@ -7698,6 +8450,87 @@ const EFEITOS_LOJA = (() => {
     madalena: { nome: "Manhã da ressurreição", ref: "João 20:1", cor: "#FFD9A0",
       atras: `<path class="avl avl-gira" d="${raios(11, 12, 11.3, 13.5, 12)}" fill="none" stroke="#FFEFC9" stroke-width=".55" stroke-linecap="round" opacity=".8"${st(0, 28)}/>`,
       frente: folha(0, 19, "#F7A8C4", .6, 5.2) + folha(19.4, 24, "#FFC6DA", 2.4, 5.6) + folha(19.8, 9, "#F7A8C4", 3.9, 5) }
+  };
+})();
+/* ---------- Movimentos novos (p66): o que aparece por trás (atras) e pela frente (frente) do personagem ----------
+   Unidades do desenho do boneco (viewBox -1 -1 24 31): a cabeça fica em volta de (11, 9), as mãos perto de y 17-22 e os pés em y 28,5. */
+const MOV_FX = (() => {
+  const G = (cls, d) => `<g class="${cls}" shape-rendering="geometricPrecision">${d}</g>`;
+  const estrela = (x, y, r, cor, cls) => `<path class="${cls || ""}" d="M${x} ${y - r}l${r * .28} ${r * .72} ${r * .72} ${r * .28}-${r * .72} ${r * .28}-${r * .28} ${r * .72}-${r * .28}-${r * .72}-${r * .72}-${r * .28} ${r * .72}-${r * .28}z" fill="${cor}"/>`;
+  const nota = (cls, cor, dupla) => `<g class="${cls}"><g fill="${cor}" stroke="#2E2B6E" stroke-width=".22" paint-order="stroke">${dupla
+      ? `<ellipse cx="0" cy="0" rx=".95" ry=".7" transform="rotate(-22)"/><ellipse cx="2.6" cy="-.7" rx=".95" ry=".7" transform="rotate(-22 2.6 -.7)"/><path d="M.8-.2v-3.6l2.6-.8v3.6M.8-3.1l2.6-.8" fill="none" stroke="${cor}" stroke-width=".42"/>`
+      : `<ellipse cx="0" cy="0" rx="1" ry=".74" transform="rotate(-22)"/><path d="M.85-.25v-3.9c.9.4 1.8 1 1.9 2" fill="none" stroke="${cor}" stroke-width=".42"/>`}</g></g>`;
+  /* a pomba (de perfil, olhando para a direita) com as asas batendo */
+  /* a pomba: de perfil, voando para a direita, desenhada pena por pena (corpo, cauda em leque, asa de trás e asa da frente
+     com coberteiras, secundárias e primárias), olho, bico e pés recolhidos; as asas batem de verdade (giram e passam por
+     baixo do corpo) e ela tem um brilho suave em volta. Desenho em 100×70, reduzido para o tamanho do boneco. */
+  const pena = (bx, by, tx, ty, w, cor, borda) => { const cx = (bx + tx) / 2, cy = (by + ty) / 2, L = Math.hypot(tx - bx, ty - by) / 2, a = Math.atan2(ty - by, tx - bx) * 180 / Math.PI;
+    return `<ellipse cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" rx="${L.toFixed(1)}" ry="${w}" transform="rotate(${a.toFixed(1)} ${cx.toFixed(1)} ${cy.toFixed(1)})" fill="${cor}" stroke="${borda}" stroke-width=".9"/>`; };
+  /* a asa, com a raiz em (0,0) e erguida para cima e para trás */
+  const asa = (c1, c2, borda) => {
+    const prim = [[-14, -24, -36, -50], [-16, -22, -41, -43], [-17, -19, -44, -34], [-17, -15, -43, -25], [-16, -11, -39, -16], [-14, -8, -33, -9]];
+    const sec = [[-10, -6, -27, -4], [-7, -4, -21, 0], [-4, -2, -14, 3]];
+    return prim.map(([a, b, c, d]) => pena(a, b, c, d, 3.4, c1, borda)).join("") + sec.map(([a, b, c, d]) => pena(a, b, c, d, 3.6, c1, borda)).join("")
+      + `<path d="M3 3C8-4 9-16 4-26C1-31-5-36-12-38C-10-30-12-22-16-15C-18-9-16-3-9 1C-5 3-1 4 3 3Z" fill="${c1}" stroke="${borda}" stroke-width=".9"/>`
+      + `<path d="M-11-31C-9-24-12-17-15-12M-3-27C-2-20-5-13-9-8M3-17C1-11-2-6-6-2" fill="none" stroke="${c2}" stroke-width="1.1" stroke-linecap="round"/>`
+      + `<path d="M4-25C2-30-4-35-11-37" fill="none" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round" opacity=".9"/>`;
+  };
+  const pomba = `<g class="fx-pomba-voo"><circle r="6.6" fill="none"/><g transform="scale(.1) translate(-52 -30)">
+      <g class="fx-halo" fill="#FFF6D8"><circle cx="52" cy="32" r="46" opacity=".08"/><circle cx="52" cy="32" r="38" opacity=".1"/><circle cx="52" cy="32" r="30" opacity=".12"/><circle cx="52" cy="32" r="22" opacity=".14"/></g>
+      <g class="fx-pa-corpo">
+        <g transform="translate(61 27)"><g class="fx-pa-asa2">${asa("#E4E1F3", "#C9C4E4", "#A9A3CF")}</g></g>
+        ${[[24, 40, 3, 33], [24, 41, 0, 38.5], [24, 42, 1, 44], [24, 43, 4, 49], [25, 44, 9, 53]].map(([a, b, c, d]) => pena(a, b, c, d, 3.2, "#F4F3FB", "#A9A3CF")).join("")}
+        <path d="M90 31C90 25 85.5 21 80 21C75 21 71.5 23.5 69.5 26.5C63 24.5 52 25 43 29C34 33 25 38 15 40.5C22 45 32 49 44 50.5C56 52 67 50 74 45C79 41.5 83 38.5 86.5 36C89 34.5 90 33 90 31Z" fill="#FFFFFF" stroke="#9E98C6" stroke-width="1.1"/>
+        <path d="M24 44C35 49 51 51.5 63 49C70 47.4 76 43.5 80.5 38C76 46 64 53 48 52.6C37 52.3 29 48.6 24 44Z" fill="#E3E0F2"/><path d="M66 33C71 36 73 41 71 46" fill="none" stroke="#EEEBF7" stroke-width="2.4" stroke-linecap="round"/>
+        <path d="M68 28.2C72 31 74 35 73 39M62 29C65 32 66 36 64.5 40" fill="none" stroke="#E6E3F4" stroke-width="1.1" stroke-linecap="round"/>
+        <path d="M74 24.6C77 22.8 81 22.6 84 24" fill="none" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round"/>
+        <path d="M54 51l-1.4 3.2M57 50.8l-.6 3.4M53 54.2l2.8.2M56.2 54.2l2.6.2" stroke="#E07F86" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+        <path d="M89 30.4L97 32.2L89 34.1Q87.8 32.2 89 30.4Z" fill="#EDA27E" stroke="#B9735A" stroke-width=".7"/><path d="M89.2 32.2H95.6" stroke="#B9735A" stroke-width=".55"/>
+        <ellipse cx="88.4" cy="30.4" rx="1.6" ry="1.1" fill="#F6F0F3" stroke="#D6CFE0" stroke-width=".4"/>
+        <circle cx="82.6" cy="28.6" r="2.7" fill="#E6E2F2"/><circle cx="82.8" cy="28.6" r="2" fill="#2A1C38"/><circle cx="83.5" cy="27.9" r=".7" fill="#FFFFFF"/>
+        <g transform="translate(56 29)"><g class="fx-pa-asa">${asa("#FFFFFF", "#D9D5EC", "#9E98C6")}</g></g>
+      </g></g></g>`;
+  const raios = Array.from({ length: 12 }, (_, i) => `<path d="M11 9L${(11 + 16 * Math.cos((i * 30 - 4) * Math.PI / 180)).toFixed(2)} ${(9 + 16 * Math.sin((i * 30 - 4) * Math.PI / 180)).toFixed(2)}L${(11 + 16 * Math.cos((i * 30 + 4) * Math.PI / 180)).toFixed(2)} ${(9 + 16 * Math.sin((i * 30 + 4) * Math.PI / 180)).toFixed(2)}z"/>`).join("");
+  /* parede de água (a da esquerda; a da direita é a mesma espelhada) */
+  const parede = `<g class="fx-parede"><path d="M-12 29.6V14C-12 8-7 4-2 4.5 1 4.8 2.2 7.2.6 8.6-.6 9.6-2.4 9-2.4 7.6-3.4 9.4-1.6 12 .4 13V29.6z" fill="#1F6FC2"/>
+      <path d="M-10.4 29.6V15.2C-10.4 10.6-7 7.2-3.4 6.8-5.6 8.4-6.6 11-6.4 14 -4.6 16-2 16.6.4 16.4V29.6z" fill="#3C93E0" opacity=".9"/><path d="M-8.4 29.6V18.6c.4-2.6 1.6-4.4 3.4-5.6-.6 1.8-.6 3.6.2 5.2 1.2 1.2 3 1.8 5.2 1.8V29.6z" fill="#7CC4FF" opacity=".55"/>
+      <g fill="none" stroke="#CFEFFF" stroke-width=".35" stroke-linecap="round" opacity=".7"><path d="M-10.8 20.4q1.2-.7 2.4 0t2.4 0 2.4 0"/><path d="M-9.6 24.6q1.2-.7 2.4 0t2.4 0 2.4 0 2.4 0"/><path d="M-11.4 27.6q1.2-.7 2.4 0t2.4 0"/></g>
+      <g class="fx-peixe"><path d="M-7 22.8c.9-.8 2.1-.8 3 0-.9.8-2.1.8-3 0zM-7 22.8l-.9-.6v1.2z" fill="#FFB347" opacity=".85"/></g>
+      <path d="M-12 14C-12 8-7 4-2 4.5 1 4.8 2.2 7.2.6 8.6-.6 9.6-2.4 9-2.4 7.6" fill="none" stroke="#F2FBFF" stroke-width=".8" stroke-linecap="round"/>
+      <g fill="#F2FBFF"><circle class="fx-gota g1" cx="0" cy="4.2" r=".45"/><circle class="fx-gota g2" cx="-2.6" cy="3.6" r=".35"/><circle class="fx-gota g3" cx="1.6" cy="6" r=".35"/><circle class="fx-gota g1" cx="-6" cy="4.8" r=".3"/></g></g>`;
+  /* a escada de luz: dois trilhos que sobem e se afinam (perspectiva) e degraus cada vez mais juntos e mais apagados */
+  const xE = y => 3 + (29 - y) / 47 * 5, xD = y => 19 - (29 - y) / 47 * 5, ys = [26, 22, 18.4, 15, 11.9, 9, 6.3, 3.8, 1.5, -.7, -2.7, -4.6, -6.4, -8.1, -9.7, -11.2, -12.6, -13.9, -15.1];
+  const degrau = (y, k, w, cor, op) => `<path d="M${xE(y).toFixed(2)} ${y}H${xD(y).toFixed(2)}" stroke="${cor}" stroke-width="${(w - k * .03).toFixed(2)}" opacity="${op}"/>`;
+  const degraus = `<path d="M3 29L8-18M19 29L14-18" stroke="#FFF6D8" stroke-width="2.2" opacity=".18"/>` + ys.map((y, k) => degrau(y, k, 2, "#FFF6D8", ".14")).join("")
+    + `<path d="M3 29L8-18M19 29L14-18" stroke-width=".85"/>` + ys.map((y, k) => degrau(y, k, .8, "#FFE27A", Math.max(.35, .95 - k * .03).toFixed(2))).join("");
+  /* um anjinho de luz: cabeça, túnica e duas asas */
+  const anjo = `<g transform="translate(11 20) scale(1.6) translate(-11 -20)"><circle cx="11" cy="20" r="3.2" fill="#FFF3B8" opacity=".45"/><path d="M9.2 20.6c-1.4-1.4-2.6-1.2-3 .2 1 .1 1.8.6 2.4 1.3zM12.8 20.6c1.4-1.4 2.6-1.2 3 .2-1 .1-1.8.6-2.4 1.3z" fill="#FFFFFF" opacity=".9"/><path d="M11 19.6l1.6 3.4h-3.2z" fill="#FFFFFF"/><circle cx="11" cy="18.8" r=".9" fill="#FFF6D8"/></g>`;
+  const vento = (cy, rx, ry, cls) => `<ellipse class="${cls}" cx="11" cy="${cy}" rx="${rx}" ry="${ry}"/>`;
+  const frenteVento = (cy, rx, ry, cls) => `<path class="${cls}" d="M${11 - rx} ${cy}a${rx} ${ry} 0 0 0 ${2 * rx} 0"/>`;
+  return {
+    palmas: { frente: G("fx-palmas", `<g stroke="#FFE27A" stroke-width=".75" stroke-linecap="round" fill="none"><path d="M11 13.2v-2.4M7.6 14.4l-1.8-1.5M14.4 14.4l1.8-1.5M6.8 17.2H4.4M15.2 17.2h2.4"/></g>${estrela(5.4, 13.6, .9, "#FFFFFF", "fx-pisca")}${estrela(16.8, 13.2, .75, "#FFE27A", "fx-pisca p2")}`) },
+    canto: { frente: G("fx-canto", `<g transform="translate(13.6 14.6) scale(1.45)">${nota("fx-nota n1", "#FFE27A", false)}</g><g transform="translate(11.6 14.2) scale(1.45)">${nota("fx-nota n2", "#8FE6FF", true)}</g><g transform="translate(12.6 14.8) scale(1.45)">${nota("fx-nota n3", "#FF9BE8", false)}</g>`) },
+    escada: { atras: G("fx-escada", `<path d="M2.4 29L7.4-18H14.6L19.6 29z" fill="#FFF3B8" opacity=".13"/>
+        <g stroke="#FFE27A" stroke-linecap="round" fill="none">${degraus}</g>
+        <g class="fx-anjo a1">${anjo}</g><g class="fx-anjo a2">${anjo}</g><g class="fx-anjo a3">${anjo}</g>
+        <g class="fx-esc-ceu"><ellipse cx="11" cy="-18" rx="7" ry="3.6" fill="#FFF3B8" opacity=".35"/><ellipse cx="11" cy="-18.2" rx="3.8" ry="2" fill="#FFFBE6" opacity=".75"/>
+          <g fill="#FFFFFF" opacity=".9"><circle cx="5.8" cy="-16.6" r="1.6"/><circle cx="8.2" cy="-18" r="2.1"/><circle cx="11" cy="-18.8" r="2.3"/><circle cx="13.8" cy="-18" r="2.1"/><circle cx="16.2" cy="-16.6" r="1.6"/><rect x="5.8" y="-17.2" width="10.4" height="2.2" rx="1.1"/></g></g>`),
+      frente: G("fx-escada-f", `${estrela(3, 6, .8, "#FFF3B8", "fx-pisca")}${estrela(19.4, 3.4, .7, "#FFFFFF", "fx-pisca p2")}${estrela(18.6, 16, .55, "#FFE27A", "fx-pisca p3")}`) },
+    aguas: { atras: G("fx-aguas", `<ellipse cx="11" cy="28.7" rx="13" ry="2.5" fill="#2B7FD0" opacity=".55"/><ellipse cx="11" cy="28.6" rx="10" ry="1.8" fill="#6FC3FF" opacity=".45"/>
+        <g fill="none" stroke="#EAF8FF" stroke-width=".38"><ellipse class="fx-onda o1" cx="11" cy="28.7" rx="5" ry=".95"/><ellipse class="fx-onda o2" cx="11" cy="28.7" rx="5" ry=".95"/><ellipse class="fx-onda o3" cx="11" cy="28.7" rx="5" ry=".95"/></g>`),
+      frente: G("fx-aguas-f", `<path class="fx-marola" d="M-4 29.3q.75-.45 1.5 0t1.5 0 1.5 0 1.5 0 1.5 0 1.5 0 1.5 0 1.5 0 1.5 0 1.5 0 1.5 0 1.5 0 1.5 0 1.5 0 1.5 0 1.5 0 1.5 0 1.5 0 1.5 0 1.5 0" fill="none" stroke="#EAF8FF" stroke-width=".32" opacity=".85"/>${estrela(3, 27.6, .55, "#FFFFFF", "fx-pisca")}${estrela(19.5, 28.2, .5, "#FFFFFF", "fx-pisca p2")}`) },
+    funda: { frente: G("fx-funda", `<circle cx="19.2" cy="11.2" r="5.2" fill="none" stroke="#FFFFFF" stroke-width=".32" stroke-dasharray="1.8 2.4" opacity=".5" class="fx-funda-rastro"/>
+        <g class="fx-funda-gira"><circle cx="19.2" cy="11.2" r="6.4" fill="none"/><path d="M24.4 11.2A5.2 5.2 0 0 1 21.8 15.7" fill="none" stroke="#FFFFFF" stroke-width="1" stroke-linecap="round" opacity=".35"/>
+          <path d="M19.2 11.2H23.6" stroke="#8A5A2B" stroke-width=".48" stroke-linecap="round"/><path d="M23.4 10.5h1.8v1.4h-1.8z" fill="#8A5A2B"/><circle cx="24.4" cy="11.2" r="1" fill="#B4B4C4" stroke="#4A4A58" stroke-width=".3"/></g>
+        <g class="fx-pedra"><path d="M19 9.6h-5" stroke="#FFFFFF" stroke-width=".5" stroke-linecap="round" opacity=".7"/><circle cx="19.6" cy="9.6" r=".85" fill="#A9A9B8" stroke="#4A4A58" stroke-width=".28"/></g>`) },
+    pomba: { atras: G("fx-coluna", `<path d="M6.2-8h9.6l3.4 37.4H2.8z" fill="#FFF3B8" opacity=".2"/><path d="M8.6-8h4.8l1.6 37.4H7z" fill="#FFFBE6" opacity=".22"/>`),
+      frente: G("fx-pomba", pomba + estrela(4, 3, .6, "#FFF3B8", "fx-pisca") + estrela(18.4, 2, .7, "#FFFFFF", "fx-pisca p2")) },
+    brilho: { atras: G("fx-brilho", `<circle cx="11" cy="9" r="11" fill="#FFE9A0" opacity=".22" class="fx-halo"/><g class="fx-raios" fill="#FFE27A" opacity=".42">${raios}</g><circle cx="11" cy="9" r="7.4" fill="#FFF6D8" opacity=".38" class="fx-halo h2"/>`),
+      frente: G("fx-brilho-f", `${estrela(2.4, 4, .9, "#FFFFFF", "fx-pisca")}${estrela(20, 5.5, .75, "#FFF3B8", "fx-pisca p2")}${estrela(19, 15, .6, "#FFFFFF", "fx-pisca p3")}`) },
+    mar: { atras: G("fx-mar", `<ellipse cx="11" cy="29" rx="10" ry="1.4" fill="#C9A66B" opacity=".55"/>${parede}<g transform="matrix(-1 0 0 1 22 0)">${parede}</g>`) },
+    redemoinho: { atras: G("fx-vento", `<path d="M8.4 29.8L1.6 16.6Q11 13.6 20.4 16.6L13.6 29.8Z" fill="#D6D2FF" opacity=".2"/><g fill="none" stroke="#E6E3FF" stroke-width=".7" stroke-dasharray="3.2 2.2" stroke-linecap="round">${vento(29, 2.4, .6, "fx-v v1")}${vento(26.6, 4, .9, "fx-v v2")}${vento(24, 5.6, 1.2, "fx-v v3")}${vento(21.2, 7.2, 1.5, "fx-v v4")}${vento(18.2, 8.8, 1.8, "fx-v v5")}</g>
+        <g fill="#FF9A3C"><circle class="fx-faisca f1" cx="5" cy="26" r=".45"/><circle class="fx-faisca f2" cx="17" cy="24" r=".4"/><circle class="fx-faisca f3" cx="9" cy="28" r=".35"/><circle class="fx-faisca f4" cx="14" cy="27" r=".45" fill="#FFE27A"/></g>`),
+      frente: G("fx-vento-f", `<g fill="none" stroke="#FFFFFF" stroke-width=".5" stroke-dasharray="2.6 2.6" stroke-linecap="round" opacity=".85">${frenteVento(29, 2.4, .6, "fx-v v1")}${frenteVento(26.6, 4, .9, "fx-v v2")}${frenteVento(24, 5.6, 1.2, "fx-v v3")}${frenteVento(21.2, 7.2, 1.5, "fx-v v4")}</g>`) }
   };
 })();
 /* o efeito de um personagem da loja (null para os outros) */
@@ -7751,6 +8584,7 @@ function avatarSVG(id, rotulo, nivel, nvAcess, mov){
         : "";
       const luz = mov === "orar" ? `<g class="av-luz" shape-rendering="geometricPrecision"><ellipse cx="11" cy="9" rx="10" ry="10" fill="#FFF3B8" opacity=".35"/><ellipse cx="11" cy="9" rx="6.5" ry="6.5" fill="#FFFBE6" opacity=".45"/><g stroke="#FFE27A" stroke-width=".6" stroke-linecap="round" opacity=".8"><path d="M11 -2.6v2.4M3 1l1.6 1.6M19 1l-1.6 1.6M-.8 8.6h2.2M20.6 8.6h2.2"/></g></g>` : "";
       corpo = luz + `<g class="av-mv av-mv-${mov}">${fr.map((d, i) => d.img(fr.length > 1 ? "av-q av-q" + (i + 1) : "av-q", "u")).join("")}</g>` + extra;
+      const fx = MOV_FX[mov]; if(fx) corpo = (fx.atras || "") + corpo + (fx.frente || "");
     }
   } else {
     const d = desenho(p);
@@ -9224,6 +10058,15 @@ const POSES = {
   corpoBeijo:   { e:{c:[8.6,26.4],m:[8.9,30.1]}, d:{c:[23.4,26.4],m:[23.1,30.1]}, semObj:1, semBracos:1, semPes:1, boca:"bico" },
   corpoCanto:   { e:{c:[8.6,26.4],m:[8.9,30.1]}, d:{c:[23.4,26.4],m:[23.1,30.1]}, semObj:1, semBracos:1, semPes:1, boca:"canto" },
   corpoFechado: { e:{c:[8.6,26.4],m:[8.9,30.1]}, d:{c:[23.4,26.4],m:[23.1,30.1]}, semObj:1, semBracos:1, semPes:1, olhos:"f" },
+  palmasA: { e:{c:[8.9,25.6],m:[11.2,22.6],t:"a",s:false}, d:{c:[23.1,25.6],m:[20.8,22.6],t:"a",s:false}, semObj:1 },
+  palmasB: { e:{c:[10.2,25.8],m:[15.3,22.4],t:"j",s:false}, d:{c:[21.8,25.8],m:[16.7,22.4],t:"j",s:false}, olhos:"f", semObj:1 },
+  cantoA:  { e:{c:[8.6,26.4],m:[8.9,30.1]}, d:{c:[25.9,21.6],m:[27.4,17.2]}, boca:"canto" },
+  cantoB:  { e:{c:[6.1,21.6],m:[4.6,17.2]}, d:{c:[23.4,26.4],m:[23.1,30.1]}, boca:"canto", olhos:"f" },
+  fundaA:  { e:{c:[8.6,26.4],m:[8.9,30.1],t:"a",s:false}, d:{c:[25.4,19.6],m:[26.8,15.2],s:false}, semObj:1 },
+  fundaB:  { e:{c:[8.3,26.2],m:[7.6,29.8],t:"a",s:false}, d:{c:[25.8,19.2],m:[25.8,14.8],s:false}, semObj:1 },
+  louvorA: { e:{c:[5.4,20.6],m:[3.4,16.2]}, d:{c:[26.6,20.6],m:[28.6,16.2]}, olhos:"f" },
+  louvorB: { e:{c:[5.6,20.2],m:[4,15.6]},   d:{c:[26.4,20.2],m:[28,15.6]},   olhos:"f" },
+  escada:  { e:{c:[10.2,25.8],m:[15.3,22.2],t:"j",s:false}, d:{c:[21.8,25.8],m:[16.7,22.2],t:"j",s:false}, semObj:1 }
 };
 /* onde a mão segura cada objeto: [linha, coluna] dentro do desenho do objeto (1 quadradinho = 1 unidade) */
 const PEGA = { tabuas:[7.2,4.5], tamborim:[7.4,4], palmeira:[8.2,4.8], chifre:[6.8,2], chama:[8.3,4], jarro:[5.6,1.4], livro:[6.2,1.2], brasa:[1.2,1.4],
@@ -9458,6 +10301,7 @@ function gerarSprite(p, W, H){
   /* ---- pose: braços, objetos na mão e mãos ---- */
   if(PO){
     const linha=mistura(V(24).d,"#1A1030",.62), linhaPele=mistura(pele.d,"#1A1030",.45);
+    if(PO.boca==="canto"){ camada(E(16,17.3,1.3,.62),pele.b,"",{plano:1}); camada(E(16,17.55,.82,.78),"#6A2232","",{plano:1}); camada(E(16,17.95,.5,.3),"#E0607A","",{plano:1}); }
     if(PO.boca==="bico"){ camada(E(16,17.3,1.3,.62),pele.b,"",{plano:1}); camada(E(16,17.4,.78,.68),"#7A2E3A","",{plano:1}); camada(E(16,17.4,.5,.42),"#C9506A","",{plano:1}); camada(E(15.85,17.25,.16,.12),"#F2A0B0","",{plano:1}); }
     const SH={e:[9.4,22.6],d:[22.6,22.6]};
     const tom={e:V, d:y=>({b:V(y).s,s:V(y).d,d:mistura(V(y).d,"#1A1030",.35),l:V(y).b})};
@@ -9723,7 +10567,9 @@ onmessage=async e=>{ const {n,p,W,H}=e.data; try{
     /* para as imagens de compartilhar: espera o desenho grande (até 20 s) */
     esperar(p){ if(!temHD(p) || semApoio) return Promise.resolve(null); if(prontos[p.id]) return Promise.resolve(prontos[p.id]);
       return new Promise(ok => { (esperas[p.id] = esperas[p.id] || []).push(ok); setTimeout(() => ok(null), 20000); pedir(p); }); },
-    get ativo(){ return !semApoio; }
+    get ativo(){ return !semApoio; },
+    /* passa um desenho que já está na fila para a frente (a imagem de compartilhar espera por ele) */
+    priorizar(p){ if(!temHD(p)) return; if(!prontos[p.id] && !pedidos[p.id]) pedir(p); const f = fila.find(x => x.chave === p.id); if(f){ f.lote = ++lote; f.n = -1; } }
   };
 })();
 /* o melhor desenho disponível de um personagem (para as imagens de compartilhar): o de 992×1000 se der, senão o desenho imediato */
@@ -9940,7 +10786,16 @@ const LOJA_MOVIMENTOS = [
   { id: "beijo",   nome: "Beijo da Saudação",  ref: "Romanos 16:16",   preco: 40 },
   { id: "dormir",  nome: "Sono Tranquilo",     ref: "Salmo 4:8",       preco: 45 },
   { id: "biceps",  nome: "Força no Senhor",    ref: "Efésios 6:10",    preco: 50 },
-  { id: "orar",    nome: "De Joelhos em Oração", ref: "Daniel 6:10",   preco: 60 }
+  { id: "orar",    nome: "De Joelhos em Oração", ref: "Daniel 6:10",   preco: 60 },
+  { id: "palmas",  nome: "Palmas de Louvor",   ref: "Salmo 47:1",      preco: 35 },
+  { id: "canto",   nome: "Cântico Novo",       ref: "Salmo 96:1",      preco: 40 },
+  { id: "escada",  nome: "Escada de Jacó",     ref: "Gênesis 28:12",   preco: 50 },
+  { id: "aguas",   nome: "Andar sobre as Águas", ref: "Mateus 14:29",  preco: 55 },
+  { id: "funda",   nome: "Funda de Davi",      ref: "1 Samuel 17:49",  preco: 55 },
+  { id: "pomba",   nome: "Pomba do Espírito",  ref: "Mateus 3:16",     preco: 60 },
+  { id: "brilho",  nome: "Rosto Resplandecente", ref: "Êxodo 34:29",   preco: 65 },
+  { id: "mar",     nome: "Mar se Abrindo",     ref: "Êxodo 14:21",     preco: 80 },
+  { id: "redemoinho", nome: "Redemoinho de Elias", ref: "2 Reis 2:11", preco: 90 }
 ];
 const LOJA_EXTRAS = {
   m: { lista: LOJA_MOLDURAS, campo: "moldura", usar: "Moldura em uso.", tirar: "Moldura guardada." },
@@ -11600,7 +12455,8 @@ const FIG_FOTOS_OBJ = new Set(("folha flor nuvem arca pomba_ramo estrelas tenda 
   "tunica arca_alianca fornalha tumulo barco escudo espada sandalias ancora calice coroa_vida").split(" "));
 const figTemFoto = c => c.t === "p" ? FIG_FOTOS.has(c.k) : FIG_FOTOS_OBJ.has(c.k);
 /* imagens refeitas depois de publicadas: o endereço muda (?v=) para o navegador buscar de novo em vez de usar a guardada */
-const FIG_VERSAO = { "o:arca": 2, "o:pomba_ramo": 2, "o:estrelas": 2, "o:tabuas": 2, "o:cajado": 3, "o:candelabro": 2, "o:trombeta": 2, "o:livro": 2, "o:lamparina": 2, "o:coracao": 2, "o:nuvem": 2, "o:tenda": 2 };
+const FIG_VERSAO = { "p:abraao": 3, "p:amos": 3, "p:davi": 3, "p:debora": 3, "p:elias": 3, "p:eliseu": 3, "p:enoque": 3, "p:farao": 3, "p:gideao": 3, "p:habacuque": 3, "p:hulda": 3, "p:isaias": 3, "p:jeremias": 3, "p:jo": 3, "p:jose": 3, "p:josue": 3, "p:miqueias": 3, "p:miria": 3, "p:moises": 3, "p:nata": 3, "p:noe": 3, "p:raabe": 3, "p:rute": 3, "p:salomao": 4, "p:samuel": 3, "p:sansao": 3, "p:sara": 3, "p:zaqueu": 3, "o:arca": 2, "o:pomba_ramo": 2, "o:estrelas": 2, "o:tabuas": 2, "o:cajado": 3, "o:candelabro": 2, "o:trombeta": 2, "o:livro": 2, "o:lamparina": 2, "o:coracao": 2, "o:nuvem": 2, "o:tenda": 2 };
+/* 3 (26/11/2026): 28 personagens com imagem nova, marcados um a um em FIG_VERSAO */
 const FIG_VERSAO_P = 2;          /* personagens: 2 = pés e barra da túnica refeitos, olhos sem a marca branca (20/11/2026) */
 const figArquivo = c => (c.t === "p" ? "" : "o_") + c.k + ".webp" + (FIG_VERSAO[c.id] ? "?v=" + FIG_VERSAO[c.id] : c.t === "p" ? "?v=" + FIG_VERSAO_P : "");
 /* titulo curto e objeto de cada personagem */
@@ -12020,7 +12876,7 @@ function htmlCapa(a, k, inv, trancada){
   return `<button type="button" class="cp${trancada ? " trancada" : ""}" data-album="${a.id}" style="--c:${a.cor};--c2:${a.cor2}" aria-label="Álbum ${esc(a.nome)}: ${tenho} de ${a.cartas.length} figurinhas">
     <span class="cp-in"><span class="cp-couro"></span><span class="cp-raios"></span><span class="cp-luz"></span><span class="cp-lomb"></span><span class="cp-mold"></span>
       <span class="cp-n">Álbum ${k + 1}</span><span class="cp-tit">${esc(tit.slice(0, meio).join(" "))}<br>${esc(tit.slice(meio).join(" "))}</span><span class="cp-sub">${esc(a.sub)}</span>
-      <span class="cp-chao"></span><span class="cp-arte">${a.capa.map((p, i) => `<img class="${"abc"[i]}" src="${FIG_DIR}p/${p}.webp?v=${FIG_VERSAO_P}" alt="" decoding="async" onerror="this.remove()">`).join("")}</span>
+      <span class="cp-chao"></span><span class="cp-arte">${a.capa.map((p, i) => `<img class="${"abc"[i]}" src="${FIG_DIR}p/${p}.webp?v=${FIG_VERSAO["p:" + p] || FIG_VERSAO_P}" alt="" decoding="async" onerror="this.remove()">`).join("")}</span>
       <span class="cp-pe"><span class="cp-barra"><i style="width:${Math.round(100 * tenho / a.cartas.length)}%"></i></span><span class="cp-conta"><span>${tenho} de ${a.cartas.length}</span><em class="${feito ? "ok" : ""}">${feito ? "✓ completo" : `+${a.premio}${MOEDA}`}</em></span></span>
       <span class="cp-brilho"></span>${trancada ? `<span class="cp-cadeado">${iconeSVG("cadeado")}</span>` : ""}</span></button>`;
 }
