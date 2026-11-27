@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="versao" content="20261126.210445">
+<meta name="versao" content="20261127.135056">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Corrida do Rolo · Quiz da Lição</title>
 <meta name="theme-color" content="#524F9C">
@@ -3397,6 +3397,58 @@ button.pn-kpi:hover{transform:translateY(-2px);background:rgba(255,255,255,.22);
 }
 @media (min-width:1100px){ .adm2 .adm-c{grid-template-columns:repeat(2,minmax(0,1fr))} }
 @media (min-width:1500px){ .adm2{grid-template-columns:236px minmax(0,1fr);column-gap:26px} }
+/* p88: avisos em abas e agendados por dia da semana */
+.adm2 .adm-c.adm-avisos{grid-template-columns:minmax(0,1fr)}
+.adm-c[data-av-tab] > [data-av]{display:none}
+.adm-c[data-av-tab="enviar"] > [data-av="enviar"],.adm-c[data-av-tab="agendados"] > [data-av="agendados"],.adm-c[data-av-tab="modelos"] > [data-av="modelos"],.adm-c[data-av-tab="historico"] > [data-av="historico"],.adm-c[data-av-tab="config"] > [data-av="config"]{display:block}
+.av-abas{display:flex;gap:6px;overflow-x:auto;padding:2px;scrollbar-width:none}
+.av-abas::-webkit-scrollbar{display:none}
+.av-abas button{flex:none;position:relative;display:inline-flex;align-items:center;gap:7px;min-height:38px;padding:0 14px;border-radius:12px;border:1px solid var(--panel-line);background:rgba(255,255,255,.08);color:var(--muted);font:700 13px/1 "Barlow",sans-serif;cursor:pointer;transition:background .15s,color .15s}
+.av-abas button:hover{color:#fff;background:rgba(255,255,255,.16)}
+.av-abas button[aria-selected="true"]{background:#fff;color:var(--deep);border-color:#fff;box-shadow:0 4px 14px rgba(0,0,0,.18)}
+.av-n{min-width:18px;height:18px;padding:0 5px;border-radius:99px;background:#5FE0B0;color:#063B2A;font:800 10.5px/18px "Barlow",sans-serif;text-align:center}
+.av-n.alerta{background:var(--warn);color:#2A2000}
+.av-n[hidden]{display:none}
+/* agendados por dia */
+.ag-prox{display:flex;align-items:center;gap:8px;margin:0 0 12px;padding:9px 12px;border-radius:12px;background:rgba(95,224,176,.14);border:1px solid rgba(95,224,176,.45);font-size:13px}
+.ag-prox b{color:#7DF0B8}
+.ag-semana{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,270px),1fr));gap:10px;margin-top:10px}
+.ag-dia{padding:10px;border-radius:14px;background:rgba(255,255,255,.06);border:1px solid var(--panel-line);min-width:0}
+.ag-dia.todo{background:rgba(255,226,122,.08);border-color:rgba(242,190,46,.45)}
+.ag-dia.todo + .ag-semana{margin-top:10px}
+.ag-semana + .ag-dia.todo{margin-top:10px}
+.ag-dia.hoje{border-color:rgba(255,255,255,.75);background:rgba(255,255,255,.13);box-shadow:0 6px 18px rgba(0,0,0,.12)}
+.ag-dia.vazio{opacity:.75}
+.ag-dia-cab{display:flex;align-items:baseline;gap:8px;margin:0 2px 8px}
+.ag-dia-cab b{font:800 14px/1.1 "Barlow",sans-serif}
+.ag-dia-cab small{margin-left:auto;font-size:11px;color:var(--soft)}
+.ag-hoje{padding:2px 7px;border-radius:99px;background:#5FE0B0;color:#063B2A;font:800 10px/1.3 "Barlow",sans-serif;text-transform:uppercase;letter-spacing:.5px}
+.ag-vazio{margin:0 2px;font-size:12px;color:var(--soft);font-style:italic}
+.ag-rows{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.ag-row{display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-areas:"h tx" "ac ac";gap:8px 10px;padding:9px 10px;border-radius:12px;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.14)}
+.ag-row.off{opacity:.55}
+.ag-hora{grid-area:h;display:grid;place-items:center;min-width:44px;height:30px;padding:0 6px;border-radius:9px;background:rgba(20,18,60,.35);font:800 14px/1 "Barlow",sans-serif;font-variant-numeric:tabular-nums}
+.ag-tx{grid-area:tx;display:grid;gap:2px;min-width:0}
+.ag-tx strong{font-size:13px;line-height:1.25;overflow-wrap:anywhere}
+.ag-tx strong i{font-style:normal;font-weight:600;color:var(--soft);font-size:11.5px}
+.ag-tx span{font-size:12px;line-height:1.3;color:var(--muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ag-tx small{font-size:10.5px;line-height:1.3;color:var(--soft)}
+.ag-acts{grid-area:ac;display:flex;align-items:center;gap:6px;justify-content:flex-end}
+.ag-sw{position:relative;display:inline-flex;align-items:center;margin-right:auto;cursor:pointer}
+.ag-sw input{position:absolute;opacity:0;width:1px;height:1px}
+.ag-sw i{display:block;width:38px;height:22px;border-radius:99px;background:rgba(255,255,255,.22);transition:background .15s}
+.ag-sw i::after{content:"";display:block;width:16px;height:16px;margin:3px;border-radius:50%;background:#fff;transition:transform .15s;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.ag-sw input:checked + i{background:#2BA486}
+.ag-sw input:checked + i::after{transform:translateX(16px)}
+.ag-sw input:focus-visible + i{outline:2px solid #fff;outline-offset:2px}
+.ag-ib{display:grid;place-items:center;width:32px;height:32px;border-radius:9px;border:1px solid var(--panel-line);background:rgba(255,255,255,.08);font-size:14px;cursor:pointer;color:#fff}
+.ag-ib:hover{background:rgba(255,255,255,.2)}
+.ag-ib:disabled{opacity:.4;cursor:default}
+.ag-ib.ag-del:hover{background:rgba(232,80,93,.35)}
+@media (min-width:700px){
+  .ag-dia.todo .ag-row{grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:"h tx ac";align-items:center}
+  .ag-dia.todo .ag-sw{margin-right:6px}
+}
 .pn-rank-li{cursor:pointer;border-radius:12px}
 .pn-rank-li:hover{background:rgba(255,255,255,.08)}
 /* ============================================================
@@ -6601,8 +6653,8 @@ async function admAvisos(){
   if(!$("admC")) return;
   const opcoes = (master ? `<option value="todos">Todos os jogadores</option>` : "") + salas.map(s => `<option value="${esc(s.id)}">Sala: ${esc(s.nome)}</option>`).join("");
   const meu = avisoChave();
-  c.innerHTML = `<section class="panel larga"><h3 class="h3">Mandar um aviso</h3>
-      ${!CONFIG.vapid ? `<p class="note" style="margin-top:0">${master ? "Antes do primeiro aviso, salve a chave dos avisos (mais abaixo)." : "Os avisos ainda não foram ligados pelo master do jogo."}</p>` : ""}
+  c.innerHTML = `${htmlAbasAvisos(master)}<section class="panel larga" data-av="enviar"><h3 class="h3">Mandar um aviso</h3>
+      ${!CONFIG.vapid ? `<p class="note" style="margin-top:0">${master ? "Antes do primeiro aviso, salve a chave dos avisos (na aba Configurar)." : "Os avisos ainda não foram ligados pelo master do jogo."}</p>` : ""}
       ${opcoes ? `<div class="av-form"><div class="av-campos">
         ${htmlEscolhaModelo(false)}
         <div class="field"><label for="avTit">Título</label><input type="text" id="avTit" maxlength="60" placeholder="Ex.: Lição 10 no ar!"></div>
@@ -6617,21 +6669,21 @@ async function admAvisos(){
       : `<p class="vazio">Você ainda não administra nenhuma sala.</p>`}</section>
     ${master ? htmlAgendados() : ""}
     ${master ? htmlModelosAdm() : ""}
-    <section class="panel"><h3 class="h3">Últimos avisos</h3><div id="avHist"><p class="vazio">Carregando…</p></div></section>
-    ${master ? `<section class="panel"><h3 class="h3">Avisos de desafios e trocas</h3>
+    <section class="panel larga" data-av="historico"><h3 class="h3">Últimos avisos</h3><div id="avHist"><p class="vazio">Carregando…</p></div></section>
+    ${master ? `<section class="panel" data-av="config"><h3 class="h3">Avisos de desafios e trocas</h3>
       <label class="check av-auto"><input type="checkbox" id="avAuto" ${CONFIG.avisosAuto === false ? "" : "checked"}><span>Avisar sozinho quando alguém recebe um desafio ou uma proposta de troca, e quando eles são aceitos.</span></label>
       <p class="av-status" id="avConta">Contando aparelhos…</p></section>
-    <section class="panel"><h3 class="h3">Chave dos avisos (uma vez só)</h3>
+    <section class="panel" data-av="config"><h3 class="h3">Chave dos avisos (uma vez só)</h3>
       <ol class="ip-passos">${passo(1, `Abra <a href="${config}" target="_blank" rel="noopener">Configurações do projeto › Cloud Messaging</a> no Firebase.`)}${passo(2, "Em <b>Configuração da Web › Certificados push da Web</b>, toque em <b>Gerar par de chaves</b>.")}${passo(3, "Copie a chave que aparece e cole aqui embaixo.")}</ol>
       <div class="field"><label for="avChave">Chave pública (par de chaves)</label><input type="text" id="avChave" autocomplete="off" spellcheck="false" placeholder="Começa com B…" value="${esc(CONFIG.vapid || "")}"></div>
       <p class="erro" id="avErro"></p>
       <div class="btn-row uma"><button class="btn btn-main" id="avSalvar" style="width:100%">${CONFIG.vapid ? "Trocar a chave" : "Salvar a chave"}</button></div></section>
-    <section class="panel"><h3 class="h3">Testar neste aparelho</h3>
+    <section class="panel" data-av="config"><h3 class="h3">Testar neste aparelho</h3>
       <p class="muted small" style="margin-top:0">${meu ? "Os avisos estão ligados neste aparelho." : "Ligue os avisos neste aparelho em Minha conta para testar."}</p>
       <div class="btn-row"><button class="btn btn-ghost" id="avVer" ${avisosLigados() ? "" : "disabled"}>Ver como o aviso aparece</button><button class="btn btn-ghost" id="avCopiar" ${meu ? "" : "disabled"}>Copiar o código deste aparelho</button></div>
       <details class="av-outro"><summary>Outro jeito: mandar pelo painel do Firebase</summary>
         <ol class="ip-passos">${passo(1, `Abra o <a href="${painel}" target="_blank" rel="noopener">Messaging no Firebase</a> › <b>Nova campanha › Notificações</b>.`)}${passo(2, "Escreva o título e o texto; em <b>Segmentação</b>, escolha o app da Web do jogo.")}${passo(3, "Para testar só no seu celular, use <b>Enviar mensagem de teste</b> com o código deste aparelho.")}</ol></details></section>` : ""}`;
-  if(typeof ajustarGradeAdmin === "function") ajustarGradeAdmin(c);
+  ligarAbasAvisos(c);
   /* formulário */
   const tit = $("avTit"), tex = $("avTex"), para = $("avPara"), env = $("avEnviar");
   if(tit){
@@ -6880,16 +6932,62 @@ function erroAgendado(a){
   return "";
 }
 let AGENDADOS = {};
+/* ============================================================
+   AVISOS ORGANIZADOS (p88)
+   - A tela de avisos ganha abas: Enviar, Agendados, Modelos, Histórico e Configurar.
+   - Os agendados aparecem por dia da semana (Domingo a Sábado), em ordem de horário,
+     com os de "todo dia" num bloco só e as datas marcadas no fim.
+   ============================================================ */
+let avTab = "enviar";
+const AV_ABAS = [["enviar", "📤", "Enviar"], ["agendados", "🗓️", "Agendados"], ["modelos", "📚", "Modelos"], ["historico", "🕒", "Histórico"], ["config", "⚙️", "Configurar"]];
+const SEMANA_CAP = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
+function htmlAbasAvisos(master){
+  const abas = master ? AV_ABAS : AV_ABAS.filter(a => a[0] === "enviar" || a[0] === "historico");
+  if(!abas.some(a => a[0] === avTab)) avTab = "enviar";
+  return `<nav class="av-abas larga" role="tablist" aria-label="Avisos">${abas.map(([k, ic, t]) => `<button type="button" role="tab" data-avtab="${k}" aria-selected="${avTab === k}"><span aria-hidden="true">${ic}</span>${t}${k === "agendados" ? `<small class="av-n" hidden></small>` : ""}${k === "config" && !CONFIG.vapid ? `<small class="av-n alerta">!</small>` : ""}</button>`).join("")}</nav>`;
+}
+function contarAbaAgendados(){
+  const n = Object.values(AGENDADOS || {}).filter(a => a && a.ativo).length, el = document.querySelector('[data-avtab="agendados"] .av-n');
+  if(el){ el.hidden = !n; el.textContent = n; }
+}
+function ligarAbasAvisos(c){
+  c.dataset.avTab = avTab;
+  c.querySelectorAll("[data-avtab]").forEach(b => b.onclick = () => {
+    avTab = b.dataset.avtab; c.dataset.avTab = avTab;
+    c.querySelectorAll("[data-avtab]").forEach(x => x.setAttribute("aria-selected", String(x === b)));
+  });
+  contarAbaAgendados();
+}
 function htmlAgendados(){
-  const ids = Object.keys(AGENDADOS).sort((x, y) => (AGENDADOS[x].hora - AGENDADOS[y].hora) || String(AGENDADOS[x].titulo).localeCompare(String(AGENDADOS[y].titulo), "pt-BR"));
-  const ult = r => !r || !r.dia ? "" : r.motivo ? `Último: ${dataCurta(r.dia)}, não saiu porque ${esc(r.motivo)}.`
-    : `Último: ${dataCurta(r.dia)}, ${r.enviados || 0} ${(r.enviados || 0) === 1 ? "aparelho" : "aparelhos"}${r.pessoas ? ` (${r.pessoas} ${r.pessoas === 1 ? "jogador" : "jogadores"})` : ""}.`;
-  const itens = ids.map(id => { const a = AGENDADOS[id]; return `<li class="ag-item${a.ativo ? "" : " off"}"><div class="info">${a.modo === "variar" ? (() => { const n = proximoModelo(a), k = modelosDa(a.cat).length; return `<strong>🔀 Varia: ${esc(catAviso(a.cat)[2])} (${k} ${k === 1 ? "modelo" : "modelos"})</strong><span>${n ? "Próximo: " + esc(n.titulo) : "Essa categoria não tem modelos."}</span>`; })() : `<strong>${esc(a.titulo)}</strong><span>${esc(a.texto)}</span>`}
-      <span class="av-quem">${esc(quandoTexto(a))} · ${esc(PUBLICO_CURTO[a.publico] || PUBLICO_CURTO.todos)}${a.ativo ? "" : " · desligado"}</span>${ult(a.res) ? `<span class="av-quem">${ult(a.res)}</span>` : ""}</div>
-      <div class="ag-acoes"><label class="check ag-lig"><input type="checkbox" data-lig="${esc(id)}" ${a.ativo ? "checked" : ""}><span>Ligado</span></label>
-      <button type="button" class="btn btn-ghost btn-sm" data-ed="${esc(id)}">Editar</button><button type="button" class="btn btn-ghost btn-sm" data-env="${esc(id)}" ${CONFIG.vapid ? "" : "disabled"}>Mandar agora</button><button type="button" class="btn btn-ghost btn-sm ag-del" data-del="${esc(id)}">Apagar</button></div></li>`; }).join("");
-  return `<section class="panel larga" id="agPainel"><div class="adm-cab"><h3 class="h3">Avisos agendados</h3><button type="button" class="btn btn-ghost btn-sm" id="agNovo">+ Novo agendado</button></div>
-    ${ids.length ? `<ul class="lista ag-lista">${itens}</ul>` : `<p class="vazio">Nenhum aviso agendado ainda. Comece por um dos modelos abaixo.</p>`}
+  const A = AGENDADOS, ids = Object.keys(A), dowHoje = new Date().getDay();
+  const prox = {}; for(let k = 0; k < 7; k++){ const d = new Date(); d.setDate(d.getDate() + k); prox[d.getDay()] = dataISO(d); }
+  const ordem = l => l.sort((x, y) => ((A[x].hora || 0) - (A[y].hora || 0)) || String(A[x].titulo).localeCompare(String(A[y].titulo), "pt-BR"));
+  const diarios = ordem(ids.filter(id => A[id].quando === "dia"));
+  const doDia = dow => ordem(ids.filter(id => { const a = A[id]; return (a.quando === "semana" && (a.dias || []).includes(dow)) || (a.quando === "data" && a.data === prox[dow]); }));
+  const outrasDatas = ordem(ids.filter(id => A[id].quando === "data" && !Object.values(prox).includes(A[id].data))).sort((x, y) => String(A[x].data).localeCompare(String(A[y].data)));
+  const ult = r => !r || !r.dia ? "" : r.motivo ? `último ${dataCurta(r.dia)}: não saiu (${esc(r.motivo)})` : `último ${dataCurta(r.dia)}: ${r.enviados || 0} ${(r.enviados || 0) === 1 ? "aparelho" : "aparelhos"}`;
+  const linha = (id, dow) => {
+    const a = A[id], v = a.modo === "variar", n = v ? proximoModelo(a) : null, k = v ? modelosDa(a.cat).length : 0;
+    const outros = a.quando === "semana" && (a.dias || []).length > 1 && dow != null ? a.dias.filter(d => d !== dow).sort((x, y) => x - y).map(d => SEMANA_CURTO[d].toLowerCase()).join(", ") : "";
+    const sub = [PUBLICO_CURTO[a.publico] || PUBLICO_CURTO.todos, a.quando === "data" ? "só em " + dataCurta(a.data) : "", outros ? "também " + outros : "", a.ativo ? "" : "desligado"].filter(Boolean).map(esc).concat(ult(a.res) ? [ult(a.res)] : []).join(" · ");
+    return `<li class="ag-row${a.ativo ? "" : " off"}"><span class="ag-hora">${a.hora}h</span>
+      <div class="ag-tx"><strong>${v ? `🔀 ${esc(catAviso(a.cat)[2])} <i>· varia entre ${k} ${k === 1 ? "modelo" : "modelos"}</i>` : esc(a.titulo)}</strong><span>${v ? (n ? "Próximo: " + esc(comTema(n.titulo)) : "Essa categoria não tem modelos.") : esc(comTema(a.texto))}</span><small>${sub}</small></div>
+      <div class="ag-acts"><label class="ag-sw" title="Ligar ou desligar"><input type="checkbox" data-lig="${esc(id)}" ${a.ativo ? "checked" : ""} aria-label="Ligado"><i aria-hidden="true"></i></label><button type="button" class="ag-ib" data-ed="${esc(id)}" title="Editar" aria-label="Editar">✏️</button><button type="button" class="ag-ib" data-env="${esc(id)}" title="Mandar agora" aria-label="Mandar agora" ${CONFIG.vapid ? "" : "disabled"}>📤</button><button type="button" class="ag-ib ag-del" data-del="${esc(id)}" title="Apagar" aria-label="Apagar">🗑️</button></div></li>`;
+  };
+  const lista = (l, dow) => `<ul class="ag-rows">${l.map(id => linha(id, dow)).join("")}</ul>`;
+  const nDiarios = diarios.filter(id => A[id].ativo).length;
+  const dias = [0, 1, 2, 3, 4, 5, 6].map(dow => { const l = doDia(dow), tot = l.filter(id => A[id].ativo).length + nDiarios;
+    return `<div class="ag-dia${dow === dowHoje ? " hoje" : ""}${l.length ? "" : " vazio"}"><div class="ag-dia-cab"><b>${SEMANA_CAP[dow]}</b>${dow === dowHoje ? '<span class="ag-hoje">hoje</span>' : ""}<small>${tot ? `${tot} ${tot === 1 ? "aviso" : "avisos"} no dia` : "nenhum aviso"}</small></div>
+      ${l.length ? lista(l, dow) : `<p class="ag-vazio">${nDiarios ? "Só os de todo dia." : "Nada agendado."}</p>`}</div>`; }).join("");
+  const p = typeof proximasSaidas === "function" ? proximasSaidas(A)[0] : null;
+  const quando = s => s.k === 0 ? "hoje" : s.k === 1 ? "amanhã" : SEMANA_CAP[s.d.getDay()].toLowerCase();
+  const tituloDe = a => a.modo === "variar" ? (() => { const m = proximoModelo(a); return m ? comTema(m.titulo) : catAviso(a.cat)[2]; })() : comTema(a.titulo || "");
+  return `<section class="panel larga" id="agPainel" data-av="agendados"><div class="adm-cab"><h3 class="h3">Avisos agendados</h3><button type="button" class="btn btn-ghost btn-sm" id="agNovo">+ Novo agendado</button></div>
+    ${ids.length ? `${p ? `<p class="ag-prox"><span aria-hidden="true">⏭️</span><span>Próximo: <b>${quando(p)} às ${p.a.hora}h</b> · ${esc(tituloDe(p.a))}</span></p>` : ""}
+      <div class="ag-dia todo"><div class="ag-dia-cab"><b>Todo dia</b><small>${diarios.length ? `${diarios.length} ${diarios.length === 1 ? "aviso" : "avisos"}` : "nenhum"}</small></div>${diarios.length ? lista(diarios, null) : `<p class="ag-vazio">Nenhum aviso de todo dia.</p>`}</div>
+      <div class="ag-semana">${dias}</div>
+      ${outrasDatas.length ? `<div class="ag-dia todo"><div class="ag-dia-cab"><b>Outras datas</b><small>uma vez só</small></div>${lista(outrasDatas, null)}</div>` : ""}`
+      : `<p class="vazio">Nenhum aviso agendado ainda. Comece por um dos modelos abaixo.</p>`}
     <span class="av-rot ag-mod-rot">Modelos prontos</span>
     <div class="ag-modelos"><button type="button" class="btn btn-ghost btn-sm" data-mod="quiz">📖 Lembrete do quiz do dia</button><button type="button" class="btn btn-ghost btn-sm" data-mod="super">🏁 Lembrete do super quiz</button><button type="button" class="btn btn-ghost btn-sm" data-mod="livre">✏️ Personalizado</button></div>
     <p class="note">Saem sozinhos no horário de Brasília, para quem ligou os avisos. Os de "só quem não fez" não saem em dia sem quiz nem com o super quiz fechado. Escreva <b>{tema}</b> no texto para pôr o tema do quiz do dia.</p></section>`;
@@ -6970,6 +7068,7 @@ function desenharAgendados(){
 }
 function ligarAgendados(){
   const p = $("agPainel"); if(!p) return;
+  contarAbaAgendados();
   $("agNovo").onclick = () => modalAgendado(null, MODELOS_AGENDADOS.livre);
   p.querySelectorAll("[data-mod]").forEach(b => b.onclick = () => modalAgendado(null, MODELOS_AGENDADOS[b.dataset.mod]));
   p.querySelectorAll("[data-ed]").forEach(b => b.onclick = () => modalAgendado(b.dataset.ed));
@@ -7091,7 +7190,7 @@ function ligarEscolhaModelo(root, op){
 let moCatAdm = "quiz";
 function htmlModelosAdm(){
   const ms = MODELOS ? modelosDa(moCatAdm) : [];
-  return `<section class="panel larga" id="moPainel"><div class="adm-cab"><h3 class="h3">Modelos de avisos</h3><button type="button" class="btn btn-ghost btn-sm" id="moNovo">+ Novo modelo</button></div>
+  return `<section class="panel larga" id="moPainel" data-av="modelos"><div class="adm-cab"><h3 class="h3">Modelos de avisos</h3><button type="button" class="btn btn-ghost btn-sm" id="moNovo">+ Novo modelo</button></div>
     <div class="mo-cats" role="group" aria-label="Categoria">${CATS_AVISO.map(([k, ic, nome]) => `<button type="button" data-catadm="${k}" aria-pressed="${k === moCatAdm}">${ic} ${esc(nome)}<small>${MODELOS ? modelosDa(k).length : ""}</small></button>`).join("")}</div>
     ${!MODELOS ? `<p class="vazio">Carregando…</p>` : ms.length ? `<ul class="lista mo-adm">${ms.map(m => `<li><div class="info"><strong>${esc(m.titulo)}</strong><span>${esc(m.texto)}</span></div>
       <div class="ag-acoes"><button type="button" class="btn btn-ghost btn-sm" data-moed="${esc(m.id)}">Editar</button><button type="button" class="btn btn-ghost btn-sm ag-del" data-model="${esc(m.id)}">Apagar</button></div></li>`).join("")}</ul>`
@@ -8801,13 +8900,13 @@ async function corrigirAuditoria(tipo, uid, botao){
    - Números principais (clicáveis: levam para a aba certa)
    - "Precisa da sua atenção", ranking de hoje, próximos avisos agendados e atalhos
    ============================================================ */
-function irAdm(t){ admTab = t; telaAdmin(); window.scrollTo({ top: 0 }); }
+function irAdm(t){ const [aba, sub] = String(t).split(":"); if(sub && typeof avTab !== "undefined") avTab = sub; admTab = aba; telaAdmin(); window.scrollTo({ top: 0 }); }
 function esperarEl(sel, ms){
   return new Promise(res => { const ini = Date.now(); (function olha(){ const e = document.querySelector(sel); if(e) return res(e); if(Date.now() - ini > (ms || 3000)) return res(null); setTimeout(olha, 80); })(); });
 }
 /* abre Avisos já com "só quem não fez o quiz de hoje" e os modelos do quiz */
 async function lembrarQuemNaoFez(){
-  irAdm("avisos");
+  irAdm("avisos:enviar");
   const sel = await esperarEl("#avPub"); if(!sel) return;
   sel.value = "quiz"; sel.dispatchEvent(new Event("change"));
   const pronto = await esperarEl('.av-form .mo-modo [data-modo="pronto"]'); if(pronto) pronto.click();
@@ -8866,8 +8965,8 @@ async function admPainel(){
   const at = [];
   if(pend.length) at.push(["⏳", `<b>${pend.length}</b> ${pend.length === 1 ? "conta esperando" : "contas esperando"} aprovação`, "aprovar", "Aprovar"]);
   if(vVelho) at.push(["🔄", `<b>${vVelho}</b> ${vVelho === 1 ? "jogador está" : "jogadores estão"} com a versão antiga`, "versoes", "Ver quem"]);
-  if(!CONFIG.vapid) at.push(["📣", "Os avisos no celular ainda não foram configurados", "avisos", "Configurar"]);
-  else if(!agsLig) at.push(["🗓️", "Nenhum aviso agendado está ligado", "avisos", "Agendar"]);
+  if(!CONFIG.vapid) at.push(["📣", "Os avisos no celular ainda não foram configurados", "avisos:config", "Configurar"]);
+  else if(!agsLig) at.push(["🗓️", "Nenhum aviso agendado está ligado", "avisos:agendados", "Agendar"]);
   if(typeof quizDoDia === "function"){
     const q7 = quizDoDia(somarDias(h, 7));
     if(!q7) at.push(["📥", "A lição da próxima semana ainda não foi cadastrada", "licao", "Importar"]);
@@ -8892,10 +8991,10 @@ async function admPainel(){
       ${kpi("jogadores", "👥", fmt(ativos.length), "Jogadores", novos ? `+${novos} ${novos === 1 ? "novo" : "novos"} nesta semana` : "nenhum novo nesta semana")}
       ${kpi("resultados", "🎯", `${feitos}<em>/${ativos.length}</em>`, "Fizeram o quiz hoje", temQuiz ? `${barra(pct)}${faltam} ${faltam === 1 ? "falta" : "faltam"}` : "sem quiz hoje", pct >= 60 ? "bom" : "")}
       ${kpi("aprovar", "⏳", pend.length, "Esperando aprovação", pend.length ? "toque para aprovar" : "nada pendente", pend.length ? "alerta" : "")}
-      ${kpi("avisos", "🔔", comAviso, "Com avisos ligados", `${barra(ativos.length ? comAviso * 100 / ativos.length : 0)}${ativos.length ? Math.round(comAviso * 100 / ativos.length) : 0}% dos jogadores`)}
+      ${kpi("avisos:config", "🔔", comAviso, "Com avisos ligados", `${barra(ativos.length ? comAviso * 100 / ativos.length : 0)}${ativos.length ? Math.round(comAviso * 100 / ativos.length) : 0}% dos jogadores`)}
       ${kpi("versoes", "🔄", vOk, "Na versão nova", `${vVelho} ${vVelho === 1 ? "desatualizado" : "desatualizados"} · ${vSem} sem registro`, vVelho ? "alerta" : "")}
       ${kpi("salas", "🏫", nSalas, nSalas === 1 ? "Sala" : "Salas", "ver e gerenciar")}
-      ${kpi("avisos", "🗓️", agsLig, agsLig === 1 ? "Aviso agendado" : "Avisos agendados", agsLig ? (prox[0] ? `próximo: ${quandoCurto(prox[0]).toLowerCase()} ${prox[0].a.hora}h` : "ligados") : "nenhum ligado")}
+      ${kpi("avisos:agendados", "🗓️", agsLig, agsLig === 1 ? "Aviso agendado" : "Avisos agendados", agsLig ? (prox[0] ? `próximo: ${quandoCurto(prox[0]).toLowerCase()} ${prox[0].a.hora}h` : "ligados") : "nenhum ligado")}
       ${kpi("", "🏁", j && j.aberto ? "Aberto" : "Fechado", "Super quiz", superTx, j && j.aberto ? "bom" : "")}
     </div>
     <section class="panel pn-atencao-p"><h3 class="h3">Precisa da sua atenção</h3>
@@ -8907,12 +9006,12 @@ async function admPainel(){
           <div class="info"><strong>${esc(r.nome || "Jogador")}</strong><span>${r.acertos || 0} de ${r.total || 0} certas${r.noPrazo === false ? " · atrasado" : ""}</span></div><span class="pts">${fmt(r.pts || 0)}</span></li>`).join("")}</ol>`
         : `<div class="pn-tudo"><span aria-hidden="true">🏁</span><b>Ninguém jogou hoje ainda.</b><small>${temQuiz && CONFIG.vapid ? "Que tal mandar um lembrete?" : "O ranking aparece quando alguém fizer o quiz."}</small></div>`}
     </section>
-    <section class="panel pn-agenda-p"><div class="adm-cab"><h3 class="h3">Próximos avisos</h3><button type="button" class="btn btn-ghost btn-sm" data-ir="avisos">Agendar</button></div>
+    <section class="panel pn-agenda-p"><div class="adm-cab"><h3 class="h3">Próximos avisos</h3><button type="button" class="btn btn-ghost btn-sm" data-ir="avisos:agendados">Agendar</button></div>
       ${prox.length ? `<ul class="lista pn-agenda">${prox.map(s => `<li><span class="pn-quando"><small>${quandoCurto(s)}</small><b>${s.a.hora}h</b></span><div class="info"><strong>${esc(tituloAg(s.a))}</strong><span>${esc((typeof PUBLICO_CURTO !== "undefined" && PUBLICO_CURTO[s.a.publico]) || "para todos")}${s.a.modo === "variar" ? " · variando" : ""}</span></div></li>`).join("")}</ul>`
         : `<div class="pn-tudo"><span aria-hidden="true">🗓️</span><b>Nenhum aviso agendado.</b><small>Agende o lembrete do quiz e o do super quiz em Avisos.</small></div>`}
     </section>
     <section class="panel pn-atalhos-p"><h3 class="h3">Atalhos</h3>
-      <div class="pn-atalhos">${[["jogadores", "🎮", "Ver jogadores"], ["trocas", "🔁", "Trocas"], ["avisos", "📣", "Mandar aviso"], ["licao", "📥", "Importar lição"], ["perguntas", "📝", "Perguntas"], ["cadastrar", "➕", "Novo usuário"]]
+      <div class="pn-atalhos">${[["jogadores", "🎮", "Ver jogadores"], ["trocas", "🔁", "Trocas"], ["avisos:enviar", "📣", "Mandar aviso"], ["licao", "📥", "Importar lição"], ["perguntas", "📝", "Perguntas"], ["cadastrar", "➕", "Novo usuário"]]
         .map(([ir, ic, t]) => `<button type="button" data-ir="${ir}"><span aria-hidden="true">${ic}</span>${t}</button>`).join("")}</div>
     </section>`;
   if(typeof ajustarGradeAdmin === "function") ajustarGradeAdmin(c);
