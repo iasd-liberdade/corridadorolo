@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="versao" content="20261127.135056">
+<meta name="versao" content="20261127.195623">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Corrida do Rolo · Quiz da Lição</title>
 <meta name="theme-color" content="#524F9C">
@@ -3449,6 +3449,258 @@ button.pn-kpi:hover{transform:translateY(-2px);background:rgba(255,255,255,.22);
   .ag-dia.todo .ag-row{grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:"h tx ac";align-items:center}
   .ag-dia.todo .ag-sw{margin-right:6px}
 }
+/* p89: dinheiro e conquistas em grupos */
+.dinheiro{display:inline-block;width:1.45em;height:1em;background:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2044%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%220%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%238BF0B4%22%2F%3E%3Cstop%20offset%3D%22.55%22%20stop-color%3D%22%233CC47E%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%231E8A55%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20x%3D%223%22%20y%3D%224%22%20width%3D%2258%22%20height%3D%2236%22%20rx%3D%226%22%20fill%3D%22%23123A2A%22%20stroke%3D%22%23123A2A%22%20stroke-width%3D%225%22%2F%3E%3Crect%20x%3D%223%22%20y%3D%224%22%20width%3D%2258%22%20height%3D%2236%22%20rx%3D%226%22%20fill%3D%22url%28%23g%29%22%2F%3E%3Crect%20x%3D%228%22%20y%3D%229%22%20width%3D%2248%22%20height%3D%2226%22%20rx%3D%223.5%22%20fill%3D%22none%22%20stroke%3D%22%23E8FFF1%22%20stroke-width%3D%221.6%22%20opacity%3D%22.75%22%2F%3E%3Ccircle%20cx%3D%2232%22%20cy%3D%2222%22%20r%3D%228.5%22%20fill%3D%22%23E8FFF1%22%2F%3E%3Cpath%20d%3D%22M34.6%2018.2c-.7-.9-1.7-1.3-2.8-1.3-1.6%200-2.8.8-2.8%202.2%200%203%205.8%201.7%205.8%204.9%200%201.5-1.3%202.4-3%202.4-1.3%200-2.4-.5-3.2-1.5M31.8%2015.6v12.8%22%20fill%3D%22none%22%20stroke%3D%22%231E8A55%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%2F%3E%3Ccircle%20cx%3D%2215%22%20cy%3D%2222%22%20r%3D%222.6%22%20fill%3D%22%23E8FFF1%22%20opacity%3D%22.8%22%2F%3E%3Ccircle%20cx%3D%2249%22%20cy%3D%2222%22%20r%3D%222.6%22%20fill%3D%22%23E8FFF1%22%20opacity%3D%22.8%22%2F%3E%3Cpath%20d%3D%22M9%2010.5A6%206%200%200%201%2015%206%22%20fill%3D%22none%22%20stroke%3D%22%23fff%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20opacity%3D%22.6%22%2F%3E%3C%2Fsvg%3E") center/contain no-repeat;vertical-align:-.16em;margin-right:.26em;flex:none}
+.topo-din{border-color:rgba(95,224,150,.6);color:#9FF5C4;margin-left:6px}
+.topo-din .dinheiro{font-size:16px;margin-right:6px;vertical-align:0}
+.ljn-btn .dinheiro{width:24px;height:17px;flex:none}
+.ljn-btn.din.pode{background:linear-gradient(180deg,#9FF5C4,#35B873);color:#06311D;box-shadow:0 4px 0 #1A7A47,0 10px 18px rgba(53,184,115,.3)}
+.ljn-btn.din.caro{box-shadow:inset 0 0 0 1px rgba(95,224,150,.5)}
+.ljn-din{display:inline-flex;align-items:center;gap:6px;padding:7px 12px 7px 9px;border-radius:99px;border:1px solid rgba(95,224,150,.7);background:rgba(95,224,150,.14);color:#C8FBDD;font:700 12.5px/1 "Barlow",sans-serif;cursor:pointer}
+.ljn-din b{font:800 14px/1 "Barlow",sans-serif;color:#9FF5C4}
+.ljn-din:hover{background:rgba(95,224,150,.24)}
+.pz-st.preco .dinheiro{width:20px;height:14px}
+.din-dica{display:flex;align-items:center;gap:8px;margin:0 0 20px;padding:9px 12px;border-radius:12px;background:rgba(95,224,150,.12);border:1px solid rgba(95,224,150,.4);font-size:12.5px;line-height:1.35;color:var(--muted)}
+.din-dica b{color:#9FF5C4}
+.din-dica .dinheiro{font-size:18px}
+.din-modal h4{margin:16px 0 6px;font:800 15px/1.2 "Barlow",sans-serif}
+.din-modal p{margin:0 0 8px;font-size:13.5px;line-height:1.4}
+.din-saldo{display:grid;grid-template-columns:auto repeat(3,minmax(0,1fr));align-items:center;gap:10px;padding:12px;border-radius:16px;background:linear-gradient(145deg,rgba(95,224,150,.22),rgba(20,18,60,.25));border:1px solid rgba(95,224,150,.45)}
+.din-saldo > span .dinheiro{font-size:34px;margin:0}
+.din-saldo div{display:grid;gap:3px;text-align:center}
+.din-saldo small{font-size:11px;color:var(--soft)}
+.din-saldo b{font:800 20px/1 "Barlow",sans-serif;color:#C8FBDD}
+.din-podio{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:4px 0 8px}
+.din-podio span{display:grid;justify-items:center;gap:4px;padding:10px 6px;border-radius:14px;background:rgba(255,255,255,.08);border:1px solid var(--panel-line);font:800 16px/1 "Barlow",sans-serif}
+.din-podio span b{font-size:12px;color:var(--soft)}
+.din-podio .p1{border-color:rgba(255,213,74,.7);background:rgba(255,213,74,.14)}
+.din-podio .p2{border-color:rgba(220,225,240,.6)}
+.din-podio .p3{border-color:rgba(232,163,107,.6)}
+.din-lista{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.din-lista li{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:10px;padding:8px 10px;border-radius:12px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12)}
+.din-lista li > span:nth-child(2){display:grid;gap:2px;min-width:0}
+.din-lista small{font-size:11px;color:var(--soft)}
+.din-lista em{font-style:normal;font-weight:800;color:#9FF5C4;white-space:nowrap}
+.din-lista em.menos{color:#FFB4BC}
+.din-pos{display:grid;place-items:center;min-width:34px;height:30px;padding:0 6px;border-radius:9px;background:rgba(20,18,60,.35);font:800 13px/1 "Barlow",sans-serif}
+.din-pos.p1{background:#FFD54A;color:#3A2A00}
+.din-pos.p2{background:#DCE1F0;color:#1E2240}
+.din-pos.p3{background:#E8A36B;color:#3A1C00}
+.din-festa{text-align:center}
+.din-festa .din-lista{text-align:left;margin:12px 0}
+.din-nota{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:18px;background:rgba(95,224,150,.18);border:1px solid rgba(95,224,150,.55);font:800 34px/1 "Barlow",sans-serif;color:#C8FBDD;animation:din-pulo .6s ease-out}
+.din-nota .dinheiro{font-size:40px;margin:0}
+@keyframes din-pulo{0%{transform:scale(.6);opacity:0}70%{transform:scale(1.08)}100%{transform:scale(1);opacity:1}}
+.cq-grupo{margin-top:12px;padding:10px 12px 12px;border-radius:16px;background:rgba(255,255,255,.06);border:1px solid var(--panel-line)}
+.cq-grupo .hm-cq{margin:0 -12px;padding:0 12px 2px}
+.cq-grupo.g-mirra{border-color:rgba(232,163,107,.45)}
+.cq-grupo.g-ouro{border-color:rgba(255,213,74,.5)}
+.cq-grupo.completo{background:rgba(255,213,74,.1)}
+.cq-g-cab{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.cq-g-ic{font-size:18px}
+.cq-g-cab b{font:800 14px/1 "Barlow",sans-serif}
+.cq-g-cab small{font-size:11.5px;color:var(--soft);font-weight:700}
+.cq-g-premio{margin-left:auto;display:inline-flex;align-items:center;gap:2px;padding:4px 9px;border-radius:99px;background:rgba(0,0,0,.22);color:#FFE27A;font:800 12px/1 "Barlow",sans-serif;white-space:nowrap}
+.cq-g-premio .moeda{margin:0 0 0 3px}
+.cq-grupo.completo .cq-g-premio{background:#5FE0B0;color:#063B2A}
+.cq-g-barra{display:block;height:5px;margin:0 0 10px;border-radius:99px;background:rgba(255,255,255,.12);overflow:hidden}
+.cq-g-barra i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#C9A6FF,#8FE6FF)}
+.g-mirra .cq-g-barra i{background:linear-gradient(90deg,#E8A36B,#FFD08A)}
+.g-ouro .cq-g-barra i{background:linear-gradient(90deg,#F2A53A,#FFE27A)}
+.cq-g-tag{display:inline-block;margin-top:6px;padding:4px 10px;border-radius:99px;background:rgba(255,255,255,.12);font:800 12px/1.2 "Barlow",sans-serif}
+.cq-g-tag.g-mirra{background:rgba(232,163,107,.25)}
+.cq-g-tag.g-ouro{background:rgba(255,213,74,.25);color:#FFE27A}
+.jg-cq + .jg-cq{margin-top:10px}
+.jg-cq-cab{display:flex;align-items:baseline;gap:8px;margin-bottom:6px}
+.jg-cq-cab small{margin-left:auto;font-size:11px;color:var(--soft)}
+.jg-cq-l{display:flex;flex-wrap:wrap;gap:6px}
+.jg-cq-l span{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);font-size:17px;filter:grayscale(1);opacity:.4}
+.jg-cq-l span.on{filter:none;opacity:1;border-color:rgba(255,226,122,.55);background:rgba(255,226,122,.16)}
+.din-adm-l{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,220px),1fr));gap:8px;margin-top:10px}
+.din-adm-i{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"n b" "s b";align-items:center;gap:3px 10px;padding:9px 10px;border-radius:12px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14)}
+.din-adm-i b{grid-area:n;font-size:13px}
+.din-adm-i small{grid-area:s;font-size:11px;color:var(--soft)}
+.din-adm-i .btn{grid-area:b}
+/* moedas e dinheiro numa pílula só, para caber no topo do celular */
+.topo-moedas:has(+ .topo-din:not([hidden])){border-radius:99px 0 0 99px;padding-right:8px}
+.topo-moedas + .topo-din{margin-left:-6px;border-radius:0 99px 99px 0;border-left:1px solid rgba(255,255,255,.18);padding-left:8px}
+@media (max-width:420px){
+  .topo-moedas{height:36px;padding:0 8px 0 7px;font-size:13px}
+  .topo-moedas .moeda{font-size:15px;margin-right:4px}
+  .topo-din .dinheiro{font-size:14px;margin-right:4px}
+  .topo-moedas:has(+ .topo-din:not([hidden])){padding-right:7px}
+  .topo-moedas + .topo-din{padding-left:7px}
+}
+/* p90: salas que valem dinheiro, instalar antes dos avisos, missões com painéis e o jogo ocupando a tela do PC */
+.badge.din{background:rgba(95,224,150,.2);color:#9FF5C4;border-color:rgba(95,224,150,.5)}
+.sl-acoes{display:flex;align-items:center;gap:8px;flex:none;flex-wrap:wrap;justify-content:flex-end}
+.lista li:has(> .sl-acoes){flex-wrap:wrap}
+.lista li:has(> .sl-acoes) > .info{flex:1 1 100%;min-width:0}
+.lista li > .sl-acoes{flex:1 1 100%;justify-content:space-between}
+.sl-din{display:inline-flex;align-items:center;gap:7px;min-height:32px;padding:0 11px 0 6px;border-radius:99px;border:1px solid var(--panel-line);background:rgba(255,255,255,.08);color:var(--muted);font:700 12px/1 "Barlow",sans-serif;cursor:pointer}
+.sl-din i{display:block;width:30px;height:18px;border-radius:99px;background:rgba(255,255,255,.22);position:relative;transition:background .15s}
+.sl-din i::after{content:"";position:absolute;left:3px;top:3px;width:12px;height:12px;border-radius:50%;background:#fff;transition:transform .15s}
+.sl-din[aria-checked="true"]{color:#C8FBDD;border-color:rgba(95,224,150,.6);background:rgba(95,224,150,.14)}
+.sl-din[aria-checked="true"] i{background:#2BA486}
+.sl-din[aria-checked="true"] i::after{transform:translateX(12px)}
+.sl-din:disabled{opacity:.5}
+.din-adm-salas{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:10px 0 0;padding:9px 12px;border-radius:12px;background:rgba(95,224,150,.1);border:1px solid rgba(95,224,150,.35);font-size:13px}
+.din-adm-salas b{color:#9FF5C4}
+.ai-box p{margin:10px 0;font-size:14px;line-height:1.45}
+.ai-topo{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.1);border:1px solid var(--panel-line)}
+.ai-topo .ai-ic{width:48px;height:48px;border-radius:12px;flex:none}
+.ai-topo div{display:grid;gap:2px}
+.ai-topo small{font-size:12px;color:var(--soft)}
+.ai-box .btn-row{flex-wrap:wrap}
+/* missões: os painéis só aparecem no PC */
+.trl-lado{display:none}
+.trl-nv{display:flex;align-items:center;gap:12px}
+.trl-nv-n{display:grid;place-items:center;width:56px;height:56px;border-radius:16px;background:linear-gradient(160deg,#FFE27A,#F2A53A);color:#3A2A00;box-shadow:0 4px 0 #A8650E;flex:none}
+.trl-nv-n b{font:800 24px/1 "Barlow",sans-serif}
+.trl-nv-n small{font:800 9px/1 "Barlow",sans-serif;text-transform:uppercase;letter-spacing:.6px;margin-top:-10px}
+.trl-nv div{display:grid;gap:3px}
+.trl-nv div small{font-size:11px;color:var(--soft);text-transform:uppercase;letter-spacing:.6px;font-weight:700}
+.trl-nv div b{font:800 18px/1.15 "Barlow",sans-serif}
+.trl-prog{display:flex;align-items:flex-end;justify-content:space-between;margin:16px 0 6px}
+.trl-prog b{font:800 26px/1 "Barlow",sans-serif}
+.trl-prog small{margin-left:6px;font-size:12px;color:var(--soft)}
+.trl-prog em{font-style:normal;font:800 14px/1 "Barlow",sans-serif;color:#9FF5C4}
+.trl-barra{display:block;height:8px;border-radius:99px;background:rgba(255,255,255,.14);overflow:hidden}
+.trl-barra i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#5FE0B0,#8FE6FF)}
+.trl-atual{margin:16px 0 0;padding:12px;border-radius:14px;background:rgba(255,226,122,.12);border:1px solid rgba(255,226,122,.45)}
+.trl-atual small{display:block;font-size:11px;color:#FFE9A8;font-weight:800;text-transform:uppercase;letter-spacing:.5px}
+.trl-atual b{display:block;margin:4px 0;font:800 16px/1.2 "Barlow",sans-serif}
+.trl-atual p{margin:0 0 10px;font-size:13px;line-height:1.4;color:var(--muted)}
+.trl-atual.fim{background:rgba(95,224,150,.14);border-color:rgba(95,224,150,.5)}
+.trl-h{margin:18px 0 8px;font:800 11px/1 "Barlow",sans-serif;text-transform:uppercase;letter-spacing:.8px;color:var(--soft)}
+.trl-b .trl-h:first-child{margin-top:0}
+.trl-ajudas{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.trl-aj{display:grid;grid-template-columns:auto 1fr;grid-template-areas:"i b" "i s";align-items:center;gap:0 8px;padding:8px 10px;border-radius:12px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14)}
+.trl-aj i{grid-area:i;font-style:normal;font-size:20px}
+.trl-aj b{grid-area:b;font:800 16px/1 "Barlow",sans-serif}
+.trl-aj small{grid-area:s;font-size:11px;color:var(--soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.trl-aj.zero{opacity:.55}
+.trl-terr{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.trl-terr li{display:grid;grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:"n t e" "n b b";align-items:center;gap:4px 10px;padding:8px 10px;border-radius:12px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12)}
+.trl-terr li.atual{background:rgba(255,226,122,.13);border-color:rgba(255,226,122,.5)}
+.trl-terr li.bloq{opacity:.6}
+.trl-t-n{grid-area:n;display:grid;place-items:center;width:28px;height:28px;border-radius:9px;background:rgba(20,18,60,.35);font:800 13px/1 "Barlow",sans-serif}
+.trl-terr li.feita .trl-t-n{background:#5FE0B0;color:#063B2A}
+.trl-t-tx{grid-area:t;display:grid;min-width:0}
+.trl-t-tx b{font-size:13px;line-height:1.2}
+.trl-t-tx small{font-size:11px;color:var(--soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.trl-terr em{grid-area:e;font-style:normal;font:800 12px/1 "Barlow",sans-serif;color:var(--soft)}
+.trl-t-bar{grid-area:b;display:block;height:4px;border-radius:99px;background:rgba(255,255,255,.12);overflow:hidden}
+.trl-t-bar i{display:block;height:100%;background:#5FE0B0}
+.trl-premios{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.trl-premios li{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:12px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12)}
+.trl-p-av{width:38px;height:46px;flex:none;display:block}
+.trl-p-av svg{width:100%;height:100%;display:block}
+.trl-p-ic{display:grid;place-items:center;width:38px;height:38px;border-radius:11px;background:rgba(20,18,60,.35);font-size:20px;flex:none}
+.trl-p-tx{display:grid;gap:2px;min-width:0}
+.trl-p-tx b{font-size:13px;line-height:1.2}
+.trl-p-tx small{font-size:11px;color:var(--soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* ============ PC: o jogo ocupando a tela toda ============ */
+@media (min-width:1100px){
+  /* Lição: o livro do trimestre em destaque */
+  .estudo-area:has(> .pg-card > .livros){max-width:none}
+  .livros{grid-template-columns:repeat(auto-fill,minmax(420px,1fr));gap:18px}
+  .livros.um .livro{gap:28px;padding:22px}
+  .livros.um .capa{width:190px}
+  .livros.um .livro-tx b{font-size:26px}
+  /* a lição da semana: abas e dias à esquerda, a leitura à direita */
+  .estudo-area.lic-tela{max-width:none;display:grid;grid-template-columns:minmax(260px,320px) minmax(0,1fr);gap:0 24px;align-items:start}
+  .lic-tela > .lic-topo{grid-column:1 / -1}
+  .lic-tela > .abas-l{grid-column:1;flex-direction:column;align-items:stretch;gap:10px;margin:0;position:sticky;top:90px}
+  .lic-tela > .abas-l .aba-l{width:100%;min-height:64px;border-radius:18px}
+  .lic-tela > .abas-l + .panel,.lic-tela > .aba-corpo{grid-column:2;grid-row:2 / span 6;border-radius:22px;border:1px solid var(--panel-line);padding:22px 26px;margin:0}
+  .lic-tela > *:not(.lic-topo):not(.abas-l):not(.aba-corpo){grid-column:2}
+  /* resultado do quiz: o placar e as ações lado a lado */
+  .result-area:has(> .panel.result){max-width:1100px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px 24px;align-items:start}
+  .result-area > .panel.result{grid-row:1 / span 6;margin:0}
+  .result-area:has(> .panel.result) > :not(.panel.result){grid-column:2;margin:0}
+  .result-area:has(> .panel.result) .res-acoes{grid-template-columns:repeat(2,minmax(0,1fr))}
+  /* quiz: pergunta grande, alternativas grandes */
+  .quiz-area{max-width:1120px;padding-top:2vh}
+  .quiz-area .qtext{font-size:clamp(34px,2.6vw,46px);margin-bottom:18px}
+  .quiz-area .tiles{gap:14px}
+  .quiz-area .tile{min-height:96px;font-size:20px;border-radius:20px;padding:16px 20px}
+  .quiz-area .tile .letter{width:44px;height:44px;font-size:20px}
+  .quiz-area .ajudas-wrap{margin-top:18px}
+  /* Minha conta: o perfil fica à esquerda e o menu em duas colunas */
+  .result-area:has(#ctPerfil){max-width:1240px}
+  .result-area:has(#ctPerfil) > .panel{display:grid;grid-template-columns:minmax(340px,420px) minmax(0,1fr);gap:24px;align-items:start;padding:22px}
+  .result-area:has(#ctPerfil) #ctPerfil{position:sticky;top:90px}
+  .result-area:has(#ctPerfil) .menu-conta{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:0;align-content:start}
+  .result-area:has(#ctPerfil) .menu-conta > button{margin:0;border-radius:14px}
+  .result-area:has(#ctPerfil) .menu-conta > button.adm{grid-column:1 / -1}
+  /* Álbum: os botões numa coluna e as capas grandes ao lado */
+  .estudo-area.alb:has(> .alb-hub){max-width:none;display:grid;grid-template-columns:minmax(280px,340px) minmax(0,1fr);gap:16px 28px;align-items:start}
+  .alb:has(> .alb-hub) > .pg-cab,.alb:has(> .alb-hub) > .alb-prog{grid-column:1 / -1}
+  .alb:has(> .alb-hub) > .alb-hub{grid-column:1;grid-template-columns:1fr;margin:0;gap:12px}
+  .alb:has(> .alb-hub) > .alb-hub .hub-b{min-height:132px}
+  .alb:has(> .alb-hub) > .hub-todos{grid-column:1;margin:0}
+  .alb:has(> .alb-hub) > .est,.alb:has(> .alb-hub) > .est-nota{grid-column:2;grid-row:3 / span 4}
+  .alb:has(> .alb-hub) > .est-nota{grid-row:auto;align-self:start}
+  .alb:has(> .alb-hub) > .est{display:flex;flex-wrap:wrap;gap:28px;justify-content:center;margin:0}
+  .alb:has(> .alb-hub) > .est .cp{width:clamp(270px,22vw,380px);height:auto;aspect-ratio:3 / 4}
+  /* Loja: carteira e destaque lado a lado, 6 categorias numa linha */
+  .estudo-area.ljn:not(.ljn-dentro):not(.pz){max-width:none;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:14px 22px;align-items:stretch}
+  .ljn:not(.ljn-dentro):not(.pz) > .ljn-abas{grid-column:1 / -1;max-width:560px}
+  .ljn:not(.ljn-dentro):not(.pz) > .pg-cab,.ljn:not(.ljn-dentro):not(.pz) > .ljn-sec,.ljn:not(.ljn-dentro):not(.pz) > .lj-cats,.ljn:not(.ljn-dentro):not(.pz) > .note{grid-column:1 / -1}
+  .ljn:not(.ljn-dentro):not(.pz) > .ljn-cart{grid-column:1;grid-row:3;margin:0}
+  .ljn:not(.ljn-dentro):not(.pz) > .lj-pacote{grid-column:1;grid-row:4;margin:0}
+  .ljn:not(.ljn-dentro):not(.pz) > .ljn-hero{grid-column:2;grid-row:3 / span 2;margin:0;min-height:100%}
+  .ljn:not(.ljn-dentro):not(.pz) > .lj-cats{grid-template-columns:repeat(6,minmax(0,1fr));gap:14px}
+  .ljn:not(.ljn-dentro):not(.pz) > .ljn-sec{margin-top:10px}
+  /* Loja por dentro (uma categoria): grade larga */
+  .estudo-area.ljn-dentro{max-width:none}
+  .ljn-dentro .ljn-grade,.ljn-dentro .ljn-grade.pistas{grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}
+  .ljn-dentro .ljn-grade.pistas{grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+  /* Personalizar: o quarto do personagem fica parado à esquerda e as opções rolam à direita */
+  .estudo-area.pz{max-width:none;display:grid;grid-template-columns:minmax(520px,46%) minmax(0,1fr);gap:14px 24px;align-items:start}
+  .pz > .ljn-abas{grid-column:1 / -1;max-width:560px}
+  .pz > .pg-cab{grid-column:1 / -1}
+  .pz > .pz-topo{grid-column:1;grid-row:3 / span 4;position:sticky;top:90px}
+  .pz > :not(.ljn-abas):not(.pg-cab):not(.pz-topo){grid-column:2}
+  .pz > .pz-painel{margin:0}
+  /* Mural: o feed em duas colunas */
+  .result-area.duas .principal > .fd-nova{max-width:none}
+  .result-area.duas #muCorpo .mural{max-width:none;display:block;column-count:2;column-gap:16px}
+  .result-area.duas #muCorpo .mural > *{break-inside:avoid;margin:0 0 16px;display:block}
+  /* Missões: o mapa no meio e os painéis dos lados */
+  .trilha-tela{max-width:none;display:grid;grid-template-columns:minmax(300px,1fr) minmax(0,760px);gap:0 24px;align-items:start}
+  .trilha-tela > .tr-topo{grid-column:1 / -1}
+  .trilha-tela > .trilha-wrap{grid-column:2;grid-row:2;margin-left:0;margin-right:0;border-radius:22px}
+  .trilha-tela > .trl-lado{display:grid;gap:16px;grid-column:1;grid-row:2;position:sticky;top:150px;align-self:start}
+  .trl-lado .panel{margin:0;padding:18px}
+  /* Início: as conquistas sem rolar de lado */
+  .cq-grupo .hm-cq{flex-wrap:wrap;overflow:visible;margin:0;padding:0;gap:10px 8px}
+}
+@media (min-width:1500px){
+  .trilha-tela{grid-template-columns:minmax(300px,1fr) minmax(0,760px) minmax(300px,1fr)}
+  .trilha-tela > .trl-lado{display:contents}
+  .trl-lado > .trl-a{grid-column:1;grid-row:2;position:sticky;top:150px;align-self:start}
+  .trl-lado > .trl-b{grid-column:3;grid-row:2;position:sticky;top:150px;align-self:start}
+  .result-area.duas #muCorpo .mural{column-count:3}
+  .livros{grid-template-columns:repeat(auto-fill,minmax(520px,1fr))}
+}
+@media (min-width:1100px){
+  .trilha-tela > .trl-lado,.trl-lado > .trl-a,.trl-lado > .trl-b{max-height:calc(100vh - 170px);overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.3) transparent;border-radius:22px}
+}
+.livro-lics{display:none}
+@media (min-width:1100px){
+  .livros.um .livro{display:grid;grid-template-columns:auto minmax(220px,280px) minmax(0,1fr);align-items:center;text-align:left}
+  .livros.um .livro-lics{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;align-self:stretch;align-content:center;padding-left:24px;border-left:1px solid rgba(255,255,255,.18)}
+  .livro-lics i{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:2px 9px;padding:9px 10px 12px;border-radius:12px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);font-style:normal;overflow:hidden}
+  .livro-lics i b{display:grid;place-items:center;width:28px;height:28px;border-radius:9px;background:rgba(20,18,60,.35);font:800 13px/1 "Barlow",sans-serif}
+  .livro-lics i small{font-size:12px;line-height:1.2;font-weight:700;color:var(--muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .livro-lics i em{position:absolute;left:0;bottom:0;height:4px;width:var(--p);background:#5FE0B0}
+  .livro-lics i.ok b{background:#5FE0B0;color:#063B2A}
+  .livro-lics i.agora{border-color:rgba(255,226,122,.7);background:rgba(255,226,122,.16)}
+  .livro-lics i.agora b{background:#FFE27A;color:#3A2A00}
+}
 .pn-rank-li{cursor:pointer;border-radius:12px}
 .pn-rank-li:hover{background:rgba(255,255,255,.08)}
 /* ============================================================
@@ -3663,6 +3915,7 @@ b.ok{color:var(--ok)} b.menos{color:#FF9DA6}
   <div class="brand" id="brand"><span class="brand-ic" id="brandIc"></span><span class="brand-tx">Corrida do <b>Rolo</b><small>Quiz da Lição</small></span></div>
   <div class="topo-dir"><button class="sino" id="sino" type="button" hidden aria-label="Notificações"><span aria-hidden="true">🔔</span><b id="sinoN">0</b></button>
   <button class="topo-moedas" id="topoMoedas" type="button" hidden title="Suas moedas: abrir a loja"><i class="moeda" aria-hidden="true"></i><b id="topoMoedasN">0</b></button>
+  <button class="topo-moedas topo-din" id="topoDin" type="button" hidden title="Seu dinheiro: como ganhar"><i class="dinheiro" aria-hidden="true"></i><b id="topoDinN">0</b></button>
   <button class="chip" id="chipConta" type="button" aria-label="Minha conta"><span class="em" id="chipEm"></span><b class="nav-n chip-n" id="navSalasN" hidden></b></button></div>
 </header>
 <div class="wrap" id="app" aria-live="polite"></div>
@@ -4116,6 +4369,11 @@ function dbFirebase(){
     async resultadosLicao(licaoId){ return lista(col("resultados").where("licaoId","==",licaoId)); },
     async todosResultados(){ return lista(col("resultados")); },
     async todosMembros(){ return lista(col("membros")); },
+    async meusPremios(uid){ return lista(col("premios").where("uid", "==", uid)); },
+    async todosPremios(){ return lista(col("premios")); },
+    async perfisPublicos(){ return lista(col("mural").where("tipo", "==", "perfil")); },
+    async criarPedido(d){ const r = await col("pedidos").add(d); return r.id; },
+    async getPedido(id){ const d = await col("pedidos").doc(id).get(); return d.exists ? Object.assign({ id: d.id }, d.data()) : null; },
     async todasTrocas(){ return lista(col("trocas")); },
     async todosDesafios(){ return lista(col("desafios")); },
     async resultadosTrimestre(tri){ return lista(col("resultados").where("trimestre","==",tri)); },
@@ -4283,6 +4541,11 @@ function dbLocal(){
     async resultadosLicao(licaoId){ const d = ler(); return Object.values(d.resultados).filter(r=>r.licaoId===licaoId); },
     async todosResultados(){ const d = ler(); return Object.values(d.resultados); },
     async todosMembros(){ const d = ler(); return Object.keys(d.membros || {}).map(k => Object.assign({ id: k }, d.membros[k])); },
+    async meusPremios(uid){ const d = ler(); return Object.keys(d.premios || {}).map(k => Object.assign({ id: k }, d.premios[k])).filter(p => p.uid === uid); },
+    async todosPremios(){ const d = ler(); return Object.keys(d.premios || {}).map(k => Object.assign({ id: k }, d.premios[k])); },
+    async perfisPublicos(){ const d = ler(); return Object.keys(d.mural || {}).map(k => Object.assign({ id: k }, d.mural[k])).filter(p => p.tipo === "perfil"); },
+    async criarPedido(x){ const d = ler(), id = "pd" + Date.now().toString(36); (d.pedidos = d.pedidos || {})[id] = x; gravar(d); return id; },
+    async getPedido(id){ const p = (ler().pedidos || {})[id]; return p ? Object.assign({ id }, p) : null; },
     async todasTrocas(){ const d = ler(); return Object.keys(d.trocas || {}).map(k => Object.assign({ id: k }, d.trocas[k])); },
     async todosDesafios(){ const d = ler(); return Object.keys(d.desafios || {}).map(k => Object.assign({ id: k }, d.desafios[k])); },
     async resultadosTrimestre(tri){ const d = ler(); return Object.values(d.resultados).filter(r=>r.trimestre===tri); },
@@ -4842,6 +5105,7 @@ function pintarMoedasTopo(){
   if(moedasAnim && !(moedasAnim.el && moedasAnim.el.isConnected)) moedasAnim = null;
   const v = moedasAnim ? moedasAnim.v : moedas();
   $("topoMoedasN").textContent = fmt(v); b.setAttribute("aria-label", v + (v === 1 ? " moeda" : " moedas") + ". Abrir a loja");
+  const td = $("topoDin"); if(td && typeof dinheiro === "function"){ const n = dinheiro(); $("topoDinN").textContent = fmt(n); td.setAttribute("aria-label", n + " de dinheiro. Ver como ganhar"); }
 }
 $("topoMoedas").onclick = ()=>{ if(usuario && perfil && perfil.profeta) nav("loja"); };
 function atualizarCasca(){
@@ -4849,9 +5113,11 @@ function atualizarCasca(){
   const comMenu = logado && !!perfil.profeta;          // sem personagem escolhido, o menu só aparece depois da escolha
   $("topbar").hidden = !logado; $("nav").hidden = !comMenu;
   document.body.classList.toggle("sem-menu", !comMenu);
+  document.body.dataset.tela = tabAtual || "";
   if(logado){ $("chipEm").innerHTML = perfil.profeta ? meuAvatar() : ""; $("chipConta").setAttribute("aria-label", "Minha conta de " + (perfil.nome || "")); $("chipConta").title = perfil.nome || ""; $("chipConta").classList.toggle("atual", tabAtual === "conta" || tabAtual === "admin" || tabAtual === "salas"); const np = $("navSalasN"); if(np){ const n = typeof SALAS_PENDENTES === "number" ? SALAS_PENDENTES : 0; np.hidden = !n; np.textContent = n > 9 ? "9+" : String(n); } }
   if(logado && typeof minhaMoldura === "function"){ const cc = $("chipConta"), mm = minhaMoldura(); Array.from(cc.classList).filter(c => c.indexOf("mold") === 0).forEach(c => cc.classList.remove(c)); if(mm) cc.classList.add("mold", "mold-" + mm); }
   const tm = $("topoMoedas"); if(tm){ tm.hidden = !comMenu; if(comMenu) pintarMoedasTopo(); }
+  const tdn = $("topoDin"); if(tdn) tdn.hidden = !comMenu;
   if(typeof atualizarSino === "function") atualizarSino();
   if(typeof albumTique === "function") albumTique();          // álbum trancado ou não, e a contagem no menu
   const abaMenu = tabAtual === "quiz" ? "estudar" : tabAtual;          // estudar e quiz moram no mesmo botão (Lição)
@@ -5051,7 +5317,8 @@ DB.onAuth(async u => {
     if(!perfil.aprovado && !perfil.admin && !ehMaster()){ fecharBarra(); atualizarCasca(); telaPendente(); return; }
     aplicarTema(perfil.tema || "auto");
     if(typeof registrarAparelho === "function") setTimeout(registrarAparelho, 4000);
-    if(typeof sincronizarCalendario === "function") setTimeout(sincronizarCalendario, 9000);   // tema de cada dia, para o lembrete do quiz          // Admin › Versões: qual versão este aparelho abriu
+    if(typeof sincronizarCalendario === "function") setTimeout(sincronizarCalendario, 9000);
+    if(typeof carregarPremios === "function") setTimeout(() => carregarPremios(true), 5000);       // dinheiro do pódio e contadores das conquistas   // tema de cada dia, para o lembrete do quiz          // Admin › Versões: qual versão este aparelho abriu
     await carregarTudo(passo);
     passo(72, "Entrando nas salas");
     await carregarSalas(true);
@@ -5178,25 +5445,96 @@ function sequencia(){
   return n;
 }
 function minutoDoDia(ts){ if(!ts) return -1; const d = new Date(ts); return d.getHours()*60 + d.getMinutes(); }
+/* ============================================================
+   CONQUISTAS EM TRÊS GRUPOS (p89): Incenso, Mirra e Ouro (os presentes dos magos)
+   - Incenso: as 14 de antes. Mirra: um pouco mais difíceis. Ouro: as mais difíceis.
+   - Completar o grupo inteiro dá moedas: Incenso 50, Mirra 70, Ouro 100.
+   - Conquista ganha uma vez fica ganha (as já vistas ficam em perfil.cqVistas).
+   ============================================================ */
+const GRUPOS_CQ = [
+  { id: "incenso", nome: "Incenso", ic: "🪔", premio: 50, cor: "#C9A6FF" },
+  { id: "mirra", nome: "Mirra", ic: "🏺", premio: 70, cor: "#E8A36B" },
+  { id: "ouro", nome: "Ouro", ic: "👑", premio: 100, cor: "#FFD54A" }
+];
+/* a maior sequência de dias seguidos no prazo (em qualquer época) */
+function melhorSequencia(){
+  const dias = [...new Set(Object.values(RES).filter(r => r.noPrazo).map(r => r.data))].sort();
+  let melhor = 0, cor = 0, ant = null;
+  dias.forEach(d => { cor = ant && somarDias(ant, 1) === d ? cor + 1 : 1; if(cor > melhor) melhor = cor; ant = d; });
+  return melhor;
+}
 function conquistas(){
-  const rs = Object.values(RES), st = sequencia();
-  const semanaCompleta = LICOES.some(L => L.dias.every(d => resDe(L,d) && resDe(L,d).noPrazo));
-  return [
+  const rs = Object.values(RES), st = sequencia(), seqMax = Math.max(st, melhorSequencia());
+  const gab = r => r.total > 0 && r.acertos === r.total;
+  const semanasPrazo = LICOES.filter(L => L.dias.every(d => resDe(L, d) && resDe(L, d).noPrazo)).length;
+  const vist = new Set(usuario ? (cqVistas() || []) : []);
+  const duelosGanhos = Object.values((perfil && perfil.duelos) || {}).filter(v => +v > 0).length;
+  const trocas = Object.keys((perfil && perfil.figTrocas) || {}).length;
+  const casas = typeof missoesFeitas === "function" ? missoesFeitas() : 0;
+  let inv = {}; try{ inv = albumInventario(); }catch(e){}
+  const prem = typeof premiosDoJogador === "function" ? premiosDoJogador() : [];
+  const podio = t => prem.some(p => (p.tipo || "semana") === t && p.pos <= 3), primeiro = prem.some(p => (p.tipo || "semana") === "semana" && p.pos === 1);
+  const sq = perfil && perfil.superQuiz, sqPerf = !!(perfil && (perfil.sqPerfeito || (sq && sq.fim && sq.n && sq.acertos >= sq.n)));
+  const lista = [
+    /* Incenso */
     { ic:"👣", id:"passo", t:"Primeiro passo", d:"Fez o primeiro quiz", on: rs.length > 0 },
-    { ic:"🎯", id:"gabarito", t:"Gabaritou", d:"Acertou todas num dia", on: rs.some(r => r.total > 0 && r.acertos === r.total) },
+    { ic:"🎯", id:"gabarito", t:"Gabaritou", d:"Acertou todas num dia", on: rs.some(gab) },
     { ic:"⚡", id:"relampago", t:"Relâmpago", d:"4.500+ pontos num dia", on: rs.some(r => r.pts >= 4500) },
-    { ic:"🏹", id:"mira", t:"Mira certeira", d:"5 dias com todas certas", on: rs.filter(r => r.total > 0 && r.acertos === r.total).length >= 5 },
-    { ic:"🔥", id:"chamas", t:"Em chamas", d:"5 dias seguidos no prazo", on: st >= 5 },
-    { ic:"📅", id:"semana", t:"Semana completa", d:"7 de 7 no prazo", on: semanaCompleta },
+    { ic:"🏹", id:"mira", t:"Mira certeira", d:"5 dias com todas certas", on: rs.filter(gab).length >= 5 },
+    { ic:"🔥", id:"chamas", t:"Em chamas", d:"5 dias seguidos no prazo", on: seqMax >= 5 },
+    { ic:"📅", id:"semana", t:"Semana completa", d:"7 de 7 no prazo", on: semanasPrazo >= 1 },
     { ic:"🌙", id:"madrugador", t:"Madrugador", d:"Quiz entre 00h e 06h", on: rs.some(r => minutoDoDia(r.quando) >= 0 && minutoDoDia(r.quando) < 6*60) },
     { ic:"🌅", id:"reino", t:"Primeiro o Reino", d:"Quiz entre 06h e 08h", on: rs.some(r => minutoDoDia(r.quando) >= 6*60 && minutoDoDia(r.quando) <= 8*60) },
     { ic:"🏁", id:"maratonista", t:"Maratonista", d:"21 dias de estudo", on: rs.length >= 21 },
-    { ic:"🕊️", id:"fiel", t:"Fiel na reta", d:"3 semanas completas", on: LICOES.filter(L => L.dias.every(d => resDe(L,d) && resDe(L,d).noPrazo)).length >= 3 },
+    { ic:"🕊️", id:"fiel", t:"Fiel na reta", d:"3 semanas completas", on: semanasPrazo >= 3 },
     { ic:"💎", id:"tesouro", t:"Tesouro", d:"20.000 pontos no trimestre", on: totalTrimestre() >= 20000 },
     { ic:"📖", id:"rolo", t:"Rolo inteiro", d:"Todos os dias do trimestre", on: LICOES.length > 0 && LICOES.every(L => L.dias.every(d => resDe(L,d))) },
-    { ic:"💰", id:"rico", t:"Rico", d:"Ganhou 1.000 moedas no total", on: typeof moedasGanhas === "function" && moedasGanhas() >= 1000 },
-    { ic:"🎴", id:"colecionador", t:"Colecionador", d:"Completou um álbum de figurinhas", on: typeof temAlbumCompleto === "function" && temAlbumCompleto() }
+    { ic:"💰", id:"rico", t:"Rico", d:"Ganhou 1.000 moedas no total", on: typeof moedasGanhasBase === "function" && moedasGanhasBase() >= 1000 },
+    { ic:"🎴", id:"colecionador", t:"Colecionador", d:"Completou um álbum de figurinhas", on: typeof temAlbumCompleto === "function" && temAlbumCompleto() },
+    /* Mirra */
+    { g:"mirra", ic:"💖", id:"querido", t:"Querido da Turma", d:"Recebeu 10 reações no seu perfil", on: (typeof reacoesNoPerfil === "function" ? reacoesNoPerfil() : 0) >= 10 },
+    { g:"mirra", ic:"📯", id:"arauto", t:"Arauto do Mural", d:"50 mensagens no mural no próprio dia", on: ((perfil && perfil.muralDoDia) || 0) >= 50 },
+    { g:"mirra", ic:"🌟", id:"lendas", t:"Caçador de Lendas", d:"Tem as 8 figurinhas lendárias", on: typeof ALBUM_LENDARIAS !== "undefined" && [...ALBUM_LENDARIAS].every(id => (inv[id] || 0) > 0) },
+    { g:"mirra", ic:"🪨", id:"pedra", t:"Pedra de Davi", d:"15 dias com todas certas", on: rs.filter(gab).length >= 15 },
+    { g:"mirra", ic:"🔥", id:"brasa", t:"Brasa Viva", d:"14 dias seguidos no prazo", on: seqMax >= 14 },
+    { g:"mirra", ic:"🛡️", id:"sentinela", t:"Sentinela", d:"6 semanas completas no prazo", on: semanasPrazo >= 6 },
+    { g:"mirra", ic:"⚔️", id:"valente", t:"Valente", d:"Venceu 5 desafios", on: duelosGanhos >= 5 },
+    { g:"mirra", ic:"🤝", id:"negociante", t:"Bom Negociante", d:"Fez 20 trocas de figurinhas", on: trocas >= 20 },
+    { g:"mirra", ic:"🧭", id:"peregrino", t:"Peregrino", d:"Cumpriu 50 missões do mapa", on: casas >= 50 },
+    /* Ouro */
+    { g:"ouro", ic:"🏆", id:"podio", t:"No Pódio", d:"Terminou uma lição entre os 3 primeiros da sala", on: podio("semana") },
+    { g:"ouro", ic:"👑", id:"coroa", t:"Coroa do Trimestre", d:"Terminou o trimestre no pódio da sala", on: podio("tri") },
+    { g:"ouro", ic:"💵", id:"servo", t:"Servo Fiel", d:"Ganhou 50 de dinheiro", on: (typeof dinheiroGanho === "function" ? dinheiroGanho() : 0) >= 50 },
+    { g:"ouro", ic:"🗺️", id:"terra", t:"Terra Prometida", d:"Chegou ao fim de um mapa das missões", on: typeof MAPAS !== "undefined" && MAPAS[0] && casas >= MAPAS[0].n },
+    { g:"ouro", ic:"🥇", id:"campeao", t:"Campeão da Semana", d:"Terminou uma lição em 1º lugar na sala", on: primeiro },
+    { g:"ouro", ic:"✨", id:"perfeita", t:"Semana Perfeita", d:"Acertou todas nos 7 dias de uma lição", on: LICOES.some(L => L.dias.length === 7 && L.dias.every(d => resDe(L, d) && gab(resDe(L, d)))) },
+    { g:"ouro", ic:"🕯️", id:"eterna", t:"Chama Eterna", d:"30 dias seguidos no prazo", on: seqMax >= 30 },
+    { g:"ouro", ic:"📚", id:"biblioteca", t:"Biblioteca Completa", d:"Completou os álbuns Antigo e Novo Testamento", on: typeof albumCompleto === "function" && albumCompleto() },
+    { g:"ouro", ic:"🏁", id:"superperfeito", t:"Super Quiz Perfeito", d:"Acertou as 20 perguntas de um super quiz", on: sqPerf }
   ];
+  lista.forEach(c => { c.g = c.g || "incenso"; c.on = !!c.on || vist.has(c.id); });
+  return lista;
+}
+const grupoDe = id => GRUPOS_CQ.find(g => g.id === id) || GRUPOS_CQ[0];
+/* moedas dos grupos completos (guarda a conta por um instante: moedas() é chamada muitas vezes) */
+let _cqMoedas = { k: "", t: 0, v: 0 };
+function moedasDeConquistas(){
+  const k = (usuario && usuario.uid) || "";
+  if(_cqMoedas.k === k && Date.now() - _cqMoedas.t < 1500) return _cqMoedas.v;
+  let v = 0;
+  try{ const l = conquistas(); GRUPOS_CQ.forEach(g => { const d = l.filter(c => c.g === g.id); if(d.length && d.every(c => c.on)) v += g.premio; }); }catch(e){}
+  _cqMoedas = { k, t: Date.now(), v };
+  return v;
+}
+/* grupo que acabou de ser completado: festa e as moedas */
+function conferirGruposCompletos(){
+  if(!usuario || !perfil) return false;
+  const l = conquistas(), feitos = new Set(perfil.cqGrupos || []), novos = GRUPOS_CQ.filter(g => !feitos.has(g.id) && l.filter(c => c.g === g.id).every(c => c.on));
+  if(!novos.length) return false;
+  perfil.cqGrupos = [...feitos].concat(novos.map(g => g.id)); DB.salvarUsuario(usuario.uid, { cqGrupos: perfil.cqGrupos }).catch(() => {});
+  _cqMoedas.t = 0;
+  novos.forEach(g => { if(typeof ganhouMoedas === "function") ganhouMoedas(g.premio, `Todas as conquistas ${g.nome}!`); });
+  return true;
 }
 /* ---------- Conquistas novas: aparecem uma única vez, com confetes ---------- */
 function cqVistas(){
@@ -5216,7 +5554,7 @@ function conferirConquistasNovas(){
   if(!usuario || !perfil || tabAtual !== "inicio" || document.querySelector(".modal-bg")) return false;
   const vistas = cqVistas() || [];
   const novas = conquistas().filter(c => c.on && !vistas.includes(c.id));
-  if(!novas.length) return false;
+  if(!novas.length) return conferirGruposCompletos();
   salvarCqVistas(vistas.concat(novas.map(c => c.id)));   // marca antes de mostrar: aparece só uma vez
   celebrarConquistas(novas);
   return true;
@@ -5234,7 +5572,7 @@ function celebrarConquistas(novas){
     m.querySelector("#cqnTodas").onclick = e => compartilharConquistas(e.currentTarget);
     m.querySelector("#cqnMural").onclick = e => publicarNoMural(uma ? postDaConquista(novas[0]) : { tipo: "conquistas", ref: novas.map(c => c.id).join("-"), ic: "🏅", titulo: `Desbloqueou ${novas.length} conquistas de uma vez`, texto: novas.map(c => c.t).join(" · ") }, e.currentTarget);
     m.querySelector("#cqnOk").onclick = fechar;
-  }, ()=>{ pararConfete(); setTimeout(conferirMissoesNovas, 300); });
+  }, ()=>{ pararConfete(); conferirGruposCompletos(); setTimeout(conferirMissoesNovas, 300); });
   tocar("missao");
 }
 /* Confetes caindo por cima de tudo (some sozinho; respeita "reduzir movimento"). Retorna uma função para parar. */
@@ -5276,7 +5614,8 @@ function confetes(){
 function modalConquista(k){
   const cq = conquistas(), c = cq[k]; if(!c) return;
   const ganhas = cq.filter(x=>x.on).length;
-  modal(c.on ? "Conquista desbloqueada" : "Conquista bloqueada", `<div class="cq-modal ${c.on?"on":"off"}"><div class="ic">${c.ic}</div><h3>${esc(c.t)}</h3><p>${esc(c.d)}</p>
+  const gq = grupoDe(c.g);
+  modal(c.on ? "Conquista desbloqueada" : "Conquista bloqueada", `<div class="cq-modal ${c.on?"on":"off"}"><div class="ic">${c.ic}</div><span class="cq-g-tag g-${gq.id}">${gq.ic} ${gq.nome}</span><h3>${esc(c.t)}</h3><p>${esc(c.d)}</p>
     ${c.on ? `<p class="muted small">Mande no grupo e inspire a turma.</p><div class="btn-row"><button class="btn btn-wa" id="cqUma">Compartilhar esta conquista</button><button class="btn btn-ghost" id="cqMural">Publicar no mural</button>${ganhas > 1 ? `<button class="btn btn-ghost" id="cqTodas">Compartilhar todas (${ganhas} de ${cq.length})</button>` : ""}</div>` : `<p class="muted small">Você ainda não ganhou esta conquista. Continue estudando e fazendo o quiz todo dia!</p>`}</div>`, (m)=>{
     const u = m.querySelector("#cqUma"); if(u) u.onclick = ()=> compartilharConquista(c, u);
     const mu = m.querySelector("#cqMural"); if(mu) mu.onclick = ()=> publicarNoMural(postDaConquista(c), mu);
@@ -5328,7 +5667,10 @@ function telaInicio(){
   /* conquistas: uma fileira que rola para o lado */
   const cq = conquistas(), ganhas = cq.filter(c => c.on).length;
   html += `<section class="panel hm-card">${cab(`Conquistas <em>${ganhas}/${cq.length}</em>`, ganhas ? link("cqShare", "Compartilhar") : "")}
-    <div class="hm-cq">${cq.map((c, k) => `<button type="button" class="${c.on ? "on" : "off"}" data-cq="${k}" title="${esc(c.t)}: ${esc(c.d)}"><span>${c.ic}</span><small>${esc(c.t)}</small></button>`).join("")}</div></section>`;
+    ${GRUPOS_CQ.map(g => { const l = cq.map((c, k) => ({ c, k })).filter(x => x.c.g === g.id), n = l.filter(x => x.c.on).length, ok = n === l.length;
+      return `<div class="cq-grupo g-${g.id}${ok ? " completo" : ""}"><div class="cq-g-cab"><span class="cq-g-ic" aria-hidden="true">${g.ic}</span><b>${g.nome}</b><small>${n}/${l.length}</small><span class="cq-g-premio" title="${ok ? "Grupo completo" : "Complete o grupo para ganhar"}">${ok ? "✓ " : ""}+${g.premio}<i class="moeda" aria-hidden="true"></i></span></div>
+        <span class="cq-g-barra" aria-hidden="true"><i style="width:${Math.round(100 * n / l.length)}%"></i></span>
+        <div class="hm-cq">${l.map(({ c, k }) => `<button type="button" class="${c.on ? "on" : "off"}" data-cq="${k}" title="${esc(c.t)}: ${esc(c.d)}"><span>${c.ic}</span><small>${esc(c.t)}</small></button>`).join("")}</div></div>`; }).join("")}</section>`;
   html += `</div></div>`;
   app.innerHTML = html;
   const cqS = $("cqShare"); if(cqS) cqS.onclick = ()=> compartilharConquistas(cqS);
@@ -5905,7 +6247,7 @@ function trimestresComLicao(){ return [...new Set(LICOES.map(l => l.trimestre))]
 function estanteDeLivros(tris){
   const atual = (LICOES[indiceLicaoAtual()] || {}).trimestre;
   return tris.length ? `<div class="livros ${tris.length === 1 ? "um" : ""}">${tris.map(t => { const ls = LICOES.filter(l => l.trimestre === t), feitos = ls.reduce((n, l) => n + diasFeitos(l), 0);
-      return `<button type="button" class="livro ${t === atual ? "atual" : ""}" data-tri="${esc(t)}">${capaLivro(t)}<span class="livro-tx"><b>${esc(tituloLivro(t))}</b><small>${esc(nomeTrimestre(t))}</small><small>${ls.length} ${ls.length === 1 ? "lição" : "lições"} · ${feitos} de ${ls.length * 7} dias feitos</small>${t === atual ? `<span class="badge sala-ativa">Trimestre atual</span>` : ""}</span></button>`; }).join("")}</div>`
+      return `<button type="button" class="livro ${t === atual ? "atual" : ""}" data-tri="${esc(t)}">${capaLivro(t)}<span class="livro-tx"><b>${esc(tituloLivro(t))}</b><small>${esc(nomeTrimestre(t))}</small><small>${ls.length} ${ls.length === 1 ? "lição" : "lições"} · ${feitos} de ${ls.length * 7} dias feitos</small>${t === atual ? `<span class="badge sala-ativa">Trimestre atual</span>` : ""}</span>${tris.length === 1 ? (() => { const agora = LICOES[indiceLicaoAtual()]; return `<span class="livro-lics" aria-hidden="true">${ls.map(l => { const n = diasFeitos(l); return `<i class="${n >= 7 ? "ok" : n ? "meio" : ""}${l === agora ? " agora" : ""}"><b>${esc(String(l.n))}</b><small>${esc(l.titulo || "")}</small><em style="--p:${Math.round(100 * n / 7)}%"></em></i>`; }).join("")}</span>`; })() : ""}</button>`; }).join("")}</div>`
       : `<p class="vazio">Ainda não há lições publicadas.</p>`;
 }
 function telaEstudarLivros(){
@@ -6050,6 +6392,7 @@ function renderCorrida(cfg, res, pessoas, licSel, membros){
   const fmt1 = n => (Math.round(n*10)/10).toLocaleString("pt-BR");
   let h = "";
   /* o pódio: os três primeiros (só quem já deu algum passo) */
+  { const sa = typeof salaAtual === "function" ? salaAtual() : null; if(licSel && sa && sa.dinheiro === true && !sa.global && !sa.vazia && sa.id !== SALA_GLOBAL_ID && typeof DINHEIRO !== "undefined") h += `<p class="din-dica">${DINHEIRO}<span>Os 3 primeiros desta sala na lição ganham dinheiro: <b>10</b>, <b>7</b> e <b>5</b>${ids.length < DIN_MIN_JOGADORES ? ` (precisa de pelo menos ${DIN_MIN_JOGADORES} jogadores)` : ""}.</span></p>`; }
   if(ids.length) h += htmlPodio(ids.filter(id => jov[id].passos > 0).slice(0, 3).map(id => jov[id]), licSel ? `Lição ${licSel.n}` : "Trimestre");
   h += `<section class="panel pg-card"><div class="hm-cab"><span>A pista</span><span class="hm-meta">${ids.length} ${ids.length === 1 ? "corredor" : "corredores"}</span></div>`;
   if(!ids.length) h += `<p class="vazio">${licSel ? "Ninguém fez o quiz desta lição ainda." : "A corrida desta sala começa quando chegarem os primeiros resultados do quiz."}</p>`;
@@ -6573,6 +6916,7 @@ function avisoPodeLigar(){
 }
 async function ligarAvisos(){
   if(!avisoPodeLigar()) return false;
+  if(!oferecerInstalarAntesDosAvisos(() => alternarAvisos($("mAvisos")))) return false;          // celular fora do app: primeiro instalar (p90)
   const perm = await Notification.requestPermission();
   if(perm !== "granted"){ aviso("Tudo bem! Dá para ligar os avisos depois em Minha conta."); return false; }
   if(typeof firebase === "undefined") throw new Error("os avisos só funcionam no jogo publicado");
@@ -6628,7 +6972,7 @@ document.addEventListener("click", e => {
    O aviso vira um documento em "avisos"; a função enviarAviso (Firebase Functions) manda para os aparelhos
    e anota quantos receberam. O master manda para todos ou para uma sala; quem cuida de uma sala, só para ela. */
 const avisoAlvoNome = a => { const p = a.publico || (a.soFaltando ? "quiz" : "todos");
-  return (a.auto ? "Agendado" : a.alvo === "todos" ? "Todos os jogadores" : "Sala " + (a.alvoNome || "")) + (p === "quiz" ? " · só quem não fez o quiz" : p === "super" ? " · só quem não fez o super quiz" : ""); };
+  return (a.auto ? "Agendado" : a.alvo === "todos" ? "Todos os jogadores" : "Sala " + (a.alvoNome || "")) + (p === "quiz" ? " · só quem não fez o quiz" : p === "super" ? " · só quem não fez o super quiz" : p === "mural" ? " · fez o quiz e não publicou reflexão" : ""); };
 function htmlHistoricoAvisos(l){
   if(!l.length) return `<p class="vazio">Nenhum aviso mandado ainda.</p>`;
   const st = a => a.status === "enviado" ? `<span class="badge ok">${a.enviados || 0} ${(a.enviados || 0) === 1 ? "aparelho" : "aparelhos"}</span>`
@@ -6660,7 +7004,7 @@ async function admAvisos(){
         <div class="field"><label for="avTit">Título</label><input type="text" id="avTit" maxlength="60" placeholder="Ex.: Lição 10 no ar!"></div>
         <div class="field"><label for="avTex">Texto</label><textarea id="avTex" maxlength="180" rows="3" placeholder="Ex.: Bora fazer o quiz de hoje? Vale moedas!"></textarea><span class="hint"><span id="avQtd">0</span> de 180 letras. Escreva <b>{tema}</b> para pôr o tema do quiz de hoje.</span></div>
         <div class="field"><label for="avPara">Para quem</label><select id="avPara">${opcoes}</select></div>
-        <div class="field"><label for="avPub">Quem recebe</label><select id="avPub"><option value="todos">Todos com os avisos ligados</option><option value="quiz">Só quem ainda não fez o quiz de hoje</option><option value="super">Só quem ainda não fez o super quiz</option></select></div>
+        <div class="field"><label for="avPub">Quem recebe</label><select id="avPub"><option value="todos">Todos com os avisos ligados</option><option value="quiz">Só quem ainda não fez o quiz de hoje</option><option value="super">Só quem ainda não fez o super quiz</option><option value="mural">Só quem fez o quiz de hoje e não publicou reflexão no mural</option></select></div>
         <p class="muted small av-falta-info" id="avFaltaInfo" hidden></p></div>
         <div class="av-lado"><span class="rot">Como chega no celular</span><div class="av-previa" aria-hidden="true"><img src="app-icone-192.png" alt="" onerror="this.remove()"><div><b id="avPrevT">Corrida do Rolo</b><span id="avPrevX">O texto do aviso aparece aqui.</span></div></div></div></div>
         <p class="erro" id="avErro2"></p>
@@ -6691,11 +7035,17 @@ async function admAvisos(){
     tit.addEventListener("input", prev); tex.addEventListener("input", prev);
     ligarEscolhaModelo(c.querySelector(".av-form"), { tit, tex });
     const pubSel = $("avPub"), info = $("avFaltaInfo");
-    const naoPode = p => { if(p === "quiz"){ const q = quizDoDia(); return q && q.q ? "" : "Hoje não tem quiz: este aviso não teria para quem ir."; }
+    const naoPode = p => { if(p === "quiz" || p === "mural"){ const q = quizDoDia(); return q && q.q ? "" : "Hoje não tem quiz: este aviso não teria para quem ir."; }
       if(p === "super") return janelaSuper().aberto ? "" : `O super quiz não está aberto agora (abre sexta às ${SQ_HORA}h e fecha sábado às ${SQ_HORA}h).`; return ""; };
     const verFalta = () => {
       const p = pubSel.value; info.hidden = p === "todos"; if(p === "todos") return;
       const np = naoPode(p); if(np){ info.textContent = np; return; }
+      if(p === "mural"){
+        if(para.value !== "todos"){ info.textContent = "Vai só para os membros da sala que já fizeram o quiz de hoje e ainda não publicaram uma reflexão no mural."; return; }
+        info.textContent = "Contando…";
+        faltandoHoje(p).then(f => { info.innerHTML = `<b>${f.falta}</b> de ${f.total} jogadores fizeram o quiz de hoje e ainda não publicaram uma reflexão no mural.`; }).catch(() => { info.textContent = "Vai só para quem fez o quiz de hoje e ainda não publicou uma reflexão no mural."; });
+        return;
+      }
       const oque = p === "quiz" ? "o quiz de hoje" : "o super quiz";
       if(para.value !== "todos"){ info.textContent = `Vai só para os membros da sala que ainda não fizeram ${oque}.`; return; }
       info.textContent = "Contando quem ainda não fez…";
@@ -6708,7 +7058,7 @@ async function admAvisos(){
       if(x.length < 3){ er.textContent = "Escreva o texto do aviso."; return; }
       const pub = pubSel.value, soFalta = pub !== "todos", np = naoPode(pub);
       if(np){ er.textContent = np; return; }
-      const sala = salas.find(s => s.id === alvo), nome = (pub === "quiz" ? "quem ainda não fez o quiz de hoje em " : pub === "super" ? "quem ainda não fez o super quiz em " : "") + (alvo === "todos" ? "todos os jogadores" : `a sala ${sala ? sala.nome : ""}`);
+      const sala = salas.find(s => s.id === alvo), nome = (pub === "quiz" ? "quem ainda não fez o quiz de hoje em " : pub === "super" ? "quem ainda não fez o super quiz em " : pub === "mural" ? "quem fez o quiz de hoje e não publicou reflexão em " : "") + (alvo === "todos" ? "todos os jogadores" : `a sala ${sala ? sala.nome : ""}`);
       if(!(await confirmar("Enviar aviso", `Mandar “${comTema(t)}” para ${nome}? Depois de enviado, não dá para desfazer.`, "Enviar", "btn-main"))) return;
       ocupado(env, true);
       try{
@@ -6861,11 +7211,12 @@ async function admVersoes(){
    - O jogo do master grava em config/calendario o tema de cada dia, para a função saber se tem quiz e qual o tema.
    ============================================================ */
 const SEMANA_NOMES = ["domingo", "segunda", "terça", "quarta", "quinta", "sexta", "sábado"], SEMANA_CURTO = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
-const PUBLICOS = { todos: "Todos com os avisos ligados", quiz: "Só quem ainda não fez o quiz do dia", super: "Só quem ainda não fez o super quiz" };
-const PUBLICO_CURTO = { todos: "para todos", quiz: "só quem não fez o quiz do dia", super: "só quem não fez o super quiz" };
+const PUBLICOS = { todos: "Todos com os avisos ligados", quiz: "Só quem ainda não fez o quiz do dia", super: "Só quem ainda não fez o super quiz", mural: "Só quem fez o quiz do dia e não publicou reflexão no mural" };
+const PUBLICO_CURTO = { todos: "para todos", quiz: "só quem não fez o quiz do dia", super: "só quem não fez o super quiz", mural: "só quem fez o quiz e não publicou reflexão" };
 const MODELOS_AGENDADOS = {
   quiz: { modo: "variar", cat: "quiz", titulo: "👀 Ei, cadê você?", texto: "O quiz de hoje já tá te esperando! Tema: {tema}. Prometo que é mais rápido que escolher o que assistir 😅", quando: "dia", dias: [], hora: 19, publico: "quiz", ativo: true },
   super: { modo: "variar", cat: "super", titulo: "🏁 Corre que o super quiz fecha às 18h!", texto: "Ainda dá tempo: 20 perguntas da semana e cada 2 acertos te levam 1 casa nas missões. Bora avançar no mapa! 🗺️", quando: "semana", dias: [6], hora: 14, publico: "super", ativo: true },
+  mural: { modo: "variar", cat: "mural", titulo: "💭 O que a lição te ensinou hoje?", texto: "Você já fez o quiz de hoje! Agora conta pra turma: deixe uma reflexão sobre a lição no mural da sua sala. 🙌", quando: "dia", dias: [], hora: 20, publico: "mural", ativo: true },
   livre: { modo: "novo", cat: "quiz", titulo: "", texto: "", quando: "semana", dias: [], hora: 19, publico: "todos", ativo: true }
 };
 function quizDoDia(data){
@@ -6885,11 +7236,11 @@ let _calSync = "";
 async function sincronizarCalendario(){
   try{
     if(!usuario || !ehMaster() || !Array.isArray(LICOES) || !LICOES.length) return;
-    const ini = somarDias(hoje(), -2), dias = {};
-    LICOES.forEach(L => { if(!L || L.exemplo) return; (L.dias || []).forEach(d => { if(d.data >= ini) dias[d.data] = { t: String(d.tema || "").slice(0, 120), l: (L.numero + " – " + L.titulo).slice(0, 120), id: L.id, q: (d.perguntas || []).length }; }); });
-    const js = JSON.stringify(dias);
+    const ini = somarDias(hoje(), -9), dias = {}, tris = {};          // 9 dias para trás: a função do pódio confere a lição que acabou
+    LICOES.forEach(L => { if(!L || L.exemplo) return; (L.dias || []).forEach(d => { if(L.trimestre && (!tris[L.trimestre] || d.data > tris[L.trimestre])) tris[L.trimestre] = d.data; if(d.data >= ini) dias[d.data] = { t: String(d.tema || "").slice(0, 120), l: (L.numero + " – " + L.titulo).slice(0, 120), id: L.id, tri: L.trimestre || "", q: (d.perguntas || []).length }; }); });
+    const js = JSON.stringify([dias, tris]);
     if(js === _calSync || lsGet(KEY + ":calSync", "") === js){ _calSync = js; return; }
-    await DB.salvarCalendario({ dias, at: Date.now() });
+    await DB.salvarCalendario({ dias, tris, at: Date.now() });
     _calSync = js; lsSet(KEY + ":calSync", js);
   }catch(e){ console.warn("calendário", e && e.code); }
 }
@@ -6897,6 +7248,11 @@ async function sincronizarCalendario(){
 async function faltandoHoje(publico){
   const ativos = (await listarUsuariosAdm()).filter(u => u.aprovado || u.admin || u.master);
   let fez;
+  if(publico === "mural"){
+    const fizeram = new Set((await DB.resultadosDoDia(hoje())).map(r => r.uid)), ini = new Date(hoje() + "T00:00:00").getTime();
+    const postou = u => u.reflexaoDia === hoje();          // só reflexão conta (resultado, conquista etc. não)
+    return { total: ativos.length, falta: ativos.filter(u => fizeram.has(u.id) && !postou(u)).length };
+  }
   if(publico === "super"){ const j = janelaSuper(); fez = new Set(ativos.filter(u => u.superQuiz && u.superQuiz.id === j.id && u.superQuiz.fim).map(u => u.id)); }
   else fez = new Set((await DB.resultadosDoDia(hoje())).map(r => r.uid));
   return { total: ativos.length, falta: ativos.filter(u => !fez.has(u.id)).length };
@@ -6989,7 +7345,7 @@ function htmlAgendados(){
       ${outrasDatas.length ? `<div class="ag-dia todo"><div class="ag-dia-cab"><b>Outras datas</b><small>uma vez só</small></div>${lista(outrasDatas, null)}</div>` : ""}`
       : `<p class="vazio">Nenhum aviso agendado ainda. Comece por um dos modelos abaixo.</p>`}
     <span class="av-rot ag-mod-rot">Modelos prontos</span>
-    <div class="ag-modelos"><button type="button" class="btn btn-ghost btn-sm" data-mod="quiz">📖 Lembrete do quiz do dia</button><button type="button" class="btn btn-ghost btn-sm" data-mod="super">🏁 Lembrete do super quiz</button><button type="button" class="btn btn-ghost btn-sm" data-mod="livre">✏️ Personalizado</button></div>
+    <div class="ag-modelos"><button type="button" class="btn btn-ghost btn-sm" data-mod="quiz">📖 Lembrete do quiz do dia</button><button type="button" class="btn btn-ghost btn-sm" data-mod="super">🏁 Lembrete do super quiz</button><button type="button" class="btn btn-ghost btn-sm" data-mod="mural">💭 Lembrete da reflexão</button><button type="button" class="btn btn-ghost btn-sm" data-mod="livre">✏️ Personalizado</button></div>
     <p class="note">Saem sozinhos no horário de Brasília, para quem ligou os avisos. Os de "só quem não fez" não saem em dia sem quiz nem com o super quiz fechado. Escreva <b>{tema}</b> no texto para pôr o tema do quiz do dia.</p></section>`;
 }
 function modalAgendado(id, base){
@@ -7022,7 +7378,8 @@ function modalAgendado(id, base){
       q("#agPrevT").textContent = comTema(pm ? pm.titulo : x.titulo) || "Corrida do Rolo";
       q("#agPrevX").textContent = comTema(pm ? pm.texto : x.texto) || (x.modo === "variar" ? "Essa categoria ainda não tem modelos." : "O texto do aviso aparece aqui.");
       q("#agDica").textContent = x.publico === "super" ? `O super quiz fica aberto de sexta às ${SQ_HORA}h até sábado às ${SQ_HORA}h: escolha um dia e horário dentro desse período.`
-        : x.publico === "quiz" ? "Não sai em dia sem quiz. Quem já respondeu o quiz do dia não recebe." : "Vai para todos que ligaram os avisos.";
+        : x.publico === "quiz" ? "Não sai em dia sem quiz. Quem já respondeu o quiz do dia não recebe."
+        : x.publico === "mural" ? "Não sai em dia sem quiz. Vai só para quem já fez o quiz do dia e ainda não publicou uma reflexão sobre a lição (postar resultado ou conquista não conta). Bom à noite." : "Vai para todos que ligaram os avisos.";
     };
     [tit, tex].forEach(e => e.addEventListener("input", atualizar));
     [qd, pub, q("#agHora"), q("#agData")].forEach(e => e.addEventListener("change", atualizar));
@@ -7048,7 +7405,7 @@ async function mandarAgendadoAgora(a, botao){
   const pm = a.modo === "variar" ? proximoModelo(a) : null;
   if(a.modo === "variar" && !pm){ aviso("Essa categoria não tem modelos."); return; }
   const titulo = pm ? pm.titulo : a.titulo, texto = pm ? pm.texto : a.texto;
-  if(a.publico === "quiz"){ const qh = quizDoDia(); if(!(qh && qh.q)){ aviso("Hoje não tem quiz: esse aviso não teria para quem ir."); return; } }
+  if(a.publico === "quiz" || a.publico === "mural"){ const qh = quizDoDia(); if(!(qh && qh.q)){ aviso("Hoje não tem quiz: esse aviso não teria para quem ir."); return; } }
   if(a.publico === "super" && !janelaSuper().aberto){ aviso(`O super quiz não está aberto agora (abre sexta às ${SQ_HORA}h).`); return; }
   if(!(await confirmar("Mandar agora", `Mandar “${comTema(titulo)}” agora, ${PUBLICO_CURTO[a.publico] || "para todos"}? Não dá para desfazer. O agendamento continua igual.`, "Mandar", "btn-main"))) return;
   ocupado(botao, true);
@@ -7242,6 +7599,79 @@ function modalModelo(id){
 
 /* Livro do trimestre que já vem neste arquivo: nome e capa (primeira página do PDF da lição, reduzida). O que o master gravar em Admin → Livros ou ao importar a lição passa na frente. */
 const LIVROS_BASE = { "2026-t4": { titulo: "Profetas", capa: "data:image/jpeg;base64,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" } };
+
+/* ============================================================
+   p90
+   - Ligar os avisos fora do app (celular Android e outros): primeiro orienta a instalar.
+     No Android abre direto a janela de instalação do navegador (a pessoa só confirma "Instalar").
+     Dentro do app instalado, o botão só liga os avisos.
+   - Missões no PC: painéis dos lados do mapa (sua jornada, territórios e próximos prêmios).
+   ============================================================ */
+const ehCelular = () => /Android|Mobi|iPhone|iPad|iPod/i.test(navigator.userAgent) || ehIOS();
+let AVISO_SEM_INSTALAR = false;
+/* devolve true se pode seguir e ligar os avisos agora */
+function oferecerInstalarAntesDosAvisos(seguir){
+  if(AVISO_SEM_INSTALAR || appInstalado() || ehIOS() || navegadorDeApp() || !ehCelular()) return true;
+  const jaInstalou = !!lsGet(KEY + ":instalado", 0) && !INSTALAR_EVT;
+  const ligarAqui = `<button class="btn btn-ghost" id="aiAqui">Ligar só aqui no navegador</button>`;
+  modal("Instale o app primeiro", `<div class="ai-box">
+      <div class="ai-topo"><img src="app-icone-192.png" alt="" class="ai-ic" onerror="this.replaceWith(document.createTextNode('📲'))"><div><b>Corrida do Rolo</b><small>Avisos, tela cheia e ícone no celular</small></div></div>
+      ${jaInstalou
+        ? `<p>Você já instalou o jogo neste celular. Abra pelo ícone <b>Corrida do Rolo</b> na tela inicial e ligue os avisos por lá: assim eles chegam certinho.</p>`
+        : `<p>Com o jogo instalado, os avisos chegam como os de um aplicativo, mesmo com o navegador fechado.</p>
+           <ol class="ip-passos"><li><span class="ip-n">1</span><span>Toque em <b>Instalar o app</b> e confirme em <b>Instalar</b>.</span></li><li><span class="ip-n">2</span><span>Abra o jogo pelo ícone novo, na tela do celular.</span></li><li><span class="ip-n">3</span><span>Em <b>Minha conta › Avisos no celular</b>, toque para ligar.</span></li></ol>`}
+      <div class="btn-row">${jaInstalou ? `<button class="btn btn-main" id="aiOk">Entendi</button>` : `<button class="btn btn-main" id="aiInst">📲 Instalar o app</button>`}${ligarAqui}</div></div>`, (m, fechar) => {
+    const ok = m.querySelector("#aiOk"); if(ok) ok.onclick = fechar;
+    m.querySelector("#aiAqui").onclick = () => { fechar(); AVISO_SEM_INSTALAR = true; seguir(); };
+    const inst = m.querySelector("#aiInst");
+    if(inst) inst.onclick = async () => {
+      if(!INSTALAR_EVT){ fechar(); modalPassosInstalar(); return; }
+      const ev = INSTALAR_EVT;
+      try{
+        ev.prompt(); const r = await ev.userChoice;
+        if(r && r.outcome === "accepted"){
+          INSTALAR_EVT = null; lsSet(KEY + ":instalado", 1); atualizarBotoesInstalar(); fechar();
+          modal("Pronto, instalado!", `<p>Agora abra o jogo pelo ícone <b>Corrida do Rolo</b> na tela do celular e ligue os avisos em <b>Minha conta › Avisos no celular</b>.</p><div class="btn-row"><button class="btn btn-main" id="aiFim">Entendi</button><button class="btn btn-ghost" id="aiAqui2">Ligar aqui mesmo</button></div>`, (m2, f2) => {
+            m2.querySelector("#aiFim").onclick = f2;
+            m2.querySelector("#aiAqui2").onclick = () => { f2(); AVISO_SEM_INSTALAR = true; seguir(); };
+          });
+        }
+      }catch(e){ fechar(); modalPassosInstalar(); }
+    };
+  });
+  return false;
+}
+
+/* ---------- Missões no PC: os painéis dos lados do mapa ---------- */
+function htmlLadoTrilha(M, feitas, feitasG){
+  const N = M.n, nv = nivelDe(feitasG), prox = feitas < N ? MISSOES[feitasG] : null, pct = Math.round(100 * feitas / N);
+  const aj = (() => { try{ return ajudasDisponiveis(); }catch(e){ return {}; } })();
+  const ajudas = Object.keys(AJUDAS).map(k => `<span class="trl-aj${aj[k] ? "" : " zero"}" title="${esc(AJUDAS[k].nome)}"><i aria-hidden="true">${AJUDAS[k].ic}</i><b>${aj[k] || 0}</b><small>${esc(AJUDAS[k].nome)}</small></span>`).join("");
+  const terr = M.terr.map((t, k) => { const f = Math.max(0, Math.min(10, feitas - k * 10)), est = f >= 10 ? "feita" : f > 0 || feitas === k * 10 ? "atual" : "bloq";
+    return `<li class="${est}"><span class="trl-t-n">${est === "feita" ? "✓" : k + 1}</span><span class="trl-t-tx"><b>${esc(t.nome)}</b><small>${esc(t.ref || "")}</small></span><em>${f}/10</em><span class="trl-t-bar" aria-hidden="true"><i style="width:${f * 10}%"></i></span></li>`; }).join("");
+  const proximos = MISSOES.slice(M.ini + feitas, M.ini + N).filter(m => m.premio).slice(0, 5).map(m => {
+    const p = m.premio, arte = p.tipo === "profeta" ? `<span class="trl-p-av">${avatarSVG(p.id)}</span>` : `<span class="trl-p-ic" aria-hidden="true">${p.tipo === "acessorio" ? "🎒" : (AJUDAS[p.tipo] || {}).ic || "🎁"}</span>`;
+    return `<li>${arte}<span class="trl-p-tx"><b>${esc(textoPremio(p))}</b><small>Casa ${m.casa} · ${esc(m.t)}</small></span></li>`; }).join("");
+  return `<div class="trl-lado" role="complementary" aria-label="Resumo do mapa">
+    <section class="panel trl-a">
+      <div class="trl-nv"><span class="trl-nv-n"><b>${nv}</b><small>nível</small></span><div><small>Seu nível</small><b>${esc(nomeNivel(nv))}</b></div></div>
+      <div class="trl-prog"><div><b>${feitas}</b><small>de ${N} casas</small></div><em>${pct}%</em></div>
+      <span class="trl-barra" aria-hidden="true"><i style="width:${pct}%"></i></span>
+      ${prox ? `<div class="trl-atual"><small>Missão atual · casa ${prox.casa}</small><b>${esc(prox.t)}</b><p>${esc(prox.d || "")}</p><button type="button" class="btn btn-main btn-sm" data-trl-ver="${prox.n - 1}">Ver no mapa</button></div>`
+        : `<div class="trl-atual fim"><b>Mapa concluído! 🎉</b><p>Você chegou ao fim: ${esc(M.fim.nome)}.</p></div>`}
+      <h3 class="trl-h">Suas ajudas</h3><div class="trl-ajudas">${ajudas}</div>
+    </section>
+    <section class="panel trl-b">
+      <h3 class="trl-h">Territórios</h3><ol class="trl-terr">${terr}</ol>
+      ${proximos ? `<h3 class="trl-h">Próximos prêmios</h3><ul class="trl-premios">${proximos}</ul>` : ""}
+    </section>
+  </div>`;
+}
+document.addEventListener("click", e => {
+  const b = e.target.closest ? e.target.closest("[data-trl-ver]") : null; if(!b) return;
+  const no = document.querySelector(`.tr-no[data-ms="${b.dataset.trlVer}"]`); if(!no) return;
+  no.scrollIntoView({ behavior: "smooth", block: "center" }); setTimeout(() => no.click(), 450);
+});
 
 /* ============================================================
    SELFIE COM O RESULTADO
@@ -7510,11 +7940,11 @@ function quebrar(x, texto, max){
   if(linha) out.push(linha); return out;
 }
 /* Todas as conquistas: grade 4×3, as ganhas acesas e as outras apagadas */
-function desenharConquistas(x, lista){
+function desenharConquistas(x, lista, todas){
   const W = 1080, H = 1350, BB = FONTES, BR = '"Barlow",system-ui,sans-serif';
-  const ganhas = lista.filter(c=>c.on).length;
+  const ganhas = (todas || lista).filter(c=>c.on).length, totalCq = (todas || lista).length;
   x.save(); x.clearRect(0, 0, W, H); fundoCartao(x, W, H);
-  etiqueta(x, "CONQUISTAS", ganhas + " DE " + lista.length);
+  etiqueta(x, "CONQUISTAS", ganhas + " DE " + totalCq);
   x.fillStyle = "#fff"; x.font = "110px " + BB; x.textAlign = "left";
   x.fillText("MINHAS", 72, 250);
   x.fillStyle = "#8FE6FF"; x.fillText("CONQUISTAS", 72 + x.measureText("MINHAS ").width, 250);
@@ -7634,7 +8064,7 @@ async function compartilharPersonagem(p, btn){
   if(!img){ aviso("Não deu para montar a imagem."); return; }
   return gerarCartao(x => desenharPersonagem(x, p, img), "personagem-" + slug(p.nome) + ".jpg", btn);
 }
-function compartilharConquistas(btn){ const lista = conquistas(); return gerarCartao(x => desenharConquistas(x, lista), "conquistas-" + slug(quem() || "quiz") + ".jpg", btn); }
+function compartilharConquistas(btn){ const todas = conquistas(), ordem = { ouro: 0, mirra: 1, incenso: 2 }, lista = todas.filter(c => c.on).sort((a, b) => ordem[a.g] - ordem[b.g]).slice(0, 16); return gerarCartao(x => desenharConquistas(x, lista.length ? lista : todas.slice(0, 16), todas), "conquistas-" + slug(quem() || "quiz") + ".jpg", btn); }
 function compartilharConquista(c, btn){ return gerarCartao(x => desenharConquista(x, c), "conquista-" + slug(c.t) + ".jpg", btn); }
 
 /* ============================================================
@@ -9034,25 +9464,30 @@ async function carregarJG(forcar){
   if(JG && !forcar && Date.now() - JG.em < 120000) return JG;
   const [us, rs, ms, salas, trs, des, ps] = await Promise.all([listarUsuariosAdm(), DB.todosResultados(), DB.todosMembros().catch(() => []), DB.listarSalas().catch(() => []),
     DB.todasTrocas().catch(() => []), DB.todosDesafios().catch(() => []), DB.listarPrivados().catch(() => [])]);
+  const [prs, pfs] = await Promise.all([DB.todosPremios().catch(() => []), DB.perfisPublicos().catch(() => [])]);
+  const nSalasDin = salas.filter(x => x.dinheiro === true && !x.global).length;
+  const premios = {}, reac = {}; prs.forEach(p => { (premios[p.uid] = premios[p.uid] || []).push(p); }); pfs.forEach(p => { if(p.uid) reac[p.uid] = contarReacoesPerfil(p, p.uid); });
   const res = {}, mem = {}, priv = {}, salaMap = {};
   rs.forEach(r => { (res[r.uid] = res[r.uid] || []).push(r); });
   ms.forEach(m => { (mem[m.uid] = mem[m.uid] || []).push(m); });
   ps.forEach(p => { priv[p.id] = p; });
   salas.forEach(s => { salaMap[s.id] = s; });
-  JG = { em: Date.now(), us: us.filter(u => u && u.id), res, mem, priv, salaMap, trocas: trs.filter(t => (t.criado || 0) >= ALBUM_INICIO).sort((a, b) => (b.criado || 0) - (a.criado || 0)), des, calc: {} };
+  JG = { em: Date.now(), us: us.filter(u => u && u.id), res, mem, priv, salaMap, trocas: trs.filter(t => (t.criado || 0) >= ALBUM_INICIO).sort((a, b) => (b.criado || 0) - (a.criado || 0)), des, premios, reac, todosPremios: prs, nSalasDin, calc: {} };
   return JG;
 }
 /* roda as funções do jogo como se fosse o jogador u (nada assíncrono no meio) */
 function comoJogador(u, fn){
   const salasU = ((JG.mem[u.id] || []).filter(m => m.status === "ativo")).map(m => JG.salaMap[m.salaId] || { id: m.salaId, global: m.salaId === SALA_GLOBAL_ID });
   const des = JG.des.filter(d => d.de === u.id || d.para === u.id);
-  const sv = { perfil, RES, usuario, DESAFIOS, SALAS, ms: _msMemo, nv: _nvMemo };
+  const sv = { perfil, RES, usuario, DESAFIOS, SALAS, ms: _msMemo, nv: _nvMemo, pr: MEUS_PREMIOS, rp: REACOES_PERFIL };
   try{
     perfil = Object.assign({}, u); RES = {}; (JG.res[u.id] || []).forEach(r => { RES[r.licaoId + "|" + r.data] = r; });
     usuario = { uid: u.id, email: u.email || "" }; DESAFIOS = des; SALAS = salasU; _msMemo = { k: "", v: null }; _nvMemo = { k: "", v: 0 };
+    MEUS_PREMIOS = JG.premios[u.id] || []; REACOES_PERFIL = JG.reac[u.id] || 0; _cqMoedas = { k: "", t: 0, v: 0 };
     return fn();
   } finally {
     perfil = sv.perfil; RES = sv.RES; usuario = sv.usuario; DESAFIOS = sv.DESAFIOS; SALAS = sv.SALAS; _msMemo = { k: "", v: null }; _nvMemo = { k: "", v: 0 };
+    MEUS_PREMIOS = sv.pr; REACOES_PERFIL = sv.rp; _cqMoedas = { k: "", t: 0, v: 0 };
   }
 }
 function calcJogador(u){
@@ -9062,14 +9497,15 @@ function calcJogador(u){
     const prox = MISSOES[Math.min(n, MISSOES.length - 1)];
     return {
       moedas: moedas(), gastas: moedasGastas(), emJogo: typeof moedasEmJogo === "function" ? moedasEmJogo() : 0,
-      ganhas: { acertos: moedasDeAcertos(), semanas: semanasCompletas() * MOEDAS_SEMANA, missoes: moedasDeMissoes(), desafios: moedasDeDesafios(), reacoes: moedasDeReacoes(), reflexoes: moedasDeReflexoes(), album: typeof moedasDeAlbum === "function" ? moedasDeAlbum() : 0 },
+      ganhas: { acertos: moedasDeAcertos(), semanas: semanasCompletas() * MOEDAS_SEMANA, missoes: moedasDeMissoes(), desafios: moedasDeDesafios(), reacoes: moedasDeReacoes(), reflexoes: moedasDeReflexoes(), album: typeof moedasDeAlbum === "function" ? moedasDeAlbum() : 0, conquistas: moedasDeConquistas() },
+      din: dinheiro(), dinGanho: dinheiroGanho(), dinGasto: dinheiroGasto(), premios: premiosDoJogador().slice().sort((a, b) => (b.quando || 0) - (a.quando || 0)), cqs: conquistas(),
       semanas: semanasCompletas(), n, prog: est.prog, nivel: nivelDe(n), prox, fim: n >= MISSOES.length,
       ajudas: ajudasDisponiveis(), ajudasG: ajudasGanhas(), ajudasU: Object.assign({ meio: 0, dobro: 0, chance: 0, pular: 0 }, perfil.ajudasUsadas || {}),
       inv, coladas: albumColadas(inv), repetidas: albumRepetidas(inv), abertos: albumAbertos().length, fechados: albumLiberado() ? pacotesFechados().length : 0,
       feitos: albumFeitos(), pagas: albumPagas(), comprasPac: Object.keys(compras).filter(k => k.indexOf("pac:") === 0).length,
       boneco: meuBoneco() || perfil.profeta || "", acess: meuAcessorio(), mao: minhaMaoEsq(), moldura: minhaMoldura(), pista: minhaPista(), festa: minhaFesta(), mov: meuMovimento(),
       liberados: PROFETAS.filter(p => !p.preco && p.nivel && profetaLiberado(p)).map(p => p.id),
-      compras: Object.keys(compras).filter(k => k.indexOf("pac:") !== 0).map(k => ({ id: k, preco: +compras[k] || 0 })),
+      compras: Object.keys(compras).filter(k => k.indexOf("pac:") !== 0).map(k => ({ id: k, preco: +compras[k] || 0 })).concat(Object.keys(perfil.comprasD || {}).map(k => ({ id: k, preco: +perfil.comprasD[k] || 0, din: true }))),
       quizzes: Object.keys(RES).length, pts: Object.values(RES).reduce((s, r) => s + (r.pts || 0), 0), ultimo: Object.values(RES).reduce((m, r) => Math.max(m, r.quando || 0), 0)
     };
   });
@@ -9106,6 +9542,7 @@ async function admJogadores(){
         <div class="pn-kpi"><span class="pn-ic" aria-hidden="true">🎴</span><b>${fmt(tot.coladas)}</b><span class="pn-rot">Figurinhas coladas</span><small>média de ${lista.length ? Math.round(tot.coladas / lista.length) : 0} de ${total} por jogador</small></div>
         <button type="button" class="pn-kpi" data-ir="trocas"><span class="pn-ic" aria-hidden="true">🔁</span><b>${tot.trocas}</b><span class="pn-rot">Trocas feitas</span><small>ver todas as movimentações</small></button>
       </div>
+      ${htmlDinheiroAdm()}
       <section class="panel larga"><div class="jg-barra"><input type="text" id="jgBusca" placeholder="Buscar jogador por nome ou e-mail" value="${esc(jgBusca)}" autocomplete="off">
         <div class="jg-ordem" role="group" aria-label="Ordenar por">${[["moedas", "🪙 Moedas"], ["nivel", "⭐ Nível"], ["album", "🎴 Álbum"], ["ultimo", "🕒 Último quiz"], ["nome", "🔤 Nome"]].map(([k, t]) => `<button type="button" data-ord="${k}" aria-pressed="${jgOrdem === k}">${t}</button>`).join("")}</div></div>
         ${vis.length ? `<div class="jg-grade">${vis.map((x, i) => { const k = x.c, pct = Math.round(k.coladas * 100 / total);
@@ -9120,8 +9557,36 @@ async function admJogadores(){
     c.querySelectorAll("[data-ord]").forEach(x => x.onclick = () => { jgOrdem = x.dataset.ord; desenhar(); });
     c.querySelectorAll("[data-jg]").forEach(x => x.onclick = () => { jgSel = x.dataset.jg; jgAba = "resumo"; fichaJogador(jgSel); window.scrollTo({ top: 0 }); });
     c.querySelectorAll("[data-ir]").forEach(x => x.onclick = () => irAdm(x.dataset.ir));
+    ligarDinheiroAdm();
   };
   desenhar();
+}
+/* ---------- dinheiro: o que já foi pago e pagar o pódio de uma lição (se a função não rodou) ---------- */
+function htmlDinheiroAdm(){
+  const P = JG.todosPremios || [], pago = P.reduce((s, p) => s + (+p.valor || 0), 0), porLicao = {};
+  P.forEach(p => { (porLicao[p.licaoId] = porLicao[p.licaoId] || []).push(p); });
+  const acabadas = (LICOES || []).filter(L => !L.exemplo && L.dias.length && L.dias[L.dias.length - 1].data < hoje()).slice().reverse();
+  return `<section class="panel larga din-adm"><div class="adm-cab"><h3 class="h3">Dinheiro do pódio</h3><small class="jg-qd">💵 ${fmt(pago)} pagos em ${Object.keys(porLicao).length} ${Object.keys(porLicao).length === 1 ? "lição" : "lições"}</small></div>
+    <p class="muted small">Os 3 primeiros das salas que valem dinheiro ganham 💵 10, 7 e 5 quando a lição acaba (sábado de madrugada). Cada pessoa ganha uma vez por lição (o melhor prêmio). Se uma lição ficou sem pagamento, peça aqui.</p>
+    <div class="din-adm-salas"><span>💵 <b>${JG.nSalasDin || 0}</b> ${(JG.nSalasDin || 0) === 1 ? "sala vale" : "salas valem"} dinheiro</span><button type="button" class="btn btn-ghost btn-sm" data-ir="salas">Escolher as salas</button></div>
+    <div class="din-adm-l">${acabadas.slice(0, 6).map(L => { const pg = porLicao[L.id] || []; return `<div class="din-adm-i"><b>${esc(L.numero)}</b><small>${pg.length ? `${pg.filter(p => p.tipo !== "tri").length} prêmios · 💵 ${pg.reduce((s, p) => s + (+p.valor || 0), 0)}` : "ainda não pago"}</small><button type="button" class="btn btn-ghost btn-sm" data-pagar="${esc(L.id)}">${pg.length ? "Conferir de novo" : "Pagar o pódio"}</button></div>`; }).join("") || `<p class="vazio">Nenhuma lição terminou ainda.</p>`}</div></section>`;
+}
+function ligarDinheiroAdm(){
+  document.querySelectorAll("[data-pagar]").forEach(b => b.onclick = async () => {
+    const L = LICOES.find(x => x.id === b.dataset.pagar); if(!L) return;
+    if(!(await confirmar("Pagar o pódio", `Pagar o pódio da ${L.numero} em todas as salas? Quem já recebeu não recebe de novo.`, "Pagar", "btn-main"))) return;
+    ocupado(b, true);
+    try{
+      const doTri = LICOES.filter(x => x.trimestre === L.trimestre), fimTri = !!L.trimestre && doTri.length > 0 && doTri[doTri.length - 1].id === L.id;
+      const id = await DB.criarPedido({ tipo: "podio", licaoId: L.id, licaoNome: (L.numero + " – " + L.titulo).slice(0, 120), trimestre: L.trimestre || "", fimTri, autor: usuario.uid, status: "pendente", criadoEm: Date.now() });
+      b.textContent = "Calculando…";
+      let r = null; for(let i = 0; i < 20; i++){ await new Promise(ok => setTimeout(ok, 1500)); r = await DB.getPedido(id).catch(() => null); if(r && r.status !== "pendente") break; }
+      if(r && r.status === "feito") aviso(r.pagos ? `Pronto: ${r.pagos} ${r.pagos === 1 ? "prêmio pago" : "prêmios pagos"}.` : "Nada novo a pagar nessa lição.");
+      else if(r && r.status === "erro") aviso("Não deu: " + (r.erro || "erro"));
+      else aviso("O pedido ficou na fila. Confira se as funções do Firebase foram publicadas.");
+      JG = null; admJogadores();
+    }catch(e){ aviso(erroMsg(e)); ocupado(b, false); }
+  });
 }
 
 /* ---------- ficha de um jogador ---------- */
@@ -9140,7 +9605,7 @@ function fichaJogador(uid){
         <div class="jg-hero-tx"><h3>${esc(u.nome || "(sem nome)")}</h3><span class="jg-mail">${esc(u.email || "")}</span>
           <span class="jg-badges">${u.master ? '<span class="badge adm">master</span>' : u.admin ? '<span class="badge">admin de sala</span>' : ""}${u.aprovado ? '<span class="badge ok">aprovado</span>' : '<span class="badge warn">pendente</span>'}<span class="badge">nível ${k.nivel} · ${esc(nomeNivel(k.nivel))}</span></span>
           <span class="jg-sub">Conta criada ${jgQuando(u.criadoEm)} · último quiz ${jgQuando(k.ultimo)}</span></div></div>
-      <div class="jg-stats">${stat("🪙", fmt(k.moedas), "Moedas", k.emJogo ? `+${k.emJogo} em desafios` : "saldo agora", "ouro")}${stat("🎯", k.n, "Missões", esc(jgCasaTexto(k)))}${stat("🎴", `${k.coladas}<em>/${total}</em>`, "Figurinhas", `${k.repetidas} repetidas`)}${stat("📦", k.fechados, "Pacotes fechados", `${k.abertos} abertos`)}${stat("📝", k.quizzes, "Quizzes", fmt(k.pts) + " pontos")}${stat("🔁", minhasTr.filter(t => t.status === "aceito").length, "Trocas feitas", `${minhasTr.filter(t => t.status === "pendente").length} pendentes`)}</div>
+      <div class="jg-stats">${stat("🪙", fmt(k.moedas), "Moedas", k.emJogo ? `+${k.emJogo} em desafios` : "saldo agora", "ouro")}${stat("💵", fmt(k.din), "Dinheiro", `ganhou ${k.dinGanho} · gastou ${k.dinGasto}`, "din")}${stat("🏅", `${k.cqs.filter(c => c.on).length}<em>/${k.cqs.length}</em>`, "Conquistas", GRUPOS_CQ.map(g => `${g.nome} ${k.cqs.filter(c => c.g === g.id && c.on).length}`).join(" · "))}${stat("🎯", k.n, "Missões", esc(jgCasaTexto(k)))}${stat("🎴", `${k.coladas}<em>/${total}</em>`, "Figurinhas", `${k.repetidas} repetidas`)}${stat("📦", k.fechados, "Pacotes fechados", `${k.abertos} abertos`)}${stat("📝", k.quizzes, "Quizzes", fmt(k.pts) + " pontos")}${stat("🔁", minhasTr.filter(t => t.status === "aceito").length, "Trocas feitas", `${minhasTr.filter(t => t.status === "pendente").length} pendentes`)}</div>
       <div class="jg-abas" role="tablist" aria-label="Detalhes do jogador">${JG_ABAS.map(([a, ic, t]) => `<button type="button" role="tab" aria-selected="${jgAba === a}" data-jab="${a}"><span aria-hidden="true">${ic}</span>${t}</button>`).join("")}</div>
     </section>
     <div class="jg-corpo larga" id="jgCorpo"></div>`;
@@ -9193,6 +9658,9 @@ function fichaResumo(u, k, priv){
       <h3 class="h3 jg-h3b">Desafios e super quiz</h3>
       <ul class="jg-lista">${linha("⚔️", "Desafios ganhos", String(dGanhos))}${linha("🏳️", "Desafios perdidos", String(dPerdidos))}${linha("🪙", "Moedas presas em desafios", String(k.emJogo))}${linha("🏁", "Super quiz desta semana", sq ? (sq.fim ? `feito: ${sq.acertos} acertos` : `parou na ${sq.q + 1}ª de ${sq.n}`) : (j && j.aberto ? "ainda não fez" : "fechado agora"))}</ul>
     </section>
+    <section class="panel"><h3 class="h3">Conquistas</h3>
+      ${GRUPOS_CQ.map(g => { const l = k.cqs.filter(c => c.g === g.id), n = l.filter(c => c.on).length; return `<div class="jg-cq"><div class="jg-cq-cab"><b>${g.ic} ${g.nome}</b><small>${n}/${l.length}${n === l.length ? ` · ✓ +${g.premio} moedas` : ""}</small></div><div class="jg-cq-l">${l.map(c => `<span class="${c.on ? "on" : ""}" title="${esc(c.t)}: ${esc(c.d)}">${c.ic}</span>`).join("")}</div></div>`; }).join("")}
+    </section>
     <section class="panel"><h3 class="h3">Salas</h3>
       ${salas.length ? `<ul class="jg-lista">${salas.map(s => linha("🏫", esc(s.nome), s.dono === u.id ? "criou" : (s.admins || []).includes(u.id) ? "admin" : "membro")).join("")}</ul>` : `<p class="vazio">Não está em nenhuma sala (só na global).</p>`}
       <h3 class="h3 jg-h3b">Aparelhos</h3>
@@ -9201,7 +9669,7 @@ function fichaResumo(u, k, priv){
     </section></div>`;
 }
 function fichaMoedas(u, k){
-  const g = k.ganhas, fontes = [["acertos", "✅", "Acertos nos quizzes"], ["semanas", "📅", `Semanas completas (${k.semanas})`], ["missoes", "🎯", "Casas das missões"], ["album", "🎴", "Páginas e álbuns completos"], ["desafios", "⚔️", "Desafios"], ["reacoes", "❤️", "Reações no mural"], ["reflexoes", "💭", "Reflexões"]];
+  const g = k.ganhas, fontes = [["conquistas", "🏅", "Grupos de conquistas completos"], ["acertos", "✅", "Acertos nos quizzes"], ["semanas", "📅", `Semanas completas (${k.semanas})`], ["missoes", "🎯", "Casas das missões"], ["album", "🎴", "Páginas e álbuns completos"], ["desafios", "⚔️", "Desafios"], ["reacoes", "❤️", "Reações no mural"], ["reflexoes", "💭", "Reflexões"]];
   const totalG = Object.values(g).reduce((s, v) => s + v, 0), maxG = Math.max(1, ...Object.values(g).map(v => Math.abs(v)));
   const compras = k.compras.slice().sort((a, b) => b.preco - a.preco), pacs = Object.keys(u.compras || {}).filter(x => x.indexOf("pac:") === 0), gastoPac = pacs.reduce((s, x) => s + (+u.compras[x] || 0), 0);
   return `<div class="jg-cols">
@@ -9210,8 +9678,11 @@ function fichaMoedas(u, k){
       <h3 class="h3 jg-h3b">De onde vieram</h3>
       <ul class="jg-barras">${fontes.map(([f, ic, t]) => `<li><span class="jg-li-ic" aria-hidden="true">${ic}</span><span class="jg-li-rot">${t}</span><span class="jg-bar"><i style="width:${Math.round(Math.abs(g[f]) * 100 / maxG)}%"${g[f] < 0 ? ' class="neg"' : ""}></i></span><b>${g[f] >= 0 ? "+" : ""}${fmt(g[f])}</b></li>`).join("")}</ul>
     </section>
+    <section class="panel"><h3 class="h3">Dinheiro do pódio</h3>
+      ${k.premios.length ? `<ul class="jg-lista">${k.premios.map(p => `<li><span class="jg-li-ic" aria-hidden="true">${p.pos === 1 ? "🥇" : p.pos === 2 ? "🥈" : p.pos === 3 ? "🥉" : "🏅"}</span><span class="jg-li-rot">${esc(p.salaNome || "Sala")}<small class="jg-qd">${esc(p.licaoNome || p.licaoId || "")}${p.tipo === "tri" ? " · trimestre" : ""}</small></span><b class="ok">${p.valor ? "+💵 " + p.valor : "🏆"}</b></li>`).join("")}</ul>` : `<p class="vazio">Ainda não ficou no pódio de nenhuma sala.</p>`}
+    </section>
     <section class="panel"><h3 class="h3">Onde gastou</h3>
-      ${compras.length || pacs.length ? `<ul class="jg-lista">${compras.map(x => { const it = itemDaLoja(x.id), t = x.id.split(":")[0]; return `<li><span class="jg-li-ic" aria-hidden="true">${{ a: "🎒", p: "🧑", m: "🖼️", t: "🛣️", v: "💃", c: "🎉" }[t] || "🛍️"}</span><span class="jg-li-rot">${esc(it ? it.nome : x.id)}<small class="jg-qd">${esc(LOJA_TIPO_NOME[t] || "Loja")}</small></span><b class="menos">−${fmt(x.preco)}</b></li>`; }).join("")}
+      ${compras.length || pacs.length ? `<ul class="jg-lista">${compras.map(x => { const it = itemDaLoja(x.id), t = x.id.split(":")[0]; return `<li><span class="jg-li-ic" aria-hidden="true">${{ a: "🎒", p: "🧑", m: "🖼️", t: "🛣️", v: "💃", c: "🎉" }[t] || "🛍️"}</span><span class="jg-li-rot">${esc(it ? it.nome : x.id)}<small class="jg-qd">${esc(LOJA_TIPO_NOME[t] || "Loja")}</small></span><b class="menos">−${x.din ? "💵 " : ""}${fmt(x.preco)}</b></li>`; }).join("")}
         ${pacs.length ? `<li><span class="jg-li-ic" aria-hidden="true">📦</span><span class="jg-li-rot">${pacs.length} ${pacs.length === 1 ? "pacote de figurinhas" : "pacotes de figurinhas"}<small class="jg-qd">Álbum</small></span><b class="menos">−${fmt(gastoPac)}</b></li>` : ""}</ul>`
         : `<p class="vazio">Ainda não comprou nada na loja.</p>`}
     </section></div>`;
@@ -9237,7 +9708,7 @@ function fichaColecao(u, k){
   return `<section class="panel larga"><h3 class="h3">Conquistados nas missões <small class="jg-qd">${conquist.filter(x => x.tem).length} de ${conquist.length} personagens raros</small></h3>
       <div class="jg-itens">${conquist.map(x => `<div class="jg-item${x.tem ? "" : " falta"}${uso.p === x.p.id ? " uso" : ""}"><div class="jg-item-arte">${avatarSVG(x.p.id, null, k.nivel)}</div><b>${esc(x.p.nome)}</b><small>${x.tem ? (uso.p === x.p.id ? "em uso" : "liberado") : "nível " + x.p.nivel}</small></div>`).join("")}</div>
     </section>
-    <section class="panel larga"><h3 class="h3">Comprados na loja <small class="jg-qd">${k.compras.length} ${k.compras.length === 1 ? "item" : "itens"} · 🪙 ${fmt(k.compras.reduce((s, x) => s + x.preco, 0))}</small></h3>
+    <section class="panel larga"><h3 class="h3">Comprados na loja <small class="jg-qd">${k.compras.length} ${k.compras.length === 1 ? "item" : "itens"} · 🪙 ${fmt(k.compras.filter(x => !x.din).reduce((s, x) => s + x.preco, 0))}${k.compras.some(x => x.din) ? ` · 💵 ${fmt(k.compras.filter(x => x.din).reduce((s, x) => s + x.preco, 0))}` : ""}</small></h3>
       ${bloco("p", "Personagens", PROFETAS.filter(p => p.preco))}${bloco("a", "Acessórios", LOJA_ACESSORIOS)}${bloco("m", "Molduras", LOJA_MOLDURAS)}${bloco("t", "Temas da pista", LOJA_PISTAS)}${bloco("v", "Movimentos", LOJA_MOVIMENTOS)}${bloco("c", "Comemorações", LOJA_FESTAS)}
     </section>`;
 }
@@ -9355,6 +9826,7 @@ function opcoesDeSala(atualId){
 function minhasParticipacoes(){ return SALAS.filter(x => !x.global).length + SALAS_PEDIDOS.length; }
 function badgesSala(s){
   return (s.global ? '<span class="badge adm">Global</span>' : s.publica ? '<span class="badge ok">Pública</span>' : '<span class="badge warn">Privada</span>')
+    + (s.dinheiro && !s.global ? '<span class="badge din">💵 Vale dinheiro</span>' : "")
     + (ehDonoSala(s) ? '<span class="badge">Você criou</span>' : "") + (ehAdminSala(s) ? '<span class="badge adm">Você administra</span>' : "");
 }
 
@@ -9846,8 +10318,19 @@ async function admSalas(){
     c.innerHTML = `<section class="panel larga"><div class="adm-cab"><h3 class="h3">Todas as salas (${lista.length})</h3><button class="btn btn-main btn-sm" id="asCriar">➕ Criar sala</button></div>
       <p class="muted small">Como master, você vê todas as salas criadas por qualquer pessoa, cria quantas quiser e gerencia qualquer uma. Para dar a alguém a administração de uma sala, edite a pessoa em Usuários. Cada pessoa cria até ${MAX_SALAS_CRIADAS} e participa de até ${MAX_SALAS_PARTICIPA} (fora a global).</p>
       ${lista.length ? `<ul class="lista cols">${lista.map((s, i) => { const ms = contagens[i]; const at = ms ? ms.filter(x => x.status === "ativo").length : usuarios.filter(u => u.aprovado || u.admin).length; const pe = ms ? ms.filter(x => x.status === "pendente").length : 0;
-        return `<li><div class="info"><strong>${esc(s.nome)}</strong><span>${badgesSala(s)} código ${esc(s.codigo || "")} · ${at} ${at === 1 ? "membro" : "membros"}${pe ? ` · <b>${pe} pedido${pe > 1 ? "s" : ""}</b>` : ""}${s.global ? "" : " · criada por " + esc((uMap[s.dono] && uMap[s.dono].nome) || s.donoNome || "?")}</span></div><button class="btn btn-ghost btn-sm" data-gs="${esc(s.id)}">Gerenciar</button></li>`; }).join("")}</ul>` : `<p class="vazio">Nenhuma sala ainda.</p>`}</section>`;
+        return `<li><div class="info"><strong>${esc(s.nome)}</strong><span>${badgesSala(s)} código ${esc(s.codigo || "")} · ${at} ${at === 1 ? "membro" : "membros"}${pe ? ` · <b>${pe} pedido${pe > 1 ? "s" : ""}</b>` : ""}${s.global ? "" : " · criada por " + esc((uMap[s.dono] && uMap[s.dono].nome) || s.donoNome || "?")}</span></div><div class="sl-acoes">${s.global ? "" : `<button type="button" class="sl-din" role="switch" aria-checked="${!!s.dinheiro}" data-din="${esc(s.id)}" title="Os 3 primeiros desta sala ganham dinheiro toda semana"><i aria-hidden="true"></i>💵 Vale dinheiro</button>`}<button class="btn btn-ghost btn-sm" data-gs="${esc(s.id)}">Gerenciar</button></div></li>`; }).join("")}</ul>` : `<p class="vazio">Nenhuma sala ainda.</p>`}</section>`;
     $("asCriar").onclick = modalCriarSala;
+    c.querySelectorAll("[data-din]").forEach(b => b.onclick = async () => {
+      const s = lista.find(x => x.id === b.dataset.din); if(!s) return;
+      const v = !s.dinheiro;
+      if(v && !(await confirmar("Sala vale dinheiro", `Os 3 primeiros da sala ${s.nome} vão ganhar dinheiro toda semana (10, 7 e 5), quando a sala tiver pelo menos ${DIN_MIN_JOGADORES} jogadores na lição. Ligar?`, "Ligar", "btn-main"))) return;
+      b.disabled = true;
+      try{ await DB.salvarSala(s.id, { dinheiro: v }); s.dinheiro = v; b.setAttribute("aria-checked", String(v)); aviso(v ? `A sala ${s.nome} agora vale dinheiro.` : `A sala ${s.nome} não vale mais dinheiro.`);
+        const li = b.closest("li"), bd = li && li.querySelector(".info span"); if(bd) bd.innerHTML = bd.innerHTML.replace(/<span class="badge din">[^<]*<\/span>/, "") ; if(bd && v) bd.insertAdjacentHTML("afterbegin", '<span class="badge din">💵 Vale dinheiro</span>');
+        const sa = (typeof SALAS !== "undefined" ? SALAS : []).find(x => x.id === s.id); if(sa) sa.dinheiro = v;
+      }catch(e){ aviso("Não deu: " + erroMsg(e)); }
+      b.disabled = false;
+    });
     c.querySelectorAll("[data-gs]").forEach(b => b.onclick = () => modalGerenciarSala(lista.find(x => x.id === b.dataset.gs)));
   }catch(e){ c.innerHTML = `<section class="panel"><p class="erro">${esc(erroMsg(e))}</p></section>`; }
 }
@@ -11257,6 +11740,7 @@ function telaMapa(mi, vindoDe){
       <div class="tr-topo-tx"><b>${esc(M.nome)}</b><small>${feitas} de ${N} casas</small></div>
       <button type="button" class="q-mus" id="trMus" aria-pressed="${SOM.mus}" aria-label="Música da trilha" title="Música da trilha">${SOM.mus ? "🎵" : "🔇"}</button></div>
     <section class="panel trilha-wrap"><div class="trilha" id="trilha"></div></section>
+    ${typeof htmlLadoTrilha === "function" ? htmlLadoTrilha(M, feitas, feitasG) : ""}
   </div>`;
   { const tb = $("topbar"), tt = $("trTopo"); if(tb && tt) tt.style.top = (tb.offsetHeight - 1) + "px"; }          // a faixa fica presa logo abaixo da barra de cima
   $("trVoltar").onclick = () => { MUSICA.parar(); window.scrollTo(0, 0); telaMapas(); };
@@ -11357,9 +11841,12 @@ async function publicarNoMural(post, btn){
   }
   if(btn) ocupado(btn, false);
   if(!ok.length){ aviso("Não deu para publicar: " + falhas[0]); return false; }
+  if(post.tipo === "reflexao" && perfil.reflexaoDia !== hoje()){ perfil.reflexaoDia = hoje(); DB.salvarUsuario(usuario.uid, { reflexaoDia: perfil.reflexaoDia }).catch(() => {}); }      // o aviso "fez o quiz e não publicou reflexão" usa (resultado, conquista etc. não contam)
   /* para as missões, publicar a mesma coisa em várias salas conta como uma publicação só */
   const meus = lsGet(KEY + ":mural:" + usuario.uid, []), novos = ok.filter(x => !meus.includes(x.id));
-  if(novos.length){ novos.forEach(x => meus.push(x.id)); lsSet(KEY + ":mural:" + usuario.uid, meus.slice(-200)); perfil.muralPosts = (perfil.muralPosts || 0) + 1; perfil.muralQuando = agora; DB.salvarUsuario(usuario.uid, { muralPosts: perfil.muralPosts, muralQuando: agora }).catch(()=>{}); }
+  if(novos.length){ const dRef = (String(post.ref || "").match(/\d{4}-\d{2}-\d{2}/) || [])[0];
+    if(!dRef || dRef === hoje()){ perfil.muralDoDia = (perfil.muralDoDia || 0) + 1; DB.salvarUsuario(usuario.uid, { muralDoDia: perfil.muralDoDia }).catch(() => {}); }      // conquista Arauto do Mural
+    novos.forEach(x => meus.push(x.id)); lsSet(KEY + ":mural:" + usuario.uid, meus.slice(-200)); perfil.muralPosts = (perfil.muralPosts || 0) + 1; perfil.muralQuando = agora; DB.salvarUsuario(usuario.uid, { muralPosts: perfil.muralPosts, muralQuando: agora }).catch(()=>{}); }
   tocar("ajuda");
   aviso(falhas.length ? `Publicado em ${ok.length} de ${salas.length} salas. Não deu em: ${falhas[0]}` : ok.length === 1 ? `Publicado no mural da sala ${ok[0].sala.nome}` : `Publicado no mural de ${ok.length} salas`);
   if(btn){ btn.textContent = "Publicado ✓"; btn.disabled = true; }
@@ -12492,7 +12979,7 @@ const meuAcessorio = () => perfil && perfil.acess && LOJA_AC[perfil.acess] && co
 const AC_FIXOS = new Set(["coroa_cab", "ovelha_chao", "asas"]);      // os mesmos FIXOS do desenho: cabeça, chão e costas não vão na mão
 const naMao = id => !!(LOJA_AC[id] && !AC_FIXOS.has(LOJA_AC[id].emb));
 function minhaMaoEsq(){ const m = perfil && perfil.maoEsq; if(m === "-") return "-"; return m && naMao(m) && comprado("a:" + m) && m !== meuAcessorio() ? m : ""; }
-function comprado(id){ return !!(perfil && perfil.compras && perfil.compras[id] != null); }
+function comprado(id){ return !!(perfil && ((perfil.compras && perfil.compras[id] != null) || (perfil.comprasD && perfil.comprasD[id] != null))); }
 /* De onde vêm as moedas (quase tudo calculado do que já existe):
    acertos nos quizzes (1 cada) + semanas completas no prazo (bônus) + casas das missões + desafios vencidos (menos os perdidos)
    + 1 a cada 10 reações dadas no mural (contador perfil.reacoesDadas: 1 por publicação de outra pessoa; tirar a reação desconta) */
@@ -12533,7 +13020,8 @@ async function conferirReacoesAntigas(){
   }catch(e){ _retroReacoes = false; }          // não deu agora (sem internet): tenta de novo na próxima abertura do Início
 }
 const moedasDeReflexoes = () => 2 * ((perfil && perfil.reflexoesDias) || []).length;      // +2 pela 1ª reflexão de cada dia de lição
-function moedasGanhas(){ return moedasDeAcertos() + semanasCompletas() * MOEDAS_SEMANA + moedasDeMissoes() + moedasDeDesafios() + moedasDeReacoes() + moedasDeReflexoes() + (typeof moedasDeAlbum === "function" ? moedasDeAlbum() : 0); }
+function moedasGanhas(){ return moedasGanhasBase() + (typeof moedasDeConquistas === "function" ? moedasDeConquistas() : 0); }
+function moedasGanhasBase(){ return moedasDeAcertos() + semanasCompletas() * MOEDAS_SEMANA + moedasDeMissoes() + moedasDeDesafios() + moedasDeReacoes() + moedasDeReflexoes() + (typeof moedasDeAlbum === "function" ? moedasDeAlbum() : 0); }
 /* pacotes comprados nos testes, antes da estreia do álbum, não contam como gasto: as figurinhas deles também não contam */
 function moedasGastas(){ const c = (perfil && perfil.compras) || {}; return Object.keys(c).reduce((s, k) => s + (k.indexOf("pac:") === 0 && typeof pacDaEra === "function" && !pacDaEra(k) ? 0 : (+c[k] || 0)), 0); }
 function moedas(){ return Math.max(0, moedasGanhas() - moedasGastas() - (typeof moedasEmJogo === "function" ? moedasEmJogo() : 0)); }
@@ -12566,7 +13054,7 @@ function telaLoja(){
   /* o botão de cada item: dourado quando dá para comprar, "faltam N" quando não dá, e Usar / Em uso no que já é meu */
   const botao = (id, preco, emUso, rotUsar) => comprado(id)
     ? `<button type="button" class="ljn-btn ${emUso ? "uso" : "usar"}" data-usar="${id}">${emUso ? "✓ Em uso" : rotUsar}</button>`
-    : `<button type="button" class="ljn-btn ${saldo < preco ? "caro" : "pode"}" data-comprar="${id}">${MOEDA}<b>${preco}</b><span>${saldo < preco ? `faltam ${preco - saldo}` : "Comprar"}</span></button>`;
+    : (() => { const dn = dinDe(id), sv = dn ? dinheiro() : saldo, pv = dn || preco; return `<button type="button" class="ljn-btn ${dn ? "din " : ""}${sv < pv ? "caro" : "pode"}" data-comprar="${id}">${dn ? DINHEIRO : MOEDA}<b>${pv}</b><span>${sv < pv ? `faltam ${pv - sv}` : "Comprar"}</span></button>`; })();
   const ligarCompras = () => {
     app.querySelectorAll("[data-comprar]").forEach(b => b.onclick = async () => { await comprarNaLoja(b.dataset.comprar, b.closest(".lj-item, .ljn-hero")); if(tabAtual === "loja" && !document.querySelector(".lj-grade") && app.querySelector(".ljn")) telaLoja(); });
     app.querySelectorAll("[data-usar]").forEach(b => b.onclick = () => usarDaLoja(b.dataset.usar));
@@ -12581,11 +13069,12 @@ function telaLoja(){
     const emUso = { a: perfil.acess && comprado("a:" + perfil.acess) && LOJA_AC[perfil.acess] ? LOJA_AC[perfil.acess].nome : "", p: (acharProfeta(perfil.profeta) || {}).preco ? acharProfeta(perfil.profeta).nome : "",
       m: (extraDaLoja("m", minhaMoldura()) || {}).nome, t: (extraDaLoja("t", minhaPista()) || {}).nome, v: (extraDaLoja("v", meuMovimento()) || {}).nome, c: (extraDaLoja("c", minhaFesta()) || {}).nome };
     /* o que ainda não é meu, do mais barato ao mais caro: dá a meta da carteira ("faltam N para ...") */
-    const faltam = LOJA_CATS.flatMap(c => c.lista().map(x => ({ id: c.k + ":" + x.id, nome: x.nome, preco: x.preco }))).filter(x => !comprado(x.id)).sort((a, b) => a.preco - b.preco);
+    const faltam = LOJA_CATS.flatMap(c => c.lista().map(x => ({ id: c.k + ":" + x.id, nome: x.nome, preco: x.preco }))).filter(x => !comprado(x.id) && !dinDe(x.id)).sort((a, b) => a.preco - b.preco);
     const posso = faltam.filter(x => x.preco <= saldo).length, prox = faltam.find(x => x.preco > saldo);
     const carteira = `<section class="ljn-cart"><span class="ljn-cart-luz" aria-hidden="true"></span>
         <div class="ljn-cart-l"><small>Seu saldo</small><div class="ljn-cart-n">${MOEDA}<b>${fmt(saldo)}</b><span>${saldo === 1 ? "moeda" : "moedas"}</span></div></div>
         <button type="button" class="ljn-cart-btn" id="inMoedas">${MOEDA_MAIS}<span>Ganhar moedas</span></button>
+        <button type="button" class="ljn-din" id="ljDin">${DINHEIRO}<b>${fmt(dinheiro())}</b><span>de dinheiro · como ganhar</span></button>
         <div class="ljn-cart-meta">${!faltam.length ? `<span class="ljn-alc">Você já tem tudo o que a loja vende!</span>`
           : `${posso ? `<span class="ljn-alc">${posso} ${posso === 1 ? "item" : "itens"} ao seu alcance</span>` : ""}${prox ? `<span class="ljn-meta"><span>Faltam <b>${prox.preco - saldo}</b> para <b>${esc(prox.nome)}</b></span><span class="ljn-barra"><i style="width:${Math.max(4, Math.round(100 * saldo / prox.preco))}%"></i></span></span>` : ""}`}</div></section>`;
     /* o destaque muda todo dia: um personagem da loja que ainda não é meu (ou, sem eles, um acessório) */
@@ -12609,6 +13098,7 @@ function telaLoja(){
     desenharAmostras();
     app.querySelectorAll("[data-cat]").forEach(b => b.onclick = () => { lojaCat = b.dataset.cat; lojaFiltro = ""; tocar("toque"); window.scrollTo(0, 0); telaLoja(); });
     const ljp = $("ljPacote"); if(ljp) ljp.onclick = comprarPacote;
+    const ljd = $("ljDin"); if(ljd) ljd.onclick = () => { tocar("toque"); modalDinheiro(); };
     ligarCompras(); ligarVitrine(); ligarAbasLoja(); ligarMoedasInicio(); conferirReacoesAntigas();
     return;
   }
@@ -12623,8 +13113,8 @@ function telaLoja(){
     v: x => carta("v:" + x.id, cor[0], `<div class="lj-av lj-mov"><div class="runner mov-${x.id}" data-mov="${x.id}" data-prev="${esc(amostraMov)}"></div></div>`, x.nome, x.ref, "", meuMovimento() === x.id, "Usar", x.preco),
     c: x => carta("c:" + x.id, cor[0], `<button type="button" class="lj-festa" data-festa="${x.id}" title="Ver a comemoração" aria-label="Ver a comemoração ${esc(x.nome)}">${FESTA_ICONE[x.id] || ""}<span>▶ ver</span></button>`, x.nome, x.ref, "", minhaFesta() === x.id, "Usar", x.preco)
   }[cat.k];
-  const todos = cat.lista(), meu = x => comprado(cat.k + ":" + x.id), nMeus = todos.filter(meu).length, nPode = todos.filter(x => !meu(x) && x.preco <= saldo).length;
-  const itens = todos.filter(lojaFiltro === "meus" ? meu : lojaFiltro === "pode" ? (x => !meu(x) && x.preco <= saldo) : (() => true));
+  const todos = cat.lista(), meu = x => comprado(cat.k + ":" + x.id), nMeus = todos.filter(meu).length, nPode = todos.filter(x => !meu(x) && podeComprarLoja(cat.k, x)).length;
+  const itens = todos.filter(lojaFiltro === "meus" ? meu : lojaFiltro === "pode" ? (x => !meu(x) && podeComprarLoja(cat.k, x)) : (() => true));
   const nota = cat.k === "v" ? `<p class="lj-nota">Vale para qualquer personagem, inclusive os comuns. Sem movimento comprado, o personagem fica parado na raia.</p>`
     : cat.k === "p" ? `<p class="lj-nota"><b>Só os personagens da loja</b> têm brilho holográfico, base de luz e um efeito próprio, tirado da história de cada um.</p>`
     : cat.k === "a" ? `<p class="lj-nota">Um acessório por vez. A maioria fica na mão; a coroa vai na cabeça, as asas nas costas e a ovelha no chão.</p>` : "";
@@ -12643,27 +13133,28 @@ function telaLoja(){
 }
 function itemDaLoja(id){
   const [tipo, k] = id.split(":");
-  if(tipo === "a"){ const a = LOJA_AC[k]; return a ? { nome: a.nome, preco: a.preco } : null; }
-  if(LOJA_EXTRAS[tipo]){ const x = extraDaLoja(tipo, k); return x ? { nome: x.nome, preco: x.preco } : null; }
-  const p = acharProfeta(k); return p && p.preco ? { nome: p.nome, preco: p.preco } : null;
+  const dn = typeof dinDe === "function" ? dinDe(id) : 0;
+  if(tipo === "a"){ const a = LOJA_AC[k]; return a ? { nome: a.nome, preco: dn || a.preco, din: !!dn } : null; }
+  if(LOJA_EXTRAS[tipo]){ const x = extraDaLoja(tipo, k); return x ? { nome: x.nome, preco: dn || x.preco, din: !!dn } : null; }
+  const p = acharProfeta(k); return p && p.preco ? { nome: p.nome, preco: dn || p.preco, din: !!dn } : null;
 }
 /* Janela de compra: mostra o item, o recibo (saldo, o que sai em vermelho e quanto sobra) e pede a confirmação.
    Se faltar moeda, a mesma janela mostra quanto falta e leva para "Ganhar moedas". Devolve true só quando a pessoa confirma. */
 function modalCompra(o){
   return new Promise(res => {
-    const saldo = moedas(), p = o.preco, falta = Math.max(0, p - saldo); let ok = false;
-    modal(falta ? "Moedas insuficientes" : "Confirmar compra", `<div class="cmp">
+    const saldo = o.din ? dinheiro() : moedas(), p = o.preco, falta = Math.max(0, p - saldo), MO = o.din ? DINHEIRO : MOEDA; let ok = false;
+    modal(falta ? (o.din ? "Dinheiro insuficiente" : "Moedas insuficientes") : "Confirmar compra", `<div class="cmp">
         <div class="cmp-item"><div class="cmp-arte" id="cmpArte">${o.arte || iconeSVG("loja")}</div><div class="cmp-info"><small>${esc(o.tipo || "Loja")}</small><b>${esc(o.nome)}</b>${o.chips && o.chips.length ? `<div class="cmp-chips">${o.chips.map(c => `<span>${esc(c)}</span>`).join("")}</div>` : ""}</div></div>
         <div class="cmp-recibo">
-          <div class="cmp-l"><span>${iconeSVG("saco")}<i>Seu saldo</i></span><b>${MOEDA}${fmt(saldo)}</b></div>
-          <div class="cmp-l menos"><span>${iconeSVG("carrinho")}<i>${esc(o.nome)}</i></span><b>−${MOEDA}${fmt(p)}</b></div>
-          <div class="cmp-l total ${falta ? "falta" : ""}"><span>${falta ? "Faltam" : "Depois da compra"}</span><b>${MOEDA}<span id="cmpFica">${fmt(falta ? falta : saldo)}</span></b></div>
+          <div class="cmp-l"><span>${iconeSVG("saco")}<i>Seu saldo</i></span><b>${MO}${fmt(saldo)}</b></div>
+          <div class="cmp-l menos"><span>${iconeSVG("carrinho")}<i>${esc(o.nome)}</i></span><b>−${MO}${fmt(p)}</b></div>
+          <div class="cmp-l total ${falta ? "falta" : ""}"><span>${falta ? "Faltam" : "Depois da compra"}</span><b>${MO}<span id="cmpFica">${fmt(falta ? falta : saldo)}</span></b></div>
         </div>
-        ${falta ? `<p class="cmp-falta">${iconeSVG("aviso")}<span>Faltam <b>${falta} ${falta === 1 ? "moeda" : "moedas"}</b> para esta compra. Cada resposta certa no quiz vale 1 moeda.</span></p>` : ""}
-        <div class="btn-row">${falta ? `<button type="button" class="btn cmp-ok" id="cmpGanhar">${iconeSVG("moeda")}Ganhar moedas</button>` : `<button type="button" class="btn cmp-ok" id="cmpOk">${iconeSVG("carrinho")}Comprar por ${MOEDA}${fmt(p)}</button>`}<button type="button" class="btn btn-ghost" id="cmpNao">Agora não</button></div></div>`, (m, fechar) => {
+        ${falta ? `<p class="cmp-falta">${iconeSVG("aviso")}<span>${o.din ? `Faltam <b>${falta} de dinheiro</b> para esta compra. Os 3 primeiros da semana em cada sala ganham dinheiro.` : `Faltam <b>${falta} ${falta === 1 ? "moeda" : "moedas"}</b> para esta compra. Cada resposta certa no quiz vale 1 moeda.`}</span></p>` : ""}
+        <div class="btn-row">${falta ? `<button type="button" class="btn cmp-ok" id="cmpGanhar">${o.din ? DINHEIRO + "Como ganhar dinheiro" : iconeSVG("moeda") + "Ganhar moedas"}</button>` : `<button type="button" class="btn cmp-ok" id="cmpOk">${iconeSVG("carrinho")}Comprar por ${MO}${fmt(p)}</button>`}<button type="button" class="btn btn-ghost" id="cmpNao">Agora não</button></div></div>`, (m, fechar) => {
       if(o.arteEl){ const a = m.querySelector("#cmpArte"), c = o.arteEl.cloneNode(true); c.removeAttribute("id"); a.innerHTML = ""; a.appendChild(c); }
       m.querySelector("#cmpNao").onclick = fechar;
-      const g = m.querySelector("#cmpGanhar"); if(g) g.onclick = () => { fechar(); if(typeof modalComoGanhar === "function") modalComoGanhar(); };
+      const g = m.querySelector("#cmpGanhar"); if(g) g.onclick = () => { fechar(); if(o.din) modalDinheiro(); else if(typeof modalComoGanhar === "function") modalComoGanhar(); };
       const b = m.querySelector("#cmpOk"); if(b) b.onclick = () => { ok = true; fechar(); };
       /* o saldo desce até o que vai sobrar, para a pessoa ver a conta acontecer */
       const el = m.querySelector("#cmpFica");
@@ -12677,10 +13168,10 @@ async function comprarNaLoja(id, cartao){
   const it = itemDaLoja(id); if(!it || comprado(id)) return;
   const tipo = id.split(":")[0], arteEl = cartao && cartao.querySelector(".lj-av, .lj-pista, .lj-festa");
   const efLoja = tipo === "p" ? efeitoDaLoja(acharProfeta(id.split(":")[1])) : null;
-  if(!(await modalCompra({ nome: it.nome, tipo: LOJA_TIPO_NOME[tipo] || "Loja", preco: it.preco, arteEl, chips: ["Fica com você para sempre"].concat(efLoja ? ["Efeito: " + efLoja.nome] : [], [tipo === "p" ? "Troque quando quiser" : "Use quando quiser"]) }))) return;
-  const compras = Object.assign({}, perfil.compras || {}, { [id]: it.preco });
-  try{ await DB.salvarUsuario(usuario.uid, { compras }); }catch(e){ aviso("Não deu para comprar: " + erroMsg(e)); return; }
-  perfil.compras = compras; tocar("missao"); atualizarCasca();
+  if(!(await modalCompra({ nome: it.nome, tipo: LOJA_TIPO_NOME[tipo] || "Loja", preco: it.preco, din: it.din, arteEl, chips: ["Fica com você para sempre"].concat(efLoja ? ["Efeito: " + efLoja.nome] : [], [tipo === "p" ? "Troque quando quiser" : "Use quando quiser"]) }))) return;
+  const campo = it.din ? "comprasD" : "compras", compras = Object.assign({}, perfil[campo] || {}, { [id]: it.preco });
+  try{ await DB.salvarUsuario(usuario.uid, { [campo]: compras }); }catch(e){ aviso("Não deu para comprar: " + erroMsg(e)); return; }
+  perfil[campo] = compras; tocar("missao"); atualizarCasca();
   aviso(`${it.nome} é seu!`);
   await usarDaLoja(id, true);
 }
@@ -12977,7 +13468,7 @@ function dadosDoItem(id){
   const [tipo, k] = id.split(":"), it = itemDaLoja(id); if(!it) return null;
   const x = tipo === "a" ? LOJA_AC[k] : tipo === "p" ? acharProfeta(k) : extraDaLoja(tipo, k);
   const emUso = tipo === "a" ? perfil.acess === k && comprado(id) : tipo === "p" ? perfil.profeta === k : emUsoDaLoja(tipo) === k;
-  return { id, tipo, k, nome: it.nome, preco: it.preco, ref: (x && x.ref) || "", x, emUso, meu: comprado(id) };
+  return { id, tipo, k, nome: it.nome, preco: it.preco, din: !!it.din, ref: (x && x.ref) || "", x, emUso, meu: comprado(id) };
 }
 /* a raia de amostra, do tamanho da Corrida */
 function raiaDeAmostra(o){
@@ -13013,7 +13504,7 @@ function abrirVitrine(id, cartao){
     ${d.tipo === "p" && d.x && d.x.fala ? `<p class="vt-hist">“${esc(d.x.fala)}”</p>` : ""}</div>`;
   const acao = d.meu
     ? (d.emUso ? (d.tipo === "p" ? `<p class="vt-uso">✓ Em uso</p>` : `<button type="button" class="btn btn-ghost" id="vtAcao">✓ Em uso · guardar</button>`) : `<button type="button" class="btn btn-main" id="vtAcao">Usar</button>`)
-    : `<button type="button" class="btn ${saldo < d.preco ? "btn-ghost" : "btn-main"} vt-comprar" id="vtAcao">${saldo < d.preco ? `${MOEDA}<b>${d.preco}</b><span>· faltam ${d.preco - saldo}</span>` : `<span>Comprar por</span>${MOEDA}<b>${d.preco}</b>`}</button>`;
+    : (() => { const sv = d.din ? dinheiro() : saldo, ic = d.din ? DINHEIRO : MOEDA; return `<button type="button" class="btn ${sv < d.preco ? "btn-ghost" : "btn-main"} vt-comprar" id="vtAcao">${sv < d.preco ? `${ic}<b>${d.preco}</b><span>· faltam ${d.preco - sv}</span>` : `<span>Comprar por</span>${ic}<b>${d.preco}</b>`}</button>`; })();
   modal(LOJA_TIPO_NOME[d.tipo] || "Loja", `<div class="vt vt-t-${d.tipo}">${palco}${info}${extra}<div class="btn-row vt-acoes">${acao}<button type="button" class="btn btn-ghost" id="vtFechar">Fechar</button></div></div>`, (m, fechar) => {
     m.classList.add("vt-modal");
     m.querySelectorAll("[data-v]").forEach(el => { el.innerHTML = avatarSVG(el.dataset.v, null, 0, 0, el.dataset.mov || ""); });
@@ -13085,12 +13576,12 @@ function ligarAbasLoja(){
 function pzOpcoes(k){
   const eu = perfil.profeta || PROFETA_PADRAO, ac = meuAcessorio(), m = minhaMaoEsq(), bon = meuBoneco() || eu;
   const montar = (a, mm) => eu + (a || mm ? "~" + (a || "") : "") + (mm ? "~m:" + mm : "") + "~v";
-  const loja = (tipo, x, on, arte) => ({ key: x.id, nome: x.nome, on, arte, estado: comprado(tipo + ":" + x.id) ? "meu" : "loja", preco: x.preco, id: tipo + ":" + x.id });
+  const loja = (tipo, x, on, arte) => ({ key: x.id, nome: x.nome, on, arte, estado: comprado(tipo + ":" + x.id) ? "meu" : "loja", preco: precoDaLoja(tipo, x), din: !!dinDe(tipo + ":" + x.id), id: tipo + ":" + x.id });
   const nada = (nome, on, arte) => ({ key: "", nome, on, arte, estado: "meu" });
   const av = (v, cls, mov) => `<div class="lj-av${cls || ""}" data-prev="${esc(v)}"${mov ? ` data-mov="${mov}"` : ""}></div>`;
   if(k === "p"){
     const g = (tit, l) => l.length ? [{ grupo: tit }].concat(l.map(p => { const livre = profetaLiberado(p);
-      return { key: p.id, nome: p.nome, on: perfil.profeta === p.id, arte: av(p.id), estado: livre ? "meu" : p.preco ? "loja" : "nivel", preco: p.preco, nivel: p.nivel, id: "p:" + p.id, raro: !!p.nivel, lend: !!p.lendario }; })) : [];
+      return { key: p.id, nome: p.nome, on: perfil.profeta === p.id, arte: av(p.id), estado: livre ? "meu" : p.preco ? "loja" : "nivel", preco: precoDaLoja("p", p), din: !!dinDe("p:" + p.id), nivel: p.nivel, id: "p:" + p.id, raro: !!p.nivel, lend: !!p.lendario }; })) : [];
     return g("Personagens", PROFETAS.filter(p => !p.nivel && !p.preco)).concat(g("Da loja", PROFETAS.filter(p => p.preco)), g("Raros das missões", PROFETAS.filter(p => p.nivel)));
   }
   if(k === "a") return [nada("Nenhum", !ac, av(montar("", m)))].concat(LOJA_ACESSORIOS.map(x => loja("a", x, ac === x.id, av(montar(x.id, m === x.id ? "" : m)))));
@@ -13110,7 +13601,7 @@ function pzOpcoes(k){
 }
 function pzCartao(o){
   if(o.grupo) return `<h3 class="pz-grupo">${esc(o.grupo)}</h3>`;
-  const st = o.on ? `<small class="pz-st uso">✓ Em uso</small>` : o.estado === "loja" ? `<small class="pz-st preco">${MOEDA}<b>${o.preco}</b></small>`
+  const st = o.on ? `<small class="pz-st uso">✓ Em uso</small>` : o.estado === "loja" ? `<small class="pz-st preco">${o.din ? DINHEIRO : MOEDA}<b>${o.preco}</b></small>`
     : o.estado === "nivel" ? `<small class="pz-st trava">🔒 ${esc(ondeLibera(o.nivel, true))}</small>` : o.troca ? `<small class="pz-st">↔ trocar de mão</small>` : o.raro ? `<small class="pz-st raro">${o.lend ? "★ Lendário" : "★ Raro"}</small>` : `<small class="pz-st">Seu</small>`;
   return `<button type="button" class="pz-op ${o.on ? "on" : ""} ${o.estado}" data-op="${esc(o.key)}" aria-pressed="${!!o.on}"><span class="pz-op-arte">${o.arte}</span><b>${esc(o.nome)}</b>${st}</button>`;
 }
@@ -13242,6 +13733,97 @@ function pzLigarSala(){
   sala.addEventListener("pointermove", e => { const r = sala.getBoundingClientRect(); mexer(((e.clientX - r.left) / r.width - .5) * 2, ((e.clientY - r.top) / r.height - .5) * 2); });
   sala.addEventListener("pointerleave", () => mexer(0, 0));
 }
+
+/* ============================================================
+   DINHEIRO (p89): além das moedas, dinheiro em papel
+   - Ganha no pódio da semana de cada sala: 1º 10, 2º 7, 3º 5 (empate: todos os empatados ganham).
+     Vale para salas com pelo menos DIN_MIN_JOGADORES jogadores naquela lição (a sala global não conta).
+   - Quem paga é a função podioSemanal do Firebase (sábado de madrugada), que grava em "premios".
+     O master também pode pedir o pagamento de uma lição pelo Admin (pedidos).
+   - Gasta na loja: personagens lendários, os movimentos e os acessórios mais caros.
+     Compras com dinheiro ficam em perfil.comprasD { id: valor } (as de moedas continuam em perfil.compras).
+   ============================================================ */
+const DIN_PREMIOS = [10, 7, 5], DIN_MIN_JOGADORES = 4;
+const DINHEIRO = `<i class="dinheiro" aria-hidden="true"></i>`;
+/* o que passa a custar dinheiro (quem já comprou com moedas continua com o item) */
+const LOJA_DIN = { "p:neemias": 25, "p:lidia": 25, "p:barnabe": 30, "p:madalena": 40, "v:brilho": 12, "v:mar": 16, "v:redemoinho": 20, "a:candelabro": 10, "a:coroa": 12, "a:asas": 15 };
+const dinDe = id => LOJA_DIN[id] || 0;
+const precoDaLoja = (tipo, x) => dinDe(tipo + ":" + x.id) || x.preco || 0;
+/* personagens da loja que custam dinheiro viram lendários: aura dourada na raia */
+PROFETAS.forEach(p => { if(dinDe("p:" + p.id)) p.lendario = true; });
+/* a loja do mais barato para o mais caro (os de dinheiro por último) */
+const ordemLoja = tipo => (a, b) => ((dinDe(tipo + ":" + a.id) ? 1 : 0) - (dinDe(tipo + ":" + b.id) ? 1 : 0)) || (precoDaLoja(tipo, a) - precoDaLoja(tipo, b)) || String(a.nome).localeCompare(String(b.nome), "pt-BR");
+[["a", LOJA_ACESSORIOS], ["m", LOJA_MOLDURAS], ["t", LOJA_PISTAS], ["c", LOJA_FESTAS], ["v", LOJA_MOVIMENTOS]].forEach(([t, l]) => l.sort(ordemLoja(t)));
+(function(){ const c = LOJA_CATS.find(x => x.k === "p"); if(c) c.lista = () => PROFETAS.filter(p => p.preco).sort(ordemLoja("p")); })();
+
+let MEUS_PREMIOS = null, _premiosEm = 0;
+function premiosDoJogador(){ if(MEUS_PREMIOS) return MEUS_PREMIOS; try{ return (usuario && lsGet(KEY + ":premios:" + usuario.uid, [])) || []; }catch(e){ return []; } }
+const dinheiroGanho = () => premiosDoJogador().reduce((s, p) => s + (+p.valor || 0), 0);
+const dinheiroGasto = () => { const c = (perfil && perfil.comprasD) || {}; return Object.keys(c).reduce((s, k) => s + (+c[k] || 0), 0); };
+const dinheiro = () => Math.max(0, dinheiroGanho() - dinheiroGasto());
+async function carregarPremios(forcar){
+  if(!usuario || !perfil) return;
+  if(!forcar && Date.now() - _premiosEm < 5 * MIN && MEUS_PREMIOS) return;
+  _premiosEm = Date.now();
+  try{
+    const l = (await DB.meusPremios(usuario.uid)).sort((a, b) => (b.quando || 0) - (a.quando || 0));
+    const antes = new Set(lsGet(KEY + ":premiosVistos:" + usuario.uid, null) || []), primeira = lsGet(KEY + ":premiosVistos:" + usuario.uid, null) === null;
+    MEUS_PREMIOS = l; lsSet(KEY + ":premios:" + usuario.uid, l);
+    lsSet(KEY + ":premiosVistos:" + usuario.uid, l.map(p => p.id));
+    const novos = primeira ? [] : l.filter(p => !antes.has(p.id) && p.valor > 0);
+    pintarMoedasTopo();
+    if(novos.length) setTimeout(() => celebrarPremios(novos), 900);
+  }catch(e){ console.warn("prêmios", e && e.code); }
+  conferirContadoresConquistas();
+}
+const posTexto = p => p + "º";
+function celebrarPremios(novos){
+  if(document.querySelector(".modal-bg")){ setTimeout(() => celebrarPremios(novos), 4000); return; }
+  const total = novos.reduce((s, p) => s + (+p.valor || 0), 0), parar = typeof confetes === "function" ? confetes() : () => {};
+  modal("Você ganhou dinheiro!", `<div class="din-festa"><div class="din-nota" aria-hidden="true">${DINHEIRO}<b>+${total}</b></div>
+      <ul class="din-lista">${novos.map(p => `<li><span class="din-pos p${Math.min(3, p.pos)}">${posTexto(p.pos)}</span><span><b>${esc(p.salaNome || "Sala")}</b><small>${esc(p.licaoNome || "")}${p.tipo === "tri" ? " · trimestre" : ""}</small></span><em>${DINHEIRO}+${p.valor}</em></li>`).join("")}</ul>
+      <p class="muted small">Dinheiro compra os personagens lendários, os melhores movimentos e os acessórios mais caros da loja.</p>
+      <div class="btn-row"><button class="btn btn-main" id="dfLoja">Ir para a loja</button><button class="btn btn-ghost" id="dfOk">Depois</button></div></div>`, (m, fechar) => {
+    m.querySelector("#dfOk").onclick = fechar;
+    m.querySelector("#dfLoja").onclick = () => { fechar(); lojaCat = ""; nav("loja"); };
+  }, () => parar());
+  tocar("subiu");
+}
+function modalDinheiro(){
+  const l = premiosDoJogador(), c = (perfil && perfil.comprasD) || {}, gastos = Object.keys(c);
+  modal("Seu dinheiro", `<div class="din-modal">
+      <div class="din-saldo"><span aria-hidden="true">${DINHEIRO}</span><div><small>Você tem</small><b>${fmt(dinheiro())}</b></div><div><small>Ganhou</small><b>${fmt(dinheiroGanho())}</b></div><div><small>Gastou</small><b>${fmt(dinheiroGasto())}</b></div></div>
+      <h4>Como ganhar</h4>
+      <p>Os <b>3 primeiros da semana</b> nas salas que valem dinheiro (<b>💵 Vale dinheiro</b>, quem marca é o master) ganham quando a lição acaba (sábado de madrugada):</p>
+      <div class="din-podio"><span class="p1"><b>1º</b>${DINHEIRO}10</span><span class="p2"><b>2º</b>${DINHEIRO}7</span><span class="p3"><b>3º</b>${DINHEIRO}5</span></div>
+      <p class="muted small">Vale a posição na Corrida da lição (a sala precisa de pelo menos ${DIN_MIN_JOGADORES} jogadores). Empatou? Todos os empatados ganham. Cada pessoa ganha uma vez por lição: se ficar no pódio de duas salas, recebe o melhor prêmio.</p>
+      <h4>Prêmios recebidos</h4>
+      ${l.length ? `<ul class="din-lista">${l.slice(0, 30).map(p => `<li><span class="din-pos p${Math.min(3, p.pos)}">${posTexto(p.pos)}</span><span><b>${esc(p.salaNome || "Sala")}</b><small>${esc(p.licaoNome || "")}${p.tipo === "tri" ? " · pódio do trimestre" : ""}</small></span><em>${p.valor ? DINHEIRO + "+" + p.valor : "🏆"}</em></li>`).join("")}</ul>` : `<p class="vazio">Ainda nenhum. Fique no pódio da sua sala nesta semana!</p>`}
+      ${gastos.length ? `<h4>Gastou em</h4><ul class="din-lista">${gastos.map(id => { const it = itemDaLoja(id); return `<li><span class="din-pos">🛍️</span><span><b>${esc(it ? it.nome : id)}</b><small>${esc(LOJA_TIPO_NOME[id.split(":")[0]] || "Loja")}</small></span><em class="menos">${DINHEIRO}−${c[id]}</em></li>`; }).join("")}</ul>` : ""}
+      <div class="btn-row"><button class="btn btn-main" id="dmLoja">Ver o que dá para comprar</button><button class="btn btn-ghost" id="dmOk">Fechar</button></div></div>`, (m, fechar) => {
+    m.querySelector("#dmOk").onclick = fechar;
+    m.querySelector("#dmLoja").onclick = () => { fechar(); lojaCat = ""; nav("loja"); };
+  });
+}
+/* ---------- contadores das conquistas que vêm de fora do perfil ---------- */
+let REACOES_PERFIL = null, _contEm = 0;
+function contarReacoesPerfil(doc, dono){ const r = (doc && doc.reacoes) || {}; return Object.keys(r).reduce((s, t) => s + (Array.isArray(r[t]) ? r[t].filter(u => u && u !== dono).length : 0), 0); }
+async function conferirContadoresConquistas(){
+  if(!usuario || !perfil || Date.now() - _contEm < 5 * MIN) return; _contEm = Date.now();
+  try{ const p = await DB.getPost("perfil_" + usuario.uid); REACOES_PERFIL = contarReacoesPerfil(p, usuario.uid); lsSet(KEY + ":reacPerfil:" + usuario.uid, REACOES_PERFIL); }catch(e){}
+  /* mensagens do mural publicadas no próprio dia (conta só uma vez, das publicações antigas) */
+  if(perfil.muralDoDia == null){
+    try{
+      const ps = (await DB.meusPosts(usuario.uid)).filter(p => String(p.id).indexOf("perfil_") !== 0 && p.tipo !== "perfil"), vistos = new Set(); let n = 0;
+      ps.forEach(p => { const k = p.tipo + "|" + p.ref; if(vistos.has(k)) return; vistos.add(k); const d = (String(p.ref || "").match(/\d{4}-\d{2}-\d{2}/) || [])[0]; if(!d || d === dataISO(new Date(p.quando || 0))) n++; });
+      perfil.muralDoDia = n; DB.salvarUsuario(usuario.uid, { muralDoDia: n }).catch(() => {});
+    }catch(e){}
+  }
+}
+const reacoesNoPerfil = () => REACOES_PERFIL != null ? REACOES_PERFIL : (usuario ? +lsGet(KEY + ":reacPerfil:" + usuario.uid, 0) || 0 : 0);
+const podeComprarLoja = (t, x) => { const dn = dinDe(t + ":" + x.id); return dn ? dn <= dinheiro() : (x.preco || 0) <= moedas(); };
+(function(){ const td = document.getElementById("topoDin"); if(td) td.onclick = () => { if(usuario && perfil && perfil.profeta){ tocar("toque"); modalDinheiro(); } }; })();
+document.addEventListener("visibilitychange", () => { if(!document.hidden && typeof carregarPremios === "function") carregarPremios(); });
 
 /* ============================================================
    ESTUDAR: MINHAS ANOTAÇÕES (só a própria pessoa vê)
@@ -13832,7 +14414,8 @@ async function abrirSuperQuiz(semRegras){
 }
 function salvarSuper(fim){
   const dados = { id: SQ.id, licaoId: SQ.L.id, q: SQ.q, n: SQ.pergs.length, acertos: SQ.acertos, de: SQ.de, fim: !!fim, quando: Date.now() };
-  perfil.superQuiz = dados; return DB.salvarUsuario(usuario.uid, { superQuiz: dados }).catch(e => console.warn("super quiz", e));
+  const perf = dados.fim && dados.n && dados.acertos >= dados.n ? { sqPerfeito: true } : {}; Object.assign(perfil, perf);
+  perfil.superQuiz = dados; return DB.salvarUsuario(usuario.uid, Object.assign({ superQuiz: dados }, perf)).catch(e => console.warn("super quiz", e));
 }
 function perguntaSuper(){
   if(!SQ) return nav("inicio");
