@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="versao" content="20261127.195623">
+<meta name="versao" content="20261128.040339">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Corrida do Rolo · Quiz da Lição</title>
 <meta name="theme-color" content="#524F9C">
@@ -3701,6 +3701,18 @@ button.pn-kpi:hover{transform:translateY(-2px);background:rgba(255,255,255,.22);
   .livro-lics i.agora{border-color:rgba(255,226,122,.7);background:rgba(255,226,122,.16)}
   .livro-lics i.agora b{background:#FFE27A;color:#3A2A00}
 }
+/* p92: quem recebeu o aviso */
+.av-quem-btn{flex:none;display:inline-flex;align-items:center;gap:4px;min-height:30px;padding:0 11px;border-radius:99px;border:1px solid rgba(95,224,176,.55);background:rgba(95,224,176,.16);color:#BFF7DD;font:700 12px/1 "Barlow",sans-serif;cursor:pointer;white-space:nowrap}
+.av-quem-btn b{font-weight:800;color:#fff}
+.av-quem-btn:hover{background:rgba(95,224,176,.28)}
+.av-quem-modal h4{margin:16px 0 8px;font:800 14px/1.2 "Barlow",sans-serif}
+.aq-tit{display:grid;gap:3px;margin:0;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.08);border:1px solid var(--panel-line)}
+.aq-tit small{font-size:12px;color:var(--soft)}
+.aq-lista{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px}
+.aq-lista li{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:10px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);font-size:13px;font-weight:700;min-width:0}
+.aq-lista li span:last-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.aq-av{width:24px;height:30px;flex:none;display:grid;place-items:center}
+.aq-av svg{width:100%;height:100%}
 .pn-rank-li{cursor:pointer;border-radius:12px}
 .pn-rank-li:hover{background:rgba(255,255,255,.08)}
 /* ============================================================
@@ -4471,7 +4483,7 @@ function dbFirebase(){
     async salvarAgendado(id, a){ await col("config").doc("agendados").set({ lista: { [id]: a } }, { merge: true }); },
     async excluirAgendado(id){ await col("config").doc("agendados").set({ lista: { [id]: firebase.firestore.FieldValue.delete() } }, { merge: true }); },
     async getAviso(id){ const d = await col("avisos").doc(id).get(); return d.exists ? Object.assign({ id: d.id }, d.data()) : null; },
-    async listarAvisos(autor){ return autor ? lista(col("avisos").where("autor", "==", autor)) : lista(col("avisos").orderBy("criadoEm", "desc").limit(15)); },
+    async listarAvisos(autor){ return autor ? lista(col("avisos").where("autor", "==", autor)) : lista(col("avisos").orderBy("criadoEm", "desc").limit(25)); },
     async salvarAparelho(uid, id, info){ await col("privado").doc(uid).set({ aparelhos: { [id]: info } }, { merge: true }); },
     async salvarAvisoToken(uid, k, v){ await col("privado").doc(uid).set({ avisoTokens: { [k]: v === null ? firebase.firestore.FieldValue.delete() : v } }, { merge: true }); }
   };
@@ -6972,10 +6984,27 @@ document.addEventListener("click", e => {
    O aviso vira um documento em "avisos"; a função enviarAviso (Firebase Functions) manda para os aparelhos
    e anota quantos receberam. O master manda para todos ou para uma sala; quem cuida de uma sala, só para ela. */
 const avisoAlvoNome = a => { const p = a.publico || (a.soFaltando ? "quiz" : "todos");
-  return (a.auto ? "Agendado" : a.alvo === "todos" ? "Todos os jogadores" : "Sala " + (a.alvoNome || "")) + (p === "quiz" ? " · só quem não fez o quiz" : p === "super" ? " · só quem não fez o super quiz" : p === "mural" ? " · fez o quiz e não publicou reflexão" : ""); };
+  return (a.auto ? "Agendado" : a.alvo === "todos" ? "Todos os jogadores" : "Sala " + (a.alvoNome || "")) + (p === "quiz" ? " · só quem não fez o quiz" : p === "super" ? " · só quem não fez o super quiz" : p === "mural" ? " · fez o quiz e não publicou reflexão" : p === "repetidas" ? " · fez o quiz e tem repetidas" : ""); };
+let AV_HIST = [];
+/* p92: quem recebeu um aviso (e quem não recebeu em nenhum aparelho) */
+async function modalQuemRecebeu(id){
+  const a = AV_HIST.find(x => x.id === id); if(!a) return;
+  let us = []; try{ us = await listarUsuariosAdm(); }catch(e){}
+  const nomes = {}; us.forEach(u => { nomes[u.id] = u; });
+  const pessoa = uid => { const u = nomes[uid] || {}; return `<li><span class="aq-av">${typeof avatarSVG === "function" && u.profeta ? avatarSVG(u.profeta) : "🙂"}</span><span>${esc(u.nome || "Jogador sem nome")}</span></li>`; };
+  const ord = l => l.slice().sort((x, y) => String((nomes[x] || {}).nome || "").localeCompare(String((nomes[y] || {}).nome || ""), "pt-BR"));
+  const rec = ord(a.recebidos || []), fal = ord(a.falharam || []);
+  modal("Quem recebeu", `<div class="av-quem-modal"><p class="aq-tit"><b>${esc(a.titulo || "")}</b><small>${esc(avisoAlvoNome(a))} · ${haQuanto(a.criadoEm || 0)}</small></p>
+      <h4>✅ Receberam (${rec.length})</h4>${rec.length ? `<ul class="aq-lista">${rec.map(pessoa).join("")}</ul>` : `<p class="vazio">Ninguém recebeu.</p>`}
+      ${fal.length ? `<h4>⚠️ Não chegou no aparelho (${fal.length})</h4><p class="muted small">O aparelho dessas pessoas recusou o aviso (avisos desligados no celular ou app removido).</p><ul class="aq-lista">${fal.map(pessoa).join("")}</ul>` : ""}
+      <p class="muted small">Só recebe quem ligou os avisos no celular${a.publico && a.publico !== "todos" ? " e estava no público escolhido" : ""}.</p>
+      <div class="btn-row uma"><button class="btn btn-ghost" id="aqOk" style="width:100%">Fechar</button></div></div>`, (m, fechar) => { m.querySelector("#aqOk").onclick = fechar; });
+}
+document.addEventListener("click", e => { const b = e.target.closest ? e.target.closest("[data-av-quem]") : null; if(!b) return; e.preventDefault(); modalQuemRecebeu(b.dataset.avQuem); });
 function htmlHistoricoAvisos(l){
   if(!l.length) return `<p class="vazio">Nenhum aviso mandado ainda.</p>`;
-  const st = a => a.status === "enviado" ? `<span class="badge ok">${a.enviados || 0} ${(a.enviados || 0) === 1 ? "aparelho" : "aparelhos"}</span>`
+  AV_HIST = l;
+  const st = a => a.status === "enviado" ? (Array.isArray(a.recebidos) ? `<button type="button" class="av-quem-btn" data-av-quem="${esc(a.id || "")}" title="Ver quem recebeu"><b>${a.recebidos.length}</b> ${a.recebidos.length === 1 ? "pessoa" : "pessoas"} ›</button>` : `<span class="badge ok">${a.enviados || 0} ${(a.enviados || 0) === 1 ? "aparelho" : "aparelhos"}</span>`)
     : a.status === "erro" ? `<span class="badge warn" title="${esc(a.erro || "")}">não saiu</span>` : `<span class="badge">na fila</span>`;
   return `<ul class="lista av-hist">${l.map(a => `<li><div class="info"><strong>${esc(a.titulo || "")}</strong><span>${esc(a.texto || "")}</span><span class="av-quem">${esc(avisoAlvoNome(a))} · ${haQuanto(a.criadoEm || 0)}${a.autorNome && a.autor !== usuario.uid ? " · por " + esc(a.autorNome) : ""}</span></div>${st(a)}</li>`).join("")}</ul>`;
 }
@@ -7004,7 +7033,7 @@ async function admAvisos(){
         <div class="field"><label for="avTit">Título</label><input type="text" id="avTit" maxlength="60" placeholder="Ex.: Lição 10 no ar!"></div>
         <div class="field"><label for="avTex">Texto</label><textarea id="avTex" maxlength="180" rows="3" placeholder="Ex.: Bora fazer o quiz de hoje? Vale moedas!"></textarea><span class="hint"><span id="avQtd">0</span> de 180 letras. Escreva <b>{tema}</b> para pôr o tema do quiz de hoje.</span></div>
         <div class="field"><label for="avPara">Para quem</label><select id="avPara">${opcoes}</select></div>
-        <div class="field"><label for="avPub">Quem recebe</label><select id="avPub"><option value="todos">Todos com os avisos ligados</option><option value="quiz">Só quem ainda não fez o quiz de hoje</option><option value="super">Só quem ainda não fez o super quiz</option><option value="mural">Só quem fez o quiz de hoje e não publicou reflexão no mural</option></select></div>
+        <div class="field"><label for="avPub">Quem recebe</label><select id="avPub"><option value="todos">Todos com os avisos ligados</option><option value="quiz">Só quem ainda não fez o quiz de hoje</option><option value="super">Só quem ainda não fez o super quiz</option><option value="mural">Só quem fez o quiz de hoje e não publicou reflexão no mural</option><option value="repetidas">Só quem fez o quiz de hoje e tem figurinha repetida</option></select></div>
         <p class="muted small av-falta-info" id="avFaltaInfo" hidden></p></div>
         <div class="av-lado"><span class="rot">Como chega no celular</span><div class="av-previa" aria-hidden="true"><img src="app-icone-192.png" alt="" onerror="this.remove()"><div><b id="avPrevT">Corrida do Rolo</b><span id="avPrevX">O texto do aviso aparece aqui.</span></div></div></div></div>
         <p class="erro" id="avErro2"></p>
@@ -7035,11 +7064,17 @@ async function admAvisos(){
     tit.addEventListener("input", prev); tex.addEventListener("input", prev);
     ligarEscolhaModelo(c.querySelector(".av-form"), { tit, tex });
     const pubSel = $("avPub"), info = $("avFaltaInfo");
-    const naoPode = p => { if(p === "quiz" || p === "mural"){ const q = quizDoDia(); return q && q.q ? "" : "Hoje não tem quiz: este aviso não teria para quem ir."; }
+    const naoPode = p => { if(p === "quiz" || p === "mural" || p === "repetidas"){ const q = quizDoDia(); return q && q.q ? "" : "Hoje não tem quiz: este aviso não teria para quem ir."; }
       if(p === "super") return janelaSuper().aberto ? "" : `O super quiz não está aberto agora (abre sexta às ${SQ_HORA}h e fecha sábado às ${SQ_HORA}h).`; return ""; };
     const verFalta = () => {
       const p = pubSel.value; info.hidden = p === "todos"; if(p === "todos") return;
       const np = naoPode(p); if(np){ info.textContent = np; return; }
+      if(p === "repetidas"){
+        if(para.value !== "todos"){ info.textContent = "Vai só para os membros da sala que já fizeram o quiz de hoje e têm figurinha repetida."; return; }
+        info.textContent = "Contando…";
+        faltandoHoje(p).then(f => { info.innerHTML = `<b>${f.falta}</b> de ${f.total} jogadores fizeram o quiz de hoje e têm figurinha repetida para trocar.`; }).catch(() => { info.textContent = "Vai só para quem fez o quiz de hoje e tem figurinha repetida."; });
+        return;
+      }
       if(p === "mural"){
         if(para.value !== "todos"){ info.textContent = "Vai só para os membros da sala que já fizeram o quiz de hoje e ainda não publicaram uma reflexão no mural."; return; }
         info.textContent = "Contando…";
@@ -7058,7 +7093,7 @@ async function admAvisos(){
       if(x.length < 3){ er.textContent = "Escreva o texto do aviso."; return; }
       const pub = pubSel.value, soFalta = pub !== "todos", np = naoPode(pub);
       if(np){ er.textContent = np; return; }
-      const sala = salas.find(s => s.id === alvo), nome = (pub === "quiz" ? "quem ainda não fez o quiz de hoje em " : pub === "super" ? "quem ainda não fez o super quiz em " : pub === "mural" ? "quem fez o quiz de hoje e não publicou reflexão em " : "") + (alvo === "todos" ? "todos os jogadores" : `a sala ${sala ? sala.nome : ""}`);
+      const sala = salas.find(s => s.id === alvo), nome = (pub === "quiz" ? "quem ainda não fez o quiz de hoje em " : pub === "super" ? "quem ainda não fez o super quiz em " : pub === "mural" ? "quem fez o quiz de hoje e não publicou reflexão em " : pub === "repetidas" ? "quem fez o quiz de hoje e tem figurinha repetida em " : "") + (alvo === "todos" ? "todos os jogadores" : `a sala ${sala ? sala.nome : ""}`);
       if(!(await confirmar("Enviar aviso", `Mandar “${comTema(t)}” para ${nome}? Depois de enviado, não dá para desfazer.`, "Enviar", "btn-main"))) return;
       ocupado(env, true);
       try{
@@ -7073,7 +7108,7 @@ async function admAvisos(){
     };
   }
   /* histórico */
-  DB.listarAvisos(master ? null : usuario.uid).then(l => { const h = $("avHist"); if(h) h.innerHTML = htmlHistoricoAvisos(l.sort((a, b) => (b.criadoEm || 0) - (a.criadoEm || 0)).slice(0, 10)); })
+  DB.listarAvisos(master ? null : usuario.uid).then(l => { const h = $("avHist"); if(h) h.innerHTML = htmlHistoricoAvisos(l.sort((a, b) => (b.criadoEm || 0) - (a.criadoEm || 0)).slice(0, 20)); })
     .catch(e => { const h = $("avHist"); if(h) h.innerHTML = `<p class="erro">${esc(erroMsg(e))}</p>`; });
   if(!master) return;
   sincronizarCalendario(); carregarAgendados();
@@ -7211,12 +7246,14 @@ async function admVersoes(){
    - O jogo do master grava em config/calendario o tema de cada dia, para a função saber se tem quiz e qual o tema.
    ============================================================ */
 const SEMANA_NOMES = ["domingo", "segunda", "terça", "quarta", "quinta", "sexta", "sábado"], SEMANA_CURTO = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
-const PUBLICOS = { todos: "Todos com os avisos ligados", quiz: "Só quem ainda não fez o quiz do dia", super: "Só quem ainda não fez o super quiz", mural: "Só quem fez o quiz do dia e não publicou reflexão no mural" };
-const PUBLICO_CURTO = { todos: "para todos", quiz: "só quem não fez o quiz do dia", super: "só quem não fez o super quiz", mural: "só quem fez o quiz e não publicou reflexão" };
+const PUBLICOS = { todos: "Todos com os avisos ligados", quiz: "Só quem ainda não fez o quiz do dia", super: "Só quem ainda não fez o super quiz", mural: "Só quem fez o quiz do dia e não publicou reflexão no mural", repetidas: "Só quem fez o quiz do dia e tem figurinha repetida" };
+const PUBLICO_CURTO = { todos: "para todos", quiz: "só quem não fez o quiz do dia", super: "só quem não fez o super quiz", mural: "só quem fez o quiz e não publicou reflexão", repetidas: "só quem fez o quiz e tem repetidas" };
 const MODELOS_AGENDADOS = {
-  quiz: { modo: "variar", cat: "quiz", titulo: "👀 Ei, cadê você?", texto: "O quiz de hoje já tá te esperando! Tema: {tema}. Prometo que é mais rápido que escolher o que assistir 😅", quando: "dia", dias: [], hora: 19, publico: "quiz", ativo: true },
+  quiz: { modo: "variar", cat: "quiz", titulo: "⏰ Já fez o quiz de hoje?", texto: "Hoje o assunto é {tema}. São 2 minutinhos e ainda vale um pacote de figurinhas 🎴", quando: "dia", dias: [], hora: 19, publico: "quiz", ativo: true },
+  noite: { modo: "variar", cat: "noite", titulo: "🌙 Antes de dormir…", texto: "Ainda dá tempo de fazer o quiz de hoje! Tema: {tema}. Fecha o dia com chave de ouro ✨", quando: "dia", dias: [], hora: 21, publico: "quiz", ativo: true },
   super: { modo: "variar", cat: "super", titulo: "🏁 Corre que o super quiz fecha às 18h!", texto: "Ainda dá tempo: 20 perguntas da semana e cada 2 acertos te levam 1 casa nas missões. Bora avançar no mapa! 🗺️", quando: "semana", dias: [6], hora: 14, publico: "super", ativo: true },
   mural: { modo: "variar", cat: "mural", titulo: "💭 O que a lição te ensinou hoje?", texto: "Você já fez o quiz de hoje! Agora conta pra turma: deixe uma reflexão sobre a lição no mural da sua sala. 🙌", quando: "dia", dias: [], hora: 20, publico: "mural", ativo: true },
+  repetidas: { modo: "variar", cat: "album", titulo: "🔁 Tem figurinha repetida aí!", texto: "Você já fez o quiz de hoje e tem figurinhas repetidas. Troque com a sua sala e complete o álbum! 🎴", quando: "dia", dias: [], hora: 19, publico: "repetidas", ativo: true },
   livre: { modo: "novo", cat: "quiz", titulo: "", texto: "", quando: "semana", dias: [], hora: 19, publico: "todos", ativo: true }
 };
 function quizDoDia(data){
@@ -7248,6 +7285,10 @@ async function sincronizarCalendario(){
 async function faltandoHoje(publico){
   const ativos = (await listarUsuariosAdm()).filter(u => u.aprovado || u.admin || u.master);
   let fez;
+  if(publico === "repetidas"){
+    const fizeram = new Set((await DB.resultadosDoDia(hoje())).map(r => r.uid));
+    return { total: ativos.length, falta: ativos.filter(u => fizeram.has(u.id) && (+u.figRepetidas || 0) > 0).length };
+  }
   if(publico === "mural"){
     const fizeram = new Set((await DB.resultadosDoDia(hoje())).map(r => r.uid)), ini = new Date(hoje() + "T00:00:00").getTime();
     const postou = u => u.reflexaoDia === hoje();          // só reflexão conta (resultado, conquista etc. não)
@@ -7345,7 +7386,7 @@ function htmlAgendados(){
       ${outrasDatas.length ? `<div class="ag-dia todo"><div class="ag-dia-cab"><b>Outras datas</b><small>uma vez só</small></div>${lista(outrasDatas, null)}</div>` : ""}`
       : `<p class="vazio">Nenhum aviso agendado ainda. Comece por um dos modelos abaixo.</p>`}
     <span class="av-rot ag-mod-rot">Modelos prontos</span>
-    <div class="ag-modelos"><button type="button" class="btn btn-ghost btn-sm" data-mod="quiz">📖 Lembrete do quiz do dia</button><button type="button" class="btn btn-ghost btn-sm" data-mod="super">🏁 Lembrete do super quiz</button><button type="button" class="btn btn-ghost btn-sm" data-mod="mural">💭 Lembrete da reflexão</button><button type="button" class="btn btn-ghost btn-sm" data-mod="livre">✏️ Personalizado</button></div>
+    <div class="ag-modelos"><button type="button" class="btn btn-ghost btn-sm" data-mod="quiz">📖 Lembrete do quiz do dia</button><button type="button" class="btn btn-ghost btn-sm" data-mod="noite">🌙 Lembrete da noite</button><button type="button" class="btn btn-ghost btn-sm" data-mod="super">🏁 Lembrete do super quiz</button><button type="button" class="btn btn-ghost btn-sm" data-mod="mural">💭 Lembrete da reflexão</button><button type="button" class="btn btn-ghost btn-sm" data-mod="repetidas">🔁 Lembrete das trocas</button><button type="button" class="btn btn-ghost btn-sm" data-mod="livre">✏️ Personalizado</button></div>
     <p class="note">Saem sozinhos no horário de Brasília, para quem ligou os avisos. Os de "só quem não fez" não saem em dia sem quiz nem com o super quiz fechado. Escreva <b>{tema}</b> no texto para pôr o tema do quiz do dia.</p></section>`;
 }
 function modalAgendado(id, base){
@@ -7379,6 +7420,7 @@ function modalAgendado(id, base){
       q("#agPrevX").textContent = comTema(pm ? pm.texto : x.texto) || (x.modo === "variar" ? "Essa categoria ainda não tem modelos." : "O texto do aviso aparece aqui.");
       q("#agDica").textContent = x.publico === "super" ? `O super quiz fica aberto de sexta às ${SQ_HORA}h até sábado às ${SQ_HORA}h: escolha um dia e horário dentro desse período.`
         : x.publico === "quiz" ? "Não sai em dia sem quiz. Quem já respondeu o quiz do dia não recebe."
+        : x.publico === "repetidas" ? "Não sai em dia sem quiz. Vai só para quem já fez o quiz do dia e tem figurinha repetida para trocar."
         : x.publico === "mural" ? "Não sai em dia sem quiz. Vai só para quem já fez o quiz do dia e ainda não publicou uma reflexão sobre a lição (postar resultado ou conquista não conta). Bom à noite." : "Vai para todos que ligaram os avisos.";
     };
     [tit, tex].forEach(e => e.addEventListener("input", atualizar));
@@ -7405,7 +7447,7 @@ async function mandarAgendadoAgora(a, botao){
   const pm = a.modo === "variar" ? proximoModelo(a) : null;
   if(a.modo === "variar" && !pm){ aviso("Essa categoria não tem modelos."); return; }
   const titulo = pm ? pm.titulo : a.titulo, texto = pm ? pm.texto : a.texto;
-  if(a.publico === "quiz" || a.publico === "mural"){ const qh = quizDoDia(); if(!(qh && qh.q)){ aviso("Hoje não tem quiz: esse aviso não teria para quem ir."); return; } }
+  if(a.publico === "quiz" || a.publico === "mural" || a.publico === "repetidas"){ const qh = quizDoDia(); if(!(qh && qh.q)){ aviso("Hoje não tem quiz: esse aviso não teria para quem ir."); return; } }
   if(a.publico === "super" && !janelaSuper().aberto){ aviso(`O super quiz não está aberto agora (abre sexta às ${SQ_HORA}h).`); return; }
   if(!(await confirmar("Mandar agora", `Mandar “${comTema(titulo)}” agora, ${PUBLICO_CURTO[a.publico] || "para todos"}? Não dá para desfazer. O agendamento continua igual.`, "Mandar", "btn-main"))) return;
   ocupado(botao, true);
@@ -7463,16 +7505,26 @@ async function carregarAgendados(){
      que usa um modelo diferente da categoria a cada envio.
    - Ficam em config/modelos (lista). Na primeira vez, o jogo do master grava os modelos prontos abaixo.
    ============================================================ */
-const CATS_AVISO = [["quiz", "📖", "Quiz do dia"], ["super", "🏁", "Super quiz"], ["album", "🎴", "Álbum e trocas"], ["mural", "💬", "Mural"], ["geral", "📣", "Geral"]];
-const catAviso = k => CATS_AVISO.find(c => c[0] === k) || CATS_AVISO[4];
+const CATS_AVISO = [["quiz", "📖", "Quiz do dia"], ["noite", "🌙", "Lembrete da noite"], ["super", "🏁", "Super quiz"], ["album", "🎴", "Álbum e trocas"], ["mural", "💬", "Mural"], ["geral", "📣", "Geral"]];
+const catAviso = k => CATS_AVISO.find(c => c[0] === k) || CATS_AVISO.find(c => c[0] === "geral");
+/* p92: os lembretes da noite (ainda dá tempo de fazer o quiz até meia-noite) */
+const NOITE_PADRAO = [
+  ["👀 Ei, cadê você?", "O quiz de hoje já tá te esperando! Tema: {tema}. Prometo que é mais rápido que escolher o que assistir 😅"],
+  ["🌙 Antes de dormir…", "Ainda dá tempo de fazer o quiz de hoje! Tema: {tema}. Fecha o dia com chave de ouro ✨"],
+  ["⏳ Últimas horas do dia!", "O quiz de hoje ({tema}) vale inteiro até meia-noite. Depois, só metade. Bora?"],
+  ["🛌 Já vai deitar?", "Antes, 2 minutinhos de quiz: {tema}. Seu boneco agradece lá na Corrida 🏃"],
+  ["⭐ Fecha o dia com a lição", "O quiz de hoje ainda tá aberto. Tema: {tema}. Termina o dia aprendendo algo novo 🙏"],
+  ["🔔 Psiu… o quiz de hoje!", "Ainda dá tempo! Quem fizer até meia-noite ganha o passo inteiro na Corrida 😉"],
+  ["🌜 Plantão da noite", "A galera já fez o quiz de {tema}. Só falta você pra fechar o dia com chave de ouro ✨"],
+  ["📱 Larga o celular… depois do quiz!", "Antes de dormir, responde o quiz de hoje ({tema}). É rapidinho, prometo 😅"]
+];
 const MODELOS_PADRAO = (() => {
   const l = {}, add = (cat, n, titulo, texto) => { l[cat[0] + n] = { cat, titulo, texto, ordem: n }; };
-  [["👀 Ei, cadê você?", "O quiz de hoje já tá te esperando! Tema: {tema}. Prometo que é mais rápido que escolher o que assistir 😅"],
-   ["⏰ Já fez o quiz de hoje?", "Hoje o assunto é {tema}. São 2 minutinhos e ainda vale um pacote de figurinhas 🎴"],
+  [["⏰ Já fez o quiz de hoje?", "Hoje o assunto é {tema}. São 2 minutinhos e ainda vale um pacote de figurinhas 🎴"],
    ["🏁 A galera tá correndo sem você!", "O quiz de hoje ({tema}) tá no ar. Responde rapidinho e não deixa ninguém te passar na Corrida 🏃"],
    ["🤔 Duvido você gabaritar hoje", "Tema do dia: {tema}. Quem acertar tudo pode se gabar no grupo. Quem errar… a gente finge que não viu 🤫"],
-   ["🌙 Antes de dormir…", "Ainda dá tempo de fazer o quiz de hoje! Tema: {tema}. Fecha o dia com chave de ouro ✨"],
    ["📚 Leu a lição hoje?", "Então o quiz é moleza! Tema: {tema}. Bora provar que tá afiado 💪"]].forEach((m, i) => add("quiz", i + 1, m[0], m[1]));
+  NOITE_PADRAO.forEach((m, i) => add("noite", i + 1, m[0], m[1]));
   [["🏁 O super quiz abriu!", "20 perguntas da semana e cada 2 acertos = 1 casa nas missões. Fica aberto até amanhã às 18h. Partiu? 🗺️"],
    ["🏁 Corre que o super quiz fecha às 18h!", "Ainda dá tempo: 20 perguntas da semana e cada 2 acertos te levam 1 casa nas missões. Bora avançar no mapa! 🗺️"],
    ["🗺️ Seu boneco tá parado no mapa…", "O super quiz é o jeito mais rápido de andar nas missões. Só até as 18h de hoje!"],
@@ -7500,7 +7552,17 @@ async function carregarModelos(forcar){
     if(l === null){
       MODELOS = JSON.parse(JSON.stringify(MODELOS_PADRAO));
       if(usuario && ehMaster()){ try{ await DB.semearModelos(MODELOS); }catch(e){ console.warn("modelos", e && e.code); } }
-    } else MODELOS = l;
+    } else {
+      MODELOS = l;
+      if(usuario && ehMaster() && !Object.values(l).some(m => m && m.cat === "noite")){
+        try{
+          const titulos = new Set(NOITE_PADRAO.map(m => m[0]));
+          for(const id of Object.keys(l)) if(l[id] && l[id].cat === "quiz" && titulos.has(l[id].titulo)){ l[id] = Object.assign({}, l[id], { cat: "noite" }); await DB.salvarModelo(id, l[id]); }
+          const ja = new Set(Object.values(l).filter(m => m && m.cat === "noite").map(m => m.titulo));
+          for(let i = 0; i < NOITE_PADRAO.length; i++){ const [titulo, texto] = NOITE_PADRAO[i]; if(ja.has(titulo)) continue; let id = "noite" + (i + 1); while(l[id]) id += "b"; l[id] = { cat: "noite", titulo, texto, ordem: i + 1 }; await DB.salvarModelo(id, l[id]); }
+        }catch(e){ console.warn("modelos da noite", e && e.code); }
+      }
+    }
   }catch(e){ MODELOS = MODELOS || JSON.parse(JSON.stringify(MODELOS_PADRAO)); }
   return MODELOS;
 }
@@ -15237,6 +15299,20 @@ function ligarAlbumInicio(){
   e.onclick = () => { tocar("toque"); nav("album"); }; e.onkeydown = ev => { if(ev.key === "Enter" || ev.key === " "){ ev.preventDefault(); e.click(); } };
   if(Date.now() - trocasEm > 3 * 60000) carregarTrocas().then(() => { const x = $("inAlbum"); if(x && tabAtual === "inicio"){ x.outerHTML = htmlAlbumInicio(); const y = $("inAlbum"); if(y){ y.onclick = () => { tocar("toque"); nav("album"); }; } } });
 }
+/* p91: guarda quantas repetidas a pessoa tem (o aviso "tem figurinha repetida" usa). Só grava quando muda. */
+let _repSync = 0;
+function sincronizarRepetidas(){
+  clearTimeout(_repSync);
+  _repSync = setTimeout(() => {
+    try{
+      if(!usuario || !perfil || !perfil.profeta || (typeof albumLiberado === "function" && !albumLiberado())) return;
+      const n = albumRepetidas(albumInventario());
+      if(perfil.figRepetidas === n) return;
+      perfil.figRepetidas = n; DB.salvarUsuario(usuario.uid, { figRepetidas: n }).catch(() => {});
+    }catch(e){}
+  }, 2500);
+}
+albumTique = (f => function(...a){ const r = f.apply(this, a); sincronizarRepetidas(); return r; })(albumTique);
 
 /* ============================================================
    ÍCONES PRÓPRIOS (modelo Joia)
